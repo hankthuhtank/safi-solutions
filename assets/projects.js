@@ -159,9 +159,9 @@ window.SAFI_PROJECTS = [
     "desc": "A better drink starts with understanding it.",
     "color": "#192416",
     "logo": "thewell.svg",
-    "detail": "A visual field guide to 100 cocktails and zero-proof drinks, with searchable recipes, spirits and ingredient references, a flavor finder, bar lessons and a personal home bar.",
+    "detail": "A compact bartending guide with 100 searchable recipes, a drink of the day, ingredient references, a flavor finder, bar lessons and a personal home bar.",
     "url": "/thewell/",
-    "image": "thewell-live.png?v=20260914"
+    "image": "thewell-live.png?v=compact-bar-v2"
   },
   {
     "id": "landry",
@@ -232,7 +232,7 @@ window.SAFI_PROJECTS = [
     const card = document.createElement('article');
     card.className = 'project-card card-thewell';
     card.dataset.category = 'learning';
-    card.innerHTML = '<a href="#thewell" class="project-cover" aria-label="View The Well"><div class="site-cover"><img src="assets/showcase/thewell-live.png?v=20260914" alt="The Well — actual bartending guide homepage" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#thewell">The Well</a><span>Bartending guide</span></div>';
+    card.innerHTML = '<a href="#thewell" class="project-cover" aria-label="View The Well"><div class="site-cover"><img src="assets/showcase/thewell-live.png?v=compact-bar-v2" alt="The Well — actual bartending guide homepage" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#thewell">The Well</a><span>Bartending guide</span></div>';
     wall.append(card);
   }
 })();
