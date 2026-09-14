@@ -149,7 +149,7 @@ window.SAFI_PROJECTS = [
     "logo": "houseedge.svg",
     "detail": "A visual guide to blackjack, poker, baccarat, craps, roulette, slots and sports betting, built around rules, probability, house edge and practical strategy fundamentals.",
     "url": "/houseedge/",
-    "image": "houseedge-live.webp"
+    "image": "houseedge-live.webp?v=roulette-v2"
   },
   {
     "id": "landry",
@@ -201,7 +201,7 @@ window.SAFI_PROJECTS = [
     const card = document.createElement('article');
     card.className = 'project-card card-houseedge';
     card.dataset.category = 'learning';
-    card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
+    card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp?v=roulette-v2" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
     wall.append(card);
   }
 })();
