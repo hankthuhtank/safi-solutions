@@ -1,0 +1,75 @@
+name: Publish The Well
+
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-thewell.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-thewell
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out SafiSolutions
+        uses: actions/checkout@v4
+
+      - name: Check out The Well source
+        uses: actions/checkout@v4
+        with:
+          repository: hankthuhtank/the-well
+          ref: main
+          path: .thewell-source
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: .thewell-source/package-lock.json
+
+      - name: Install The Well dependencies
+        working-directory: .thewell-source
+        run: npm ci
+
+      - name: Preserve the live bar photograph
+        run: |
+          mkdir -p .thewell-source/public/images
+          if [ -s thewell/images/bar-interior.jpg ]; then
+            cp thewell/images/bar-interior.jpg .thewell-source/public/images/bar-interior.jpg
+          else
+            curl --fail --location --retry 2 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=max&fm=jpg&q=85&w=2400' --output .thewell-source/public/images/bar-interior.jpg
+          fi
+
+      - name: Build The Well for /thewell/
+        working-directory: .thewell-source
+        run: npm run build:portfolio
+
+      - name: Replace live The Well build
+        run: |
+          rm -rf thewell/assets thewell/images
+          mkdir -p thewell/assets
+          cp -R .thewell-source/dist-portfolio/assets/. thewell/assets/
+          cp -R .thewell-source/dist-portfolio/images thewell/images
+          cp .thewell-source/dist-portfolio/index.html thewell/index.html
+          cp .thewell-source/dist-portfolio/favicon.svg thewell/favicon.svg
+          cp .thewell-source/dist-portfolio/og.jpg thewell/og.jpg
+          touch thewell/.nojekyll
+
+      - name: Commit published build
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add thewell/index.html thewell/assets thewell/images thewell/favicon.svg thewell/og.jpg thewell/.nojekyll
+          if git diff --cached --quiet; then
+            echo "The live build is already current."
+            exit 0
+          fi
+          git commit -m "Publish updated The Well site"
+          git push
