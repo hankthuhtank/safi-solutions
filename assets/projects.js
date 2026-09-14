@@ -122,7 +122,7 @@ window.SAFI_PROJECTS = [
     "type": "Vehicle tools",
     "desc": "Useful tools for the car you own.",
     "color": "#303c46",
-    "logo": "cardesk-generated.webp",
+    "logo": "cardesk-generated.webp?v=2",
     "detail": "Decode a VIN, check recall information, compare ownership costs and keep a private service log.",
     "url": "/cardesk/",
     "image": "cardesk-live.webp"
@@ -135,7 +135,7 @@ window.SAFI_PROJECTS = [
     "desc": "A move, with fewer unknowns.",
     "color": "#374b46",
     "logo": "movedesk.svg",
-    "detail": "Compare places with weather, route mapping, moving costs and keep a private service log.",
+    "detail": "Compare places with weather, route mapping, moving costs and a personalized action plan.",
     "url": "/movedesk/",
     "image": "movedesk-live.webp"
   },
@@ -146,7 +146,7 @@ window.SAFI_PROJECTS = [
     "type": "Gambling education",
     "desc": "Games, odds and strategy without the casino fog.",
     "color": "#0a2a20",
-    "logo": "houseedge-generated.webp",
+    "logo": "houseedge-generated.webp?v=2",
     "detail": "A visual guide to blackjack, poker, baccarat, craps, roulette, slots and sports betting, built around rules, probability, house edge and practical strategy fundamentals.",
     "url": "/houseedge/",
     "image": "houseedge-live.webp?v=actual-v1"
@@ -158,7 +158,7 @@ window.SAFI_PROJECTS = [
     "type": "Bartending guide",
     "desc": "A better drink starts with understanding it.",
     "color": "#192416",
-    "logo": "thewell-generated.webp",
+    "logo": "thewell-generated.webp?v=2",
     "detail": "A compact bartending guide with 100 searchable recipes, a drink of the day, ingredient references, a flavor finder, bar lessons and a personal home bar.",
     "url": "/thewell/",
     "image": "thewell-live.png?v=compact-bar-v2"
@@ -202,7 +202,7 @@ window.SAFI_PROJECTS = [
   const style = document.createElement('style');
   style.id = 'portfolio-card-refinements';
   style.textContent = `
-    .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
     .work-page .front-logo-cover{
       display:flex;
       align-items:center;
@@ -215,40 +215,39 @@ window.SAFI_PROJECTS = [
     .work-page .front-logo-cover:before{
       content:'';
       position:absolute;
-      inset:14px;
+      inset:10px;
       border:1px solid rgba(255,255,255,.07);
       border-radius:3px;
       pointer-events:none;
     }
     .work-page .featured-projects .front-logo-cover{
-      height:auto;
-      aspect-ratio:1.46;
-      padding:44px;
+      height:250px;
+      padding:22px;
     }
     .work-page .project-tools .front-logo-cover{
-      height:230px;
-      padding:28px;
+      height:155px;
+      padding:16px;
     }
     .work-page .front-logo-cover img{
       position:relative;
       z-index:1;
-      width:min(68%,430px);
-      max-height:56%;
+      width:min(80%,500px);
+      max-height:72%;
       object-fit:contain;
       transition:transform .35s ease,filter .35s ease;
     }
     .work-page .project-tools .front-logo-cover img{
-      width:min(72%,320px);
-      max-height:60%;
+      width:min(84%,340px);
+      max-height:76%;
     }
     .work-page .front-logo-cover.generated-logo img{
-      width:min(82%,560px);
-      max-height:64%;
+      width:min(92%,590px);
+      max-height:82%;
       border-radius:3px;
     }
     .work-page .project-tools .front-logo-cover.generated-logo img{
-      width:min(84%,360px);
-      max-height:66%;
+      width:min(94%,390px);
+      max-height:84%;
     }
     .work-page .project-cover:hover .front-logo-cover img,
     .work-page .project-cover:focus-visible .front-logo-cover img{
@@ -317,20 +316,19 @@ window.SAFI_PROJECTS = [
     }
     .websites-page .project-cover:after{content:'Visit website'}
     @media(max-width:760px){
-      .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important}
       .work-page .featured-projects .front-logo-cover,
-      .websites-page .website-logo-cover{
+      .work-page .project-tools .front-logo-cover{
         height:auto!important;
-        aspect-ratio:1.46!important;
+        aspect-ratio:2.05!important;
+        padding:12px!important;
       }
-      .work-page .featured-projects .front-logo-cover{padding:18px}
-      .work-page .project-tools .front-logo-cover{height:auto;aspect-ratio:1.46;padding:18px}
-      .work-page .front-logo-cover:before{inset:9px}
+      .work-page .front-logo-cover:before{inset:7px}
       .work-page .front-logo-cover img,
-      .work-page .project-tools .front-logo-cover img{width:min(72%,240px);max-height:54%}
+      .work-page .project-tools .front-logo-cover img{width:min(86%,260px);max-height:74%}
       .work-page .front-logo-cover.generated-logo img,
-      .work-page .project-tools .front-logo-cover.generated-logo img{width:min(86%,300px);max-height:66%}
-      .websites-page .website-logo-cover{padding:22px}
+      .work-page .project-tools .front-logo-cover.generated-logo img{width:min(95%,320px);max-height:84%}
+      .websites-page .website-logo-cover{height:auto!important;aspect-ratio:1.46!important;padding:22px}
       .websites-page .website-logo-cover img{width:min(78%,250px);max-height:120px}
       .websites-page .website-logo-cover--elizabeth img{width:min(90%,290px);max-height:150px}
       .websites-page .website-logo-cover--baker img{width:min(82%,270px)}
