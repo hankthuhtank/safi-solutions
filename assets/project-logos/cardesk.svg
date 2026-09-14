@@ -1,33 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 180" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 320" role="img" aria-labelledby="title desc">
   <title id="title">CarDesk</title>
-  <desc id="desc">CarDesk vehicle intelligence logo</desc>
+  <desc id="desc">Automotive CarDesk wordmark with speedometer and car roofline.</desc>
   <defs>
-    <linearGradient id="mark" x1="18" y1="22" x2="146" y2="148" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#9ED8FF"/>
-      <stop offset="0.48" stop-color="#5B9BD5"/>
-      <stop offset="1" stop-color="#2F65A4"/>
+    <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6f8fb"/>
+      <stop offset="0.5" stop-color="#c9d0d9"/>
+      <stop offset="1" stop-color="#8f99a6"/>
     </linearGradient>
-    <linearGradient id="word" x1="374" y1="0" x2="610" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#7FC3F2"/>
-      <stop offset="1" stop-color="#4B84C4"/>
+    <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#79bdec"/>
+      <stop offset="0.55" stop-color="#3d91cf"/>
+      <stop offset="1" stop-color="#1f5f92"/>
     </linearGradient>
-    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="5" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
   </defs>
-
-  <g transform="translate(18 14)">
-    <rect x="4" y="4" width="146" height="146" rx="38" fill="#0D1B2E" stroke="#213B5B" stroke-width="3"/>
-    <path d="M119 51c-10-13-25-21-42-21-30 0-54 24-54 54s24 54 54 54c17 0 32-8 42-21" fill="none" stroke="url(#mark)" stroke-width="18" stroke-linecap="round" filter="url(#glow)"/>
-    <path d="M71 59h42" stroke="#DDEEFF" stroke-width="7" stroke-linecap="round"/>
-    <path d="M71 84h57" stroke="#DDEEFF" stroke-width="7" stroke-linecap="round"/>
-    <path d="M71 109h42" stroke="#DDEEFF" stroke-width="7" stroke-linecap="round"/>
-    <circle cx="123" cy="59" r="5" fill="#7FC3F2"/>
-    <circle cx="136" cy="84" r="5" fill="#5B9BD5"/>
-    <circle cx="123" cy="109" r="5" fill="#3E7CB8"/>
+  <path d="M332 86c88-7 146-48 228-48h205c70 0 122 27 178 48h117" fill="none" stroke="url(#silver)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M576 84h361" stroke="#335f7f" stroke-width="5" opacity="0.7"/>
+  <g transform="translate(115 181)">
+    <path d="M-55 25a72 72 0 1 1 122 38" fill="none" stroke="url(#silver)" stroke-width="13" stroke-linecap="round"/>
+    <g stroke="#8fb6d4" stroke-width="5" stroke-linecap="round">
+      <path d="M-39-4l-13-8M-21-28l-8-13M7-39V-55M35-28l9-13M54-4l14-8"/>
+    </g>
+    <path d="M7 0l42-31" stroke="#2b9de9" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="7" cy="0" r="12" fill="#2b9de9"/>
   </g>
-
-  <text x="198" y="104" font-family="Arial,Helvetica,sans-serif" font-size="78" font-weight="800" letter-spacing="-4.2" fill="#EDF1F8">Car<tspan fill="url(#word)">Desk</tspan></text>
-  <text x="202" y="136" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" letter-spacing="5.4" fill="#7F96B6">VEHICLE INTELLIGENCE</text>
+  <text x="220" y="233" fill="url(#silver)" font-family="Arial, Helvetica, sans-serif" font-size="154" font-weight="700" letter-spacing="-9">Car</text>
+  <text x="465" y="233" fill="url(#blue)" font-family="Arial, Helvetica, sans-serif" font-size="154" font-weight="700" letter-spacing="-9">Desk</text>
+  <path d="M220 266h730" stroke="#2b78ad" stroke-width="5" opacity="0.8"/>
+  <g fill="#3c91ca">
+    <rect x="780" y="263" width="72" height="5" rx="2"/>
+    <rect x="875" y="263" width="72" height="5" rx="2"/>
+    <rect x="970" y="263" width="72" height="5" rx="2"/>
+  </g>
 </svg>
