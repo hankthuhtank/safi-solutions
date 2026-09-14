@@ -15,13 +15,14 @@
     .work-page .featured-projects{margin-bottom:24px}
     .portrait img{object-position:center 10%!important}
 
-    /* Dense floating particle field behind the site. */
-    .particle-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;contain:strict}
-    .particle-layer i{position:absolute;left:var(--x);top:110vh;width:var(--s);height:var(--s);border-radius:50%;background:var(--c);opacity:var(--o);box-shadow:0 0 var(--glow) var(--c);animation:particleFloat var(--d) linear infinite;animation-delay:var(--delay);will-change:transform}
+    /* Dense floating particle field behind all dark sections. */
+    body{position:relative;isolation:isolate}
+    .particle-layer{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;contain:layout paint;display:block!important;visibility:visible!important}
+    .particle-layer i{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);border-radius:50%;background:var(--c);opacity:var(--o);box-shadow:0 0 var(--glow) var(--c);animation:particleFloat var(--d) linear infinite;animation-delay:var(--delay);will-change:transform}
     @keyframes particleFloat{0%{transform:translate3d(0,0,0) scale(.72)}100%{transform:translate3d(var(--drift),-138vh,0) scale(1.15)}}
-    main{position:relative;z-index:1}
+    main{position:relative;z-index:2}
     html.motion-paused .particle-layer i{animation-play-state:paused!important}
-    @media(prefers-reduced-motion:reduce){.particle-layer i{animation:none!important;opacity:.08!important}}
+    @media(prefers-reduced-motion:reduce){.particle-layer i{animation:none!important;opacity:var(--o)!important}}
 
     /* Trading Desk: let the actual logo be the clickable object, not a large box. */
     main>.market-page{align-items:center}
@@ -49,6 +50,8 @@
     html.motion-paused .markets-logo img,html.motion-paused .button:before,html.motion-paused .pro-arrow{transition:none!important;transform:none!important}
 
     @media(max-width:760px){
+      .particle-layer{z-index:1!important;opacity:1!important}
+      .particle-layer i{filter:brightness(1.12)}
       .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin-bottom:18px!important}
       .featured-projects .site-cover,.featured-projects .card-thebench .site-cover{height:auto!important;aspect-ratio:1.46!important}
       .featured-projects .project-caption{display:block!important;margin-top:9px!important}
@@ -132,7 +135,7 @@
   particleLayer.className='particle-layer';
   particleLayer.setAttribute('aria-hidden','true');
   const particlePalette=['rgba(236,242,255,.92)','rgba(184,216,250,.88)','rgba(117,188,255,.82)','rgba(104,231,220,.76)'];
-  const particleTotal=window.matchMedia('(max-width:760px)').matches?135:240;
+  const particleTotal=window.matchMedia('(max-width:760px)').matches?180:240;
   for(let i=0;i<particleTotal;i++){
     const dot=document.createElement('i');
     const duration=18+Math.random()*34;
@@ -141,7 +144,8 @@
     const opacity=.16+Math.random()*.55;
     const glow=4+Math.random()*12;
     const color=particlePalette[Math.floor(Math.random()*particlePalette.length)];
-    dot.style.cssText=`--x:${(Math.random()*100).toFixed(2)}%;--s:${size.toFixed(2)}px;--o:${opacity.toFixed(2)};--d:${duration.toFixed(1)}s;--delay:-${(Math.random()*duration).toFixed(1)}s;--drift:${drift.toFixed(1)}px;--glow:${glow.toFixed(1)}px;--c:${color}`;
+    const y=-8+Math.random()*116;
+    dot.style.cssText=`--x:${(Math.random()*100).toFixed(2)}%;--y:${y.toFixed(2)}vh;--s:${size.toFixed(2)}px;--o:${opacity.toFixed(2)};--d:${duration.toFixed(1)}s;--delay:-${(Math.random()*duration).toFixed(1)}s;--drift:${drift.toFixed(1)}px;--glow:${glow.toFixed(1)}px;--c:${color}`;
     particleLayer.append(dot);
   }
   document.body.prepend(particleLayer);
