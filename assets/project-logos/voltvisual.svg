@@ -11,7 +11,6 @@
     <circle cx="207" cy="7" r="4" fill="#35ddd5" stroke="none"/>
     <circle cx="35" cy="148" r="4" fill="#35ddd5" stroke="none"/>
   </g>
-  <text x="285" y="145" fill="#f3f6f7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="104" font-weight="500" letter-spacing="-5">Volt</text>
-  <text x="502" y="145" fill="#35ddd5" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="104" font-weight="400" letter-spacing="-5">Visual</text>
-  <circle cx="764" cy="76" r="7" fill="#35ddd5"/>
+  <text x="285" y="145" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="104" letter-spacing="-5"><tspan fill="#f3f6f7" font-weight="500">Volt</tspan><tspan fill="#35ddd5" font-weight="400">Visual</tspan></text>
+  <circle cx="754" cy="76" r="7" fill="#35ddd5"/>
 </svg>
