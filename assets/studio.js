@@ -12,21 +12,38 @@
   const polish=document.createElement('style');
   polish.textContent=`
     .inquiry-form>.button{grid-column:1/-1;justify-self:center;width:min(100%,420px)}
+    .work-page .featured-projects{margin-bottom:24px}
+    .markets-logo{display:flex!important;align-items:center;justify-content:center}
+    .markets-logo img{margin:auto}
+    .portrait img{object-position:center 10%!important}
     @media(max-width:760px){
-      .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin-bottom:30px!important}
+      .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin-bottom:18px!important}
       .featured-projects .site-cover,.featured-projects .card-thebench .site-cover{height:auto!important;aspect-ratio:1.46!important}
       .featured-projects .project-caption{display:block!important;margin-top:9px!important}
       .featured-projects .project-caption>a{font-size:14px!important;line-height:1.2!important}
       .featured-projects .project-caption>span{display:block!important;max-width:100%!important;text-align:left!important;margin-top:4px!important;font-size:9px!important;line-height:1.4!important}
+      .work-page .project-tools{margin-top:0!important}
+      .about-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 135px!important;gap:18px 20px!important;align-items:center!important;margin:25px 0 30px!important}
+      .about-letter{display:contents!important}
+      .about-letter h2{grid-column:1!important;grid-row:1!important;margin:0!important;align-self:center!important}
+      .portrait{grid-column:2!important;grid-row:1!important;width:135px!important;align-self:center!important;margin:0!important;order:initial!important;transform:rotate(-2deg)!important}
+      .portrait img{height:165px!important;object-position:center 8%!important}
+      .portrait span{font-size:7px!important;padding-top:7px!important}
+      .about-letter p,.about-letter>.underlined{grid-column:1/-1!important}
     }
     @media(max-width:430px){
       .featured-projects{gap:10px!important}
       .featured-projects .project-caption>a{font-size:13px!important}
       .featured-projects .project-caption>span{font-size:8px!important}
+      .about-layout{grid-template-columns:minmax(0,1fr) 112px!important;gap:16px!important}
+      .portrait{width:112px!important}
+      .portrait img{height:138px!important}
+      .about-letter h2{font-size:30px!important}
     }
   `;
   document.head.append(polish);
   $('.form-foot')?.remove();
+  $('.work-page .collection-subhead')?.remove();
 
   $('#year').textContent = new Date().getFullYear();
   const menu = $('#menu-toggle'), mobileNav = $('#mobile-nav');
