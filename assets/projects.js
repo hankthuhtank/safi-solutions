@@ -184,27 +184,24 @@ window.SAFI_PROJECTS = [
 ];
 
 (() => {
-  const addHouseEdgeToPortfolio = () => {
-    const count = document.querySelector('.primary-nav a[data-route="work"] span');
-    if (count) count.textContent = '09';
+  const count = document.querySelector('.primary-nav a[data-route="work"] span');
+  if (count) count.textContent = '09';
 
-    const indexNav = document.querySelector('.project-index nav');
-    if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
-      const link = document.createElement('a');
-      link.href = '#houseedge';
-      link.dataset.projectLink = 'houseedge';
-      link.innerHTML = '<span>09</span>HouseEdge';
-      indexNav.append(link);
-    }
+  const indexNav = document.querySelector('.project-index nav');
+  if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
+    const link = document.createElement('a');
+    link.href = '#houseedge';
+    link.dataset.projectLink = 'houseedge';
+    link.innerHTML = '<span>09</span>HouseEdge';
+    indexNav.append(link);
+  }
 
-    const wall = document.querySelector('.project-wall.project-tools');
-    if (wall && !wall.querySelector('.card-houseedge')) {
-      const card = document.createElement('article');
-      card.className = 'project-card card-houseedge';
-      card.dataset.category = 'learning';
-      card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
-      wall.append(card);
-    }
-  };
-  addHouseEdgeToPortfolio();
+  const wall = document.querySelector('.project-wall.project-tools');
+  if (wall && !wall.querySelector('.card-houseedge')) {
+    const card = document.createElement('article');
+    card.className = 'project-card card-houseedge';
+    card.dataset.category = 'learning';
+    card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
+    wall.append(card);
+  }
 })();
