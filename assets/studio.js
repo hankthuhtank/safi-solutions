@@ -8,6 +8,26 @@
   let homeScroll=0;
   let activePage = '', lastHash = '';
   document.documentElement.classList.add('js');
+
+  const polish=document.createElement('style');
+  polish.textContent=`
+    .inquiry-form>.button{grid-column:1/-1;justify-self:center;width:min(100%,420px)}
+    @media(max-width:760px){
+      .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin-bottom:30px!important}
+      .featured-projects .site-cover,.featured-projects .card-thebench .site-cover{height:auto!important;aspect-ratio:1.46!important}
+      .featured-projects .project-caption{display:block!important;margin-top:9px!important}
+      .featured-projects .project-caption>a{font-size:14px!important;line-height:1.2!important}
+      .featured-projects .project-caption>span{display:block!important;max-width:100%!important;text-align:left!important;margin-top:4px!important;font-size:9px!important;line-height:1.4!important}
+    }
+    @media(max-width:430px){
+      .featured-projects{gap:10px!important}
+      .featured-projects .project-caption>a{font-size:13px!important}
+      .featured-projects .project-caption>span{font-size:8px!important}
+    }
+  `;
+  document.head.append(polish);
+  $('.form-foot')?.remove();
+
   $('#year').textContent = new Date().getFullYear();
   const menu = $('#menu-toggle'), mobileNav = $('#mobile-nav');
   const closeMenu = () => { menu.setAttribute('aria-expanded','false'); mobileNav.classList.remove('open'); };
@@ -30,7 +50,7 @@
     const visual=$('#detail-visual');visual.replaceChildren();
     if(p.image) {
       const wrap=el('div','detail-screen'),image=el('img');
-      image.src='assets/showcase/'+p.image;image.alt=p.name+' — actual website screenshot';
+      image.src='assets/showcase/'+p.image;image.alt=p.name+' - actual website screenshot';
       wrap.append(image);visual.append(wrap);
       $('#detail-foot').textContent='Actual website capture · September 2026 · Open the project to explore it.';
     } else {
@@ -66,7 +86,7 @@
     activePage=detail?'detail':'home';lastHash=hash;closeMenu();
     highlight(detail?(p.category==='websites'?'websites':'work'):id);
     all('[data-project-link]').forEach(a=>{if(detail&&a.dataset.projectLink===hash)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-    document.title=(detail?p.name+' — ':'')+'Safi Solutions — Independent design & development';
+    document.title=(detail?p.name+' - ':'')+'Safi Solutions - Independent design & development';
     requestAnimationFrame(()=>{
       if(detail)window.scrollTo({top:0,behavior:'instant'});
       else if(returning&&['work','websites'].includes(id))window.scrollTo({top:homeScroll,behavior:'instant'});
