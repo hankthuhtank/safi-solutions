@@ -152,6 +152,18 @@ window.SAFI_PROJECTS = [
     "image": "houseedge-live.webp?v=actual-v1"
   },
   {
+    "id": "thewell",
+    "name": "The Well",
+    "category": "learning",
+    "type": "Bartending guide",
+    "desc": "A better drink starts with understanding it.",
+    "color": "#192416",
+    "logo": "thewell.svg",
+    "detail": "A visual field guide to 100 cocktails and zero-proof drinks, with searchable recipes, spirits and ingredient references, a flavor finder, bar lessons and a personal home bar.",
+    "url": "/thewell/",
+    "image": "thewell-live.png?v=20260914"
+  },
+  {
     "id": "landry",
     "name": "Landry Locksmith",
     "category": "websites",
@@ -185,7 +197,7 @@ window.SAFI_PROJECTS = [
 
 (() => {
   const count = document.querySelector('.primary-nav a[data-route="work"] span');
-  if (count) count.textContent = '09';
+  if (count) count.textContent = '10';
 
   const indexNav = document.querySelector('.project-index nav');
   if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
@@ -202,6 +214,25 @@ window.SAFI_PROJECTS = [
     card.className = 'project-card card-houseedge';
     card.dataset.category = 'learning';
     card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp?v=actual-v1" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
+    wall.append(card);
+  }
+})();
+
+(() => {
+  const nav = document.querySelector('.project-index nav');
+  if (nav && !nav.querySelector('[data-project-link="thewell"]')) {
+    const link = document.createElement('a');
+    link.href = '#thewell';
+    link.dataset.projectLink = 'thewell';
+    link.innerHTML = '<span>10</span>The Well';
+    nav.append(link);
+  }
+  const wall = document.querySelector('.project-wall.project-tools');
+  if (wall && !wall.querySelector('.card-thewell')) {
+    const card = document.createElement('article');
+    card.className = 'project-card card-thewell';
+    card.dataset.category = 'learning';
+    card.innerHTML = '<a href="#thewell" class="project-cover" aria-label="View The Well"><div class="site-cover"><img src="assets/showcase/thewell-live.png?v=20260914" alt="The Well — actual bartending guide homepage" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#thewell">The Well</a><span>Bartending guide</span></div>';
     wall.append(card);
   }
 })();
