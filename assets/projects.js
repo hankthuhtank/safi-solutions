@@ -122,7 +122,7 @@ window.SAFI_PROJECTS = [
     "type": "Vehicle tools",
     "desc": "Useful tools for the car you own.",
     "color": "#303c46",
-    "logo": "cardesk.svg",
+    "logo": "cardesk-generated.webp",
     "detail": "Decode a VIN, check recall information, compare ownership costs and keep a private service log.",
     "url": "/cardesk/",
     "image": "cardesk-live.webp"
@@ -135,7 +135,7 @@ window.SAFI_PROJECTS = [
     "desc": "A move, with fewer unknowns.",
     "color": "#374b46",
     "logo": "movedesk.svg",
-    "detail": "Compare places with weather, route mapping, moving costs and a personalized action plan.",
+    "detail": "Compare places with weather, route mapping, moving costs and keep a private service log.",
     "url": "/movedesk/",
     "image": "movedesk-live.webp"
   },
@@ -146,7 +146,7 @@ window.SAFI_PROJECTS = [
     "type": "Gambling education",
     "desc": "Games, odds and strategy without the casino fog.",
     "color": "#0a2a20",
-    "logo": "houseedge.svg",
+    "logo": "houseedge-generated.webp",
     "detail": "A visual guide to blackjack, poker, baccarat, craps, roulette, slots and sports betting, built around rules, probability, house edge and practical strategy fundamentals.",
     "url": "/houseedge/",
     "image": "houseedge-live.webp?v=actual-v1"
@@ -158,7 +158,7 @@ window.SAFI_PROJECTS = [
     "type": "Bartending guide",
     "desc": "A better drink starts with understanding it.",
     "color": "#192416",
-    "logo": "thewell.svg",
+    "logo": "thewell-generated.webp",
     "detail": "A compact bartending guide with 100 searchable recipes, a drink of the day, ingredient references, a flavor finder, bar lessons and a personal home bar.",
     "url": "/thewell/",
     "image": "thewell-live.png?v=compact-bar-v2"
@@ -203,11 +203,68 @@ window.SAFI_PROJECTS = [
   style.id = 'portfolio-card-refinements';
   style.textContent = `
     .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .work-page .featured-projects .card-vellum .site-cover,
-    .work-page .featured-projects .card-thewell .site-cover{
+    .work-page .front-logo-cover{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      background:var(--identity,#232a30);
+      border:1px solid rgba(255,255,255,.045);
+    }
+    .work-page .front-logo-cover:before{
+      content:'';
+      position:absolute;
+      inset:14px;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:3px;
+      pointer-events:none;
+    }
+    .work-page .featured-projects .front-logo-cover{
       height:auto;
       aspect-ratio:1.46;
+      padding:44px;
     }
+    .work-page .project-tools .front-logo-cover{
+      height:230px;
+      padding:28px;
+    }
+    .work-page .front-logo-cover img{
+      position:relative;
+      z-index:1;
+      width:min(68%,430px);
+      max-height:56%;
+      object-fit:contain;
+      transition:transform .35s ease,filter .35s ease;
+    }
+    .work-page .project-tools .front-logo-cover img{
+      width:min(72%,320px);
+      max-height:60%;
+    }
+    .work-page .front-logo-cover.generated-logo img{
+      width:min(82%,560px);
+      max-height:64%;
+      border-radius:3px;
+    }
+    .work-page .project-tools .front-logo-cover.generated-logo img{
+      width:min(84%,360px);
+      max-height:66%;
+    }
+    .work-page .project-cover:hover .front-logo-cover img,
+    .work-page .project-cover:focus-visible .front-logo-cover img{
+      transform:scale(1.035);
+    }
+    .work-page .card-vellum .front-logo-cover{background:linear-gradient(145deg,#554b61,#332d39)}
+    .work-page .card-thewell .front-logo-cover{background:#071611}
+    .work-page .card-motoratlas .front-logo-cover{background:linear-gradient(145deg,#493f34,#2d2822)}
+    .work-page .card-tradeschool .front-logo-cover{background:linear-gradient(145deg,#4b4035,#2e2924)}
+    .work-page .card-overtone .front-logo-cover{background:linear-gradient(145deg,#423d4d,#2a2731)}
+    .work-page .card-voltvisual .front-logo-cover{background:linear-gradient(145deg,#173951,#102738)}
+    .work-page .card-cardesk .front-logo-cover{background:#0b1016}
+    .work-page .card-movedesk .front-logo-cover{background:linear-gradient(145deg,#3c514b,#263833)}
+    .work-page .card-houseedge .front-logo-cover{background:#071611}
+    .work-page .card-thebench .front-logo-cover{background:linear-gradient(145deg,#174636,#0e2f25)}
+
     .websites-page .website-logo-cover{
       height:370px;
       display:flex;
@@ -261,12 +318,18 @@ window.SAFI_PROJECTS = [
     .websites-page .project-cover:after{content:'Visit website'}
     @media(max-width:760px){
       .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .work-page .featured-projects .card-vellum .site-cover,
-      .work-page .featured-projects .card-thewell .site-cover,
+      .work-page .featured-projects .front-logo-cover,
       .websites-page .website-logo-cover{
         height:auto!important;
         aspect-ratio:1.46!important;
       }
+      .work-page .featured-projects .front-logo-cover{padding:18px}
+      .work-page .project-tools .front-logo-cover{height:auto;aspect-ratio:1.46;padding:18px}
+      .work-page .front-logo-cover:before{inset:9px}
+      .work-page .front-logo-cover img,
+      .work-page .project-tools .front-logo-cover img{width:min(72%,240px);max-height:54%}
+      .work-page .front-logo-cover.generated-logo img,
+      .work-page .project-tools .front-logo-cover.generated-logo img{width:min(86%,300px);max-height:66%}
       .websites-page .website-logo-cover{padding:22px}
       .websites-page .website-logo-cover img{width:min(78%,250px);max-height:120px}
       .websites-page .website-logo-cover--elizabeth img{width:min(90%,290px);max-height:150px}
@@ -339,6 +402,18 @@ window.SAFI_PROJECTS = [
     card.innerHTML = '<a href="#thebench" class="project-cover" aria-label="View The Bench"><div class="site-cover"><img src="assets/showcase/bench-live.webp" alt="The Bench - actual website preview" width="1355" height="931" loading="lazy"></div></a><div class="project-caption"><a href="#thebench">The Bench</a><span>Learn to code</span></div>';
     wall.append(card);
   }
+
+  const generatedLogoIds = new Set(['thewell','houseedge','cardesk']);
+  const frontPageProjectIds = ['vellum','thewell','motoratlas','tradeschool','overtone','voltvisual','cardesk','movedesk','houseedge','thebench'];
+  frontPageProjectIds.forEach(id => {
+    const p = window.SAFI_PROJECTS.find(item => item.id === id);
+    const card = document.querySelector(`.work-page .card-${id}`);
+    const cover = card?.querySelector('.project-cover');
+    if (!p || !card || !cover || !p.logo) return;
+    const logoSrc = `assets/project-logos/${p.logo}`;
+    const generatedClass = generatedLogoIds.has(id) ? ' generated-logo' : '';
+    cover.innerHTML = `<div class="front-logo-cover${generatedClass}" style="--identity:${p.color}"><img src="${logoSrc}" alt="${p.name} logo" loading="lazy"></div>`;
+  });
 
   const makeWebsiteCard = (selector, url, logo, variant, name, type) => {
     const card = document.querySelector(selector);
