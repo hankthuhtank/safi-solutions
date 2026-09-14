@@ -2,40 +2,30 @@
 
 A bartender’s field guide — drinks as glasses, bottles as knowledge.
 
-Live at [safisolutions.org/thewell](https://www.safisolutions.org/thewell/).
+**Live:** [safisolutions.org/thewell](https://www.safisolutions.org/thewell/)
 
-## What’s in this folder
+## Folder
 
-The files at the root (`index.html`, `assets/`, `404.html`) are the live GitHub Pages site.
+```
+thewell/
+  index.html      live site
+  app.js
+  app.css
+  favicon.svg
+  src/            full source
+    data/         drinks, ingredients, families, lessons
+    components/   glasses, tickets, shell
+    routes/       library, stock, map, lineage, bottles, learn, service
+```
 
-Full source is in [`source/`](./source) — recipes, glasses, bottles, map, lineage, learn, and service mode.
+`index.html` / `app.js` / `app.css` are what GitHub Pages serves. Everything else is source.
 
 ## Modes
 
-- **Library** — every drink as a glass on the rail
-- **Stock** — “I have this” bottle wall
+- **Library** — drinks as glasses on the rail
+- **Stock** — I have this
 - **Map** — flavor field
-- **Lineage** — drink family trees
+- **Lineage** — family trees
 - **Bottles** — spirits broken down
 - **Learn** — technique
 - **Service** — glanceable bartender mode
-
-## Run locally
-
-```bash
-cd source
-npm install
-npm run dev
-```
-
-Production build (from `source/`):
-
-```bash
-npm run build
-```
-
-Copy `source/dist/` over this folder to update the live site. Client-side routes use GitHub Pages’ `404.html` fallback.
-
-## Stack
-
-React 19 · TanStack Router · Tailwind CSS v4 · Vite
