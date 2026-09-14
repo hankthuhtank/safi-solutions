@@ -4,10 +4,10 @@ window.SAFI_PROJECTS = [
     "name": "SafiStudios",
     "category": "software",
     "type": "Business software",
-    "desc": "Custom business apps, built around the work.",
+    "desc": "Business software for different industries and ways of working.",
     "color": "#ced4db",
-    "image": "coffee-counter.webp",
-    "detail": "A studio for configuring business apps and websites. Start with the work your team does, then choose the modules, appearance and delivery setup.",
+    "image": "java-workspace.webp",
+    "detail": "Customizable business software for daily operations, service businesses and events. The modules and setup are chosen for each client.",
     "url": "#safistudios"
   },
   {
@@ -65,7 +65,8 @@ window.SAFI_PROJECTS = [
     "color": "#443c4e",
     "logo": "vellum.svg",
     "detail": "Read the Bible with context: people, places, cross-references, audio and personal notes.",
-    "url": "/vellum/"
+    "url": "/vellum/",
+    "image": "vellum-live.webp"
   },
   {
     "id": "tradingdesk",

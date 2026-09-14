@@ -26,3 +26,16 @@ No new runtime framework or third-party animation dependency. Native links/hash 
 `tools/check-portfolio.cjs` verifies routes, filters, project previews, asset presence, sample expansion, workflow switching, studio section links, contact configuration, mobile menu and motion settings using jsdom. Run with jsdom available in NODE_PATH. `node --check assets/studio.js` and `git diff --check` also pass.
 
 Local file navigation is blocked by the Cloud browser URL policy. Public deployment inspection is performed separately; no browser restriction is bypassed.
+
+## Follow-up: separated collections and faithful screenshots
+
+The user approved the cabinet direction and requested separate Projects and Websites views. Projects now features actual Vellum and The Bench captures, followed by the other six tools; The Trading Desk has a compact section explaining Helal's market teaching. Websites features actual Elizabeth Aven and Baker captures, followed by three plain website links. Previous/next navigation stays within the relevant collection.
+
+SafiStudios was simplified and its invented concept images removed from all active references. The replacement assets use the user's actual app screenshots as edit targets. Built-in image generation changes the fictional names/record labels while preserving the original layout and modules:
+
+- `assets/showcase/java-workspace.webp` (1632×963): Java's original coffee workspace. Prompt: preserve the supplied screenshot; replace Mike with Java's Downtown, and three counter labels with fictional orders/customers. Preserve all modules, values, images, styling and positions. No interface redesign.
+- `assets/showcase/cedar-workspace.webp` (1113×1413): Cedar's original service workspace. Prompt: preserve the supplied screenshot; replace John with Cedar service team, Route 001–005 with named local routes and generic jobs with four fictional customer/job labels. No interface redesign.
+
+Images are labeled existing app layouts with sample records; they are edited screenshots, not a claim that they came from live customer data. CSS provides rounded clipping and subtle shadows. The modal supports fit and natural-size zoom with scrolling on small screens. Product prose is larger, limited to the visible examples and configuration offered, and highlights hospitality, retail, field services, contracting, operations and events. The previous automated workflow demonstrations are removed.
+
+Responsive rules stack featured projects, website previews, product examples and the About/contact layouts, preserve full-width screenshots, provide a mobile navigation menu and use at least 16px form inputs. No contact form was submitted. Automated checks verify the new information architecture, routes, screenshots, zoom, market section, original contact destination and mobile-menu behavior.
