@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/publish-thewell.yml"
+      - "thewell/.publish-touch"
   workflow_dispatch:
 
 permissions:
