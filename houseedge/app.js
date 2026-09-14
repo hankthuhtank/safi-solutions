@@ -1,5 +1,6 @@
 (()=>{
 'use strict';
+const photoSheet=document.createElement('link');photoSheet.rel='stylesheet';photoSheet.href='photos.css';document.head.append(photoSheet);
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
 function implied(o){o=Number(o);if(!Number.isFinite(o)||o===0)return NaN;return o<0?(-o)/((-o)+100):100/(o+100)}
