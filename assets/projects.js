@@ -18,7 +18,7 @@ window.SAFI_PROJECTS = [
     "desc": "Code you can change. Concepts you can see.",
     "color": "#133d30",
     "image": "bench-live.webp",
-    "logo": "thebench.svg",
+    "logo": "thebench.jpg?v=4",
     "detail": "A learning workspace for software: guided lessons, editable examples and visual explanations. Built to make the terminology less of a barrier.",
     "url": "/thebench/"
   },
@@ -122,7 +122,7 @@ window.SAFI_PROJECTS = [
     "type": "Vehicle tools",
     "desc": "Useful tools for the car you own.",
     "color": "#303c46",
-    "logo": "cardesk.svg?v=3",
+    "logo": "cardesk.jpg?v=4",
     "detail": "Decode a VIN, check recall information, compare ownership costs and keep a private service log.",
     "url": "/cardesk/",
     "image": "cardesk-live.webp"
@@ -146,7 +146,7 @@ window.SAFI_PROJECTS = [
     "type": "Gambling education",
     "desc": "Games, odds and strategy without the casino fog.",
     "color": "#0a2a20",
-    "logo": "houseedge.svg?v=3",
+    "logo": "houseedge.jpg?v=4",
     "detail": "A visual guide to blackjack, poker, baccarat, craps, roulette, slots and sports betting, built around rules, probability, house edge and practical strategy fundamentals.",
     "url": "/houseedge/",
     "image": "houseedge-live.webp?v=actual-v1"
@@ -158,7 +158,7 @@ window.SAFI_PROJECTS = [
     "type": "Bartending guide",
     "desc": "A better drink starts with understanding it.",
     "color": "#192416",
-    "logo": "thewell.svg?v=3",
+    "logo": "thewell.jpg?v=4",
     "detail": "A compact bartending guide with 100 searchable recipes, a drink of the day, ingredient references, a flavor finder, bar lessons and a personal home bar.",
     "url": "/thewell/",
     "image": "thewell-live.png?v=compact-bar-v2"
@@ -401,7 +401,7 @@ window.SAFI_PROJECTS = [
     wall.append(card);
   }
 
-  const generatedLogoIds = new Set(['thewell','houseedge','cardesk']);
+  const generatedLogoIds = new Set(['thewell','houseedge','cardesk','thebench']);
   const frontPageProjectIds = ['vellum','thewell','motoratlas','tradeschool','overtone','voltvisual','cardesk','movedesk','houseedge','thebench'];
   frontPageProjectIds.forEach(id => {
     const p = window.SAFI_PROJECTS.find(item => item.id === id);
