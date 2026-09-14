@@ -7,16 +7,16 @@ w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialog
 w.eval(fs.readFileSync(path.join(root,'assets/projects.js'),'utf8'));w.eval(fs.readFileSync(path.join(root,'assets/studio.js'),'utf8'));
 const click=s=>{assert.ok(d.querySelector(s),s);d.querySelector(s).click();};const route=hash=>{w.history.replaceState({},'',hash);w.dispatchEvent(new w.HashChangeEvent('hashchange'));};
 assert.equal(d.querySelectorAll('h1').length,1);assert.equal(d.querySelectorAll('#work .project-card').length,8);assert.equal(d.querySelectorAll('#websites .project-card').length,2);assert.equal(d.querySelectorAll('.website-list>a').length,3);
-assert.ok(d.querySelector('#work').classList.contains('active'));assert.ok(d.querySelector('#websites').hidden);
+assert.ok(d.querySelector('#work').classList.contains('active'));assert.ok(!d.querySelector('#websites').hidden);
 assert.equal(d.querySelector('#work .project-card a').hash,'#vellum');assert.ok(d.querySelector('#work .card-thebench'));assert.ok(!d.querySelector('#work .card-baker'));assert.ok(!d.querySelector('#work .card-safistudios'));
 assert.ok(d.querySelector('#markets').textContent.includes('I also teach markets'));
 assert.ok(!/coffee-counter|cedar-agenda|Maple & Bean|workflow-example|Different possibilities/.test(html));
 for(const img of d.querySelectorAll('img[src]'))assert.ok(fs.existsSync(path.join(root,img.getAttribute('src'))),img.src);
 for(const p of w.SAFI_PROJECTS){if(p.image)assert.ok(fs.existsSync(path.join(root,'assets/showcase',p.image)));if(p.logo)assert.ok(fs.existsSync(path.join(root,'assets/project-logos',p.logo)));}
-route('#websites');assert.ok(d.querySelector('#websites').classList.contains('active'));assert.ok(d.querySelector('#work').hidden);
+route('#websites');assert.ok(d.querySelector('#websites').classList.contains('active'));assert.ok(!d.querySelector('#work').hidden);
 route('#baker');assert.equal(d.querySelector('#detail-title').textContent,'Baker Precision');assert.ok(d.querySelector('#detail-visual img').src.endsWith('baker-live.webp'));assert.equal(d.querySelector('.detail-toolbar>a').hash,'#websites');assert.ok(d.querySelector('[data-route="websites"]').hasAttribute('aria-current'));
 route('#vellum');assert.ok(d.querySelector('#detail-visual img').src.endsWith('vellum-live.webp'));assert.equal(d.querySelector('.detail-toolbar>a').hash,'#work');
-route('#safistudios');assert.ok(d.querySelector('#safistudios').classList.contains('active'));assert.ok(d.querySelector('#safistudios').textContent.includes('events'));
+route('#safistudios');assert.ok(d.querySelector('#safistudios').classList.contains('active'));assert.ok(d.querySelector('#safistudios').textContent.includes('events'));assert.ok(d.querySelector('#safistudios').textContent.includes('developing connected workflows'));
 click('[data-expand="coffee"]');assert.ok(d.querySelector('#sample-dialog').open);assert.ok(d.querySelector('#dialog-image').src.endsWith('java-workspace.webp'));
 click('#zoom-sample');assert.ok(d.querySelector('#sample-dialog').classList.contains('zoomed'));assert.equal(d.querySelector('#zoom-sample').textContent,'Fit image');click('#close-sample');assert.ok(!d.body.classList.contains('dialog-open'));
 click('[data-expand="pest"]');assert.ok(!d.querySelector('#sample-dialog').classList.contains('zoomed'));assert.ok(d.querySelector('#dialog-image').src.endsWith('cedar-workspace.webp'));click('#close-sample');
@@ -26,4 +26,7 @@ route('#contact');assert.ok(d.querySelector('#contact').classList.contains('acti
 click('[data-interest]');assert.equal(d.querySelector('#iq-interest').value,'SafiStudios / custom business software');
 click('#menu-toggle');assert.equal(d.querySelector('#menu-toggle').getAttribute('aria-expanded'),'true');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape'}));assert.equal(d.querySelector('#menu-toggle').getAttribute('aria-expanded'),'false');click('#motion-toggle');assert.equal(w.localStorage.getItem('safi-cabinet-motion'),'paused');
 route('#%FF');assert.ok(d.querySelector('#work').classList.contains('active'));
-console.log('PASS: separate collections, Vellum/Bench previews, website list, market section, faithful screenshots, zoom, routes, contact and mobile menu.');w.close();
+assert.deepEqual(Array.from(d.querySelectorAll('main>.page')).slice(0,4).map(e=>e.id),['work','websites','safistudios','markets']);
+for(const card of d.querySelectorAll('#work .project-card'))assert.ok(card.querySelector('.site-cover img'));
+for(const id of ['tradeschool','overtone','motoratlas','cardesk','movedesk']){route('#'+id);assert.ok(d.querySelector('#detail-visual img').src.endsWith(id+'-live.webp'));assert.equal(d.querySelectorAll('#detail-visual .button').length,0);}
+console.log('PASS: continuous homepage order, eight real previews, consistent detail views, compact accurate studio, navigation, modal, form and menu.');w.close();

@@ -5,7 +5,7 @@
   const projects = window.SAFI_PROJECTS || [];
   const byId = new Map(projects.map(p => [p.id,p]));
   const pages = all('.page');
-  const scrollPositions = new Map();
+  let homeScroll=0;
   let activePage = '', lastHash = '';
   document.documentElement.classList.add('js');
   $('#year').textContent = new Date().getFullYear();
@@ -38,41 +38,52 @@
       if(p.logo){const image=el('img');image.src='assets/project-logos/'+p.logo;image.alt=p.name;wrap.append(image);}
       else wrap.append(el('strong','',p.name));
       wrap.append(el('p','',p.desc));
-      const link=el('a','button',p.category==='websites'?'Visit website ↗':'Explore the live project ↗');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';wrap.append(link);visual.append(wrap);
+      visual.append(wrap);
       $('#detail-foot').textContent=p.logo?'Project identity · Open the live project to explore the interface.':'Client website · Open the live website to explore the design.';
     }
   }
-  function route(initial=false) {
+  const homeSections=pages.filter(page=>page.id!=='project-detail');
+  const labels={work:'PROJECTS / INTERACTIVE TOOLS',websites:'CLIENT WEBSITES',safistudios:'SAFISTUDIOS / BUSINESS SOFTWARE',markets:'THE TRADING DESK / MARKETS',about:'ABOUT HELAL',contact:'GET IN TOUCH'};
+  function highlight(id){
+    all('[data-route]').forEach(a=>{if(a.dataset.route===id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+    $('#location-label').textContent=labels[id]||'SAFI SOLUTIONS';
+  }
+  function route(initial=false){
     let hash;try{hash=decodeURIComponent(location.hash.slice(1)||'work');}catch{hash='work';}
     if(hash===lastHash&&!initial)return;
-    if(activePage)scrollPositions.set(activePage,window.scrollY);
-    let id=hash, chapter=null;
-    if(hash==='markets'){id='work';chapter='markets';}
-    if(hash.startsWith('studio-'))id='safistudios';
-    if(['main','top','desk','playground'].includes(hash))id='work';
-    if(['services','packages'].includes(hash))id='websites';
-    const p=byId.get(id);
-    if(p && id!=='safistudios'){renderDetail(p);id='project-detail';}
-    if(!pages.some(page=>page.id===id))id='work';
-    pages.forEach(page=>{const active=page.id===id;page.classList.toggle('active',active);page.hidden=!active;});
-    all('[data-route]').forEach(a=>{const selected=a.dataset.route===id||(id==='project-detail'&&a.dataset.route===(p.category==='websites'?'websites':'work'));if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-    all('[data-project-link]').forEach(a=>{if(a.dataset.projectLink===hash)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-    const labels={work:'PROJECTS / INTERACTIVE TOOLS',websites:'CLIENT WEBSITES',safistudios:'SAFISTUDIOS / BUSINESS SOFTWARE',about:'ABOUT HELAL',contact:'GET IN TOUCH','project-detail':p?p.name.toUpperCase():'PROJECT'};
-    $('#location-label').textContent=labels[id];
-    document.title=(id==='work'?'Safi Solutions':id==='project-detail'?p.name:id==='safistudios'?'SafiStudios':id==='about'?'About Helal':id==='websites'?'Websites':'Get in touch')+' — Independent design & development';
-    const changed=activePage!==id || id==='project-detail';
-    activePage=id;lastHash=hash;closeMenu();
+    if(activePage==='home')homeScroll=window.scrollY;
+    let id=hash;
+    if(['main','top','desk','playground'].includes(id))id='work';
+    if(['services','packages'].includes(id))id='websites';
+    if(id.startsWith('studio-'))id='safistudios';
+    if(id==='tradingdesk')id='markets';
+    const p=byId.get(id),detail=!!p&&id!=='safistudios';
+    const returning=activePage==='detail';
+    if(detail)renderDetail(p);
+    else if(!homeSections.some(page=>page.id===id))id='work';
+    pages.forEach(page=>{const show=detail?page.id==='project-detail':page.id!=='project-detail';page.hidden=!show;page.classList.toggle('active',show);});
+    document.body.classList.toggle('detail-mode',detail);
+    activePage=detail?'detail':'home';lastHash=hash;closeMenu();
+    highlight(detail?(p.category==='websites'?'websites':'work'):id);
+    all('[data-project-link]').forEach(a=>{if(detail&&a.dataset.projectLink===hash)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+    document.title=(detail?p.name+' — ':'')+'Safi Solutions — Independent design & development';
     requestAnimationFrame(()=>{
-      if(chapter)document.getElementById(chapter).scrollIntoView({behavior:'auto',block:'start'});
-      else if(changed||initial)window.scrollTo({top:['work','websites'].includes(id)?(scrollPositions.get(id)||0):0,behavior:'instant'});
-      if(!initial&&changed)$('#main').focus({preventScroll:true});
+      if(detail)window.scrollTo({top:0,behavior:'instant'});
+      else if(returning&&['work','websites'].includes(id))window.scrollTo({top:homeScroll,behavior:'instant'});
+      else if(!initial||hash!=='work')document.getElementById(id).scrollIntoView({behavior:'auto',block:'start'});
+      if(!initial&&detail)$('#main').focus({preventScroll:true});
     });
   }
   window.addEventListener('hashchange',()=>route());
-  document.addEventListener('click', e=>{
+  let scrollQueued=false;
+  window.addEventListener('scroll',()=>{
+    if(scrollQueued||activePage!=='home')return;scrollQueued=true;
+    requestAnimationFrame(()=>{scrollQueued=false;let selected=homeSections[0];for(const section of homeSections){if(section.getBoundingClientRect().top<=window.innerHeight*.35)selected=section;}highlight(selected.id);});
+  },{passive:true});
+  document.addEventListener('click',e=>{
     const a=e.target.closest('a');if(!a)return;
     if(a.dataset.interest){const select=$('#iq-interest');if(Array.from(select.options).some(o=>o.value===a.dataset.interest))select.value=a.dataset.interest;}
-    if(a.getAttribute('href')===location.hash && a.getAttribute('href')==='#work'){window.scrollTo({top:0,behavior:'smooth'});}
+    if(a.getAttribute('href')===location.hash&&activePage==='home'){const target=document.getElementById(location.hash.slice(1));if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}
   });
   const samples={coffee:{src:'assets/showcase/java-workspace.webp',title:'Java’s / coffee shop',alt:'Existing coffee-shop app layout with fictional sample records'},pest:{src:'assets/showcase/cedar-workspace.webp',title:'Cedar’s / service business',alt:'Existing service-business app layout with fictional sample records'}};
   const dialog=$('#sample-dialog');let opener=null;

@@ -7,7 +7,7 @@ window.SAFI_PROJECTS = [
     "desc": "Business software for different industries and ways of working.",
     "color": "#ced4db",
     "image": "java-workspace.webp",
-    "detail": "Customizable business software for daily operations, service businesses and events. The modules and setup are chosen for each client.",
+    "detail": "Custom software for business organization: documents, employee records, scheduling, inventory and everyday data entry. Connected field-team communication is a development direction.",
     "url": "#safistudios"
   },
   {
@@ -88,7 +88,8 @@ window.SAFI_PROJECTS = [
     "color": "#453b30",
     "logo": "tradeschool.svg",
     "detail": "A visual guide to electrical, HVAC, plumbing, industrial maintenance, welding and construction.",
-    "url": "/thetradeschool/"
+    "url": "/thetradeschool/",
+    "image": "tradeschool-live.webp"
   },
   {
     "id": "overtone",
@@ -99,7 +100,8 @@ window.SAFI_PROJECTS = [
     "color": "#383443",
     "logo": "overtone.svg",
     "detail": "Explore music theory, train your ear, play with sound and sketch chord progressions.",
-    "url": "/overtone/"
+    "url": "/overtone/",
+    "image": "overtone-live.webp"
   },
   {
     "id": "motoratlas",
@@ -110,7 +112,8 @@ window.SAFI_PROJECTS = [
     "color": "#42392e",
     "logo": "motoratlas.svg",
     "detail": "Explore vehicle components, follow system flows and connect symptoms to diagnostic thinking.",
-    "url": "/motoratlas/"
+    "url": "/motoratlas/",
+    "image": "motoratlas-live.webp"
   },
   {
     "id": "cardesk",
@@ -121,7 +124,8 @@ window.SAFI_PROJECTS = [
     "color": "#303c46",
     "logo": "cardesk.svg",
     "detail": "Decode a VIN, check recall information, compare ownership costs and keep a private service log.",
-    "url": "/cardesk/"
+    "url": "/cardesk/",
+    "image": "cardesk-live.webp"
   },
   {
     "id": "movedesk",
@@ -132,7 +136,8 @@ window.SAFI_PROJECTS = [
     "color": "#374b46",
     "logo": "movedesk.svg",
     "detail": "Compare places with weather, route mapping, moving costs and a personalized action plan.",
-    "url": "/movedesk/"
+    "url": "/movedesk/",
+    "image": "movedesk-live.webp"
   },
   {
     "id": "landry",

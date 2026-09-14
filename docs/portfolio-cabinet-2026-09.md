@@ -39,3 +39,13 @@ SafiStudios was simplified and its invented concept images removed from all acti
 Images are labeled existing app layouts with sample records; they are edited screenshots, not a claim that they came from live customer data. CSS provides rounded clipping and subtle shadows. The modal supports fit and natural-size zoom with scrolling on small screens. Product prose is larger, limited to the visible examples and configuration offered, and highlights hospitality, retail, field services, contracting, operations and events. The previous automated workflow demonstrations are removed.
 
 Responsive rules stack featured projects, website previews, product examples and the About/contact layouts, preserve full-width screenshots, provide a mobile navigation menu and use at least 16px form inputs. No contact form was submitted. Automated checks verify the new information architecture, routes, screenshots, zoom, market section, original contact destination and mobile-menu behavior.
+
+## Continuous presentation and consistent project previews
+
+Homepage sections now remain visible together in this order: Projects, Websites, SafiStudios, The Trading Desk, About, Contact. Navigation scrolls to sections; individual project detail routes remain available and restore the homepage position on return. The Trading Desk is a standalone compact section after SafiStudios.
+
+All eight interactive projects now use actual screenshots in both gallery and detail views. Added captures for The TradeSchool, Overtone, MotorAtlas, CarDesk and MoveDesk; no generated representations or placeholder action panels are used for these projects. The single top-level project link opens the original project.
+
+SafiStudios is condensed to text left and two small, rounded design previews right. Copy focuses on documents, employee records, schedules, inventory and ordinary data entry, with industries including retail, operations, contractors and events. Field-team communication is explicitly described as a development direction, not a deployed feature. No live ordering capability is claimed. Existing supplied screenshots are retained as design previews with sample data and configurable modules.
+
+Checks cover continuous section order, eight real project previews, consistent project detail behavior, navigation, sample expansion/zoom, contact configuration and the mobile menu. Responsive styles stack text and previews on small screens while retaining the continuous section order.
