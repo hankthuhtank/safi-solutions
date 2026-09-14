@@ -199,12 +199,97 @@ window.SAFI_PROJECTS = [
   const count = document.querySelector('.primary-nav a[data-route="work"] span');
   if (count) count.textContent = '10';
 
+  const style = document.createElement('style');
+  style.id = 'portfolio-card-refinements';
+  style.textContent = `
+    .work-page .featured-projects .card-thewell .site-cover{height:370px}
+    .websites-page .website-logo-cover{
+      height:370px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      padding:44px;
+      background:#15191d;
+    }
+    .websites-page .website-logo-cover:before{
+      content:'';
+      position:absolute;
+      inset:14px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:3px;
+      pointer-events:none;
+    }
+    .websites-page .website-logo-cover img{
+      position:relative;
+      z-index:1;
+      width:min(72%,360px);
+      max-height:190px;
+      object-fit:contain;
+      transition:transform .35s ease,filter .35s ease;
+    }
+    .websites-page .project-cover:hover .website-logo-cover img,
+    .websites-page .project-cover:focus-visible .website-logo-cover img{
+      transform:scale(1.04);
+    }
+    .websites-page .website-logo-cover--elizabeth{
+      background:
+        radial-gradient(circle at 18% 12%,rgba(255,255,255,.82),transparent 34%),
+        linear-gradient(135deg,#eee5d8,#d9c7b1);
+    }
+    .websites-page .website-logo-cover--elizabeth:before{border-color:rgba(79,57,42,.16)}
+    .websites-page .website-logo-cover--elizabeth img{
+      filter:drop-shadow(0 10px 20px rgba(58,42,31,.12));
+    }
+    .websites-page .website-logo-cover--baker{
+      background:
+        radial-gradient(circle at 78% 18%,rgba(255,255,255,.12),transparent 35%),
+        linear-gradient(135deg,#202a33,#11171c);
+    }
+    .websites-page .website-logo-cover--baker img{
+      width:min(78%,390px);
+      filter:drop-shadow(0 10px 22px rgba(0,0,0,.35));
+    }
+    .websites-page .project-cover:after{content:'Visit website'}
+    @media(max-width:760px){
+      .work-page .featured-projects .card-thewell .site-cover,
+      .websites-page .website-logo-cover{
+        height:auto!important;
+        aspect-ratio:1.46!important;
+      }
+      .websites-page .website-logo-cover{padding:22px}
+      .websites-page .website-logo-cover img{width:min(78%,250px);max-height:120px}
+      .websites-page .website-logo-cover--baker img{width:min(82%,270px)}
+    }
+  `;
+  if (!document.getElementById(style.id)) document.head.append(style);
+
+  const featuredBench = document.querySelector('.work-page .featured-projects .card-thebench');
+  if (featuredBench) {
+    featuredBench.className = 'project-card card-thewell';
+    featuredBench.innerHTML = '<a href="#thewell" class="project-cover" aria-label="View The Well"><div class="site-cover"><img src="assets/showcase/thewell-live.png?v=compact-bar-v2" alt="The Well — actual bartending guide homepage" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#thewell">The Well</a><span>Bartending guide</span></div>';
+  }
+
   const indexNav = document.querySelector('.project-index nav');
+  const benchIndex = indexNav?.querySelector('[data-project-link="thebench"]');
+  if (benchIndex) {
+    benchIndex.href = '#thewell';
+    benchIndex.dataset.projectLink = 'thewell';
+    benchIndex.innerHTML = '<span>02</span>The Well';
+  }
   if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
     const link = document.createElement('a');
     link.href = '#houseedge';
     link.dataset.projectLink = 'houseedge';
     link.innerHTML = '<span>09</span>HouseEdge';
+    indexNav.append(link);
+  }
+  if (indexNav && !indexNav.querySelector('[data-project-link="thebench"]')) {
+    const link = document.createElement('a');
+    link.href = '#thebench';
+    link.dataset.projectLink = 'thebench';
+    link.innerHTML = '<span>10</span>The Bench';
     indexNav.append(link);
   }
 
@@ -216,23 +301,34 @@ window.SAFI_PROJECTS = [
     card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp?v=actual-v1" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
     wall.append(card);
   }
-})();
-
-(() => {
-  const nav = document.querySelector('.project-index nav');
-  if (nav && !nav.querySelector('[data-project-link="thewell"]')) {
-    const link = document.createElement('a');
-    link.href = '#thewell';
-    link.dataset.projectLink = 'thewell';
-    link.innerHTML = '<span>10</span>The Well';
-    nav.append(link);
-  }
-  const wall = document.querySelector('.project-wall.project-tools');
-  if (wall && !wall.querySelector('.card-thewell')) {
+  if (wall && !wall.querySelector('.card-thebench')) {
     const card = document.createElement('article');
-    card.className = 'project-card card-thewell';
+    card.className = 'project-card card-thebench';
     card.dataset.category = 'learning';
-    card.innerHTML = '<a href="#thewell" class="project-cover" aria-label="View The Well"><div class="site-cover"><img src="assets/showcase/thewell-live.png?v=compact-bar-v2" alt="The Well — actual bartending guide homepage" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#thewell">The Well</a><span>Bartending guide</span></div>';
+    card.innerHTML = '<a href="#thebench" class="project-cover" aria-label="View The Bench"><div class="site-cover"><img src="assets/showcase/bench-live.webp" alt="The Bench - actual website preview" width="1355" height="931" loading="lazy"></div></a><div class="project-caption"><a href="#thebench">The Bench</a><span>Learn to code</span></div>';
     wall.append(card);
   }
+
+  const makeWebsiteCard = (selector, url, logo, variant, name, type) => {
+    const card = document.querySelector(selector);
+    if (!card) return;
+    card.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="project-cover" aria-label="Visit ${name}"><div class="website-logo-cover website-logo-cover--${variant}"><img src="${logo}" alt="${name} logo" loading="lazy"></div></a><div class="project-caption"><a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a><span>${type}</span></div>`;
+  };
+
+  makeWebsiteCard(
+    '.websites-page .card-elizabeth',
+    'https://www.elizabethavenphotography.com',
+    'https://www.elizabethavenphotography.com/logo.png',
+    'elizabeth',
+    'Elizabeth Aven',
+    'Photography website'
+  );
+  makeWebsiteCard(
+    '.websites-page .card-baker',
+    'https://bakerinspections.com',
+    'https://bakerinspections.com/logo.png',
+    'baker',
+    'Baker Precision',
+    'Home inspections website'
+  );
 })();
