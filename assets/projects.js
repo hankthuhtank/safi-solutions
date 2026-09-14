@@ -140,6 +140,18 @@ window.SAFI_PROJECTS = [
     "image": "movedesk-live.webp"
   },
   {
+    "id": "houseedge",
+    "name": "HouseEdge",
+    "category": "learning",
+    "type": "Gambling education",
+    "desc": "Games, odds and strategy without the casino fog.",
+    "color": "#0a2a20",
+    "logo": "houseedge.svg",
+    "detail": "A visual guide to blackjack, poker, baccarat, craps, roulette, slots and sports betting, built around rules, probability, house edge and practical strategy fundamentals.",
+    "url": "/houseedge/",
+    "image": "houseedge-live.webp"
+  },
+  {
     "id": "landry",
     "name": "Landry Locksmith",
     "category": "websites",
@@ -170,3 +182,29 @@ window.SAFI_PROJECTS = [
     "url": "https://netxbh.com"
   }
 ];
+
+(() => {
+  const addHouseEdgeToPortfolio = () => {
+    const count = document.querySelector('.primary-nav a[data-route="work"] span');
+    if (count) count.textContent = '09';
+
+    const indexNav = document.querySelector('.project-index nav');
+    if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
+      const link = document.createElement('a');
+      link.href = '#houseedge';
+      link.dataset.projectLink = 'houseedge';
+      link.innerHTML = '<span>09</span>HouseEdge';
+      indexNav.append(link);
+    }
+
+    const wall = document.querySelector('.project-wall.project-tools');
+    if (wall && !wall.querySelector('.card-houseedge')) {
+      const card = document.createElement('article');
+      card.className = 'project-card card-houseedge';
+      card.dataset.category = 'learning';
+      card.innerHTML = '<a href="#houseedge" class="project-cover" aria-label="View HouseEdge"><div class="site-cover"><img src="assets/showcase/houseedge-live.webp" alt="HouseEdge - gambling education project preview" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#houseedge">HouseEdge</a><span>Gambling education</span></div>';
+      wall.append(card);
+    }
+  };
+  addHouseEdgeToPortfolio();
+})();
