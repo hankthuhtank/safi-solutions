@@ -15,6 +15,14 @@
     .work-page .featured-projects{margin-bottom:24px}
     .portrait img{object-position:center 10%!important}
 
+    /* Dense floating particle field behind the site. */
+    .particle-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;contain:strict}
+    .particle-layer i{position:absolute;left:var(--x);top:110vh;width:var(--s);height:var(--s);border-radius:50%;background:var(--c);opacity:var(--o);box-shadow:0 0 var(--glow) var(--c);animation:particleFloat var(--d) linear infinite;animation-delay:var(--delay);will-change:transform}
+    @keyframes particleFloat{0%{transform:translate3d(0,0,0) scale(.72)}100%{transform:translate3d(var(--drift),-138vh,0) scale(1.15)}}
+    main{position:relative;z-index:1}
+    html.motion-paused .particle-layer i{animation-play-state:paused!important}
+    @media(prefers-reduced-motion:reduce){.particle-layer i{animation:none!important;opacity:.08!important}}
+
     /* Trading Desk: let the actual logo be the clickable object, not a large box. */
     main>.market-page{align-items:center}
     .markets-logo{display:flex!important;align-items:center!important;justify-content:center!important;justify-self:center!important;width:max-content!important;max-width:100%!important;padding:8px!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;overflow:visible!important}
@@ -119,6 +127,24 @@
     });
   }
   decorateProArrows();
+
+  const particleLayer=document.createElement('div');
+  particleLayer.className='particle-layer';
+  particleLayer.setAttribute('aria-hidden','true');
+  const particlePalette=['rgba(236,242,255,.92)','rgba(184,216,250,.88)','rgba(117,188,255,.82)','rgba(104,231,220,.76)'];
+  const particleTotal=window.matchMedia('(max-width:760px)').matches?135:240;
+  for(let i=0;i<particleTotal;i++){
+    const dot=document.createElement('i');
+    const duration=18+Math.random()*34;
+    const drift=(Math.random()-.5)*130;
+    const size=.75+Math.random()*2.9;
+    const opacity=.16+Math.random()*.55;
+    const glow=4+Math.random()*12;
+    const color=particlePalette[Math.floor(Math.random()*particlePalette.length)];
+    dot.style.cssText=`--x:${(Math.random()*100).toFixed(2)}%;--s:${size.toFixed(2)}px;--o:${opacity.toFixed(2)};--d:${duration.toFixed(1)}s;--delay:-${(Math.random()*duration).toFixed(1)}s;--drift:${drift.toFixed(1)}px;--glow:${glow.toFixed(1)}px;--c:${color}`;
+    particleLayer.append(dot);
+  }
+  document.body.prepend(particleLayer);
 
   $('#year').textContent = new Date().getFullYear();
   const menu = $('#menu-toggle'), mobileNav = $('#mobile-nav');
