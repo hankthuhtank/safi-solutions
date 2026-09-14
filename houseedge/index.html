@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08110e">
+  <title>HouseEdge — Gambling, Explained</title>
+  <meta name="description" content="A visual guide to casino games, poker, sports betting, odds, house edge, and strategy fundamentals.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <canvas id="chip-canvas" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <a class="brand" href="#floor" aria-label="HouseEdge home"><span>HOUSE</span><i>/</i><b>EDGE</b></a>
+    <nav aria-label="Primary">
+      <a href="#pit">Casino</a>
+      <a href="#poker">Poker</a>
+      <a href="#sports">Sportsbook</a>
+      <a href="#math">Odds lab</a>
+    </nav>
+    <button class="quiet" id="motionBtn" type="button" aria-pressed="false">Motion on</button>
+  </header>
+
+  <main>
+    <section class="floor" id="floor" aria-labelledby="floor-title">
+      <div class="floor-copy">
+        <span class="micro">A VISUAL GUIDE TO THE GAMES, THE ODDS, AND THE MATH</span>
+        <h1 id="floor-title">Pick a table.</h1>
+        <p>Learn what is happening before money ever enters the picture.</p>
+      </div>
+
+      <div class="floor-map" aria-label="Game floor map">
+        <div class="floor-ring ring-a"></div>
+        <div class="floor-ring ring-b"></div>
+        <div class="floor-center">
+          <span>START HERE</span>
+          <b>THE HOUSE<br>ALWAYS HAS<br>A NUMBER</b>
+          <small>Understand it.</small>
+        </div>
+        <a class="table-node blackjack" href="#blackjack"><span>21</span><b>Blackjack</b><small>Basic strategy</small></a>
+        <a class="table-node poker" href="#poker"><span>♠</span><b>Poker</b><small>Hands + position</small></a>
+        <a class="table-node baccarat" href="#baccarat"><span>B</span><b>Baccarat</b><small>Banker / player</small></a>
+        <a class="table-node craps" href="#craps"><span>●●</span><b>Craps</b><small>Pass / odds</small></a>
+        <a class="table-node roulette" href="#roulette"><span>00</span><b>Roulette</b><small>Wheel math</small></a>
+        <a class="table-node slots" href="#slots"><span>777</span><b>Slots</b><small>RTP + volatility</small></a>
+        <a class="table-node sports" href="#sports"><span>−110</span><b>Sportsbook</b><small>Odds + vig</small></a>
+      </div>
+
+      <div class="floor-key">
+        <span><i></i>Rules</span><span><i></i>Strategy</span><span><i></i>House edge</span><span><i></i>Math</span>
+      </div>
+    </section>
+
+    <section class="pit" id="pit">
+      <div class="rail-title"><span>CASINO PIT</span><b>01</b></div>
+      <div class="game-stack">
+        <article class="game-sheet blackjack-sheet" id="blackjack">
+          <div class="sheet-index">BLACKJACK / 21</div>
+          <div class="cards-demo" aria-hidden="true"><span class="card red">A<small>♥</small></span><span class="card">K<small>♠</small></span><span class="dealer-tag">3:2 BLACKJACK</span></div>
+          <div class="sheet-copy">
+            <h2>Basic strategy is a lookup table, not a hunch.</h2>
+            <p>For a common multi-deck game where the dealer stands on soft 17, the correct play changes with your total and the dealer's up card. Rules matter, especially whether blackjack pays 3:2 or 6:5.</p>
+            <div class="metric-row"><div><span>GOOD RULE</span><b>3:2</b><small>blackjack payout</small></div><div><span>WATCH</span><b>6:5</b><small>worse for player</small></div><div><span>GOAL</span><b>TABLE</b><small>not intuition</small></div></div>
+          </div>
+          <div class="strategy-board">
+            <div class="strategy-head"><span>PLAYER</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>A</span></div>
+            <div class="strategy-row"><b>12</b><i>H</i><i>H</i><i>S</i><i>S</i><i>S</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div>
+            <div class="strategy-row"><b>13–16</b><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div>
+            <div class="strategy-row"><b>17+</b><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i></div>
+            <div class="strategy-legend"><span><b>H</b> Hit</span><span><b>S</b> Stand</span><small>Illustrative hard-total slice only. Full strategy changes with rules and soft/pair hands.</small></div>
+          </div>
+        </article>
+
+        <article class="game-sheet baccarat-sheet" id="baccarat">
+          <div class="sheet-index">BACCARAT / 02</div>
+          <div class="balance-meter">
+            <div class="balance-label"><span>BANKER</span><span>PLAYER</span></div>
+            <div class="balance-line"><i style="--pct:46%"></i></div>
+            <div class="balance-values"><b>1.06%</b><b>1.24%</b></div>
+            <small>Typical 8-deck house edge with standard commission rules.</small>
+          </div>
+          <div class="sheet-copy compact">
+            <h2>The complicated drawing rules are mostly the dealer's problem.</h2>
+            <p>Your main decision is the wager. Banker is normally the lowest-edge standard bet. Player is close. Tie looks attractive because of the payout, but the math is dramatically worse.</p>
+            <div class="bet-ribbon"><span><b>Banker</b> 1.06%</span><span><b>Player</b> 1.24%</span><span class="danger"><b>Tie</b> 14.36%</span></div>
+          </div>
+        </article>
+
+        <article class="game-sheet craps-sheet" id="craps">
+          <div class="sheet-index">CRAPS / 03</div>
+          <div class="felt-lane">
+            <span class="come">COME</span><span class="field">FIELD</span><span class="pass">PASS LINE</span><span class="odds">ODDS</span>
+            <i class="die d1">⚄</i><i class="die d2">⚂</i>
+          </div>
+          <div class="sheet-copy wide-copy">
+            <h2>Ignore the table noise. Start with four words: pass, come, don't, odds.</h2>
+            <p>Pass and Come are simple core bets. Don't Pass and Don't Come are slightly lower edge. Taking or laying odds carries no house edge by itself, which is why combining a line bet with odds is the classic low-edge approach.</p>
+            <div class="craps-path"><span>COME OUT</span><i>→</i><span>POINT</span><i>→</i><span>BACK WITH ODDS</span></div>
+          </div>
+        </article>
+
+        <article class="split-sheet" id="roulette">
+          <div class="roulette-wheel" aria-hidden="true"><div class="wheel-center"><b>37</b><span>single-zero pockets</span></div></div>
+          <div class="split-copy">
+            <span class="sheet-index">ROULETTE / 04</span>
+            <h2>Every chip is buying the same wheel.</h2>
+            <p>On a single-zero wheel, the standard house edge is about 2.70%. Double-zero roulette adds another house pocket and roughly doubles that edge to 5.26% on most wagers.</p>
+            <div class="roulette-bets"><span>RED / BLACK</span><span>ODD / EVEN</span><span>DOZENS</span><span>STRAIGHT UP</span></div>
+          </div>
+        </article>
+
+        <article class="split-sheet slot-sheet" id="slots">
+          <div class="slot-window" aria-label="Slot concepts"><div><span>RTP</span><b>96%</b></div><div><span>VOL</span><b>HIGH</b></div><div><span>HIT</span><b>VARIES</b></div></div>
+          <div class="split-copy">
+            <span class="sheet-index">SLOTS / 05</span>
+            <h2>RTP is long-run math. Volatility is the ride.</h2>
+            <p>A 96% RTP does not mean you will get 96% of a session back. It describes the game's modeled long-run return. Volatility tells you whether results tend to arrive in smaller frequent hits or larger, less frequent swings.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="poker-room" id="poker">
+      <div class="poker-table">
+        <div class="poker-copy">
+          <span class="room-number">ROOM 02 / HOLD'EM</span>
+          <h2>Position changes the value of the same two cards.</h2>
+          <p>Poker is different from fixed-house casino games: you are mainly playing other people. The room takes a rake, but strategy revolves around ranges, position, pot odds, and how hands interact.</p>
+          <div class="position-track"><span>UTG</span><span>HJ</span><span>CO</span><span class="hot">BTN</span><span>SB</span><span>BB</span></div>
+        </div>
+        <div class="hand-ranks">
+          <span class="rank-card"><b>01</b><em>Royal Flush</em><small>A K Q J 10</small></span>
+          <span class="rank-card"><b>02</b><em>Straight Flush</em><small>five in sequence</small></span>
+          <span class="rank-card"><b>03</b><em>Four of a Kind</em><small>four matching ranks</small></span>
+          <span class="rank-card"><b>04</b><em>Full House</em><small>three + pair</small></span>
+          <span class="rank-card"><b>05</b><em>Flush</em><small>five same suit</small></span>
+          <span class="rank-card"><b>06</b><em>Straight</em><small>five in sequence</small></span>
+          <span class="rank-card"><b>07</b><em>Three of a Kind</em><small>three matching ranks</small></span>
+          <span class="rank-card"><b>08</b><em>Two Pair</em><small>two separate pairs</small></span>
+          <span class="rank-card"><b>09</b><em>One Pair</em><small>two matching ranks</small></span>
+          <span class="rank-card"><b>10</b><em>High Card</em><small>nothing above</small></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sportsbook" id="sports">
+      <div class="board-head"><span>SPORTSBOOK BOARD</span><b>LINES / PRICE / PROBABILITY</b><small>03</small></div>
+      <div class="ticker" aria-hidden="true"><span>DAL −3.5</span><span>NYK +4.0</span><span>O 47.5</span><span>ML +135</span><span>−110 = 52.38%</span><span>+150 = 40.00%</span></div>
+      <div class="sports-grid">
+        <div class="sports-copy">
+          <h2>A point spread tells you what must happen. The price tells you what it costs.</h2>
+          <p>Spread, moneyline, and total bets are different questions wrapped in the same pricing system. American odds convert directly into implied probability, which makes it easier to see the bookmaker's margin.</p>
+          <div class="sports-terms"><button data-term="spread" class="on">Spread</button><button data-term="moneyline">Moneyline</button><button data-term="total">Total</button><button data-term="parlay">Parlay</button></div>
+          <p class="term-answer" id="termAnswer">Spread: the favorite gives points; the underdog receives them. The bet wins based on the adjusted final score.</p>
+        </div>
+        <div class="odds-ticket">
+          <span>ODDS TICKET</span>
+          <label>American odds<input id="quickOdds" type="number" value="-110" step="5"></label>
+          <div><small>IMPLIED PROBABILITY</small><b id="quickProb">52.38%</b></div>
+          <div><small>$100 BET PROFIT</small><b id="quickProfit">$90.91</b></div>
+          <p>Implied probability includes the price. Two sides of a market can add above 100%; that extra amount is the book's hold before normalization.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="math-lab" id="math">
+      <div class="lab-marquee"><span>ODDS LAB</span><span>IMPLIED PROBABILITY</span><span>PAYOUT</span><span>EXPECTED VALUE</span><span>HOUSE EDGE</span></div>
+      <div class="lab-grid">
+        <div class="lab-copy">
+          <span class="micro">04 / THE PART THAT MAKES EVERYTHING ELSE CLICK</span>
+          <h2>Turn the price into a percentage.</h2>
+          <p>Once a price becomes a probability, casino games and sports bets become easier to compare. The same idea sits underneath blackjack tables, baccarat edge, roulette payouts, poker pot odds, and sportsbook lines.</p>
+        </div>
+        <form class="calculator" id="oddsCalc">
+          <label>AMERICAN ODDS<input id="americanOdds" type="number" value="150" step="5"></label>
+          <label>STAKE<input id="stake" type="number" value="100" min="0" step="10"></label>
+          <div class="calc-output"><span><small>IMPLIED</small><b id="impliedOut">40.00%</b></span><span><small>PROFIT</small><b id="profitOut">$150.00</b></span><span><small>TOTAL RETURN</small><b id="returnOut">$250.00</b></span></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="reality-check">
+      <div class="reality-grid">
+        <div><span>THE PART WORTH REMEMBERING</span><h2>Strategy can reduce an edge. It cannot erase variance.</h2></div>
+        <div class="truths">
+          <p><b>House edge</b><span>Average mathematical advantage over many trials, not a prediction for one session.</span></p>
+          <p><b>Bankroll</b><span>A spending limit is not a strategy for creating profit. Treat gambling money as entertainment money.</span></p>
+          <p><b>Hot streaks</b><span>Previous independent outcomes do not force the next roulette spin, dice roll, or slot result to “correct itself.”</span></p>
+          <p><b>Sportsbook</b><span>Being right more than half the time can still lose money if the price you pay is too high.</span></p>
+        </div>
+      </div>
+      <footer>
+        <span>HOUSE / EDGE</span>
+        <p>Educational reference only. No real-money betting or gambling services are offered here.</p>
+        <div><a href="https://wizardofodds.com/" target="_blank" rel="noopener">Math reference</a><a href="https://www.ncpgambling.org/" target="_blank" rel="noopener">Responsible gambling</a></div>
+      </footer>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
