@@ -202,7 +202,12 @@ window.SAFI_PROJECTS = [
   const style = document.createElement('style');
   style.id = 'portfolio-card-refinements';
   style.textContent = `
-    .work-page .featured-projects .card-thewell .site-cover{height:370px}
+    .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .work-page .featured-projects .card-vellum .site-cover,
+    .work-page .featured-projects .card-thewell .site-cover{
+      height:auto;
+      aspect-ratio:1.46;
+    }
     .websites-page .website-logo-cover{
       height:370px;
       display:flex;
@@ -240,6 +245,8 @@ window.SAFI_PROJECTS = [
     }
     .websites-page .website-logo-cover--elizabeth:before{border-color:rgba(79,57,42,.16)}
     .websites-page .website-logo-cover--elizabeth img{
+      width:min(88%,460px);
+      max-height:245px;
       filter:drop-shadow(0 10px 20px rgba(58,42,31,.12));
     }
     .websites-page .website-logo-cover--baker{
@@ -253,6 +260,8 @@ window.SAFI_PROJECTS = [
     }
     .websites-page .project-cover:after{content:'Visit website'}
     @media(max-width:760px){
+      .work-page .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .work-page .featured-projects .card-vellum .site-cover,
       .work-page .featured-projects .card-thewell .site-cover,
       .websites-page .website-logo-cover{
         height:auto!important;
@@ -260,6 +269,7 @@ window.SAFI_PROJECTS = [
       }
       .websites-page .website-logo-cover{padding:22px}
       .websites-page .website-logo-cover img{width:min(78%,250px);max-height:120px}
+      .websites-page .website-logo-cover--elizabeth img{width:min(90%,290px);max-height:150px}
       .websites-page .website-logo-cover--baker img{width:min(82%,270px)}
     }
   `;
@@ -278,6 +288,18 @@ window.SAFI_PROJECTS = [
     benchIndex.dataset.projectLink = 'thewell';
     benchIndex.innerHTML = '<span>02</span>The Well';
   }
+
+  const voltIndex = indexNav?.querySelector('[data-project-link="voltvisual"]');
+  const motorIndex = indexNav?.querySelector('[data-project-link="motoratlas"]');
+  if (voltIndex && motorIndex) {
+    voltIndex.href = '#motoratlas';
+    voltIndex.dataset.projectLink = 'motoratlas';
+    voltIndex.innerHTML = '<span>03</span>MotorAtlas';
+    motorIndex.href = '#voltvisual';
+    motorIndex.dataset.projectLink = 'voltvisual';
+    motorIndex.innerHTML = '<span>06</span>VoltVisual';
+  }
+
   if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
     const link = document.createElement('a');
     link.href = '#houseedge';
@@ -294,6 +316,15 @@ window.SAFI_PROJECTS = [
   }
 
   const wall = document.querySelector('.project-wall.project-tools');
+  const voltCard = wall?.querySelector('.card-voltvisual');
+  const motorCard = wall?.querySelector('.card-motoratlas');
+  if (voltCard && motorCard) {
+    const marker = document.createComment('swap-projects');
+    voltCard.replaceWith(marker);
+    motorCard.replaceWith(voltCard);
+    marker.replaceWith(motorCard);
+  }
+
   if (wall && !wall.querySelector('.card-houseedge')) {
     const card = document.createElement('article');
     card.className = 'project-card card-houseedge';
