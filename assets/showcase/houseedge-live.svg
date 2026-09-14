@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1365" height="936" viewBox="0 0 1365 936">
+  <defs>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#030b08" stop-opacity=".96"/>
+      <stop offset=".38" stop-color="#04100c" stop-opacity=".74"/>
+      <stop offset=".72" stop-color="#07110d" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#1c0d09" stop-opacity=".58"/>
+    </linearGradient>
+    <linearGradient id="bottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset=".55" stop-color="#06110d" stop-opacity="0"/>
+      <stop offset="1" stop-color="#06110d" stop-opacity=".82"/>
+    </linearGradient>
+  </defs>
+  <rect width="1365" height="936" fill="#06110d"/>
+  <image href="../../houseedge/media/casino-sprite.webp" x="0" y="68" width="2730" height="3472" preserveAspectRatio="none"/>
+  <rect x="0" y="68" width="1365" height="868" fill="url(#shade)"/>
+  <rect x="0" y="68" width="1365" height="868" fill="url(#bottom)"/>
+  <rect width="1365" height="68" fill="#06110d" fill-opacity=".95"/>
+  <line x1="0" y1="68" x2="1365" y2="68" stroke="#f4ead5" stroke-opacity=".14"/>
+
+  <g font-family="Georgia, 'Times New Roman', serif" font-weight="700">
+    <text x="28" y="31" font-size="25" fill="#f4ead5">House<tspan fill="#f2cf80">Edge</tspan></text>
+  </g>
+  <text x="29" y="48" font-family="Arial, sans-serif" font-size="6" letter-spacing="2.2" fill="#9e8a62">PLAY SMARTER</text>
+  <g font-family="Arial, sans-serif" font-size="8" font-weight="700" letter-spacing="1.3" fill="#c8d2cc">
+    <text x="605" y="38">GAMES</text><text x="675" y="38">POKER</text><text x="742" y="38">SPORTS</text><text x="815" y="38">ODDS LAB</text>
+  </g>
+  <rect x="1249" y="20" width="88" height="28" rx="14" fill="none" stroke="#d4ad5d" stroke-opacity=".6"/>
+  <text x="1270" y="38" font-family="Arial, sans-serif" font-size="7" font-weight="700" letter-spacing="1" fill="#e7dcc4">? QUICK HELP</text>
+
+  <text x="52" y="198" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="2.2" fill="#b79d68">CASINO GAMES  •  REAL ODDS  •  BETTER DECISIONS</text>
+  <g font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="92" fill="#f4ead5">
+    <text x="52" y="300">Study the game</text>
+    <text x="52" y="390" fill="#f2cf80" font-style="italic">before<tspan fill="#f4ead5" font-style="normal"> you put</tspan></text>
+    <text x="52" y="480">money on</text>
+    <text x="52" y="570">the table.</text>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="16" fill="#c3cec7">
+    <text x="54" y="616">HouseEdge is a visual field guide to the rules, math and strategy behind</text>
+    <text x="54" y="642">the games. No hype. No “systems.” Just the parts that actually change the odds.</text>
+  </g>
+  <rect x="54" y="682" width="118" height="38" rx="19" fill="#d4ad5d"/>
+  <text x="77" y="706" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#171109">CHOOSE A GAME</text>
+  <rect x="184" y="682" width="144" height="38" rx="19" fill="#000" fill-opacity=".22" stroke="#fff" stroke-opacity=".25"/>
+  <text x="207" y="706" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing=".8" fill="#e8eee9">START WITH THE BASICS</text>
+
+  <g transform="translate(1010 692)">
+    <line x1="0" y1="0" x2="300" y2="0" stroke="#fff" stroke-opacity=".18"/>
+    <line x1="0" y1="78" x2="300" y2="78" stroke="#fff" stroke-opacity=".12"/>
+    <line x1="100" y1="0" x2="100" y2="78" stroke="#fff" stroke-opacity=".12"/>
+    <line x1="200" y1="0" x2="200" y2="78" stroke="#fff" stroke-opacity=".12"/>
+    <g font-family="Georgia, serif" font-size="25" font-weight="700" fill="#f2cf80" text-anchor="middle"><text x="50" y="34">7</text><text x="150" y="34">0</text><text x="250" y="34">1</text></g>
+    <g font-family="Arial, sans-serif" font-size="6" font-weight="700" letter-spacing="1" fill="#9caea3" text-anchor="middle"><text x="50" y="54">GAME GUIDES</text><text x="150" y="54">GUARANTEED WINS</text><text x="250" y="54">UNDERSTAND THE MATH</text></g>
+  </g>
+</svg>
