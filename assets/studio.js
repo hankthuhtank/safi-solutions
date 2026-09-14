@@ -13,9 +13,33 @@
   polish.textContent=`
     .inquiry-form>.button{grid-column:1/-1;justify-self:center;width:min(100%,420px)}
     .work-page .featured-projects{margin-bottom:24px}
-    .markets-logo{display:flex!important;align-items:center;justify-content:center}
-    .markets-logo img{margin:auto}
     .portrait img{object-position:center 10%!important}
+
+    /* Trading Desk: let the actual logo be the clickable object, not a large box. */
+    main>.market-page{align-items:center}
+    .markets-logo{display:flex!important;align-items:center!important;justify-content:center!important;justify-self:center!important;width:max-content!important;max-width:100%!important;padding:8px!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;overflow:visible!important}
+    .markets-logo img{width:360px!important;max-width:100%!important;height:auto!important;margin:auto!important;object-fit:contain!important;transition:transform .35s ease,filter .35s ease!important}
+    .markets-logo:hover img,.markets-logo:focus-visible img{transform:scale(1.055);filter:drop-shadow(0 10px 22px rgba(29,226,210,.18))}
+
+    /* Cleaner icon treatment for calls to action. */
+    .pro-arrow{width:15px;height:15px;display:inline-block;flex:0 0 auto;margin-left:7px;vertical-align:-2px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease}
+    a:hover>.pro-arrow,button:hover>.pro-arrow{transform:translateX(3px)}
+
+    /* Small interaction layer: shine + depth without changing the layout. */
+    .project-card{perspective:1400px}
+    .project-cover{transform-style:preserve-3d;will-change:transform}
+    .project-cover:before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(205,230,255,.2),transparent 35%);transition:opacity .25s ease}
+    .project-cover:hover:before,.project-cover:focus-visible:before{opacity:1}
+    .button{position:relative;overflow:hidden;isolation:isolate}
+    .button:before{content:'';position:absolute;inset:-2px auto -2px -45%;width:32%;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,255,255,.48),transparent);transform:skewX(-18deg);transition:left .55s ease;z-index:-1}
+    .button:hover:before,.button:focus-visible:before{left:120%}
+    .website-list>a{transition:padding .22s ease,background .22s ease}
+    .website-list>a:hover{padding-left:8px;padding-right:8px;background:rgba(255,255,255,.018)}
+    .primary-nav a{transition:background .2s,color .2s,transform .2s}
+    .primary-nav a:hover{transform:translateX(3px)}
+    html.motion-paused .project-cover:before{display:none}
+    html.motion-paused .markets-logo img,html.motion-paused .button:before,html.motion-paused .pro-arrow{transition:none!important;transform:none!important}
+
     @media(max-width:760px){
       .featured-projects{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin-bottom:18px!important}
       .featured-projects .site-cover,.featured-projects .card-thebench .site-cover{height:auto!important;aspect-ratio:1.46!important}
@@ -23,18 +47,32 @@
       .featured-projects .project-caption>a{font-size:14px!important;line-height:1.2!important}
       .featured-projects .project-caption>span{display:block!important;max-width:100%!important;text-align:left!important;margin-top:4px!important;font-size:9px!important;line-height:1.4!important}
       .work-page .project-tools{margin-top:0!important}
+
+      /* Keep the two header taglines to their intended two lines. */
+      .collection-header{align-items:flex-end!important;gap:12px!important}
+      .collection-header>div{min-width:0;flex:1 1 auto}
+      .collection-header>p{display:block!important;flex:0 0 auto!important;width:auto!important;max-width:none!important;white-space:nowrap!important;font-size:clamp(8.5px,2.6vw,12px)!important;line-height:1.45!important;padding-bottom:3px!important}
+
+      .markets-logo{width:min(82vw,330px)!important;max-width:330px!important;padding:6px!important;margin:0 auto!important}
+      .markets-logo img{width:100%!important;height:auto!important}
+
       .about-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 135px!important;gap:18px 20px!important;align-items:center!important;margin:25px 0 30px!important}
       .about-letter{display:contents!important}
       .about-letter h2{grid-column:1!important;grid-row:1!important;margin:0!important;align-self:center!important}
       .portrait{grid-column:2!important;grid-row:1!important;width:135px!important;align-self:center!important;margin:0!important;order:initial!important;transform:rotate(-2deg)!important}
       .portrait img{height:165px!important;object-position:center 8%!important}
       .portrait span{font-size:7px!important;padding-top:7px!important}
-      .about-letter p,.about-letter>.underlined{grid-column:1/-1!important}
+      .about-letter p{grid-column:1/-1!important}
+
+      /* Tilt is intentionally desktop-only. */
+      .project-cover{will-change:auto}
     }
     @media(max-width:430px){
       .featured-projects{gap:10px!important}
       .featured-projects .project-caption>a{font-size:13px!important}
       .featured-projects .project-caption>span{font-size:8px!important}
+      .collection-header{gap:9px!important}
+      .collection-header>p{display:block!important;font-size:clamp(8px,2.45vw,10px)!important;white-space:nowrap!important}
       .about-layout{grid-template-columns:minmax(0,1fr) 112px!important;gap:16px!important}
       .portrait{width:112px!important}
       .portrait img{height:138px!important}
@@ -44,6 +82,43 @@
   document.head.append(polish);
   $('.form-foot')?.remove();
   $('.work-page .collection-subhead')?.remove();
+  $('.about-letter>a[href="#contact"]')?.remove();
+  const vellumLabel=$('.card-vellum .project-caption>span');
+  if(vellumLabel) vellumLabel.textContent='Bible discovery';
+  const tradingLogo=$('.markets-logo');
+  if(tradingLogo) tradingLogo.setAttribute('aria-label','Open The Trading Desk');
+
+  const makeArrowIcon=()=>{
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','pro-arrow');
+    svg.setAttribute('viewBox','0 0 24 24');
+    svg.setAttribute('aria-hidden','true');
+    const line=document.createElementNS('http://www.w3.org/2000/svg','path');
+    line.setAttribute('d','M5 12h14M13 6l6 6-6 6');
+    svg.append(line);
+    return svg;
+  };
+  function decorateProArrows(root=document){
+    root.querySelectorAll('a,button').forEach(el=>{
+      if(!el.textContent.includes('↗')) return;
+      const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+      const nodes=[];
+      while(walker.nextNode()) nodes.push(walker.currentNode);
+      let changed=false;
+      nodes.forEach(node=>{
+        if(node.nodeValue.includes('↗')){
+          node.nodeValue=node.nodeValue.replace(/\s*↗/g,'');
+          changed=true;
+        }
+      });
+      if(!changed) return;
+      el.querySelectorAll('span[aria-hidden="true"]').forEach(span=>{
+        if(!span.textContent.trim()&&!span.children.length) span.remove();
+      });
+      if(!el.querySelector(':scope > .pro-arrow')) el.append(makeArrowIcon());
+    });
+  }
+  decorateProArrows();
 
   $('#year').textContent = new Date().getFullYear();
   const menu = $('#menu-toggle'), mobileNav = $('#mobile-nav');
@@ -57,7 +132,8 @@
     $('#detail-type').textContent=p.type.toUpperCase();
     $('#detail-copy').textContent=p.detail;
     $('#detail-visit').href=p.url;
-    $('#detail-visit').textContent=p.category==='websites'?'Visit website ↗':'Open project ↗';
+    $('#detail-visit').textContent=p.category==='websites'?'Visit website':'Open project';
+    $('#detail-visit').append(makeArrowIcon());
     const group=projects.filter(item=>p.category==='websites'?item.category==='websites':item.category!=='websites'&&item.id!=='safistudios');
     const index=group.indexOf(p);
     $('#previous-project').href='#'+group[(index-1+group.length)%group.length].id;
@@ -134,9 +210,52 @@
   $('#close-sample').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('close',()=>{document.body.classList.remove('dialog-open');opener?.focus({preventScroll:true});});
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+
+  /* Pointer-follow glow on previews. */
+  all('.project-cover').forEach(cover=>cover.addEventListener('pointermove',e=>{
+    if(e.pointerType==='touch') return;
+    const r=cover.getBoundingClientRect();
+    cover.style.setProperty('--mx',`${((e.clientX-r.left)/r.width)*100}%`);
+    cover.style.setProperty('--my',`${((e.clientY-r.top)/r.height)*100}%`);
+  },{passive:true}));
+
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)'),toggle=$('#motion-toggle');let paused=false;
+  const tiltMedia=window.matchMedia('(min-width:761px) and (hover:hover) and (pointer:fine)');
+  let tiltLoaded=false;
   try{paused=localStorage.getItem('safi-cabinet-motion')==='paused';}catch{}
-  function syncMotion(){const off=paused||reduced.matches;document.documentElement.classList.toggle('motion-paused',off);toggle.setAttribute('aria-pressed',String(off));toggle.textContent=reduced.matches?'Reduced motion':paused?'Motion off':'Motion on';toggle.disabled=reduced.matches;}
+
+  function syncTilt(){
+    if(!tiltLoaded||!window.VanillaTilt) return;
+    const shouldRun=!paused&&!reduced.matches&&tiltMedia.matches;
+    all('.project-cover').forEach(cover=>{
+      if(shouldRun&&!cover.vanillaTilt){
+        window.VanillaTilt.init(cover,{max:2.6,perspective:1450,scale:1.01,speed:650,transition:true,glare:true,'max-glare':0.07,gyroscope:false});
+      } else if(!shouldRun&&cover.vanillaTilt){
+        cover.vanillaTilt.destroy();
+      }
+    });
+  }
+  function loadVisualSpice(){
+    if(reduced.matches||!tiltMedia.matches) return;
+    const script=document.createElement('script');
+    script.src='https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js';
+    script.async=true;
+    script.onload=()=>{tiltLoaded=true;syncTilt();};
+    script.onerror=()=>{tiltLoaded=false;};
+    document.head.append(script);
+  }
+  function syncMotion(){
+    const off=paused||reduced.matches;
+    document.documentElement.classList.toggle('motion-paused',off);
+    toggle.setAttribute('aria-pressed',String(off));
+    toggle.textContent=reduced.matches?'Reduced motion':paused?'Motion off':'Motion on';
+    toggle.disabled=reduced.matches;
+    syncTilt();
+  }
   toggle.addEventListener('click',()=>{paused=!paused;try{localStorage.setItem('safi-cabinet-motion',paused?'paused':'on');}catch{}syncMotion();});
-  reduced.addEventListener?.('change',syncMotion);syncMotion();route(true);
+  reduced.addEventListener?.('change',syncMotion);
+  tiltMedia.addEventListener?.('change',()=>{if(!tiltLoaded&&tiltMedia.matches)loadVisualSpice();syncTilt();});
+  syncMotion();
+  loadVisualSpice();
+  route(true);
 })();
