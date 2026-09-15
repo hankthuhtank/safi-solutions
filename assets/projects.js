@@ -255,10 +255,10 @@ window.SAFI_PROJECTS = [
     }
     .work-page .card-vellum .front-logo-cover{background:linear-gradient(145deg,#554b61,#332d39)}
     .work-page .card-thewell .front-logo-cover{background:#071611}
-    .work-page .card-motoratlas .front-logo-cover{background:linear-gradient(145deg,#493f34,#2d2822)}
+    .work-page .card-motoratlas .front-logo-cover{background:linear-gradient(145deg,#746655,#5f5348)}
     .work-page .card-tradeschool .front-logo-cover{background:linear-gradient(145deg,#4b4035,#2e2924)}
     .work-page .card-overtone .front-logo-cover{background:linear-gradient(145deg,#423d4d,#2a2731)}
-    .work-page .card-voltvisual .front-logo-cover{background:linear-gradient(145deg,#173951,#102738)}
+    .work-page .card-voltvisual .front-logo-cover{background:linear-gradient(145deg,#2d5f78,#1c4c68)}
     .work-page .card-cardesk .front-logo-cover{background:#0b1016}
     .work-page .card-movedesk .front-logo-cover{background:linear-gradient(145deg,#3c514b,#263833)}
     .work-page .card-houseedge .front-logo-cover{background:#071611}
