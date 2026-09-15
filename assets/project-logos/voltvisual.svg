@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 420" role="img" aria-labelledby="title desc">
+  <title id="title">VoltVisual logo</title>
+  <desc id="desc">Transparent VoltVisual logo with integrated lightning and circuit-trace details.</desc>
+  <defs>
+    <linearGradient id="vvDark" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#123a63"/>
+      <stop offset="55%" stop-color="#0b2440"/>
+      <stop offset="100%" stop-color="#071828"/>
+    </linearGradient>
+    <linearGradient id="vvLight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#36f3ff"/>
+      <stop offset="55%" stop-color="#18cde9"/>
+      <stop offset="100%" stop-color="#0aa9df"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0.95  0 0 1 0 0.95  0 0 0 0.8 0" result="glow"/>
+      <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(28,34)">
+    <!-- first V -->
+    <path d="M10 42 L103 42 L190 182 L271 42 L364 42 L213 311 Z" fill="url(#vvDark)" stroke="url(#vvLight)" stroke-width="6"/>
+    <path d="M186 66 L131 162 L185 152 L154 248 L258 120 L196 131 L237 66 Z" fill="url(#vvLight)" filter="url(#softGlow)"/>
+    <text x="250" y="272" font-family="Arial, Helvetica, sans-serif" font-size="250" font-weight="800" fill="url(#vvDark)">olt</text>
+
+    <!-- second V + visual -->
+    <path d="M785 42 L878 42 L965 182 L1046 42 L1139 42 L988 311 Z" fill="url(#vvDark)" stroke="url(#vvLight)" stroke-width="6"/>
+    <text x="1070" y="272" font-family="Arial, Helvetica, sans-serif" font-size="250" font-weight="800" fill="url(#vvDark)">isual</text>
+
+    <!-- circuit line through second half -->
+    <g filter="url(#softGlow)">
+      <circle cx="1155" cy="92" r="22" fill="url(#vvLight)"/>
+      <circle cx="1155" cy="92" r="13" fill="#d5fbff"/>
+      <path d="M1155 114 L1155 266 L1395 266 C1430 266 1451 278 1468 296 C1484 313 1502 324 1530 324 C1558 324 1576 313 1593 296 C1610 278 1631 266 1666 266 L1938 266" fill="none" stroke="url(#vvLight)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="1938" cy="266" r="22" fill="url(#vvLight)"/>
+      <circle cx="1938" cy="266" r="12" fill="#d5fbff"/>
+    </g>
+  </g>
+</svg>

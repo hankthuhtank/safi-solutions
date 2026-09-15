@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 420" role="img" aria-labelledby="title desc">
+  <title id="title">MotorAtlas logo</title>
+  <desc id="desc">Transparent MotorAtlas logo with integrated speedometer and roadway details.</desc>
+  <defs>
+    <linearGradient id="darkGrad" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#20262f"/>
+      <stop offset="60%" stop-color="#121923"/>
+      <stop offset="100%" stop-color="#050c15"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6b30"/>
+      <stop offset="55%" stop-color="#e63a16"/>
+      <stop offset="100%" stop-color="#c91612"/>
+    </linearGradient>
+    <linearGradient id="roadDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#13202f"/>
+      <stop offset="100%" stop-color="#050d16"/>
+    </linearGradient>
+    <linearGradient id="roadRed" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6b30"/>
+      <stop offset="100%" stop-color="#cf2415"/>
+    </linearGradient>
+    <clipPath id="aCut">
+      <path d="M1128 334 L1218 84 Q1227 66 1247 66 Q1267 66 1276 84 L1366 334 L1298 334 L1248 150 L1197 334 Z"/>
+    </clipPath>
+  </defs>
+
+  <g transform="translate(40,42)">
+    <text x="0" y="260" font-family="Arial, Helvetica, sans-serif" font-size="250" font-style="italic" font-weight="800" fill="url(#darkGrad)">M</text>
+
+    <!-- speedometer O -->
+    <g transform="translate(260,35)">
+      <circle cx="150" cy="175" r="122" fill="none" stroke="url(#darkGrad)" stroke-width="42"/>
+      <path d="M70 105 A122 122 0 0 1 236 83" fill="none" stroke="url(#redGrad)" stroke-width="42" stroke-linecap="round"/>
+      <circle cx="150" cy="175" r="25" fill="#151d27"/>
+      <path d="M148 173 L235 87" stroke="url(#redGrad)" stroke-width="22" stroke-linecap="round"/>
+    </g>
+
+    <text x="430" y="260" font-family="Arial, Helvetica, sans-serif" font-size="250" font-style="italic" font-weight="800" fill="url(#darkGrad)">tor</text>
+
+    <!-- Atlas text with custom A -->
+    <g transform="translate(932,0)">
+      <path d="M112 292 L202 42 Q211 20 231 20 Q251 20 260 42 L350 292 L286 292 L232 110 L177 292 Z" fill="url(#redGrad)"/>
+      <g clip-path="url(#aCut)" transform="translate(-932,-42)">
+        <path d="M1230 335 C1200 288 1186 253 1186 219 C1186 176 1208 142 1250 101 C1284 69 1315 54 1345 45" fill="none" stroke="url(#roadDark)" stroke-width="46" stroke-linecap="round"/>
+        <path d="M1230 335 C1200 288 1186 253 1186 219 C1186 176 1208 142 1250 101 C1284 69 1315 54 1345 45" fill="none" stroke="url(#roadRed)" stroke-width="18" stroke-linecap="round"/>
+        <path d="M1257 297 C1242 267 1236 241 1236 217 C1236 184 1250 158 1280 128" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-dasharray="12 14" opacity="0.9"/>
+      </g>
+      <path d="M231 98 L214 131 L177 136 L203 161 L196 198 L231 178 L266 198 L259 161 L285 136 L248 131 Z" fill="#bf160f" opacity="0.95"/>
+      <text x="288" y="292" font-family="Arial, Helvetica, sans-serif" font-size="250" font-style="italic" font-weight="800" fill="url(#redGrad)">tlas</text>
+    </g>
+  </g>
+</svg>
