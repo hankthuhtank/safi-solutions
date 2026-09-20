@@ -1,227 +1,72 @@
-<!DOCTYPE html>
-
-<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Safi Solutions - Simple desktop software, websites &amp; tools.</title><meta content="One-time purchase desktop software, websites and interactive tools by Safi Solutions. Complicated tasks, made simpler." name="description"/><meta content="#0b1017" name="theme-color"/><link href="https://www.safisolutions.org/" rel="canonical"/><meta content="Safi Solutions - Independent design &amp; development" property="og:title"/><meta content="One-time purchase software. No subscriptions. Complicated tasks, made simpler." property="og:description"/><meta content="website" property="og:type"/><meta content="https://www.safisolutions.org/" property="og:url"/><meta content="https://www.safisolutions.org/assets/images/logo.png" property="og:image"/><meta content="summary_large_image" name="twitter:card"/><meta content="Safi Solutions - Independent design &amp; development" name="twitter:title"/><meta content="https://www.safisolutions.org/assets/images/logo.png" name="twitter:image"/><link href="assets/images/logo-mark.png" rel="icon"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&amp;family=IBM+Plex+Sans+Condensed:wght@600&amp;family=Newsreader:opsz,wght@6..72,600&amp;family=Sora:wght@600&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet"/><link href="assets/studio.css?v=mobile-20260920" rel="stylesheet"/><link href="assets/products.css?v=final-20260920" rel="stylesheet"/><style>main>.market-page{grid-template-columns:minmax(360px,440px) 1fr;gap:54px;padding-top:52px;padding-bottom:52px}.markets-logo{padding:44px 36px;border:1px solid #415c53;box-shadow:0 14px 38px #0004}.markets-logo img{height:170px}.project-caption a{font-size:17px;font-weight:700}.featured-projects .project-caption a{font-size:19px;font-weight:700}.project-tools .project-caption a{font-size:17px;font-weight:700}@media(max-width:1100px){main>.market-page{grid-template-columns:300px 1fr;gap:34px}.markets-logo img{height:140px}}@media(max-width:760px){main>.market-page{grid-template-columns:1fr;gap:22px}.markets-logo{max-width:380px;padding:30px 26px}.markets-logo img{height:120px}.project-caption a,.project-tools .project-caption a{font-size:16px}.featured-projects .project-caption a{font-size:17px}}
-/* Storefront readability + compact section heading */
-.products-section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:18px 0 14px;padding-top:8px;border-top:1px solid rgba(129,162,149,.18)}
-.products-section-heading h2{margin:0;font-size:clamp(38px,5vw,62px);line-height:.98;letter-spacing:-.035em}
-.products-section-heading .micro{margin:0 0 7px}
-.launch-pricing-compact{font-size:15px;gap:12px;padding:14px 16px}
-.launch-pricing-compact .launch-kicker{font-size:12px;font-weight:700;letter-spacing:.12em}
-.launch-pricing-compact .price-mini{gap:7px}
-.launch-pricing-compact .price-mini small{font-size:13px;font-weight:650}
-.launch-pricing-compact .price-mini del{font-size:15px}
-.launch-pricing-compact .price-mini strong{font-size:24px;line-height:1}
-.launch-pricing-compact .price-cta{font-size:13px;font-weight:750;min-height:36px;padding:0 12px}
-.product-price del{font-size:15px}
-.product-price strong{font-size:29px}
-.product-price small{font-size:12px}
-.product-footer-note{gap:14px;flex-wrap:wrap}
-.product-footer-note .support-updates-link{margin-left:auto}
-@media(max-width:760px){.products-section-heading{align-items:flex-start;flex-direction:column;gap:5px}.launch-pricing-compact{font-size:14px}.launch-pricing-compact .price-mini strong{font-size:22px}.product-footer-note .support-updates-link{margin-left:0;width:100%}}
-
-/* Product section header: mirrors the Projects section layout. */
-.products-collection-header{margin:5px 0 25px;align-items:end}
-.products-collection-header h1{font-size:clamp(35px,4vw,59px);line-height:1.13;margin-top:10px}
-.products-header-pricing{margin-left:auto;display:grid;grid-template-columns:auto repeat(3,minmax(92px,auto));align-items:end;gap:10px 20px;padding-bottom:4px}
-.pricing-label{font:10px/1.4 var(--mono);letter-spacing:.11em;color:var(--accent);white-space:nowrap;align-self:center}
-.header-price-item{display:grid;gap:3px;align-content:end;min-width:92px}
-.header-price-item small{font:10px/1.3 var(--mono);letter-spacing:.08em;color:var(--muted)}
-.header-price-line{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
-.header-price-line del{font-size:14px;color:#7e8987;text-decoration-thickness:1.5px}
-.header-price-line strong{font-size:27px;line-height:1;letter-spacing:-.04em;color:var(--text)}
-.header-price-cta{display:inline-flex;width:max-content;margin-top:3px;padding:0 0 3px;border:0;border-bottom:1px solid currentColor;background:transparent;color:var(--text);font:700 11px/1.2 var(--font);text-decoration:none;cursor:pointer}
-@media(max-width:1050px){.products-collection-header{align-items:flex-start}.products-header-pricing{grid-template-columns:repeat(3,minmax(92px,1fr));margin-left:0;gap:12px 18px}.pricing-label{grid-column:1/-1;margin-bottom:2px}}
-@media(max-width:650px){.products-header-pricing{width:100%;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.header-price-item{min-width:0}.header-price-line{gap:5px}.header-price-line del{font-size:12px}.header-price-line strong{font-size:23px}.header-price-cta{font-size:10px}}
-</style><script defer="" src="assets/projects.js?v=brand-20260920"></script><script defer="" src="assets/studio.js?v=brand-20260920"></script><script defer="" src="LAUNCH_SWITCH.js"></script><script defer="" src="assets/store-config.js"></script><script defer="" src="assets/store.js"></script></head>
-<body><a class="skip-link" href="#main">Skip to content</a>
-<aside class="cabinet-rail"><a aria-label="Safi Solutions home" class="brand" href="#products"><img alt="Safi Solutions" height="288" src="assets/images/logo-lockup.png" width="675"/></a><p class="rail-intro">Independent software<br/>&amp; website design.</p><nav aria-label="Main navigation" class="primary-nav"><a data-route="products" href="#products">Products <span>06</span></a><a data-route="work" href="#work">Projects <span>10</span></a><a data-route="websites" href="#websites">Websites <span>05</span></a><a data-route="safistudios" href="#safistudios">SafiStudios <span class="small-dot"></span></a><a data-route="markets" href="#markets">TheTradingDesk</a><a data-route="about" href="#about">About</a><a href="support.html">Support</a><a data-route="contact" href="#contact">Get in touch</a></nav><div class="project-index"><p class="micro">PRODUCT INDEX</p><nav aria-label="Product index">
-<a href="#padeff-product"><span>01</span>Padeff</a>
-<a href="#piktoor-product"><span>02</span>Piktoor</a>
-<a href="#kwezeen-product"><span>03</span>Kwezeen</a>
-<a href="#doqcorp-product"><span>04</span>DoqCorp</a>
-<a href="#brandur-product"><span>05</span>Brandur</a>
-<a href="#doqdesk-product"><span>06</span>DoqDesk</a>
-<a data-project-link="vellum" href="#vellum"><span>09</span>Vellum</a>
-<a data-project-link="thewell" href="#thewell"><span>10</span>The Well</a>
-<a data-project-link="motoratlas" href="#motoratlas"><span>11</span>MotorAtlas</a>
-<a data-project-link="thebench" href="#thebench"><span>12</span>The Bench</a></nav></div><div class="rail-footer"><span>HELAL SAFI<br/>PARIS, TEXAS</span></div></aside>
-<header class="mobile-header"><a href="#products"><img alt="Safi Solutions" height="288" src="assets/images/logo-lockup.png" width="675"/></a><button aria-controls="mobile-nav" aria-expanded="false" id="menu-toggle">Index +</button><nav aria-label="Mobile navigation" id="mobile-nav"><a href="#products">Products</a><a href="#work">Projects</a><a href="#websites">Websites</a><a href="#safistudios">SafiStudios</a><a href="#markets">TheTradingDesk</a><a href="#about">About</a><a href="#contact">Contact</a><a href="support.html">Support</a></nav></header>
-<main id="main" tabindex="-1"><div class="workspace-top"><span id="location-label">THE COLLECTION</span><span>SAFI SOLUTIONS <b>/ 2026</b></span><a href="mailto:safihelal@gmail.com">Let’s talk ↗</a></div>
-<section aria-labelledby="products-title" class="page products-page" id="products">
-<header class="products-hero products-hero-compact">
-<h1 id="products-hero-title">Complicated tasks.<br/>Made simpler.</h1>
-<nav aria-label="Explore Safi Solutions" class="hero-jump-nav">
-<a href="#products">Products</a>
-<a href="#work">Projects</a>
-<a href="#websites">Websites</a>
-<a href="#markets">TheTradingDesk</a>
-<a href="#about">About Me</a>
-<a href="support.html">Support</a></nav>
-</header><header class="collection-header products-collection-header">
-<div>
-<p class="micro">DESKTOP SOFTWARE</p>
-<div class="products-title-row">
-<h1 id="products-title">Products.</h1>
-<p class="products-title-note">Buy once.<br/>Keep forever.<br/>No subscription.</p>
-</div>
-</div>
-<div aria-label="Launch pricing" class="products-price-summary">
-<div class="products-price-summary-top">
-<span>LAUNCH PRICING</span>
-</div>
-<div class="products-price-summary-row">
-<div class="products-price-summary-item" data-price-key="single">
-<small>1 APP</small>
-<div class="products-price-summary-line"><strong>$29</strong><del>$39</del></div>
-</div>
-<div class="products-price-summary-item" data-price-key="bundle-3">
-<small>ANY 3</small>
-<div class="products-price-summary-line"><strong>$79</strong><del>$100</del></div>
-<button class="products-price-summary-action" data-bundle-chooser="" type="button">Choose 3</button>
-</div>
-<div class="products-price-summary-item" data-price-key="bundle-5">
-<small>ALL 5</small>
-<div class="products-price-summary-line"><strong>$99</strong><del>$149</del></div>
-<a class="products-price-summary-action" data-stripe-product="bundle-5" href="#contact">Get 5 ↗</a>
-</div>
-</div>
-</div></header>
-<div class="product-list">
-<article class="product-shelf" id="padeff-product">
-<div class="product-shelf-head">
-<div><h2>Padeff</h2><p class="product-shelf-copy">Read, edit, mark up and sign PDFs without learning a heavyweight editor.</p><div class="product-tags"><span>Edit</span><span>Highlight</span><span>Redact</span><span>Sign</span></div></div>
-<div class="product-buy"><div class="product-price"><del>$39</del><strong>$29</strong><small>launch price</small></div><a class="buy-once" data-interest="Products / desktop software" data-stripe-product="padeff" href="#contact">Buy once ↗</a></div>
-</div>
-<div class="product-shots">
-<figure class="product-shot"><img alt="Padeff PDF annotation and redaction workspace" loading="lazy" src="assets/products/padeff-1.webp"/><figcaption>Mark up and protect documents</figcaption></figure>
-<figure class="product-shot"><img alt="Padeff PDF signing workspace" loading="lazy" src="assets/products/padeff-2.webp"/><figcaption>Review and sign in one workspace</figcaption></figure>
-</div>
-</article>
-<article class="product-shelf" id="piktoor-product">
-<div class="product-shelf-head">
-<div><h2>Piktoor</h2><p class="product-shelf-copy">Everyday image editing made easier: fixes, cutouts, text, effects and quick creative work.</p><div class="product-tags"><span>Fix</span><span>Cut out</span><span>Text</span><span>Export</span></div></div>
-<div class="product-buy"><div class="product-price"><del>$39</del><strong>$29</strong><small>launch price</small></div><a class="buy-once" data-interest="Products / desktop software" data-stripe-product="piktoor" href="#contact">Buy once ↗</a></div>
-</div>
-<div class="product-shots">
-<figure class="product-shot"><img alt="Piktoor dark photo editor interface" loading="lazy" src="assets/products/piktoor-1.webp"/><figcaption>Guided photo fixes and edits</figcaption></figure>
-<figure class="product-shot"><img alt="Piktoor light image editor with meme text" loading="lazy" src="assets/products/piktoor-2.webp"/><figcaption>Quick creative layouts and text</figcaption></figure>
-</div>
-</article>
-<article class="product-shelf" id="kwezeen-product">
-<div class="product-shelf-head">
-<div><h2>Kwezeen</h2><p class="product-shelf-copy">Build one restaurant menu and turn it into print, signage, social and web-ready formats.</p><div class="product-tags"><span>Design</span><span>Menus</span><span>Publish</span><span>Multi-format</span></div></div>
-<div class="product-buy"><div class="product-price"><del>$39</del><strong>$29</strong><small>launch price</small></div><a class="buy-once" data-interest="Products / desktop software" data-stripe-product="kwezeen" href="#contact">Buy once ↗</a></div>
-</div>
-<div class="product-shots">
-<figure class="product-shot"><img alt="Kwezeen menu designer interface" loading="lazy" src="assets/products/kwezeen-1.webp"/><figcaption>Template-driven menu design</figcaption></figure>
-<figure class="product-shot"><img alt="Kwezeen menu publishing interface" loading="lazy" src="assets/products/kwezeen-2.webp"/><figcaption>Publish across multiple formats</figcaption></figure>
-</div>
-</article>
-<article class="product-shelf" id="doqcorp-product">
-<div class="product-shelf-head">
-<div><h2>DoqCorp</h2><p class="product-shelf-copy">Create the paperwork a small business actually uses without starting from a blank page.</p><div class="product-tags"><span>Invoices</span><span>Hiring</span><span>Policies</span><span>Forms</span></div></div>
-<div class="product-buy"><div class="product-price"><del>$39</del><strong>$29</strong><small>launch price</small></div><a class="buy-once" data-interest="Products / desktop software" data-stripe-product="doqcorp" href="#contact">Buy once ↗</a></div>
-</div>
-<div class="product-shots">
-<figure class="product-shot"><img alt="DoqCorp document library dashboard" loading="lazy" src="assets/products/doqcorp-1.webp"/><figcaption>76 ready-to-use business documents</figcaption></figure>
-<figure class="product-shot"><img alt="DoqCorp invoice editor with live preview" loading="lazy" src="assets/products/doqcorp-2.webp"/><figcaption>Fill forms beside the finished page</figcaption></figure>
-</div>
-</article>
-<article class="product-shelf" id="brandur-product">
-<div class="product-shelf-head">
-<div>
-<h2>Brandur</h2>
-<p class="product-shelf-copy">Turn a logo into polished brand proofs, mockups and export-ready assets.</p>
-<div class="product-tags"><span>Proofs</span><span>Brand</span><span>Mockups</span><span>Export</span></div>
-</div>
-<div class="product-buy">
-<div class="product-price"><del>$39</del><strong>$29</strong><small>launch price</small></div>
-<a class="buy-once" data-interest="Products / desktop software" data-stripe-product="brandur" href="#contact">Buy once ↗</a>
-</div>
-</div>
-<div class="product-shots">
-<figure class="product-shot"><img alt="Brandur proof mockups workspace" loading="lazy" src="assets/products/brandur-1.webp"/><figcaption>See the brand in real-world contexts</figcaption></figure>
-<figure class="product-shot"><img alt="Brandur brand board workspace" loading="lazy" src="assets/products/brandur-2.webp"/><figcaption>Build a clean reusable brand system</figcaption></figure>
-</div>
-</article>
-<article class="product-shelf" id="doqdesk-product">
-<div class="product-shelf-head">
-<div>
-<h2>DoqDesk</h2>
-<p class="product-shelf-copy">Write documents and work with spreadsheets in one familiar desktop workspace without the extra clutter.</p>
-<div class="product-tags"><span>Documents</span><span>Sheets</span><span>Charts</span><span>Formatting</span></div>
-</div>
-<div class="product-buy">
-<div class="product-price"><del>$39</del><strong>$29</strong><small>launch price</small></div>
-<a class="buy-once" data-interest="Products / desktop software" data-stripe-product="doqdesk" href="#contact">Buy once ↗</a>
-</div>
-</div>
-<div class="product-shots">
-<figure class="product-shot"><img alt="DoqDesk document editor workspace" loading="lazy" src="assets/products/doqdesk-1.webp"/><figcaption>Write and format documents in a familiar workspace</figcaption></figure>
-<figure class="product-shot"><img alt="DoqDesk spreadsheet workspace with sales tracker and chart" loading="lazy" src="assets/products/doqdesk-2.webp"/><figcaption>Build spreadsheets, formulas and charts</figcaption></figure>
-</div>
-</article></div>
-<div class="product-footer-note"><span><strong>Simple checkout, simple ownership.</strong> Pay once, then download. No customer account required.</span><a class="underlined" data-interest="Products / desktop software" href="#contact">Questions about a bundle ↗</a><a class="underlined support-updates-link" href="support.html">Customer support &amp; updates ↗</a></div>
-</section><section aria-labelledby="work-title" class="page work-page" id="work"><header class="collection-header"><div><p class="micro">INTERACTIVE TOOLS &amp; LEARNING</p><h1 id="work-title">Projects.</h1></div><p>Turning complicated ideas<br/>into clear visual systems.</p></header><div class="featured-projects"><article class="project-card card-vellum"><a aria-label="View Vellum" class="project-cover" href="#vellum"><div class="site-cover"><img alt="Vellum - actual website preview" height="931" loading="lazy" src="assets/showcase/vellum-live.webp" width="1355"/></div></a><div class="project-caption"><a href="#vellum">Vellum</a><span>Reading &amp; discovery</span></div></article><article class="project-card card-thebench"><a aria-label="View The Bench" class="project-cover" href="#thebench"><div class="site-cover"><img alt="The Bench - actual website preview" height="931" loading="lazy" src="assets/showcase/bench-live.webp" width="1355"/></div></a><div class="project-caption"><a href="#thebench">The Bench</a><span>Learn to code</span></div></article></div><div class="collection-subhead"><h2>More projects</h2><span>06 / EXPLORE</span></div><div class="project-wall project-tools"><article class="project-card card-voltvisual" data-category="learning"><a aria-label="View VoltVisual" class="project-cover" href="#voltvisual"><div class="site-cover"><img alt="VoltVisual - actual website preview" height="931" loading="lazy" src="assets/showcase/volt-live.webp" width="1355"/></div></a><div class="project-caption"><a href="#voltvisual">VoltVisual</a><span>Electrical systems</span></div></article><article class="project-card card-tradeschool" data-category="learning"><a aria-label="View The TradeSchool" class="project-cover" href="#tradeschool"><div class="site-cover"><img alt="The TradeSchool - actual project preview" height="936" loading="lazy" src="assets/showcase/tradeschool-live.webp" width="1363"/></div></a><div class="project-caption"><a href="#tradeschool">The TradeSchool</a><span>Skilled trades</span></div></article><article class="project-card card-overtone" data-category="learning"><a aria-label="View Overtone" class="project-cover" href="#overtone"><div class="site-cover"><img alt="Overtone - actual project preview" height="936" loading="lazy" src="assets/showcase/overtone-live.webp" width="1363"/></div></a><div class="project-caption"><a href="#overtone">Overtone</a><span>Music education</span></div></article><article class="project-card card-motoratlas" data-category="learning"><a aria-label="View MotorAtlas" class="project-cover" href="#motoratlas"><div class="site-cover"><img alt="MotorAtlas - actual project preview" height="936" loading="lazy" src="assets/showcase/motoratlas-live.webp" width="1363"/></div></a><div class="project-caption"><a href="#motoratlas">MotorAtlas</a><span>Automotive education</span></div></article><article class="project-card card-cardesk" data-category="tools"><a aria-label="View CarDesk" class="project-cover" href="#cardesk"><div class="site-cover"><img alt="CarDesk - actual project preview" height="936" loading="lazy" src="assets/showcase/cardesk-live.webp" width="1363"/></div></a><div class="project-caption"><a href="#cardesk">CarDesk</a><span>Vehicle tools</span></div></article><article class="project-card card-movedesk" data-category="tools"><a aria-label="View MoveDesk" class="project-cover" href="#movedesk"><div class="site-cover"><img alt="MoveDesk - actual project preview" height="936" loading="lazy" src="assets/showcase/movedesk-live.webp" width="1363"/></div></a><div class="project-caption"><a href="#movedesk">MoveDesk</a><span>Relocation tools</span></div></article></div></section><section aria-labelledby="websites-title" class="page websites-page" id="websites"><header class="collection-header"><div><p class="micro">CLIENT WEBSITES</p><h2 id="websites-title">Websites.</h2></div><p>Designed for the business<br/>on the other side of the screen.</p></header><div class="featured-projects"><article class="project-card card-elizabeth"><a aria-label="View Elizabeth Aven" class="project-cover" href="#elizabeth"><div class="site-cover"><img alt="Elizabeth Aven - actual website preview" height="931" loading="lazy" src="assets/showcase/elizabeth-live.webp" width="1355"/></div></a><div class="project-caption"><a href="#elizabeth">Elizabeth Aven</a><span>Photography website</span></div></article><article class="project-card card-baker"><a aria-label="Visit Baker Precision" class="project-cover" href="https://bakerinspections.com" rel="noopener noreferrer" target="_blank"><div class="website-logo-cover website-logo-cover--baker"><img alt="Baker Precision logo" loading="lazy" src="assets/website-logos/baker-precision.png"/></div></a><div class="project-caption"><a href="https://bakerinspections.com" rel="noopener noreferrer" target="_blank">Baker Precision</a><span>Home inspections website</span></div></article></div><div class="collection-subhead"><h3>More website work</h3><span>03 / VISIT</span></div><div class="website-list"><a href="https://www.landrylocksmith.com" rel="noopener noreferrer" target="_blank"><div><strong>Landry Locksmith</strong><span>Service website</span></div><span aria-hidden="true">↗</span></a><a href="https://texmexoilandshine.com" rel="noopener noreferrer" target="_blank"><div><strong>Tex-Mex Oil &amp; Shine</strong><span>Automotive business</span></div><span aria-hidden="true">↗</span></a><a href="https://netxbh.com" rel="noopener noreferrer" target="_blank"><div><strong>NETX Behavioral Health</strong><span>Healthcare website</span></div><span aria-hidden="true">↗</span></a></div><a class="underlined more-directions" href="https://yourfuturesite.org" rel="noopener noreferrer" target="_blank">Explore more website directions ↗</a></section>
-<section aria-labelledby="studio-title" class="page studio-page" id="safistudios"><div class="studio-compact-copy"><p class="micro">BUSINESS SOFTWARE</p><h2 id="studio-title">SafiStudios</h2><p class="studio-purpose">Custom software for a better-organized business.</p><p>Keep documents, employee records, schedules and inventory in one workspace, built around your everyday data entry.</p><p>Tailored to different industries, from retail and daily operations to contractors and events.</p><p class="field-direction"><strong>For field teams</strong>I’m developing connected workflows to help pest-control, HVAC and other service crews communicate with management.</p><a class="button" data-interest="SafiStudios / custom business software" href="#contact">Discuss your business ↗</a></div><div class="studio-mini-examples"><div aria-label="SafiStudios workspace previews" class="product-shots studio-product-shots"><figure class="product-shot studio-shot studio-shot-coffee"><img alt="Downtown Coffee scheduling workspace preview" loading="lazy" src="assets/showcase/java-workspace.webp"/></figure><figure class="product-shot studio-shot studio-shot-cedar"><img alt="Cedar's Pest routes and dispatch workspace preview" loading="lazy" src="assets/showcase/cedar-workspace.webp"/></figure></div><p>Design previews · sample data · modules vary by build</p></div></section><section aria-labelledby="markets-title" class="page markets-section market-page" id="markets"><a class="markets-logo" href="https://thetradingdesk.org" rel="noopener noreferrer" target="_blank"><img alt="TheTradingDesk" src="assets/project-logos/tradingdesk.svg"/></a><div><p class="micro">MARKETS &amp; EDUCATION</p><h2 id="markets-title">TheTradingDesk</h2><p>I teach the markets and make complicated trading terms and concepts much easier to understand.</p><a class="underlined" href="https://thetradingdesk.org" rel="noopener noreferrer" target="_blank">Explore TheTradingDesk ↗</a></div></section>
-<section aria-labelledby="about-title" class="page about-page" id="about"><div class="about-sheet"><div class="about-meta micro"><span>ABOUT / THE PERSON BEHIND THE WORK</span><span>01 PERSON</span></div><div class="about-layout"><div class="portrait"><img alt="Helal Safi" height="1855" loading="lazy" src="assets/images/profphoto.png" width="848"/><span>HELAL SAFI<br/>PARIS, TEXAS</span></div><div class="about-letter"><h2 id="about-title">Hi, I’m Helal.</h2><p>I build desktop software, websites and interactive tools that make complicated things easier to work with.</p><p>A lot of these projects start with something I want to understand better, or a business that needs a better way to manage its day. The Bench makes coding more approachable. VoltVisual turns electrical systems into something you can explore. SafiStudios brings that same thinking to business software.</p><p>I had a basic coding foundation from college, but AI dramatically expanded what I could bring to life. Learning how to engineer with it, structure problems, guide the tools and refine the output is what lets me turn ideas into working products.</p><p>I’m based in Paris, Texas. Safi Solutions is my independent practice, so when you get in touch, you’re talking to the person doing the work.</p><p class="personal-note">The project list is also a fairly accurate record of my curiosity.</p><a class="underlined" href="#contact">Tell me what you’re working on ↗</a></div></div><div class="about-bottom"><span>WEBSITES · BUSINESS TOOLS · INTERACTIVE LEARNING</span><a href="#work">Back to the work</a></div></div></section>
-<section aria-labelledby="contact-title" class="page contact-page" id="contact"><header class="contact-header"><span class="micro">DIRECT TO HELAL</span><h2 id="contact-title">What are you working on?</h2><p>A new website, a business tool, or something you haven’t quite figured out yet.</p></header><form action="https://formsubmit.co/safihelal@gmail.com" class="inquiry-form" id="inquiry-form" method="POST"><input name="_captcha" type="hidden" value="true"/>
-<input name="_subject" type="hidden" value="New inquiry - Safi Solutions"/>
-<input name="_template" type="hidden" value="table"/>
-<input autocomplete="off" name="_honey" style="display:none" tabindex="-1" type="text"/>
-<div class="form-field">
-<label for="iq-name">Your name <em>*</em></label>
-<input autocomplete="name" id="iq-name" name="name" placeholder="Your name" required="" type="text"/>
-</div>
-<div class="form-field">
-<label for="iq-biz">Business / project</label>
-<input autocomplete="organization" id="iq-biz" name="business" placeholder="Business name or project idea" type="text"/>
-</div>
-<div class="form-field">
-<label for="iq-email">Email <em>*</em></label>
-<input autocomplete="email" id="iq-email" name="email" placeholder="you@email.com" required="" type="email"/>
-</div>
-<div class="form-field">
-<label for="iq-phone">Phone (optional)</label>
-<input autocomplete="tel" id="iq-phone" name="phone" placeholder="(555) 555-5555" type="tel"/>
-</div>
-<div class="form-field full">
-<label for="iq-interest">I'm interested in…</label>
-<select id="iq-interest" name="interest"><option value="Products / desktop software">Products / desktop software</option><option value="A custom website">A custom website</option><option value="SafiStudios / custom business software">SafiStudios / custom business software</option><option value="A SaaS / software concept">A SaaS / software concept</option><option value="An internal business tool">An internal business tool</option><option value="An interactive education / product idea">An interactive education / product idea</option><option value="Improving something that already exists">Improving something that already exists</option><option value="Not sure yet / something else">Not sure yet / something else</option></select>
-</div>
-<div class="form-field full">
-<label for="iq-msg">Tell me what you're trying to build (optional)</label>
-<textarea id="iq-msg" name="message" placeholder="The problem, the idea, what exists today, or what you wish existed instead…"></textarea>
-</div>
-<button class="button primary" type="submit">Send inquiry <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></button>
-<p class="form-foot">Delivered through FormSubmit. Your inquiry goes directly to me; no mailing lists.</p>
-</form></section>
-<section aria-labelledby="detail-title" class="page detail-page" id="project-detail"><div class="detail-toolbar"><a href="#work">← All work</a><div><a aria-label="Previous project" href="#work" id="previous-project">← Previous</a><a aria-label="Next project" href="#work" id="next-project">Next →</a></div></div><header class="detail-header"><div><p class="micro" id="detail-type"></p><h2 id="detail-title"></h2><p id="detail-copy"></p></div><a class="button" href="#work" id="detail-visit" rel="noopener noreferrer" target="_blank">Open project ↗</a></header><div id="detail-visual"></div><p class="detail-foot" id="detail-foot"></p></section>
-<footer><span>© <span id="year">2026</span> Safi Solutions</span><span>Independent. Hands-on. Still curious.</span><nav aria-label="Footer" class="footer-links"><a href="support.html">Support</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds</a></nav></footer></main>
-<dialog aria-labelledby="bundle-title" class="bundle-dialog" id="bundle-chooser">
-<div class="bundle-dialog-card">
-<div class="bundle-dialog-head">
-<div><span class="micro">ANY 3 BUNDLE</span><h2 id="bundle-title">Choose your 3 apps.</h2></div>
-<button aria-label="Close" class="bundle-close" data-bundle-close="" type="button">×</button>
-</div>
-<div class="bundle-options">
-<label><input data-app="padeff" type="checkbox"/><span><strong>Padeff</strong><small>PDF tools</small></span></label>
-<label><input data-app="piktoor" type="checkbox"/><span><strong>Piktoor</strong><small>Image editing</small></span></label>
-<label><input data-app="kwezeen" type="checkbox"/><span><strong>Kwezeen</strong><small>Menu design</small></span></label>
-<label><input data-app="doqcorp" type="checkbox"/><span><strong>DoqCorp</strong><small>Business documents</small></span></label>
-<label><input data-app="brandur" type="checkbox"/><span><strong>Brandur</strong><small>Branding tools</small></span></label>
-</div>
-<div class="bundle-dialog-foot">
-<span data-bundle-count="">0 / 3 selected</span>
-<button class="buy-once" data-bundle-continue="" disabled="" type="button">Continue to checkout ↗</button>
-</div>
-</div>
-</dialog><dialog aria-labelledby="product-lightbox-title" class="product-lightbox" id="product-lightbox">
-<div class="product-lightbox-bar">
-<span id="product-lightbox-title">Product preview</span>
-<button aria-label="Close product preview" data-product-lightbox-close="" type="button">Close ×</button>
-</div>
-<div class="product-lightbox-stage">
-<img alt="" data-product-lightbox-image="" src=""/>
-</div>
-</dialog><noscript><p class="no-js">All projects can be opened using the links below.</p><nav class="no-js"><a href="#products">Products</a><a href="#safistudios">SafiStudios</a><a href="/thebench/">The Bench</a><a href="/voltvisual/">VoltVisual</a><a href="https://www.elizabethavenphotography.com">Elizabeth Aven</a><a href="https://bakerinspections.com">Baker Precision</a><a href="/vellum/">Vellum</a><a href="https://thetradingdesk.org">TheTradingDesk</a><a href="/thetradeschool/">The TradeSchool</a><a href="/overtone/">Overtone</a><a href="/motoratlas/">MotorAtlas</a><a href="/cardesk/">CarDesk</a><a href="/movedesk/">MoveDesk</a><a href="https://www.landrylocksmith.com">Landry Locksmith</a><a href="https://texmexoilandshine.com">Tex-Mex Oil &amp; Shine</a><a href="https://netxbh.com">NETX Behavioral Health</a></nav></noscript></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07130f">
+<title>HouseEdge | Learn the Game Behind the Game</title>
+<meta name="description" content="A visual guide to blackjack, baccarat, craps, roulette, slots, poker and sports betting. Learn the rules, odds, house edge and strategy fundamentals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+<script defer src="app.js"></script>
+<script defer src="roulette-v2.js"></script>
+</head>
+<body>
+<div class="noise" aria-hidden="true"></div>
+<canvas id="chips" aria-hidden="true"></canvas>
+<header class="sitebar">
+  <a class="wordmark" href="#home" aria-label="HouseEdge home"><img src="/assets/project-logos/houseedge.jpg?v=5" alt="HouseEdge"></a>
+  <nav aria-label="Primary navigation"><a href="#games">Games</a><a href="#poker">Poker</a><a href="#sports">Sports</a><a href="#odds-lab">Odds Lab</a></nav>
+  <button class="help-trigger" id="helpOpen" type="button"><span>?</span> Quick help</button>
+</header>
+<main>
+<section class="hero" id="home">
+  <div class="hero-photo media-sprite media-home" role="img" aria-label="Luxury casino table with cards, chips, roulette, slots and sportsbook visuals"></div><div class="hero-shade"></div>
+  <div class="hero-content"><p class="eyebrow">CASINO GAMES · REAL ODDS · BETTER DECISIONS</p><h1>Study the game <em>before</em> you put money on the table.</h1><p class="hero-lead">HouseEdge is a visual field guide to the rules, math and strategy behind the games. No hype. No “systems.” Just the parts that actually change the odds.</p><div class="hero-actions"><a class="gold-button" href="#games">Choose a game</a><button class="text-button" id="startHere" type="button">Start with the basics</button></div></div>
+  <aside class="hero-facts" aria-label="HouseEdge principles"><div><b>7</b><span>game guides</span></div><div><b>0</b><span>guaranteed wins</span></div><div><b>1</b><span>goal: understand the math</span></div></aside>
+</section>
+<section class="game-selector" id="games" aria-labelledby="games-title">
+  <header><div><p class="kicker">CHOOSE YOUR TABLE</p><h2 id="games-title">Every game has a different kind of edge.</h2></div><p>Start with the thing you actually play. Each guide shows the rules that matter, the bets to understand, and the mistakes that cost the most.</p></header>
+  <div class="game-cards"><a href="#blackjack" class="game-thumb thumb-blackjack"><span>01</span><b>Blackjack</b><small>basic strategy · rules · payouts</small></a><a href="#baccarat" class="game-thumb thumb-baccarat"><span>02</span><b>Baccarat</b><small>banker · player · tie</small></a><a href="#craps" class="game-thumb thumb-craps"><span>03</span><b>Craps</b><small>pass line · odds · flow</small></a><a href="#roulette" class="game-thumb thumb-roulette"><span>04</span><b>Roulette</b><small>single zero · double zero · bets</small></a><a href="#slots" class="game-thumb thumb-slots"><span>05</span><b>Slots</b><small>RTP · volatility · features</small></a><a href="#poker" class="game-thumb thumb-poker"><span>06</span><b>Poker</b><small>hands · position · pot odds</small></a><a href="#sports" class="game-thumb thumb-sports"><span>07</span><b>Sportsbook</b><small>spread · moneyline · vig</small></a></div>
+</section>
+<section class="chapter blackjack" id="blackjack">
+  <div class="chapter-visual"><div class="media-sprite media-blackjack" role="img" aria-label="Blackjack table with cards and chips"></div></div>
+  <div class="chapter-intro"><div><p class="kicker">01 / BLACKJACK</p><h2>Blackjack rewards decisions, but the table rules decide how much.</h2></div><p>The same hand can have a different correct play depending on the dealer's card and the casino rules. The fastest way to improve is to stop improvising and use basic strategy.</p><div class="stat-strip"><div><span>GOOD PAYOUT</span><b>3:2</b></div><div><span>AVOID</span><b>6:5</b></div><div><span>COMMON EDGE WITH SOLID RULES + BASIC STRATEGY</span><b>~0.5%</b></div></div></div>
+  <div class="blackjack-grid"><article class="strategy-card"><header><h3>Hard-total quick chart</h3><span>H = hit · S = stand · D = double</span></header><div class="bj-table" role="table" aria-label="Simplified blackjack basic strategy hard totals"><div class="bj-head"><b>Your total</b><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>A</span></div><div><b>9</b><i>H</i><i>D</i><i>D</i><i>D</i><i>D</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div><div><b>10</b><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>H</i><i>H</i></div><div><b>11</b><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>H</i></div><div><b>12</b><i>H</i><i>H</i><i>S</i><i>S</i><i>S</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div><div><b>13–16</b><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div><div><b>17+</b><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i></div></div><p class="fineprint">Simplified multi-deck hard-total reference. Soft hands, pairs, surrender and rule variations change the full chart.</p></article><article class="rule-stack"><h3>Rules that actually matter</h3><div><b>3:2 blackjack payout</b><p>A $100 natural blackjack wins $150. A 6:5 table only pays $120 and meaningfully increases the house edge.</p></div><div><b>Dealer stands on soft 17</b><p>S17 is generally better for the player than H17.</p></div><div><b>Double after split</b><p>DAS improves the value of splitting pairs, especially aces and eights.</p></div><div><b>Surrender</b><p>When offered, surrender lets you give up half a bet instead of playing a very weak hand to the end.</p></div></article><aside class="tip-card"><span>BEST FIRST HABIT</span><h3>Use the chart every hand.</h3><p>Basic strategy removes most of the expensive guesswork. Learn the table first, then worry about speed.</p></aside></div>
+</section>
+<section class="chapter baccarat" id="baccarat">
+  <div class="baccarat-head"><div><p class="kicker">02 / BACCARAT</p><h2>Most of baccarat is automatic. Your real decision is the bet.</h2><p>The dealer handles the drawing rules. You choose Banker, Player or Tie. That simple choice creates a huge difference in house edge.</p></div><div class="media-sprite media-baccarat" role="img" aria-label="Baccarat table with Player and Banker areas"></div></div>
+  <div class="baccarat-bets"><article class="best"><span>BEST STANDARD BET</span><h3>Banker</h3><b>1.06%</b><p>Typically the lowest house edge under standard 8-deck commission rules.</p></article><article><span>SECOND</span><h3>Player</h3><b>1.24%</b><p>No commission, still a relatively low-edge wager.</p></article><article class="bad"><span>LOOKS EXCITING</span><h3>Tie</h3><b>14.36%</b><p>Large payout, much worse long-run math. Avoid it as a routine bet.</p></article></div>
+  <div class="baccarat-explain"><div><span>1</span><h3>Cards are valued 0–9</h3><p>Tens and face cards count as zero. Only the last digit of the total matters.</p></div><div><span>2</span><h3>Player follows a simple draw rule</h3><p>Player normally draws on 0–5 and stands on 6–7. Naturals 8 or 9 stop the hand.</p></div><div><span>3</span><h3>Banker is conditional</h3><p>Banker's third-card rules depend on Player's result. The dealer handles this automatically.</p></div></div>
+</section>
+<section class="chapter craps" id="craps">
+  <div class="craps-hero"><div class="media-sprite media-craps" role="img" aria-label="Craps table with dice and chips"></div><div><p class="kicker">03 / CRAPS</p><h2>Craps looks chaotic because the table shows every bet at once.</h2><p>You do not need every bet. Learn the round, then learn the low-edge bets.</p></div></div>
+  <div class="craps-flow"><article><span>01</span><h3>Come-out roll</h3><p>Pass Line wins on 7 or 11 and loses on 2, 3 or 12. Other numbers establish the point.</p></article><i>→</i><article><span>02</span><h3>Point is set</h3><p>4, 5, 6, 8, 9 or 10 becomes the point. The shooter keeps rolling.</p></article><i>→</i><article><span>03</span><h3>Point vs. seven</h3><p>Roll the point again before 7 and Pass Line wins. Roll 7 first and it loses.</p></article></div>
+  <div class="craps-table-wrap"><table><thead><tr><th>Bet</th><th>What it does</th><th>House edge</th><th>Use it?</th></tr></thead><tbody><tr><td>Pass Line</td><td>Backs the shooter through the basic round.</td><td>1.41%</td><td>Strong core bet</td></tr><tr><td>Don't Pass</td><td>Mostly bets against the shooter.</td><td>1.36%</td><td>Lowest common line edge</td></tr><tr><td>Odds</td><td>Additional wager behind a line bet, paid at true odds.</td><td>0.00%</td><td>Best mathematical add-on</td></tr><tr><td>Place 6 / 8</td><td>Wins if that number rolls before 7.</td><td>1.52%</td><td>Reasonable</td></tr><tr class="warn"><td>Many proposition bets</td><td>One-roll or center-table wagers with flashy payouts.</td><td>Often 9%+</td><td>Usually avoid</td></tr></tbody></table><aside><h3>Easy beginner route</h3><p>Start with Pass or Don't Pass. Once a point exists, add odds if your bankroll allows. Ignore the center of the table until you understand the price of every bet there.</p></aside></div>
+</section>
+<section class="chapter roulette" id="roulette">
+  <div class="roulette-layout"><div class="roulette-copy"><p class="kicker">04 / ROULETTE</p><h2>The extra zero is the entire story.</h2><p>Bet type changes variance, but the wheel determines the edge. If you can choose between single-zero and double-zero, the single-zero game is materially better.</p><div class="wheel-compare"><div><span>EUROPEAN</span><b>0</b><strong>2.70%</strong><small>37 pockets</small></div><div class="danger"><span>AMERICAN</span><b>0 + 00</b><strong>5.26%</strong><small>38 pockets</small></div><div><span>FRENCH</span><b>0</b><strong>2.70%*</strong><small>special even-money rules can reduce effective edge</small></div></div></div><div class="media-sprite media-roulette" role="img" aria-label="Roulette wheel and betting table"></div></div>
+  <div class="roulette-facts"><article><h3>Outside bets</h3><p>Red/black, odd/even, high/low. Lower variance, same base wheel edge.</p></article><article><h3>Inside bets</h3><p>Straights, splits, streets and corners. Bigger payouts, higher variance, same wheel edge.</p></article><article><h3>Past spins</h3><p>They do not make a number “due.” Each spin is independent.</p></article><article><h3>Best choice</h3><p>Prefer single-zero. If La Partage or En Prison applies to even-money bets, that can improve the effective edge further.</p></article></div>
+</section>
+<section class="chapter slots" id="slots">
+  <div class="slots-stage"><div class="media-sprite media-slots" role="img" aria-label="Luxury slot machine with reels and casino chips"></div><div class="slots-copy"><p class="kicker">05 / SLOTS</p><h2>RTP tells you the long-run average. Volatility tells you how the ride feels.</h2><p>Two slots can have the same RTP and behave completely differently session to session.</p></div></div>
+  <div class="slot-concepts"><article><b>RTP</b><h3>Return to Player</h3><p>A long-run modeled percentage across a very large number of spins. A 96% RTP does not promise 96% back in one session.</p></article><article><b>VOL</b><h3>Volatility</h3><p>Low volatility tends toward smaller, more frequent wins. High volatility tends toward larger, less frequent wins.</p></article><article><b>HIT</b><h3>Hit frequency</h3><p>How often a spin produces any win. It does not tell you whether the win is larger than the bet.</p></article><article><b>FEATURE</b><h3>Bonus mechanics</h3><p>Free spins, multipliers, wilds and jackpots change how value is distributed, not whether short-term results are predictable.</p></article></div>
+  <div class="volatility-demo"><div><span>LOW VOLATILITY</span><svg viewBox="0 0 300 80" aria-hidden="true"><path d="M0 48 C25 42,35 51,55 45 S90 41,105 48 S145 43,160 46 S200 40,218 47 S255 42,300 44"/></svg><small>Smaller swings, more frequent hits</small></div><div><span>HIGH VOLATILITY</span><svg viewBox="0 0 300 80" aria-hidden="true"><path d="M0 45 L25 62 L48 18 L74 67 L98 28 L130 58 L160 9 L194 70 L220 30 L250 59 L300 21"/></svg><small>Bigger swings, longer dry spells</small></div><p><b>Important:</b> volatility changes the distribution of outcomes, not the long-run RTP.</p></div>
+</section>
+<section class="chapter poker" id="poker">
+  <div class="poker-visual"><div class="media-sprite media-poker" role="img" aria-label="Poker table with cards, chips and hand rankings"></div></div><div class="poker-intro"><p class="kicker">06 / POKER</p><h2>Poker is different. Your edge is mostly against people, not a fixed casino paytable.</h2><p>The room takes rake, but your decisions are about ranges, position, bet sizing, pot odds and the opponents at the table.</p></div>
+  <div class="poker-grid"><article class="position-map"><h3>Position changes everything</h3><div class="oval"><span class="utg">UTG</span><span class="hj">HJ</span><span class="co">CO</span><span class="btn">BTN</span><span class="sb">SB</span><span class="bb">BB</span><b>Later position = more information</b></div><p>The Button usually acts later after the flop, which means more information before making a decision.</p></article><article class="rank-list"><h3>Hand rankings</h3><ol><li>Royal flush</li><li>Straight flush</li><li>Four of a kind</li><li>Full house</li><li>Flush</li><li>Straight</li><li>Three of a kind</li><li>Two pair</li><li>One pair</li><li>High card</li></ol></article><article class="pot-odds"><h3>Pot odds, simplified</h3><div class="formula"><span>call amount</span><i>÷</i><span>pot after your call</span><b>= required equity</b></div><p>Example: calling $20 to win a final pot of $120 means you need about 16.7% equity to break even before considering future action.</p></article></div>
+</section>
+<section class="chapter sports" id="sports">
+  <div class="sports-top"><div><p class="kicker">07 / SPORTSBOOK</p><h2>Bet the number, not the team name.</h2><p>A sports bet is a price on an outcome. The core skill is learning to read the line and compare that price to your estimate of what is likely to happen.</p></div><div class="media-sprite media-sports" role="img" aria-label="Sportsbook screen with football lines and bet slip"></div></div>
+  <div class="sports-board"><table><thead><tr><th>Market</th><th>What you are betting</th><th>Example</th><th>Read it like this</th></tr></thead><tbody><tr><td>Moneyline</td><td>Who wins outright</td><td>-150</td><td>Risk $150 to profit $100</td></tr><tr><td>Spread</td><td>Adjusted score margin</td><td>-3.5</td><td>Favorite must win by 4+</td></tr><tr><td>Total</td><td>Combined scoring</td><td>O/U 47.5</td><td>Over wins at 48+</td></tr><tr><td>Parlay</td><td>Multiple legs all combined</td><td>3 legs</td><td>Higher payout, probability drops fast</td></tr></tbody></table><aside><h3>Why -110 matters</h3><p>At -110, a $110 risk wins $100. The break-even probability is 52.38%, not 50%. That gap is part of the bookmaker's margin.</p><a href="#odds-lab">Open the odds calculator</a></aside></div>
+</section>
+<section class="odds-lab" id="odds-lab"><div class="lab-copy"><p class="kicker">ODDS LAB</p><h2>Turn a betting price into a probability.</h2><p>Once you can convert odds into implied probability, lines are easier to compare and bookmaker margin becomes easier to see.</p></div><form id="oddsForm" class="calculator" onsubmit="return false"><label>American odds<input id="americanOdds" type="number" value="-110" step="5"></label><label>Stake<input id="stake" type="number" value="100" min="0" step="5"></label><div><span>Implied probability</span><b id="probOut">52.38%</b></div><div><span>Profit if it wins</span><b id="profitOut">$90.91</b></div><div><span>Total return</span><b id="returnOut">$190.91</b></div></form><div class="lab-note"><b>Quick reference</b><span>-200 = 66.67%</span><span>-110 = 52.38%</span><span>+100 = 50.00%</span><span>+150 = 40.00%</span><span>+300 = 25.00%</span></div></section>
+<section class="responsibility"><div><p class="kicker">THE PART THAT MATTERS MOST</p><h2>Better strategy can reduce bad decisions. It cannot make gambling predictable.</h2></div><div class="responsibility-grid"><p>House edge and vig describe long-run math, not what will happen tonight.</p><p>Short-term variance can overwhelm even a small mathematical edge.</p><p>Set a budget before playing and treat it as entertainment money.</p><p>Never chase losses or increase risk just because you are down.</p></div><small>Educational content only. Gambling involves risk. If gambling stops being fun or feels difficult to control, take a break and seek support.</small></section>
+</main>
+<button class="floating-help" id="floatingHelp" type="button" aria-label="Open help">?</button><aside class="help-drawer" id="helpDrawer" aria-hidden="true" aria-label="HouseEdge quick help"><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button><p class="kicker">QUICK HELP</p><h2>Five terms that unlock the whole site.</h2><dl><div><dt>House edge</dt><dd>The casino's average mathematical advantage over many bets.</dd></div><div><dt>RTP</dt><dd>Return to Player. A long-run modeled return percentage, used mostly for slots.</dd></div><div><dt>Variance</dt><dd>How widely short-term results can swing around the long-run average.</dd></div><div><dt>Vig / juice</dt><dd>The bookmaker's pricing margin in sports betting.</dd></div><div><dt>Implied probability</dt><dd>The win rate built into a betting price. Odds can be converted directly into a percentage.</dd></div></dl><a href="#games" id="helpJump">Show me the games</a></aside><div class="drawer-backdrop" id="drawerBackdrop"></div>
+<footer><span>HOUSEEDGE / SAFI SOLUTIONS</span><a href="/">Back to SafiSolutions</a><span>LEARN THE GAME · RESPECT THE MATH</span></footer>
+</body></html>
