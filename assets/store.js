@@ -15,11 +15,27 @@
     el.addEventListener('click',e=>e.preventDefault());
   }
 
+  function resetCheckoutUI(){
+    document.querySelectorAll('[aria-busy="true"][data-checkout-original-label]').forEach(el=>{
+      el.removeAttribute('aria-busy');
+      el.textContent=el.dataset.checkoutOriginalLabel;
+      delete el.dataset.checkoutOriginalLabel;
+    });
+  }
+
+  // Browsers often restore this page from the back/forward cache after Stripe.
+  // Reset temporary checkout text when the customer comes back.
+  window.addEventListener('pageshow',resetCheckoutUI);
+
   async function startCheckout(payload,trigger){
     if(!salesEnabled||!checkoutWorker)return;
     const original=trigger?trigger.textContent:'';
     try{
-      if(trigger){trigger.setAttribute('aria-busy','true');trigger.textContent='Opening checkout…';}
+      if(trigger){
+        trigger.dataset.checkoutOriginalLabel=original;
+        trigger.setAttribute('aria-busy','true');
+        trigger.textContent='Opening checkout…';
+      }
       const res=await fetch(checkoutWorker+'/api/checkout',{
         method:'POST',credentials:'omit',
         headers:{'Content-Type':'application/json','Accept':'application/json'},
@@ -30,7 +46,11 @@
       window.location.href=data.url;
     }catch(err){
       alert(err&&err.message?err.message:'Checkout is not available right now.');
-      if(trigger){trigger.removeAttribute('aria-busy');trigger.textContent=original;}
+      if(trigger){
+        trigger.removeAttribute('aria-busy');
+        trigger.textContent=original;
+        delete trigger.dataset.checkoutOriginalLabel;
+      }
     }
   }
 
