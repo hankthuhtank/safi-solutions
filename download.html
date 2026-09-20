@@ -6,7 +6,7 @@
 <title>Secure downloads — Safi Solutions</title>
 <meta content="noindex,nofollow" name="robots"/>
 <style>
-:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b1017;color:#edf1ee;font-family:Arial,sans-serif;padding:24px}.card{width:min(720px,100%);padding:36px;border:1px solid #314139;background:#101720;box-shadow:0 24px 70px #0007}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9eb2a9;margin-bottom:12px}h1{font-size:36px;margin:0 0 12px}p{line-height:1.65;color:#bdc8c2;margin:0 0 18px}.status{padding:14px 16px;border:1px solid #41564c;background:#111b18;color:#dce6e1;margin:22px 0}.status.error{border-color:#6f4646;background:#1d1212;color:#ffd6d6}.download-list{display:grid;gap:10px;margin:18px 0}.download-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 15px;border:1px solid #33423b;background:#0f171d}.download-item strong{font-size:15px}.button{display:inline-block;padding:11px 14px;background:#e8b247;color:#11161d;text-decoration:none;font-weight:700;border:0;cursor:pointer}.small{font-size:13px;color:#899990;margin-top:18px}.legal{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid #2c3831;font-size:12px}.legal a{color:#aab8b1;text-decoration:none}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #62766c;border-top-color:#e8b247;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:580px){.card{padding:25px}.download-item{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b1017;color:#edf1ee;font-family:Arial,sans-serif;padding:24px}.card{width:min(720px,100%);padding:36px;border:1px solid #314139;background:#101720;box-shadow:0 24px 70px #0007}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9eb2a9;margin-bottom:12px}h1{font-size:36px;margin:0 0 12px}p{line-height:1.65;color:#bdc8c2;margin:0 0 18px}.status{padding:14px 16px;border:1px solid #41564c;background:#111b18;color:#dce6e1;margin:22px 0}.status.error{border-color:#6f4646;background:#1d1212;color:#ffd6d6}.download-list{display:grid;gap:10px;margin:18px 0}.download-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 15px;border:1px solid #33423b;background:#0f171d}.download-item strong{font-size:15px}.button{display:inline-block;padding:11px 14px;background:#e8b247;color:#11161d;text-decoration:none;font-weight:700;border:0;cursor:pointer}.small{font-size:13px;color:#899990;margin-top:18px}.install-help{margin-top:22px;padding:18px;border:1px solid #33423b;background:#0d151b}.install-help h2{font-size:18px;margin:0 0 10px}.install-help ol{margin:0 0 14px 20px;padding:0;color:#bdc8c2;line-height:1.7}.install-help li+li{margin-top:4px}.security-note{margin-top:14px;padding:14px 15px;border:1px solid #5d5135;background:#1a1710;color:#dfd5b6}.security-note strong{color:#fff}.install-help code{font-family:Consolas,monospace;color:#edf1ee}.legal{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid #2c3831;font-size:12px}.legal a{color:#aab8b1;text-decoration:none}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #62766c;border-top-color:#e8b247;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:580px){.card{padding:25px}.download-item{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
 </style>
 </head>
 <body>
@@ -17,6 +17,18 @@
 <div class="status" id="status"><span class="spinner"></span>Verifying your purchase…</div>
 <div class="download-list" id="downloads" hidden></div>
 <p class="small" id="help">If something does not look right, email <a href="mailto:safihelal@gmail.com?subject=SafiSolutions%20purchase%20download" style="color:#d7e1dc">safihelal@gmail.com</a> and include the email used at checkout.</p>
+<section class="install-help" aria-labelledby="install-heading">
+  <h2 id="install-heading">Installing your SafiSolutions app</h2>
+  <ol>
+    <li>Download the ZIP from the verified button above.</li>
+    <li>Right-click the ZIP and choose <strong>Extract All</strong>.</li>
+    <li>Open the extracted folder and run the included SafiSolutions setup/installer.</li>
+    <li>Follow the Windows installer prompts. After installation, open the app from its desktop shortcut or Start menu entry.</li>
+  </ol>
+  <div class="security-note">
+    <strong>Windows security notice:</strong> SafiSolutions apps are independently distributed and may not yet have established Microsoft Defender SmartScreen reputation or a widely trusted code-signing signature. Windows may therefore show <em>“Windows protected your PC”</em> or an <em>“Unknown publisher”</em> warning. A warning by itself does not mean the file is malicious. Only continue if you downloaded the installer directly from this verified SafiSolutions purchase page. If the source or filename looks different than expected, do not run it.
+  </div>
+</section>
 <nav class="legal" aria-label="Legal"><a href="support.html">Support &amp; updates</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds</a></nav>
 </main>
 <script>
