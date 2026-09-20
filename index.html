@@ -1,72 +1,711 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07130f">
-<title>HouseEdge | Learn the Game Behind the Game</title>
-<meta name="description" content="A visual guide to blackjack, baccarat, craps, roulette, slots, poker and sports betting. Learn the rules, odds, house edge and strategy fundamentals.">
+<title>OVERTONE — hear how music works</title>
+<meta name="description" content="A playable music theory workbench for scales, chords, rhythm, ear training, instrument shapes, and composition — every core idea can be heard and explored.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script defer src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
-<script defer src="app.js"></script>
-<script defer src="roulette-v2.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   OVERTONE — design system
+   Concept: the vibrating string. Ebony and rosewood body,
+   brass hardware, oxidised-copper patina, ivory keys.
+   ========================================================== */
+:root{
+  --void:#0b0908; --ebony:#12100f; --wood:#1a1614; --panel:#221b17;
+  --raise:#2c231e; --line:#3a2f27; --line2:#4d3e33;
+  --brass:#d9a441; --brass-dim:#9c7629; --brass-glow:rgba(217,164,65,.15);
+  --patina:#5fb8a6; --patina-glow:rgba(95,184,166,.13);
+  --wine:#a84356; --wine-glow:rgba(168,67,86,.14);
+  --ivory:#f3ecdd; --dim:#ab9e8c; --faint:#736555;
+  --disp:'Fraunces',Georgia,serif;
+  --ui:'Archivo',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+  --r:14px;
+  --shadow:0 24px 60px -20px rgba(0,0,0,.8);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--void); color:var(--ivory); font-family:var(--ui);
+  font-size:16px; line-height:1.6; overflow-x:hidden;
+  padding-bottom:var(--keybed-h,150px);
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select{font:inherit;color:inherit;background:none;border:none}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:600;line-height:1.05;letter-spacing:-.015em;
+  font-variation-settings:'SOFT' 40,'WONK' 1}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
+::selection{background:var(--brass);color:var(--void)}
+
+/* ---------- the string field: the signature ---------- */
+#strings{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.85}
+#grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.4;
+  background-image:radial-gradient(circle at 50% 0%,rgba(217,164,65,.07),transparent 55%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E")}
+
+/* ---------- shell ---------- */
+.wrap{width:min(1240px,92%);margin:0 auto}
+#app{position:relative;z-index:2}
+
+header#bar{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px) saturate(1.3);
+  background:linear-gradient(180deg,rgba(11,9,8,.96),rgba(11,9,8,.82));
+  border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:22px;height:64px}
+.brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.brand img{display:block;width:auto;height:34px;max-width:190px;object-fit:contain;object-position:left center}
+.brand svg{flex:0 0 auto}
+.brand b{font-family:var(--disp);font-weight:900;font-size:1.22rem;letter-spacing:.13em;
+  font-variation-settings:'SOFT' 20,'WONK' 0}
+.brand i{font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;color:var(--faint);
+  font-style:normal;text-transform:uppercase;display:block;margin-top:1px}
+
+nav#tabs{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav#tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);padding:9px 13px;border-radius:8px;white-space:nowrap;transition:.18s}
+.tab:hover{color:var(--ivory);background:var(--panel)}
+.tab.on{color:var(--brass);background:var(--brass-glow)}
+
+.rig{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.sel{font-family:var(--mono);font-size:.66rem;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:8px 10px;color:var(--ivory);max-width:170px;cursor:pointer}
+.sel:hover{border-color:var(--line2)}
+.tog{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.tog button{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:8px 11px;color:var(--dim);transition:.18s}
+.tog button.on{background:var(--brass);color:var(--void)}
+.icon-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--panel);
+  display:grid;place-items:center;color:var(--dim);transition:.18s}
+.icon-btn:hover{color:var(--brass);border-color:var(--brass-dim)}
+
+/* ---------- views ---------- */
+.view{display:none;padding:46px 0 60px;animation:rise .3s ease}
+.view.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--brass);margin-bottom:14px}
+.vhead{margin-bottom:34px;max-width:74ch}
+.vhead h2{font-size:clamp(2rem,4.6vw,3.1rem);margin-bottom:12px;
+  font-variation-settings:'SOFT' 50,'WONK' 1,'opsz' 120}
+.vhead p{color:var(--dim);font-size:1.02rem}
+.vhead em{font-style:italic;color:var(--brass)}
+
+/* ---------- hero ---------- */
+#v-home{padding-top:56px}
+.hero{min-height:min(62vh,540px);display:flex;flex-direction:column;justify-content:center;
+  padding:40px 0 46px}
+.hero h1{font-size:clamp(3rem,10vw,7.4rem);line-height:.88;font-weight:900;letter-spacing:-.03em;
+  font-variation-settings:'SOFT' 60,'WONK' 1,'opsz' 144;margin-bottom:22px}
+.hero h1 span{display:block;font-weight:400;font-style:italic;font-size:.42em;letter-spacing:-.01em;
+  color:var(--brass);margin-top:14px;font-variation-settings:'SOFT' 100,'WONK' 1}
+.hero p{max-width:56ch;color:var(--dim);font-size:1.1rem;margin-bottom:30px}
+.hero-cta{display:flex;gap:11px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 22px;border-radius:10px;border:1px solid var(--line2);transition:.2s;
+  display:inline-flex;align-items:center;gap:9px}
+.btn:hover{transform:translateY(-2px)}
+.btn-brass{background:var(--brass);color:var(--void);border-color:var(--brass);font-weight:500}
+.btn-brass:hover{box-shadow:0 12px 30px -8px var(--brass-glow)}
+.btn-ghost:hover{border-color:var(--brass);color:var(--brass)}
+
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px}
+.gate{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(165deg,var(--panel),var(--wood));
+  padding:22px;text-align:left;transition:.24s;position:relative;overflow:hidden}
+.gate:hover{transform:translateY(-4px);border-color:var(--acc,var(--brass))}
+.gate .gi{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;margin-bottom:14px;
+  border:1px solid var(--acc,var(--brass));color:var(--acc,var(--brass));background:var(--brass-glow)}
+.gate h4{font-size:1.08rem;margin-bottom:6px}
+.gate p{color:var(--dim);font-size:.86rem}
+
+/* ---------- panels ---------- */
+.panel{border:1px solid var(--line);border-radius:var(--r);background:var(--wood);padding:24px}
+.panel-h{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.panel-h h3{font-size:1.2rem;flex:1}
+.plabel{font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.chip{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;padding:8px 12px;border-radius:8px;
+  border:1px solid var(--line);color:var(--dim);transition:.16s;background:var(--panel)}
+.chip:hover{border-color:var(--line2);color:var(--ivory)}
+.chip.on{background:var(--brass);color:var(--void);border-color:var(--brass);font-weight:500}
+.chip.pat.on{background:var(--patina);border-color:var(--patina)}
+
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}
+@media(max-width:960px){.grid2{grid-template-columns:1fr}}
+
+/* keys as a row of pitch buttons */
+.keyrow{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.keyrow button{font-family:var(--mono);font-size:.7rem;padding:11px 0;border-radius:7px;
+  border:1px solid var(--line);color:var(--dim);background:var(--panel);transition:.14s}
+.keyrow button.blk{background:var(--ebony);color:var(--faint)}
+.keyrow button:hover{color:var(--ivory);border-color:var(--line2)}
+.keyrow button.on{background:var(--brass);color:var(--void);border-color:var(--brass);font-weight:500}
+
+/* degree table */
+.degs{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.deg{border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:10px 13px;
+  text-align:center;min-width:62px;transition:.16s}
+.deg:hover{border-color:var(--brass);transform:translateY(-2px)}
+.deg b{display:block;font-family:var(--disp);font-size:1.15rem;font-weight:600}
+.deg i{display:block;font-family:var(--mono);font-size:.56rem;font-style:normal;color:var(--faint);
+  letter-spacing:.08em;margin-top:3px}
+.deg.root{border-color:var(--brass);background:var(--brass-glow)}
+.deg.root b{color:var(--brass)}
+
+.note-txt{color:var(--dim);font-size:.92rem;line-height:1.66}
+.note-txt + .note-txt{margin-top:13px}
+.note-txt b{color:var(--ivory)}
+.kv{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brass);display:block;margin-bottom:5px}
+
+/* ---------- fretboard ---------- */
+.fret-wrap{overflow-x:auto;padding-bottom:8px}
+.fb{border-collapse:separate;border-spacing:0;min-width:760px;width:100%;
+  background:linear-gradient(180deg,#2a1d15,#3a2a1e);border-radius:8px}
+.fb td{border-right:2px solid #6b5844;height:38px;text-align:center;position:relative;padding:0 2px}
+.fb td:first-child{border-right:3px solid var(--ivory);background:rgba(0,0,0,.35);width:52px}
+.fb tr td{border-bottom:1px solid rgba(240,235,220,.22)}
+.fb tr:last-child td{border-bottom:none}
+.fb .dot{display:inline-grid;place-items:center;width:27px;height:27px;border-radius:50%;
+  font-family:var(--mono);font-size:.62rem;background:var(--patina);color:var(--void);font-weight:500}
+.fb .dot.root{background:var(--brass);box-shadow:0 0 0 2px rgba(217,164,65,.35)}
+.fb .dot.vox{box-shadow:0 0 0 2px var(--ivory),0 0 12px rgba(243,236,221,.5)}
+.fb td.opn{background:rgba(0,0,0,.4)}
+.fb td.opn .onm{font-family:var(--mono);font-size:.62rem;color:var(--ivory)}
+.fb td:hover{background:rgba(243,236,221,.07);cursor:pointer}
+.fmarks{width:100%;min-width:760px;border-collapse:collapse}
+.fmarks td:first-child{width:52px}
+.fmark{font-family:var(--mono);font-size:.56rem;color:var(--faint);text-align:center;padding-top:6px}
+
+/* ---------- circle of fifths ---------- */
+.cof{display:block;margin:0 auto;max-width:430px;width:100%}
+.cof .seg{cursor:pointer;transition:.16s}
+.cof .seg:hover .segbg{fill:var(--raise)}
+.cof .seg.on .segbg{fill:var(--brass-glow);stroke:var(--brass)}
+.cof text{font-family:var(--mono);pointer-events:none}
+
+/* ---------- ear training ---------- */
+.score-bar{display:flex;gap:22px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:18px;flex-wrap:wrap}
+.score-bar b{color:var(--ivory);font-size:1rem;font-weight:500}
+.score-bar .st{color:var(--patina)}
+.answers{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:16px}
+.answers button{padding:14px 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel);
+  font-family:var(--mono);font-size:.72rem;transition:.16s}
+.answers button:hover{border-color:var(--brass);background:var(--raise)}
+.answers button.right{background:var(--patina);color:var(--void);border-color:var(--patina)}
+.answers button.wrong{background:var(--wine);color:var(--ivory);border-color:var(--wine)}
+.fb-msg{text-align:center;font-family:var(--mono);font-size:.8rem;margin-top:18px;min-height:24px;color:var(--dim)}
+
+/* ---------- rhythm ---------- */
+.seq{display:grid;gap:5px;margin-top:6px;overflow-x:auto;padding-bottom:6px}
+.seq-row{display:grid;grid-template-columns:76px repeat(var(--steps,16),1fr);gap:4px;align-items:center;min-width:660px}
+.seq-row .lane{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.step{height:30px;border-radius:6px;border:1px solid var(--line);background:var(--panel);transition:.1s}
+.step:nth-child(4n+2){border-color:var(--line2)}
+.step.on{background:var(--brass);border-color:var(--brass)}
+.step.on.sn{background:var(--patina);border-color:var(--patina)}
+.step.on.hh{background:var(--wine);border-color:var(--wine)}
+.step.cur{box-shadow:0 0 0 2px var(--ivory) inset}
+.bpm-big{font-family:var(--disp);font-size:3.4rem;font-weight:900;line-height:1;
+  font-variation-settings:'SOFT' 30,'WONK' 0}
+input[type=range]{-webkit-appearance:none;appearance:none;height:4px;background:var(--line);border-radius:3px;width:100%}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--brass);cursor:pointer;border:3px solid var(--void)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--brass);
+  cursor:pointer;border:3px solid var(--void)}
+.metro-dots{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.metro-dots i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block;transition:.08s}
+.metro-dots i.on{background:var(--brass);box-shadow:0 0 14px var(--brass);transform:scale(1.25)}
+.metro-dots i.acc.on{background:var(--patina);box-shadow:0 0 14px var(--patina)}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:19px;
+  text-align:left;transition:.2s;display:flex;flex-direction:column;gap:9px}
+.card:hover{border-color:var(--brass);transform:translateY(-3px);background:var(--wood)}
+.card h4{font-size:1.06rem;line-height:1.15}
+.card .sub{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.card p{color:var(--dim);font-size:.85rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.tg{font-family:var(--mono);font-size:.54rem;letter-spacing:.09em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:5px;padding:4px 7px;color:var(--dim)}
+.tg.acc{color:var(--brass);border-color:var(--brass-dim)}
+.tg.pat{color:var(--patina);border-color:var(--patina)}
+
+.searchbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;
+  background:var(--panel);padding:9px 13px;flex:1;min-width:200px;max-width:320px}
+.search input{width:100%;font-size:.86rem;outline:none}
+.search input::placeholder{color:var(--faint)}
+.count{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--faint);margin-top:16px}
+
+/* ---------- learning path ---------- */
+.stage{display:grid;grid-template-columns:58px 1fr;gap:18px;border:1px solid var(--line);
+  border-radius:var(--r);background:var(--panel);padding:20px;margin-bottom:9px;transition:.2s;text-align:left;width:100%}
+.stage:hover{border-color:var(--brass-dim);background:var(--wood)}
+.stage.done{border-color:var(--patina);background:var(--patina-glow)}
+.stage .num{font-family:var(--disp);font-size:1.9rem;font-weight:900;color:var(--faint);line-height:1;
+  font-variation-settings:'SOFT' 20}
+.stage.done .num{color:var(--patina)}
+.stage h4{font-size:1.1rem;margin-bottom:6px}
+.stage p{color:var(--dim);font-size:.88rem;margin-bottom:9px}
+.stage .key{font-family:var(--mono);font-size:.68rem;color:var(--brass);border-left:2px solid var(--brass);
+  padding-left:11px;display:block}
+.progbar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin:8px 0 26px;max-width:420px}
+.progbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--patina));transition:width .4s}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;z-index:200;background:rgba(6,5,4,.86);backdrop-filter:blur(7px);
+  display:none;padding:5vh 16px;overflow-y:auto}
+.modal.open{display:block}
+.mwin{width:min(760px,100%);margin:0 auto;background:var(--wood);border:1px solid var(--line2);
+  border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.mbar{display:flex;align-items:center;gap:12px;padding:15px 20px;border-bottom:1px solid var(--line);
+  background:var(--panel);position:sticky;top:0;z-index:2}
+.mbar span{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brass);flex:1}
+.mbar button{font-size:1.5rem;line-height:1;color:var(--faint);width:32px;height:32px;border-radius:7px}
+.mbar button:hover{color:var(--ivory);background:var(--raise)}
+.mbody{padding:26px}
+.mbody h3{font-size:1.7rem;margin-bottom:8px}
+.msub{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.08em;margin-bottom:20px}
+.mrow{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.mrow .k{font-family:var(--mono);font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass)}
+.mrow .v{color:var(--dim);font-size:.92rem;line-height:1.66}
+.mrow .v b{color:var(--ivory)}
+@media(max-width:600px){.mrow{grid-template-columns:1fr;gap:6px}}
+
+/* ---------- the keybed ---------- */
+#keybed{position:fixed;left:0;right:0;bottom:0;z-index:80;background:linear-gradient(180deg,var(--ebony),var(--void));
+  border-top:1px solid var(--line2);box-shadow:0 -20px 50px -20px rgba(0,0,0,.9);transition:transform .3s}
+#keybed.hide{transform:translateY(calc(100% - 34px))}
+.kb-bar{display:flex;align-items:center;gap:12px;padding:6px 14px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+.kb-bar .now{color:var(--brass);min-width:96px}
+.kb-bar .sp{flex:1}
+.kb-bar button{color:var(--dim);padding:4px 8px;border-radius:6px;font-size:.58rem;letter-spacing:.1em;
+  text-transform:uppercase;border:1px solid transparent}
+.kb-bar button:hover{color:var(--ivory);border-color:var(--line)}
+.kb-bar button.on{color:var(--brass);border-color:var(--brass-dim)}
+.keys{position:relative;height:112px;display:flex;user-select:none;touch-action:none;overflow:hidden}
+.wk{flex:1;position:relative;background:linear-gradient(180deg,#f6f1e6,#ded6c4);border-right:1px solid #b3a894;
+  border-radius:0 0 5px 5px;transition:background .06s}
+.wk:last-child{border-right:none}
+.wk.lit{background:linear-gradient(180deg,#ffe9b8,#e8c987)}
+.wk.down{background:linear-gradient(180deg,#d9a441,#b6862c)}
+.wk.rt{background:linear-gradient(180deg,#ffd98a,#d9a441)}
+.wk .lbl{position:absolute;bottom:7px;left:0;right:0;text-align:center;font-family:var(--mono);
+  font-size:.55rem;color:#6b6152;pointer-events:none}
+.bk{position:absolute;top:0;width:calc(100%/var(--wc,21)*0.62);height:63%;background:linear-gradient(180deg,#2a2420,#0e0c0b);
+  border-radius:0 0 4px 4px;z-index:3;box-shadow:0 3px 7px rgba(0,0,0,.6);transition:background .06s}
+.bk.lit{background:linear-gradient(180deg,#8a6a2a,#5a4419)}
+.bk.down{background:linear-gradient(180deg,#d9a441,#9c7629)}
+.bk .lbl{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-family:var(--mono);
+  font-size:.5rem;color:#a99e8c;pointer-events:none}
+@media(max-width:760px){.keys{height:92px}}
+
+/* ---------- misc ---------- */
+.toast{position:fixed;left:50%;bottom:calc(var(--keybed-h,150px) + 18px);transform:translateX(-50%);
+  background:var(--panel);border:1px solid var(--brass-dim);color:var(--ivory);padding:11px 18px;
+  border-radius:10px;font-family:var(--mono);font-size:.7rem;z-index:150;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+.load{display:inline-block;width:12px;height:12px;border:2px solid var(--line2);border-top-color:var(--brass);
+  border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{border-top:1px solid var(--line);padding:34px 0;margin-top:20px;position:relative;z-index:2}
+footer p{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.hint{font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+
+/* ---------- side rail ---------- */
+#rail{position:fixed;left:0;top:0;bottom:0;width:222px;z-index:90;background:linear-gradient(180deg,#100d0c,#0b0908);
+  border-right:1px solid var(--line);display:flex;flex-direction:column;transition:transform .28s cubic-bezier(.2,.8,.3,1)}
+.rail-top{display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.rail-top img{display:block;width:100%;max-width:170px;height:auto;max-height:42px;object-fit:contain;object-position:left center}
+.rail-nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.rnav{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:9px;color:var(--dim);
+  transition:.16s;position:relative}
+.rnav:hover{background:var(--panel);color:var(--ivory)}
+.rnav.on{background:var(--brass-glow);color:var(--brass)}
+.rnav.on::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:2px;background:var(--brass);border-radius:2px}
+.rnav svg{flex:0 0 auto}
+.rnav b{font-family:var(--ui);font-weight:500;font-size:.86rem}
+.rnav small{display:block;font-family:var(--mono);font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--faint);margin-top:2px}
+.rail-sep{height:1px;background:var(--line);margin:10px 12px}
+.rail-foot{padding:14px 18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.5rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);line-height:1.8}
+#scrim{position:fixed;inset:0;background:rgba(5,4,3,.7);z-index:85;opacity:0;pointer-events:none;transition:opacity .25s}
+#menuBtn{display:none}
+@media(min-width:1000px){ body{padding-left:222px} }
+@media(max-width:999px){
+  #rail{transform:translateX(-100%);box-shadow:16px 0 50px rgba(0,0,0,.7)}
+  body.nav #rail{transform:none}
+  body.nav #scrim{opacity:1;pointer-events:auto}
+  #menuBtn{display:grid}
+}
+
+/* ---------- world ---------- */
+.wcard{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px;
+  display:flex;flex-direction:column;gap:11px;text-align:left;transition:.2s}
+.wcard:hover{border-color:var(--brass);background:var(--wood)}
+.wcard .cont{font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--patina)}
+.wcard h4{font-size:1.18rem}
+.wcard p{color:var(--dim);font-size:.86rem}
+.wbig{border-left:2px solid var(--brass);padding:6px 0 6px 14px;margin:4px 0}
+.wbig .kv{margin-bottom:4px}
+
+/* ---------- motif player ---------- */
+.motif{border:1px solid var(--line2);border-radius:12px;background:var(--ebony);padding:18px;margin-top:14px}
+.motif-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.motif-h h4{font-size:1.06rem;flex:1;min-width:150px}
+.roll{display:flex;gap:2px;align-items:flex-end;height:74px;overflow-x:auto;padding:6px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.roll i{display:block;background:var(--brass-dim);border-radius:2px;min-width:7px;flex:0 0 auto;
+  transition:background .1s,transform .1s;position:relative}
+.roll i.rest{background:transparent;border-bottom:1px dashed var(--line2)}
+.roll i.on{background:var(--brass);transform:scaleY(1.06);box-shadow:0 0 10px var(--brass-glow)}
+.badge{font-family:var(--mono);font-size:.52rem;letter-spacing:.13em;text-transform:uppercase;
+  border:1px solid var(--patina);color:var(--patina);border-radius:5px;padding:4px 8px}
+.badge.orig{border-color:var(--brass);color:var(--brass)}
+
+/* ---------- keybed extras ---------- */
+.kb-bar{flex-wrap:wrap}
+.kb-bar .grp{display:flex;align-items:center;gap:4px;border-left:1px solid var(--line);padding-left:10px;margin-left:2px}
+.kb-bar input[type=range]{width:74px;height:3px}
+.wk.sus,.bk.sus{box-shadow:inset 0 -4px 0 var(--patina)}
+
+/* ---------- sticking + polyrhythm ---------- */
+.sticking{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;padding:14px 0}
+.sk{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line);
+  font-family:var(--mono);font-size:.82rem;color:var(--dim);background:var(--panel);transition:.08s}
+.sk.grace{width:24px;height:24px;font-size:.6rem;opacity:.65;align-self:center}
+.sk.acc{border-color:var(--brass);color:var(--brass)}
+.sk.now{background:var(--brass);color:var(--void);border-color:var(--brass);transform:translateY(-3px)}
+.polyrow{display:flex;gap:6px;justify-content:center;margin:8px 0}
+.polyrow i{width:20px;height:20px;border-radius:50%;background:var(--line);display:block;transition:.08s}
+.polyrow .pa.on{background:var(--brass);box-shadow:0 0 14px var(--brass);transform:scale(1.2)}
+.polyrow .pb.on{background:var(--patina);box-shadow:0 0 14px var(--patina);transform:scale(1.2)}
+.staffbox{background:var(--ebony);border:1px solid var(--line);border-radius:11px;padding:8px 4px;
+  overflow-x:auto;margin-top:12px}
+
+/* ---------- v2 polish ---------- */
+:root{--panel2:#181411;--glass:rgba(34,27,23,.78)}
+body{background:
+  radial-gradient(circle at 78% 8%,rgba(95,184,166,.055),transparent 28%),
+  radial-gradient(circle at 22% 0%,rgba(217,164,65,.06),transparent 34%),var(--void)}
+.hero{position:relative;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero::after{content:"";position:absolute;right:2%;top:18%;width:min(34vw,420px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(217,164,65,.08),transparent 67%);filter:blur(10px);pointer-events:none}
+.hero p{font-size:clamp(1rem,1.6vw,1.16rem)}
+.gate{min-height:178px}.gate .gi{background:color-mix(in srgb,var(--acc,var(--brass)) 10%,transparent)}
+.panel,.card,.wcard,.stage{box-shadow:0 10px 34px -30px rgba(0,0,0,.95)}
+.panel{background:linear-gradient(155deg,var(--wood),var(--panel2))}
+.btn:active,.chip:active,.gate:active,.card:active{transform:translateY(0)}
+.sel{min-width:154px}
+.home-status{margin:16px 0 4px;display:grid;grid-template-columns:1.35fr .8fr .8fr;gap:12px}
+.hstat{border:1px solid var(--line);border-radius:var(--r);background:rgba(18,16,15,.75);padding:18px;min-height:112px}
+.hstat .num{font-family:var(--disp);font-size:2rem;line-height:1;color:var(--ivory);margin:7px 0 5px}
+.hstat p{font-size:.82rem;color:var(--dim)}
+.hstat.primary{display:flex;align-items:center;justify-content:space-between;gap:18px;background:linear-gradient(135deg,var(--brass-glow),var(--wood))}
+.hstat.primary .copy{max-width:55ch}.hstat.primary h3{font-size:1.2rem;margin:4px 0 6px}
+.sketch-grid{display:grid;grid-template-columns:1fr .7fr;gap:14px;align-items:start}
+.sketch-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0}
+.sketch-slot{min-height:118px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px;text-align:left;transition:.18s;position:relative}
+.sketch-slot:hover,.sketch-slot.on{border-color:var(--brass);background:var(--brass-glow)}
+.sketch-slot .slotn{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:var(--faint);text-transform:uppercase}
+.sketch-slot b{display:block;font-family:var(--disp);font-size:1.6rem;margin:12px 0 2px}
+.sketch-slot small{font-family:var(--mono);font-size:.61rem;color:var(--brass)}
+.degree-pick{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.degree-pick button{padding:12px 7px;border:1px solid var(--line);border-radius:9px;background:var(--panel);text-align:center;transition:.16s}
+.degree-pick button:hover{border-color:var(--brass);background:var(--raise)}
+.degree-pick b{display:block;font-family:var(--disp);font-size:1rem}.degree-pick small{font-family:var(--mono);font-size:.52rem;color:var(--faint)}
+.sketch-playhead{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--brass);transform:scaleX(0);transform-origin:left;opacity:0}
+.sketch-slot.playing .sketch-playhead{opacity:1;animation:slotSweep var(--slotdur,1s) linear forwards}
+@keyframes slotSweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.practice-line{height:7px;background:var(--line);border-radius:8px;overflow:hidden;margin-top:10px}.practice-line i{height:100%;display:block;background:linear-gradient(90deg,var(--brass),var(--patina))}
+@media(max-width:900px){.home-status,.sketch-grid{grid-template-columns:1fr}.sketch-slots{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.rig .tog{display:none}.sel{min-width:0;max-width:160px}.home-status{grid-template-columns:1fr 1fr}.hstat.primary{grid-column:1/-1}.degree-pick{grid-template-columns:repeat(4,1fr)}.hero{padding-top:22px}.hero h1{font-size:clamp(3rem,16vw,5rem)}}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  #strings{opacity:.35}
+}
+@media(max-width:760px){
+  .bar-in{height:auto;padding:10px 0;flex-wrap:wrap;gap:10px}
+  nav#tabs{order:3;width:100%}
+  .view{padding:30px 0 40px}
+  .panel{padding:18px}
+  .mbody{padding:20px}
+}
+</style>
+
+<style id="ss-loader-style">
+#ss-themed-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#0b0908;color:#f3ecdd;overflow:hidden;transition:opacity .5s ease,visibility .5s ease}
+#ss-themed-loader.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+#ss-themed-loader::before{content:"";position:absolute;width:70vmax;height:70vmax;border-radius:50%;background:radial-gradient(circle,rgba(217,164,65,.08),transparent 63%);filter:blur(20px)}
+.ss-overtone-loader{position:relative;width:min(520px,86vw);text-align:center}
+.ss-overtone-kicker{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#736555;margin-bottom:24px}
+.ss-overtone-name{font-family:"Fraunces",Georgia,serif;font-size:clamp(44px,12vw,76px);font-weight:900;letter-spacing:.14em;text-indent:.14em;line-height:1;color:#f3ecdd}
+.ss-overtone-name em{font-weight:400;color:#d9a441;font-size:.31em;letter-spacing:.23em;display:block;margin-top:10px}
+.ss-overtone-string{height:74px;position:relative;margin:26px auto 16px;width:min(440px,80vw)}
+.ss-overtone-string::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,#9c7629 8%,#d9a441 50%,#9c7629 92%,transparent)}
+.ss-overtone-string i{position:absolute;left:8%;right:8%;top:50%;height:28px;border-top:2px solid #d9a441;border-radius:50%;transform:translateY(-14px) scaleY(.22);filter:drop-shadow(0 0 7px rgba(217,164,65,.3));animation:ss-overtone-vibe .22s ease-in-out infinite alternate}
+.ss-overtone-string span{position:absolute;top:50%;width:7px;height:7px;border-radius:50%;background:#5fb8a6;box-shadow:0 0 14px rgba(95,184,166,.5);transform:translate(-50%,-50%)}
+.ss-overtone-string span:nth-of-type(1){left:18%}.ss-overtone-string span:nth-of-type(2){left:34%}.ss-overtone-string span:nth-of-type(3){left:50%}.ss-overtone-string span:nth-of-type(4){left:66%}.ss-overtone-string span:nth-of-type(5){left:82%}
+.ss-overtone-status{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#ab9e8c}
+@keyframes ss-overtone-vibe{from{transform:translateY(-14px) scaleY(.18)}to{transform:translateY(-14px) scaleY(1)}}
+@media(prefers-reduced-motion:reduce){.ss-overtone-string i{animation:none;transform:translateY(-14px) scaleY(.55)}}
+</style>
+
+<link rel="stylesheet" href="discovery.css?v=20260907">
 </head>
 <body>
-<div class="noise" aria-hidden="true"></div>
-<canvas id="chips" aria-hidden="true"></canvas>
-<header class="sitebar">
-  <a class="wordmark" href="#home" aria-label="HouseEdge home"><img src="/assets/project-logos/houseedge.jpg?v=5" alt="HouseEdge"></a>
-  <nav aria-label="Primary navigation"><a href="#games">Games</a><a href="#poker">Poker</a><a href="#sports">Sports</a><a href="#odds-lab">Odds Lab</a></nav>
-  <button class="help-trigger" id="helpOpen" type="button"><span>?</span> Quick help</button>
+
+<div id="ss-themed-loader" aria-hidden="true">
+  <div class="ss-overtone-loader">
+    <div class="ss-overtone-kicker">Playable music theory workbench</div>
+    <div class="ss-overtone-name">OVERTONE<em>HEAR HOW MUSIC WORKS</em></div>
+    <div class="ss-overtone-string"><i></i><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="ss-overtone-status">Tuning the workbench…</div>
+  </div>
+</div>
+
+
+<canvas id="strings" aria-hidden="true"></canvas>
+<div id="grain" aria-hidden="true"></div>
+
+<aside id="rail" aria-label="Sections">
+  <a class="rail-top" href="#home" aria-label="Overtone home">
+    <img src="/assets/project-logos/overtone.svg?v=2" alt="Overtone">
+  </a>
+  <nav class="rail-nav" id="railNav"></nav>
+  <div class="rail-foot">Play anything<br>Everything makes sound</div>
+</aside>
+<div id="scrim" onclick="closeNav()"></div>
+
+<div id="app">
+<header id="bar">
+  <div class="wrap bar-in">
+    <button class="icon-btn" id="menuBtn" onclick="openNav()" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    <a class="brand" href="#home" aria-label="Overtone home">
+      <img src="/assets/project-logos/overtone.svg?v=2" alt="Overtone">
+    </a>
+    <span style="flex:1"></span>
+    <div class="rig">
+      <select class="sel" id="instSel" aria-label="Instrument"></select>
+      <div class="tog" role="group" aria-label="Sound engine">
+        <button id="mStudio" class="on" onclick="setMode('sampled')">Studio</button>
+        <button id="mChip" onclick="setMode('chip')">Synth</button>
+      </div>
+      <button class="icon-btn" id="volBtn" onclick="toggleMute()" aria-label="Mute">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+      </button>
+    </div>
+  </div>
 </header>
-<main>
-<section class="hero" id="home">
-  <div class="hero-photo media-sprite media-home" role="img" aria-label="Luxury casino table with cards, chips, roulette, slots and sportsbook visuals"></div><div class="hero-shade"></div>
-  <div class="hero-content"><p class="eyebrow">CASINO GAMES · REAL ODDS · BETTER DECISIONS</p><h1>Study the game <em>before</em> you put money on the table.</h1><p class="hero-lead">HouseEdge is a visual field guide to the rules, math and strategy behind the games. No hype. No “systems.” Just the parts that actually change the odds.</p><div class="hero-actions"><a class="gold-button" href="#games">Choose a game</a><button class="text-button" id="startHere" type="button">Start with the basics</button></div></div>
-  <aside class="hero-facts" aria-label="HouseEdge principles"><div><b>7</b><span>game guides</span></div><div><b>0</b><span>guaranteed wins</span></div><div><b>1</b><span>goal: understand the math</span></div></aside>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="view on" id="v-home">
+  <div class="hero">
+    <h1>Music, made<span>audible on the page.</span></h1>
+    <p>A theory workbench you can play. Every scale, chord and progression here makes sound —
+       with sampled instruments or a built-in synth engine. Learn by hearing, seeing and playing the idea yourself.</p>
+    <div class="hero-cta">
+      <button class="btn btn-brass" onclick="heroDemo()">Play me something</button>
+      <button class="btn btn-ghost" onclick="go('sketch')">Build a progression</button>
+    </div>
+  </div>
+  <div class="gates" id="gates"></div>
+  <div id="homeStatus"></div>
 </section>
-<section class="game-selector" id="games" aria-labelledby="games-title">
-  <header><div><p class="kicker">CHOOSE YOUR TABLE</p><h2 id="games-title">Every game has a different kind of edge.</h2></div><p>Start with the thing you actually play. Each guide shows the rules that matter, the bets to understand, and the mistakes that cost the most.</p></header>
-  <div class="game-cards"><a href="#blackjack" class="game-thumb thumb-blackjack"><span>01</span><b>Blackjack</b><small>basic strategy · rules · payouts</small></a><a href="#baccarat" class="game-thumb thumb-baccarat"><span>02</span><b>Baccarat</b><small>banker · player · tie</small></a><a href="#craps" class="game-thumb thumb-craps"><span>03</span><b>Craps</b><small>pass line · odds · flow</small></a><a href="#roulette" class="game-thumb thumb-roulette"><span>04</span><b>Roulette</b><small>single zero · double zero · bets</small></a><a href="#slots" class="game-thumb thumb-slots"><span>05</span><b>Slots</b><small>RTP · volatility · features</small></a><a href="#poker" class="game-thumb thumb-poker"><span>06</span><b>Poker</b><small>hands · position · pot odds</small></a><a href="#sports" class="game-thumb thumb-sports"><span>07</span><b>Sportsbook</b><small>spread · moneyline · vig</small></a></div>
+
+<!-- LAB -->
+<section class="view" id="v-lab">
+  <div class="vhead">
+    <div class="eyebrow">The Bench</div>
+    <h2>Pick a sound. <em>Hear what it does.</em></h2>
+    <p>Scales, chords and progressions in any of the twelve keys, laid out on the keyboard and explained in plain language.</p>
+  </div>
+  <div class="row" style="margin-bottom:18px" id="labTabs"></div>
+  <div id="labBody"></div>
 </section>
-<section class="chapter blackjack" id="blackjack">
-  <div class="chapter-visual"><div class="media-sprite media-blackjack" role="img" aria-label="Blackjack table with cards and chips"></div></div>
-  <div class="chapter-intro"><div><p class="kicker">01 / BLACKJACK</p><h2>Blackjack rewards decisions, but the table rules decide how much.</h2></div><p>The same hand can have a different correct play depending on the dealer's card and the casino rules. The fastest way to improve is to stop improvising and use basic strategy.</p><div class="stat-strip"><div><span>GOOD PAYOUT</span><b>3:2</b></div><div><span>AVOID</span><b>6:5</b></div><div><span>COMMON EDGE WITH SOLID RULES + BASIC STRATEGY</span><b>~0.5%</b></div></div></div>
-  <div class="blackjack-grid"><article class="strategy-card"><header><h3>Hard-total quick chart</h3><span>H = hit · S = stand · D = double</span></header><div class="bj-table" role="table" aria-label="Simplified blackjack basic strategy hard totals"><div class="bj-head"><b>Your total</b><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>A</span></div><div><b>9</b><i>H</i><i>D</i><i>D</i><i>D</i><i>D</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div><div><b>10</b><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>H</i><i>H</i></div><div><b>11</b><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>D</i><i>H</i></div><div><b>12</b><i>H</i><i>H</i><i>S</i><i>S</i><i>S</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div><div><b>13–16</b><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>H</i><i>H</i><i>H</i><i>H</i><i>H</i></div><div><b>17+</b><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i><i>S</i></div></div><p class="fineprint">Simplified multi-deck hard-total reference. Soft hands, pairs, surrender and rule variations change the full chart.</p></article><article class="rule-stack"><h3>Rules that actually matter</h3><div><b>3:2 blackjack payout</b><p>A $100 natural blackjack wins $150. A 6:5 table only pays $120 and meaningfully increases the house edge.</p></div><div><b>Dealer stands on soft 17</b><p>S17 is generally better for the player than H17.</p></div><div><b>Double after split</b><p>DAS improves the value of splitting pairs, especially aces and eights.</p></div><div><b>Surrender</b><p>When offered, surrender lets you give up half a bet instead of playing a very weak hand to the end.</p></div></article><aside class="tip-card"><span>BEST FIRST HABIT</span><h3>Use the chart every hand.</h3><p>Basic strategy removes most of the expensive guesswork. Learn the table first, then worry about speed.</p></aside></div>
+
+<!-- CHORDS -->
+<section class="view" id="v-chords">
+  <div class="vhead">
+    <div class="eyebrow">Chord Book</div>
+    <h2>Where to put <em>your fingers.</em></h2>
+    <p>Guitar, ukulele, mandolin and bass. Pick a chord, read the diagram, hear it strummed.</p>
+  </div>
+  <div id="chordBody"></div>
 </section>
-<section class="chapter baccarat" id="baccarat">
-  <div class="baccarat-head"><div><p class="kicker">02 / BACCARAT</p><h2>Most of baccarat is automatic. Your real decision is the bet.</h2><p>The dealer handles the drawing rules. You choose Banker, Player or Tie. That simple choice creates a huge difference in house edge.</p></div><div class="media-sprite media-baccarat" role="img" aria-label="Baccarat table with Player and Banker areas"></div></div>
-  <div class="baccarat-bets"><article class="best"><span>BEST STANDARD BET</span><h3>Banker</h3><b>1.06%</b><p>Typically the lowest house edge under standard 8-deck commission rules.</p></article><article><span>SECOND</span><h3>Player</h3><b>1.24%</b><p>No commission, still a relatively low-edge wager.</p></article><article class="bad"><span>LOOKS EXCITING</span><h3>Tie</h3><b>14.36%</b><p>Large payout, much worse long-run math. Avoid it as a routine bet.</p></article></div>
-  <div class="baccarat-explain"><div><span>1</span><h3>Cards are valued 0–9</h3><p>Tens and face cards count as zero. Only the last digit of the total matters.</p></div><div><span>2</span><h3>Player follows a simple draw rule</h3><p>Player normally draws on 0–5 and stands on 6–7. Naturals 8 or 9 stop the hand.</p></div><div><span>3</span><h3>Banker is conditional</h3><p>Banker's third-card rules depend on Player's result. The dealer handles this automatically.</p></div></div>
+
+<!-- PERCUSSION -->
+<section class="view" id="v-perc">
+  <div class="vhead">
+    <div class="eyebrow">The Practice Room</div>
+    <h2>Time, <em>taken seriously.</em></h2>
+    <p>Rudiments with sticking, a gap click that tests whether your time is actually internal,
+       polyrhythms, and a subdivision ladder. Built for someone who practises every day.</p>
+  </div>
+  <div id="percBody"></div>
 </section>
-<section class="chapter craps" id="craps">
-  <div class="craps-hero"><div class="media-sprite media-craps" role="img" aria-label="Craps table with dice and chips"></div><div><p class="kicker">03 / CRAPS</p><h2>Craps looks chaotic because the table shows every bet at once.</h2><p>You do not need every bet. Learn the round, then learn the low-edge bets.</p></div></div>
-  <div class="craps-flow"><article><span>01</span><h3>Come-out roll</h3><p>Pass Line wins on 7 or 11 and loses on 2, 3 or 12. Other numbers establish the point.</p></article><i>→</i><article><span>02</span><h3>Point is set</h3><p>4, 5, 6, 8, 9 or 10 becomes the point. The shooter keeps rolling.</p></article><i>→</i><article><span>03</span><h3>Point vs. seven</h3><p>Roll the point again before 7 and Pass Line wins. Roll 7 first and it loses.</p></article></div>
-  <div class="craps-table-wrap"><table><thead><tr><th>Bet</th><th>What it does</th><th>House edge</th><th>Use it?</th></tr></thead><tbody><tr><td>Pass Line</td><td>Backs the shooter through the basic round.</td><td>1.41%</td><td>Strong core bet</td></tr><tr><td>Don't Pass</td><td>Mostly bets against the shooter.</td><td>1.36%</td><td>Lowest common line edge</td></tr><tr><td>Odds</td><td>Additional wager behind a line bet, paid at true odds.</td><td>0.00%</td><td>Best mathematical add-on</td></tr><tr><td>Place 6 / 8</td><td>Wins if that number rolls before 7.</td><td>1.52%</td><td>Reasonable</td></tr><tr class="warn"><td>Many proposition bets</td><td>One-roll or center-table wagers with flashy payouts.</td><td>Often 9%+</td><td>Usually avoid</td></tr></tbody></table><aside><h3>Easy beginner route</h3><p>Start with Pass or Don't Pass. Once a point exists, add odds if your bankroll allows. Ignore the center of the table until you understand the price of every bet there.</p></aside></div>
+
+<!-- EAR -->
+<section class="view" id="v-ear">
+  <div class="vhead">
+    <div class="eyebrow">Ear Training</div>
+    <h2>The only skill that <em>transfers to everything.</em></h2>
+    <p>Seven drills, from naming intervals to identifying modes and progressions. Your streak and best score
+       stay on this device.</p>
+  </div>
+  <div id="earBody"></div>
 </section>
-<section class="chapter roulette" id="roulette">
-  <div class="roulette-layout"><div class="roulette-copy"><p class="kicker">04 / ROULETTE</p><h2>The extra zero is the entire story.</h2><p>Bet type changes variance, but the wheel determines the edge. If you can choose between single-zero and double-zero, the single-zero game is materially better.</p><div class="wheel-compare"><div><span>EUROPEAN</span><b>0</b><strong>2.70%</strong><small>37 pockets</small></div><div class="danger"><span>AMERICAN</span><b>0 + 00</b><strong>5.26%</strong><small>38 pockets</small></div><div><span>FRENCH</span><b>0</b><strong>2.70%*</strong><small>special even-money rules can reduce effective edge</small></div></div></div><div class="media-sprite media-roulette" role="img" aria-label="Roulette wheel and betting table"></div></div>
-  <div class="roulette-facts"><article><h3>Outside bets</h3><p>Red/black, odd/even, high/low. Lower variance, same base wheel edge.</p></article><article><h3>Inside bets</h3><p>Straights, splits, streets and corners. Bigger payouts, higher variance, same wheel edge.</p></article><article><h3>Past spins</h3><p>They do not make a number “due.” Each spin is independent.</p></article><article><h3>Best choice</h3><p>Prefer single-zero. If La Partage or En Prison applies to even-money bets, that can improve the effective edge further.</p></article></div>
+
+<!-- RHYTHM -->
+<section class="view" id="v-rhythm">
+  <div class="vhead">
+    <div class="eyebrow">Rhythm Room</div>
+    <h2>Time is the part <em>listeners actually feel.</em></h2>
+    <p>A metronome with real subdivisions, and a step sequencer preloaded with the grooves that built
+       popular music. Edit any of them.</p>
+  </div>
+  <div id="rhythmBody"></div>
 </section>
-<section class="chapter slots" id="slots">
-  <div class="slots-stage"><div class="media-sprite media-slots" role="img" aria-label="Luxury slot machine with reels and casino chips"></div><div class="slots-copy"><p class="kicker">05 / SLOTS</p><h2>RTP tells you the long-run average. Volatility tells you how the ride feels.</h2><p>Two slots can have the same RTP and behave completely differently session to session.</p></div></div>
-  <div class="slot-concepts"><article><b>RTP</b><h3>Return to Player</h3><p>A long-run modeled percentage across a very large number of spins. A 96% RTP does not promise 96% back in one session.</p></article><article><b>VOL</b><h3>Volatility</h3><p>Low volatility tends toward smaller, more frequent wins. High volatility tends toward larger, less frequent wins.</p></article><article><b>HIT</b><h3>Hit frequency</h3><p>How often a spin produces any win. It does not tell you whether the win is larger than the bet.</p></article><article><b>FEATURE</b><h3>Bonus mechanics</h3><p>Free spins, multipliers, wilds and jackpots change how value is distributed, not whether short-term results are predictable.</p></article></div>
-  <div class="volatility-demo"><div><span>LOW VOLATILITY</span><svg viewBox="0 0 300 80" aria-hidden="true"><path d="M0 48 C25 42,35 51,55 45 S90 41,105 48 S145 43,160 46 S200 40,218 47 S255 42,300 44"/></svg><small>Smaller swings, more frequent hits</small></div><div><span>HIGH VOLATILITY</span><svg viewBox="0 0 300 80" aria-hidden="true"><path d="M0 45 L25 62 L48 18 L74 67 L98 28 L130 58 L160 9 L194 70 L220 30 L250 59 L300 21"/></svg><small>Bigger swings, longer dry spells</small></div><p><b>Important:</b> volatility changes the distribution of outcomes, not the long-run RTP.</p></div>
+
+<!-- SKETCHPAD -->
+<section class="view" id="v-sketch">
+  <div class="vhead">
+    <div class="eyebrow">Progression Sketchpad</div>
+    <h2>Build something. <em>Then hear why it works.</em></h2>
+    <p>Choose a key, pick four diatonic chords, set the tempo and loop the result. Your sketch is saved on this device.</p>
+  </div>
+  <div id="sketchBody"></div>
 </section>
-<section class="chapter poker" id="poker">
-  <div class="poker-visual"><div class="media-sprite media-poker" role="img" aria-label="Poker table with cards, chips and hand rankings"></div></div><div class="poker-intro"><p class="kicker">06 / POKER</p><h2>Poker is different. Your edge is mostly against people, not a fixed casino paytable.</h2><p>The room takes rake, but your decisions are about ranges, position, bet sizing, pot odds and the opponents at the table.</p></div>
-  <div class="poker-grid"><article class="position-map"><h3>Position changes everything</h3><div class="oval"><span class="utg">UTG</span><span class="hj">HJ</span><span class="co">CO</span><span class="btn">BTN</span><span class="sb">SB</span><span class="bb">BB</span><b>Later position = more information</b></div><p>The Button usually acts later after the flop, which means more information before making a decision.</p></article><article class="rank-list"><h3>Hand rankings</h3><ol><li>Royal flush</li><li>Straight flush</li><li>Four of a kind</li><li>Full house</li><li>Flush</li><li>Straight</li><li>Three of a kind</li><li>Two pair</li><li>One pair</li><li>High card</li></ol></article><article class="pot-odds"><h3>Pot odds, simplified</h3><div class="formula"><span>call amount</span><i>÷</i><span>pot after your call</span><b>= required equity</b></div><p>Example: calling $20 to win a final pot of $120 means you need about 16.7% equity to break even before considering future action.</p></article></div>
+
+<!-- WORLD -->
+<section class="view" id="v-world">
+  <div class="vhead">
+    <div class="eyebrow">Around the World</div>
+    <h2>Twelve traditions, <em>and what each one solved.</em></h2>
+    <p>Every region below worked out its own answer to the same questions — how to organise pitch, how to
+       organise time. Open one to hear its scales, its grooves and a real melody from it.</p>
+  </div>
+  <div id="worldBody"></div>
 </section>
-<section class="chapter sports" id="sports">
-  <div class="sports-top"><div><p class="kicker">07 / SPORTSBOOK</p><h2>Bet the number, not the team name.</h2><p>A sports bet is a price on an outcome. The core skill is learning to read the line and compare that price to your estimate of what is likely to happen.</p></div><div class="media-sprite media-sports" role="img" aria-label="Sportsbook screen with football lines and bet slip"></div></div>
-  <div class="sports-board"><table><thead><tr><th>Market</th><th>What you are betting</th><th>Example</th><th>Read it like this</th></tr></thead><tbody><tr><td>Moneyline</td><td>Who wins outright</td><td>-150</td><td>Risk $150 to profit $100</td></tr><tr><td>Spread</td><td>Adjusted score margin</td><td>-3.5</td><td>Favorite must win by 4+</td></tr><tr><td>Total</td><td>Combined scoring</td><td>O/U 47.5</td><td>Over wins at 48+</td></tr><tr><td>Parlay</td><td>Multiple legs all combined</td><td>3 legs</td><td>Higher payout, probability drops fast</td></tr></tbody></table><aside><h3>Why -110 matters</h3><p>At -110, a $110 risk wins $100. The break-even probability is 52.38%, not 50%. That gap is part of the bookmaker's margin.</p><a href="#odds-lab">Open the odds calculator</a></aside></div>
+
+<!-- ENCYCLOPEDIA -->
+<section class="view" id="v-enc">
+  <div class="vhead">
+    <div class="eyebrow">Encyclopedia</div>
+    <h2>Every term, <em>in plain language.</em></h2>
+    <p>What it is, why it matters, and the thing people get wrong about it.</p>
+  </div>
+  <div id="encBody"></div>
 </section>
-<section class="odds-lab" id="odds-lab"><div class="lab-copy"><p class="kicker">ODDS LAB</p><h2>Turn a betting price into a probability.</h2><p>Once you can convert odds into implied probability, lines are easier to compare and bookmaker margin becomes easier to see.</p></div><form id="oddsForm" class="calculator" onsubmit="return false"><label>American odds<input id="americanOdds" type="number" value="-110" step="5"></label><label>Stake<input id="stake" type="number" value="100" min="0" step="5"></label><div><span>Implied probability</span><b id="probOut">52.38%</b></div><div><span>Profit if it wins</span><b id="profitOut">$90.91</b></div><div><span>Total return</span><b id="returnOut">$190.91</b></div></form><div class="lab-note"><b>Quick reference</b><span>-200 = 66.67%</span><span>-110 = 52.38%</span><span>+100 = 50.00%</span><span>+150 = 40.00%</span><span>+300 = 25.00%</span></div></section>
-<section class="responsibility"><div><p class="kicker">THE PART THAT MATTERS MOST</p><h2>Better strategy can reduce bad decisions. It cannot make gambling predictable.</h2></div><div class="responsibility-grid"><p>House edge and vig describe long-run math, not what will happen tonight.</p><p>Short-term variance can overwhelm even a small mathematical edge.</p><p>Set a budget before playing and treat it as entertainment money.</p><p>Never chase losses or increase risk just because you are down.</p></div><small>Educational content only. Gambling involves risk. If gambling stops being fun or feels difficult to control, take a break and seek support.</small></section>
+
+<!-- PATH -->
+<section class="view" id="v-path">
+  <div class="vhead">
+    <div class="eyebrow">The Path · 10 stages, in order</div>
+    <h2>Zero to <em>reading the language.</em></h2>
+    <p>Each stage assumes the last. Tick them off as they click — progress is saved on this device.</p>
+  </div>
+  <div id="pathBody"></div>
+</section>
+
 </main>
-<button class="floating-help" id="floatingHelp" type="button" aria-label="Open help">?</button><aside class="help-drawer" id="helpDrawer" aria-hidden="true" aria-label="HouseEdge quick help"><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button><p class="kicker">QUICK HELP</p><h2>Five terms that unlock the whole site.</h2><dl><div><dt>House edge</dt><dd>The casino's average mathematical advantage over many bets.</dd></div><div><dt>RTP</dt><dd>Return to Player. A long-run modeled return percentage, used mostly for slots.</dd></div><div><dt>Variance</dt><dd>How widely short-term results can swing around the long-run average.</dd></div><div><dt>Vig / juice</dt><dd>The bookmaker's pricing margin in sports betting.</dd></div><div><dt>Implied probability</dt><dd>The win rate built into a betting price. Odds can be converted directly into a percentage.</dd></div></dl><a href="#games" id="helpJump">Show me the games</a></aside><div class="drawer-backdrop" id="drawerBackdrop"></div>
-<footer><span>HOUSEEDGE / SAFI SOLUTIONS</span><a href="/">Back to SafiSolutions</a><span>LEARN THE GAME · RESPECT THE MATH</span></footer>
-</body></html>
+
+<footer><div class="wrap">
+  <p>Overtone · interactive music theory and practice · sampled instruments from the FluidR3 General MIDI set</p>
+</div></footer>
+</div>
+
+<!-- KEYBED -->
+<div id="keybed">
+  <div class="kb-bar">
+    <span class="now" id="nowNote">—</span>
+    <span class="grp">
+      <button onclick="octShift(-1)" aria-label="Octave down">◀</button>
+      <span id="octLbl" style="color:var(--dim)">C3</span>
+      <button onclick="octShift(1)" aria-label="Octave up">▶</button>
+    </span>
+    <span class="grp">
+      <button id="susBtn" onclick="toggleSustain()" title="Sustain pedal — or hold the space bar">sustain</button>
+      <button id="holdBtn" onclick="toggleHold()" title="Latch notes on until pressed again">hold</button>
+    </span>
+    <span class="grp">
+      <button id="chordBtn" onclick="toggleChordMode()" title="Play the diatonic chord for each key">chords</button>
+      <button id="snapBtn" onclick="toggleSnap()" title="Snap every key to the current scale">snap</button>
+    </span>
+    <span class="grp">
+      <button id="labBtn" class="on" onclick="cycleLabels()">names</button>
+    </span>
+    <span class="grp" title="Velocity">
+      <span style="color:var(--faint)">vel</span>
+      <input type="range" min="20" max="100" value="78" oninput="KB.vel=+this.value/100">
+    </span>
+    <span class="sp"></span>
+    <button id="panicBtn" onclick="A.releaseAll(true)" title="Stop all sound">stop</button>
+    <button id="hideBtn" onclick="toggleKeybed()">hide</button>
+  </div>
+  <div class="keys" id="keys"></div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="mwin"><div class="mbar"><span id="mTitle">Detail</span>
+    <button onclick="closeModal()" aria-label="Close">×</button></div>
+    <div class="mbody" id="mBody"></div></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="theory.js"></script>
+<script src="encyclopedia.js"></script>
+<script src="world.js"></script>
+<script src="app.js?v=20260905"></script>
+<script src="sketch.js"></script>
+<script src="chords.js"></script>
+<script src="extra.js"></script>
+<script src="tools.js"></script>
+
+<script id="ss-loader-script">
+(()=>{
+  const el=document.getElementById('ss-themed-loader');
+  if(!el) return;
+  const started=performance.now();
+  let leaving=false;
+  const leave=()=>{
+    if(leaving) return;
+    leaving=true;
+    const wait=Math.max(0,1100-(performance.now()-started));
+    setTimeout(()=>{
+      el.classList.add('is-leaving');
+      setTimeout(()=>el.remove(),520);
+    },wait);
+  };
+  if(document.readyState==='complete') leave();
+  else window.addEventListener('load',leave,{once:true});
+  setTimeout(leave,2200);
+})();
+</script>
+
+<script src="discovery.js?v=20260907"></script>
+</body>
+</html>
