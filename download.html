@@ -6,7 +6,7 @@
 <title>Secure downloads — Safi Solutions</title>
 <meta content="noindex,nofollow" name="robots"/>
 <style>
-:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b1017;color:#edf1ee;font-family:Arial,sans-serif;padding:24px}.card{width:min(720px,100%);padding:36px;border:1px solid #314139;background:#101720;box-shadow:0 24px 70px #0007}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9eb2a9;margin-bottom:12px}h1{font-size:36px;margin:0 0 12px}p{line-height:1.65;color:#bdc8c2;margin:0 0 18px}.status{padding:14px 16px;border:1px solid #41564c;background:#111b18;color:#dce6e1;margin:22px 0}.status.error{border-color:#6f4646;background:#1d1212;color:#ffd6d6}.download-list{display:grid;gap:10px;margin:18px 0}.download-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 15px;border:1px solid #33423b;background:#0f171d}.download-item strong{font-size:15px}.button{display:inline-block;padding:11px 14px;background:#e8b247;color:#11161d;text-decoration:none;font-weight:700;border:0;cursor:pointer}.small{font-size:13px;color:#899990;margin-top:18px}.install-help{margin-top:22px;padding:18px;border:1px solid #33423b;background:#0d151b}.install-help h2{font-size:18px;margin:0 0 10px}.install-help ol{margin:0 0 14px 20px;padding:0;color:#bdc8c2;line-height:1.7}.install-help li+li{margin-top:4px}.security-note{margin-top:14px;padding:14px 15px;border:1px solid #5d5135;background:#1a1710;color:#dfd5b6}.security-note strong{color:#fff}.install-help code{font-family:Consolas,monospace;color:#edf1ee}.legal{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid #2c3831;font-size:12px}.legal a{color:#aab8b1;text-decoration:none}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #62766c;border-top-color:#e8b247;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:580px){.card{padding:25px}.download-item{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b1017;color:#edf1ee;font-family:Arial,sans-serif;padding:24px}.card{width:min(720px,100%);padding:36px;border:1px solid #314139;background:#101720;box-shadow:0 24px 70px #0007}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9eb2a9;margin-bottom:12px}h1{font-size:36px;margin:0 0 12px}p{line-height:1.65;color:#bdc8c2;margin:0 0 18px}.status{padding:14px 16px;border:1px solid #41564c;background:#111b18;color:#dce6e1;margin:22px 0}.status.error{border-color:#6f4646;background:#1d1212;color:#ffd6d6}.download-list{display:grid;gap:10px;margin:18px 0}.download-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 15px;border:1px solid #33423b;background:#0f171d}.download-item strong{font-size:15px}.button{display:inline-block;padding:11px 14px;background:#e8b247;color:#11161d;text-decoration:none;font-weight:700;border:0;cursor:pointer}.small{font-size:13px;color:#899990;margin-top:18px}.purchase-reference{margin:16px 0 4px;padding:14px 15px;border:1px dashed #40564b;background:#0d151b;color:#bdc8c2;font-size:13px;line-height:1.6}.purchase-reference code{display:block;margin-top:6px;color:#fff;overflow-wrap:anywhere}.purchase-reference a{color:#e8b247}.install-help{margin-top:22px;padding:18px;border:1px solid #33423b;background:#0d151b}.install-help h2{font-size:18px;margin:0 0 10px}.install-help ol{margin:0 0 14px 20px;padding:0;color:#bdc8c2;line-height:1.7}.install-help li+li{margin-top:4px}.security-note{margin-top:14px;padding:14px 15px;border:1px solid #5d5135;background:#1a1710;color:#dfd5b6}.security-note strong{color:#fff}.install-help code{font-family:Consolas,monospace;color:#edf1ee}.legal{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid #2c3831;font-size:12px}.legal a{color:#aab8b1;text-decoration:none}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #62766c;border-top-color:#e8b247;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:580px){.card{padding:25px}.download-item{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
 </style>
 </head>
 <body>
@@ -16,6 +16,7 @@
 <p>Purchases are verified directly with Stripe before any private download is shown. The product name in the browser address is never used as proof of ownership.</p>
 <div class="status" id="status"><span class="spinner"></span>Verifying your purchase…</div>
 <div class="download-list" id="downloads" hidden></div>
+<div class="purchase-reference" id="purchase-reference" hidden><strong>Save this for future updates:</strong><code id="purchase-reference-code"></code><span>Use this purchase reference with the email used at checkout on the <a href="update.html">customer update page</a>.</span></div>
 <p class="small" id="help">If something does not look right, email <a href="mailto:safihelal@gmail.com?subject=SafiSolutions%20purchase%20download" style="color:#d7e1dc">safihelal@gmail.com</a> and include the email used at checkout.</p>
 <section class="install-help" aria-labelledby="install-heading">
   <h2 id="install-heading">Installing your SafiSolutions app</h2>
@@ -35,6 +36,8 @@
 (async function(){
   const status = document.getElementById('status');
   const downloads = document.getElementById('downloads');
+  const purchaseReference = document.getElementById('purchase-reference');
+  const purchaseReferenceCode = document.getElementById('purchase-reference-code');
   const params = new URLSearchParams(location.search);
   const sessionId = params.get('session_id');
   const testMode = params.get('mode') === 'test';
@@ -85,6 +88,10 @@
       downloads.append(row);
     });
     downloads.hidden = !(data.downloads || []).length;
+    if ((data.downloads || []).length) {
+      purchaseReferenceCode.textContent = sessionId;
+      purchaseReference.hidden = false;
+    }
     if (!data.downloads || !data.downloads.length) fail('Payment was verified, but no product entitlement was found. Contact Safi Solutions.');
   } catch (err) {
     fail('Secure delivery is not connected yet. Do not make another payment. Contact Safi Solutions if you already purchased.');
