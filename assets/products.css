@@ -427,3 +427,29 @@
   .product-shots{gap:7px!important}
   .product-shelf{padding:14px!important}
 }
+
+
+/* Final ownership-line visibility tweak — 2026-09-20 */
+.products-price-summary-top{justify-content:flex-start}
+.products-title-note{font-weight:600;color:var(--text);opacity:.82}
+
+@media(max-width:760px){
+  .products-title-note{
+    min-width:138px!important;
+    max-width:148px!important;
+    font-size:14.5px!important;
+    line-height:1.16!important;
+    font-weight:600!important;
+  }
+  .products-price-summary-top{justify-content:flex-start!important}
+}
+
+@media(max-width:430px){
+  .products-title-row{grid-template-columns:minmax(0,1fr) 120px!important}
+  .products-title-note{
+    min-width:120px!important;
+    max-width:120px!important;
+    font-size:13px!important;
+    line-height:1.16!important;
+  }
+}
