@@ -488,3 +488,73 @@
   }
   .products-price-summary{max-width:620px;padding-bottom:0}
 }
+
+
+/* Product heading message + ownership line beside pricing — local test, 2026-09-20 */
+.products-purpose-note{max-width:210px}
+.products-pricing-layout{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;align-items:end;width:100%}
+.products-pricing-block{min-width:0}
+.products-ownership-note{margin:0 0 7px!important;max-width:150px!important;font-weight:600;color:var(--text);opacity:.82}
+
+@media(max-width:1050px) and (min-width:761px){
+  .products-price-summary{max-width:760px!important}
+}
+@media(max-width:760px){
+  .products-pricing-layout{grid-template-columns:1fr!important;gap:12px!important;align-items:start!important}
+  .products-ownership-note{min-width:0!important;max-width:none!important;margin:0!important;text-align:left!important}
+  .products-purpose-note{min-width:138px!important;max-width:148px!important;text-align:right!important}
+}
+@media(max-width:430px){
+  .products-purpose-note{min-width:120px!important;max-width:120px!important;font-size:13px!important;line-height:1.16!important}
+}
+
+/* Product identity emphasis — local index test, 2026-09-20
+   Stronger individual wordmark personalities without overpowering the cards. */
+.product-shelf h2{
+  font-size:38px;
+  line-height:.95;
+  margin-bottom:9px;
+}
+#padeff-product h2{
+  font-family:'Newsreader',Georgia,serif;
+  font-size:40px;
+  font-weight:700;
+  letter-spacing:-.03em;
+}
+#piktoor-product h2{
+  font-family:'Syne','DM Sans',sans-serif;
+  font-size:39px;
+  font-weight:700;
+  letter-spacing:-.045em;
+}
+#kwezeen-product h2{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:40px;
+  font-weight:700;
+  letter-spacing:-.03em;
+}
+#doqcorp-product h2{
+  font-family:'Roboto Slab',Georgia,serif;
+  font-size:39px;
+  font-weight:700;
+  letter-spacing:-.025em;
+}
+#brandur-product h2{
+  font-family:'Unbounded','DM Sans',sans-serif;
+  font-size:37px;
+  font-weight:600;
+  letter-spacing:-.055em;
+}
+#doqdesk-product h2{
+  font-family:'Azeret Mono','IBM Plex Mono',monospace;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:-.06em;
+}
+@media(max-width:720px){
+  .product-shelf h2{font-size:34px}
+  #padeff-product h2,#kwezeen-product h2{font-size:36px}
+  #piktoor-product h2,#doqcorp-product h2{font-size:35px}
+  #brandur-product h2{font-size:33px}
+  #doqdesk-product h2{font-size:34px}
+}
