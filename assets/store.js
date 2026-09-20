@@ -71,19 +71,41 @@
   const dialog=document.getElementById('bundle-chooser');
   const openers=document.querySelectorAll('[data-bundle-chooser]');
   if(dialog&&openers.length){
-    const eligible=new Set((store.bundle3&&store.bundle3.eligibleApps)||[]);
     const checks=Array.from(dialog.querySelectorAll('input[type="checkbox"][data-app]'));
     const counter=dialog.querySelector('[data-bundle-count]');
     const continueBtn=dialog.querySelector('[data-bundle-continue]');
     const closeBtn=dialog.querySelector('[data-bundle-close]');
-    checks.forEach(c=>{if(!eligible.has(c.dataset.app)){c.disabled=true;const label=c.closest('label');if(label)label.hidden=true}});
+    const kicker=dialog.querySelector('.bundle-dialog-head .micro');
+    const title=dialog.querySelector('#bundle-title');
+    let activeBundle='bundle3';
+    let requiredCount=3;
+    let eligible=new Set();
+
     const update=()=>{
       const available=checks.filter(c=>eligible.has(c.dataset.app));
       const selected=available.filter(c=>c.checked);
-      available.forEach(c=>{c.disabled=selected.length>=3&&!c.checked});
-      if(counter)counter.textContent=selected.length+' / 3 selected';
-      if(continueBtn)continueBtn.disabled=selected.length!==3;
+      available.forEach(c=>{c.disabled=selected.length>=requiredCount&&!c.checked});
+      if(counter)counter.textContent=selected.length+' / '+requiredCount+' selected';
+      if(continueBtn)continueBtn.disabled=selected.length!==requiredCount;
     };
+
+    const configure=(bundleKey,count)=>{
+      activeBundle=bundleKey;
+      requiredCount=count;
+      const config=store[bundleKey]||{};
+      eligible=new Set(config.eligibleApps||config.apps||[]);
+      checks.forEach(c=>{
+        const allowed=eligible.has(c.dataset.app);
+        c.checked=false;
+        c.disabled=!allowed;
+        const label=c.closest('label');
+        if(label)label.hidden=!allowed;
+      });
+      if(kicker)kicker.textContent='ANY '+requiredCount+' BUNDLE';
+      if(title)title.textContent='Choose your '+requiredCount+' apps.';
+      update();
+    };
+
     checks.forEach(c=>c.addEventListener('change',update));
     openers.forEach(opener=>{
       if(!salesEnabled){
@@ -94,8 +116,9 @@
       }
       opener.addEventListener('click',e=>{
         e.preventDefault();
-        checks.forEach(c=>{if(eligible.has(c.dataset.app)){c.checked=false;c.disabled=false}});
-        update();dialog.showModal();
+        const count=Number(opener.dataset.bundleSize)||3;
+        configure(count===5?'bundle5':'bundle3',count===5?5:3);
+        dialog.showModal();
       });
     });
     if(closeBtn)closeBtn.addEventListener('click',()=>dialog.close());
@@ -103,8 +126,8 @@
     if(continueBtn)continueBtn.addEventListener('click',()=>{
       if(!salesEnabled)return;
       const selected=checks.filter(c=>eligible.has(c.dataset.app)&&c.checked).map(c=>c.dataset.app).sort();
-      if(selected.length!==3)return;
-      startCheckout({product:'bundle3',apps:selected},continueBtn);
+      if(selected.length!==requiredCount)return;
+      startCheckout({product:activeBundle,apps:selected},continueBtn);
     });
   }
 
