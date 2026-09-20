@@ -97,7 +97,7 @@
   const vellumLabel=$('.card-vellum .project-caption>span');
   if(vellumLabel) vellumLabel.textContent='Bible discovery';
   const tradingLogo=$('.markets-logo');
-  if(tradingLogo) tradingLogo.setAttribute('aria-label','Open The Trading Desk');
+  if(tradingLogo) tradingLogo.setAttribute('aria-label','Open TheTradingDesk');
 
   const makeArrowIcon=()=>{
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -190,7 +190,7 @@
     }
   }
   const homeSections=pages.filter(page=>page.id!=='project-detail');
-  const labels={products:'PRODUCTS / DESKTOP SOFTWARE',work:'PROJECTS / INTERACTIVE TOOLS',websites:'CLIENT WEBSITES',safistudios:'SAFISTUDIOS / BUSINESS SOFTWARE',markets:'THE TRADING DESK / MARKETS',about:'ABOUT HELAL',contact:'GET IN TOUCH'};
+  const labels={products:'PRODUCTS / DESKTOP SOFTWARE',work:'PROJECTS / INTERACTIVE TOOLS',websites:'CLIENT WEBSITES',safistudios:'SAFISTUDIOS / BUSINESS SOFTWARE',markets:'THETRADINGDESK / MARKETS',about:'ABOUT HELAL',contact:'GET IN TOUCH'};
   function highlight(id){
     all('[data-route]').forEach(a=>{if(a.dataset.route===id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
     $('#location-label').textContent=labels[id]||'SAFI SOLUTIONS';
