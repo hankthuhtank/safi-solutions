@@ -342,39 +342,8 @@ window.SAFI_PROJECTS = [
     featuredBench.innerHTML = '<a href="#thewell" class="project-cover" aria-label="View The Well"><div class="site-cover"><img src="assets/showcase/thewell-live.png?v=compact-bar-v2" alt="The Well — actual bartending guide homepage" width="1365" height="936" loading="lazy"></div></a><div class="project-caption"><a href="#thewell">The Well</a><span>Bartending guide</span></div>';
   }
 
-  const indexNav = document.querySelector('.project-index nav');
-  const benchIndex = indexNav?.querySelector('[data-project-link="thebench"]');
-  if (benchIndex) {
-    benchIndex.href = '#thewell';
-    benchIndex.dataset.projectLink = 'thewell';
-    benchIndex.innerHTML = '<span>02</span>The Well';
-  }
-
-  const voltIndex = indexNav?.querySelector('[data-project-link="voltvisual"]');
-  const motorIndex = indexNav?.querySelector('[data-project-link="motoratlas"]');
-  if (voltIndex && motorIndex) {
-    voltIndex.href = '#motoratlas';
-    voltIndex.dataset.projectLink = 'motoratlas';
-    voltIndex.innerHTML = '<span>03</span>MotorAtlas';
-    motorIndex.href = '#voltvisual';
-    motorIndex.dataset.projectLink = 'voltvisual';
-    motorIndex.innerHTML = '<span>06</span>VoltVisual';
-  }
-
-  if (indexNav && !indexNav.querySelector('[data-project-link="houseedge"]')) {
-    const link = document.createElement('a');
-    link.href = '#houseedge';
-    link.dataset.projectLink = 'houseedge';
-    link.innerHTML = '<span>09</span>HouseEdge';
-    indexNav.append(link);
-  }
-  if (indexNav && !indexNav.querySelector('[data-project-link="thebench"]')) {
-    const link = document.createElement('a');
-    link.href = '#thebench';
-    link.dataset.projectLink = 'thebench';
-    link.innerHTML = '<span>10</span>The Bench';
-    indexNav.append(link);
-  }
+  // Sidebar index is intentionally defined in index.html.
+  // Keep the requested 09-12 entries stable instead of rewriting them at runtime.
 
   const wall = document.querySelector('.project-wall.project-tools');
   const voltCard = wall?.querySelector('.card-voltvisual');
@@ -430,7 +399,7 @@ window.SAFI_PROJECTS = [
   makeWebsiteCard(
     '.websites-page .card-baker',
     'https://bakerinspections.com',
-    'https://bakerinspections.com/logo.png',
+    'assets/website-logos/baker-precision.png',
     'baker',
     'Baker Precision',
     'Home inspections website'
