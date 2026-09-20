@@ -353,3 +353,67 @@ footer{font-size:10px}
   .js .studio-page.active,.studio-page{padding:28px 18px 30px}
   .studio-product-shots{height:205px}
 }
+
+
+/* Mobile SafiStudios collision repair — 2026-09-20 */
+@media(max-width:760px){
+  .js .studio-page.active,.studio-page{
+    grid-template-columns:minmax(0,1fr)!important;
+    width:100%;
+    min-width:0;
+    overflow:hidden!important;
+    padding:30px 18px 32px!important;
+    row-gap:22px!important;
+  }
+  .studio-compact-copy,.studio-mini-examples{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    justify-self:stretch!important;
+  }
+  .studio-compact-copy>*{max-width:100%}
+  .studio-compact-copy h2,
+  .studio-compact-copy p{overflow-wrap:anywhere}
+  .studio-mini-examples{padding:0!important;overflow:hidden}
+
+  .studio-product-shots{
+    position:relative!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:0!important;
+    overflow:visible!important;
+  }
+  .studio-product-shots .product-shot,
+  .studio-product-shots .product-shot:first-child,
+  .studio-product-shots .product-shot:last-child{
+    position:relative!important;
+    inset:auto!important;
+    top:auto!important;
+    left:auto!important;
+    right:auto!important;
+    width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    margin:0!important;
+    transform:none!important;
+  }
+  .studio-mini-examples:hover .studio-product-shots .product-shot:first-child,
+  .studio-mini-examples:hover .studio-product-shots .product-shot:last-child{transform:none!important}
+  .studio-product-shots .product-shot img{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    border-radius:11px!important;
+  }
+  .studio-mini-examples>p{margin:12px 0 0!important;max-width:100%}
+}
+
+@media(max-width:430px){
+  .js .studio-page.active,.studio-page{padding:27px 18px 30px!important}
+  .studio-product-shots{gap:7px!important}
+}
