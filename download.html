@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Secure downloads — Safi Solutions</title>
+<meta content="noindex,nofollow" name="robots"/>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b1017;color:#edf1ee;font-family:Arial,sans-serif;padding:24px}.card{width:min(720px,100%);padding:36px;border:1px solid #314139;background:#101720;box-shadow:0 24px 70px #0007}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9eb2a9;margin-bottom:12px}h1{font-size:36px;margin:0 0 12px}p{line-height:1.65;color:#bdc8c2;margin:0 0 18px}.status{padding:14px 16px;border:1px solid #41564c;background:#111b18;color:#dce6e1;margin:22px 0}.status.error{border-color:#6f4646;background:#1d1212;color:#ffd6d6}.download-list{display:grid;gap:10px;margin:18px 0}.download-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 15px;border:1px solid #33423b;background:#0f171d}.download-item strong{font-size:15px}.button{display:inline-block;padding:11px 14px;background:#e8b247;color:#11161d;text-decoration:none;font-weight:700;border:0;cursor:pointer}.small{font-size:13px;color:#899990;margin-top:18px}.legal{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid #2c3831;font-size:12px}.legal a{color:#aab8b1;text-decoration:none}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #62766c;border-top-color:#e8b247;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:580px){.card{padding:25px}.download-item{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="eyebrow">Safi Solutions / Secure delivery</div>
+<h1>Your software.</h1>
+<p>Purchases are verified directly with Stripe before any private download is shown. The product name in the browser address is never used as proof of ownership.</p>
+<div class="status" id="status"><span class="spinner"></span>Verifying your purchase…</div>
+<div class="download-list" id="downloads" hidden></div>
+<p class="small" id="help">If something does not look right, email <a href="mailto:safihelal@gmail.com?subject=SafiSolutions%20purchase%20download" style="color:#d7e1dc">safihelal@gmail.com</a> and include the email used at checkout.</p>
+<nav class="legal" aria-label="Legal"><a href="support.html">Support &amp; updates</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds</a></nav>
+</main>
+<script>
+(async function(){
+  const status = document.getElementById('status');
+  const downloads = document.getElementById('downloads');
+  const params = new URLSearchParams(location.search);
+  const sessionId = params.get('session_id');
+
+  const fail = (message) => {
+    status.className = 'status error';
+    status.textContent = message;
+  };
+
+  if (!sessionId || !sessionId.startsWith('cs_')) {
+    fail('No valid Stripe Checkout Session was supplied. Open this page from the confirmation redirect after checkout.');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/fulfill?session_id=' + encodeURIComponent(sessionId), {
+      method: 'GET',
+      credentials: 'omit',
+      headers: { 'Accept': 'application/json' }
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) {
+      const message = data && data.error ? data.error : 'Secure delivery is not available yet. Your payment may still be successful; contact Safi Solutions for help.';
+      fail(message);
+      return;
+    }
+
+    status.className = 'status';
+    status.textContent = 'Purchase verified. Your links below expire automatically for security.';
+    downloads.innerHTML = '';
+    (data.downloads || []).forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'download-item';
+      const name = document.createElement('strong');
+      name.textContent = item.label || item.product || 'Download';
+      const link = document.createElement('a');
+      link.className = 'button';
+      link.href = item.url;
+      link.textContent = 'Download ↗';
+      link.rel = 'nofollow';
+      row.append(name, link);
+      downloads.append(row);
+    });
+    downloads.hidden = !(data.downloads || []).length;
+    if (!data.downloads || !data.downloads.length) fail('Payment was verified, but no product entitlement was found. Contact Safi Solutions.');
+  } catch (err) {
+    fail('Secure delivery is not connected yet. Do not make another payment. Contact Safi Solutions if you already purchased.');
+  }
+})();
+</script>
+</body>
+</html>

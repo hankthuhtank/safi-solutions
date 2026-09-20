@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /download.html
+Disallow: /api/
+
+Sitemap: https://www.safisolutions.org/sitemap.xml

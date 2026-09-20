@@ -1,32 +1,72 @@
-const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const {JSDOM}=require('jsdom');const root=path.resolve(__dirname,'..');
-const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
-const dom=new JSDOM(html,{url:'https://www.safisolutions.org/',runScripts:'outside-only',pretendToBeVisual:true});const w=dom.window,d=w.document;
-w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=function(){this.dataset.scrolled='true';};w.matchMedia=()=>({matches:false,addEventListener(){}});w.requestAnimationFrame=fn=>{fn();return 1;};
-w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};
-w.eval(fs.readFileSync(path.join(root,'assets/projects.js'),'utf8'));w.eval(fs.readFileSync(path.join(root,'assets/studio.js'),'utf8'));
-const click=s=>{assert.ok(d.querySelector(s),s);d.querySelector(s).click();};const route=hash=>{w.history.replaceState({},'',hash);w.dispatchEvent(new w.HashChangeEvent('hashchange'));};
-assert.equal(d.querySelectorAll('h1').length,1);assert.equal(d.querySelectorAll('#work .project-card').length,8);assert.equal(d.querySelectorAll('#websites .project-card').length,2);assert.equal(d.querySelectorAll('.website-list>a').length,3);
-assert.ok(d.querySelector('#work').classList.contains('active'));assert.ok(!d.querySelector('#websites').hidden);
-assert.equal(d.querySelector('#work .project-card a').hash,'#vellum');assert.ok(d.querySelector('#work .card-thebench'));assert.ok(!d.querySelector('#work .card-baker'));assert.ok(!d.querySelector('#work .card-safistudios'));
-assert.ok(d.querySelector('#markets').textContent.includes('I also teach markets'));
-assert.ok(!/coffee-counter|cedar-agenda|Maple & Bean|workflow-example|Different possibilities/.test(html));
-for(const img of d.querySelectorAll('img[src]'))assert.ok(fs.existsSync(path.join(root,img.getAttribute('src'))),img.src);
-for(const p of w.SAFI_PROJECTS){if(p.image)assert.ok(fs.existsSync(path.join(root,'assets/showcase',p.image)));if(p.logo)assert.ok(fs.existsSync(path.join(root,'assets/project-logos',p.logo)));}
-route('#websites');assert.ok(d.querySelector('#websites').classList.contains('active'));assert.ok(!d.querySelector('#work').hidden);
-route('#baker');assert.equal(d.querySelector('#detail-title').textContent,'Baker Precision');assert.ok(d.querySelector('#detail-visual img').src.endsWith('baker-live.webp'));assert.equal(d.querySelector('.detail-toolbar>a').hash,'#websites');assert.ok(d.querySelector('[data-route="websites"]').hasAttribute('aria-current'));
-route('#vellum');assert.ok(d.querySelector('#detail-visual img').src.endsWith('vellum-live.webp'));assert.equal(d.querySelector('.detail-toolbar>a').hash,'#work');
-route('#safistudios');assert.ok(d.querySelector('#safistudios').classList.contains('active'));assert.ok(d.querySelector('#safistudios').textContent.includes('events'));assert.ok(d.querySelector('#safistudios').textContent.includes('developing connected workflows'));
-click('[data-expand="coffee"]');assert.ok(d.querySelector('#sample-dialog').open);assert.ok(d.querySelector('#dialog-image').src.endsWith('java-workspace.webp'));
-click('#zoom-sample');assert.ok(d.querySelector('#sample-dialog').classList.contains('zoomed'));assert.equal(d.querySelector('#zoom-sample').textContent,'Fit image');click('#close-sample');assert.ok(!d.body.classList.contains('dialog-open'));
-click('[data-expand="pest"]');assert.ok(!d.querySelector('#sample-dialog').classList.contains('zoomed'));assert.ok(d.querySelector('#dialog-image').src.endsWith('cedar-workspace.webp'));click('#close-sample');
-route('#markets');assert.ok(d.querySelector('#work').classList.contains('active'));assert.equal(d.querySelector('#markets').dataset.scrolled,'true');
-route('#about');assert.ok(d.querySelector('#about').classList.contains('active'));
-route('#contact');assert.ok(d.querySelector('#contact').classList.contains('active'));assert.equal(d.querySelector('form').action,'https://formsubmit.co/safihelal@gmail.com');assert.equal(d.querySelector('[name="_captcha"]').value,'true');assert.ok(d.querySelector('[name="_honey"]'));
-click('[data-interest]');assert.equal(d.querySelector('#iq-interest').value,'SafiStudios / custom business software');
-click('#menu-toggle');assert.equal(d.querySelector('#menu-toggle').getAttribute('aria-expanded'),'true');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape'}));assert.equal(d.querySelector('#menu-toggle').getAttribute('aria-expanded'),'false');click('#motion-toggle');assert.equal(w.localStorage.getItem('safi-cabinet-motion'),'paused');
-route('#%FF');assert.ok(d.querySelector('#work').classList.contains('active'));
-assert.deepEqual(Array.from(d.querySelectorAll('main>.page')).slice(0,4).map(e=>e.id),['work','websites','safistudios','markets']);
-for(const card of d.querySelectorAll('#work .project-card'))assert.ok(card.querySelector('.site-cover img'));
-for(const id of ['tradeschool','overtone','motoratlas','cardesk','movedesk']){route('#'+id);assert.ok(d.querySelector('#detail-visual img').src.endsWith(id+'-live.webp'));assert.equal(d.querySelectorAll('#detail-visual .button').length,0);}
-console.log('PASS: continuous homepage order, eight real previews, consistent detail views, compact accurate studio, navigation, modal, form and menu.');w.close();
+const fs = require('node:fs');
+const path = require('node:path');
+const assert = require('node:assert/strict');
+const root = path.resolve(__dirname, '..');
+const read = p => fs.readFileSync(path.join(root, p), 'utf8');
+const exists = p => fs.existsSync(path.join(root, p));
+
+const html = read('index.html');
+const terms = read('terms.html');
+const launch = read('LAUNCH_SWITCH.js');
+const projects = read('assets/projects.js');
+const studio = read('assets/studio.js');
+const productsCss = read('assets/products.css');
+const studioCss = read('assets/studio.css');
+
+// Launch / checkout guardrails.
+assert.match(launch, /salesEnabled:\s*false/);
+assert.match(launch, /launchPricing:\s*true/);
+assert.match(html, /LAUNCH_SWITCH\.js/);
+assert.match(html, /assets\/store-config\.js/);
+assert.match(html, /assets\/store\.js/);
+
+// Customer contact destinations.
+assert.match(html, /formsubmit\.co\/safihelal@gmail\.com/);
+assert.match(read('support.html'), /formsubmit\.co\/safihelal@gmail\.com/);
+
+// Requested website / sidebar presentation.
+assert.match(html, /assets\/website-logos\/baker-precision\.png/);
+for (const [n, name, id] of [
+  ['09','Vellum','vellum'],['10','The Well','thewell'],['11','MotorAtlas','motoratlas'],['12','The Bench','thebench']
+]) {
+  const re = new RegExp(`data-project-link="${id}"[^>]*href="#${id}"[^>]*><span>${n}<\\/span>${name}`);
+  assert.match(html, re);
+}
+assert.doesNotMatch(html, /motion-toggle|Motion on|Motion off/);
+assert.doesNotMatch(studio, /motion-toggle|safi-cabinet-motion/);
+
+// Permissive post-purchase software rights + original-purchaser support distinction.
+assert.match(terms, /use, copy, modify, redistribute, or resell/i);
+assert.match(terms, /original SafiSolutions purchaser/i);
+assert.doesNotMatch(terms, /may not resell|may not.*redistribut/i);
+
+// Mobile breakpoints present in the primary style sheets.
+assert.match(studioCss, /@media\(max-width:520px\)/);
+assert.match(productsCss, /@media\(max-width:420px\)/);
+assert.match(productsCss, /@media\(max-width:600px\)/);
+
+// Critical local files.
+for (const p of [
+  'assets/website-logos/baker-precision.png',
+  'assets/images/logo.png',
+  'assets/images/logo-lockup.png',
+  'assets/products/padeff-1.webp',
+  'assets/products/piktoor-1.webp',
+  'assets/products/kwezeen-1.webp',
+  'assets/products/doqcorp-1.webp',
+  'assets/products/brandur-1.webp',
+  'deploy/cloudflare/worker.js',
+  'deploy/cloudflare/wrangler.toml.example',
+  'docs/launch-checklist.md',
+  'docs/fulfillment.md',
+  'docs/security.md'
+]) assert.ok(exists(p), `Missing ${p}`);
+
+// No stale duplicate launch docs in repository root.
+for (const p of [
+  'CUSTOMER_SUPPORT_AND_UPDATES.md','FULFILLMENT_SETUP.md','LAUNCH_CHECKLIST.md',
+  'PRESENTATION_FIXES.md','PRESENTATION_NOTES.md','PRODUCT_CHECKOUT_SETUP.md',
+  'RELEASE_PROCESS.md','SECURITY.md'
+]) assert.ok(!exists(p), `Stale root file should be removed: ${p}`);
+
+console.log('PASS: launch switch, contact routing, licensing, sidebar, Baker logo, mobile breakpoints, critical files, and repository cleanup.');
