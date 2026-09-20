@@ -29,6 +29,7 @@
   const workerBase = testMode
     ? 'https://safisolutions-downloads-test.safisolutions.workers.dev'
     : 'https://safisolutions-downloads.safisolutions.workers.dev';
+  const testKey = params.get('test_key') || '';
 
   const fail = (message) => {
     status.className = 'status error';
@@ -41,7 +42,8 @@
   }
 
   try {
-    const res = await fetch(workerBase + '/api/fulfill?session_id=' + encodeURIComponent(sessionId), {
+    const fulfillUrl = workerBase + '/api/fulfill?session_id=' + encodeURIComponent(sessionId) + (testMode ? '&test_key=' + encodeURIComponent(testKey) : '');
+    const res = await fetch(fulfillUrl, {
       method: 'GET',
       credentials: 'omit',
       headers: { 'Accept': 'application/json' }
