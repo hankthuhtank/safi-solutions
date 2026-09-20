@@ -17,19 +17,15 @@ body{background:#181b1f}
 .pricing-top{height:59px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);font:9px var(--mono);letter-spacing:.08em;color:var(--muted)}
 .pricing-top a{color:var(--text)}
 .pricing-page{max-width:1440px;margin:0 auto;padding:48px 38px 72px}
-.pricing-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:44px;align-items:end;padding-bottom:36px;border-bottom:1px solid var(--line)}
+.pricing-hero{max-width:980px;padding-bottom:30px;border-bottom:1px solid var(--line)}
 .pricing-hero .micro{display:block;margin-bottom:14px}
-.pricing-hero h1{font-size:clamp(54px,8vw,104px);line-height:.88;letter-spacing:-.065em;margin:0 0 22px;font-weight:500}
-.pricing-hero p{font-size:18px;line-height:1.65;color:#aeb6bf;max-width:720px}
-.pricing-hero-note{border-left:1px solid var(--line);padding-left:26px;display:grid;gap:16px}
-.pricing-hero-note strong{font:500 15px/1.5 var(--font)}
-.pricing-hero-note span{font:10px/1.6 var(--mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.pricing-hero h1{font-size:clamp(44px,6vw,76px);line-height:.94;letter-spacing:-.055em;margin:0 0 18px;font-weight:500}
+.pricing-hero p{font-size:17px;line-height:1.65;color:#aeb6bf;max-width:860px}
 .pricing-index{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 50px}
 .pricing-index a{border:1px solid var(--line);padding:10px 12px;font:10px var(--mono);letter-spacing:.05em;color:#c9d1d8}
 .pricing-index a:hover{border-color:#6f7d89;color:#fff}
 .price-section{scroll-margin-top:24px;margin-top:54px}
-.section-head{display:grid;grid-template-columns:180px 1fr;gap:28px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
-.section-head .micro{padding-top:7px}
+.section-head{padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .section-head h2{font-size:clamp(32px,4vw,54px);line-height:1;letter-spacing:-.045em}
 .section-head p{margin-top:11px;color:var(--muted);max-width:760px;font-size:14px}
 .price-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
@@ -68,12 +64,11 @@ body{background:#181b1f}
 .pricing-footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:48px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--muted)}
 .pricing-footer a{color:#d3dae0}
 @media(max-width:1050px){
-  .pricing-hero{grid-template-columns:1fr}.pricing-hero-note{border-left:0;border-top:1px solid var(--line);padding:22px 0 0}
   .price-card,.price-card.wide{grid-column:span 6}
 }
 @media(max-width:800px){
   .pricing-shell{margin-left:0;padding-top:64px}.pricing-page{padding:30px 20px 60px}.pricing-top{display:none}
-  .price-card,.price-card.wide{grid-column:1/-1}.section-head{grid-template-columns:1fr;gap:7px}
+  .price-card,.price-card.wide{grid-column:1/-1}
   .apps-strip{grid-template-columns:1fr 1fr}.apps-strip>div:nth-child(2){border-right:0}.apps-strip>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .payment-terms{grid-template-columns:1fr}.payment-terms>div{border-right:0;border-bottom:1px solid var(--line)}.payment-terms>div:last-child{border-bottom:0}
   .approach{grid-template-columns:1fr}
@@ -90,12 +85,12 @@ body{background:#181b1f}
   <p class="rail-intro">Independent software<br/>&amp; website design.</p>
   <nav aria-label="Main navigation" class="primary-nav">
     <a href="index.html#products">Products <span>06</span></a>
-    <a aria-current="page" href="pricing.html">Pricing</a>
     <a href="index.html#work">Projects <span>10</span></a>
     <a href="index.html#websites">Websites <span>05</span></a>
     <a href="index.html#safistudios">SafiStudios <span class="small-dot"></span></a>
     <a href="index.html#markets">TheTradingDesk</a>
     <a href="index.html#about">About</a>
+    <a aria-current="page" href="pricing.html">Pricing</a>
     <a href="support.html">Support</a>
     <a href="index.html#contact">Get in touch</a>
   </nav>
@@ -107,12 +102,12 @@ body{background:#181b1f}
   <button aria-controls="mobile-nav" aria-expanded="false" id="menu-toggle">Index +</button>
   <nav aria-label="Mobile navigation" id="mobile-nav">
     <a href="index.html#products">Products</a>
-    <a href="pricing.html">Pricing</a>
     <a href="index.html#work">Projects</a>
     <a href="index.html#websites">Websites</a>
     <a href="index.html#safistudios">SafiStudios</a>
     <a href="index.html#markets">TheTradingDesk</a>
     <a href="index.html#about">About</a>
+    <a href="pricing.html">Pricing</a>
     <a href="support.html">Support</a>
     <a href="index.html#contact">Contact</a>
   </nav>
@@ -122,15 +117,9 @@ body{background:#181b1f}
   <div class="pricing-top"><span>PRICING / SERVICES</span><span>SAFI SOLUTIONS <b>/ 2026</b></span><a href="mailto:safihelal@gmail.com">Let’s talk ↗</a></div>
   <main class="pricing-page">
     <section class="pricing-hero">
-      <div>
-        <span class="micro">STRAIGHTFORWARD PRICING</span>
-        <h1>Know the range.<br/>Then build the right thing.</h1>
-        <p>No inflated agency rates, unnecessary subscriptions, or bloated packages. Every project is different, so the final price depends on scope, complexity, integrations, and the amount of content or data involved.</p>
-      </div>
-      <aside class="pricing-hero-note">
-        <strong>Pricing here is a working guide, not a trap door.</strong>
-        <span>Final project scope and pricing are agreed on before development begins.</span>
-      </aside>
+      <span class="micro">PRICING</span>
+      <h1>Reasonably priced.<br/>Built around you.</h1>
+      <p>I try to keep pricing practical compared with typical industry rates, while making the final product as simple and customizable as possible for you. You should be paying for what you actually need—not extra complexity, features, or overhead that do not help your project.</p>
     </section>
 
     <nav class="pricing-index" aria-label="Pricing sections">
@@ -146,7 +135,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="apps">
       <header class="section-head">
-        <span class="micro">01 / SAFISOLUTIONS APPS</span>
         <div><h2>Desktop software.</h2><p>One-time purchases. Current storefront pricing is pulled directly from the same control file used by checkout so this page stays synchronized with live pricing.</p></div>
       </header>
       <div class="apps-strip">
@@ -159,7 +147,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="websites">
       <header class="section-head">
-        <span class="micro">02 / WEBSITES</span>
         <div><h2>Websites.</h2><p>Responsive builds for desktop and mobile, from focused landing pages to larger custom platforms.</p></div>
       </header>
       <div class="price-grid">
@@ -189,7 +176,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="ecommerce">
       <header class="section-head">
-        <span class="micro">03 / E-COMMERCE</span>
         <div><h2>Online stores.</h2><p>Pricing depends mostly on catalog size, variations, payment setup, shipping, accounts, order management, and required integrations.</p></div>
       </header>
       <div class="price-grid">
@@ -205,7 +191,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="existing">
       <header class="section-head">
-        <span class="micro">04 / EXISTING WEBSITES</span>
         <div><h2>Fixes & redesigns.</h2><p>For improving, repairing, modernizing, or reorganizing an existing website without automatically turning it into a full rebuild.</p></div>
       </header>
       <div class="price-grid">
@@ -221,7 +206,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="assets">
       <header class="section-head">
-        <span class="micro">05 / DIGITAL ASSETS</span>
         <div><h2>Asset preparation.</h2><p>Preparation and organization of digital assets for websites, software, branding, or online use.</p></div>
       </header>
       <div class="price-grid">
@@ -237,7 +221,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="business-software">
       <header class="section-head">
-        <span class="micro">06 / CUSTOM BUSINESS SOFTWARE</span>
         <div><h2>Built around the business.</h2><p>Customized around the way the business actually operates instead of forcing the business into generic software.</p></div>
       </header>
       <div class="price-grid">
@@ -281,7 +264,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="custom-software">
       <header class="section-head">
-        <span class="micro">07 / PURPOSE-BUILT SOFTWARE</span>
         <div><h2>Custom software.</h2><p>Software built specifically to solve a particular problem or perform a specialized task.</p></div>
       </header>
       <div class="price-grid">
@@ -303,7 +285,6 @@ body{background:#181b1f}
 
     <section class="price-section" id="payments">
       <header class="section-head">
-        <span class="micro">08 / HOW PRICING WORKS</span>
         <div><h2>Payment structure.</h2><p>Final scope and pricing are agreed upon before development begins.</p></div>
       </header>
       <div class="payment-terms">
