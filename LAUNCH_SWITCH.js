@@ -14,7 +14,7 @@ window.SAFI_STORE_CONTROL = {
     "salesEnabled": "Set true to open production checkout. Keep false while testing.",
     "pricingMode": "Use launch or regular. This changes BOTH displayed price and actual Stripe checkout amount.",
     "priceEdits": "Edit launchPrice or regularPrice numbers here. No Stripe Payment Link edit is required.",
-    "bundleNote": "bundle3 eligibleApps and bundle5 apps control which products are included."
+    "bundleNote": "bundle3 and bundle5 eligibleApps control which products customers can choose."
   },
   "salesEnabled": false,
   "pricingMode": "launch",
@@ -61,19 +61,21 @@ window.SAFI_STORE_CONTROL = {
       "piktoor",
       "kwezeen",
       "doqcorp",
-      "brandur"
+      "brandur",
+      "doqdesk"
     ]
   },
   "bundle5": {
-    "label": "All 5 Bundle",
+    "label": "Any 5 Bundle",
     "launchPrice": 99,
     "regularPrice": 149,
-    "apps": [
+    "eligibleApps": [
       "padeff",
       "piktoor",
       "kwezeen",
       "doqcorp",
-      "brandur"
+      "brandur",
+      "doqdesk"
     ]
   }
 };
