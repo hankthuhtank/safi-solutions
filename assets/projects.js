@@ -70,7 +70,7 @@ window.SAFI_PROJECTS = [
   },
   {
     "id": "tradingdesk",
-    "name": "The Trading Desk",
+    "name": "TheTradingDesk",
     "category": "learning",
     "type": "Trading education",
     "desc": "Markets, explained visually.",
