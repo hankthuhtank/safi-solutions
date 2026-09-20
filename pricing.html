@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="SafiSolutions pricing for desktop apps, websites, business software, redesigns, digital assets and custom development."/>
+<title>Pricing | Safi Solutions</title>
+<link rel="icon" href="assets/images/logo-mark.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="assets/studio.css?v=pricing-20260920" rel="stylesheet"/>
+<style>
+:root{--price-accent:#b8d8fa;--warm:#e8b247}
+body{background:#181b1f}
+.pricing-shell{margin-left:230px;min-height:100vh}
+.pricing-top{height:59px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);font:9px var(--mono);letter-spacing:.08em;color:var(--muted)}
+.pricing-top a{color:var(--text)}
+.pricing-page{max-width:1440px;margin:0 auto;padding:48px 38px 72px}
+.pricing-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:44px;align-items:end;padding-bottom:36px;border-bottom:1px solid var(--line)}
+.pricing-hero .micro{display:block;margin-bottom:14px}
+.pricing-hero h1{font-size:clamp(54px,8vw,104px);line-height:.88;letter-spacing:-.065em;margin:0 0 22px;font-weight:500}
+.pricing-hero p{font-size:18px;line-height:1.65;color:#aeb6bf;max-width:720px}
+.pricing-hero-note{border-left:1px solid var(--line);padding-left:26px;display:grid;gap:16px}
+.pricing-hero-note strong{font:500 15px/1.5 var(--font)}
+.pricing-hero-note span{font:10px/1.6 var(--mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.pricing-index{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 50px}
+.pricing-index a{border:1px solid var(--line);padding:10px 12px;font:10px var(--mono);letter-spacing:.05em;color:#c9d1d8}
+.pricing-index a:hover{border-color:#6f7d89;color:#fff}
+.price-section{scroll-margin-top:24px;margin-top:54px}
+.section-head{display:grid;grid-template-columns:180px 1fr;gap:28px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.section-head .micro{padding-top:7px}
+.section-head h2{font-size:clamp(32px,4vw,54px);line-height:1;letter-spacing:-.045em}
+.section-head p{margin-top:11px;color:var(--muted);max-width:760px;font-size:14px}
+.price-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.price-card{grid-column:span 4;border:1px solid var(--line);background:#1c2025;padding:22px;min-height:230px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.price-card.wide{grid-column:span 6}
+.price-card.full{grid-column:1/-1}
+.price-card:before{content:'';position:absolute;inset:0 auto 0 0;width:2px;background:transparent}
+.price-card:hover:before{background:var(--price-accent)}
+.price-kicker{font:9px var(--mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.price-card h3{font-size:24px;line-height:1.1;margin:14px 0 6px}
+.price{font-size:36px;line-height:1;letter-spacing:-.045em;margin:6px 0 18px}
+.price .from{font:9px var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px}
+.price small{font-size:14px;letter-spacing:0;color:var(--muted)}
+.price-card p{color:#aeb6bf;font-size:13px;margin-bottom:14px}
+.includes{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
+.includes span{border:1px solid #3d444c;padding:6px 8px;font:9px var(--mono);color:#b9c2cb}
+.price-card.featured{background:linear-gradient(180deg,#202a33,#1b2025);border-color:#50606e}
+.price-card.featured .price{color:#fff}
+.apps-strip{display:grid;grid-template-columns:1.1fr repeat(3,1fr);border:1px solid var(--line);background:#15191d}
+.apps-strip>div{padding:19px 20px;border-right:1px solid var(--line)}
+.apps-strip>div:last-child{border-right:0}
+.apps-strip .label{font:9px var(--mono);letter-spacing:.1em;color:var(--price-accent);text-transform:uppercase}
+.apps-strip strong{display:block;font-size:30px;margin-top:6px}
+.apps-strip del{font-size:12px;color:#7f8992;margin-left:6px}
+.apps-strip a{display:inline-block;margin-top:8px;font:10px var(--mono);border-bottom:1px solid currentColor;padding-bottom:3px}
+.payment-terms{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
+.payment-terms>div{padding:22px;border-right:1px solid var(--line)}
+.payment-terms>div:last-child{border-right:0}
+.payment-terms strong{display:block;font-size:22px;margin-bottom:8px}
+.payment-terms span{font-size:13px;color:var(--muted);line-height:1.6}
+.approach{margin-top:56px;padding:34px;border:1px solid #43515d;background:linear-gradient(135deg,#1e2830,#181d22);display:grid;grid-template-columns:180px 1fr;gap:28px}
+.approach h2{font-size:32px;line-height:1.05}
+.approach p{font-size:18px;line-height:1.7;color:#c9d0d7;max-width:850px}
+.approach strong{color:#fff}
+.disclaimer{margin-top:24px;color:#7f8992;font:10px/1.7 var(--mono)}
+.pricing-footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:48px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--muted)}
+.pricing-footer a{color:#d3dae0}
+@media(max-width:1050px){
+  .pricing-hero{grid-template-columns:1fr}.pricing-hero-note{border-left:0;border-top:1px solid var(--line);padding:22px 0 0}
+  .price-card,.price-card.wide{grid-column:span 6}
+}
+@media(max-width:800px){
+  .pricing-shell{margin-left:0;padding-top:64px}.pricing-page{padding:30px 20px 60px}.pricing-top{display:none}
+  .price-card,.price-card.wide{grid-column:1/-1}.section-head{grid-template-columns:1fr;gap:7px}
+  .apps-strip{grid-template-columns:1fr 1fr}.apps-strip>div:nth-child(2){border-right:0}.apps-strip>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .payment-terms{grid-template-columns:1fr}.payment-terms>div{border-right:0;border-bottom:1px solid var(--line)}.payment-terms>div:last-child{border-bottom:0}
+  .approach{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .pricing-hero h1{font-size:52px}.apps-strip{grid-template-columns:1fr}.apps-strip>div{border-right:0;border-bottom:1px solid var(--line)}.apps-strip>div:last-child{border-bottom:0}
+}
+</style>
+<script defer src="LAUNCH_SWITCH.js"></script>
+</head>
+<body>
+<aside class="cabinet-rail">
+  <a aria-label="Safi Solutions home" class="brand" href="index.html#products"><img alt="Safi Solutions" src="assets/images/logo-lockup.png"/></a>
+  <p class="rail-intro">Independent software<br/>&amp; website design.</p>
+  <nav aria-label="Main navigation" class="primary-nav">
+    <a href="index.html#products">Products <span>06</span></a>
+    <a aria-current="page" href="pricing.html">Pricing</a>
+    <a href="index.html#work">Projects <span>10</span></a>
+    <a href="index.html#websites">Websites <span>05</span></a>
+    <a href="index.html#safistudios">SafiStudios <span class="small-dot"></span></a>
+    <a href="index.html#markets">TheTradingDesk</a>
+    <a href="index.html#about">About</a>
+    <a href="support.html">Support</a>
+    <a href="index.html#contact">Get in touch</a>
+  </nav>
+  <div class="rail-footer"><span>HELAL SAFI<br/>PARIS, TEXAS</span></div>
+</aside>
+
+<header class="mobile-header">
+  <a href="index.html#products"><img alt="Safi Solutions" src="assets/images/logo-lockup.png"/></a>
+  <button aria-controls="mobile-nav" aria-expanded="false" id="menu-toggle">Index +</button>
+  <nav aria-label="Mobile navigation" id="mobile-nav">
+    <a href="index.html#products">Products</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="index.html#work">Projects</a>
+    <a href="index.html#websites">Websites</a>
+    <a href="index.html#safistudios">SafiStudios</a>
+    <a href="index.html#markets">TheTradingDesk</a>
+    <a href="index.html#about">About</a>
+    <a href="support.html">Support</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="pricing-shell">
+  <div class="pricing-top"><span>PRICING / SERVICES</span><span>SAFI SOLUTIONS <b>/ 2026</b></span><a href="mailto:safihelal@gmail.com">Let’s talk ↗</a></div>
+  <main class="pricing-page">
+    <section class="pricing-hero">
+      <div>
+        <span class="micro">STRAIGHTFORWARD PRICING</span>
+        <h1>Know the range.<br/>Then build the right thing.</h1>
+        <p>No inflated agency rates, unnecessary subscriptions, or bloated packages. Every project is different, so the final price depends on scope, complexity, integrations, and the amount of content or data involved.</p>
+      </div>
+      <aside class="pricing-hero-note">
+        <strong>Pricing here is a working guide, not a trap door.</strong>
+        <span>Final project scope and pricing are agreed on before development begins.</span>
+      </aside>
+    </section>
+
+    <nav class="pricing-index" aria-label="Pricing sections">
+      <a href="#apps">Apps</a>
+      <a href="#websites">Websites</a>
+      <a href="#ecommerce">E-Commerce</a>
+      <a href="#existing">Existing Sites</a>
+      <a href="#assets">Digital Assets</a>
+      <a href="#business-software">Business Software</a>
+      <a href="#custom-software">Custom Software</a>
+      <a href="#payments">Payment Terms</a>
+    </nav>
+
+    <section class="price-section" id="apps">
+      <header class="section-head">
+        <span class="micro">01 / SAFISOLUTIONS APPS</span>
+        <div><h2>Desktop software.</h2><p>One-time purchases. Current storefront pricing is pulled directly from the same control file used by checkout so this page stays synchronized with live pricing.</p></div>
+      </header>
+      <div class="apps-strip">
+        <div><span class="label">MODEL</span><strong>Buy once.</strong><a href="index.html#products">View products ↗</a></div>
+        <div data-live-price="single"><span class="label">1 APP</span><strong>$39</strong></div>
+        <div data-live-price="bundle3"><span class="label">ANY 3</span><strong>$99</strong></div>
+        <div data-live-price="bundle5"><span class="label">ANY 5</span><strong>$149</strong></div>
+      </div>
+    </section>
+
+    <section class="price-section" id="websites">
+      <header class="section-head">
+        <span class="micro">02 / WEBSITES</span>
+        <div><h2>Websites.</h2><p>Responsive builds for desktop and mobile, from focused landing pages to larger custom platforms.</p></div>
+      </header>
+      <div class="price-grid">
+        <article class="price-card featured">
+          <span class="price-kicker">Landing page / basic website</span>
+          <h3>Focused and complete.</h3>
+          <div class="price">$349</div>
+          <p>Best for smaller sites that need a polished web presence without unnecessary complexity.</p>
+          <div class="includes"><span>Landing pages</span><span>Personal sites</span><span>Small business</span><span>Portfolio</span><span>Service business</span></div>
+        </article>
+        <article class="price-card">
+          <span class="price-kicker">Expanded website</span>
+          <h3>More pages. More function.</h3>
+          <div class="price">$499–$999</div>
+          <p>For larger websites requiring additional pages, functionality, data, or backend features.</p>
+          <div class="includes"><span>Forms</span><span>Databases</span><span>Admin tools</span><span>User accounts</span><span>Scheduling</span><span>Custom features</span></div>
+        </article>
+        <article class="price-card">
+          <span class="price-kicker">Large website / web platform</span>
+          <h3>Multiple systems.</h3>
+          <div class="price">$1,249–$1,499+</div>
+          <p>For significantly larger projects requiring substantial custom development or multiple connected systems.</p>
+          <div class="includes"><span>Portals</span><span>Membership</span><span>Dashboards</span><span>Content systems</span><span>Complex backend</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="price-section" id="ecommerce">
+      <header class="section-head">
+        <span class="micro">03 / E-COMMERCE</span>
+        <div><h2>Online stores.</h2><p>Pricing depends mostly on catalog size, variations, payment setup, shipping, accounts, order management, and required integrations.</p></div>
+      </header>
+      <div class="price-grid">
+        <article class="price-card full featured">
+          <span class="price-kicker">E-Commerce website</span>
+          <h3>Storefront + checkout + operations.</h3>
+          <div class="price">$999–$1,999</div>
+          <p>Smaller stores generally fall toward the lower end. Larger catalogs and more advanced operational requirements move toward the higher end.</p>
+          <div class="includes"><span>Products</span><span>Inventory</span><span>Variations</span><span>Payments</span><span>Shipping</span><span>Accounts</span><span>Orders</span><span>Integrations</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="price-section" id="existing">
+      <header class="section-head">
+        <span class="micro">04 / EXISTING WEBSITES</span>
+        <div><h2>Fixes & redesigns.</h2><p>For improving, repairing, modernizing, or reorganizing an existing website without automatically turning it into a full rebuild.</p></div>
+      </header>
+      <div class="price-grid">
+        <article class="price-card wide">
+          <span class="price-kicker">Website fixes / redesign</span>
+          <h3>Repair what is already there.</h3>
+          <div class="price">$199–$499</div>
+          <p>Extensive rebuilds may be priced as a new website project.</p>
+          <div class="includes"><span>Visual redesign</span><span>Mobile responsiveness</span><span>Broken functionality</span><span>Navigation</span><span>Performance</span><span>UI/UX</span><span>Modernization</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="price-section" id="assets">
+      <header class="section-head">
+        <span class="micro">05 / DIGITAL ASSETS</span>
+        <div><h2>Asset preparation.</h2><p>Preparation and organization of digital assets for websites, software, branding, or online use.</p></div>
+      </header>
+      <div class="price-grid">
+        <article class="price-card wide">
+          <span class="price-kicker">Asset preparation</span>
+          <h3>Clean, usable, organized.</h3>
+          <div class="price">$99–$299</div>
+          <p>Final price depends on the quantity and complexity of the assets.</p>
+          <div class="includes"><span>Logo cleanup</span><span>Transparent assets</span><span>SVG/vector</span><span>Image resizing</span><span>Optimization</span><span>Favicons</span><span>App icons</span><span>Social sizes</span><span>File conversion</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="price-section" id="business-software">
+      <header class="section-head">
+        <span class="micro">06 / CUSTOM BUSINESS SOFTWARE</span>
+        <div><h2>Built around the business.</h2><p>Customized around the way the business actually operates instead of forcing the business into generic software.</p></div>
+      </header>
+      <div class="price-grid">
+        <article class="price-card">
+          <span class="price-kicker">Local desktop business app</span>
+          <h3>Local-first operations.</h3>
+          <div class="price">$499</div>
+          <p>A customized Windows desktop application with local data storage. No cloud service required.</p>
+          <div class="includes"><span>Customers</span><span>Scheduling</span><span>Inventory</span><span>Jobs</span><span>Estimates</span><span>Expenses</span><span>Forms</span><span>Reports</span></div>
+        </article>
+        <article class="price-card">
+          <span class="price-kicker">Desktop app + backend</span>
+          <h3>Shared data.</h3>
+          <div class="price">$749</div>
+          <p>Everything in the local application plus a connected backend for centralized or synchronized business data.</p>
+          <div class="includes"><span>Cloud-backed data</span><span>Multiple computers</span><span>Shared records</span><span>Remote sync</span><span>Central storage</span></div>
+        </article>
+        <article class="price-card">
+          <span class="price-kicker">Desktop + mobile</span>
+          <h3>Office + field access.</h3>
+          <div class="price">$999</div>
+          <p>A customized business application with desktop and mobile access for information away from the office.</p>
+          <div class="includes"><span>Desktop access</span><span>Mobile access</span><span>Connected data</span></div>
+        </article>
+        <article class="price-card wide featured">
+          <span class="price-kicker">Complete business system</span>
+          <h3>The full digital setup.</h3>
+          <div class="price">$1,499</div>
+          <p>A complete system built around the business.</p>
+          <div class="includes"><span>Custom desktop app</span><span>Backend</span><span>Mobile access</span><span>Business website</span></div>
+        </article>
+        <article class="price-card wide">
+          <span class="price-kicker">Advanced business system</span>
+          <h3>For larger operations.</h3>
+          <div class="price">$1,999–$2,999+</div>
+          <p>For significantly more customization and larger operational requirements. Large-scale projects are quoted individually.</p>
+          <div class="includes"><span>Multiple locations</span><span>Advanced workflows</span><span>Complex calculations</span><span>Dashboards</span><span>Large databases</span><span>Reporting</span><span>User roles</span><span>Integrations</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="price-section" id="custom-software">
+      <header class="section-head">
+        <span class="micro">07 / PURPOSE-BUILT SOFTWARE</span>
+        <div><h2>Custom software.</h2><p>Software built specifically to solve a particular problem or perform a specialized task.</p></div>
+      </header>
+      <div class="price-grid">
+        <article class="price-card wide featured">
+          <span class="price-kicker">Custom software</span>
+          <h3>One problem. Built properly.</h3>
+          <div class="price">$999–$1,499</div>
+          <p>These projects may be developed around a requested function rather than the standard business-app structure.</p>
+          <div class="includes"><span>Business utilities</span><span>Internal tools</span><span>Calculators</span><span>Data processing</span><span>Industry utilities</span><span>Automation</span><span>Reporting</span></div>
+        </article>
+        <article class="price-card wide">
+          <span class="price-kicker">Advanced custom software</span>
+          <h3>Complex architecture.</h3>
+          <div class="price"><span class="from">PRICED BY SCOPE</span>Custom quote</div>
+          <p>For substantial applications requiring multiple systems, cloud infrastructure, advanced integrations, specialized workflows, or significant ongoing development.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="price-section" id="payments">
+      <header class="section-head">
+        <span class="micro">08 / HOW PRICING WORKS</span>
+        <div><h2>Payment structure.</h2><p>Final scope and pricing are agreed upon before development begins.</p></div>
+      </header>
+      <div class="payment-terms">
+        <div><strong>Under $500</strong><span>Payment in full to begin.</span></div>
+        <div><strong>$500–$1,499</strong><span>50% to begin.<br/>50% upon completion.</span></div>
+        <div><strong>$1,500+</strong><span>Milestone payments based on the project.</span></div>
+      </div>
+    </section>
+
+    <section class="approach">
+      <span class="micro">THE SAFISOLUTIONS APPROACH</span>
+      <div><h2>You shouldn't need an enterprise budget to get good software.</h2><p>SafiSolutions focuses on practical websites, software, and business tools without unnecessary complexity or inflated agency pricing. <strong>Build what you actually need, make it easy to use, and charge a reasonable price for it.</strong></p></div>
+    </section>
+
+    <p class="disclaimer">Pricing is a guide. Final pricing depends on project scope, complexity, integrations, content, data volume, and requested functionality. Projects substantially beyond the ranges shown are quoted individually.</p>
+
+    <footer class="pricing-footer">
+      <span>SAFI SOLUTIONS / PRICING</span>
+      <div><a href="index.html#products">Products</a> &nbsp;·&nbsp; <a href="support.html">Support</a> &nbsp;·&nbsp; <a href="mailto:safihelal@gmail.com">Start a project ↗</a></div>
+    </footer>
+  </main>
+</div>
+
+<script>
+document.getElementById('menu-toggle')?.addEventListener('click',function(){
+  const nav=document.getElementById('mobile-nav');
+  const open=this.getAttribute('aria-expanded')==='true';
+  this.setAttribute('aria-expanded',String(!open));
+  nav?.classList.toggle('open',!open);
+});
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const store=window.SAFI_STORE_CONTROL;
+  if(!store)return;
+  const mode=store.pricingMode==='regular'?'regular':'launch';
+  const money=n=>'$'+Number(n||0).toFixed(0);
+  const priceFor=o=>mode==='launch'?o?.launchPrice:o?.regularPrice;
+  const regular=o=>o?.regularPrice;
+
+  const configs={
+    single:store.products?.padeff,
+    bundle3:store.bundle3,
+    bundle5:store.bundle5
+  };
+  Object.entries(configs).forEach(([key,item])=>{
+    const box=document.querySelector('[data-live-price="'+key+'"]');
+    if(!box||!item)return;
+    const strong=box.querySelector('strong');
+    if(strong) strong.innerHTML=money(priceFor(item))+(mode==='launch'&&regular(item)!==priceFor(item)?' <del>'+money(regular(item))+'</del>':'');
+    const label=box.querySelector('.label');
+    if(label&&mode==='launch') label.textContent=label.textContent+' / LAUNCH';
+  });
+});
+</script>
+</body>
+</html>
