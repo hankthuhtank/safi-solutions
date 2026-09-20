@@ -37,7 +37,7 @@
   }
 
   try {
-    const res = await fetch('/api/fulfill?session_id=' + encodeURIComponent(sessionId), {
+    const res = await fetch('https://safisolutions-downloads.safisolutions.workers.dev/api/fulfill?session_id=' + encodeURIComponent(sessionId), {
       method: 'GET',
       credentials: 'omit',
       headers: { 'Accept': 'application/json' }
