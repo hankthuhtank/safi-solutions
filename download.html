@@ -25,6 +25,10 @@
   const downloads = document.getElementById('downloads');
   const params = new URLSearchParams(location.search);
   const sessionId = params.get('session_id');
+  const testMode = params.get('mode') === 'test';
+  const workerBase = testMode
+    ? 'https://safisolutions-downloads-test.safisolutions.workers.dev'
+    : 'https://safisolutions-downloads.safisolutions.workers.dev';
 
   const fail = (message) => {
     status.className = 'status error';
@@ -37,7 +41,7 @@
   }
 
   try {
-    const res = await fetch('https://safisolutions-downloads.safisolutions.workers.dev/api/fulfill?session_id=' + encodeURIComponent(sessionId), {
+    const res = await fetch(workerBase + '/api/fulfill?session_id=' + encodeURIComponent(sessionId), {
       method: 'GET',
       credentials: 'omit',
       headers: { 'Accept': 'application/json' }
