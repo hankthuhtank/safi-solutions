@@ -152,10 +152,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 function Brand() {
   return (
-    <Link to="/" className="block">
-      <span className="font-display text-[1.35rem] leading-none tracking-[0.22em] text-fg uppercase">
-        The Well
-      </span>
+    <Link to="/" className="block" aria-label="The Well home">
+      <img
+        src="/assets/project-logos/thewell.jpg?v=5"
+        alt="The Well"
+        className="block h-auto w-[178px] max-w-full object-contain object-left lg:w-[190px]"
+      />
     </Link>
   );
 }

@@ -29,7 +29,7 @@ window.SAFI_PROJECTS = [
     "type": "Electrical systems",
     "desc": "See what is happening inside the system.",
     "color": "#153149",
-    "image": "volt-live.webp",
+    "image": "volt-live.webp?v=logo-v2",
     "logo": "voltvisual.svg",
     "detail": "An interactive field guide to industrial electrical systems, PLCs, drives and troubleshooting. Built for exploring the relationship between components and the work they do.",
     "url": "/voltvisual/"
@@ -113,7 +113,7 @@ window.SAFI_PROJECTS = [
     "logo": "motoratlas.svg",
     "detail": "Explore vehicle components, follow system flows and connect symptoms to diagnostic thinking.",
     "url": "/motoratlas/",
-    "image": "motoratlas-live.webp"
+    "image": "motoratlas-live.webp?v=logo-v2"
   },
   {
     "id": "cardesk",
@@ -149,7 +149,7 @@ window.SAFI_PROJECTS = [
     "logo": "houseedge.jpg?v=4",
     "detail": "A visual guide to blackjack, poker, baccarat, craps, roulette, slots and sports betting, built around rules, probability, house edge and practical strategy fundamentals.",
     "url": "/houseedge/",
-    "image": "houseedge-live.webp?v=actual-v1"
+    "image": "houseedge-live.webp?v=logo-v2"
   },
   {
     "id": "thewell",
@@ -161,7 +161,7 @@ window.SAFI_PROJECTS = [
     "logo": "thewell.jpg?v=4",
     "detail": "A compact bartending guide with 100 searchable recipes, a drink of the day, ingredient references, a flavor finder, bar lessons and a personal home bar.",
     "url": "/thewell/",
-    "image": "thewell-live.png?v=compact-bar-v2"
+    "image": "thewell-live.png?v=logo-v3"
   },
   {
     "id": "landry",

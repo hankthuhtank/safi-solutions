@@ -58,6 +58,7 @@ header#bar{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px) saturate(
   border-bottom:1px solid var(--line)}
 .bar-in{display:flex;align-items:center;gap:22px;height:64px}
 .brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.brand img{display:block;width:auto;height:34px;max-width:190px;object-fit:contain;object-position:left center}
 .brand svg{flex:0 0 auto}
 .brand b{font-family:var(--disp);font-weight:900;font-size:1.22rem;letter-spacing:.13em;
   font-variation-settings:'SOFT' 20,'WONK' 0}
@@ -331,6 +332,7 @@ footer p{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(-
 #rail{position:fixed;left:0;top:0;bottom:0;width:222px;z-index:90;background:linear-gradient(180deg,#100d0c,#0b0908);
   border-right:1px solid var(--line);display:flex;flex-direction:column;transition:transform .28s cubic-bezier(.2,.8,.3,1)}
 .rail-top{display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.rail-top img{display:block;width:100%;max-width:170px;height:auto;max-height:42px;object-fit:contain;object-position:left center}
 .rail-nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
 .rnav{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:9px;color:var(--dim);
   transition:.16s;position:relative}
@@ -485,11 +487,8 @@ body{background:
 <div id="grain" aria-hidden="true"></div>
 
 <aside id="rail" aria-label="Sections">
-  <a class="rail-top" href="#home">
-    <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-      <path d="M1 13c3-9 5 9 8 0s5 9 8 0 5 4 8 0" stroke="#d9a441" stroke-width="1.7" stroke-linecap="round"/></svg>
-    <span><b style="font-family:var(--disp);font-weight:900;letter-spacing:.11em;font-size:1.02rem">OVERTONE</b>
-    <i style="font-family:var(--mono);font-size:.46rem;letter-spacing:.2em;color:var(--faint);font-style:normal;display:block">hear how it works</i></span>
+  <a class="rail-top" href="#home" aria-label="Overtone home">
+    <img src="/assets/project-logos/overtone.svg?v=2" alt="Overtone">
   </a>
   <nav class="rail-nav" id="railNav"></nav>
   <div class="rail-foot">Play anything<br>Everything makes sound</div>
@@ -503,10 +502,7 @@ body{background:
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
     <a class="brand" href="#home" aria-label="Overtone home">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-        <path d="M1 13c3-9 5 9 8 0s5 9 8 0 5 4 8 0" stroke="#d9a441" stroke-width="1.7" stroke-linecap="round"/>
-      </svg>
-      <span><b>OVERTONE</b><i>hear how it works</i></span>
+      <img src="/assets/project-logos/overtone.svg?v=2" alt="Overtone">
     </a>
     <span style="flex:1"></span>
     <div class="rig">

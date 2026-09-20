@@ -157,6 +157,25 @@
   mobileNav.addEventListener('click', e => { if(e.target.closest('a')) closeMenu(); });
   document.addEventListener('keydown', e => { if(e.key==='Escape' && mobileNav.classList.contains('open')) {closeMenu();menu.focus();} });
   const el = (tag,cls,text) => {const n=document.createElement(tag); if(cls)n.className=cls; if(text)n.textContent=text;return n;};
+  let installProject=null;
+  const installDialog=$('#install-dialog');
+  const installButton=$('#detail-install');
+  const installOpen=$('#install-open-project');
+  const installTitle=$('#install-title');
+  const installCopy=$('#install-dialog-copy');
+  const openInstallHelp=()=>{
+    if(!installProject||!installDialog)return;
+    installTitle.textContent='Add '+installProject.name+' to your phone.';
+    installCopy.textContent='Save the live '+installProject.name+' project to your Home Screen so it opens like an app.';
+    installOpen.href=installProject.url;
+    installOpen.textContent='Open '+installProject.name;
+    installOpen.append(makeArrowIcon());
+    if(typeof installDialog.showModal==='function')installDialog.showModal();
+    else installDialog.setAttribute('open','');
+  };
+  installButton?.addEventListener('click',openInstallHelp);
+  $('#install-dialog-close')?.addEventListener('click',()=>installDialog?.close());
+  installDialog?.addEventListener('click',e=>{if(e.target===installDialog)installDialog.close();});
   function renderDetail(p) {
     $('#detail-title').textContent=p.name;
     $('#detail-type').textContent=p.type.toUpperCase();
@@ -164,6 +183,8 @@
     $('#detail-visit').href=p.url;
     $('#detail-visit').textContent=p.category==='websites'?'Visit live website':'Open live project';
     $('#detail-visit').append(makeArrowIcon());
+    installProject=p.category==='websites'?null:p;
+    if(installButton)installButton.hidden=p.category==='websites';
     const group=projects.filter(item=>p.category==='websites'?item.category==='websites':item.category!=='websites'&&item.id!=='safistudios');
     const index=group.indexOf(p);
     $('#previous-project').href='#'+group[(index-1+group.length)%group.length].id;

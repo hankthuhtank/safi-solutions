@@ -81,9 +81,8 @@
       <div class="shell theme-${theme}" data-world="${theme}">
         <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
         <header class="topbar">
-          <div class="brand" onclick="go('')">
-            <div class="brand-mark"><span></span></div>
-            <div>TradeSchool <small>VISUAL TRADE EDUCATION</small></div>
+          <div class="brand" onclick="go('')" role="link" tabindex="0" aria-label="The TradeSchool home">
+            <img src="/assets/project-logos/tradeschool.svg?v=2" alt="The TradeSchool">
           </div>
           <div class="top-actions">
             <button class="icon-btn search-trigger" onclick="openSearch()"><span>Search anything — “what is a contactor?”</span><span class="kbd">⌘ K</span></button>
