@@ -11,7 +11,7 @@ window.SAFI_STORE = {
     kwezeen: { regularPrice: 39, launchPrice: 29, launchUrl: "https://buy.stripe.com/3cI7sMbYS74IfIl8WOdAk02", regularUrl: "https://buy.stripe.com/9B6bJ2gf8gFi0Nra0SdAk09" },
     doqcorp: { regularPrice: 39, launchPrice: 29, launchUrl: "https://buy.stripe.com/fZu6oIbYS2OsdAd1umdAk03", regularUrl: "https://buy.stripe.com/7sY4gA2oiexa53Heh8dAk0a" },
     brandur: { regularPrice: 39, launchPrice: 29, launchUrl: "https://buy.stripe.com/9B68wQbYSdt6dAdb4WdAk04", regularUrl: "https://buy.stripe.com/6oUbJ26Ey88M9jXeh8dAk0b" },
-    doqdesk: { regularPrice: 39, launchPrice: 29, launchUrl: "", regularUrl: "" },
+    doqdesk: { regularPrice: 39, launchPrice: 29, launchUrl: "https://buy.stripe.com/dRmbJ25AugFieEh7SKdAk0y", regularUrl: "https://buy.stripe.com/dRm9AU4wqbkY67L7SKdAk0z" },
     "bundle-5": { regularPrice: 149, launchPrice: 99, launchUrl: "https://buy.stripe.com/bJe3cw3smbkY0Nreh8dAk06", regularUrl: "https://buy.stripe.com/eVq14o7IC2OseEheh8dAk0d" }
   },
   bundle3: {
