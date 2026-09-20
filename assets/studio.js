@@ -243,7 +243,7 @@
       else if(returning&&['work','websites'].includes(id))window.scrollTo({top:homeScroll,behavior:'instant'});
       else if(productAnchor)productTarget.scrollIntoView({behavior:'auto',block:'start'});
       else if(!initial||hash!=='products')document.getElementById(id).scrollIntoView({behavior:'auto',block:'start'});
-      if(!initial&&detail)$('#main').focus({preventScroll:true});
+      // Do not force focus into the page when opening a project; it can render a text caret in some browsers.
     });
   }
   window.addEventListener('hashchange',()=>route());
