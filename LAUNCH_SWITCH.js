@@ -16,7 +16,7 @@ window.SAFI_STORE_CONTROL = {
     "priceEdits": "Edit launchPrice or regularPrice numbers here. No Stripe Payment Link edit is required.",
     "bundleNote": "bundle3 and bundle5 eligibleApps control which products customers can choose."
   },
-  "salesEnabled": true,
+  "salesEnabled": false,
   "pricingMode": "launch",
   "checkoutWorker": "https://safisolutions-downloads.safisolutions.workers.dev",
   "testWorker": "https://safisolutions-downloads-test.safisolutions.workers.dev",
