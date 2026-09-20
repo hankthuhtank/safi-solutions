@@ -70,7 +70,6 @@
 .bundle-close{border:1px solid var(--line);background:transparent;color:var(--text);width:34px;height:34px;font-size:22px;cursor:pointer}
 .bundle-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .bundle-options label{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--line);background:rgba(255,255,255,.018);cursor:pointer}
-.bundle-options label:last-child{grid-column:1/-1}
 .bundle-options input{width:16px;height:16px;accent-color:#d8a449}
 .bundle-options span{display:grid;gap:2px}.bundle-options strong{font-size:13px}.bundle-options small{font-size:10px;color:var(--muted)}
 .bundle-options label:has(input:checked){border-color:#9a7840;background:rgba(216,164,73,.07)}
