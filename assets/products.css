@@ -557,3 +557,150 @@
   #brandur-product h2{font-size:33px}
   #doqdesk-product h2{font-size:34px}
 }
+
+
+/* Mobile compactness refinement — 2026-09-20
+   Keep desktop untouched while using the narrow screen more deliberately. */
+.products-purpose-note-mobile{display:none}
+.hero-secondary-links{display:contents}
+
+@media(max-width:760px){
+  /* Balanced hero navigation: four primary destinations, then the three utility links together. */
+  .hero-jump-nav{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    gap:6px!important;
+  }
+  .hero-jump-nav>a{
+    flex:1 1 auto;
+    min-width:0;
+    padding-left:9px!important;
+    padding-right:9px!important;
+    justify-content:center;
+  }
+  .hero-secondary-links{
+    display:flex;
+    flex:0 0 100%;
+    width:100%;
+    gap:6px;
+  }
+  .hero-secondary-links>a{
+    flex:1 1 0;
+    min-width:0;
+    min-height:32px;
+    padding:0 8px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.018);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:650;
+    letter-spacing:.025em;
+    white-space:nowrap;
+  }
+
+  /* Products title gets the full line; both short product messages share the next line. */
+  .products-title-row{
+    display:block!important;
+  }
+  .products-title-row>.products-purpose-note{
+    display:none!important;
+  }
+  .products-collection-header{
+    gap:11px!important;
+    margin-top:7px!important;
+    margin-bottom:18px!important;
+  }
+  .products-pricing-layout{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:8px 18px!important;
+    align-items:start!important;
+  }
+  .products-ownership-note,
+  .products-purpose-note-mobile{
+    display:block!important;
+    min-width:0!important;
+    max-width:none!important;
+    width:auto!important;
+    margin:0!important;
+    font-size:13px!important;
+    line-height:1.18!important;
+    font-weight:600!important;
+  }
+  .products-ownership-note{text-align:left!important}
+  .products-purpose-note-mobile{text-align:right!important}
+  .products-pricing-block{grid-column:1/-1}
+  .products-price-summary-top{margin-bottom:7px!important}
+
+  /* Turn the two screenshots into a compact mobile collage instead of a tall equal-row grid. */
+  .product-shots{
+    position:relative!important;
+    display:block!important;
+    height:198px!important;
+    min-height:198px!important;
+    margin:12px 0 0!important;
+    overflow:visible!important;
+  }
+  .product-shot,
+  .product-shot:first-child,
+  .product-shot:last-child{
+    position:absolute!important;
+    width:55%!important;
+    max-width:55%!important;
+    min-width:0!important;
+    margin:0!important;
+    inset:auto!important;
+    transform:none!important;
+  }
+  .product-shot:first-child{
+    left:0!important;
+    bottom:0!important;
+    z-index:1;
+  }
+  .product-shot:last-child{
+    right:0!important;
+    top:0!important;
+    z-index:2;
+  }
+  .product-shot img{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:198px!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    border-radius:10px!important;
+  }
+
+  /* The two examples called out on mobile get a slightly tighter stagger. */
+  #padeff-product .product-shot:last-child{
+    top:-16px!important;
+  }
+  #piktoor-product .product-shot:first-child{
+    top:-12px!important;
+    bottom:auto!important;
+    z-index:2;
+  }
+  #piktoor-product .product-shot:last-child{
+    top:auto!important;
+    bottom:0!important;
+    z-index:1;
+  }
+
+  .product-shelf,
+  .product-list>.product-shelf:last-child:nth-child(odd){
+    padding:14px!important;
+  }
+  .product-shelf-head{gap:10px!important}
+}
+
+@media(max-width:430px){
+  .hero-jump-nav>a{font-size:10px!important;padding-left:7px!important;padding-right:7px!important}
+  .hero-secondary-links>a{font-size:10px;padding-left:6px;padding-right:6px}
+  .products-ownership-note,
+  .products-purpose-note-mobile{font-size:12.5px!important}
+  .product-shots{height:184px!important;min-height:184px!important}
+  .product-shot img{max-height:184px!important}
+}
