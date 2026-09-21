@@ -16,7 +16,7 @@ window.SAFI_STORE_CONTROL = {
     "bundleNote": "bundle3 and bundle5 eligibleApps control which products customers can choose.",
     "updates": "For a new app version, upload the new ZIP to R2 then change that product's version + filePath here. No Worker redeploy is needed."
   },
-  "salesEnabled": false,
+  "salesEnabled": true,
   "pricingMode": "launch",
   "checkoutWorker": "https://safisolutions-downloads.safisolutions.workers.dev",
   "testWorker": "https://safisolutions-downloads-test.safisolutions.workers.dev",
