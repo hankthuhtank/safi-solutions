@@ -704,3 +704,26 @@
   .product-shots{height:184px!important;min-height:184px!important}
   .product-shot img{max-height:184px!important}
 }
+
+
+/* Preserve transparent/narrow product preview artwork — 2026-09-20
+   Do not paint a rectangular background behind transparent WebP artwork or
+   visually widen assets that were intentionally prepared with open space. */
+.product-shot img{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.26));
+}
+
+/* Keep the source artwork's transparent silhouette visible on mobile too.
+   The figure can position the asset, but the image itself should never gain
+   an artificial dark rectangle. */
+@media(max-width:760px){
+  .product-shot img{
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    filter:drop-shadow(0 8px 12px rgba(0,0,0,.24));
+  }
+}
