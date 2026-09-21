@@ -727,3 +727,38 @@
     filter:drop-shadow(0 8px 12px rgba(0,0,0,.24));
   }
 }
+
+
+/* Targeted mobile preview positioning — 2026-09-20 */
+@media(max-width:760px){
+  /* Padeff has extra headroom: pull both previews upward and shorten the preview stage. */
+  #padeff-product .product-shots{
+    height:180px!important;
+    min-height:180px!important;
+    margin-top:7px!important;
+  }
+  #padeff-product .product-shot:first-child{
+    bottom:16px!important;
+    top:auto!important;
+  }
+  #padeff-product .product-shot:last-child{
+    top:-28px!important;
+    bottom:auto!important;
+  }
+
+  /* Piktoor: keep the left image high and lift the right image so it grows upward, not downward. */
+  #piktoor-product .product-shot:last-child{
+    top:auto!important;
+    bottom:18px!important;
+  }
+}
+
+@media(max-width:430px){
+  #padeff-product .product-shots{
+    height:168px!important;
+    min-height:168px!important;
+  }
+  #padeff-product .product-shot:first-child{bottom:14px!important}
+  #padeff-product .product-shot:last-child{top:-24px!important}
+  #piktoor-product .product-shot:last-child{bottom:16px!important}
+}
