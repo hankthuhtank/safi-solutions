@@ -75,7 +75,7 @@ export default {
       return json({ error: "Not found." }, 404);
     } catch (error) {
       console.error(error);
-      return json({ error: "Server error." }, 500);
+      return json({ error: error?.message || "Server error." }, Number(error?.status) || 500);
     }
   }
 };
