@@ -1,0 +1,10 @@
+name = "safisolutions-downloads"
+main = "worker.js"
+compatibility_date = "2026-09-22"
+
+[vars]
+PRICING_MODE = "launch"
+
+[[r2_buckets]]
+binding = "PRODUCTS"
+bucket_name = "safisolutions-products"
