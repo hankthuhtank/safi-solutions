@@ -11,7 +11,7 @@
     const original=trigger.textContent;
     try{
       trigger.setAttribute('aria-busy','true');trigger.textContent='Opening checkout…';
-      const res=await fetch(checkoutWorker+'/api/checkout',{method:'POST',credentials:'omit',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({product})});
+      const res=await fetch(checkoutWorker+'/api/checkout',{method:'POST',credentials:'omit',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({product,pricing:launchMode?'launch':'regular'})});
       let data=null;try{data=await res.json()}catch(_){ }
       if(!res.ok||!data||!data.url)throw new Error(data&&data.error?data.error:'Checkout is not available right now.');
       location.href=data.url;
