@@ -7,8 +7,8 @@ This package already contains the storefront, Stripe Payment Links, secure `down
 - Accepts the Stripe Checkout Session ID after payment.
 - Retrieves that Checkout Session directly from Stripe using a server-side secret.
 - Requires `payment_status=paid`.
-- Ignores `product=` and `combo=` browser query parameters as proof of ownership.
-- Derives the purchased product from Stripe Price IDs and verified bundle metadata.
+- Ignores `product=` browser query parameters as proof of ownership.
+- Derives the purchased product from Stripe Price IDs for Kwezeen or DoqCorp.
 - Creates a short-lived signed token for each entitled product.
 - Streams the private file from R2 through `/api/file`.
 - Never exposes R2 credentials or permanent public object URLs.
@@ -91,10 +91,9 @@ The included example uses Resend for email delivery. `ORDER_FROM_EMAIL` must be 
 
 Test at least:
 
-- one individual app purchase
-- one Choose-3 combination
-- the All-5 bundle
-- tampering with `product=` or `combo=` in the URL
+- one Kwezeen purchase
+- one DoqCorp purchase
+- tampering with `product=` in the URL
 - an unpaid/canceled Checkout Session
 - an expired download token
 - a support request

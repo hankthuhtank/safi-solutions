@@ -26,8 +26,8 @@
 
     /* Trading Desk: let the actual logo be the clickable object, not a large box. */
     main>.market-page{align-items:center}
-    .markets-logo{display:flex!important;align-items:center!important;justify-content:center!important;justify-self:center!important;width:max-content!important;max-width:100%!important;padding:8px!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;overflow:visible!important}
-    .markets-logo img{width:360px!important;max-width:100%!important;height:auto!important;margin:auto!important;object-fit:contain!important;transition:transform .35s ease,filter .35s ease!important}
+    .markets-logo{display:flex!important;align-items:center!important;justify-content:center!important;justify-self:center!important;width:min(100%,540px)!important;max-width:540px!important;padding:8px!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;overflow:visible!important;margin:0 auto!important}
+    .markets-logo img{width:100%!important;max-width:100%!important;height:auto!important;margin:auto!important;object-fit:contain!important;transition:transform .35s ease,filter .35s ease!important}
     .markets-logo:hover img,.markets-logo:focus-visible img{transform:scale(1.055);filter:drop-shadow(0 10px 22px rgba(29,226,210,.18))}
 
     /* Cleaner icon treatment for calls to action. */
@@ -64,7 +64,7 @@
       .collection-header>div{min-width:0;flex:1 1 auto}
       .collection-header>p{display:block!important;flex:0 0 auto!important;width:auto!important;max-width:none!important;white-space:nowrap!important;font-size:clamp(10px,2.7vw,13px)!important;line-height:1.5!important;padding-bottom:3px!important}
 
-      .markets-logo{width:min(82vw,330px)!important;max-width:330px!important;padding:6px!important;margin:0 auto!important}
+      .markets-logo{width:min(92vw,430px)!important;max-width:430px!important;padding:6px!important;margin:0 auto!important}
       .markets-logo img{width:100%!important;height:auto!important}
 
       .about-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 135px!important;gap:18px 20px!important;align-items:center!important;margin:25px 0 30px!important}

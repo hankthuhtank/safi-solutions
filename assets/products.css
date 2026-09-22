@@ -61,29 +61,11 @@
 .price-divider{color:#60706b;opacity:.65}
 .launch-pricing-compact .price-cta{margin:0;font-size:9px;padding:0;border:0;border-bottom:1px solid currentColor;background:none;color:var(--text);cursor:pointer;font:inherit;font-size:9px;font-weight:700;line-height:1.2;text-decoration:none}
 
-/* Choose-3 dialog */
-.bundle-dialog{width:min(620px,calc(100vw - 28px));padding:0;border:1px solid #40524d;background:#0d1318;color:var(--text);box-shadow:0 28px 90px rgba(0,0,0,.58)}
-.bundle-dialog::backdrop{background:rgba(3,7,10,.76);backdrop-filter:blur(4px)}
-.bundle-dialog-card{padding:20px}
-.bundle-dialog-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}
-.bundle-dialog-head h2{font-size:28px;line-height:1;margin:5px 0 0;letter-spacing:-.035em}
-.bundle-close{border:1px solid var(--line);background:transparent;color:var(--text);width:34px;height:34px;font-size:22px;cursor:pointer}
-.bundle-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.bundle-options label{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--line);background:rgba(255,255,255,.018);cursor:pointer}
-.bundle-options input{width:16px;height:16px;accent-color:#d8a449}
-.bundle-options span{display:grid;gap:2px}.bundle-options strong{font-size:13px}.bundle-options small{font-size:10px;color:var(--muted)}
-.bundle-options label:has(input:checked){border-color:#9a7840;background:rgba(216,164,73,.07)}
-.bundle-options label:has(input:disabled):not(:has(input:checked)){opacity:.38;cursor:not-allowed}
-.bundle-dialog-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-.bundle-dialog-foot>span{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.bundle-dialog-foot .buy-once{border:0;cursor:pointer}.bundle-dialog-foot .buy-once:disabled{opacity:.35;cursor:not-allowed;transform:none;filter:none}
 
 @media(max-width:720px){
   .products-hero-compact h1{font-size:40px;margin-bottom:13px}
   .hero-jump-nav{gap:6px}.hero-jump-nav a{min-height:32px;padding:0 10px;font-size:10px}
   .launch-pricing-compact{gap:7px 9px;padding:9px 10px}.price-divider{display:none}.launch-kicker{width:100%;margin-bottom:1px}
-  .bundle-options{grid-template-columns:1fr}.bundle-options label:last-child{grid-column:auto}
-  .bundle-dialog-foot{align-items:stretch;flex-direction:column}.bundle-dialog-foot .buy-once{width:100%}
 }
 
 
@@ -232,7 +214,6 @@
 .hero-jump-nav a{font-size:12px;min-height:36px}
 .launch-deck-label span{font-size:10.5px}.launch-deck-label small{font-size:9.5px}
 .launch-deck-cell>small{font-size:9.5px}.launch-deck-action{font-size:11px}
-.bundle-options strong{font-size:14px}.bundle-options small{font-size:11px}
 @media(max-width:720px){
   .product-shelf-copy{font-size:15px}
   .product-tags span{font-size:10px}
@@ -837,4 +818,30 @@
     gap:10px!important;
     padding:8px 4px 16px!important;
   }
+}
+
+
+/* 2026-09-22 requested product hierarchy cleanup */
+.products-model-simple{
+  display:flex;
+  justify-content:flex-end;
+  align-items:flex-end;
+  gap:30px;
+  min-width:0;
+  padding:0 0 8px;
+}
+.products-model-simple-item{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+.products-model-simple-item strong{font-size:29px;line-height:1;letter-spacing:-.05em;font-weight:650}
+.products-model-simple-item span{font:10px/1.2 var(--mono);letter-spacing:.11em;color:var(--muted)}
+.products-model-simple-item.free strong{color:#73e4c8}
+.products-model-simple-item.paid strong{color:#e8b247}
+.product-shelf-paid{border-color:rgba(232,178,71,.48)}
+.product-shelf-paid .product-tags span{border-color:rgba(232,178,71,.28)}
+@media(max-width:900px){
+  .products-model-simple{justify-content:flex-start;padding-bottom:0}
+}
+@media(max-width:520px){
+  .products-model-simple{gap:18px;flex-wrap:wrap}
+  .products-model-simple-item strong{font-size:24px}
+  .products-model-simple-item span{font-size:9px}
 }

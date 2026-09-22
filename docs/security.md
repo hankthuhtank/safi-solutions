@@ -16,9 +16,9 @@ Real secrets belong only in Cloudflare Worker secrets/environment configuration.
 
 ## Download authorization
 
-Do not authorize downloads using browser query parameters such as `product=`, `combo=`, filenames, hidden form fields, or JavaScript values.
+Do not authorize downloads using browser query parameters such as `product=`, filenames, hidden form fields, or JavaScript values.
 
-The included Worker retrieves the Checkout Session directly from Stripe, checks that it is paid, and derives entitlement from Stripe Price IDs plus verified bundle metadata.
+The included Worker retrieves the Checkout Session directly from Stripe, checks that it is paid, and derives entitlement from Stripe Price IDs for Kwezeen or DoqCorp.
 
 ## R2
 
