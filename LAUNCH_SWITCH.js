@@ -1,9 +1,9 @@
 /* SafiSolutions storefront control — 4 free tools + 2 paid apps. */
 window.SAFI_STORE_CONTROL = {
-  salesEnabled: true,
+  salesEnabled: false,
   pricingMode: "launch",
   checkoutWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
-  freeDownloadsEnabled: true,
+  freeDownloadsEnabled: false,
   freeDownloadWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
   products: {
     padeff:  { label:"Padeff",  free:true,  version:"1.0", filePath:"padeff/Padeff 1.0.zip" },
