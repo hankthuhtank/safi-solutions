@@ -31,7 +31,7 @@
     const shelf=link.closest('.product-shelf');
     if(shelf){
       const price=shelf.querySelector('.product-price');
-      if(price){const del=price.querySelector('del'),strong=price.querySelector('strong'),small=price.querySelector('small');if(del){del.textContent=money(item.regularPrice);del.hidden=!launchMode}if(strong)strong.textContent=money(current);if(small)small.textContent=launchMode?'launch · one-time':'one-time purchase';}
+      if(price){const del=price.querySelector('del'),strong=price.querySelector('strong'),small=price.querySelector('small');if(del){del.textContent=money(item.regularPrice);del.hidden=!launchMode}if(strong)strong.textContent=money(current);if(small)small.textContent='one-time';}
     }
     if(control.salesEnabled){link.href='#';link.addEventListener('click',e=>{e.preventDefault();startCheckout(key,link)});}else{link.href='#';link.setAttribute('aria-disabled','true');link.textContent='Sales opening soon';link.addEventListener('click',e=>e.preventDefault());}
   });
