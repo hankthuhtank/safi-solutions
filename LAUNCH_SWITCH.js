@@ -6,11 +6,11 @@ window.SAFI_STORE_CONTROL = {
   freeDownloadsEnabled: false,
   freeDownloadWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
   products: {
-    padeff:  { label:"Padeff",  free:true,  version:"1.0", filePath:"padeff/Padeff 1.0.zip" },
-    piktoor: { label:"Piktoor", free:true,  version:"1.0", filePath:"piktoor/Piktoor 1.0.zip" },
-    kwezeen: { label:"Kwezeen", free:false, launchPrice:29, regularPrice:39, version:"1.0", filePath:"kwezeen/Kwezeen 1.0.zip" },
-    doqcorp: { label:"DoqCorp", free:false, launchPrice:29, regularPrice:39, version:"1.0", filePath:"doqcorp/DoqCorp 1.0.zip" },
-    brandur: { label:"Brandur", free:true,  version:"1.0", filePath:"brandur/Brandur 1.0.zip" },
-    doqdesk: { label:"DoqDesk", free:true,  version:"1.0", filePath:"doqdesk/DoqDesk 1.0.zip" }
+    padeff:  { label:"Padeff",  free:true,  version:"1.0", filePath:"padeff/Padeff.exe" },
+    piktoor: { label:"Piktoor", free:true,  version:"1.0", filePath:"piktoor/Piktoor.exe" },
+    kwezeen: { label:"Kwezeen", free:false, launchPrice:29, regularPrice:39, version:"1.0", filePath:"kwezeen/Kwezeen.exe" },
+    doqcorp: { label:"DoqCorp", free:false, launchPrice:29, regularPrice:39, version:"1.0", filePath:"doqcorp/DoqCorp.exe" },
+    brandur: { label:"Brandur", free:true,  version:"1.0", filePath:"brandur/Brandur.exe" },
+    doqdesk: { label:"DoqDesk", free:true,  version:"1.0", filePath:"doqdesk/DoqDesk.exe" }
   }
 };
