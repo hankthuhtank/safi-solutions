@@ -28,3 +28,7 @@
 .features-head-compact{display:block;margin-bottom:16px}
 .features-head-compact h2{font-size:31px;margin:0}
 @media(max-width:520px){.features-head-compact h2{font-size:29px}}
+
+
+/* Installer handoff notice */
+.install-notice{width:min(520px,calc(100vw - 28px));padding:0;border:1px solid #56616b;background:#171b20;color:var(--text)}.install-notice::backdrop{background:#050709cc}.install-notice-card{padding:24px}.install-notice-kicker{font:10px var(--mono);letter-spacing:.1em;color:var(--muted)}.install-notice h2{font-size:25px;margin:7px 0 10px}.install-notice p{margin:0;color:#c4cbd1;line-height:1.55;font-size:14px}.install-notice-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.install-notice-actions .button{min-height:42px}@media(max-width:520px){.install-notice-actions{flex-direction:column-reverse}.install-notice-actions .button{width:100%}}
