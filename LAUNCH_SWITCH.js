@@ -3,7 +3,7 @@ window.SAFI_STORE_CONTROL = {
   salesEnabled: true,
   pricingMode: "launch",
   checkoutWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
-  freeDownloadsEnabled: false,
+  freeDownloadsEnabled: true,
   freeDownloadWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
   products: {
     padeff:  { label:"Padeff",  free:true,  version:"1.0", filePath:"padeff/Padeff 1.0.zip" },
