@@ -11,7 +11,7 @@ function SpiritsPage() {
 
   return (
     <main className="px-4 py-8 sm:px-8">
-      <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">Knowledge</p>
+      <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">Knowledge</p>
       <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
         Bottles
       </h1>
@@ -25,7 +25,7 @@ function SpiritsPage() {
           if (!items.length) return null;
           return (
             <section key={shelf.id}>
-              <h2 className="mb-4 font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
+              <h2 className="mb-4 font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
                 {shelf.label}
               </h2>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -43,7 +43,7 @@ function SpiritsPage() {
                           <span className="block font-display text-xl leading-tight">{b.name}</span>
                           <span className="block truncate text-xs text-muted">{b.taste}</span>
                         </span>
-                        <span className="ml-auto font-mono text-[10px] text-subtle tabular-nums">
+                        <span className="ml-auto font-mono text-[11px] text-subtle tabular-nums">
                           {n}
                         </span>
                       </Link>

@@ -18,7 +18,18 @@ thewell/
     routes/       library, stock, map, lineage, bottles, learn, service
 ```
 
-`index.html` / `app.js` / `app.css` are what GitHub Pages serves. Everything else is source.
+`index.html` / `app.js` / `app.css` are what the site serves — the bundle is self-hosted, nothing loads from a CDN. Everything else is source.
+
+## Build
+
+```bash
+npm install
+npm run build          # vite → dist/app.js + dist/app.css
+cp dist/app.js dist/app.css .
+```
+
+`index.html` is kept by hand and already points at `/thewell/app.js` and `/thewell/app.css`; `npm run dev` swaps in `src/main.tsx` for local work.
+Deep links such as `/thewell/d/negroni` survive a refresh because the site's root `404.html` hands `/thewell/*` paths back to the app.
 
 ## Modes
 

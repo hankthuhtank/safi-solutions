@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090916">
+<meta name="theme-color" content="#0e1011">
 <title>MoveDesk — Relocation Intelligence</title>
 <meta name="description" content="MoveDesk turns two locations into a relocation command center with route, destination essentials, move math, climate context and a personalized action plan.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,300..900;1,400..800&family=Overpass+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="styles.css?v=20260907">
+<link rel="stylesheet" href="interstate.css?v=1">
 </head>
 <body>
 <div id="boot" aria-hidden="true"><div class="boot-card"><img src="/assets/project-logos/movedesk.svg?v=3" alt="" class="boot-logo"><div class="boot-route"><i></i></div><div class="boot-foot"><span>Building relocation workspace</span><b>ROUTE · COST · TASKS</b></div></div></div>
@@ -70,7 +71,7 @@
     <div class="budget-console">
       <div class="budget-inputs">
         <label>CURRENT HOUSING / MO<input id="currentHousing" type="number" min="0" value="1200"></label><label>NEW HOUSING / MO<input id="newHousing" type="number" min="0" value="1500"></label>
-        <label>MOVERS / TRUCK QUOTE<input id="movingQuote" type="number" min="0" value="1600"></label><label>DRIVING MILES OVERRIDE<input id="manualMiles" type="number" min="0" step="1" placeholder="Use road route when blank"></label><label>VEHICLE MPG<input id="moveMpg" type="number" min="1" step=".1" value="25"></label>
+        <label>MOVERS / TRUCK QUOTE<input id="movingQuote" type="number" min="0" value="1600"></label><label>DRIVING MILES OVERRIDE<input id="manualMiles" type="number" min="0" step="1" placeholder="Auto"></label><label>VEHICLE MPG<input id="moveMpg" type="number" min="1" step=".1" value="25"></label>
         <label>GAS PRICE / GAL<input id="moveGas" type="number" min="0" step=".01" value="3.25"></label><label>HOTEL NIGHTS<input id="hotelNights" type="number" min="0" value="0"></label>
         <label>HOTEL / NIGHT<input id="hotelRate" type="number" min="0" value="140"></label><label>OTHER ONE-TIME COSTS<input id="otherCost" type="number" min="0" value="500"></label>
       </div>
@@ -97,7 +98,7 @@
 </section>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="/assets/vendor/leaflet/leaflet.js"></script>
 <script src="app.js?v=20260907"></script>
 <script src="extras.js?v=20260907"></script>
 </body>

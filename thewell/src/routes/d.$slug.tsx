@@ -19,7 +19,7 @@ function DrinkPage() {
       <div className="mb-8 flex items-center justify-between gap-4">
         <Link
           to="/"
-          className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase transition-colors duration-150 hover:text-fg"
+          className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase transition-colors duration-150 hover:text-fg"
         >
           Back to the rail
         </Link>
@@ -28,7 +28,7 @@ function DrinkPage() {
             <Link
               to="/d/$slug"
               params={{ slug: prev.id }}
-              className="font-mono text-[10px] tracking-[0.16em] text-muted uppercase hover:text-fg"
+              className="font-mono text-[11px] tracking-[0.16em] text-muted uppercase hover:text-fg"
             >
               Prev
             </Link>
@@ -37,7 +37,7 @@ function DrinkPage() {
             <Link
               to="/d/$slug"
               params={{ slug: next.id }}
-              className="font-mono text-[10px] tracking-[0.16em] text-muted uppercase hover:text-fg"
+              className="font-mono text-[11px] tracking-[0.16em] text-muted uppercase hover:text-fg"
             >
               Next
             </Link>

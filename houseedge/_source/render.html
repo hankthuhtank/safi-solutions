@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HouseEdge — scene renderer</title>
+<!-- Offline tool: renders the page photographs. Open render.html?scene=blackjack&w=1600&h=1067 and save the canvas. -->
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Schibsted+Grotesk:wght@500;600;700;800&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script type="module">
+import { THREE, makeRenderer } from '../props3d.js';
+import { SCENES } from './scenes.js';
+const q = new URLSearchParams(location.search), name = q.get('scene') || 'hero', W = +(q.get('w') || 1600), H = +(q.get('h') || 1067);
+await Promise.all(["700 40px 'Bodoni Moda'", "italic 500 40px 'Bodoni Moda'", "500 40px 'Bodoni Moda'", "700 40px 'Schibsted Grotesk'", "600 40px 'Schibsted Grotesk'", "800 40px 'Schibsted Grotesk'", "700 40px 'IBM Plex Mono'"].map(f => document.fonts.load(f)));
+const canvas = document.getElementById('c'); canvas.width = W; canvas.height = H; canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+const renderer = makeRenderer(canvas, { preserve: true }); renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x050807);
+const cam = SCENES[name](scene, renderer); cam.aspect = W / H; cam.updateProjectionMatrix();
+scene.fog = new THREE.Fog(0x050807, 2.6, 5.5);
+renderer.render(scene, cam); renderer.render(scene, cam);
+window.__ready = true;
+</script>
+</body>
+</html>

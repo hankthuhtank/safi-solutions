@@ -559,6 +559,41 @@
     window.scrollTo(0, 0);
   }
 
+
+  /* ---------- hero: a five-line program, stepped like the bench does it ---------- */
+  const TRACE_CODE = ['let total = 0;', 'for (let i = 1; i <= 3; i++) {', '  total = total + i;', '}', 'console.log(total);'];
+  const TRACE_STEPS = [
+    [1, { total: 0 }, '', 'total starts at 0'], [2, { total: 0, i: 1 }, '', 'i = 1 · is 1 ≤ 3? yes'], [3, { total: 1, i: 1 }, '', 'total = 0 + 1'],
+    [2, { total: 1, i: 2 }, '', 'i = 2 · is 2 ≤ 3? yes'], [3, { total: 3, i: 2 }, '', 'total = 1 + 2'], [2, { total: 3, i: 3 }, '', 'i = 3 · is 3 ≤ 3? yes'],
+    [3, { total: 6, i: 3 }, '', 'total = 3 + 3'], [2, { total: 6, i: 4 }, '', 'i = 4 · is 4 ≤ 3? no — leave the loop'], [5, { total: 6 }, '6', 'print total']
+  ];
+  let traceTimer = null;
+  function traceDemoHTML() {
+    return '<figure class="trace-demo" id="traceDemo" aria-label="A short JavaScript loop being stepped through one line at a time">' +
+      '<div class="td-head"><span class="ref">JS · TRACE</span><b id="tdStep">step 1 / ' + TRACE_STEPS.length + '</b></div>' +
+      '<ol class="td-code">' + TRACE_CODE.map((l, n) => '<li data-l="' + (n + 1) + '"><code>' + esc(l) + '</code></li>').join('') + '</ol>' +
+      '<div class="td-why" id="tdWhy"></div>' +
+      '<div class="td-panels"><div><span class="legend">Variables</span><dl class="td-vars" id="tdVars"></dl></div><div><span class="legend">Output</span><pre class="td-out" id="tdOut"></pre></div></div>' +
+      '<figcaption>Every example in the course runs like this — line by line, with the state you can’t normally see.</figcaption></figure>';
+  }
+  function startTraceDemo() {
+    clearInterval(traceTimer);
+    const host = $('#traceDemo'); if (!host) return;
+    let k = 0, prev = {};
+    const show = () => {
+      const [line, vars, out, why] = TRACE_STEPS[k];
+      $$('.td-code li', host).forEach(li => li.classList.toggle('on', +li.dataset.l === line));
+      $('#tdVars').innerHTML = Object.keys(vars).map(n => '<div class="' + (prev[n] !== vars[n] ? 'chg' : '') + '"><dt>' + n + '</dt><dd>' + vars[n] + '</dd></div>').join('');
+      $('#tdOut').textContent = out || ' ';
+      $('#tdWhy').textContent = why; $('#tdStep').textContent = 'step ' + (k + 1) + ' / ' + TRACE_STEPS.length;
+      prev = vars;
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { k = TRACE_STEPS.length - 1; show(); return; }
+    let paused = false; host.addEventListener('mouseenter', () => paused = true); host.addEventListener('mouseleave', () => paused = false);
+    show();
+    traceTimer = setInterval(() => { if (paused || !document.body.contains(host)) { if (!document.body.contains(host)) clearInterval(traceTimer); return; } k = (k + 1) % TRACE_STEPS.length; if (k === 0) prev = {}; show(); }, 1300);
+  }
+
   /* ---------- home ---------- */
   function renderHome() {
     const doneN = FLAT.filter(l => S.done[l.id]).length;
@@ -567,7 +602,7 @@
     const challenges = FLAT.filter(l => l.challenge).length;
 
     let h = '<div class="wrap">';
-    h += '<section class="hero">' +
+    h += '<section class="hero has-trace"><div class="hero-text">' +
       '<span class="legend">A field manual for building software</span>' +
       '<h1>Learn to code by <em>watching it run.</em></h1>' +
       '<p>C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping — in one place, in an order that builds on itself. Run supported C++, Java and JavaScript examples in a teaching interpreter; preview HTML and try SQL in the browser. Predict a result, test it, then trace the changes that explain it.</p>' +
@@ -575,7 +610,7 @@
         '<button class="btn primary big" data-go="' + esc(next.id) + '">' + (doneN ? 'Continue · ' + esc(next.title) : 'Start at the beginning') + ' →</button>' +
         '<button class="btn big" data-view="pad">Open the bench</button>' +
       '</div>' +
-    '</section>';
+    '</div>' + traceDemoHTML() + '</section>';
 
     h += '<div class="stat-row">' +
       stat(FLAT.length, 'lessons in sequence') +
@@ -608,6 +643,7 @@
 
     h += '</div>';
     stage.innerHTML = h;
+    startTraceDemo();
   }
   const stat = (n, l) => '<div class="stat"><b>' + n + '</b><span class="legend">' + esc(l) + '</span></div>';
   const howCard = (t, p) => '<div class="map-card" style="cursor:default"><strong>' + esc(t) + '</strong><p>' + esc(p) + '</p></div>';

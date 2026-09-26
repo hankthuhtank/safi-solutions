@@ -2,7 +2,7 @@ const $ = (q, p=document) => p.querySelector(q);
 const $$ = (q, p=document) => [...p.querySelectorAll(q)];
 const esc = (s='') => s.replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));
 
-const colors = {signal:'#5ee8e1', power:'#ffbd59', safety:'#ff6b66', network:'#61a9ff', motion:'#a989ff', control:'#b8f45d'};
+const colors = {signal:'#3d8ef0', power:'#ef5b4c', safety:'#f5c400', network:'#2fbf8f', motion:'#f28a2e', control:'#35d3ee'};
 
 const inspectData = {
   incomingPower:{kicker:'POWER PATH',title:'Incoming 3-phase power',text:'The machine needs electrical energy before the controls can do anything. In many U.S. plants, larger motors and drives are commonly fed from 3-phase AC systems such as 480 V — but the actual voltage is plant- and machine-specific.'},
@@ -44,29 +44,37 @@ labs.ladder = () => `
   <div class="lab-main">
     <div class="ladder-sim">
       <div class="ladder-controls">
-        <button class="io-toggle on" data-io="stop"><i></i>Stop_OK</button>
-        <button class="io-toggle on" data-io="overload"><i></i>Overload_OK</button>
-        <button class="io-toggle" data-io="start"><i></i>Start_PB</button>
+        <button class="io-toggle on" data-io="stop" aria-pressed="true"><i></i>Stop_OK <em>toggle</em></button>
+        <button class="io-toggle on" data-io="overload" aria-pressed="true"><i></i>Overload_OK <em>toggle</em></button>
+        <button class="io-toggle momentary" data-io="start" aria-pressed="false"><i></i>Start_PB <em>hold to press</em></button>
       </div>
       <div class="ladder-canvas">
-        <div class="rung">
-          <div class="rung-wire" id="rungWire"></div>
-          <div class="contact" data-contact="stop"><span class="contact-symbol"></span><b>XIC</b><small>Stop_OK</small></div>
-          <div class="contact" data-contact="overload"><span class="contact-symbol"></span><b>XIC</b><small>Overload_OK</small></div>
-          <div class="contact" data-contact="start"><span class="contact-symbol"></span><b>XIC</b><small>Start_PB</small></div>
-          <div class="coil" id="motorCoil"><span class="coil-symbol"></span><b>OTE</b><small>Motor_Cmd</small></div>
-        </div>
+        <svg class="ladder-svg" viewBox="0 0 760 250" role="img" aria-label="Seal-in start/stop rung: Stop_OK and Overload_OK in series, Start_PB in parallel with a Motor_Cmd seal-in contact, driving the Motor_Cmd output">
+          <text class="rung-no" x="10" y="95">0</text>
+          <line class="rail" x1="34" y1="28" x2="34" y2="226"/><line class="rail" x1="726" y1="28" x2="726" y2="226"/>
+          <path class="seg" data-seg="a" d="M34 90 H112"/>
+          <path class="seg" data-seg="b" d="M148 90 H242"/>
+          <path class="seg" data-seg="c" d="M278 90 H330 M330 90 V170 M330 170 H392 M330 90 H392"/>
+          <path class="seg" data-seg="top" d="M428 90 H500"/>
+          <path class="seg" data-seg="bot" d="M428 170 H500 V90"/>
+          <path class="seg" data-seg="out" d="M500 90 H602 M638 90 H726"/>
+          <g class="xic" data-c="stop" transform="translate(130 90)"><text class="tag" y="-30">Stop_OK</text><path d="M-18 -16 V16 M18 -16 V16"/><text class="mn" y="34">XIC</text></g>
+          <g class="xic" data-c="overload" transform="translate(260 90)"><text class="tag" y="-30">Overload_OK</text><path d="M-18 -16 V16 M18 -16 V16"/><text class="mn" y="34">XIC</text></g>
+          <g class="xic" data-c="start" transform="translate(410 90)"><text class="tag" y="-30">Start_PB</text><path d="M-18 -16 V16 M18 -16 V16"/><text class="mn" y="34">XIC</text></g>
+          <g class="xic seal" data-c="seal" transform="translate(410 170)"><text class="tag" y="-26">Motor_Cmd</text><path d="M-18 -16 V16 M18 -16 V16"/><text class="mn" y="34">XIC · seal-in</text></g>
+          <g class="ote" data-c="coil" transform="translate(620 90)"><text class="tag" y="-30">Motor_Cmd</text><path d="M-12 -18 Q-26 0 -12 18 M12 -18 Q26 0 12 18"/><text class="mn" y="34">OTE</text></g>
+        </svg>
       </div>
-      <div class="logic-result"><span>All three contacts must be TRUE in this intentionally simple rung.</span><strong id="logicResult">Motor_Cmd = 0</strong></div>
+      <div class="logic-result"><span id="ladderNote">Hold <b>Start_PB</b>, then let go. Watch the lower branch.</span><strong id="logicResult">Motor_Cmd = 0</strong><i class="motor-fan" id="motorFan" aria-hidden="true"></i></div>
     </div>
   </div>
   <aside class="lab-side">
-    <div class="lab-kicker">LADDER LOGIC / FIRST RUNG</div><h3>Contacts ask.<br>Coils answer.</h3>
-    <p class="beginner-only">Ladder logic is drawn to resemble relay control circuits. The controller evaluates the instructions and writes results to tags.</p>
-    <p class="field-only">Rockwell XIC means “Examine If Closed” — logically TRUE when its referenced bit is 1. OTE writes the rung-condition result to its bit when the instruction is executed.</p>
+    <div class="lab-kicker">LADDER LOGIC / RUNG 0</div><h3>The seal-in rung.<br>Start once, run until stopped.</h3>
+    <p class="beginner-only">A start button is only pressed for a moment, so the rung needs a memory. The output's own contact, wired in parallel with Start, "seals in" the command after you let go. Opening Stop or Overload breaks the seal — and the motor stays off until someone presses Start again.</p>
+    <p class="field-only">XIC (“Examine If Closed”) is TRUE when its bit is 1. The branch makes this rung Stop_OK AND Overload_OK AND (Start_PB OR Motor_Cmd). Online, Studio 5000 highlights TRUE instructions and energized rung segments in green — the same convention used here.</p>
     <div class="lab-facts">
+      <div class="lab-fact"><small>WHY IT MATTERS</small><p>This is the software form of the classic three-wire start/stop circuit. After a power loss or a stop, the machine does not restart by itself.</p></div>
       <div class="lab-fact"><small>IMPORTANT</small><p>An E-stop should not be taught as an ordinary standard-logic contact. Safety functions belong in properly designed safety architecture.</p></div>
-      <div class="lab-fact"><small>MENTAL MODEL</small><p>Read left to right: “If these conditions are true, then energize this instruction.”</p></div>
       <div class="lab-fact field-only"><small>LOGIX REALITY</small><p>Logix I/O can update asynchronously to task execution; the classic “read every input → scan → write every output” picture is only a beginner mental model.</p></div>
     </div>
   </aside>
@@ -309,13 +317,27 @@ function renderLab(name='ladder'){
 
 function setupLab(name){
   if(name==='ladder'){
-    const state={stop:true,overload:true,start:false};
-    const update=()=>{
-      const live=state.stop&&state.overload&&state.start;
-      $$('[data-contact]').forEach(el=>el.classList.toggle('live',state[el.dataset.contact]));
-      $('#rungWire').classList.toggle('live',live);$('#motorCoil').classList.toggle('live',live);$('#logicResult').classList.toggle('on',live);$('#logicResult').textContent=`Motor_Cmd = ${live?1:0}`;
+    const st={stop:true,overload:true,start:false,motor:false};
+    const scan=()=>{
+      st.motor=st.stop&&st.overload&&(st.start||st.motor);
+      const b=st.stop, c=b&&st.overload, top=c&&st.start, bot=c&&st.motor;
+      const pw={a:true,b,c,top,bot,out:st.motor};
+      $$('.ladder-svg [data-seg]').forEach(el=>el.classList.toggle('live',!!pw[el.dataset.seg]));
+      const on={stop:st.stop,overload:st.overload,start:st.start,seal:st.motor,coil:st.motor};
+      $$('.ladder-svg [data-c]').forEach(el=>el.classList.toggle('live',!!on[el.dataset.c]));
+      $('#logicResult').classList.toggle('on',st.motor);$('#logicResult').textContent=`Motor_Cmd = ${st.motor?1:0}`;$('#motorFan').classList.toggle('on',st.motor);
+      $('#ladderNote').innerHTML=!st.stop?'<b>Stop_OK</b> is open — the rung is broken and the seal drops out.':!st.overload?'<b>Overload_OK</b> is open — a tripped overload stops the motor.':st.start?'Start is held — power flows through the <b>top</b> branch.':st.motor?'Start released — the motor keeps running through the <b>seal-in</b> branch.':'Motor stopped. Hold <b>Start_PB</b> to start it.';
     };
-    $$('.io-toggle').forEach(btn=>btn.onclick=()=>{const k=btn.dataset.io;state[k]=!state[k];btn.classList.toggle('on',state[k]);update()});update();
+    $$('.io-toggle').forEach(btn=>{const k=btn.dataset.io;
+      if(btn.classList.contains('momentary')){
+        const set=v=>{st.start=v;btn.classList.toggle('on',v);btn.setAttribute('aria-pressed',String(v));scan();};
+        btn.addEventListener('pointerdown',e=>{e.preventDefault();btn.setPointerCapture?.(e.pointerId);set(true);});
+        ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>btn.addEventListener(ev,()=>{if(st.start)set(false);}));
+        btn.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat){e.preventDefault();set(true);}});
+        btn.addEventListener('keyup',e=>{if(e.key===' '||e.key==='Enter')set(false);});
+      } else btn.onclick=()=>{st[k]=!st[k];btn.classList.toggle('on',st[k]);btn.setAttribute('aria-pressed',String(st[k]));scan();};
+    });
+    scan();
   }
   if(name==='rack'){
     const info=[
@@ -383,10 +405,58 @@ function symbolSvg(name){
   return base(`<path d="M0 25h32m16 0h32" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="25" r="8" fill="none" stroke="currentColor" stroke-width="2"/>`);
 }
 
+/* An across-the-line (DOL) motor starter, drawn the way a real set is: power section on the left, control ladder on the right,
+   line numbers, wire numbers and a coil cross-reference. Picking a symbol in the tray lights every place it appears. */
+const SYMBOL_WHERE={
+  'NO Contact':['s-no','START pushbutton (line 11), the M seal-in contact (line 12), the RUN-light contact (line 13) and the three M power contacts.'],
+  'NC Contact':['s-nc','STOP pushbutton (line 11) and the overload contact OL (line 11) — both break the circuit when they open.'],
+  'Relay Coil':['s-coil','The M contactor coil (line 11). The cross-reference under it — “12 · 13” — lists the lines where its auxiliary contacts sit; its main contacts are in the power section.'],
+  'Motor':['s-motor','MTR1, the three-phase motor at the bottom of the power section.'],
+  'Fuse':['s-fuse','FU1 and FU2 protect the control transformer primary; FU3 protects the 120 V control circuit.'],
+  'Circuit Breaker':['s-cb','CB1, the three-pole main breaker — the linked dashed line means all poles open together.'],
+  'Transformer':['s-xfmr','CT1 steps 480 V line voltage down to 120 V for the control circuit.'],
+  'Ground / PE':['s-gnd','The motor frame ground and the grounded X2 side of the control transformer.'],
+  'Terminal':['s-term','Terminal points T1–T3 where field wiring to the motor lands.']
+};
+function starterSvg(){
+  const nc=(x,y,l,t)=>`<g class="sym s-nc"><path d="M${x-26} ${y}H${x-10} M${x-10} ${y-12}V${y+12} M${x+10} ${y-12}V${y+12} M${x+10} ${y}H${x+26} M${x-14} ${y+14} L${x+14} ${y-14}"/><text x="${x}" y="${y-20}">${l}</text>${t?`<text class="sub" x="${x}" y="${y+28}">${t}</text>`:''}</g>`;
+  const no=(x,y,l,t)=>`<g class="sym s-no"><path d="M${x-26} ${y}H${x-10} M${x-10} ${y-12}V${y+12} M${x+10} ${y-12}V${y+12} M${x+10} ${y}H${x+26}"/><text x="${x}" y="${y-20}">${l}</text>${t?`<text class="sub" x="${x}" y="${y+28}">${t}</text>`:''}</g>`;
+  const pbNO=(x,y,l,t)=>`<g class="sym s-no"><path d="M${x-30} ${y}H${x-14} M${x+14} ${y}H${x+30} M${x-18} ${y-10}H${x+18} M${x} ${y-10}V${y-24}"/><circle cx="${x-14}" cy="${y}" r="3"/><circle cx="${x+14}" cy="${y}" r="3"/><text x="${x}" y="${y-30}">${l}</text><text class="sub" x="${x}" y="${y+22}">${t}</text></g>`;
+  const pbNC=(x,y,l,t)=>`<g class="sym s-nc"><path d="M${x-30} ${y}H${x-14} M${x+14} ${y}H${x+30} M${x-18} ${y+5}H${x+18} M${x} ${y+5}V${y-22}"/><circle cx="${x-14}" cy="${y}" r="3"/><circle cx="${x+14}" cy="${y}" r="3"/><text x="${x}" y="${y-28}">${l}</text><text class="sub" x="${x}" y="${y+22}">${t}</text></g>`;
+  const pole=(x)=>`<path d="M${x} 58V92"/><circle cx="${x}" cy="94" r="3"/><path d="M${x} 96L${x+14} 118"/><circle cx="${x}" cy="124" r="3"/><path d="M${x} 127V172"/>`;
+  const mc=(x)=>`<path d="M${x-11} 178H${x+11} M${x-11} 192H${x+11} M${x} 172V178 M${x} 192V214"/>`;
+  const ol=(x)=>`<path d="M${x} 214V226 q12 6 0 12 q-12 6 0 12 V262"/>`;
+  return `<svg class="starter" viewBox="0 0 960 520" role="img" aria-label="Across-the-line motor starter schematic">
+  <g class="lbl-top"><text x="80" y="44">L1</text><text x="130" y="44">L2</text><text x="180" y="44">L3</text><text x="206" y="44" class="sub" text-anchor="start">480 V · 3φ · 60 Hz</text></g>
+  <g class="sym s-cb">${pole(80)}${pole(130)}${pole(180)}<path class="link" d="M76 108H194"/><text x="222" y="112">CB1</text></g>
+  <g class="wire"><path d="M80 140H250 M130 156H250"/><circle class="dot" cx="80" cy="140" r="3.5"/><circle class="dot" cx="130" cy="156" r="3.5"/></g>
+  <g class="sym s-fuse"><rect x="250" y="134" width="30" height="12"/><rect x="250" y="150" width="30" height="12"/><path d="M280 140H300 M280 156H300"/><text x="265" y="128">FU1</text><text x="265" y="176">FU2</text></g>
+  <g class="sym s-xfmr"><path d="M300 140q10 4 0 8q10 4 0 8M300 140V132 M300 156V164 M312 128V168 M316 128V168 M328 140q-10 4 0 8q-10 4 0 8 M328 140V132H350 M328 156V164H350"/><text x="314" y="120">CT1</text><text class="sub" x="314" y="186">480 : 120 V</text></g>
+  <g class="sym s-fuse"><rect x="360" y="126" width="30" height="12"/><path d="M350 132H360 M390 132H420"/><text x="375" y="118">FU3</text></g>
+  <g class="wire"><path d="M350 164H900"/></g>
+  <g class="sym s-no">${mc(80)}${mc(130)}${mc(180)}<text x="210" y="190">M</text><text class="xref" x="210" y="204">main</text></g>
+  <g class="sym s-ol">${ol(80)}${ol(130)}${ol(180)}<text x="214" y="238">OL</text><text class="xref" x="214" y="251">heaters</text></g>
+  <g class="sym s-term"><circle cx="80" cy="268" r="4"/><circle cx="130" cy="268" r="4"/><circle cx="180" cy="268" r="4"/><text x="90" y="290" class="sub" text-anchor="start">T1</text><text x="140" y="290" class="sub" text-anchor="start">T2</text><text x="190" y="290" class="sub" text-anchor="start">T3</text></g>
+  <g class="wire"><path d="M80 272V300L110 332 M130 272V326 M180 272V300L150 332"/></g>
+  <g class="sym s-motor"><circle cx="130" cy="362" r="34"/><text x="130" y="360" class="big">M</text><text x="130" y="378" class="sub">3~</text><text x="130" y="418">MTR1</text></g>
+  <g class="sym s-gnd"><path d="M164 368H196V384 M184 384H208 M188 390H204 M192 396H200"/></g>
+  <g class="rail"><path d="M420 132V420 M900 164V420"/><text x="420" y="118" class="sub">X1</text><text x="900" y="150" class="sub">X2</text></g>
+  <g class="sym s-gnd"><path d="M900 164V150 M900 150H930V160 M920 160H940 M924 166H936 M928 172H932"/></g>
+  <g class="lines"><text x="396" y="224">11</text><text x="396" y="284">12</text><text x="396" y="354">13</text></g>
+  <g class="wire"><path d="M420 220H444 M504 220H536 M596 220H700 M760 220H792 M840 220H900 M520 220V280H536 M596 280H612V220 M420 350H536 M596 350H700 M760 350H900"/><circle class="dot" cx="520" cy="220" r="3.5"/><circle class="dot" cx="612" cy="220" r="3.5"/><circle class="dot" cx="420" cy="220" r="3.5"/><circle class="dot" cx="420" cy="350" r="3.5"/><circle class="dot" cx="900" cy="220" r="3.5"/><circle class="dot" cx="900" cy="350" r="3.5"/></g>
+  <g class="wn"><text x="522" y="212">2</text><text x="648" y="212">3</text><text x="776" y="212">4</text></g>
+  ${pbNC(474,220,'STOP','PB1')}${pbNO(566,220,'START','PB2')}${no(566,280,'M','seal-in')}${no(566,350,'M','')}
+  <g class="sym s-coil"><circle cx="730" cy="220" r="22"/><text x="730" y="226" class="big">M</text><text class="xref" x="730" y="260">12 · 13</text></g>
+  ${nc(816,220,'OL','')}
+  <g class="sym lamp"><circle cx="730" cy="350" r="18"/><path d="M718 338L742 362 M742 338L718 362"/><text x="730" y="386" class="sub">RUN · G</text></g>
+</svg>`;
+}
 function renderDrawing(symbol='NO Contact'){
   const index=drawingSymbols.findIndex(s=>s[0]===symbol); const s=drawingSymbols[index<0?0:index];
-  $('#drawingCanvas').innerHTML=`<div class="blueprint"><div class="bp-title"><span>MOTOR START — CONCEPT SCHEMATIC</span><span>SHEET 1 / 1</span></div><div class="bp-rung"><div class="bp-symbol">${symbolSvg('NO Contact')}<b>START_PB</b></div><div class="bp-symbol">${symbolSvg('Relay Coil')}<b>MOTOR_CMD</b></div></div><div class="bp-rung"><div class="bp-symbol">${symbolSvg(s[0])}<b>${s[0].toUpperCase()}</b></div><div class="bp-symbol">${symbolSvg('Motor')}<b>MOTOR</b></div></div><div class="bp-footer"><b>TRAINING DRAWING</b><span>NOT FOR CONSTRUCTION</span><span>SELECTED:</span><b>${s[0]}</b></div></div>`;
-  $('#symbolTray').innerHTML=`<h3>SYMBOL TRAY</h3>${drawingSymbols.map((x,i)=>`<button class="symbol-card ${x[0]===s[0]?'active':''}" data-symbol="${esc(x[0])}"><b>${x[0]}</b><small>${x[1]}</small></button>`).join('')}`;
+  const [cls,where]=SYMBOL_WHERE[s[0]]||['',''];
+  $('#drawingCanvas').innerHTML=`<div class="blueprint starter-sheet"><div class="bp-title"><span>MOTOR STARTER — ACROSS THE LINE</span><span>SHEET 1 / 1</span></div><div class="starter-wrap" data-sel="${cls}">${starterSvg()}</div><div class="bp-where"><b>${esc(s[0])}</b><span>${esc(where)}</span></div><div class="bp-footer"><b>TRAINING DRAWING</b><span>NOT FOR CONSTRUCTION</span><span>SELECTED:</span><b>${esc(s[0])}</b></div></div>`;
+  $$('#drawingCanvas .sym').forEach(g=>g.classList.toggle('hl',!!cls&&g.classList.contains(cls)));
+  $('#symbolTray').innerHTML=`<h3>SYMBOL TRAY</h3>${drawingSymbols.map((x,i)=>`<button class="symbol-card ${x[0]===s[0]?'active':''}" data-symbol="${esc(x[0])}"><span class="sc-icon" aria-hidden="true">${symbolSvg(x[0])}</span><b>${x[0]}</b><small>${x[1]}</small></button>`).join('')}`;
   $$('.symbol-card').forEach(b=>b.onclick=()=>renderDrawing(b.dataset.symbol));
 }
 

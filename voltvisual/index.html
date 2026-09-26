@@ -4,10 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#090b0c" />
+  <link rel="icon" href="/assets/project-logos/voltvisual.svg" />
   <title>VoltVisual — Industrial Electrical Engineering, Visualized</title>
   <meta name="description" content="VoltVisual is a visual, beginner-first field guide to industrial electrical engineering, controls, PLCs, drives, motion, safety, networks, and drawings." />
-  <link rel="stylesheet" href="styles.css" />
-<link rel="stylesheet" href="discovery.css?v=20260907">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Semi+Condensed:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="discovery.css?v=20260907" />
+  <link rel="stylesheet" href="drawing.css?v=5" />
 </head>
 <body>
   <div class="boot" id="boot" aria-hidden="true">
@@ -89,13 +95,13 @@
             <rect x="506" y="166" width="142" height="112" rx="14"/><path d="M535 215 q14 -28 28 0 t28 0 t28 0"/><text x="577" y="191">POWERFLEX</text><text x="577" y="253">VFD</text>
           </g>
           <g class="machine-node node-motor" data-inspect="motor" tabindex="0">
-            <circle cx="610" cy="365" r="42"/><circle cx="610" cy="365" r="16"/><path d="M652 365 H694"/><text x="610" y="426">3φ MOTOR</text>
+            <circle cx="610" cy="365" r="42"/><circle cx="610" cy="365" r="16"/><path d="M652 365 H694"/><text x="700" y="330">3φ MOTOR</text>
           </g>
           <g class="machine-node node-sensor" data-inspect="sensor" tabindex="0">
-            <rect x="58" y="386" width="103" height="66" rx="12"/><circle cx="88" cy="419" r="10"/><path d="M100 409 l30 -14 M100 419 h34 M100 429 l30 14"/><text x="110" y="474">PHOTOEYE</text>
+            <rect x="58" y="386" width="103" height="66" rx="12"/><circle cx="88" cy="419" r="10"/><path d="M100 409 l30 -14 M100 419 h34 M100 429 l30 14"/><text x="110" y="377">PHOTOEYE</text>
           </g>
           <g class="machine-node node-estop" data-inspect="safety" tabindex="0">
-            <circle cx="88" cy="510" r="31"/><circle cx="88" cy="510" r="17"/><text x="141" y="515">E-STOP</text>
+            <circle cx="88" cy="510" r="31"/><circle cx="88" cy="510" r="17"/><text x="152" y="484">E-STOP</text>
           </g>
           <g class="machine-node node-hmi" data-inspect="hmi" tabindex="0">
             <rect x="544" y="62" width="128" height="74" rx="12"/><rect x="559" y="76" width="98" height="40" rx="4"/><path d="M574 102 l18 -10 18 7 29 -16"/><text x="608" y="53">HMI</text>
@@ -177,7 +183,7 @@
       <div class="decoder-intro">
         <div class="eyebrow"><span></span> THE ALLEN-BRADLEY / ROCKWELL DECODER</div>
         <h2>The names sound worse<br>than the concepts.</h2>
-        <p>A lot of the vocabulary your brother sent is product-family language. This translates it into what the thing actually <em>does</em>.</p>
+        <p>A lot of the vocabulary you’ll hear on a plant floor is product-family language. This translates it into what the thing actually <em>does</em>.</p>
       </div>
       <div class="decoder-board" id="decoderBoard"></div>
     </section>
@@ -241,7 +247,8 @@
     <div id="modalBody"></div>
   </dialog>
 
-  <script src="app.js?v=20260905"></script>
+  <script src="app.js?v=4"></script>
 <script src="discovery.js?v=20260907"></script>
+<script src="drawing.js?v=1"></script>
 </body>
 </html>

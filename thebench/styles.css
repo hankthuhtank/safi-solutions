@@ -790,7 +790,7 @@ kbd {
    RESPONSIVE
    ========================================================================== */
 @media (max-width: 1180px) {
-  .lesson-grid { grid-template-columns: 1fr; }
+  .lesson-grid { grid-template-columns: minmax(0, 1fr); }
   .bench { position: static; }
   .pad-layout { grid-template-columns: 1fr; }
 }
@@ -847,3 +847,32 @@ kbd {
 @media(max-width:600px){:root{--head:104px}.masthead{height:var(--head);flex-wrap:wrap;gap:0 12px;padding:7px 14px}.tabs{order:4;flex:0 0 100%;margin:0;justify-content:space-between}.head-tools{margin-left:auto}}
 
 .prediction-panel{padding:24px;border:1px solid var(--gold-dim,#6b5b30);border-left:3px solid var(--gold);margin-bottom:18px}.prediction-panel h3{font-size:25px;margin:12px 0}.prediction-panel label{font-size:15px;line-height:1.6;display:block;margin:12px 0}.prediction-panel textarea{width:100%;padding:12px;background:transparent;color:inherit;border:1px solid var(--line,#665f53);font:15px/1.6 monospace;resize:vertical;margin-bottom:14px}.prediction-panel p{font-size:14px;line-height:1.65;margin:14px 0 0}.prediction-panel p[data-match=true]{color:var(--gold)}.runtime-note{margin:16px 0 24px;font-size:14px;line-height:1.65}.runtime-note summary{cursor:pointer;min-height:44px;padding:12px 0}.runtime-note p{max-width:65ch;opacity:.8}.prediction-panel :focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+
+/* phones: the lesson column never grows past the screen; long code lines scroll inside their editor */
+.lesson-grid > * { min-width: 0; }
+@media (max-width: 600px) { .mark img { height: 34px !important; max-width: 170px !important; } }
+
+/* hero: the trace demo — a five-line loop stepped like the bench steps every example */
+.hero.has-trace { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 36px; align-items: center; }
+.hero-text { min-width: 0; }
+.trace-demo { margin: 0; border: 1px solid var(--line-2); border-radius: var(--r-lg); background: var(--board-2); box-shadow: var(--lift); overflow: hidden; }
+.td-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; }
+.td-head .ref { color: var(--gold); }
+.td-head b { font-weight: 500; color: var(--silk-3); }
+.td-code { list-style: none; margin: 0; padding: 10px 0; counter-reset: ln; font-family: var(--mono); font-size: .9rem; }
+.td-code li { counter-increment: ln; display: grid; grid-template-columns: 38px 1fr; align-items: center; padding: 3px 14px 3px 0; border-left: 3px solid transparent; transition: background .25s, border-color .25s; white-space: pre; }
+.td-code li::before { content: counter(ln); text-align: right; padding-right: 12px; color: var(--silk-3); font-size: .78rem; }
+.td-code li.on { background: rgba(227, 172, 63, .12); border-left-color: var(--gold); }
+.td-code li.on::before { color: var(--gold); }
+.td-code code { color: var(--silk); }
+.td-why { margin: 0 14px; padding: 8px 10px; border-left: 2px solid var(--flux); background: rgba(89, 207, 186, .07); font-size: .86rem; color: var(--silk); min-height: 2.4em; }
+.td-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px 4px; }
+.td-panels .legend { display: block; margin-bottom: 6px; }
+.td-vars { margin: 0; display: grid; gap: 4px; min-height: 58px; }
+.td-vars div { display: flex; justify-content: space-between; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--r); font-family: var(--mono); font-size: .86rem; }
+.td-vars dt { color: var(--flux); } .td-vars dd { margin: 0; color: var(--silk); font-weight: 600; }
+.td-vars div.chg { border-color: var(--gold); animation: tdflash .9s ease; }
+@keyframes tdflash { from { background: rgba(227, 172, 63, .28); } to { background: transparent; } }
+.td-out { margin: 0; min-height: 58px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--board); font-family: var(--mono); font-size: 1rem; color: var(--gold); }
+.trace-demo figcaption { padding: 8px 14px 12px; font-size: .8rem; color: var(--silk-3); }
+@media (max-width: 1180px) { .hero.has-trace { grid-template-columns: minmax(0, 1fr); } .trace-demo { max-width: 560px; } }

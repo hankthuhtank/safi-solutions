@@ -24,7 +24,7 @@ css.textContent=`
 .node-vin{left:50%;top:4%;translate:-50% 0}.node-vin:before{left:50%;bottom:-4px}.node-safety{right:4%;top:22%}.node-safety:before{left:-4px;top:50%}.node-cost{right:4%;bottom:17%}.node-cost:before{left:-4px;top:50%}.node-service{left:50%;bottom:2%;translate:-50% 0}.node-service:before{left:50%;top:-4px}.node-diag{left:4%;bottom:17%}.node-diag:before{right:-4px;top:50%}.node-power{left:4%;top:22%}.node-power:before{right:-4px;top:50%}
 .core-path{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(43,215,255,.48),transparent);transform-origin:left center;z-index:1;opacity:.7}.path-a{width:150px;left:27%;top:32%;rotate:28deg}.path-b{width:150px;right:27%;top:32%;rotate:-28deg}.path-c{width:158px;right:25%;top:66%;rotate:26deg}.path-d{width:158px;left:25%;top:66%;rotate:-26deg}.path-e{width:98px;left:50%;top:21%;rotate:90deg}.path-f{width:90px;left:50%;bottom:21%;rotate:90deg}.core-path:after{content:"";position:absolute;width:34px;height:1px;background:#fff;box-shadow:0 0 8px #2bd7ff;animation:dataRun 2.6s linear infinite}
 .intel-hint{position:absolute;right:15px;bottom:60px;font:500 7px var(--mono);letter-spacing:.12em;color:#526b83;text-transform:uppercase}
-.hero-system{display:none!important}
+
 .bay-readout{z-index:8}
 
 /* replace lower fake vehicle drawing with abstract system topology */
@@ -43,42 +43,18 @@ css.textContent=`
 `;
 document.head.appendChild(css);
 
-/* Hero: remove the car entirely and turn the space into an interactive system constellation. */
+/* Hero: a representative 3D vehicle (garage3d.js) replaces the old drawing; the three system buttons become a mode bar. */
 const stage=$('.vehicle-stage');
 if(stage){
-  $('.car-hero',stage)?.remove();
-  const existingButtons=$$('.hero-system',stage);existingButtons.forEach(x=>x.remove());
-  const core=document.createElement('div');core.className='intel-core';core.innerHTML=`
-    <div class="ring r3"></div><div class="ring r2"></div><div class="ring r1"></div>
-    <i class="core-path path-a"></i><i class="core-path path-b"></i><i class="core-path path-c"></i><i class="core-path path-d"></i><i class="core-path path-e"></i><i class="core-path path-f"></i>
-    <div class="core-center"><span>VEHICLE CORE</span><b id="coreVehicle">NO VIN</b><small id="coreStatus">READY TO DECODE</small></div>
-    <button class="core-node node-vin" data-target="vin"><span>IDENTITY</span><b>VIN Decode</b><small>Factory build + equipment</small></button>
-    <button class="core-node node-power orange" data-target="vehicle"><span>01</span><b>Vehicle DNA</b><small>Powertrain + architecture</small></button>
-    <button class="core-node node-safety" data-target="safety"><span>02</span><b>Safety Signals</b><small>Recalls + complaints</small></button>
-    <button class="core-node node-cost orange" data-target="cost"><span>03</span><b>Ownership</b><small>Fuel + insurance + upkeep</small></button>
-    <button class="core-node node-service" data-target="service"><span>05</span><b>Service Memory</b><small>Your local maintenance history</small></button>
-    <button class="core-node node-diag" data-target="diagnostics"><span>04</span><b>Diagnostics</b><small>OBD-II starting point</small></button>
-    <div class="intel-hint">Select a system · no physical placement implied</div>`;
-  const readout=$('.bay-readout',stage);stage.insertBefore(core,readout||null);
-  core.addEventListener('click',e=>{const b=e.target.closest('[data-target]');if(!b)return;const t=b.dataset.target;if(t==='vin'){ $('#vinInput')?.focus();return }const target=$('#'+t);if(target&&!target.closest('.workspace')?.classList.contains('hidden'))target.scrollIntoView({behavior:'smooth',block:'start'});else $('#vinInput')?.focus()});
+  $('.car-hero',stage)?.replaceWith(Object.assign(document.createElement('div'),{className:'cd-machine',id:'cdMachine'}));
+  const bar=document.createElement('div');bar.className='cd-modes';bar.setAttribute('role','group');bar.setAttribute('aria-label','Highlight a vehicle layer');
+  $$('.hero-system',stage).forEach(b=>{b.setAttribute('aria-pressed','false');bar.append(b)});
+  const readout=$('.bay-readout',stage);stage.insertBefore(bar,readout||null);
+  const note=document.createElement('p');note.className='cd-note';note.id='cdNote';note.textContent='Representative model · configured from the VIN once decoded';stage.insertBefore(note,bar);
 }
 
-/* Lower architecture: topology, not a fake cutaway. */
+/* Lower architecture: the same representative 3D vehicle, driven by the scan tabs. */
 const scanVisual=$('.scan-visual');
-if(scanVisual){scanVisual.innerHTML=`<div class="system-topology">
-  <i class="topo-line tl1"></i><i class="topo-line tl2"></i><i class="topo-line tl3"></i><i class="topo-line tl4"></i><i class="topo-line tl5"></i>
-  <div class="topo-center"><span>VEHICLE</span><b>SYSTEM CORE</b></div>
-  <div class="topo-node topo-power active" data-topo="power"><b>POWERTRAIN</b><small>Engine + output</small></div>
-  <div class="topo-node topo-trans active" data-topo="power"><b>DRIVE</b><small>Transmission + axle</small></div>
-  <div class="topo-node topo-safety" data-topo="safety"><b>SAFETY</b><small>ABS + restraint + ADAS</small></div>
-  <div class="topo-node topo-build" data-topo="identity"><b>BUILD DNA</b><small>Body + plant + equipment</small></div>
-  <div class="topo-node topo-data" data-topo="safety"><b>CONTROL DATA</b><small>VIN-reported systems</small></div>
-</div>`}
+if(scanVisual){scanVisual.innerHTML='<div class="cd-machine cd-scan" id="cdScan"></div><p class="cd-note cd-scan-note">Representative model — the VIN identifies the architecture, not exact component placement.</p>'}
 
-function paintTopology(mode){$$('.topo-node').forEach(n=>n.classList.toggle('active',n.dataset.topo===mode))}
-$('#scanTabs')?.addEventListener('click',e=>{const b=e.target.closest('button[data-mode]');if(b)paintTopology(b.dataset.mode)});
-
-/* Reflect decoded vehicle state into the center without changing app.js. */
-function syncCore(){const center=$('#coreVehicle'),status=$('#coreStatus');if(!center||!status)return;const make=$('#bayMake')?.textContent?.replace(/^MAKE\s*[—-]?\s*/i,'').trim();const bayStatus=$('#heroBayStatus')?.textContent?.trim();if(make&&make!=='MAKE —'&&make!=='—')center.textContent=make.slice(0,22);else center.textContent='NO VIN';status.textContent=bayStatus&&bayStatus!=='AWAITING VIN'?bayStatus:'READY TO DECODE'}
-['#bayMake','#heroBayStatus','#bayEngine','#bayDrive'].forEach(sel=>{const el=$(sel);if(el)new MutationObserver(syncCore).observe(el,{childList:true,subtree:true,characterData:true})});syncCore();
 })();

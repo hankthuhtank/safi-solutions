@@ -1,0 +1,151 @@
+/* VoltVisual — "the drawing set".
+   The page is dressed the way plant documentation is: sheets with zone markers and a title block, kickers printed like
+   heat-shrink wire markers, and one colour per system taken from how panels are actually wired —
+   NFPA 79 blue for DC control/signal wiring, safety yellow for the safety chain, orange for servo cable, green for industrial
+   Ethernet, red for line voltage. Cyan stays the brand (and the logic), as in the VoltVisual mark.
+   Type: Barlow (a DIN-style engineering grotesk), Barlow Semi Condensed for sheet titles, JetBrains Mono for tag names. */
+:root {
+  --bg: #090b0c; --bg2: #0d1012; --panel: #111416; --panel2: #151a1d; --line: #283136; --line2: #1b2226;
+  --text: #eef2f3; --muted: #93a2a9; --muted2: #bac6cb; --readable: #c9d3d7;
+  --cyan: #35d3ee;            /* brand + CONTROL (the logic) */
+  --sig: #3d8ef0;             /* SIGNALS — NFPA 79 DC control blue */
+  --pwr: #ef5b4c;             /* POWER — line voltage */
+  --safe: #f5c400;            /* SAFETY — safety yellow */
+  --net: #2fbf8f;             /* NETWORK — industrial Ethernet green */
+  --mot: #f28a2e;             /* MOTION — servo cable orange */
+  --live: #57d468;            /* TRUE / energized — Studio 5000 online green */
+  --lime: var(--live); --blue: var(--sig); --purple: var(--mot); --amber: #f2b33d; --red: var(--pwr);
+  --disp: 'Barlow Semi Condensed', 'Barlow', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+body { font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif; background: radial-gradient(circle at 76% 6%, rgba(53, 211, 238, .05), transparent 26%), linear-gradient(180deg, #080a0b 0%, #0b0e10 40%, #080a0b 100%); }
+.hero h1, .section-heading h2, .decoder-intro h2, .library h2, .trouble-left h2, .finish h2, .loop-lesson h2 { font-family: var(--disp); font-weight: 700; letter-spacing: -.012em; line-height: .95; }
+.hero h1 em, .finish h2 em, .loop-lesson h2 em { font-weight: 500; }
+h3, .layer-summary h3, .lab-side h3 { font-family: var(--disp); font-weight: 700; letter-spacing: -.005em; }
+.brand img { height: 40px !important; max-width: 200px !important; filter: brightness(1.55) saturate(1.1); }
+
+/* kickers are printed like heat-shrink wire markers: white sleeve, black mono text */
+.eyebrow, .loop-lesson header > span, .lab-kicker { font-family: var(--mono); font-weight: 600; letter-spacing: .08em; }
+.eyebrow { color: #0d1113; gap: 0; }
+.eyebrow span { display: none; }
+.eyebrow { display: inline-flex; padding: 5px 10px 4px; border-radius: 4px; background: linear-gradient(180deg, #f4f6f5, #d9dedd); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .12), 0 0 0 1px rgba(255, 255, 255, .08); font-size: 11.5px; }
+.loop-lesson header > span { display: inline-block; padding: 5px 10px 4px; border-radius: 4px; background: linear-gradient(180deg, #f4f6f5, #d9dedd); color: #0d1113 !important; font-size: 11.5px; }
+
+/* buttons + chips */
+.primary-btn { font-family: var(--disp); font-size: 16px; letter-spacing: .02em; text-transform: uppercase; border-radius: 6px; }
+.term-stream span { font-family: var(--mono); font-size: 11px; border-radius: 4px; color: #a4b3b9; }
+.mode-toggle { border-radius: 6px; }
+.desktop-nav a { font-family: var(--disp); font-size: 15px; font-weight: 600; letter-spacing: .02em; }
+
+/* hero machine map: wires in their system colours */
+.signal-wire path { stroke: var(--sig); } .power-wire path { stroke: var(--pwr); } .network-wire path { stroke: var(--net); } .safety-wire path { stroke: var(--safe); }
+.arrow-signal { fill: var(--sig); } .arrow-power { fill: var(--pwr); } .arrow-safe { fill: var(--safe); }
+.legend circle.lg-signal { fill: var(--sig); } .legend circle.lg-power { fill: var(--pwr); } .legend circle.lg-safe { fill: var(--safe); } .legend circle.lg-network { fill: var(--net); }
+.machine-node text { font-family: var(--mono); font-weight: 600; letter-spacing: .04em; }
+.legend text { font-family: var(--mono); }
+.node-estop circle:first-child { fill: #f5c400; stroke: #b38f00; }
+.node-estop circle:nth-child(2) { fill: #d33a2c; stroke: #8e2017; }
+.machine-titlebar { font-family: var(--mono); }
+
+/* system strip: each system wears its wire colour */
+.system-strip button { position: relative; }
+.system-strip button::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--wc, var(--cyan)); opacity: .9; }
+.system-strip button:nth-child(1) { --wc: var(--pwr); } .system-strip button:nth-child(2) { --wc: var(--sig); } .system-strip button:nth-child(3) { --wc: var(--cyan); }
+.system-strip button:nth-child(4) { --wc: var(--mot); } .system-strip button:nth-child(5) { --wc: var(--safe); } .system-strip button:nth-child(6) { --wc: var(--net); }
+.system-strip b { font-family: var(--mono); color: var(--wc) !important; }
+.system-strip span { font-family: var(--disp); font-size: 17px; letter-spacing: .06em; }
+.system-strip button:hover { background: color-mix(in srgb, var(--wc) 8%, #0d1114); }
+
+/* sheets: zone markers along the top and a title block, as on a drawing set */
+.sheet { position: relative; }
+.sheet-zones { position: absolute; left: 0; right: 0; top: 44px; display: grid; grid-template-columns: repeat(8, 1fr); height: 16px; border-top: 1px solid rgba(186, 198, 203, .14); pointer-events: none; }
+.sheet-zones span { font: 500 10px var(--mono); color: #56646b; text-align: center; border-left: 1px solid rgba(186, 198, 203, .14); padding-top: 2px; }
+.sheet-zones span:first-child { border-left: 0; }
+.tblock { position: absolute; right: 0; bottom: 34px; display: grid; grid-template-columns: auto auto; border: 1px solid rgba(186, 198, 203, .22); font: 500 10px/1.2 var(--mono); color: #7c8a91; pointer-events: none; background: rgba(9, 11, 12, .6); }
+.tblock > * { padding: 6px 10px; border-left: 1px solid rgba(186, 198, 203, .18); border-top: 1px solid rgba(186, 198, 203, .18); }
+.tblock span { grid-column: 1 / -1; border-left: 0; border-top: 0; letter-spacing: .12em; color: #5e6c73; }
+.tblock b { grid-column: 1 / -1; border-left: 0; font: 700 13px var(--disp); letter-spacing: .06em; color: #c9d3d7; text-transform: uppercase; }
+.tblock em { font-style: normal; border-left: 0; }
+.tblock i { font-style: normal; color: var(--cyan); }
+
+/* ladder lab: the seal-in rung */
+.ladder-canvas { border: 0 !important; min-height: 0 !important; margin: 18px 0 !important; display: block !important; }
+.ladder-svg { width: 100%; height: auto; display: block; }
+.ladder-svg .rail { stroke: #8d9aa0; stroke-width: 4; }
+.ladder-svg .seg { fill: none; stroke: #46535a; stroke-width: 2.5; transition: stroke .15s; }
+.ladder-svg .seg.live { stroke: var(--live); filter: drop-shadow(0 0 4px rgba(87, 212, 104, .55)); }
+.ladder-svg .xic path, .ladder-svg .ote path { fill: none; stroke: #b7c2c7; stroke-width: 3; transition: stroke .15s; }
+.ladder-svg .live path { stroke: var(--live); filter: drop-shadow(0 0 5px rgba(87, 212, 104, .6)); }
+.ladder-svg text { text-anchor: middle; }
+.ladder-svg text.tag { fill: #e6ecee; font: 600 13px var(--mono); }
+.ladder-svg .live text.tag { fill: var(--live); }
+.ladder-svg text.mn { fill: #7f8e95; font: 500 11px var(--mono); }
+.ladder-svg .rung-no { fill: #7f8e95; font: 600 13px var(--mono); text-anchor: start; }
+.io-toggle { font-family: var(--mono); font-size: 12px !important; padding: 9px 12px !important; min-height: 40px; user-select: none; -webkit-user-select: none; touch-action: none; }
+.io-toggle em { font-style: normal; font-family: 'Barlow', sans-serif; color: var(--muted); font-size: 11px; margin-left: 2px; }
+.io-toggle.momentary { border-color: #3b4a52; }
+.io-toggle.momentary.on { border-color: var(--live); background: rgba(87, 212, 104, .1); }
+.logic-result { gap: 14px; }
+.logic-result span { font-size: 13px !important; color: var(--muted2) !important; }
+.logic-result span b { color: var(--text); font-family: var(--mono); font-weight: 600; }
+.logic-result strong { font-family: var(--mono); font-size: 14px !important; margin-left: auto; }
+.motor-fan { width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: radial-gradient(circle, #0b0f11 0 22%, transparent 23%), conic-gradient(#6b7a82 0 40deg, transparent 40deg 120deg, #6b7a82 120deg 160deg, transparent 160deg 240deg, #6b7a82 240deg 280deg, transparent 280deg); box-shadow: 0 0 0 2px #2b353a; }
+.motor-fan.on { background: radial-gradient(circle, #0b0f11 0 22%, transparent 23%), conic-gradient(var(--live) 0 40deg, transparent 40deg 120deg, var(--live) 120deg 160deg, transparent 160deg 240deg, var(--live) 240deg 280deg, transparent 280deg); animation: vvspin .5s linear infinite; }
+@keyframes vvspin { to { transform: rotate(360deg); } }
+.lab-side > p { font-size: 14px !important; line-height: 1.6 !important; }
+.lab-fact p { font-size: 13px !important; }
+.lab-fact small { font-family: var(--mono); }
+.lab-stage { min-height: 0 !important; }
+.lab-layout { min-height: 0 !important; }
+
+@media (max-width: 900px) {
+  .sheet-zones, .tblock { display: none; }
+  .system-strip span { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .motor-fan.on { animation: none; } }
+
+.loop-lesson.sheet { padding-top: 104px; }
+.loop-lesson.sheet .sheet-zones { top: 30px; }
+.loop-lesson.sheet .tblock { bottom: 14px; }
+
+/* drawings: the across-the-line starter */
+.symbol-card { display: grid !important; grid-template-columns: 54px 1fr; column-gap: 10px; width: 100%; text-align: left; background: none !important; border: 0 !important; border-top: 1px solid var(--line2) !important; color: var(--text) !important; font: inherit; }
+.symbol-card .sc-icon { grid-row: 1 / span 2; align-self: center; color: #8fa0a8; }
+.symbol-card .sc-icon svg { width: 54px; height: auto; display: block; }
+.symbol-card b { font-family: var(--disp); font-size: 15px !important; letter-spacing: .02em; }
+.symbol-card small { font-size: 12.5px !important; line-height: 1.4; }
+.symbol-card.active { background: rgba(53, 211, 238, .07) !important; }
+.symbol-card.active .sc-icon { color: var(--cyan); }
+.starter-sheet .bp-title { font-family: var(--mono); font-weight: 600; }
+.starter-wrap { position: relative; margin: 8px 0 0; }
+.starter { width: 100%; height: auto; display: block; }
+.starter path, .starter rect, .starter circle { fill: none; stroke: #1d2529; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.starter .wire path, .starter .rail path { stroke-dasharray: none; animation: none; }
+.starter .dot { fill: #1d2529 !important; stroke: none !important; }
+.starter .link { stroke-dasharray: 5 4; stroke-width: 1.5; }
+.starter text { fill: #1d2529; font: 700 13px var(--mono); text-anchor: middle; stroke: none; }
+.starter text.sub { font: 500 11px var(--mono); fill: #4b5a61; }
+.starter text.big { font: 800 17px var(--disp); }
+.starter text.xref { font: 500 10.5px var(--mono); fill: #0b7fa6; }
+.starter .lines text { font: 600 11px var(--mono); fill: #6a787f; }
+.starter .wn text { font: 600 11px var(--mono); fill: #0b7fa6; }
+.starter .lbl-top text { font: 700 13px var(--mono); }
+.starter .sym { transition: opacity .2s; }
+.starter-wrap[data-sel]:not([data-sel=""]) .sym:not(.hl) { opacity: .42; }
+.starter .sym.hl path, .starter .sym.hl rect, .starter .sym.hl circle { stroke: #0a86b3; stroke-width: 2.6; }
+.starter .sym.hl text { fill: #0a86b3; }
+.starter .sym.hl { filter: drop-shadow(0 0 5px rgba(10, 134, 179, .35)); }
+.bp-where { position: relative; z-index: 2; display: grid; gap: 3px; max-width: 520px; margin-top: 8px; padding: 10px 12px; border-left: 3px solid #0a86b3; background: rgba(255, 255, 255, .55); font-size: 13.5px; line-height: 1.45; color: #1d2529; }
+.bp-where b { font-family: var(--disp); font-size: 15px; }
+.drawing-canvas { min-height: 0 !important; }
+@media (max-width: 900px) { .bp-footer { position: static !important; width: auto !important; margin-top: 10px; } .symbol-card { grid-template-columns: 44px 1fr; } .symbol-card .sc-icon svg { width: 44px; } }
+.starter text[text-anchor="start"] { text-anchor: start; } .starter text[text-anchor="end"] { text-anchor: end; }
+/* phones: keep the drawings at a readable scale and let them scroll sideways, like a sheet you pan across */
+@media (max-width: 700px) {
+  .ladder-canvas { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 12px -8px !important; padding: 0 8px 8px; }
+  .ladder-svg { min-width: 600px; }
+  .ladder-sim { grid-template-rows: auto auto auto !important; }
+  .starter-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+  .starter { min-width: 720px; }
+  .starter-wrap::after { content: 'Swipe to pan the drawing →'; display: block; font: 500 11px var(--mono); color: #6a787f; margin-top: 6px; }
+  .bp-title { flex-wrap: wrap; gap: 4px; }
+}

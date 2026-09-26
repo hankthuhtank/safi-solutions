@@ -1,0 +1,151 @@
+/* MoveDesk — "Interstate" layer.
+   A relocation is a road trip with paperwork, so the interface borrows the US highway system's own visual language:
+   MUTCD guide-sign green with a white inset border, lane-line yellow for the one thing to do next, asphalt for the ground,
+   and Overpass — the open-source descendant of the FHWA "Highway Gothic" road-sign alphabet. */
+:root {
+  --body: 'Overpass', system-ui, sans-serif; --mono: 'Overpass Mono', ui-monospace, monospace;
+  --sign: #0f6b47; --sign-2: #0b5738; --sign-hi: #1f9d62; --lane: #f5c518; --lane-ink: #1a1500; --shield: #1f4fa3; --shield-red: #c8102e;
+  --asphalt: #121517; --reflect: #f4f6f2;
+}
+body { font-family: var(--body); }
+h1, h2, h3, .brand, .versus b, .command-card h3 { font-family: var(--body); }
+
+/* hero headline: the second line is mounted on a guide sign */
+.hero-copy h1 { font-weight: 900; letter-spacing: -.03em; line-height: .94; }
+.hero-copy h1 em, .section-head h2 em {
+  font-style: normal; color: #fff; -webkit-text-fill-color: #fff; background: none; -webkit-background-clip: border-box; background-clip: border-box;
+}
+.hero-copy h1 em {
+  position: relative; display: inline-flex; align-items: center; gap: .42em; margin-top: .16em; padding: .2em .5em .16em .46em;
+  font-size: .6em; line-height: 1.05; letter-spacing: -.01em; white-space: nowrap; border-radius: .16em; background: var(--sign);
+  box-shadow: inset 0 0 0 .07em var(--sign), inset 0 0 0 .13em var(--reflect), 0 22px 50px rgba(0, 0, 0, .45);
+}
+/* the up-arrow a guide sign uses for "straight ahead" */
+.hero-copy h1 em::after {
+  content: ''; flex: 0 0 auto; width: .62em; height: .72em; background: #fff;
+  clip-path: polygon(50% 0, 100% 46%, 68% 46%, 68% 100%, 32% 100%, 32% 46%, 0 46%);
+}
+/* sign posts */
+.hero-copy h1 em::before {
+  content: ''; position: absolute; top: 100%; left: 18%; right: 18%; height: .22em;
+  background: linear-gradient(90deg, transparent 0 6%, #7c8588 6% 10%, transparent 10% 90%, #7c8588 90% 94%, transparent 94%);
+}
+.section-head h2 em { color: var(--lane); -webkit-text-fill-color: var(--lane); }
+.kicker { color: var(--lane); }
+
+/* section numbers read like exit tabs */
+.section-num { display: inline-flex; align-items: center; gap: 0; padding: 5px 9px 4px; border-radius: 4px 4px 0 0; background: var(--sign); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(244, 246, 242, .9); font-weight: 700; letter-spacing: .12em; }
+
+/* the one primary action is painted like a lane line */
+.build-brief { background: var(--lane) !important; color: var(--lane-ink) !important; border-radius: 10px; font-weight: 800; letter-spacing: .02em; box-shadow: 0 10px 30px rgba(245, 197, 24, .18); }
+.build-brief:hover { background: #ffd43b !important; }
+.sample-move { color: #b9c4bc; }
+.route-form { border-color: rgba(244, 246, 242, .16); }
+.route-form .from-field .search-box i { background: var(--sign-hi); }
+.route-form .to-field .search-box i { background: var(--lane); }
+
+/* hero road: asphalt, white edge lines and a moving yellow centre line */
+.route-art { opacity: .9; height: 120px; bottom: 5%; left: 0; right: 0; }
+.route-line { left: 5%; right: 5%; top: 44px; height: 30px; background: #1b1f22; border-top: 2px solid rgba(244, 246, 242, .75); border-bottom: 2px solid rgba(244, 246, 242, .75); transform: rotate(-1.4deg); border-radius: 3px; overflow: visible; }
+.route-line::before, .route-line::after { top: 50%; transform: translateY(-50%); width: 22px; height: 22px; background: var(--asphalt); border-width: 4px; }
+.route-line::before { left: -12px; color: var(--sign-hi); }
+.route-line::after { right: -12px; color: var(--lane); }
+.route-line i { top: 50%; left: 0 !important; right: 0; width: auto; height: 3px; border-radius: 0; transform: translateY(-50%); background: repeating-linear-gradient(90deg, var(--lane) 0 34px, transparent 34px 66px); animation: laneRun 1.8s linear infinite; }
+.route-line i:nth-child(n + 2) { display: none; }
+.route-label { top: 86px; font-family: var(--mono); font-weight: 700; color: #9fb0a6; }
+@keyframes laneRun { to { background-position: 66px 0; } }
+@media (prefers-reduced-motion: reduce) { .route-line i { animation: none; } }
+
+/* compare band: departure and destination as a pair of guide signs */
+.compare-side h2 { font-weight: 900; letter-spacing: -.02em; }
+.versus b { font-weight: 900; }
+.versus { background: var(--sign); box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 5px var(--reflect); border-radius: 12px; color: #fff; }
+.versus span, .versus small { color: rgba(255, 255, 255, .8); }
+
+/* live-data chip + map: OSM tiles rendered as a night map to sit on the asphalt */
+.leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) saturate(.55); }
+.leaflet-container { background: #15191b; }
+.api-chip i { background: var(--sign-hi); }
+.move-marker.from, .marker-from { background: var(--sign-hi); }
+.move-marker.to, .marker-to { background: var(--lane); }
+
+/* the move itself is posted like a distance sign */
+.compare-band .versus { align-self: center; justify-self: center; width: min(250px, 100%); margin: 22px 0; padding: 18px 16px 16px; gap: 2px; border: 0; }
+body .versus span { font: 700 11px var(--mono); letter-spacing: .14em; }
+body .versus b { font-size: 36px; letter-spacing: -.02em; margin-top: 6px; }
+body .versus small { font: 700 11px var(--mono); letter-spacing: .08em; }
+
+/* move math: keep the console inside the grid, paint the bars like lane markings */
+.budget-console { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
+.budget-output, .budget-inputs, .budget-ticket, .budget-inputs label { min-width: 0; }
+.budget-inputs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.budget-inputs input { width: 100%; min-width: 0; font-family: var(--mono); color: #eef2ec; }
+.budget-inputs label:focus-within { border-color: var(--lane); box-shadow: 0 0 0 3px rgba(245, 197, 24, .12); }
+.budget-ticket b { font-size: clamp(24px, 2.4vw, 32px); overflow-wrap: anywhere; }
+.budget-ticket:first-child { box-shadow: inset 0 3px 0 var(--lane); }
+.budget-bars i { background: repeating-linear-gradient(90deg, var(--lane) 0 18px, rgba(245, 197, 24, .55) 18px 22px); }
+
+/* action plan: the next step is the lane you're in */
+.plan-compass { border-top: 3px solid var(--lane); }
+.plan-compass span { color: var(--lane); }
+.plan-compass button { background: var(--lane); color: var(--lane-ink); font-weight: 800; border-radius: 8px; }
+.plan-compass button:hover:not(:disabled) { background: #ffd43b; }
+.plan-head span { background: var(--sign); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(244, 246, 242, .85); }
+.official-links a { border-color: rgba(31, 157, 98, .5); }
+.official-links a:hover { background: var(--sign); color: #fff; border-color: var(--sign); }
+.climate-section a { color: var(--lane); }
+
+/* climate: one fixed cold→hot ramp across both cities, so colours compare */
+body .climate-month { grid-template-columns: 38px minmax(0, 1fr) 96px; }
+body .climate-month > b { white-space: nowrap; color: #c9d4c7; }
+body .temp-track { background: #20272a; }
+body .temp-range { background: linear-gradient(90deg, #2a62c9 0%, #3ecf8e 36%, #f5c518 64%, #ef5a4b 100%); background-size: calc(100% * 100 / var(--w, 100)) 100%; background-position: calc(var(--l, 0) / (100.001 - var(--w, 100)) * 100%) 0; }
+
+/* legibility: road-sign rule — nothing a reader needs is set below ~10px */
+body .boot-foot { font-size: 10.5px; }
+body .api-chip { font-size: 10px; }
+body .kicker, body .section-num, body .card-kicker { font-size: 11px; }
+body .route-form-top, body .field-code { font-size: 10.5px; }
+body .location-field > small, body .sample-move { font-size: 10.5px; }
+body .suggestions span, body .route-label { font-size: 11px; }
+body .place-label { font-size: 10.5px; }
+body .weather-chip span { font-size: 10px; }
+body .mini-metrics span { font-size: 9.5px; }
+body .card-line > b { font-size: 10px; }
+body .essential-grid span { font-size: 11.5px; }
+body .command-card > small { font-size: 11px; line-height: 1.5; }
+body .move-date-card label { font-size: 10.5px; }
+body .countdown span { font-size: 12.5px; }
+body .prep-checks label { font-size: 13px; }
+body .map-top { font-size: 10.5px; }
+body .budget-inputs label { font-size: 10px; }
+body .budget-ticket span, body .budget-bars span { font-size: 10px; }
+body .budget-ticket small { font-size: 11.5px; }
+body .profile-controls span { font-size: 11px; padding: 10px 13px; }
+body .plan-head { font-size: 10.5px; }
+body .official-links a { font-size: 11.5px; }
+body .climate-drawer summary span { font-size: 10.5px; }
+body .forecast-head { font-size: 10.5px; }
+body .forecast-day span, body .forecast-day small { font-size: 10px; }
+body .climate-center > span, body .climate-center #monthAxis span { font-size: 10px; }
+body .takeaway span { font-size: 10px; }
+body .takeaway p { font-size: 12.5px; line-height: 1.5; }
+body .brief > footer { font-size: 12px; }
+@media (max-width: 1180px) { .budget-console { grid-template-columns: minmax(0, 1fr); } .budget-inputs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) {
+  .compare-band .versus { margin: 4px auto 18px; }
+  .hero { padding-bottom: 150px; }
+  .route-art { bottom: 12px; height: 100px; }
+  .route-line { top: 34px; left: 6%; right: 6%; height: 24px; }
+  .route-label { top: 66px; }
+  .budget-inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .budget-inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body .profile-controls span { font-size: 10px; padding: 9px 11px; }
+  .hero-copy h1 em { font-size: .56em; }
+}
+/* the months are already on every row — drop the redundant centre axis */
+body .climate-board { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+body .climate-center { display: none; }
+@media (max-width: 860px) { body .climate-board { grid-template-columns: minmax(0, 1fr); } }

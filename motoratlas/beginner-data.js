@@ -75,6 +75,8 @@ glossary:{
 'unibody':'A vehicle structure where the body shell itself provides most of the structural strength instead of sitting on a separate frame.',
 'frame':'A strong structural foundation that supports the body and major vehicle systems.',
 'traction':'The grip between a tire and the road.',
+'traction battery':'The large high-voltage battery that stores the energy used to drive (propel) an electric or hybrid vehicle. “Traction” here means propulsion, not tire grip.',
+'traction motor':'An electric motor that turns the wheels to move the vehicle. “Traction” here means propulsion, not tire grip.',
 'compression':'How tightly the air or air-fuel mixture is squeezed inside an engine cylinder before combustion.',
 'fuel injector':'An electronically controlled valve that sprays a measured amount of fuel into the engine.',
 'throttle body':'The air-control valve that regulates how much air enters a gasoline engine.',

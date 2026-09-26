@@ -28,7 +28,7 @@ function MapPage() {
     <main className="relative flex min-h-[calc(100dvh-4rem)] flex-col px-4 py-6 sm:px-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">Flavor</p>
+          <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">Flavor</p>
           <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em]">The map</h1>
           <p className="mt-3 max-w-md text-sm leading-6 text-muted">
             Every drink as a point of liquid. Up is boozy. Down is light. Flip the floor between
@@ -60,16 +60,16 @@ function MapPage() {
       </div>
 
       <div className="relative mx-auto mt-6 w-full max-w-4xl flex-1">
-        <span className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
+        <span className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
           Light
         </span>
-        <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
+        <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
           Boozy
         </span>
-        <span className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
+        <span className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
           {axis === "sweet-dry" ? "Sweet" : "Fruity"}
         </span>
-        <span className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
+        <span className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
           {axis === "sweet-dry" ? "Dry" : "Bitter"}
         </span>
 

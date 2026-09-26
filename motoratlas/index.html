@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700;800&family=Chivo:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="atlas.css?v=20260905">
 <link rel="stylesheet" href="features.css?v=1">
+<link rel="stylesheet" href="machine.css?v=1">
 
 <style id="ss-loader-style">
 #ss-themed-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#090b0c;color:#f1efe8;overflow:hidden;transition:opacity .46s ease,visibility .46s ease}
@@ -68,11 +69,17 @@
       </label>
       <div class="hero-meta"><span id="heroCount">Loading component index…</span><span>Gas · diesel · hybrid · EV</span><span>Beginner-first</span></div>
     </div>
-    <div class="hero-plate" aria-hidden="true">
-      <div class="plate-top"><span>REFERENCE PLATE 01</span><span>POWERTRAIN / CUTAWAY</span></div>
-      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Engine%20and%20Gearbox%20cutaway-001.jpg?width=960" alt="" loading="eager" decoding="async">
-      <div class="plate-scan"></div>
-      <div class="plate-caption">Actual cutaway · James Hall Museum of Transport</div>
+    <div class="hero-plate machine" id="machine">
+      <div class="plate-top"><span>REFERENCE PLATE 01 · THE MACHINE</span><span id="machineSpec">GASOLINE · TURBO 4-CYL · AWD</span></div>
+      <div class="machine-stage" id="machineStage" role="img" aria-label="Interactive 3D X-ray of a compact sedan showing every system colour-coded. Drag to rotate, tap a part to learn what it does.">
+        <span class="machine-hint" aria-hidden="true">Drag to rotate · tap a part</span>
+        <div class="machine-card" id="machineCard" aria-live="polite" hidden></div>
+      </div>
+      <div class="machine-bar">
+        <div class="machine-seg" role="group" aria-label="Powertrain"><button type="button" data-mode="gas" aria-pressed="true">Gasoline</button><button type="button" data-mode="hybrid" aria-pressed="false">Hybrid</button><button type="button" data-mode="ev" aria-pressed="false">Electric</button></div>
+        <div class="machine-seg" role="group" aria-label="Camera"><button type="button" data-view="overview">3/4</button><button type="button" data-view="side">Side</button><button type="button" data-view="top">Top</button><button type="button" data-xray aria-pressed="true">X-ray</button></div>
+      </div>
+      <div class="machine-systems" id="machineSystems" role="group" aria-label="Highlight a system"></div>
     </div>
   </div>
 </header>
@@ -105,8 +112,8 @@
       </section>
 
       <aside class="system-visual">
-        <div class="visual-head"><span>REFERENCE / REAL HARDWARE</span><a id="visualSource" target="_blank" rel="noopener">SOURCE ↗</a></div>
-        <figure class="visual-frame"><img id="systemImage" alt="" decoding="async"><figcaption id="visualCaption"></figcaption></figure>
+        <div class="visual-head"><div class="visual-tabs" role="tablist" aria-label="Reference view"><button type="button" role="tab" aria-selected="true" data-vt="where">Where it lives</button><button type="button" role="tab" aria-selected="false" data-vt="photo">Real hardware</button></div><a id="visualSource" target="_blank" rel="noopener">SOURCE ↗</a></div>
+        <figure class="visual-frame is-where"><div class="locator" id="locator"><p class="locator-note" id="locatorNote"></p></div><img id="systemImage" alt="" decoding="async"><figcaption id="visualCaption"></figcaption><figcaption id="locatorCaption" class="locator-caption"></figcaption></figure>
         <div class="system-copy"><span class="system-code" id="systemCode"></span><h3 id="systemTitle"></h3><p id="systemSummary"></p></div>
       </aside>
     </div>
@@ -170,6 +177,7 @@
 <script src="beginner-data.js?v=2"></script>
 <script src="atlas-core.js?v=20260905"></script>
 <script src="features.js?v=20260907"></script>
+<script type="module" src="machine-ui.js?v=1"></script>
 
 <script id="ss-loader-script">
 (()=>{

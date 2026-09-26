@@ -50,6 +50,7 @@ function renderVehicle(){const v=state.vehicle;if(!v)return;
   $('#vehicleVin').textContent=v.VIN; $('#decodeStatus').textContent=(v.ErrorCode==='0'||String(v.ErrorCode||'').startsWith('0'))?'DECODED':'PARTIAL';
   $('#bayMake').textContent=`${val(v.Make)} / ${val(v.Model)}`; $('#bayEngine').textContent=engineText(v); $('#bayDrive').textContent=val(v.DriveType); $('#heroBayStatus').textContent='VEHICLE ONLINE';
   $('#serviceVehicle').textContent=`${val(v.ModelYear)} ${name(v)}`; renderDna();renderTech();renderScan('power');renderServices(); updateSaveButton();
+  document.dispatchEvent(new CustomEvent('cd:vehicle',{detail:v}));
 }
 function engineText(v){const bits=[];if(v.DisplacementL)bits.push(`${parseFloat(v.DisplacementL).toFixed(1)}L`);if(v.EngineCylinders)bits.push(`${v.EngineCylinders} CYL`);if(v.FuelTypePrimary)bits.push(v.FuelTypePrimary);return bits.join(' · ')||'POWERTRAIN —'}
 function renderDna(){const v=state.vehicle;const rows=[

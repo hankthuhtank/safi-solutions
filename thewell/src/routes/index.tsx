@@ -25,7 +25,7 @@ function Library() {
     <main className="px-4 py-6 sm:px-8 sm:py-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">
+          <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">
             {drinks.length} drinks on the rail
           </p>
           <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
@@ -52,10 +52,10 @@ function Library() {
         {shelves.map((shelf) => (
           <section key={shelf.id}>
             <div className="mb-4 flex items-baseline justify-between gap-4">
-              <h2 className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">
+              <h2 className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">
                 {shelf.label}
               </h2>
-              <span className="font-mono text-[10px] text-subtle tabular-nums">
+              <span className="font-mono text-[11px] text-subtle tabular-nums">
                 {String(shelf.items.length).padStart(2, "0")}
               </span>
             </div>

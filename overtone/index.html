@@ -470,6 +470,7 @@ body{background:
 </style>
 
 <link rel="stylesheet" href="discovery.css?v=20260907">
+<link rel="stylesheet" href="series.css?v=2">
 </head>
 <body>
 
@@ -523,7 +524,8 @@ body{background:
 
 <!-- HOME -->
 <section class="view on" id="v-home">
-  <div class="hero">
+  <div class="hero has-series">
+    <div class="hero-text">
     <h1>Music, made<span>audible on the page.</span></h1>
     <p>A theory workbench you can play. Every scale, chord and progression here makes sound —
        with sampled instruments or a built-in synth engine. Learn by hearing, seeing and playing the idea yourself.</p>
@@ -531,6 +533,15 @@ body{background:
       <button class="btn btn-brass" onclick="heroDemo()">Play me something</button>
       <button class="btn btn-ghost" onclick="go('sketch')">Build a progression</button>
     </div>
+    </div>
+    <figure class="series" id="series" aria-labelledby="seriesCap">
+      <div class="series-head"><span class="series-k">The overtone series</span><b id="seriesNote" aria-live="polite"></b></div>
+      <canvas aria-hidden="true"></canvas>
+      <div class="series-keys" role="group" aria-label="Harmonics 1 to 16"></div>
+      <div class="series-actions"><button class="btn btn-brass" type="button" id="seriesPlay">Play the series</button><button class="btn btn-ghost" type="button" id="seriesStack">Stack 1–8 into one note</button></div>
+      <p class="series-why" id="seriesWhy" aria-live="polite"></p>
+      <figcaption id="seriesCap">Pluck any string and it vibrates in halves, thirds and quarters at the same time. Those overtones give a note its colour — and harmonics 4, 5 and 6 spell a major chord.</figcaption>
+    </figure>
   </div>
   <div class="gates" id="gates"></div>
   <div id="homeStatus"></div>
@@ -707,5 +718,6 @@ body{background:
 </script>
 
 <script src="discovery.js?v=20260907"></script>
+<script src="series.js?v=2"></script>
 </body>
 </html>

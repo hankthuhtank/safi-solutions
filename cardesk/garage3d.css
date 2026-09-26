@@ -1,0 +1,34 @@
+/* CarDesk — 3D vehicle stage */
+.vehicle-stage .cd-machine { position: absolute; left: 0; right: 0; top: 48px; bottom: 150px; background: url('media/garage-gas.webp') center 42% / contain no-repeat; }
+.vehicle-stage .cd-machine.is-ready { background-image: none; }
+.cd-machine .m3-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .8s ease; touch-action: pan-y; }
+.cd-machine.is-ready .m3-canvas { opacity: 1; }
+.cd-machine .m3-labels, .cd-machine .m3-tip { display: none; }
+.cd-note { position: absolute; left: 18px; right: 18px; bottom: 124px; margin: 0; text-align: center; font: 500 8px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #5f7890; pointer-events: none; }
+.cd-modes { position: absolute; left: 18px; right: 18px; bottom: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.vehicle-stage .cd-modes .hero-system { position: static; width: auto; inset: auto; transform: none; min-height: 52px; border-radius: 10px; padding: 9px 12px; cursor: pointer; }
+.vehicle-stage .cd-modes .hero-system:hover { transform: none; }
+.vehicle-stage .cd-modes .hero-system[aria-pressed="true"] { border-color: rgba(43, 215, 255, .7); background: rgba(43, 215, 255, .1); box-shadow: inset 0 -2px 0 #2bd7ff; }
+.vehicle-stage .cd-modes .hero-system.power[aria-pressed="true"] { border-color: rgba(255, 155, 63, .75); background: rgba(255, 155, 63, .1); box-shadow: inset 0 -2px 0 #ff9b3f; }
+.scan-visual { position: relative; display: block !important; height: auto !important; }
+.scan-visual .cd-machine.cd-scan { position: relative; width: 100%; height: 330px; background: url('media/garage-gas.webp') center / contain no-repeat; }
+.scan-visual .cd-machine.cd-scan.is-ready { background-image: none; }
+.scan-visual .cd-scan-note { position: static; padding: 0 14px 12px; text-align: left; line-height: 1.5; }
+@media (max-width: 760px) {
+  .vehicle-stage .cd-machine { bottom: 168px; }
+  .cd-note { bottom: 142px; }
+  .cd-modes { grid-template-columns: 1fr 1fr 1fr; bottom: 60px; gap: 6px; }
+  .vehicle-stage .cd-modes .hero-system { padding: 8px 9px; min-height: 56px; min-width: 0; }
+  .vehicle-stage .cd-modes .hero-system b { font-size: 12px; }
+  .vehicle-stage .cd-modes .hero-system small { display: none; }
+  .scan-visual .cd-machine.cd-scan { height: 260px; }
+}
+
+/* ownership card: breakdown and explanation span the full card instead of colliding in the 220px ring column */
+.cost-output .cash-breakdown, .cost-output #costExplanation { grid-column: 1 / -1; }
+.cost-output #costExplanation { margin-top: 14px; font-size: 13.5px; line-height: 1.55; color: #8ea3b4; }
+.cost-output .cash-breakdown > div { font-size: 13.5px; }
+.diag-input > div { display: flex; gap: 8px; min-width: 0; }
+.diag-input > div input { flex: 1 1 auto; min-width: 0; width: auto; }
+.diag-input > div button { flex: 0 0 auto; }
+.diag-console, .diag-console > * { min-width: 0; }

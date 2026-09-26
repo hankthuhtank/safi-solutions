@@ -8,7 +8,7 @@ import "@/styles.css";
 function NotFound() {
   return (
     <main className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
-      <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">86'd</p>
+      <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">86'd</p>
       <h1 className="mt-3 font-display text-3xl">That isn't on the rail</h1>
       <Link
         to="/"

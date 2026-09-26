@@ -138,11 +138,11 @@
         <div class="world-grid world-grid-v7">${D.worlds.map(worldCard).join("")}</div>
       </section>
       <section class="research-note">
-        <div><small>HOW THIS IS BUILT</small><h2>Every visual and every claim has to earn its place.</h2></div>
-        <p>A photo stays only if it shows the equipment it says it shows. Use the named standards and sources to check technical claims. Interactive labs simplify real equipment; they do not establish service limits or qualify a repair.</p>
+        <div><small>HOW THIS IS BUILT</small><h2>Every picture shows what it names. Every claim shows its source.</h2></div>
+        <p>Photos and diagrams are checked against the equipment they claim to show. Technical claims point to the standard and edition they come from. Interactive labs simplify real equipment to teach the idea — they don't set service limits or qualify a repair.</p>
         <div class="method-rows">
-          <div class="method-row"><b>${Object.keys(D.visualAssets||{}).length}</b><span>topics carry a checked visual. ${(D.removedMedia?Object.keys(D.removedMedia).length:0)} images were removed for showing the wrong thing, including a bottle jack labelled as a hydraulic cylinder and a museum exhibit labelled as a compressor.</span></div>
-          <div class="method-row"><b>${(D.boilerplateRemoved||[]).length}</b><span>generic sentences were deleted. One safety line had been repeated on 104 different topics. A line that fits everything teaches nothing about anything.</span></div>
+          <div class="method-row"><b>${Object.keys(D.visualAssets||{}).length}</b><span>topics come with a checked photo or diagram of the actual equipment, labelled part by part.</span></div>
+          <div class="method-row"><b>${D.concepts.length}</b><span>topics written beginner-first: the words and the system idea come before technician-level detail.</span></div>
           <div class="method-row"><b>${(D.standards&&D.standards.items.length)||0}</b><span>standards and dates are stated openly on the <button class="footer-link" onclick="go('standards')">standards page</button>, so you can see what edition this was written against instead of guessing.</span></div>
         </div>
       </section>

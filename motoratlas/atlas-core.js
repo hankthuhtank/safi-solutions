@@ -112,6 +112,7 @@ function renderSystemVisual(){
   $('#systemCode').textContent=`SYSTEM ${String(idx).padStart(2,'0')} / ${activeSystem.parts.length} COMPONENTS`;
   $('#systemTitle').textContent=activeSystem.name;
   $('#systemSummary').textContent=activeSystem.summary;
+  document.dispatchEvent(new CustomEvent('ma:part',{detail:{system:activeSystem.id,part:activePart.name}}));
 }
 
 /* ---------- flow diagrams ---------- */
@@ -198,6 +199,19 @@ $('#caseReset')?.addEventListener('click',()=>{caseStep=0;renderCase()});
 function renderSources(){
   $('#sourceGrid').innerHTML=DATA.sources.map((s,i)=>`<article class="source-item"><span>${String(i+1).padStart(2,'0')} / REFERENCE</span><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p><a href="${esc(s[2])}" target="_blank" rel="noopener">OPEN SOURCE ↗</a></article>`).join('');
 }
+
+/* ---------- public hook: the 3D machine opens parts through this ---------- */
+window.MotorAtlasUI={
+  openPart(name,sysId,scroll=true){
+    const s=DATA.systems.find(x=>x.id===sysId&&x.parts.some(p=>p.name===name))||DATA.systems.find(x=>x.parts.some(p=>p.name===name));if(!s)return false;
+    activeSystem=s;activePart=s.parts.find(p=>p.name===name);activeTab='quick';$('#partSearch').value='';
+    renderSystemStrip();renderPartList();renderManual();renderSystemVisual();renderFlow();
+    if(scroll)$('#workbench').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+    return true;
+  },
+  find(name){for(const s of DATA.systems){const p=s.parts.find(x=>x.name===name);if(p)return{system:s,part:p}}return null},
+  data:DATA
+};
 
 /* ---------- init ---------- */
 renderSystemStrip();renderPartList();renderManual();renderSystemVisual();renderFlow();renderArchitecture('gas');renderCaseList();renderCase();renderSources();
