@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="houseedge.css?v=3">
-<link rel="stylesheet" href="portal.css?v=2">
+<link rel="stylesheet" href="portal.css?v=3">
 <script type="module" src="houseedge.js?v=3"></script>
 </head>
 <body class="portal-page floor-page floor-compact">
@@ -37,38 +37,38 @@
       <p>Pick a table, learn exactly where the edge comes from, and use the interactive tools without digging through an endless page.</p>
     </section>
 
-    <section class="floor-room-panel" aria-labelledby="room-title">
+    <section class="floor-room-scene" aria-labelledby="room-title">
       <div class="floor-room-heading">
         <p class="floor-kicker">CHOOSE YOUR ROOM</p>
         <h2 id="room-title">Seven games. Seven prices.</h2>
       </div>
 
-      <div class="floor-room-grid">
-        <a class="floor-room-card" href="blackjack/" style="--room:url('media/blackjack-card.webp')">
+      <div class="floor-room-grid" aria-label="Choose a game">
+        <a class="floor-room-card scene-blackjack" href="blackjack/" style="--room:url('media/blackjack-card.webp')">
           <span class="floor-room-photo"></span>
           <span class="floor-room-copy"><small>TABLE 01</small><b>Blackjack</b><em>≈0.5%</em></span>
         </a>
-        <a class="floor-room-card" href="baccarat/" style="--room:url('media/baccarat-card.webp')">
+        <a class="floor-room-card scene-baccarat" href="baccarat/" style="--room:url('media/baccarat-card.webp')">
           <span class="floor-room-photo"></span>
           <span class="floor-room-copy"><small>TABLE 02</small><b>Baccarat</b><em>1.06%</em></span>
         </a>
-        <a class="floor-room-card" href="craps/" style="--room:url('media/craps-card.webp')">
+        <a class="floor-room-card scene-craps" href="craps/" style="--room:url('media/craps-card.webp')">
           <span class="floor-room-photo"></span>
           <span class="floor-room-copy"><small>TABLE 03</small><b>Craps</b><em>1.41%</em></span>
         </a>
-        <a class="floor-room-card" href="roulette/" style="--room:url('media/roulette-card.webp')">
+        <a class="floor-room-card scene-roulette" href="roulette/" style="--room:url('media/roulette-card.webp')">
           <span class="floor-room-photo"></span>
           <span class="floor-room-copy"><small>TABLE 04</small><b>Roulette</b><em>2.70%+</em></span>
         </a>
-        <a class="floor-room-card" href="slots/" style="--room:url('media/slots-card.webp')">
+        <a class="floor-room-card scene-slots" href="slots/" style="--room:url('media/slots-card.webp')">
           <span class="floor-room-photo"></span>
           <span class="floor-room-copy"><small>FLOOR 05</small><b>Slots</b><em>RTP</em></span>
         </a>
-        <a class="floor-room-card" href="poker/" style="--room:url('media/poker-card.webp')">
+        <a class="floor-room-card scene-poker" href="poker/" style="--room:url('media/poker-card.webp')">
           <span class="floor-room-photo"></span>
           <span class="floor-room-copy"><small>ROOM 06</small><b>Poker</b><em>Rake</em></span>
         </a>
-        <a class="floor-room-card floor-room-sports" href="sportsbook/">
+        <a class="floor-room-card floor-room-sports scene-sports" href="sportsbook/">
           <span class="floor-room-board" aria-hidden="true"><i>DEN <b>−3.5</b></i><i>KC <b>+3.5</b></i></span>
           <span class="floor-room-copy"><small>BOOK 07</small><b>Sportsbook</b><em>−110</em></span>
         </a>
