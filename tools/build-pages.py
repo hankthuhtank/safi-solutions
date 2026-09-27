@@ -6,7 +6,7 @@
 # rewrites them. Every other page (pricing, support, legal, product detail pages, the projects themselves) is untouched.
 import os, html, json
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-V = "17"
+V = "18"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
@@ -265,15 +265,15 @@ write('websites/index.html', page('websites', '/websites/', 'Websites | Safi Sol
 # ---------------------------------------------------------------- studio
 GAL = [
   ('sallys-roses-workspace.webp', 'Sally’s Roses: business workspace dashboard'),
-  ('jgs-auto-workspace.webp?v=17', 'JG’s Auto: vehicle and service history workspace'),
+  ('jgs-auto-original.png?v=18', 'JG’s Auto: vehicle and service history workspace'),
 ]
-gal = ''.join(f'<figure class="rv"><img src="/assets/showcase/{f}" alt="{e(c)}" loading="lazy"><figcaption>{e(c)}</figcaption></figure>' for f, c in GAL)
+gal = ''.join(f'<figure class="rv"><button type="button" data-zoom style="all:unset;display:block;cursor:zoom-in;width:100%"><img src="/assets/showcase/{f}" alt="{e(c)}" loading="lazy"></button><figcaption>{e(c)}</figcaption></figure>' for f, c in GAL)
 studio_body = f'''<div class="page">
   <header class="page-head"><div><p class="micro">Business software</p><h1>SafiStudios.</h1></div><p class="lead">Custom software for a better-organized business, built around the way your day actually runs instead of the other way round.</p></header>
   <section class="studio-hero">
     <div class="rv"><p>Keep documents, employee records, schedules and inventory in one workspace, built around your everyday data entry.</p><p>Tailored to different industries, from retail and daily operations to contractors and events. Every build starts from how the work is really done and removes the steps nobody needs.</p><p class="field-note"><strong>For field teams:</strong> I’m developing connected workflows to help pest control, HVAC and other service crews communicate with management.</p>
       <div class="hero-cta"><a class="button" href="{contact('SafiStudios / custom business software')}">Discuss your business {ARROW}</a><a class="button ghost" href="/pricing.html">How pricing works</a></div></div>
-    <div class="studio-stack rv" data-d="120"><figure><img src="/assets/showcase/java-workspace.webp" alt="Downtown Coffee staff schedule workspace"></figure><figure><img src="/assets/showcase/cedar-workspace.webp" alt="Cedar’s Pest routes and dispatch workspace"></figure></div>
+    <div class="studio-stack rv" data-d="120"><figure><button type="button" data-zoom style="all:unset;display:block;cursor:zoom-in;width:100%"><img src="/assets/showcase/java-workspace.webp" alt="Downtown Coffee staff schedule workspace"></button></figure><figure><button type="button" data-zoom style="all:unset;display:block;cursor:zoom-in;width:100%"><img src="/assets/showcase/cedar-workspace.webp" alt="Cedar’s Pest routes and dispatch workspace"></button></figure></div>
   </section>
   <div class="sec-head rv" style="margin-top:clamp(48px,6vw,80px)"><div><p class="micro">Design previews</p><h2>Built to fit the work.</h2></div><p class="micro">Sample data · modules vary by build</p></div>
   <div class="gallery two studio-real-previews">{gal}</div>
