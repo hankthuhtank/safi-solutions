@@ -70,5 +70,82 @@
       <img src="/assets/project-logos/thewell.webp?v=11" alt="The Well" onerror="this.onerror=null;this.src='/assets/project-logos/thewell.jpg?v=11'" />
     </a>
     <div id="root"></div>
+    <script>
+      /*
+       * The pinned portfolio build uses external family-reference photos.
+       * If one of those URLs dies, replace only that broken family image
+       * with the local bar photograph so the card never shows a broken icon.
+       */
+      (function () {
+        var fallback = "/thewell/images/bar-interior.jpg?v=2";
+        var positions = {
+          "sour": "12% 50%",
+          "old fashioned": "28% 50%",
+          "martini": "43% 50%",
+          "negroni": "58% 50%",
+          "highball": "72% 50%",
+          "tiki": "88% 50%",
+          "fizz": "24% 62%",
+          "collins": "24% 62%",
+          "spritz": "82% 62%"
+        };
+
+        function positionFor(alt) {
+          var key = (alt || "").toLowerCase();
+          for (var name in positions) {
+            if (key.indexOf(name) !== -1) return positions[name];
+          }
+          return "50% 50%";
+        }
+
+        function useFallback(img) {
+          if (!img || img.dataset.thewellFamilyFallback === "1") return;
+          img.dataset.thewellFamilyFallback = "1";
+          img.src = fallback;
+          img.style.objectFit = "cover";
+          img.style.objectPosition = positionFor(img.alt);
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.display = "block";
+        }
+
+        function watchImage(img) {
+          if (!img || img.dataset.thewellFamilyWatched === "1") return;
+          var alt = (img.alt || "").toLowerCase();
+          if (alt.indexOf("cocktail family example") === -1) return;
+
+          img.dataset.thewellFamilyWatched = "1";
+          img.addEventListener("error", function () { useFallback(img); });
+
+          if (img.complete && img.naturalWidth === 0) {
+            useFallback(img);
+          } else {
+            setTimeout(function () {
+              if (img.complete && img.naturalWidth === 0) useFallback(img);
+            }, 250);
+          }
+        }
+
+        function scan(root) {
+          if (!root) return;
+          if (root.tagName === "IMG") watchImage(root);
+          if (root.querySelectorAll) {
+            root.querySelectorAll("img").forEach(watchImage);
+          }
+        }
+
+        function start() {
+          scan(document);
+          new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) {
+              m.addedNodes.forEach(scan);
+            });
+          }).observe(document.body, { childList: true, subtree: true });
+        }
+
+        if (document.body) start();
+        else document.addEventListener("DOMContentLoaded", start, { once: true });
+      })();
+    </script>
   </body>
 </html>
