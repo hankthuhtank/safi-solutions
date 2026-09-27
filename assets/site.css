@@ -412,7 +412,7 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .page-about .portrait img { height: 160px; }
   .page-about .portrait figcaption { padding-top: 8px; font-size: 8.5px; line-height: 1.45; }
   .page-about .about-copy h1 { max-width: calc(100% - 150px); margin-top: 8px; font-size: clamp(36px, 10.5vw, 46px); line-height: 1; }
-  .page-about .about-copy > h1 + p { clear: both; padding-top: 8px; }
+  .page-about .about-copy > h1 + p { margin-top: 0; }
   .inquiry-form { grid-template-columns: minmax(0, 1fr); }
   .inquiry-form .button { width: 100%; }
   .page-head h1 { font-size: 44px; }
