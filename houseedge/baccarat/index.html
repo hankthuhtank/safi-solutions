@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06100c">
+<title>Baccarat | HouseEdge</title>
+<meta name="description" content="Learn Banker, Player and Tie bets, drawing rules and the real baccarat house edge.">
+<base href="/houseedge/">
+<link rel="icon" href="/assets/project-logos/houseedge.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="houseedge.css?v=3">
+<link rel="stylesheet" href="portal.css?v=1">
+<script type="module" src="houseedge.js?v=3"></script>
+</head>
+<body class="portal-page room-page room-baccarat">
+<header class="floorbar">
+  <a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a>
+  <nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/">Floor</a><a href="edge/">Cost Lab</a><a href="safe/">Play Safe</a></nav>
+  <button class="floor-help" type="button" data-glossary>Glossary</button>
+</header>
+<nav class="room-strip" aria-label="Game rooms"><a href="blackjack/">Blackjack</a><a href="baccarat/" aria-current="page">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/">Slots</a><a href="poker/">Poker</a><a href="sportsbook/">Sportsbook</a></nav>
+<main class="room-main"><section class="chapter" id="baccarat" aria-labelledby="bac-title">
+  <div class="ch-photo" style="--img:url('media/baccarat.webp');--pos:center 40%" role="img" aria-label="Baccarat layout: Player shows 7 and 2 for a natural nine against Banker's king and five"></div>
+  <header class="ch-head">
+    <p class="ch-no">Table 02 <span>Baccarat</span></p>
+    <h2 id="bac-title">Most of baccarat is automatic. Your only decision is the bet.</h2>
+    <p>Two hands are dealt: "Player" and "Banker". Neither belongs to you or the casino; they're just names. You bet on which hand finishes closest to 9, and the dealer draws every card by fixed rules.</p>
+    <dl class="stats"><div><dt>Banker</dt><dd>1.06%</dd><small>pays 1:1 minus 5% commission</small></div><div><dt>Player</dt><dd>1.24%</dd><small>pays 1:1, no commission</small></div><div><dt>Tie</dt><dd>14.36%</dd><small>pays 8:1, the trap</small></div></dl>
+  </header>
+  <div class="ch-body">
+    <article class="panel">
+      <h3>Counting a hand</h3>
+      <ul class="facts">
+        <li><b>Ace = 1, 2–9 = face value, 10/J/Q/K = 0.</b></li>
+        <li><b>Only the last digit counts.</b> 7 + 8 = 15, so the hand is worth 5.</li>
+        <li><b>A natural ends it.</b> If either hand's first two cards total 8 or 9, nobody draws.</li>
+        <li><b>Player draws on 0–5</b> and stands on 6–7.</li>
+        <li><b>Banker's draw depends on Player's third card</b>. Use the tableau to see every case.</li>
+      </ul>
+      <p class="fine">No-commission tables (e.g. EZ Baccarat) push a winning Banker three-card 7 instead of taking 5%; Banker's edge there is about 1.02%. Some tables pay 9:1 on Tie, which cuts that bet's edge to about 4.84%.</p>
+    </article>
+    <article class="panel tableau" aria-labelledby="tab-title">
+      <h3 id="tab-title">Banker's tableau</h3>
+      <p class="fine">Pick Banker's two-card total and Player's third card.</p>
+      <div class="tableau-pick">
+        <label>Banker total<select id="tbBanker"><option>0</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+        <label>Player's 3rd card<select id="tbPlayer"><option value="none">Player stood</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option></select></label>
+      </div>
+      <p class="tableau-verdict" id="tbVerdict" aria-live="polite"></p>
+      <div class="chart-wrap"><table class="chart tableau-grid" id="tbGrid"></table></div>
+    </article>
+  </div>
+  <aside class="myth"><b>Scoreboards aren't forecasts.</b> The "roadmap" screens that track streaks of Banker and Player wins describe the past. Each hand is dealt from the shoe independently of the last one.</aside>
+</section></main>
+<div class="room-return"><a href="/houseedge/">← Back to the casino floor</a></div>
+<footer class="foot">
+  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
+  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
+  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
+</footer>
+<div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
+  <div class="gl-panel">
+    <button class="gl-close" type="button" aria-label="Close glossary">×</button>
+    <p class="plaque small"><span>Glossary</span></p>
+    <h2 id="gl-title">Twelve words that unlock the casino.</h2>
+    <dl class="gl-list">
+      <div><dt>House edge</dt><dd>The average share of each bet the casino keeps over the long run.</dd></div>
+      <div><dt>RTP</dt><dd>Return to player, the flip side of the edge. 95% RTP means a 5% edge.</dd></div>
+      <div><dt>Variance</dt><dd>How far short-term results swing around the average.</dd></div>
+      <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
+      <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
+      <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
+      <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
+      <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
+      <div><dt>Outs</dt><dd>In poker, the unseen cards that would improve your hand to a likely winner.</dd></div>
+      <div><dt>Rake</dt><dd>The fee a poker room takes from each pot.</dd></div>
+    </dl>
+  </div>
+</div>
+</body>
+</html>
