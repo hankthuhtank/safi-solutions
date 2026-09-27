@@ -14,8 +14,9 @@
   <link rel="stylesheet" href="styles.css?v=2" />
   <link rel="stylesheet" href="discovery.css?v=20260907" />
   <link rel="stylesheet" href="drawing.css?v=5" />
+  <link rel="stylesheet" href="portal.css?v=1" />
 </head>
-<body>
+<body class="atlas-vv-home">
   <div class="boot" id="boot" aria-hidden="true">
     <div class="boot-mark"><span>VV</span><i></i></div>
     <div class="boot-line"><b></b></div>
@@ -26,15 +27,16 @@
   <div class="page-progress" id="pageProgress"></div>
 
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="VoltVisual home">
+    <a class="brand" href="/voltvisual/" aria-label="VoltVisual home">
       <img src="/assets/project-logos/voltvisual.svg" alt="VoltVisual" style="display:block;height:34px;width:auto;max-width:170px;object-fit:contain;object-position:left center;">
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="#machine">Machine Map</a>
-      <a href="#lab">Visual Lab</a>
-      <a href="#paths">Learn</a>
-      <a href="#library">Library</a>
-      <a href="#troubleshoot">Troubleshoot</a>
+      <a href="/voltvisual/machine-map/">Machine Map</a>
+      <a href="/voltvisual/visual-lab/">Visual Lab</a>
+      <a href="/voltvisual/learn/">Learn</a>
+      <a href="/voltvisual/drawings/">Drawings</a>
+      <a href="/voltvisual/library/">Library</a>
+      <a href="/voltvisual/troubleshoot/">Troubleshoot</a>
     </nav>
     <div class="top-actions">
       <button class="mode-toggle" id="modeToggle" aria-pressed="false" title="Switch between beginner and field detail">
@@ -45,7 +47,7 @@
   </header>
 
   <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <a href="#machine">Machine Map</a><a href="#lab">Visual Lab</a><a href="#paths">Learning Paths</a><a href="#library">Term Library</a><a href="#drawings">Drawings</a><a href="#troubleshoot">Troubleshooting</a>
+    <a href="/voltvisual/machine-map/">Machine Map</a><a href="/voltvisual/visual-lab/">Visual Lab</a><a href="/voltvisual/learn/">Learning Paths</a><a href="/voltvisual/library/">Term Library</a><a href="/voltvisual/drawings/">Drawings</a><a href="/voltvisual/troubleshoot/">Troubleshooting</a>
   </aside>
 
   <main id="top">
@@ -55,9 +57,17 @@
         <h1>Industrial EE.<br><em>Finally visual.</em></h1>
         <p class="hero-lede">Don’t memorize random terms. <strong>Trace the machine.</strong> Follow power, signals, logic, motion, safety, and data until the whole floor makes sense.</p>
         <div class="hero-actions">
-          <a class="primary-btn" href="#machine">Enter the machine <span>→</span></a>
+          <a class="primary-btn" href="/voltvisual/machine-map/">Enter the machine <span>→</span></a>
           <button class="text-btn" data-open="quickStart">I know absolutely nothing <span>↗</span></button>
         </div>
+        <nav class="vv-route-rail" aria-label="Explore VoltVisual">
+          <a href="/voltvisual/machine-map/"><small>01</small><span>Machine Map</span><i>TRACE</i></a>
+          <a href="/voltvisual/visual-lab/"><small>02</small><span>Visual Lab</span><i>TOUCH</i></a>
+          <a href="/voltvisual/learn/"><small>03</small><span>Learning Paths</span><i>LEARN</i></a>
+          <a href="/voltvisual/drawings/"><small>04</small><span>Drawings</span><i>READ</i></a>
+          <a href="/voltvisual/library/"><small>05</small><span>Field Library</span><i>SEARCH</i></a>
+          <a href="/voltvisual/troubleshoot/"><small>06</small><span>Troubleshoot</span><i>TRACE</i></a>
+        </nav>
         <div class="term-stream" aria-label="Included topics">
           <span>ControlLogix</span><span>Studio 5000</span><span>PowerFlex</span><span>Kinetix 5700</span><span>GuardLogix</span><span>POINT I/O</span><span>FLEX I/O</span><span>EtherNet/IP</span><span>DeviceNet</span><span>ControlNet</span><span>Pilz</span><span>Ladder Logic</span>
         </div>
