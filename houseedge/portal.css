@@ -300,7 +300,7 @@
     box-shadow:0 16px 30px rgba(0,0,0,.36);
   }
   .scene-roulette .floor-room-photo{inset:0;border-radius:0}
-  .scene-sports{grid-column:1/-1;border-radius:18px}
+  .scene-sports{grid-column:auto;border-radius:18px}
   .floor-room-copy{left:9px;right:9px;bottom:8px}
 }
 
