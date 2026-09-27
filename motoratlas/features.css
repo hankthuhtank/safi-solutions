@@ -14,3 +14,164 @@
 @media(max-width:560px){.global-results button{grid-template-columns:50px 1fr}.global-results button small{grid-column:2;text-align:left}.global-results{max-height:330px}}
 @media(max-width:480px){.diff-simulator,.diff-reference{padding:14px}.turn-control{grid-template-columns:1fr}.turn-control span:last-child{text-align:right}.wheel-readout b{font-size:2rem}.deeper-drawer summary b{display:none}}
 @media(prefers-reduced-motion:reduce){.wheel-readout i,.diff-gear{animation:none!important}}
+
+
+/* Diagnostic workspace separation */
+.diagnostics .diag-shell.dx-shell{
+  border:0;
+  background:transparent;
+  gap:18px;
+  align-items:start;
+}
+.diagnostics .dx-list{
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:16px;
+  background:linear-gradient(180deg,#111617,#0c1011);
+  box-shadow:0 18px 38px rgba(0,0,0,.22);
+  overflow:auto;
+}
+.diagnostics .dx-list-head{
+  padding:15px 16px;
+  background:#151b1d;
+  border-bottom:1px solid rgba(240,164,59,.28);
+  color:#aeb8bc;
+  box-shadow:inset 3px 0 0 var(--amber);
+}
+.diagnostics .dx-case{
+  padding:16px;
+}
+.diagnostics .dx-case.active{
+  background:linear-gradient(90deg,rgba(240,164,59,.12),rgba(240,164,59,.035));
+  box-shadow:inset 4px 0 0 var(--amber);
+}
+.diagnostics .dx-case.active b{color:#fff7e9}
+.diagnostics .dx-case.active small{color:#aab4b8}
+
+.diagnostics .dx-detail{
+  position:relative;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:16px;
+  padding:54px 38px 42px;
+  background:
+    radial-gradient(circle at 90% 5%,rgba(240,164,59,.055),transparent 28%),
+    linear-gradient(180deg,#111415,#0c0f10);
+  box-shadow:0 18px 40px rgba(0,0,0,.24);
+}
+.diagnostics .dx-detail:before{
+  content:"ACTIVE DIAGNOSTIC GUIDE";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:34px;
+  display:flex;
+  align-items:center;
+  padding:0 16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.018);
+  color:#68747a;
+  font:600 .5rem var(--mono);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.diagnostics .dx-top{
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.09);
+  margin-bottom:18px;
+}
+.diagnostics .dx-section{
+  margin-top:28px;
+  padding-top:4px;
+}
+.diagnostics .dx-section-title{
+  padding:10px 12px;
+  margin-bottom:0;
+  border:1px solid rgba(255,255,255,.09);
+  background:#121617;
+}
+.diagnostics .dx-causes,
+.diagnostics .dx-checks,
+.diagnostics .dx-fixes{
+  background:rgba(8,11,12,.34);
+}
+.diagnostics .dx-first{
+  border-radius:10px;
+  overflow:hidden;
+}
+
+@media(max-width:980px){
+  .diagnostics .diag-shell.dx-shell{
+    gap:18px;
+  }
+  .diagnostics .dx-list{
+    max-height:none;
+    overflow-x:auto;
+    overflow-y:hidden;
+    display:flex;
+    align-items:stretch;
+    border-bottom:1px solid rgba(255,255,255,.13);
+    padding-top:37px;
+    position:relative;
+  }
+  .diagnostics .dx-list-head{
+    position:absolute;
+    inset:0 0 auto 0;
+    height:37px;
+    display:flex;
+    align-items:center;
+    padding:0 14px;
+    white-space:nowrap;
+    z-index:3;
+  }
+  .diagnostics .dx-case{
+    flex:0 0 240px;
+    min-width:240px;
+    border-right:1px solid rgba(255,255,255,.08);
+    border-bottom:0;
+  }
+  .diagnostics .dx-case.active{
+    box-shadow:inset 0 3px 0 var(--amber);
+  }
+  .diagnostics .dx-detail{
+    padding:50px 24px 30px;
+  }
+}
+
+@media(max-width:650px){
+  .diagnostics .dx-toolbar{
+    margin-bottom:12px;
+  }
+  .diagnostics .dx-filters{
+    margin-bottom:14px;
+  }
+  .diagnostics .diag-shell.dx-shell{
+    gap:14px;
+  }
+  .diagnostics .dx-list{
+    border-radius:13px;
+  }
+  .diagnostics .dx-case{
+    flex-basis:210px;
+    min-width:210px;
+    padding:14px 13px;
+  }
+  .diagnostics .dx-detail{
+    border-radius:13px;
+    padding:48px 16px 24px;
+  }
+  .diagnostics .dx-detail:before{
+    height:32px;
+    padding:0 12px;
+  }
+  .diagnostics .dx-top{
+    margin-bottom:14px;
+  }
+  .diagnostics .dx-section{
+    margin-top:22px;
+  }
+  .diagnostics .dx-section-title{
+    margin-left:-4px;
+    margin-right:-4px;
+    padding:9px 10px;
+  }
+}
