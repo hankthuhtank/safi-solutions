@@ -120,3 +120,5 @@ app.on('window-all-closed', () => {
           path: |
             Piktoor 1.0 Mac.dmg
             Piktoor 1.0 Mac.zip
+
+# retrigger macOS build
