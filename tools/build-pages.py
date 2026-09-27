@@ -6,7 +6,7 @@
 # rewrites them. Every other page (pricing, support, legal, product detail pages, the projects themselves) is untouched.
 import os, html, json
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-V = "10"
+V = "11"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
@@ -49,7 +49,7 @@ PROJECTS = [
   dict(id='thebench', name='The Bench', type='Learn to code', href='/thebench/', shot='thebench.webp', logo='thebench.webp', raster=True,
        bg='linear-gradient(145deg,#174636,#0e2f25)',
        detail='C++, Java, JavaScript, HTML, CSS and SQL in one course that runs every example and steps through it line by line.'),
-  dict(id='playbook', name='Playbook', type='Sports education', href='/playbook/', shot='playbook.webp', logo='playbook.webp', badge='New',
+  dict(id='playbook', name='Playbook', type='Sports education', href='/playbook/', shot='playbook.webp', logo='playbook.webp',
        bg='linear-gradient(145deg,#1c2621,#0e1411)',
        detail='Football, baseball, basketball, soccer, volleyball and golf explained for complete beginners: 3D stadiums, animated plays, 400+ concepts in plain English and every rule change for 2026.'),
 ]
