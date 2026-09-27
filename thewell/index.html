@@ -13,6 +13,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@320;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      /* Keep the app's brand slot for layout, but render Safi's logo independently. */
+      #root header > a:first-child,
+      #root aside > div:first-child > a:first-child {
+        visibility: hidden !important;
+      }
+
+      .thewell-brand-fixed {
+        position: fixed;
+        z-index: 2147483647;
+        left: 16px;
+        top: 10px;
+        display: block;
+        width: 116px;
+        height: 44px;
+        overflow: hidden;
+        text-decoration: none;
+      }
+
+      .thewell-brand-fixed img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: left center;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      @media (min-width: 1024px) {
+        .thewell-brand-fixed {
+          left: 16px;
+          top: 22px;
+          width: 118px;
+          height: 48px;
+        }
+      }
+    </style>
     <script>
       (function () {
         try {
@@ -24,74 +62,16 @@
         } catch (e) {}
       })();
     </script>
-    <script>
-      /*
-       * The pinned The Well build has existed with both text and image branding.
-       * Replace whichever version it renders with the canonical Safi Solutions logo.
-       */
-      (function () {
-        var LOGOS = [
-          "/assets/project-logos/thewell.svg?v=8",
-          "/assets/project-logos/thewell.webp?v=8",
-          "/assets/project-logos/thewell.jpg?v=8"
-        ];
-
-        function makeLogo() {
-          var img = document.createElement("img");
-          var choice = 0;
-          img.src = LOGOS[choice];
-          img.alt = "The Well";
-          img.setAttribute("data-thewell-brand-logo", "1");
-          img.style.display = "block";
-          img.style.width = "140px";
-          img.style.maxWidth = "100%";
-          img.style.height = "auto";
-          img.style.objectFit = "contain";
-          img.style.objectPosition = "left center";
-          img.style.opacity = "1";
-          img.style.visibility = "visible";
-          img.onerror = function () {
-            choice += 1;
-            if (choice < LOGOS.length) img.src = LOGOS[choice];
-          };
-          return img;
-        }
-
-        function isBrandLink(a) {
-          var label = (a.getAttribute("aria-label") || "").toLowerCase();
-          var text = (a.textContent || "").replace(/\s+/g, " ").trim().toLowerCase();
-          return label.indexOf("the well home") !== -1 || text === "the well";
-        }
-
-        function fixBrand() {
-          var links = document.querySelectorAll("header a, aside a");
-          for (var i = 0; i < links.length; i++) {
-            var a = links[i];
-            if (!isBrandLink(a)) continue;
-            var existing = a.querySelector('img[data-thewell-brand-logo="1"]');
-            if (!existing) {
-              a.replaceChildren(makeLogo());
-              a.setAttribute("aria-label", "The Well home");
-            }
-          }
-        }
-
-        function start() {
-          fixBrand();
-          new MutationObserver(fixBrand).observe(document.body, {
-            childList: true,
-            subtree: true
-          });
-        }
-
-        if (document.body) start();
-        else document.addEventListener("DOMContentLoaded", start, { once: true });
-      })();
-    </script>
     <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/hankthuhtank/the-well@efd370f489cc21da91c0fa1e921b9346bd32fc85/dist-portfolio/assets/portfolio-C3IRxaT5.js"></script>
     <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/hankthuhtank/the-well@efd370f489cc21da91c0fa1e921b9346bd32fc85/dist-portfolio/assets/portfolio-Dp_4NQah.css" />
   </head>
   <body>
+    <a class="thewell-brand-fixed" href="/thewell/" aria-label="The Well home">
+      <picture>
+        <source srcset="/assets/project-logos/thewell.webp?v=10" type="image/webp" />
+        <img src="/assets/project-logos/thewell.jpg?v=10" alt="The Well" />
+      </picture>
+    </a>
     <div id="root"></div>
   </body>
 </html>
