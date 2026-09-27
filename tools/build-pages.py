@@ -6,7 +6,7 @@
 # rewrites them. Every other page (pricing, support, legal, product detail pages, the projects themselves) is untouched.
 import os, html, json
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-V = "15"
+V = "16"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
@@ -265,7 +265,7 @@ write('websites/index.html', page('websites', '/websites/', 'Websites | Safi Sol
 # ---------------------------------------------------------------- studio
 GAL = [
   ('sallys-roses-workspace.webp', 'Sally’s Roses: business workspace dashboard'),
-  ('jgs-auto-workspace.webp', 'JG’s Auto: vehicle and service history workspace'),
+  ('jgs-auto-workspace.webp?v=16', 'JG’s Auto: vehicle and service history workspace'),
 ]
 gal = ''.join(f'<figure class="rv"><img src="/assets/showcase/{f}" alt="{e(c)}" loading="lazy"><figcaption>{e(c)}</figcaption></figure>' for f, c in GAL)
 studio_body = f'''<div class="page">
