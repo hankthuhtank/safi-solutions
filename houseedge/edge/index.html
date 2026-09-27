@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06100c"><title>House Edge & Cost Lab | HouseEdge</title><meta name="description" content="Understand house edge and estimate the average cost and swing range of a gambling session."><base href="/houseedge/"><link rel="icon" href="/assets/project-logos/houseedge.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="houseedge.css?v=3"><link rel="stylesheet" href="portal.css?v=1"><script type="module" src="houseedge.js?v=3"></script></head><body class="portal-page room-page room-edge"><header class="floorbar"><a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a><nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/">Floor</a><a href="edge/" aria-current="page">Cost Lab</a><a href="safe/">Play Safe</a></nav><button class="floor-help" type="button" data-glossary>Glossary</button></header><nav class="room-strip" aria-label="Game rooms"><a href="blackjack/">Blackjack</a><a href="baccarat/">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/">Slots</a><a href="poker/">Poker</a><a href="sportsbook/">Sportsbook</a></nav><main class="room-main"><section class="sec edge" id="edge" aria-labelledby="edge-title">
+  <header class="sec-head">
+    <p class="plaque"><span>The one number to know</span></p>
+    <h2 id="edge-title">The house edge is a price tag, not a prediction.</h2>
+  </header>
+  <div class="edge-grid">
+    <div class="edge-explain">
+      <p>Every casino bet pays a little less than its true odds. That gap is the <strong>house edge</strong>: the percentage of each bet the casino keeps <em>on average</em>, over a very large number of bets.</p>
+      <div class="edge-example" aria-label="Worked example">
+        <p class="kicker">Worked example · a single number in roulette</p>
+        <ol>
+          <li><span>A single-zero wheel has</span><b>37 pockets</b></li>
+          <li><span>A straight-up bet pays</span><b>35 to 1</b></li>
+          <li><span>A fair price would be</span><b>36 to 1</b></li>
+          <li><span>Bet $1 on all 37 pockets: you win once</span><b>get back $36</b></li>
+          <li><span>You spent $37, got $36 back</span><b class="neg">−$1 ÷ $37 = 2.70%</b></li>
+        </ol>
+      </div>
+      <p class="note">Tonight can go either way: short-run results swing far more than the edge. But the edge is what the casino collects across millions of bets, and it's why a longer or faster session costs more.</p>
+    </div>
+    <form class="cost" id="cost" aria-labelledby="cost-title" onsubmit="return false">
+      <h3 id="cost-title">What does a night cost?</h3>
+      <p class="cost-sub">Average cost = <b>bet size</b> × <b>bets per hour</b> × <b>hours</b> × <b>house edge</b></p>
+      <label class="field wide">Game and bet
+        <select id="costGame"></select>
+      </label>
+      <label class="field">Bet size<span class="unit">$<input id="costBet" type="number" min="1" step="1" value="25" inputmode="decimal"></span></label>
+      <label class="field">Bets per hour<input id="costPace" type="number" min="1" step="1" value="70" inputmode="numeric"></label>
+      <label class="field">Hours<input id="costHours" type="number" min=".5" step=".5" value="3" inputmode="decimal"></label>
+      <div class="cost-out" aria-live="polite">
+        <div class="cost-main"><span>Average cost of the session</span><b id="costLoss">$0</b></div>
+        <div><span>Total money wagered</span><b id="costAction">$0</b></div>
+        <div><span>House edge used</span><b id="costEdge">0%</b></div>
+        <div class="cost-range"><span>Two sessions in three end between</span><b id="costRange">–</b><small id="costRangeNote">A normal-distribution estimate of short-term swings.</small></div>
+      </div>
+      <div class="cost-bar" aria-hidden="true"><i id="costBarLo"></i><i id="costBarMean"></i><i id="costBarZero"></i></div>
+      <p class="fine">Paces are typical figures (Wizard of Odds game-speed estimates). Busy tables are slower, empty ones faster. Slot volatility varies widely by game; its swing range here is illustrative.</p>
+    </form>
+  </div>
+</section></main><div class="room-return"><a href="/houseedge/">← Back to the casino floor</a></div><footer class="foot">
+  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
+  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
+  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
+</footer><div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
+  <div class="gl-panel">
+    <button class="gl-close" type="button" aria-label="Close glossary">×</button>
+    <p class="plaque small"><span>Glossary</span></p>
+    <h2 id="gl-title">Twelve words that unlock the casino.</h2>
+    <dl class="gl-list">
+      <div><dt>House edge</dt><dd>The average share of each bet the casino keeps over the long run.</dd></div>
+      <div><dt>RTP</dt><dd>Return to player, the flip side of the edge. 95% RTP means a 5% edge.</dd></div>
+      <div><dt>Variance</dt><dd>How far short-term results swing around the average.</dd></div>
+      <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
+      <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
+      <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
+      <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
+      <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
+      <div><dt>Outs</dt><dd>In poker, the unseen cards that would improve your hand to a likely winner.</dd></div>
+      <div><dt>Rake</dt><dd>The fee a poker room takes from each pot.</dd></div>
+    </dl>
+  </div>
+</div></body></html>
