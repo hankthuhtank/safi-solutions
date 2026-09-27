@@ -284,6 +284,9 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 .gallery img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }
 .gallery.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .gallery figcaption { padding: 10px 12px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line-2); }
+.page-studio .studio-real-previews figure { border-radius: 8px; box-shadow: 0 22px 46px rgba(0, 0, 0, .42); transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s, border-color .3s; }
+.page-studio .studio-real-previews figure:hover { transform: translateY(-3px); box-shadow: 0 28px 58px rgba(0, 0, 0, .5); border-color: rgba(255, 255, 255, .12); }
+.page-studio .studio-real-previews img { display: block; width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; object-position: top left; }
 .cta-band { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-top: clamp(40px, 5vw, 70px); padding: clamp(22px, 3vw, 34px); border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(120deg, #1f2429, #1a1d21); }
 .cta-band h2 { font-size: clamp(26px, 2.6vw, 36px); }
 .cta-band p { color: var(--muted); margin-top: 6px; }
