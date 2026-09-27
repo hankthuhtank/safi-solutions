@@ -77,7 +77,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .rule { height: 1px; background: var(--line); border: 0; margin: 0; }
 
 /* ---------------------------------------------------------------- landing: hero */
-.hero { position: relative; min-height: min(calc(100svh - var(--top-h)), 860px); display: grid; grid-template-columns: minmax(0, 500px) minmax(160px, 280px) minmax(320px, 390px); justify-content: center; gap: 0; align-items: center; padding: clamp(34px, 5vw, 70px) var(--pad) clamp(40px, 5vw, 64px); overflow: hidden; isolation: isolate; border-bottom: 1px solid var(--line); }
+.hero { position: relative; min-height: min(calc(100svh - var(--top-h)), 860px); display: grid; grid-template-columns: minmax(0, 500px) minmax(240px, 340px) minmax(320px, 390px); justify-content: center; gap: 0; align-items: center; padding: clamp(34px, 5vw, 70px) var(--pad) clamp(40px, 5vw, 64px); overflow: hidden; isolation: isolate; border-bottom: 1px solid var(--line); }
 .threads { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
 .hero::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 48% 62% at 20% 48%, rgba(24, 27, 31, .85), transparent 75%); }
 .hero-copy { grid-column: 1; align-self: center; max-width: 560px; position: relative; z-index: 1; }
@@ -85,12 +85,12 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .hero-copy .micro::before { content: ''; width: 26px; height: 1px; background: var(--accent); }
 .hero h1 { margin: 18px 0 22px; font-size: clamp(48px, 6.1vw, 98px); line-height: .94; letter-spacing: -.055em; font-weight: 500; }
 .hero h1 span { display: block; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
-.hero-title-pyramid { display: flex; flex-direction: column; align-items: center; width: fit-content; max-width: 100%; }
-.hero-title-pyramid .hero-line { display: block; white-space: nowrap; }
+.hero-title-pyramid { display: flex; flex-direction: column; align-items: center; width: max-content; max-width: 100%; margin-top: 18px; margin-bottom: 22px; line-height: .88; }
+.hero-title-pyramid .hero-line { display: block; white-space: nowrap; color: var(--text); background: none; -webkit-background-clip: initial; background-clip: initial; }
 .hero-title-pyramid .hero-line-1 { font-size: 1em; }
-.hero-title-pyramid .hero-line-2 { font-size: .88em; }
-.hero-title-pyramid .hero-line-3 { font-size: .72em; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
-.hero-title-pyramid .hero-made { color: transparent; background: linear-gradient(95deg, #f6f8fa 10%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
+.hero-title-pyramid .hero-line-2 { font-size: .82em; margin-top: .04em; }
+.hero-title-pyramid .hero-line-3 { font-size: .68em; margin-top: .08em; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
+.hero-title-pyramid .hero-made { display: inline !important; color: transparent; background: linear-gradient(95deg, #f6f8fa 10%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
 .hero-lede { max-width: 520px; font-size: clamp(16px, 1.3vw, 18.5px); line-height: 1.6; color: #c4cad1; }
 .hero-lede b { color: var(--text); font-weight: 600; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
@@ -363,9 +363,9 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 @media (max-width: 640px) {
   :root { --pad: 18px; }
   .hero h1 { font-size: clamp(44px, 13.5vw, 64px); }
-  .hero-title-pyramid { align-items: flex-start; }
-  .hero-title-pyramid .hero-line-2 { font-size: .94em; }
-  .hero-title-pyramid .hero-line-3 { font-size: .82em; }
+  .hero-title-pyramid { align-items: center; margin-left: auto; margin-right: auto; }
+  .hero-title-pyramid .hero-line-2 { font-size: .84em; }
+  .hero-title-pyramid .hero-line-3 { font-size: .72em; }
   .doors { width: calc(100% - 22px); margin-left: 22px; }
   .door { grid-template-columns: 28px minmax(0, 1fr) auto; padding: 16px 12px 16px 16px; }
   .door .arrow { display: none; }
