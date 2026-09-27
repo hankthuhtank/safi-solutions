@@ -302,8 +302,8 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 .market-corner-shots { position: absolute; right: 0; bottom: -104px; display: flex; align-items: flex-end; justify-content: flex-end; width: 84%; pointer-events: none; }
 .market-shot { width: 61%; margin: 0; overflow: hidden; border: 1px solid #33474d; border-radius: 8px; background: #0b1116; box-shadow: 0 22px 44px rgba(0, 0, 0, .52); }
 .market-shot img { display: block; width: 100%; height: auto; }
-.market-shot-fib { z-index: 2; margin-right: -24%; transform: rotate(5deg); transform-origin: bottom right; }
-.market-shot-patterns { z-index: 1; transform: rotate(-5deg); transform-origin: bottom left; }
+.market-shot-fib { z-index: 1; margin-right: -24%; transform: rotate(5deg); transform-origin: bottom right; }
+.market-shot-patterns { z-index: 2; transform: rotate(-5deg); transform-origin: bottom left; }
 .market-open { justify-self: start; background: #bfe8e2; color: #10201e; border-color: #bfe8e2; font-weight: 700; }
 .market-open:hover { background: #dff6f2; }
 .market-copy { align-self: start; max-width: 720px; padding-top: 8px; }
