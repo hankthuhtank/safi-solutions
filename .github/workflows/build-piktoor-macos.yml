@@ -1,8 +1,7 @@
 name: Build Piktoor macOS
 on:
   push:
-    paths:
-      - '.github/workflows/build-piktoor-macos.yml'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: macos-15
