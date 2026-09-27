@@ -249,9 +249,9 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 .price small { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .shelf-shots { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .shelf-shots figure { border: 1px solid rgba(86,96,108,.7); border-radius: 6px; overflow: hidden; background: rgba(14,16,19,.30); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
-.shelf-shots figure:nth-child(2) { transform: translateY(18px); }
+.shelf-shots figure:nth-child(2) { transform: none; }
 .shelf:hover .shelf-shots figure:first-child { transform: translateY(-4px); }
-.shelf:hover .shelf-shots figure:nth-child(2) { transform: translateY(12px); }
+.shelf:hover .shelf-shots figure:nth-child(2) { transform: translateY(-4px); }
 .shelf-shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }
 .shelf-shots figcaption { padding: 8px 10px; font-size: 12.5px; color: var(--muted); border-top: 1px solid rgba(70,78,87,.7); background: rgba(14,16,19,.22); }
 .shelf.w-kwezeen h2 { font-family: 'Fraunces', Georgia, serif; }
