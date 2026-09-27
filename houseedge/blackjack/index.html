@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06100c">
+<title>Blackjack | HouseEdge</title>
+<meta name="description" content="Rules, table conditions, basic strategy and an interactive blackjack trainer.">
+<base href="/houseedge/">
+<link rel="icon" href="/assets/project-logos/houseedge.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="houseedge.css?v=3">
+<link rel="stylesheet" href="portal.css?v=1">
+<script type="module" src="houseedge.js?v=3"></script>
+</head>
+<body class="portal-page room-page room-blackjack">
+<header class="floorbar">
+  <a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a>
+  <nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/">Floor</a><a href="edge/">Cost Lab</a><a href="safe/">Play Safe</a></nav>
+  <button class="floor-help" type="button" data-glossary>Glossary</button>
+</header>
+<nav class="room-strip" aria-label="Game rooms"><a href="blackjack/" aria-current="page">Blackjack</a><a href="baccarat/">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/">Slots</a><a href="poker/">Poker</a><a href="sportsbook/">Sportsbook</a></nav>
+<main class="room-main"><section class="chapter" id="blackjack" aria-labelledby="bj-title">
+  <div class="ch-photo" style="--img:url('media/blackjack.webp');--pos:center 42%" role="img" aria-label="Blackjack table: the dealer shows a 6, the centre player has an ace and a king"></div>
+  <header class="ch-head">
+    <p class="ch-no">Table 01 <span>Blackjack</span></p>
+    <h2 id="bj-title">Blackjack rewards decisions, but the table rules set the price.</h2>
+    <p>Beat the dealer's total without going over 21. The same hand can have a different correct play depending on the dealer's face-up card, and the printed rules on the felt can move the house edge more than most players realise.</p>
+    <dl class="stats"><div><dt>Look for</dt><dd>3:2</dd><small>natural blackjack payout</small></div><div><dt>Avoid</dt><dd>6:5</dd><small>adds about 1.4% to the edge</small></div><div><dt>Edge, good rules + strategy</dt><dd>≈0.5%</dd><small>one of the best prices in the casino</small></div></dl>
+  </header>
+
+  <div class="ch-body">
+    <article class="panel">
+      <h3>How a hand works</h3>
+      <ol class="steps">
+        <li><b>Bet, then two cards each.</b> Players get two face-up cards; the dealer gets one up and one face down (the "hole card").</li>
+        <li><b>Card values.</b> 2–10 count face value, J/Q/K count 10, an ace counts 1 or 11. A hand with an ace counted as 11 is "soft".</li>
+        <li><b>Your choices.</b> Hit (take a card), stand, double (double the bet, take exactly one card), split a pair into two hands, or surrender half the bet where offered.</li>
+        <li><b>The dealer has no choices.</b> The dealer must draw to 16 and stand on 17. The rule printed on the felt says whether a <em>soft</em> 17 is hit.</li>
+        <li><b>Payouts.</b> A win pays 1:1, a natural (ace + ten-value card) pays 3:2, a tie is a "push" and your bet stays.</li>
+      </ol>
+    </article>
+    <article class="panel">
+      <h3>Rules that move the edge</h3>
+      <table class="rate">
+        <caption>Change in house edge versus a standard 6-deck game</caption>
+        <thead><tr><th scope="col">Rule on the felt</th><th scope="col">Effect</th></tr></thead>
+        <tbody>
+          <tr class="bad"><td>Blackjack pays 6:5 instead of 3:2</td><td>+1.39%</td></tr>
+          <tr class="bad"><td>Dealer hits soft 17 (H17)</td><td>≈ +0.2%</td></tr>
+          <tr class="bad"><td>No doubling after a split</td><td>≈ +0.15%</td></tr>
+          <tr class="good"><td>Late surrender offered</td><td>≈ −0.08%</td></tr>
+        </tbody>
+      </table>
+      <p class="fine">At $25 a hand, a 6:5 table costs about $35 more per 100 hands than an otherwise identical 3:2 table. Figures: Wizard of Odds rule-variation analysis.</p>
+    </article>
+  </div>
+
+  <div class="strategy" id="bjStrategy">
+    <header class="strategy-head">
+      <div><h3>Basic strategy, the whole chart.</h3><p>The mathematically best play for every starting hand, for the most common rules: <b>4–8 decks · dealer stands on soft 17 · double after split · late surrender</b>. Tap any square for the reason.</p></div>
+      <div class="seg" role="tablist" aria-label="Chart"><button role="tab" aria-selected="true" data-chart="hard">Hard totals</button><button role="tab" aria-selected="false" data-chart="soft">Soft totals</button><button role="tab" aria-selected="false" data-chart="pairs">Pairs</button></div>
+    </header>
+    <div class="chart-wrap"><table class="chart" id="bjChart" aria-describedby="bjLegend"></table></div>
+    <p class="legend" id="bjLegend"><span class="k-H">H</span>Hit <span class="k-S">S</span>Stand <span class="k-D">D</span>Double, otherwise hit <span class="k-Ds">Ds</span>Double, otherwise stand <span class="k-P">P</span>Split <span class="k-R">R</span>Surrender, otherwise hit</p>
+    <p class="chart-why" id="bjWhy" aria-live="polite">Tap a square to see why.</p>
+  </div>
+
+  <div class="trainer" id="bjTrainer" aria-labelledby="trainer-title">
+    <div class="trainer-table">
+      <p class="plaque small"><span>Dealer shows</span></p>
+      <div class="hand" id="trDealer"></div>
+      <p class="plaque small"><span>Your hand</span></p>
+      <div class="hand" id="trPlayer"></div>
+    </div>
+    <div class="trainer-side">
+      <h3 id="trainer-title">Practice table</h3>
+      <p>Play the hand the chart would. Your streak resets on a mistake.</p>
+      <div class="trainer-actions" role="group" aria-label="Your move"><button type="button" data-act="H">Hit</button><button type="button" data-act="S">Stand</button><button type="button" data-act="D">Double</button><button type="button" data-act="P">Split</button><button type="button" data-act="R">Surrender</button></div>
+      <p class="trainer-verdict" id="trVerdict" aria-live="polite">Your move.</p>
+      <div class="trainer-foot"><span>Streak <b id="trStreak">0</b></span><span>Correct <b id="trScore">0 / 0</b></span><button type="button" class="btn btn-gold small" id="trDeal">Deal next hand</button></div>
+    </div>
+  </div>
+</section></main>
+<div class="room-return"><a href="/houseedge/">← Back to the casino floor</a></div>
+<footer class="foot">
+  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
+  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
+  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
+</footer>
+<div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
+  <div class="gl-panel">
+    <button class="gl-close" type="button" aria-label="Close glossary">×</button>
+    <p class="plaque small"><span>Glossary</span></p>
+    <h2 id="gl-title">Twelve words that unlock the casino.</h2>
+    <dl class="gl-list">
+      <div><dt>House edge</dt><dd>The average share of each bet the casino keeps over the long run.</dd></div>
+      <div><dt>RTP</dt><dd>Return to player, the flip side of the edge. 95% RTP means a 5% edge.</dd></div>
+      <div><dt>Variance</dt><dd>How far short-term results swing around the average.</dd></div>
+      <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
+      <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
+      <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
+      <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
+      <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
+      <div><dt>Outs</dt><dd>In poker, the unseen cards that would improve your hand to a likely winner.</dd></div>
+      <div><dt>Rake</dt><dd>The fee a poker room takes from each pot.</dd></div>
+    </dl>
+  </div>
+</div>
+</body>
+</html>
