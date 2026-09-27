@@ -48,7 +48,7 @@
 
 /* ==========================================================
    HouseEdge compact floor landing
-   Polished floating casino panels with controlled overlap.
+   Clean non-overlapping casino selector.
    ========================================================== */
 .floor-compact{height:100dvh;overflow:hidden}
 .floor-compact .floorbar{position:relative}
@@ -103,10 +103,10 @@
   height:min(650px,calc(100dvh - 118px));min-height:540px;
 }
 .floor-room-scene:before{
-  content:"";position:absolute;inset:9% 0 1%;pointer-events:none;
+  content:"";position:absolute;inset:8% 0 0;pointer-events:none;
   background:
-    radial-gradient(circle at 53% 46%,rgba(216,182,103,.10),transparent 26%),
-    radial-gradient(circle at 52% 50%,rgba(0,0,0,.36),transparent 56%);
+    radial-gradient(circle at 52% 47%,rgba(216,182,103,.08),transparent 29%),
+    radial-gradient(circle at 52% 51%,rgba(0,0,0,.30),transparent 58%);
   filter:blur(22px);
 }
 .floor-room-heading{
@@ -132,26 +132,26 @@
   text-decoration:none;
   isolation:isolate;
   box-shadow:
-    0 16px 34px rgba(0,0,0,.36),
+    0 14px 30px rgba(0,0,0,.32),
     inset 0 0 0 1px rgba(255,255,255,.025);
-  transition:transform .26s ease,border-color .2s ease,box-shadow .26s ease,filter .2s ease;
+  transition:transform .22s ease,border-color .2s ease,box-shadow .22s ease;
 }
 .floor-room-card:hover{
-  z-index:40;
-  border-color:rgba(242,220,152,.72);
+  border-color:rgba(242,220,152,.74);
+  transform:translateY(-4px);
   box-shadow:
-    0 22px 46px rgba(0,0,0,.48),
-    0 0 24px rgba(216,182,103,.07),
+    0 20px 40px rgba(0,0,0,.44),
+    0 0 22px rgba(216,182,103,.06),
     inset 0 0 0 1px rgba(255,255,255,.035);
 }
 .floor-room-photo{
   position:absolute;inset:0;
-  background-image:linear-gradient(0deg,rgba(4,11,8,.93),rgba(4,11,8,.08) 72%),var(--room);
+  background-image:linear-gradient(0deg,rgba(4,11,8,.92),rgba(4,11,8,.08) 72%),var(--room);
   background-size:cover;background-position:center;
-  filter:saturate(.87) brightness(.85);
-  transition:transform .5s cubic-bezier(.2,.75,.2,1),filter .3s ease;
+  filter:saturate(.88) brightness(.86);
+  transition:transform .45s ease,filter .25s ease;
 }
-.floor-room-card:hover .floor-room-photo{transform:scale(1.035);filter:saturate(1) brightness(.96)}
+.floor-room-card:hover .floor-room-photo{transform:scale(1.025);filter:saturate(1) brightness(.96)}
 .floor-room-copy{
   position:absolute;z-index:4;
   left:14px;right:14px;bottom:11px;
@@ -172,40 +172,35 @@
   font:600 9px/1 "IBM Plex Mono",monospace;font-style:normal;
 }
 
-/* clean floating panels — rounded, polished, lightly layered */
+/* Top pair */
 .scene-blackjack{
-  left:0;top:15%;width:43%;height:24%;z-index:9;
-  border-radius:24px;
-  transform:rotate(-1.4deg);
+  left:2%;top:14%;width:37%;height:20%;
+  border-radius:26px;
 }
 .scene-blackjack .floor-room-photo{background-position:center 43%}
-.scene-blackjack:hover{transform:rotate(-.5deg) translateY(-5px)}
 
 .scene-baccarat{
-  right:1%;top:10%;width:39%;height:22%;z-index:11;
-  border-radius:24px;
-  transform:rotate(1.2deg);
+  right:2%;top:14%;width:34%;height:20%;
+  border-radius:26px;
 }
 .scene-baccarat .floor-room-photo{background-position:center 38%}
-.scene-baccarat:hover{transform:rotate(.4deg) translateY(-5px)}
 
+/* Middle row: all three have clear separation */
 .scene-craps{
-  left:-2%;top:43%;width:34%;height:24%;z-index:8;
-  border-radius:22px;
-  transform:rotate(-1deg);
+  left:1%;top:40%;width:27%;height:22%;
+  border-radius:24px;
 }
 .scene-craps .floor-room-photo{background-position:center 57%}
-.scene-craps:hover{transform:rotate(-.3deg) translateY(-5px)}
 
 .scene-roulette{
-  left:29%;top:27%;width:45%;height:45%;z-index:20;
+  left:34%;top:35%;width:34%;height:34%;
   border-radius:50%;
-  border:1px solid rgba(242,220,152,.48);
+  border:1px solid rgba(242,220,152,.52);
   background:#080d0a;
   box-shadow:
-    0 24px 48px rgba(0,0,0,.50),
-    0 0 0 6px rgba(6,16,12,.46),
-    0 0 0 7px rgba(216,182,103,.14);
+    0 22px 44px rgba(0,0,0,.48),
+    0 0 0 5px rgba(6,16,12,.44),
+    0 0 0 6px rgba(216,182,103,.13);
 }
 .scene-roulette .floor-room-photo{
   inset:5%;
@@ -213,43 +208,37 @@
   background-position:center 48%;
 }
 .scene-roulette .floor-room-copy{
-  left:16%;right:16%;bottom:11%;
+  left:16%;right:16%;bottom:10%;
 }
-.scene-roulette .floor-room-copy b{font-size:clamp(29px,2.1vw,38px)}
-.scene-roulette:hover{transform:scale(1.018)}
+.scene-roulette .floor-room-copy b{font-size:clamp(28px,2vw,36px)}
+.scene-roulette:hover{transform:translateY(-4px) scale(1.015)}
 
 .scene-slots{
-  right:-1%;top:37%;width:24%;height:31%;z-index:12;
+  right:1%;top:40%;width:24%;height:22%;
   border-radius:26px;
-  transform:rotate(1.4deg);
 }
 .scene-slots .floor-room-photo{background-position:center 50%}
-.scene-slots:hover{transform:rotate(.5deg) translateY(-5px)}
 
+/* Bottom pair */
 .scene-poker{
-  left:7%;bottom:2%;width:36%;height:22%;z-index:13;
+  left:5%;bottom:3%;width:34%;height:19%;
   border-radius:24px;
-  transform:rotate(.8deg);
 }
 .scene-poker .floor-room-photo{background-position:center 61%}
-.scene-poker:hover{transform:rotate(.2deg) translateY(-5px)}
 
 .scene-sports{
-  right:1%;bottom:2%;width:50%;height:17%;z-index:18;
-  border-radius:999px;
-  overflow:hidden;
-  transform:rotate(-.5deg);
+  right:2%;bottom:3%;width:45%;height:16%;
+  border-radius:28px;
 }
 .scene-sports .floor-room-board{
   position:absolute;inset:0;
   display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:center;
-  padding:12px 22px 25px;
+  padding:11px 20px 24px;
   background:
     radial-gradient(circle at 82% 32%,rgba(216,182,103,.10),transparent 40%),
     repeating-linear-gradient(0deg,transparent 0 28px,rgba(216,182,103,.055) 29px),
     linear-gradient(135deg,#102219,#07110c);
 }
-.scene-sports:hover{transform:rotate(0deg) translateY(-5px)}
 .floor-room-board i{
   display:flex;justify-content:space-between;gap:16px;
   padding:6px 9px;border-bottom:1px solid rgba(216,182,103,.12);
@@ -267,7 +256,7 @@
   .floor-room-scene{height:min(590px,calc(100dvh - 112px))}
 }
 
-/* Mobile: compact, rounded mosaic with no unsafe overlap. */
+/* Mobile: compact rounded mosaic, no overlap. */
 @media(max-width:820px){
   .floor-compact{height:auto;min-height:100dvh;overflow:auto}
   .floor-compact .floorbar{
@@ -300,13 +289,11 @@
   .scene-blackjack,.scene-baccarat,.scene-craps,.scene-roulette,
   .scene-slots,.scene-poker,.scene-sports{
     position:relative;inset:auto;width:auto;height:auto;
-    transform:none;border-radius:18px;
+    border-radius:18px;
+    transform:none;
   }
   .floor-room-card:hover,
-  .scene-blackjack:hover,.scene-baccarat:hover,.scene-craps:hover,.scene-roulette:hover,
-  .scene-slots:hover,.scene-poker:hover,.scene-sports:hover{
-    transform:translateY(-2px);
-  }
+  .scene-roulette:hover{transform:translateY(-2px)}
   .scene-roulette{
     grid-row:span 2;
     border-radius:24px;
