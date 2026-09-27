@@ -71,12 +71,13 @@ exists, and that the forms, store scripts and licence wording are in place.
 
 ## The Well
 
-`thewell/index.html` loads the app from the separate **the-well** repository through jsDelivr, pinned to one commit
+`thewell/` is intentionally minimal: it contains only the live entry page and favicon. `thewell/index.html` loads
+the exact app version from the separate **the-well** repository through jsDelivr, pinned to one commit
 (`cdn.jsdelivr.net/gh/hankthuhtank/the-well@<commit>/dist-portfolio/...`). Its top-left logo is
-`/assets/project-logos/thewell.jpg` from this site, the same art as The Well's tile on the Projects page; a small script
-in `thewell/index.html` keeps it pointed at that logo. To publish a new version of The Well, build
-it in that repository and update the two URLs in `thewell/index.html`. The `thewell/src` folder here is an older copy
-of the source and is not what the live page runs.
+`/assets/project-logos/thewell.jpg` from this site, with `thewell.svg` as a fallback. The entry page keeps that logo
+visible even if the pinned app bundle tries to replace the image. To publish a new version of The Well, build it in the
+separate repository and update only the two pinned CDN URLs in `thewell/index.html`. Do not copy source/build folders
+back into `thewell/`; they are not used by the live Safi Solutions page.
 
 ## Outside services the pages use
 

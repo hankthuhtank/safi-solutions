@@ -13,6 +13,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@320;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      a[aria-label="The Well home"] img,
+      aside img[alt="The Well"],
+      header img[alt="The Well"] {
+        display: block !important;
+        width: min(178px, 100%) !important;
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+        object-position: left center !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      @media (min-width: 1024px) {
+        a[aria-label="The Well home"] img,
+        aside img[alt="The Well"] {
+          width: min(190px, 100%) !important;
+        }
+      }
+    </style>
     <script>
       (function () {
         try {
@@ -25,19 +45,61 @@
       })();
     </script>
     <script>
-      /* Keep the top-left logo identical to The Well's tile on the Safi Solutions Projects page. */
+      /*
+       * The live app is the pinned CDN build below. Keep its brand image tied to
+       * Safi Solutions' canonical The Well logo even if the app bundle changes it.
+       */
       (function () {
-        var LOGO = "/assets/project-logos/thewell.webp";
-        var SEL = 'a[aria-label="The Well home"] img, aside img[alt="The Well"], header img[alt="The Well"]';
-        function fix() {
-          var imgs = document.querySelectorAll(SEL);
-          for (var i = 0; i < imgs.length; i++) if (imgs[i].getAttribute("src") !== LOGO) imgs[i].setAttribute("src", LOGO);
+        var LOGO = "/assets/project-logos/thewell.jpg?v=7";
+        var FALLBACK = "/assets/project-logos/thewell.svg?v=7";
+        var SELECTOR =
+          'a[aria-label="The Well home"] img, aside img[alt="The Well"], header img[alt="The Well"]';
+
+        function prepare(img) {
+          if (!img) return;
+          img.alt = "The Well";
+          img.style.display = "block";
+          img.style.maxWidth = "100%";
+          img.style.height = "auto";
+          img.style.objectFit = "contain";
+          img.style.objectPosition = "left center";
+          img.style.opacity = "1";
+          img.style.visibility = "visible";
+
+          img.onerror = function () {
+            if (this.getAttribute("src") !== FALLBACK) this.setAttribute("src", FALLBACK);
+          };
+
+          var src = img.getAttribute("src") || "";
+          if (src !== LOGO && src !== FALLBACK) img.setAttribute("src", LOGO);
         }
+
+        function fixLogo() {
+          var imgs = document.querySelectorAll(SELECTOR);
+          for (var i = 0; i < imgs.length; i++) prepare(imgs[i]);
+
+          var home = document.querySelector('a[aria-label="The Well home"]');
+          if (home && !home.querySelector("img")) {
+            var img = document.createElement("img");
+            img.setAttribute("src", LOGO);
+            img.setAttribute("alt", "The Well");
+            home.replaceChildren(img);
+            prepare(img);
+          }
+        }
+
         function start() {
-          fix();
-          new MutationObserver(fix).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
+          fixLogo();
+          new MutationObserver(fixLogo).observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["src", "style", "class"]
+          });
         }
-        if (document.body) start(); else document.addEventListener("DOMContentLoaded", start);
+
+        if (document.body) start();
+        else document.addEventListener("DOMContentLoaded", start, { once: true });
       })();
     </script>
     <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/hankthuhtank/the-well@efd370f489cc21da91c0fa1e921b9346bd32fc85/dist-portfolio/assets/portfolio-C3IRxaT5.js"></script>
