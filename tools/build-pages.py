@@ -6,7 +6,7 @@
 # rewrites them. Every other page (pricing, support, legal, product detail pages, the projects themselves) is untouched.
 import os, html, json
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-V = "6"
+V = "7"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
@@ -82,7 +82,7 @@ N_PROJ, N_PROD, N_SITES = len(PROJECTS), len(PRODUCTS), len(SITES) + len(MORE_SI
 FREE = sum(1 for p in PRODUCTS if not p['paid'])
 
 # The rail on the left (and the phone menu). About/Pricing/Support sit under the rule.
-NAV = [('home', '/', 'Home', ''), ('projects', '/projects/', 'Projects', f'{N_PROJ:02d}'), ('products', '/products/', 'Products', f'{N_PROD:02d}'),
+NAV = [('home', '/', 'Home', ''), ('products', '/products/', 'Products', f'{N_PROD:02d}'), ('projects', '/projects/', 'Projects', f'{N_PROJ:02d}'),
        ('websites', '/websites/', 'Websites', f'{N_SITES:02d}'), ('studio', '/studio/', 'SafiStudios', ''), ('tradingdesk', '/tradingdesk/', 'TheTradingDesk', 'Featured')]
 NAV2 = [('about', '/about/', 'About'), ('pricing', '/pricing.html', 'Pricing'), ('support', '/support.html', 'Support')]
 DISPLAY_FONTS = '<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@700&family=Fraunces:opsz,wght@9..144,600&family=Newsreader:opsz,wght@6..72,600&family=Roboto+Slab:wght@600&family=Syne:wght@700&family=Unbounded:wght@600&display=swap" rel="stylesheet">'
@@ -163,8 +163,8 @@ DOORS = [
   ('/products/', 'Products', 'Desktop software for Windows', f'<b>{N_PROD}</b>{FREE} free', ''),
   ('/projects/', 'Projects', 'Interactive guides &amp; tools', f'<b>{N_PROJ}</b>live', ''),
   ('/websites/', 'Websites', 'Sites for local businesses', f'<b>{N_SITES}</b>live', ''),
-  ('/tradingdesk/', 'TheTradingDesk', 'Markets, explained visually', 'featured', ' door-ttd'),
   ('/studio/', 'SafiStudios', 'Custom business software', '<b>1:1</b>built to fit', ''),
+  ('/tradingdesk/', 'TheTradingDesk', 'Markets, explained visually', 'featured', ' door-ttd'),
   ('/about/', 'About Me', 'The person behind the work', 'Paris, TX', ''),
   ('/contact/', 'Contact', 'Tell me what you’re working on', 'direct', ''),
 ]
