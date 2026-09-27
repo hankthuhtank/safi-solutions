@@ -6,6 +6,8 @@
   const hero = document.querySelector('.hero');
   const canvas = hero && hero.querySelector('.threads');
   if (!canvas || !canvas.getContext) return;
+  // Mobile uses the restored floating particle field instead of the dense thread canvas.
+  if (matchMedia('(max-width: 760px)').matches) { canvas.hidden = true; return; }
   const g = canvas.getContext('2d');
   const copy = hero.querySelector('.hero-copy'), doorsBox = hero.querySelector('.doors');
   const doors = [...hero.querySelectorAll('.door')];
