@@ -1,0 +1,83 @@
+/* VoltVisual portal + split-page layer. Original app DOM stays intact for JS safety. */
+.atlas-vv-home main>section:not(.hero){display:none!important}
+.atlas-vv-home footer{display:none!important}
+.atlas-vv-home main{min-height:100svh}
+.atlas-vv-home .hero{min-height:calc(100svh - 0px);padding-bottom:54px}
+.atlas-vv-home .system-strip{display:none!important}
+.atlas-vv-home .hero-actions{margin-bottom:0}
+.vv-route-rail{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  max-width:700px;
+  margin-top:24px;
+}
+.vv-route-rail a{
+  min-height:58px;
+  display:grid;
+  grid-template-columns:34px 1fr auto;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(11,14,15,.78);
+  text-decoration:none;
+  color:#f2f5f4;
+  transition:border-color .18s ease,background .18s ease,transform .18s ease;
+}
+.vv-route-rail a:hover{
+  border-color:rgba(53,211,238,.5);
+  background:#111719;
+  transform:translateY(-2px);
+}
+.vv-route-rail small{
+  color:#35d3ee;
+  font:600 9px/1 "JetBrains Mono",monospace;
+  letter-spacing:.09em;
+}
+.vv-route-rail span{
+  font:700 15px/1 "Barlow Semi Condensed",sans-serif;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.vv-route-rail i{
+  font-style:normal;
+  color:#58666d;
+  font:500 11px/1 "JetBrains Mono",monospace;
+}
+.vv-route-rail a:nth-child(1){border-left:2px solid #ef5b4c}
+.vv-route-rail a:nth-child(2){border-left:2px solid #3d8ef0}
+.vv-route-rail a:nth-child(3){border-left:2px solid #f28a2e}
+.vv-route-rail a:nth-child(4){border-left:2px solid #f5c400}
+.vv-route-rail a:nth-child(5){border-left:2px solid #2fbf8f}
+.vv-route-rail a:nth-child(6){border-left:2px solid #35d3ee}
+
+/* Section pages */
+.vv-section-page .hero{display:none!important}
+.vv-section-page .system-strip{display:none!important}
+.vv-section-page main{padding-top:92px}
+.vv-section-page main>section{display:none!important}
+.vv-section-page.vv-machine #machine,
+.vv-section-page.vv-lab #lab,
+.vv-section-page.vv-learn #paths,
+.vv-section-page.vv-learn #brandDecoder,
+.vv-section-page.vv-drawings #drawings,
+.vv-section-page.vv-library #library,
+.vv-section-page.vv-troubleshoot #troubleshoot{display:block!important}
+.vv-section-page footer{margin-top:0}
+.vv-section-page .desktop-nav a[aria-current="page"]{color:#35d3ee}
+.vv-section-page .topbar{background:rgba(9,11,12,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
+
+@media(max-width:1000px){
+  .atlas-vv-home .hero{padding-top:100px;min-height:auto}
+  .vv-route-rail{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
+  .vv-section-page main{padding-top:78px}
+}
+@media(max-width:620px){
+  .atlas-vv-home .hero{padding-bottom:34px}
+  .vv-route-rail{grid-template-columns:1fr 1fr;gap:7px}
+  .vv-route-rail a{min-height:52px;padding:9px 10px;grid-template-columns:28px 1fr}
+  .vv-route-rail i{display:none}
+  .vv-route-rail span{font-size:13px}
+  .vv-section-page main{padding-top:70px}
+}
