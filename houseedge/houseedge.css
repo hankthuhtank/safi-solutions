@@ -484,6 +484,36 @@ em { font-style: italic; }
 }
 @media (max-width: 600px) {
   body { font-size: 15.5px; }
+
+  /* Blackjack strategy chart: fit the full 2–A matrix on phone screens. */
+  #bjStrategy { padding-left: 12px; padding-right: 12px; }
+  #bjStrategy .chart-wrap {
+    overflow-x: hidden;
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+  #bjStrategy .chart {
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 2px;
+    font-size: 11px;
+  }
+  #bjStrategy .chart th {
+    font-size: 11px;
+    padding: 4px 0;
+  }
+  #bjStrategy .chart thead th:first-child,
+  #bjStrategy .chart tbody th {
+    width: 44px;
+  }
+  #bjStrategy .chart tbody th {
+    padding-right: 5px;
+  }
+  #bjStrategy .chart td {
+    height: 36px;
+    border-radius: 5px;
+  }
   .bar { height: 64px; gap: 12px; }
   .bar-logo img { height: 40px; }
   .bar-help { padding: 0 10px 0 5px; font-size: 13px; }
