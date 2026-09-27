@@ -6,7 +6,7 @@
 # rewrites them. Every other page (pricing, support, legal, product detail pages, the projects themselves) is untouched.
 import os, html, json
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-V = "13"
+V = "14"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
@@ -263,8 +263,11 @@ write('websites/index.html', page('websites', '/websites/', 'Websites | Safi Sol
 
 
 # ---------------------------------------------------------------- studio
-GAL = [('coffee-dashboard', 'Maple & Bean: the day’s operations at a glance'), ('coffee-counter', 'Maple & Bean: the counter view on a tablet'), ('pest-dashboard', 'Cedar Pest Control: jobs, sales pipeline and invoices'), ('cedar-agenda', 'Cedar: a technician’s day, on the phone')]
-gal = ''.join(f'<figure class="rv"><img src="/assets/showcase/{f}.webp" alt="{e(c)}" loading="lazy"><figcaption>{e(c)}</figcaption></figure>' for f, c in GAL)
+GAL = [
+  ('sallys-roses-workspace.svg', 'Sally’s Roses: business workspace dashboard'),
+  ('jgs-auto-workspace.svg', 'JG’s Auto: vehicle and service history workspace'),
+]
+gal = ''.join(f'<figure class="rv"><img src="/assets/showcase/{f}" alt="{e(c)}" loading="lazy"><figcaption>{e(c)}</figcaption></figure>' for f, c in GAL)
 studio_body = f'''<div class="page">
   <header class="page-head"><div><p class="micro">Business software</p><h1>SafiStudios.</h1></div><p class="lead">Custom software for a better-organized business, built around the way your day actually runs instead of the other way round.</p></header>
   <section class="studio-hero">
@@ -273,7 +276,7 @@ studio_body = f'''<div class="page">
     <div class="studio-stack rv" data-d="120"><figure><img src="/assets/showcase/java-workspace.webp" alt="Downtown Coffee staff schedule workspace"></figure><figure><img src="/assets/showcase/cedar-workspace.webp" alt="Cedar’s Pest routes and dispatch workspace"></figure></div>
   </section>
   <div class="sec-head rv" style="margin-top:clamp(48px,6vw,80px)"><div><p class="micro">Design previews</p><h2>Built to fit the work.</h2></div><p class="micro">Sample data · modules vary by build</p></div>
-  <div class="gallery two">{gal}</div>
+  <div class="gallery two studio-real-previews">{gal}</div>
   {cta('Running on spreadsheets and sticky notes?', 'Tell me how the day works now. Quotes are based on scope, with no fixed packages you have to fit into.', contact('SafiStudios / custom business software'), 'Start the conversation')}
 </div>'''
 write('studio/index.html', page('studio', '/studio/', 'SafiStudios | Custom business software', 'SafiStudios builds custom business software: documents, employee records, scheduling, inventory and field-team workflows in one workspace, built around how your business runs.', 'SafiStudios / Business software', studio_body))
