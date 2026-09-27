@@ -375,6 +375,10 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .market-open-mobile { display: inline-flex; justify-self: start; margin-top: 18px; }
   .market-open-mobile + .market-sessions { margin-top: 14px; }
   .market-open-desktop { display: none; }
+  .page-products .shelf-shots { align-items: start; }
+  .page-products .shelf-shots figure:nth-child(2),
+  .page-products .shelf:hover .shelf-shots figure:first-child,
+  .page-products .shelf:hover .shelf-shots figure:nth-child(2) { transform: none !important; align-self: start; }
   :root { --rail-w: 0px; }
   .cabinet-rail { display: none; }
   .mobile-header { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; height: 66px; padding: 8px var(--pad); background: rgba(16, 18, 21, .97); border-bottom: 1px solid var(--line); }
