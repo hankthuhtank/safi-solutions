@@ -93,7 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   data-active={active}
                 >
                   <span>{m.label}</span>
-                  <span className="font-mono text-[11px] text-subtle">{m.k}</span>
+                  <span className="font-mono text-[10px] text-subtle">{m.k}</span>
                 </Link>
               );
             })}
@@ -106,7 +106,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             >
               <Search className="size-3.5" strokeWidth={1.75} />
               Call
-              <span className="font-mono text-[11px] text-subtle">/</span>
+              <span className="font-mono text-[10px] text-subtle">/</span>
             </button>
             <button
               type="button"
@@ -135,7 +135,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={m.id}
                 to={m.to}
                 className={cn(
-                  "flex min-h-12 min-w-0 flex-1 items-center justify-center px-0.5 text-center text-[10.5px] tracking-[0.06em] uppercase",
+                  "flex min-h-12 min-w-0 flex-1 items-center justify-center px-0.5 text-center text-[9px] tracking-[0.12em] uppercase",
                   active ? "text-fg" : "text-subtle",
                 )}
               >
@@ -154,7 +154,7 @@ function Brand() {
   return (
     <Link to="/" className="block" aria-label="The Well home">
       <img
-        src="/assets/project-logos/thewell.webp"
+        src="/assets/project-logos/thewell.jpg?v=5"
         alt="The Well"
         className="block h-auto w-[178px] max-w-full object-contain object-left lg:w-[190px]"
       />

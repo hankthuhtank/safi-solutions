@@ -49,7 +49,7 @@ function head({ title, desc, url, image, prefix }) {
 function topbar(active, prefix) {
   return `<a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <!-- LOGO PLACEHOLDER — replace sportsatlas/assets/logo.svg with the final Sports Atlas logo (any aspect ratio; it is sized to 40px tall). -->
+  <!-- LOGO PLACEHOLDER. Replace sportsatlas/assets/logo.svg with the final Sports Atlas logo (any aspect ratio; it is sized to 40px tall). -->
   <a class="brand" href="${prefix}" aria-label="Sports Atlas home"><img class="brand-logo" src="${prefix}assets/logo.svg" alt="Sports Atlas" width="168" height="40"></a>
   <nav class="sportnav" aria-label="Sports">${ORDER.map(k => `<a href="${prefix}${k}/"${k === active ? ' aria-current="page"' : ''}>${ICONS[k]}<span>${original[k].name}</span></a>`).join('')}</nav>
   <button class="searchbtn" type="button" data-open-search aria-label="Search this page">${SEARCH_ICON}<span class="lbl">Search</span><kbd>⌘K</kbd></button>
@@ -105,7 +105,7 @@ function sportPage(key, sport) {
   for (const s of sport.sections) if (s.core) for (const b of s.blocks) if (b.type === 'terms') for (const r of b.rows) gdata[r.term] = r.desc;
   const toc = sport.periods.map(p => `<h2>${esc(p.code)} · ${esc(p.name)}</h2>` + sport.sections.map((s, i) => s.period === p.id ? `<a href="#${s.id}"><span>${String(i).padStart(2, '0')}</span>${esc(s.short || s.title)}</a>` : '').join('')).join('') + `<h2>Reference</h2><a href="#updates"><span>★</span>New for 2026</a><a href="#glossary"><span>A–Z</span>Glossary</a><a href="#sources"><span>§</span>Official sources</a>`;
   const others = ORDER.filter(k => k !== key);
-  return `${head({ title: `${sport.name} — explained visually | Sports Atlas`, desc: sport.meta, url, image: `${SITE}assets/img/${key}-og.jpg`, prefix })}
+  return `${head({ title: `${sport.name} explained visually | Sports Atlas`, desc: sport.meta, url, image: `${SITE}assets/img/${key}-og.jpg`, prefix })}
 <body data-sport="${key}">
 ${topbar(key, prefix)}
 <main id="main">
@@ -137,7 +137,7 @@ ${sport.sections.map((s, i) => section(s, i, sport)).join('\n')}
   <header class="sec-head"><span class="sec-num" aria-hidden="true">A–Z</span><div><p class="sec-period">Reference</p><h2 id="glossary-h">${esc(sport.name)} glossary</h2><p class="sec-intro">Every term from this page in plain English. Dotted-underlined words anywhere above also explain themselves when you hover or tap them.</p></div></header>
   <div class="gloss-tools"><input class="gloss-search" type="search" placeholder="Filter ${sport.glossary.length} terms…" aria-label="Filter the glossary"><span class="gloss-count"></span></div>
   <dl class="gloss">${sport.glossary.slice().sort((a, b) => a.term.localeCompare(b.term)).map(g => `<div id="g-${slug(g.term)}"><dt>${esc(g.term)}</dt><dd>${rich(g.desc)}</dd></div>`).join('')}</dl>
-  <p class="empty gloss-empty">No glossary term matches — try the ⌘K search for concepts.</p>
+  <p class="empty gloss-empty">No glossary term matches. Try the ⌘K search for concepts.</p>
 </section>
 <section class="sec" id="sources" aria-labelledby="sources-h" data-no-jargon>
   <header class="sec-head"><span class="sec-num" aria-hidden="true">§</span><div><p class="sec-period">Reference</p><h2 id="sources-h">Official sources</h2><p class="sec-intro">Rules and dimensions on this page follow these documents. Video-game notes teach transferable logic rather than edition-specific tricks. Page stats: ${sport.sections.length} sections · ${conceptCount} explained concepts · ${vizCount} interactive visuals · ${sport.glossary.length} glossary terms.</p></div></header>

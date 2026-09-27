@@ -418,7 +418,7 @@
         const want = [1, -1, 0][i];
         id(b) && id(b).classList.toggle("on", st.dir === want);
       });
-      id("labState") && (id("labState").textContent = c.relieving ? "OVER RELIEF \u2014 NO MOTION" : st.dir ? "MOVING" : "HOLDING");
+      id("labState") && (id("labState").textContent = c.relieving ? "OVER RELIEF · NO MOTION" : st.dir ? "MOVING" : "HOLDING");
 
       /* geometry */
       const travel = 128, x0 = 460;

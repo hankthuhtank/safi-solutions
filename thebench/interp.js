@@ -162,13 +162,13 @@
   };
 
   function inspect(x, lang) {
-    if (!x) return '—';
+    if (!x) return '–';
     switch (x.t) {
       case 'bool': return x.v ? 'true' : 'false';
       case 'string': return '"' + x.v + '"';
       case 'char': return "'" + (x.v === '\0' ? '\\0' : x.v) + "'";
       case 'null': return lang === 'cpp' ? 'null' : 'null';
-      case 'void': return '—';
+      case 'void': return '–';
       case 'array': return '[' + x.v.map(e => inspect(e, lang)).join(', ') + ']';
       case 'object': {
         const parts = [];

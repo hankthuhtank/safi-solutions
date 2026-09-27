@@ -17,8 +17,8 @@
         why: 'Using const by default turns a whole class of accidental reassignment bugs into an immediate error, and it tells the next reader that this value is stable.',
         analogy: 'const is a label glued to a box. let is a label on a clip you can move to another box.',
         points: [
-          'const — cannot be pointed at something else afterwards',
-          'let — can be reassigned',
+          ['const', 'cannot be pointed at something else afterwards'],
+          ['let', 'can be reassigned'],
           'No type declarations; the value decides the type',
           'Types can change at runtime, which is powerful and dangerous',
           'typeof tells you what something currently is'
@@ -47,7 +47,7 @@
         analogy: 'Handing someone a set of instructions rather than a finished result, so they can run it whenever they are ready.',
         points: [
           'function name(a, b) { return a + b; }',
-          'const name = (a, b) => a + b;  — implicit return for one expression',
+          ['const name = (a, b) => a + b;', 'implicit return for one expression'],
           'Functions can be stored, passed, and returned',
           'A function passed to another function is a callback',
           'Arrow functions are shorter but do not have their own this'
@@ -73,8 +73,8 @@
         why: 'Every JSON response you will ever handle is arrays and objects nested inside each other. This is the single most useful data literacy in web work.',
         analogy: 'An array is a numbered queue. An object is a labelled form. An array of objects is a stack of filled-in forms.',
         points: [
-          '[1, 2, 3] — an array, positions start at 0',
-          '{ name: "x", price: 2 } — an object with named keys',
+          ['[1, 2, 3]', 'an array, positions start at 0'],
+          ['{ name: "x", price: 2 }', 'an object with named keys'],
           'obj.key or obj["key"] to read a property',
           'arr.length for the count; arr.push(x) to append',
           'An array of objects is the standard shape of real data'
@@ -103,9 +103,9 @@
         why: 'Once you see that almost all data work is map, filter, or reduce, unfamiliar code becomes readable because you recognise the shape.',
         analogy: 'A production line: one station reshapes every item, one rejects the bad ones, one weighs whatever is left.',
         points: [
-          'Map — same number of items, each transformed',
-          'Filter — fewer items, none changed',
-          'Reduce — one result from many items',
+          ['Map', 'same number of items, each transformed'],
+          ['Filter', 'fewer items, none changed'],
+          ['Reduce', 'one result from many items'],
           'for...of walks values; for...in walks keys',
           'Build a new array rather than editing while looping'
         ],
@@ -132,7 +132,7 @@
         why: 'Almost every "x is not defined" error is a scope question, and almost every stack trace is a call stack printed out. Reading both correctly turns a scary error into a two-second fix.',
         analogy: 'Nested rooms with one-way glass. From inside you see out. From outside you cannot see in.',
         points: [
-          'Block scope — let and const live inside their { }',
+          ['Block scope', 'let and const live inside their { }'],
           'Inner sees outer; outer never sees inner',
           'Each call gets a fresh frame with its own copies',
           'Shadowing is when an inner name hides an outer one',
@@ -174,7 +174,7 @@
           11: 'In a real network call this line runs BEFORE the answer arrives.'
         },
         terms: ['Asynchronous', 'Callback', 'Promise', 'Event Loop'],
-        callout: { kind: 'warn', text: 'This sample runs the callback immediately so you can trace it. Over a real network, step 4 would land after step 3 — which is the whole lesson.' }
+        callout: { kind: 'warn', text: 'This sample runs the callback immediately so you can trace it. Over a real network, step 4 would land after step 3, which is the whole lesson.' }
       }
     ]
   },
@@ -183,7 +183,7 @@
   {
     id: 'html', code: 'CS-04', title: 'HTML',
     tag: 'The web',
-    blurb: 'Structure and meaning. Not appearance — that comes next.',
+    blurb: 'Structure and meaning. Not appearance. That comes next.',
     lessons: [
       {
         id: 'html-structure',
@@ -193,9 +193,9 @@
         why: 'Every web page in the world has this skeleton. Once it is automatic, you can spend your attention on the content instead of the container.',
         analogy: 'A parcel. The head is the shipping label nobody unpacks; the body is what is inside.',
         points: [
-          '<!doctype html> — tells the browser to use modern rules',
-          '<head> — title, character set, stylesheets, metadata',
-          '<body> — everything the visitor actually sees',
+          ['<!doctype html>', 'tells the browser to use modern rules'],
+          ['<head>', 'title, character set, stylesheets, metadata'],
+          ['<body>', 'everything the visitor actually sees'],
           '<meta charset="utf-8"> prevents mangled characters',
           'The viewport meta tag is what makes mobile layout behave'
         ],
@@ -254,7 +254,7 @@
           'h1 once per page, then h2 and h3 in order',
           '<ul> for unordered, <ol> when sequence matters',
           '<a href="..."> for navigation, with link text that makes sense alone',
-          '<img src alt> — alt describes the content, not the file',
+          ['<img src alt>', 'alt describes the content, not the file'],
           'Avoid "click here"; a screen reader may list links out of context'
         ],
         lang: 'html',
@@ -318,9 +318,9 @@
         why: 'Nearly every "why won\'t this change" moment is a specificity problem. Knowing the ranking turns a mystery into arithmetic.',
         analogy: 'Company policy versus department policy versus your manager standing in front of you. The most specific instruction wins.',
         points: [
-          'element { } — every element of that type',
-          '.class { } — anything carrying that class',
-          '#id { } — the one element with that id',
+          ['element { }', 'every element of that type'],
+          ['.class { }', 'anything carrying that class'],
+          ['#id { }', 'the one element with that id'],
           'Specificity: id > class > element',
           'Equal specificity means the later rule wins',
           '!important overrides everything and is usually a symptom'
@@ -377,14 +377,14 @@
         points: [
           'display: flex on the PARENT, not the children',
           'flex-direction: row (default) or column',
-          'justify-content — spacing along the main axis',
-          'align-items — position across the other axis',
-          'gap — clean spacing between items',
+          ['justify-content', 'spacing along the main axis'],
+          ['align-items', 'position across the other axis'],
+          ['gap', 'clean spacing between items'],
           'flex: 1 on a child makes it absorb the leftover space'
         ],
         lang: 'html',
         preview: true,
-        code: '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<style>\n  body { font-family: system-ui, sans-serif; padding: 20px; }\n  .bar {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    gap: 12px;\n    background: #1c1917;\n    color: #fafaf9;\n    padding: 12px 16px;\n    border-radius: 8px;\n  }\n  .grow { flex: 1; }\n\n  .row { display: flex; gap: 12px; margin-top: 20px; }\n  .cell {\n    flex: 1;\n    padding: 20px;\n    background: #e7e5e4;\n    border-radius: 8px;\n    text-align: center;\n  }\n  .wide { flex: 2; background: #fed7aa; }\n</style>\n</head>\n<body>\n  <div class="bar">\n    <strong>Safi</strong>\n    <span class="grow">search…</span>\n    <button>Sign in</button>\n  </div>\n\n  <div class="row">\n    <div class="cell">flex 1</div>\n    <div class="cell wide">flex 2 — twice the leftover space</div>\n    <div class="cell">flex 1</div>\n  </div>\n</body>\n</html>',
+        code: '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<style>\n  body { font-family: system-ui, sans-serif; padding: 20px; }\n  .bar {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    gap: 12px;\n    background: #1c1917;\n    color: #fafaf9;\n    padding: 12px 16px;\n    border-radius: 8px;\n  }\n  .grow { flex: 1; }\n\n  .row { display: flex; gap: 12px; margin-top: 20px; }\n  .cell {\n    flex: 1;\n    padding: 20px;\n    background: #e7e5e4;\n    border-radius: 8px;\n    text-align: center;\n  }\n  .wide { flex: 2; background: #fed7aa; }\n</style>\n</head>\n<body>\n  <div class="bar">\n    <strong>Safi</strong>\n    <span class="grow">search…</span>\n    <button>Sign in</button>\n  </div>\n\n  <div class="row">\n    <div class="cell">flex 1</div>\n    <div class="cell wide">flex 2: twice the leftover space</div>\n    <div class="cell">flex 1</div>\n  </div>\n</body>\n</html>',
         notes: {
           7: 'Turns .bar into a flex container. Its children now line up.',
           8: 'Pushes the first item left and the last right.',
@@ -442,8 +442,8 @@
         why: 'Understanding that the DOM is a live tree, not your file, explains why editing HTML in DevTools does not save, and why a refresh throws your changes away.',
         analogy: 'The HTML file is the blueprint. The DOM is the actual building, which you can knock walls through while people are inside.',
         points: [
-          'document.querySelector("#id") — the first match, using CSS syntax',
-          'document.querySelectorAll(".class") — every match',
+          ['document.querySelector("#id")', 'the first match, using CSS syntax'],
+          ['document.querySelectorAll(".class")', 'every match'],
           '.textContent sets text safely',
           '.innerHTML parses HTML and is unsafe with untrusted input',
           'Changing the DOM does not change your file'

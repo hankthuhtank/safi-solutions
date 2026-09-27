@@ -149,7 +149,7 @@ const World={
         <p class="note-txt"><span class="kv">On the tuning</span>
           Several of these traditions do not use the twelve equal semitones this site is built on. Arabic maqamat
           and Javanese gamelan both contain intervals that fall between the keys of a piano. Where that happens
-          the entry says so \u2014 what you hear here is a translation with real information lost.</p>
+          the entry says so. What you hear here is a translation with real information lost.</p>
       </div>`;
   },
   setCont(c){ World.cont=c; World.mount(); },
@@ -169,8 +169,8 @@ const World={
       <div class="mrow"><span class="k">The tradition</span><span class="v">${esc(w.blurb)}</span></div>
       <div class="mrow"><span class="k">The big idea</span><span class="v"><b>${esc(w.idea)}</b></span></div>
       <div class="mrow"><span class="k">Instruments</span><span class="v">${esc(w.inst)}</span></div>
-      <div class="mrow"><span class="k">Its scales</span><span class="v"><div class="row">${scaleRow||'\u2014'}</div></span></div>
-      <div class="mrow"><span class="k">Its grooves</span><span class="v"><div class="row">${rhythmRow||'\u2014'}</div>
+      <div class="mrow"><span class="k">Its scales</span><span class="v"><div class="row">${scaleRow||'–'}</div></span></div>
+      <div class="mrow"><span class="k">Its grooves</span><span class="v"><div class="row">${rhythmRow||'–'}</div>
         <p class="hint" style="margin-top:8px">Loads into the Rhythm Room and starts playing.</p></span></div>
       ${w.motifs.map(mid=>Motif.html(mid)).join('')}`);
   },

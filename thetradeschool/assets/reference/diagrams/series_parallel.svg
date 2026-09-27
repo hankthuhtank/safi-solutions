@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520">
 <rect width="1000" height="520" fill="#06110d"/>
 <text x="40" y="48" fill="#e8eee9" font-family="system-ui" font-size="28" font-weight="700">Series vs parallel</text>
-<text x="40" y="80" fill="#9fb0a7" font-family="system-ui" font-size="15">Same parts, different current paths — different voltage and current behavior.</text>
+<text x="40" y="80" fill="#9fb0a7" font-family="system-ui" font-size="15">Same parts, different current paths, different voltage and current behavior.</text>
 <!-- series -->
 <rect x="40" y="120" width="440" height="340" rx="16" fill="#0a1511" stroke="#24362c"/>
-<text x="60" y="155" fill="#d7ff64" font-family="system-ui" font-size="16" font-weight="700">SERIES — one path</text>
+<text x="60" y="155" fill="#d7ff64" font-family="system-ui" font-size="16" font-weight="700">SERIES: one path</text>
 <line x1="100" y1="220" x2="400" y2="220" stroke="#7ce3a0" stroke-width="4"/>
 <rect x="150" y="200" width="60" height="40" rx="4" fill="#12241c" stroke="#f0c45c"/>
 <rect x="260" y="200" width="60" height="40" rx="4" fill="#12241c" stroke="#f0c45c"/>
@@ -13,7 +13,7 @@
 <text x="60" y="346" fill="#b8c5bd" font-family="system-ui" font-size="14">One open = whole path stops.</text>
 <!-- parallel -->
 <rect x="520" y="120" width="440" height="340" rx="16" fill="#0a1511" stroke="#24362c"/>
-<text x="540" y="155" fill="#d7ff64" font-family="system-ui" font-size="16" font-weight="700">PARALLEL — shared voltage</text>
+<text x="540" y="155" fill="#d7ff64" font-family="system-ui" font-size="16" font-weight="700">PARALLEL: shared voltage</text>
 <line x1="580" y1="200" x2="580" y2="320" stroke="#7ce3a0" stroke-width="4"/>
 <line x1="880" y1="200" x2="880" y2="320" stroke="#7ce3a0" stroke-width="4"/>
 <line x1="580" y1="200" x2="880" y2="200" stroke="#7ce3a0" stroke-width="4"/>

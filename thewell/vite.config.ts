@@ -29,8 +29,6 @@ export default defineConfig({
     assetsDir: "",
     cssCodeSplit: false,
     rollupOptions: {
-      // build straight from the JS entry: index.html is hand-kept and already points at /thewell/app.js + app.css
-      input: resolve(import.meta.dirname, "src/main.tsx"),
       output: {
         entryFileNames: "app.js",
         chunkFileNames: "app.js",

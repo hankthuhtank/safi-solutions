@@ -6,7 +6,7 @@ export const Route = createFileRoute("/learn/")({ component: LearnIndex });
 function LearnIndex() {
   return (
     <main className="px-4 py-8 sm:px-8">
-      <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">Studio</p>
+      <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">Studio</p>
       <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
         Learn
       </h1>

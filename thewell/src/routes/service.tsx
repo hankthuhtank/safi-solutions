@@ -36,7 +36,7 @@ function ServicePage() {
   return (
     <main className="px-4 py-6 sm:px-10 sm:py-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">
+        <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">
           Bartender mode · glanceable
         </p>
         <div className="flex items-center gap-3">

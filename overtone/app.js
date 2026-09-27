@@ -99,7 +99,7 @@ const A={
       clearTimeout(slow);
       const n=Object.keys(A.buf[name]).length;
       A.state[name]= n>=6 ? 'ok' : 'fail';
-      if(A.state[name]==='fail') toast('Sampled instruments unavailable — using the built-in voice.');
+      if(A.state[name]==='fail') toast('Sampled instruments unavailable. Using the built-in voice.');
       updateInstUI();
       return A.state[name];
     });
@@ -457,14 +457,14 @@ const KB={
   setScale(rootPc,scaleId){ KB.root=rootPc; KB.scale=scaleId; KB.paint(); }
 };
 function toggleSustain(){ A.sustain=!A.sustain; if(!A.sustain) A.releaseAll(); KB.syncBtns();
-  toast(A.sustain?'Sustain on — or just hold the space bar':'Sustain off'); }
+  toast(A.sustain?'Sustain on, or just hold the space bar':'Sustain off'); }
 function toggleHold(){ A.hold=!A.hold;
   if(!A.hold){ A.releaseAll(); KB.latched.clear(); KB.paint(); }
-  KB.syncBtns(); toast(A.hold?'Hold on — keys latch until pressed again':'Hold off'); }
+  KB.syncBtns(); toast(A.hold?'Hold on: keys latch until pressed again':'Hold off'); }
 function toggleChordMode(){ KB.chordMode=!KB.chordMode; KB.syncBtns();
-  toast(KB.chordMode?'Chord mode — each key plays its chord in the current scale':'Single notes'); }
+  toast(KB.chordMode?'Chord mode: each key plays its chord in the current scale':'Single notes'); }
 function toggleSnap(){ KB.snap=!KB.snap; KB.syncBtns();
-  toast(KB.snap?'Snap on — every key bends to the nearest scale tone':'Snap off'); }
+  toast(KB.snap?'Snap on: every key bends to the nearest scale tone':'Snap off'); }
 function cycleLabels(){ KB.labels={names:'deg',deg:'off',off:'names'}[KB.labels];
   store.set('kblab',KB.labels); KB.render(); }
 function octShift(d){ KB.oct=clamp(KB.oct+d,1,6); KB.render(); }
@@ -556,7 +556,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.cont
    7 · HOME
    ============================================================ */
 const GATES=[
-  ['lab','The Bench','Scales, chords and progressions in any key — played, mapped and explained.','var(--brass)',
+  ['lab','The Bench','Scales, chords and progressions in any key, played, mapped and explained.','var(--brass)',
    'M4 20V10M10 20V4M16 20v-8M22 20v-4'],
   ['ear','Ear Training','Seven drills that turn listening into understanding. The skill everything else rests on.','var(--patina)',
    'M12 3a7 7 0 0 0-7 7v5a3 3 0 0 0 3 3h1v-8H5M19 18a3 3 0 0 0 3-3v-5a7 7 0 0 0-7-7M19 10v8h-1'],
@@ -590,7 +590,7 @@ function buildHomeStatus(){
 function heroDemo(){
   A.resume();
   const root=60, prog=progById('royalroad');
-  toast('Royal Road progression — a smooth IV–V–iii–vi loop common in Japanese pop.');
+  toast('Royal Road progression: a smooth IV–V–iii–vi loop common in Japanese pop.');
   let t=0;
   prog.steps.forEach(([deg,cid])=>{
     const ch=chordById(cid);
@@ -669,7 +669,7 @@ const Lab={
             <div class="panel-h"><span class="plabel">Chords</span></div>
             <p class="note-txt">This scale does not have seven notes, so stacking thirds does not produce a
             tidy set of chords the way the major scale does. It is used as melodic colour over harmony
-            borrowed from elsewhere \u2014 which is exactly why it survives on instruments with very few voices.</p>
+            borrowed from elsewhere, which is exactly why it survives on instruments with very few voices.</p>
           </div>`:`
           <div class="panel">
             <div class="panel-h"><span class="plabel">Chords that live in this scale</span></div>
@@ -891,7 +891,7 @@ const Lab={
             It answers three questions at once: which sharps or flats a key has, what its relative minor is,
             and which keys you can modulate to without the join showing. Anything adjacent is a smooth move.</p>
           <p class="note-txt"><span class="kv">The trap</span><b>It is a map, not a rule. Distant modulations are
-            perfectly usable — they just need preparation, or the deliberate shock of having none.</b></p>
+            perfectly usable; they just need preparation, or the deliberate shock of having none.</b></p>
           <div class="row" style="margin-top:16px">
             <button class="btn btn-brass" onclick="Lab.circleWalk()">Walk the circle</button>
             <button class="btn btn-ghost" onclick="Lab.mount('scales')">Open this key in scales</button>
@@ -949,11 +949,11 @@ const Ear={
   blurb(){
     return ({
       interval:'Sing the answer back before you click. Producing the interval trains recognition faster than hearing it.',
-      chord:'Listen for the third first — it decides major or minor before anything else.',
+      chord:'Listen for the third first: it decides major or minor before anything else.',
       scale:'Find the degree that sounds unusual. One altered note is usually the whole identity of a mode.',
       prog:'Track the bass line. Root motion identifies a progression faster than the chords on top.',
       read:'Every Good Boy Deserves Fudge for the lines, FACE for the spaces. Say the landmark note nearest it, then step.',
-      meter:'Count along out loud. Find the beat that feels strongest \u2014 that is beat one, and the gap between them is your answer.',
+      meter:'Count along out loud. Find the beat that feels strongest. That is beat one, and the gap between them is your answer.',
       pitch:'This one rewards absolute pitch, which most people do not have. Treat a lucky streak as luck.'
     })[Ear.drill];
   },
@@ -1047,7 +1047,7 @@ const Ear={
       $('#earMsg').textContent=['Correct.','Yes.','That is it.','Clean.'][Math.floor(Math.random()*4)];
     } else {
       Ear.streak=0;
-      $('#earMsg').textContent='Not that one — listen again before moving on.';
+      $('#earMsg').textContent='Not that one. Listen again before moving on.';
     }
     $$('.score-bar b')[0].textContent=Ear.score;
     $$('.score-bar b')[1].textContent=Ear.streak;
@@ -1097,8 +1097,8 @@ const Rhythm={
             full of sixteenths feels faster than a quick one that only plays quarters. Practise switching
             subdivision without changing the tempo and your internal clock gets far more stable.</p>
           <p class="note-txt"><span class="kv">Using the accent</span>
-            The first beat of every bar is louder. That is what tells a listener where the bar starts —
-            remove it and 3/4 and 4/4 become indistinguishable.</p>
+            The first beat of every bar is louder. That is what tells a listener where the bar starts.
+            Remove it and 3/4 and 4/4 become indistinguishable.</p>
           <p class="note-txt"><span class="kv">The trap</span><b>Practising only with a click on every beat
             teaches you to follow rather than to keep time. Set it to sound on beat one only and you will find
             out very quickly whether the pulse is actually internal.</b></p>
@@ -1264,10 +1264,10 @@ const PATH=[
   ['Sound, pitch and rhythm','What sound physically is, why pitch is frequency, and how the harmonic series quietly decides everything that follows.','If you can clap a beat and hum a pitch, you already speak the language.'],
   ['The keyboard as a map','Twelve notes, the repeating pattern, and where the half-steps hide. The fastest way to make theory visible.','The keyboard is a ruler for pitch. Learn the map and everything else becomes readable.'],
   ['Intervals','Naming and hearing the distance between any two notes. The single highest-leverage skill in this whole list.','An interval is a relationship, not a note. Hear relationships and songs start talking.'],
-  ['Scales and modes','Major, minor, the seven modes and the pentatonics — how the same notes rearranged produce completely different weather.','A scale is a palette. Modes are that palette under different light.'],
+  ['Scales and modes','Major, minor, the seven modes and the pentatonics: how the same notes rearranged produce completely different weather.','A scale is a palette. Modes are that palette under different light.'],
   ['Chords and harmony','Triads, sevenths, inversions and where chords come from. Roman numerals so a progression works in any key.','Harmony is melody stacked vertically. When notes agree, emotion multiplies.'],
   ['Progressions and cadences','How chords move, why some motions feel like gravity, and what a cadence is actually doing to the listener.','Function beats memorisation. Learn why V pulls to I and you can build your own.'],
-  ['Rhythm, time and groove','Time signatures, subdivision, syncopation and swing — plus why perfectly quantised music often feels dead.','Groove lives in the spaces between beats as much as on them.'],
+  ['Rhythm, time and groove','Time signatures, subdivision, syncopation and swing, plus why perfectly quantised music often feels dead.','Groove lives in the spaces between beats as much as on them.'],
   ['Your instrument, mapped','Taking all of the above onto the fretboard, the keys or the voice, so theory becomes something under your fingers.','Theory you cannot play is trivia. Put every idea on the instrument.'],
   ['Ear training and transcription','Recognising intervals, chord quality and progressions by ear, then writing down music you love.','Your ear is the final instrument. Train it and the other tools become optional.'],
   ['Form, style and listening','Song structure, motif, arrangement, production choices, and how to take apart anything you hear.','Great music feels inevitable because the structure is invisible. Learn to see it.']

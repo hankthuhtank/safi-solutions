@@ -1,6 +1,6 @@
-# TradeSchool — how the app is put together
+# TradeSchool: how the app is put together
 
-A static single-page app: no build step. `index.html` loads plain scripts **in this order** (order matters — later layers edit what earlier ones define):
+A static single-page app: no build step. `index.html` loads plain scripts **in this order** (order matters: later layers edit what earlier ones define):
 
 | Order | File(s) | What it does |
 |---|---|---|

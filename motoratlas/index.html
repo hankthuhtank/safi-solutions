@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MotorAtlas — Understand the Machine</title>
+<title>MotorAtlas | Understand the Machine</title>
 <meta name="description" content="A visual, parts-first guide to how cars work: components, systems, failure signs, diagnostics, gasoline, hybrid and electric vehicle architecture.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700;800&family=Chivo:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="atlas.css?v=20260905">
 <link rel="stylesheet" href="features.css?v=1">
-<link rel="stylesheet" href="machine.css?v=1">
+<link rel="stylesheet" href="machine.css?v=2">
 
 <style id="ss-loader-style">
 #ss-themed-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#090b0c;color:#f1efe8;overflow:hidden;transition:opacity .46s ease,visibility .46s ease}
@@ -73,6 +73,7 @@
       <div class="plate-top"><span>REFERENCE PLATE 01 · THE MACHINE</span><span id="machineSpec">GASOLINE · TURBO 4-CYL · AWD</span></div>
       <div class="machine-stage" id="machineStage" role="img" aria-label="Interactive 3D X-ray of a compact sedan showing every system colour-coded. Drag to rotate, tap a part to learn what it does.">
         <span class="machine-hint" aria-hidden="true">Drag to rotate · tap a part</span>
+        <button type="button" class="machine-expand" id="machineExpand" aria-pressed="false" aria-controls="machine"><svg class="mx-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="mx-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg><span>Expand view</span></button>
         <div class="machine-card" id="machineCard" aria-live="polite" hidden></div>
       </div>
       <div class="machine-bar">
@@ -177,7 +178,7 @@
 <script src="beginner-data.js?v=2"></script>
 <script src="atlas-core.js?v=20260905"></script>
 <script src="features.js?v=20260907"></script>
-<script type="module" src="machine-ui.js?v=1"></script>
+<script type="module" src="machine-ui.js?v=2"></script>
 
 <script id="ss-loader-script">
 (()=>{

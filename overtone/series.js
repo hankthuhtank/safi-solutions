@@ -11,20 +11,20 @@
   ];
   const WHY = {
     1: 'The fundamental: the whole string swings as one arc. This is the pitch you name.',
-    2: 'Two halves, an octave higher — exactly double the frequency. Same note name, higher.',
+    2: 'Two halves, an octave higher: exactly double the frequency. Same note name, higher.',
     3: 'Thirds of the string give the fifth above. The octave and fifth are why power chords sound so solid.',
     4: 'Quarters: two octaves up. The series keeps returning to C at every power of two.',
-    5: 'The major third — but 14 cents flatter than a piano’s E. Harmonics 4, 5 and 6 are a major triad: C, E, G.',
+    5: 'The major third, but 14 cents flatter than a piano’s E. Harmonics 4, 5 and 6 are a major triad: C, E, G.',
     6: 'Another G, an octave above harmonic 3. With 4 and 5 it completes the major chord hidden inside every note.',
     7: 'The “blue” seventh: 31 cents flatter than a piano’s B♭. Barbershop singers and blues players lean on it.',
-    8: 'Three octaves up. Everything above here is packed a step or less apart — the ladder gets crowded.',
+    8: 'Three octaves up. Everything above here is packed a step or less apart; the ladder gets crowded.',
     9: 'A whole step above C: the major ninth.',
-    10: 'E again, still 14 cents flat — the same third as harmonic 5, an octave higher.',
-    11: 'Right between F and F♯ — no piano key comes close. Alphorns and natural horns play this note.',
-    12: 'G again — the fifth, now four positions up the ladder.',
-    13: 'Between A♭ and A — another note equal temperament can’t play.',
+    10: 'E again, still 14 cents flat: the same third as harmonic 5, an octave higher.',
+    11: 'Right between F and F♯. No piano key comes close. Alphorns and natural horns play this note.',
+    12: 'G again: the fifth, now four positions up the ladder.',
+    13: 'Between A♭ and A, another note equal temperament can’t play.',
     14: 'The flat seventh again, an octave above harmonic 7.',
-    15: 'B, 12 cents flat — the major seventh.',
+    15: 'B, 12 cents flat: the major seventh.',
     16: 'Four octaves above the fundamental.'
   };
   const cents = c => c === 0 ? 'in tune' : (c > 0 ? '+' : '−') + Math.abs(c) + '¢';
@@ -61,7 +61,7 @@
   document.getElementById('seriesStack').addEventListener('click', () => {
     const list = H.slice(0, 8).map(([n]) => [n, 1 / n]);
     select(list, 'Harmonics 1–8 together <em>·</em> one note, heard as a single <span>C3</span>');
-    why.textContent = 'Played together at falling volumes, the eight partials fuse into one pitch — you hear “a C”, not a chord. Change the balance of these partials and you change the instrument: this mix is what separates a clarinet from a violin.';
+    why.textContent = 'Played together at falling volumes, the eight partials fuse into one pitch: you hear “a C”, not a chord. Change the balance of these partials and you change the instrument: this mix is what separates a clarinet from a violin.';
     list.forEach(([n, a]) => tone(n, 0, 2.4, .2 * a)); flashKey(48);
   });
 

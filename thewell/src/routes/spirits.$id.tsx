@@ -16,7 +16,7 @@ function SpiritPage() {
     <main className="px-4 py-8 sm:px-10">
       <Link
         to="/spirits"
-        className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase hover:text-fg"
+        className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase hover:text-fg"
       >
         All bottles
       </Link>
@@ -26,7 +26,7 @@ function SpiritPage() {
           style={{ background: ing.color }}
         />
         <div>
-          <p className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
+          <p className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
             {ing.kind}
             {parent ? ` · ${parent.name}` : ""}
             {ing.abv ? ` · ${ing.abv}% ABV` : ""}
@@ -43,14 +43,14 @@ function SpiritPage() {
 
       {ing.examples.length ? (
         <div className="mt-10">
-          <h2 className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">On the shelf</h2>
+          <h2 className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">On the shelf</h2>
           <p className="mt-2 text-sm text-muted">{ing.examples.join(" · ")}</p>
         </div>
       ) : null}
 
       {children.length ? (
         <div className="mt-10">
-          <h2 className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">Splits into</h2>
+          <h2 className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">Splits into</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
             {children.map((c) => (
               <li key={c.id}>
@@ -70,7 +70,7 @@ function SpiritPage() {
 
       {ing.substitutes.length ? (
         <div className="mt-10">
-          <h2 className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">If you don't have it</h2>
+          <h2 className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">If you don't have it</h2>
           <ul className="mt-3 space-y-3">
             {ing.substitutes.map((s) => (
               <li key={s.id} className="max-w-xl text-sm leading-6">

@@ -47,19 +47,19 @@ export default function soccer(o) {
         blocks: [terms(rowsOf(S[5]))] },
       { id: 'defending', period: 'h2', title: 'Defending and block structures', short: 'Defending & blocks',
         intro: 'Out of possession, teams choose **where** to defend: high up the pitch, in the middle, or deep near their own goal.',
-        blocks: [viz('soccer/blocks', 'High press, mid block, low block', 'THE SAME 4-4-2, THREE HEIGHTS', 'The shape stays compact — roughly 35 m from front to back — and slides up and down the pitch as a unit.'), terms(rowsOf(S[6]))] },
+        blocks: [viz('soccer/blocks', 'High press, mid block, low block', 'THE SAME 4-4-2, THREE HEIGHTS', 'The shape stays compact (roughly 35 m from front to back) and slides up and down the pitch as a unit.'), terms(rowsOf(S[6]))] },
       { id: 'transitions', period: 'et', title: 'Transitions', short: 'Transitions',
-        intro: 'The seconds after the ball changes hands are the most chaotic — and most dangerous — of the game.',
+        intro: 'The seconds after the ball changes hands are the most chaotic, and most dangerous, of the game.',
         blocks: [terms(rowsOf(S[7]))] },
       { id: 'offside', period: 'et', title: 'Offside, fouls, cards and restarts', short: 'Offside & fouls',
-        intro: 'Offside in one sentence: when a teammate plays the ball to you, you are offside if you are in the opponent’s half and nearer the goal line than **both the ball and the second-last defender** — and you then get involved in play.',
+        intro: 'Offside in one sentence: when a teammate plays the ball to you, you are offside if you are in the opponent’s half and nearer the goal line than **both the ball and the second-last defender**, and you then get involved in play.',
         blocks: [
           viz('soccer/offside', 'Offside checker', 'DRAG THE PLAYERS', 'Drag the attacker, the defenders and the passer. Any part of the head, body or feet counts; hands and arms do not. Level is onside.'),
           viz('soccer/restarts', 'The new countdowns (2025/26 → 2026/27)', 'TIME LIMITS AT RESTARTS', 'IFAB has added visible countdowns to cut time-wasting. Pick a situation to see the limit and what happens if it is broken.'),
           terms(rowsOf(S[8]))
         ] },
       { id: 'set-pieces', period: 'pk', title: 'Set pieces', short: 'Set pieces',
-        intro: 'Restarts — corners, free kicks, throw-ins and penalties — produce roughly a quarter to a third of goals in top leagues.',
+        intro: 'Restarts (corners, free kicks, throw-ins and penalties) produce roughly a quarter to a third of goals in top leagues.',
         blocks: [viz('soccer/setpieces', 'Set-piece setups', 'CORNERS · WALLS · PENALTIES'), terms(rowsOf(S[9]))] },
       { id: 'matchups', period: 'pk', title: 'Common tactical matchups', short: 'Tactical matchups',
         intro: 'Tactics are answers. Here is what teams usually do against common opponent plans.',
@@ -89,12 +89,12 @@ export default function soccer(o) {
       { term: 'Half-space', desc: 'One of the two vertical channels between the center of the pitch and the wings.' }
     ] }),
     sources: [
-      ['IFAB — Laws of the Game (latest)', 'https://www.theifab.com/laws/latest/'],
-      ['IFAB — Law changes 2026/27', 'https://www.theifab.com/law-changes/latest/'],
-      ['IFAB — Law 11: Offside', 'https://www.theifab.com/laws/latest/offside/'],
-      ['IFAB — Law 1: The Field of Play', 'https://www.theifab.com/laws/latest/the-field-of-play/'],
-      ['The FA — 2026/27 law changes explained', 'https://www.thefa.com/football-rules-governance/lawsandrules/laws/football-11-11/law-changes-explained'],
-      ['Concacaf — Implementation of the 2026/27 amendments', 'https://www.concacaf.com/competitions/concacaf/news/concacaf-confirms-implementation-of-the-ifab-2026-27-laws-of-the-game-amendments']
+      ['IFAB: Laws of the Game (latest)', 'https://www.theifab.com/laws/latest/'],
+      ['IFAB: Law changes 2026/27', 'https://www.theifab.com/law-changes/latest/'],
+      ['IFAB: Law 11: Offside', 'https://www.theifab.com/laws/latest/offside/'],
+      ['IFAB: Law 1: The Field of Play', 'https://www.theifab.com/laws/latest/the-field-of-play/'],
+      ['The FA: 2026/27 law changes explained', 'https://www.thefa.com/football-rules-governance/lawsandrules/laws/football-11-11/law-changes-explained'],
+      ['Concacaf: Implementation of the 2026/27 amendments', 'https://www.concacaf.com/competitions/concacaf/news/concacaf-confirms-implementation-of-the-ifab-2026-27-laws-of-the-game-amendments']
     ]
   };
 }

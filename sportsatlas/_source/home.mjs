@@ -6,9 +6,9 @@ const HEADLINE = { football: 0, baseball: 0, basketball: 0, soccer: 0, volleybal
 const LEAGUE = { football: 'NFL', baseball: 'MLB', basketball: 'NBA', soccer: 'IFAB', volleyball: 'FIVB', golf: 'USGA · R&A' };
 
 const STEPS = [
-  ['THE WORDS', 'Start with the twenty-odd words everything else assumes — each one defined in a sentence, and explained again wherever it shows up.'],
+  ['THE WORDS', 'Start with the twenty-odd words everything else assumes, each one defined in a sentence, and explained again wherever it shows up.'],
   ['THE FIELD', 'Orbit a to-scale 3D stadium, then flip on the layers of a regulation diagram: every line, zone and measurement labelled.'],
-  ['THE PLAYS', 'Formations, routes, rotations and strategy as animated diagrams you can scrub, replay and drag — the way coaches draw them.'],
+  ['THE PLAYS', 'Formations, routes, rotations and strategy as animated diagrams you can scrub, replay and drag, the way coaches draw them.'],
   ['THE RULEBOOK', 'What changed for the 2026 season, a searchable glossary and links straight to the official rules.']
 ];
 
@@ -50,7 +50,7 @@ export default function home({ plans, ORDER, head, topbar, footer, palette, esc,
   const steps = STEPS.map(([t, d], i) => `<li style="--i:${i}"><span class="hw-code">Q${i + 1}</span><span class="hw-fill" aria-hidden="true"><i></i></span><b>${t}</b><p>${esc(d)}</p></li>`).join('');
 
   const bar = topbar(null, '').replace('aria-label="Search this page"', 'aria-label="Search the whole atlas"');
-  return `${head({ title: 'Sports Atlas — six sports explained visually, from zero', desc: `Football, baseball, basketball, soccer, volleyball and golf explained for complete beginners: 3D stadiums, ${totals.viz} interactive diagrams, ${totals.terms}+ concepts in plain English and every rule change for 2026.`, url: SITE, image: `${SITE}assets/img/football-og.jpg`, prefix: '' })}
+  return `${head({ title: 'Sports Atlas: six sports explained visually, from zero', desc: `Football, baseball, basketball, soccer, volleyball and golf explained for complete beginners: 3D stadiums, ${totals.viz} interactive diagrams, ${totals.terms}+ concepts in plain English and every rule change for 2026.`, url: SITE, image: `${SITE}assets/img/football-og.jpg`, prefix: '' })}
 <body class="home" data-sport="home">
 ${bar}
 <main id="main">
@@ -60,7 +60,7 @@ ${bar}
     <div class="slate-copy">
       <p class="onair"><span class="onair-dot" aria-hidden="true"></span>SIX SPORTS · EXPLAINED FROM ZERO · CURRENT TO THE 2026 SEASON</p>
       <h1 id="home-title"><span>Sports</span><span>Atlas</span></h1>
-      <p class="lede">The rules, positions and plays of six sports — drawn to scale, animated in 3D and explained in plain English. <strong>No experience needed:</strong> pick a sport and start from the first whistle.</p>
+      <p class="lede">The rules, positions and plays of six sports, drawn to scale, animated in 3D and explained in plain English. <strong>No experience needed:</strong> pick a sport and start from the first whistle.</p>
       <div class="cta-row"><a class="btn btn-primary" href="#plates">Pick a sport ${ARROW}</a><button class="btn btn-ghost" type="button" data-open-search>Search ${Math.floor(totals.terms / 50) * 50}+ terms</button></div>
     </div>
     <div class="slate-guide">
@@ -75,7 +75,7 @@ ${bar}
 </section>
 
 <section class="home-sec" id="plates" aria-labelledby="plates-h">
-  <header class="home-head"><p class="sec-period">The plates</p><h2 id="plates-h">Six sports. One way to learn them.</h2><p class="sec-intro">Every plate is written for someone who has never watched the sport — and deep enough that fans still find something new.</p></header>
+  <header class="home-head"><p class="sec-period">The plates</p><h2 id="plates-h">Six sports. One way to learn them.</h2><p class="sec-intro">Every plate is written for someone who has never watched the sport, and deep enough that fans still find something new.</p></header>
   <div class="plates">${plates}</div>
 </section>
 
@@ -90,7 +90,7 @@ ${bar}
 </section>
 
 <section class="home-sec home-outro" aria-label="About Sports Atlas">
-  <p>Sports Atlas is a <a href="https://www.safisolutions.org/">Safi Solutions</a> project — turning complicated things simple. Dimensions and rules follow the official NFL, MLB, NBA, IFAB, FIVB and USGA/R&amp;A documents cited on every plate.</p>
+  <p>Sports Atlas is a <a href="https://www.safisolutions.org/">Safi Solutions</a> project, turning complicated things simple. Dimensions and rules follow the official NFL, MLB, NBA, IFAB, FIVB and USGA/R&amp;A documents cited on every plate.</p>
 </section>
 </main>
 ${footer('')}

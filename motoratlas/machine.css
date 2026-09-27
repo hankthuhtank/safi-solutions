@@ -1,4 +1,4 @@
-/* MotorAtlas — 3D machine (hero plate + parts locator) */
+/* MotorAtlas: 3D machine (hero plate + parts locator) */
 .hero-plate.machine { min-height: 0; display: flex; flex-direction: column; background: #0b0e0f; }
 .machine-stage { position: relative; height: clamp(360px, 46vh, 470px); background: #0b0e0f url('media/machine-gas.jpg') center / cover no-repeat; overflow: hidden; border-bottom: 1px solid var(--line); }
 .machine-stage[data-mode="hybrid"] { background-image: url('media/machine-hybrid.jpg'); }
@@ -33,6 +33,23 @@
 .ms-chip i { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 18%, transparent); }
 .ms-chip:hover { background: rgba(255, 255, 255, .03); color: var(--paper); }
 .ms-chip.is-on { background: rgba(240, 164, 59, .08); color: var(--paper); box-shadow: inset 0 -2px 0 var(--amber); }
+
+/* expand: the plate fills the screen (real fullscreen where the browser allows, otherwise a fixed overlay) */
+.machine-expand { position: absolute; z-index: 4; right: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 13px; border: 1px solid rgba(240, 164, 59, .6); background: rgba(9, 11, 12, .84); color: var(--paper); font: 600 .58rem var(--mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background .2s, color .2s, border-color .2s; }
+.machine-expand:hover, .machine-expand:focus-visible { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+.machine-expand svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.machine-expand .mx-close, .is-expanded .machine-expand .mx-open { display: none; }
+.is-expanded .machine-expand .mx-close { display: block; }
+.machine-stage.no-webgl .machine-expand { display: none; }
+html.m3-lock, html.m3-lock body { overflow: hidden; }
+.hero-plate.machine.is-expanded { position: fixed; inset: 0; z-index: 1000; width: 100%; height: 100vh; height: 100dvh; max-width: none; margin: 0; border: 0; border-radius: 0; box-shadow: none; display: flex; flex-direction: column; background: #0b0e0f; }
+.hero-plate.machine:fullscreen { width: 100%; height: 100%; }
+.is-expanded .plate-top { flex: 0 0 auto; gap: 16px; }
+.is-expanded .machine-stage { flex: 1 1 auto; height: auto; min-height: 0; background: radial-gradient(ellipse at 50% 55%, #141a1c, #0b0e0f 72%); }
+.is-expanded .machine-bar, .is-expanded .machine-systems { flex: 0 0 auto; }
+.is-expanded .machine-systems { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+.is-expanded .machine-expand { top: 12px; bottom: auto; }
+.is-expanded .machine-hint { top: 56px; }
 
 /* callout labels + tooltip (shared by both mounts) */
 .m3-labels { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
@@ -74,6 +91,13 @@
   .machine-card p { font-size: .8rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .machine-card b { font-size: 1.25rem; }
   .machine-hint { display: none; }
+  .machine-expand { right: 8px; bottom: 8px; min-height: 34px; padding: 0 10px; }
+  .is-expanded .machine-expand { top: 8px; }
+  .is-expanded .machine-card { top: 52px; }
+  .is-expanded .plate-top span:first-child { display: none; }
+  .is-expanded .machine-systems { display: flex; overflow-x: auto; scrollbar-width: none; }
+  .is-expanded .machine-systems::-webkit-scrollbar { display: none; }
+  .is-expanded .ms-chip { flex: 0 0 auto; border-bottom: 0; }
   .flow-stage { justify-content: flex-start; padding: 18px; }
   .locator { height: 250px; }
 }

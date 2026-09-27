@@ -39,5 +39,5 @@
 </defs>
 <line x1="36" y1="452" x2="964" y2="452" stroke="#2E3540"/>
 <text x="36" y="482" fill="#E9E5DC" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="14" text-anchor="start">Field check: a compressor that runs but builds no pressure difference is not compressing.</text>
-<text x="36" y="506" fill="#97A1AD" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="13" text-anchor="start">Compare suction and discharge pressure against the P–T chart for the refrigerant on the nameplate — not a remembered number.</text>
+<text x="36" y="506" fill="#97A1AD" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="13" text-anchor="start">Compare suction and discharge pressure against the P–T chart for the refrigerant on the nameplate, not a remembered number.</text>
 </svg>

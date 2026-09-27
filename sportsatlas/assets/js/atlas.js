@@ -139,7 +139,7 @@ function palette() {
     const far = !global ? [] : q ? global.filter(x => (home || x.s !== sport) && match(q)(x)).sort(rank(q)).slice(0, home ? 50 : 14) : home ? global.filter(x => x.k === 'Section') : [];
     results = [...local, ...far];
     sel = Math.min(sel, Math.max(0, results.length - 1));
-    list.innerHTML = results.length ? results.map((r, i) => `<a href="${r.u ? H(new URL(r.u, ROOT).href) : '#'}" role="option" aria-selected="${i === sel}" data-i="${i}"><b>${H(r.t)}</b><em${r.s ? ' class="far"' : ''}>${r.s ? H(cap(r.s)) + ' · ' : ''}${H(r.k)}</em><small>${H(r.d)}</small></a>`).join('') : `<p class="empty on">${global || home ? 'No match in any sport — try a simpler word, like “offside”.' : 'Searching every sport…'}</p>`;
+    list.innerHTML = results.length ? results.map((r, i) => `<a href="${r.u ? H(new URL(r.u, ROOT).href) : '#'}" role="option" aria-selected="${i === sel}" data-i="${i}"><b>${H(r.t)}</b><em${r.s ? ' class="far"' : ''}>${r.s ? H(cap(r.s)) + ' · ' : ''}${H(r.k)}</em><small>${H(r.d)}</small></a>`).join('') : `<p class="empty on">${global || home ? 'No match in any sport. Try a simpler word, like “offside”.' : 'Searching every sport…'}</p>`;
   };
   const go = r => {
     if (r.u) { location.href = new URL(r.u, ROOT).href; close(); return; }

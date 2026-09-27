@@ -54,5 +54,5 @@
 <text x="644" y="290" fill="#97A1AD" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="12" text-anchor="start">Heat, noise and metal in the oil are</text>
 <text x="644" y="308" fill="#97A1AD" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="12" text-anchor="start">the evidence that it is losing some.</text>
 <line x1="36" y1="392" x2="964" y2="392" stroke="#2E3540"/>
-<text x="36" y="422" fill="#E9E5DC" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="14" text-anchor="start">A gearbox that suddenly runs hot at the same load has lost lubrication, alignment or clearance — not ratio.</text>
+<text x="36" y="422" fill="#E9E5DC" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="14" text-anchor="start">A gearbox that suddenly runs hot at the same load has lost lubrication, alignment or clearance, not ratio.</text>
 </svg>

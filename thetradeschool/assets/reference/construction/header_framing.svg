@@ -41,5 +41,5 @@
 <defs><marker id="hd" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#4A87C7"/></marker></defs>
 <line x1="36" y1="474" x2="964" y2="474" stroke="#2E3540"/>
 <text x="36" y="504" fill="#E9E5DC" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="14" text-anchor="start">Header size follows span and the load above it. A jack that is short or missing is a load path with a gap in it.</text>
-<text x="36" y="528" fill="#97A1AD" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="13" text-anchor="start">Rough opening is sized from the manufacturer's unit dimensions plus shim space — not from the finished door or window.</text>
+<text x="36" y="528" fill="#97A1AD" font-family="'Saira','Saira Condensed',system-ui,sans-serif" font-size="13" text-anchor="start">Rough opening is sized from the manufacturer's unit dimensions plus shim space, not from the finished door or window.</text>
 </svg>

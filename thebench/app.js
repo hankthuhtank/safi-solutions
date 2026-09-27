@@ -565,7 +565,7 @@
   const TRACE_STEPS = [
     [1, { total: 0 }, '', 'total starts at 0'], [2, { total: 0, i: 1 }, '', 'i = 1 · is 1 ≤ 3? yes'], [3, { total: 1, i: 1 }, '', 'total = 0 + 1'],
     [2, { total: 1, i: 2 }, '', 'i = 2 · is 2 ≤ 3? yes'], [3, { total: 3, i: 2 }, '', 'total = 1 + 2'], [2, { total: 3, i: 3 }, '', 'i = 3 · is 3 ≤ 3? yes'],
-    [3, { total: 6, i: 3 }, '', 'total = 3 + 3'], [2, { total: 6, i: 4 }, '', 'i = 4 · is 4 ≤ 3? no — leave the loop'], [5, { total: 6 }, '6', 'print total']
+    [3, { total: 6, i: 3 }, '', 'total = 3 + 3'], [2, { total: 6, i: 4 }, '', 'i = 4 · is 4 ≤ 3? no, leave the loop'], [5, { total: 6 }, '6', 'print total']
   ];
   let traceTimer = null;
   function traceDemoHTML() {
@@ -574,7 +574,7 @@
       '<ol class="td-code">' + TRACE_CODE.map((l, n) => '<li data-l="' + (n + 1) + '"><code>' + esc(l) + '</code></li>').join('') + '</ol>' +
       '<div class="td-why" id="tdWhy"></div>' +
       '<div class="td-panels"><div><span class="legend">Variables</span><dl class="td-vars" id="tdVars"></dl></div><div><span class="legend">Output</span><pre class="td-out" id="tdOut"></pre></div></div>' +
-      '<figcaption>Every example in the course runs like this — line by line, with the state you can’t normally see.</figcaption></figure>';
+      '<figcaption>Every example in the course runs like this, line by line, with the state you can’t normally see.</figcaption></figure>';
   }
   function startTraceDemo() {
     clearInterval(traceTimer);
@@ -605,7 +605,7 @@
     h += '<section class="hero has-trace"><div class="hero-text">' +
       '<span class="legend">A field manual for building software</span>' +
       '<h1>Learn to code by <em>watching it run.</em></h1>' +
-      '<p>C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping — in one place, in an order that builds on itself. Run supported C++, Java and JavaScript examples in a teaching interpreter; preview HTML and try SQL in the browser. Predict a result, test it, then trace the changes that explain it.</p>' +
+      '<p>C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping, in one place, in an order that builds on itself. Run supported C++, Java and JavaScript examples in a teaching interpreter; preview HTML and try SQL in the browser. Predict a result, test it, then trace the changes that explain it.</p>' +
       '<div class="hero-actions">' +
         '<button class="btn primary big" data-go="' + esc(next.id) + '">' + (doneN ? 'Continue · ' + esc(next.title) : 'Start at the beginning') + ' →</button>' +
         '<button class="btn big" data-view="pad">Open the bench</button>' +
@@ -679,7 +679,9 @@
     if (L.analogy) h += '<div class="picture"><span class="legend">Mental picture</span><p>' + esc(L.analogy) + '</p></div>';
     if (L.points && L.points.length) {
       h += '<div><span class="legend" style="display:block;margin-bottom:6px">Key points</span><ul class="keylist">' +
-        L.points.map(p => '<li><span>' + esc(p) + '</span></li>').join('') + '</ul></div>';
+        L.points.map(p => Array.isArray(p)
+          ? '<li class="kp"><span><b class="kp-t">' + esc(p[0]) + '</b><span class="kp-d">' + esc(p[1]) + '</span></span></li>'
+          : '<li><span>' + esc(p) + '</span></li>').join('') + '</ul></div>';
     }
     if (L.callout) {
       h += '<div class="callout ' + esc(L.callout.kind) + '"><b>' + esc(L.callout.kind.toUpperCase()) + '</b><span>' + esc(L.callout.text) + '</span></div>';
@@ -739,7 +741,7 @@
       editable: !(L.codeBlock && !L.code),
       showIo: !!L.stdin,
       sqlSeed: L.lang === 'sql' ? SQL_SEED : null,
-      title: L.codeBlock && !L.code ? 'Reference' : 'Source — edit and run it'
+      title: L.codeBlock && !L.code ? 'Reference' : 'Source · edit and run it'
     });
     b.original = L.code || L.codeBlock || '';
     b.cfgKey = draftKey;
@@ -787,7 +789,7 @@
     if (chk.htmlContains) {
       const src = bench.src.toLowerCase();
       ok = chk.htmlContains.every(s => src.indexOf(String(s).toLowerCase()) >= 0);
-      msg = ok ? '✓ That is it — the markup is there.' : '✕ Not yet. Check the hint.';
+      msg = ok ? '✓ That is it. The markup is there.' : '✕ Not yet. Check the hint.';
     } else {
       const res = window.Bench.run(bench.src, L.lang, { stdin: bench.stdin || '' });
       if (!res.ok) { ok = false; msg = '✕ It does not run: ' + res.error; }
@@ -806,7 +808,7 @@
 
     v.className = 'verdict ' + (ok ? 'pass' : 'fail');
     v.textContent = msg;
-    if (ok && !S.done[L.id]) { S.done[L.id] = true; save(); buildRail(); toast('Challenge solved — lesson marked complete'); }
+    if (ok && !S.done[L.id]) { S.done[L.id] = true; save(); buildRail(); toast('Challenge solved, lesson marked complete'); }
   }
 
   /* ---------- pad (free bench) ---------- */

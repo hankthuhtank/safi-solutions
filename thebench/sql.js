@@ -95,7 +95,7 @@
       return { kind: 'message', text: 'Dropped table ' + name };
     }
     if (head === 'BEGIN' || head === 'COMMIT' || head === 'ROLLBACK') {
-      return { kind: 'message', text: KW(head) + ' — transactions are accepted here but not simulated.' };
+      return { kind: 'message', text: KW(head) + ': transactions are accepted here but not simulated.' };
     }
     throw SqlError('Statement "' + head + '" is not supported in this lab.');
   };

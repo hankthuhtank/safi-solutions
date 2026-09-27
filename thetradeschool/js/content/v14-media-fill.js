@@ -29,7 +29,7 @@
     "motor-starter": a("assets/reference/electrical/contactor.jpg","Motor starter hardware","Usually contactor plus overload protection.","Julo / Wikimedia Commons","Public domain"),
     relay: a("assets/reference/electrical/contactor_internals.svg","Relay / contactor parts","Coil, armature, main contacts, aux contacts.","TradeSchool technical visual"),
     coil: a("assets/reference/electrical/contactor_internals.svg","Electromagnetic coil","Creates magnetic pull when energized.","TradeSchool technical visual"),
-    "aux-contact": a("assets/reference/electrical/contactor_internals.svg","Auxiliary contacts","Seal-in, interlock, status — not load current.","TradeSchool technical visual"),
+    "aux-contact": a("assets/reference/electrical/contactor_internals.svg","Auxiliary contacts","Seal-in, interlock, status, not load current.","TradeSchool technical visual"),
 
     "motor-basics": a("assets/reference/electrical/three_phase_motor.jpg","Three-phase induction motor","Frame, junction box, shaft, and nameplate.","KishanMalaviyaatCHETAK ELECTRICALS / Wikimedia Commons","CC BY-SA 4.0"),
     "motor-nameplate": a("assets/reference/electrical/three_phase_motor.jpg","Motor with nameplate","Read volts, amps, phase, Hz, RPM, SF, insulation class before diagnosing.","KishanMalaviyaatCHETAK ELECTRICALS / Wikimedia Commons","CC BY-SA 4.0"),
@@ -37,7 +37,7 @@
 
     vfd: a("assets/reference/electrical/vfd.jpg","Variable-frequency drive","Rectifier → DC bus → inverter control motor speed.","Rahat / Wikimedia Commons","CC BY-SA 4.0"),
     "dc-bus": a("assets/reference/electrical/vfd.jpg","Inside a VFD","DC bus capacitors can hold charge after power is removed.","Rahat / Wikimedia Commons","CC BY-SA 4.0"),
-    "soft-starter": a("assets/reference/electrical/vfd.jpg","Motor power electronics","Soft starters and VFDs both sit between line and motor — different jobs.","Rahat / Wikimedia Commons","CC BY-SA 4.0"),
+    "soft-starter": a("assets/reference/electrical/vfd.jpg","Motor power electronics","Soft starters and VFDs both sit between line and motor, but they do different jobs.","Rahat / Wikimedia Commons","CC BY-SA 4.0"),
 
     mcc: a("assets/hero/electrical-mcc.jpg","Motor control center","Buckets, stabs, vertical bus.","Achim Hering / Wikimedia Commons","CC BY 3.0"),
     disconnect: a("assets/hero/electrical-mcc.jpg","Industrial distribution","Visible lockable disconnect is a primary isolation point.","Achim Hering / Wikimedia Commons","CC BY 3.0"),
@@ -60,7 +60,7 @@
     "pressure-regulator": a("assets/reference/plumbing/regulator.jpg","Water pressure regulator","Reduces street pressure to safer building pressure.","Redstarpublications / Wikimedia Commons","CC BY-SA 3.0"),
     "expansion-tank": a("assets/reference/plumbing/expansion_tank.jpg","Potable expansion tank","Accepts expanded volume when water is heated in a closed system.","Tony Webster / Wikimedia Commons","CC BY 2.0"),
     "water-heater": a("assets/reference/plumbing/water_heater.jpg","Storage water heater","Heat source, tank, dip tube, T&P protection, expansion control.","Tim Evanson / Wikimedia Commons","CC BY-SA 2.0"),
-    "ball-valve": a("assets/reference/plumbing/ball_valve.jpg","Ball valve","Quarter-turn shutoff — normally full open or full closed.","NVgt156 / Wikimedia Commons","CC BY-SA 4.0"),
+    "ball-valve": a("assets/reference/plumbing/ball_valve.jpg","Ball valve","Quarter-turn shutoff, normally full open or full closed.","NVgt156 / Wikimedia Commons","CC BY-SA 4.0"),
     "shutoff-valve": a("assets/reference/plumbing/ball_valve.jpg","Shutoff valve","Isolation point for a fixture or branch.","NVgt156 / Wikimedia Commons","CC BY-SA 4.0"),
     "main-shutoff": a("assets/reference/plumbing/ball_valve.jpg","Main isolation","Primary shutoff for a building or major branch.","NVgt156 / Wikimedia Commons","CC BY-SA 4.0"),
     "copper-tube": a("assets/reference/openverse/plumbing/copper_fittings.jpg","Copper fittings","Common on potable supply; join by solder, press, or approved fittings.","via Openverse","CC licensed"),
@@ -84,7 +84,7 @@
     "cylinder-area": a("assets/reference/industrial/cylinder_area_force.svg","Area and force","Force = pressure × effective piston area.","TradeSchool technical visual"),
     "hydraulic-pressure": a("assets/reference/industrial/hydraulic_pressure_system.svg","Pressure in a hydraulic circuit","Pump creates flow; pressure rises when the load resists flow.","TradeSchool technical visual"),
     "pascal-law": a("assets/reference/industrial/hydraulic_pressure_system.svg","Pressure in a confined fluid","Pressure acts throughout the fluid; force still depends on area.","TradeSchool technical visual"),
-    "pneumatic-cylinder": a("assets/reference/industrial/pneumatic_cylinder.jpg","Pneumatic cylinder","Air-powered linear actuator — compressibility changes the feel vs hydraulics.","Grummelbacke / Wikimedia Commons","CC BY-SA 4.0"),
+    "pneumatic-cylinder": a("assets/reference/industrial/pneumatic_cylinder.jpg","Pneumatic cylinder","Air-powered linear actuator. Compressibility changes the feel vs hydraulics.","Grummelbacke / Wikimedia Commons","CC BY-SA 4.0"),
     "centrifugal-pump": a("assets/reference/industrial/centrifugal_pump.png","Centrifugal pump","Impeller adds velocity; casing converts velocity into pressure.","Fantagu / Wikimedia Commons","Public domain"),
     impeller: a("assets/reference/industrial/centrifugal_pump.png","Pump impeller context","The rotating element that does the work.","Fantagu / Wikimedia Commons","Public domain"),
     "belt-drive": a("assets/reference/openverse/industrial/belt_drive.jpg","Belt and pulley drive","Transmits rotation between shafts; tension and alignment matter.","via Openverse","CC licensed"),
@@ -103,7 +103,7 @@
     "welding-helmet": a("assets/reference/welding/welding_helmet.jpg","Welding helmet","One part of complete eye and face protection.","Sunnybansodeva / Wikimedia Commons","CC BY-SA 4.0"),
     "helmet-shade": a("assets/reference/welding/helmet_lens_closeup.jpg","Helmet lens","Shade number and sensors decide whether your eyes are protected.","Derived from Sunnybansodeva / Wikimedia Commons","CC BY-SA 4.0"),
     oxyfuel: a("assets/reference/openverse/welding/oxyfuel.jpg","Oxy-fuel / brazing equipment","Torch processes for heating, cutting, or joining.","via Openverse","CC licensed"),
-    "fillet-weld": a("assets/reference/openverse/welding/gmaw_ov.jpg","Fillet weld context","Common joint type in fabrication — check size and fusion.","via Openverse","CC licensed"),
+    "fillet-weld": a("assets/reference/openverse/welding/gmaw_ov.jpg","Fillet weld context","Common joint type in fabrication. Check size and fusion.","via Openverse","CC licensed"),
     "fume-control": a("assets/reference/openverse/welding/welder_ppe.jpg","Exposure control","Fume depends on process, base metal, and coatings.","via Openverse","CC licensed"),
 
     // ===== CONSTRUCTION =====
@@ -123,15 +123,15 @@
     "rebar-cover": a("assets/reference/openverse/construction/rebar_cage.jpg","Rebar cage","Cover distance protects steel and develops the section.","S.C. Air National Guard / Openverse","Public Domain"),
     sheathing: a("assets/reference/construction/light_framing.jpg","Sheathed framing","Sheathing ties the frame into a structural and enclosure surface.","Nerv3d5053 / Wikimedia Commons","CC BY-SA 4.0"),
     // diagrams
-    "series-parallel": a("assets/reference/diagrams/series_parallel.svg","Series vs parallel","One path vs shared voltage — current and voltage rules change.","TradeSchool technical visual"),
+    "series-parallel": a("assets/reference/diagrams/series_parallel.svg","Series vs parallel","One path vs shared voltage: current and voltage rules change.","TradeSchool technical visual"),
     superheat: a("assets/reference/diagrams/superheat_subcool.svg","Superheat","Suction temp minus evaporator saturation temp (correct refrigerant P–T chart).","TradeSchool technical visual"),
     subcooling: a("assets/reference/diagrams/superheat_subcool.svg","Subcooling","Condenser saturation temp minus liquid line temp.","TradeSchool technical visual"),
     "load-path": a("assets/reference/diagrams/load_path.svg","Load path","Continuous path from applied load to foundation.","TradeSchool technical visual"),
     // more sensible photo reuse
-    voltage: a("assets/reference/openverse/electrical/multimeter_flickr.jpg","Measuring voltage","Voltage is always between two points — both probes must be placed deliberately.","Public Domain Photos / Flickr via Openverse","CC BY 2.0"),
-    current: a("assets/reference/openverse/electrical/multimeter_flickr.jpg","Measuring with a meter","Current measurement needs a series path or a clamp — not a voltage-mode probe across the line.","Public Domain Photos / Flickr via Openverse","CC BY 2.0"),
+    voltage: a("assets/reference/openverse/electrical/multimeter_flickr.jpg","Measuring voltage","Voltage is always between two points; both probes must be placed deliberately.","Public Domain Photos / Flickr via Openverse","CC BY 2.0"),
+    current: a("assets/reference/openverse/electrical/multimeter_flickr.jpg","Measuring with a meter","Current measurement needs a series path or a clamp, not a voltage-mode probe across the line.","Public Domain Photos / Flickr via Openverse","CC BY 2.0"),
     resistance: a("assets/reference/openverse/electrical/multimeter_flickr.jpg","Resistance checks","Only on de-energized circuits; continuity is not a load test.","Public Domain Photos / Flickr via Openverse","CC BY 2.0"),
-    fuse: a("assets/hero/electrical-mcc.jpg","Protective devices in distribution","Fuses and breakers interrupt overcurrent — different reset and time-current behavior.","Achim Hering / Wikimedia Commons","CC BY 3.0"),
+    fuse: a("assets/hero/electrical-mcc.jpg","Protective devices in distribution","Fuses and breakers interrupt overcurrent, with different reset and time-current behavior.","Achim Hering / Wikimedia Commons","CC BY 3.0"),
     overload: a("assets/reference/electrical/contactor.jpg","Motor branch protection context","Overloads protect the motor thermally; short-circuit devices protect the circuit.","Julo / Wikimedia Commons","Public domain"),
     "seal-in": a("assets/reference/electrical/contactor_internals.svg","Auxiliary / seal-in idea","A holding contact keeps the coil energized after the start button opens.","TradeSchool technical visual"),
     interlock: a("assets/reference/electrical/contactor_internals.svg","Interlock contacts","Prevent conflicting commands (e.g. forward and reverse) from being true together.","TradeSchool technical visual"),

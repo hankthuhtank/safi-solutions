@@ -24,7 +24,7 @@ function setupSearch(inputId,listId,statusId,side){
    resolved[side]=null;const my=++seq;clearTimeout(timer);list.innerHTML='';closeSuggestions(side);
    const q=input.value.trim();$('#'+statusId).textContent=q.length<2?'Search a city or ZIP code':'Searching…';
    if(q.length<2)return;
-   timer=setTimeout(async()=>{try{const choices=await searchLocations(q);if(my!==seq)return;renderSuggestions(choices,list,side,input,statusId)}catch(e){if(my!==seq)return;closeSuggestions(side);$('#'+statusId).textContent='Search unavailable — try again'}},260);
+   timer=setTimeout(async()=>{try{const choices=await searchLocations(q);if(my!==seq)return;renderSuggestions(choices,list,side,input,statusId)}catch(e){if(my!==seq)return;closeSuggestions(side);$('#'+statusId).textContent='Search unavailable. Try again'}},260);
  });
  input.addEventListener('focus',()=>{if(list.children.length&&!resolved[side]){list.classList.add('on');input.setAttribute('aria-expanded','true')}});
  input.addEventListener('keydown',e=>{
@@ -45,7 +45,7 @@ async function searchLocations(q){const r=await fetch(`https://geocoding-api.ope
 function locLabel(x){return [x.name,x.admin1,x.country_code].filter(Boolean).join(', ')}
 function chooseLocation(side,x){
  resolved[side]=x;$('#'+side+'Input').value=locLabel(x);
- $('#'+side+'Resolved').textContent=`${Number(x.latitude).toFixed(3)}, ${Number(x.longitude).toFixed(3)} ∙ ${x.timezone||'timezone —'}`;
+ $('#'+side+'Resolved').textContent=`${Number(x.latitude).toFixed(3)}, ${Number(x.longitude).toFixed(3)} ∙ ${x.timezone||'timezone –'}`;
  closeSuggestions(side);$('#routeError').hidden=true;
 }
 function renderSuggestions(choices,list,side,input,statusId){
@@ -112,8 +112,8 @@ function renderCore(){const a=state.from,b=state.to,aw=state.fromWeather,bw=stat
 }
 function renderForecast(side,loc,w){
  $('#'+side+'ForecastName').textContent=loc.name.toUpperCase();const daily=w.daily||{},highs=daily.temperature_2m_max||[],lows=daily.temperature_2m_min||[],rain=daily.precipitation_sum||[],codes=daily.weather_code||[],dates=daily.time||[],validHighs=highs.filter(Number.isFinite),avg=validHighs.length?validHighs.reduce((s,n)=>s+n,0)/validHighs.length:null,wet=dates.length&&dates.every((_,i)=>Number.isFinite(rain[i]))?rain.reduce((s,n)=>s+n,0):null;
- $('#'+side+'WeatherSummary').textContent=`AVG HIGH ${avg===null?'—':Math.round(avg)+'°'} ∙ ${wet===null?'PRECIP UNAVAILABLE':wet.toFixed(2)+' IN PRECIP'}`;
- const temp=x=>Number.isFinite(x)?Math.round(x)+'°':'—';$('#'+side+'Forecast').innerHTML=dates.length?dates.map((d,i)=>{const dt=new Date(d+'T12:00:00'),description=Number.isFinite(codes[i])?wxText(codes[i]):'Weather unavailable';return`<div class="forecast-day"><span>${dt.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase()}</span><i class="${isWet(codes[i])?'rain':''}" title="${esc(description)}"></i><b>${temp(highs[i])} / ${temp(lows[i])}</b><small>${esc(description)}<br>${Number.isFinite(rain[i])?rain[i].toFixed(2)+' IN':'PRECIP —'}</small></div>`}).join(''):'<p>No daily forecast returned.</p>'
+ $('#'+side+'WeatherSummary').textContent=`AVG HIGH ${avg===null?'–':Math.round(avg)+'°'} ∙ ${wet===null?'PRECIP UNAVAILABLE':wet.toFixed(2)+' IN PRECIP'}`;
+ const temp=x=>Number.isFinite(x)?Math.round(x)+'°':'–';$('#'+side+'Forecast').innerHTML=dates.length?dates.map((d,i)=>{const dt=new Date(d+'T12:00:00'),description=Number.isFinite(codes[i])?wxText(codes[i]):'Weather unavailable';return`<div class="forecast-day"><span>${dt.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase()}</span><i class="${isWet(codes[i])?'rain':''}" title="${esc(description)}"></i><b>${temp(highs[i])} / ${temp(lows[i])}</b><small>${esc(description)}<br>${Number.isFinite(rain[i])?rain[i].toFixed(2)+' IN':'PRECIP –'}</small></div>`}).join(''):'<p>No daily forecast returned.</p>'
 }
 
 /* map */
@@ -147,7 +147,7 @@ function renderClimateSide(id,side,loc,data){const days=data.reduce((s,x)=>s+x.n
 function n(id){return Math.max(0,Number($('#'+id).value)||0)}
 function calcBudget(){
  const manual=$('#manualMiles'),ids=['currentHousing','newHousing','movingQuote','moveMpg','moveGas','hotelNights','hotelRate','otherCost'];
- if(!ids.every(id=>$('#'+id).value.trim()!==''&&$('#'+id).validity.valid)||!manual.validity.valid){$('#oneTimeCost').textContent='—';$('#fuelMoveCost').textContent='Complete the inputs with valid, non-negative values.';$('#annualHousingDelta').textContent='—';$('#monthlyHousingDelta').textContent='—';return}
+ if(!ids.every(id=>$('#'+id).value.trim()!==''&&$('#'+id).validity.valid)||!manual.validity.valid){$('#oneTimeCost').textContent='–';$('#fuelMoveCost').textContent='Complete the inputs with valid, non-negative values.';$('#annualHousingDelta').textContent='–';$('#monthlyHousingDelta').textContent='–';return}
  const miles=manual.value.trim()!==''?n('manualMiles'):state.route?.type==='road'?state.route.miles:null;
  const fuel=miles===null?null:miles/n('moveMpg')*n('moveGas'),truck=n('movingQuote'),hotel=n('hotelNights')*n('hotelRate'),other=n('otherCost'),one=truck+(fuel||0)+hotel+other,monthly=n('newHousing')-n('currentHousing'),annual=monthly*12;
  $('#oneTimeCost').textContent=money(one)+(fuel===null?' + fuel':'');$('#fuelMoveCost').textContent=fuel===null?'Fuel excluded: road distance is unavailable. Enter driving miles above.':`Includes ${money(fuel)} fuel for ${fmt.format(miles)} ${manual.value.trim()!==''?'entered':'road-route'} miles`;

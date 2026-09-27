@@ -4,7 +4,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 
 const css=document.createElement('style');
 css.textContent=`
-/* CarDesk v4 — zero fake car drawings */
+/* CarDesk v4: zero fake car drawings */
 .vehicle-stage{min-height:590px;overflow:hidden;background:radial-gradient(circle at 50% 46%,rgba(22,133,255,.10),transparent 34%),linear-gradient(180deg,rgba(12,25,40,.98),rgba(6,16,28,.98))!important}
 .vehicle-stage:before{content:"";position:absolute;inset:44px 0 48px;background-image:linear-gradient(rgba(110,155,198,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(110,155,198,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at 50% 50%,#000 0 45%,transparent 78%);pointer-events:none}
 .car-hero{display:none!important}
@@ -55,6 +55,6 @@ if(stage){
 
 /* Lower architecture: the same representative 3D vehicle, driven by the scan tabs. */
 const scanVisual=$('.scan-visual');
-if(scanVisual){scanVisual.innerHTML='<div class="cd-machine cd-scan" id="cdScan"></div><p class="cd-note cd-scan-note">Representative model — the VIN identifies the architecture, not exact component placement.</p>'}
+if(scanVisual){scanVisual.innerHTML='<div class="cd-machine cd-scan" id="cdScan"></div><p class="cd-note cd-scan-note">Representative model. The VIN identifies the architecture, not exact component placement.</p>'}
 
 })();

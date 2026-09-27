@@ -6,7 +6,7 @@ export default function golf(o) {
     name: 'Golf', plate: '06', tagline: 'Clubs · shot shapes · course management', jump: 'flight', jumpLabel: 'Jump to ball flight',
     meta: 'Golf explained visually: a 3D par-4 with shot tracers, the five areas of the course, club distances, ball-flight laws, a putting-break simulator, relief options and every term in plain English.',
     heroAlt: 'A 3D golf hole at golden hour seen from behind the tee, with a red shot tracer arcing down the fairway toward the green.',
-    lede: 'Get a ball into a hole 4¼ inches wide in as few strokes as possible — while the course does everything it can to stop you. Golf is less about hitting it far than **choosing where to miss**.',
+    lede: 'Get a ball into a hole 4¼ inches wide in as few strokes as possible, while the course does everything it can to stop you. Golf is less about hitting it far than **choosing where to miss**.',
     facts: [['18 HOLES', 'a standard round'], ['PAR 72', 'typical course'], ['14 CLUBS', 'the legal maximum'], ['4.25 IN', 'hole diameter'], ['1.68 IN', 'minimum ball diameter'], ['3 MIN', 'to search for a ball']],
     periods: [
       { id: 'f9', code: 'FRONT 9', name: 'The basics' },
@@ -19,7 +19,7 @@ export default function golf(o) {
         intro: 'Read this first. These are the words the rest of the page assumes you know.',
         blocks: [viz('golf/hole', 'Anatomy of a hole', 'RULE 2.2 · THE FIVE AREAS OF THE COURSE', 'A to-scale 418-yard par 4. The Rules divide every course into five areas: the **general area**, the **teeing area**, **bunkers**, **penalty areas** and the **putting green**. Everything outside the white stakes is **out of bounds**.'), terms(rowsOf(S[0]), 'Core vocabulary', '22 words used everywhere below')] },
       { id: 'glance', period: 'f9', title: 'The game at a glance', short: 'The game at a glance',
-        intro: 'Count every stroke — and every penalty stroke — from the first tee shot to the last putt.',
+        intro: 'Count every stroke (and every penalty stroke) from the first tee shot to the last putt.',
         blocks: [viz('golf/scoring', 'Score names', 'PICK A PAR · COUNT THE STROKES'), terms(rowsOf(S[1])), bullets([...S[1].bullets, 'Handicaps use the **World Handicap System** (since 2020). A Handicap Index can go up to 54.0, which lets players of any level compete fairly.'], 'The spirit of it', 'Three principles')] },
       { id: 'course', period: 'f9', title: 'Parts of a golf hole', short: 'Parts of a hole',
         intro: 'Every hole is a route from a teeing area to a green, with hazards placed to punish certain misses.',
@@ -40,7 +40,7 @@ export default function golf(o) {
         intro: 'Good scores come from avoiding big numbers. Aim where your normal miss still leaves you playable.',
         blocks: [terms(rowsOf(S[7]))] },
       { id: 'short-game', period: 'h18', title: 'Short game and putting', short: 'Short game',
-        intro: 'For most golfers, more than half of all strokes are played within 100 yards of the hole — and putts alone are close to 40%.',
+        intro: 'For most golfers, more than half of all strokes are played within 100 yards of the hole, and putts alone are close to 40%.',
         blocks: [viz('golf/putt', 'Read the break', 'SLOPE · SPEED · DISTANCE', 'A physics simulation of a putt on a tilted green: the ball slows from friction while gravity pulls it downhill. Faster greens and slower putts break more. (Constant slope, no grain.)'), terms(rowsOf(S[8]))] },
       { id: 'rules', period: 'h18', title: 'Rules situations beginners meet', short: 'Rules situations',
         intro: 'Most rulings come down to one question: **where do I play my next shot from, and what does it cost?**',
@@ -53,13 +53,13 @@ export default function golf(o) {
             ['Cart path / ground under repair', '<span class="num">FREE</span>', 'Drop within one club-length of the nearest point of complete relief, no nearer the hole.']
           ], 'Relief at a glance', 'Rules 16–19')] },
       { id: 'formats', period: 'h19', title: 'Scoring formats', short: 'Formats',
-        intro: 'The same round can be scored many ways — some for tournaments, some for fun with friends.',
+        intro: 'The same round can be scored many ways, some for tournaments, some for fun with friends.',
         blocks: [terms(rowsOf(S[10]))] },
       { id: 'stats', period: 'h19', title: 'Golf statistics that matter', short: 'Statistics',
         intro: '**Strokes gained** compares every shot to a tour-average benchmark from the same spot, so it shows exactly where strokes are won and lost.',
         blocks: [terms(rowsOf(S[11]))] },
       { id: 'game-mode', period: 'h19', title: 'Beginner and golf-game mode', short: 'Game mode',
-        intro: 'Habits that lower scores on a real course — and in golf games.',
+        intro: 'Habits that lower scores on a real course, and in golf games.',
         blocks: [bullets(S[12].bullets, 'Play smarter', 'Transferable habits')] }
     ],
     updatesIntro: 'Golf’s rules are written jointly by the USGA and The R&A. The current edition took effect in 2023, with clarifications and new Model Local Rules added since; the next full edition is expected in 2027.',
@@ -74,17 +74,17 @@ export default function golf(o) {
       { term: 'Stroke and distance', desc: 'Relief that costs one stroke and sends you back to where you last played.' },
       { term: 'Back-on-the-line relief', desc: 'Drop on a line from the hole through a reference point (like where the ball crossed into a penalty area), as far back as you like.' },
       { term: 'Lateral relief', desc: 'For red penalty areas and unplayable balls: drop within two club-lengths of the reference point, no nearer the hole.' },
-      { term: 'Face-to-path', desc: 'The difference between where the clubface points and where the club is traveling at impact — it sets the curve.' },
+      { term: 'Face-to-path', desc: 'The difference between where the clubface points and where the club is traveling at impact. It sets the curve.' },
       { term: 'Stimpmeter', desc: 'A ramp that measures green speed in feet rolled; tour greens often run 12–14.' },
       { term: 'Five areas of the course', desc: 'Rule 2.2: general area, teeing area, bunkers, penalty areas and the putting green.' }
     ] }),
     sources: [
-      ['USGA — Rules of Golf', 'https://www.usga.org/rules-hub.html'],
-      ['The R&A — Rules of Golf', 'https://www.randa.org/en/rules/rules-hub'],
-      ['The R&A — New and updated Model Local Rules for 2026', 'https://www.randa.org/en/articles/new-and-updated-model-local-rules-for-2026'],
-      ['USGA — Additional clarifications of the 2023 Rules', 'https://www.usga.org/rules-hub/clarifications-of-the-rules-of-golf.html'],
-      ['USGA / R&A — Golf-ball testing changes (ODS)', 'https://www.usga.org/'],
-      ['TrackMan — PGA Tour averages', 'https://www.trackman.com/blog/golf/introducing-updated-tour-averages']
+      ['USGA: Rules of Golf', 'https://www.usga.org/rules-hub.html'],
+      ['The R&A: Rules of Golf', 'https://www.randa.org/en/rules/rules-hub'],
+      ['The R&A: New and updated Model Local Rules for 2026', 'https://www.randa.org/en/articles/new-and-updated-model-local-rules-for-2026'],
+      ['USGA: Additional clarifications of the 2023 Rules', 'https://www.usga.org/rules-hub/clarifications-of-the-rules-of-golf.html'],
+      ['USGA / R&A: Golf-ball testing changes (ODS)', 'https://www.usga.org/'],
+      ['TrackMan: PGA Tour averages', 'https://www.trackman.com/blog/golf/introducing-updated-tour-averages']
     ]
   };
 }

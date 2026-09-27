@@ -1,4 +1,4 @@
-/* MotorAtlas — wires the 3D machine into the page: the hero X-ray (plate 01) and the "Where it lives" locator in the parts library. */
+/* MotorAtlas: wires the 3D machine into the page: the hero X-ray (plate 01) and the "Where it lives" locator in the parts library. */
 import { SYSTEMS } from '../assets/js/machine3d.js';
 
 const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -65,6 +65,36 @@ if (stage) {
   xr?.addEventListener('click', () => { const on = xr.getAttribute('aria-pressed') !== 'true'; xr.setAttribute('aria-pressed', String(on)); hero?.setXray(on); });
 }
 
+/* ------------------------------------------------ bigger view: the whole plate (model, controls, systems) fills the screen */
+const plate = $('#machine'), expand = $('#machineExpand');
+if (plate && expand && stage) {
+  const label = $('span', expand);
+  const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+  const setOpen = open => {
+    plate.classList.toggle('is-expanded', open);
+    document.documentElement.classList.toggle('m3-lock', open);
+    expand.setAttribute('aria-pressed', String(open));
+    label.textContent = open ? 'Close full view' : 'Expand view';
+    requestAnimationFrame(() => { hero?.resize(); hero?.setInsets({ left: $('#machineCard').hidden ? 4 : $('#machineCard').offsetTop + $('#machineCard').offsetHeight + 8 }); });
+  };
+  const open = () => {
+    setOpen(true);
+    // real fullscreen where the browser allows it (desktop, Android, iPad); otherwise the plate simply covers the page
+    const req = plate.requestFullscreen || plate.webkitRequestFullscreen;
+    if (req) { try { const r = req.call(plate); if (r && r.catch) r.catch(() => {}); } catch (e) { /* stays as a page overlay */ } }
+    expand.focus({ preventScroll: true });
+  };
+  const close = () => {
+    if (fsEl()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); }
+    setOpen(false);
+    expand.focus({ preventScroll: true });
+  };
+  expand.addEventListener('click', () => (plate.classList.contains('is-expanded') ? close() : open()));
+  const onFs = () => { if (!fsEl() && plate.classList.contains('is-expanded')) setOpen(false); };
+  document.addEventListener('fullscreenchange', onFs); document.addEventListener('webkitfullscreenchange', onFs);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && plate.classList.contains('is-expanded') && !fsEl()) close(); });
+}
+
 /* ------------------------------------------------ "Where it lives" locator in the parts library */
 const loc = $('#locator'), frame = $('.visual-frame'), note = $('#locatorNote'), locCap = $('#locatorCaption');
 let locator = null, pending = null, tab = 'where';
@@ -76,7 +106,7 @@ function follow({ system, part }) {
   if (want && want !== locator.state.mode) locator.setMode(want);
   const found = locator.focusPart(part, system);
   const mode = { gas: 'gasoline car', hybrid: 'hybrid', ev: 'electric car' }[locator.state.mode];
-  note.textContent = found ? '' : 'Not fitted to this model car — the highlighted system shows where it would sit.';
+  note.textContent = found ? '' : 'Not fitted to this model car. The highlighted system shows where it would sit.';
   note.hidden = found;
   locCap.textContent = found ? `3D locator · ${part} · shown on the ${mode}` : `3D locator · ${SYSTEMS[system]?.name || ''}`;
 }

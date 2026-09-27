@@ -10,9 +10,9 @@ const team = (arr, t) => arr.map(p => ({ team: t, ...p }));
 // rotational spots for the blue (left) team
 const SPOT = { 1: [2.8, 7.4], 2: [7.2, 7.4], 3: [7.2, 4.5], 4: [7.2, 1.6], 5: [2.8, 1.6], 6: [2.8, 4.5] };
 const ROLE_INFO = {
-  S: 'Setter — takes the second contact and decides who attacks.', OH: 'Outside hitter — attacks from the left, passes serve, plays defense.',
-  MB: 'Middle blocker — blocks across the net and hits quick sets.', OPP: 'Opposite — right-side attacker, lined up opposite the setter.',
-  L: 'Libero — back-row defensive specialist in a different color jersey.'
+  S: 'Setter: takes the second contact and decides who attacks.', OH: 'Outside hitter: attacks from the left, passes serve, plays defense.',
+  MB: 'Middle blocker: blocks across the net and hits quick sets.', OPP: 'Opposite: right-side attacker, lined up opposite the setter.',
+  L: 'Libero: back-row defensive specialist in a different color jersey.'
 };
 
 /* ------------------------------------------------ anatomy */
@@ -76,7 +76,7 @@ function rotation(host) {
       if (id === 'S' && pos >= 2 && pos <= 4) setterFront = true;
       const [sx, sy] = pos === 1 ? [-1.2, 8] : SPOT[pos];
       const [bx, by] = base(role === 'L' ? 'L' : id, pos);
-      players.push({ id: pid, label, team: role === 'L' ? 'k' : 'o', x: sx, y: sy, hl: id === 'S', name: `${role} · spot ${pos}`, info: `${ROLE_INFO[role]} Rotational spot ${pos}${pos === 1 ? ' — serving' : ''}.` });
+      players.push({ id: pid, label, team: role === 'L' ? 'k' : 'o', x: sx, y: sy, hl: id === 'S', name: `${role} · spot ${pos}`, info: `${ROLE_INFO[role]} Rotational spot ${pos}${pos === 1 ? ', serving' : ''}.` });
       if (phase === 'base') paths.push({ who: pid, kind: 'move', pts: [[sx, sy], [bx, by]], t: .2, d: 1.1 });
     }
     // spot numbers under the players
@@ -87,7 +87,7 @@ function rotation(host) {
     if (phase === 'base') d.play();
     ro.innerHTML = `<div class="is-key"><small>Setter is</small><b>${setterFront ? 'FRONT ROW' : 'BACK ROW'}</b></div><div><small>Front-row hitters</small><b>${setterFront ? 2 : 3}</b></div>`;
     v.className = 'verdict mid';
-    v.innerHTML = setterFront ? '<strong>Two-hitter rotation</strong>With the setter in the front row, only two front-row attackers are available — the hardest rotations for a 5-1. (But the setter can attack the second ball himself.)' : '<strong>Three-hitter rotation</strong>The setter is in the back row, so all three front-row players can attack. He must “penetrate” from the back row to the net to set.';
+    v.innerHTML = setterFront ? '<strong>Two-hitter rotation</strong>With the setter in the front row, only two front-row attackers are available. These are the hardest rotations for a 5-1. (But the setter can attack the second ball himself.)' : '<strong>Three-hitter rotation</strong>The setter is in the back row, so all three front-row players can attack. He must “penetrate” from the back row to the net to set.';
   }
   render();
   right.append(h('p', 'kicker', 'Receiving team rule: front-row players must be nearer the net than the back-row player behind them, and in left-to-right order in each row, when the ball is served.'));
@@ -113,11 +113,11 @@ function rally(host) {
       { kind: 'toss', from: 'dg', toPt: [11.6, 4.8], t: 3.8, d: .8, bend: .2 }
     ],
     captions: [
-      { t: 0, text: '1 · SERVE — from behind the end line, anywhere along its 9-metre width.' },
-      { t: 1.55, text: '2 · PASS — the libero passes (a forearm “dig”) to the setter’s target near the net.' },
-      { t: 2.35, text: '3 · SET — the setter, who ran in from the back row, sets the outside hitter.' },
-      { t: 3.3, text: '4 · ATTACK — cross-court past the two-man block.' },
-      { t: 3.8, text: '5 · DIG — the defender keeps it alive, and the other team starts its own three touches.' }
+      { t: 0, text: '1 · SERVE: from behind the end line, anywhere along its 9-metre width.' },
+      { t: 1.55, text: '2 · PASS: the libero passes (a forearm “dig”) to the setter’s target near the net.' },
+      { t: 2.35, text: '3 · SET: the setter, who ran in from the back row, sets the outside hitter.' },
+      { t: 3.3, text: '4 · ATTACK: cross-court past the two-man block.' },
+      { t: 3.8, text: '5 · DIG: the defender keeps it alive, and the other team starts its own three touches.' }
     ]
   });
 }
@@ -144,7 +144,7 @@ function tempo(host) {
     const marks = sets.map(([k, n, to, arc, tm]) => ({ type: 'circle', x: to[0], y: to[1], r: .38, tone: tm === 1 ? 'hot' : tm === 2 ? 'zone' : 'good', label: k, fs: .3, lx: to[0] - .78 - k.length * .12, ly: to[1] }));
     d.load({ view: HALF, players: [{ id: 'S', label: 'S', team: 'o', x: S[0], y: S[1], hl: true, info: 'The setter’s target: just right of center, about a metre off the net.' }], paths: focus ? paths.map((p, i) => sets[i][0] === focus ? p : { ...p, dim: true, t: 0, d: .01 }) : paths, marks });
     const s = sets.find(x => x[0] === focus);
-    info.innerHTML = s ? `<h4>${s[1]} · tempo ${s[4]}</h4><p>${s[5]}</p>` : '<h4>Faster sets beat blocks</h4><p><b>Red = first tempo</b> (quick), <b>yellow = second</b>, <b>green = third</b> (high). A great pass lets the setter use every option — which forces the middle blocker to guess.</p>';
+    info.innerHTML = s ? `<h4>${s[1]} · tempo ${s[4]}</h4><p>${s[5]}</p>` : '<h4>Faster sets beat blocks</h4><p><b>Red = first tempo</b> (quick), <b>yellow = second</b>, <b>green = third</b> (high). A great pass lets the setter use every option, which forces the middle blocker to guess.</p>';
     d.play();
   };
   const all = h('button', 'chip', 'All sets'); all.type = 'button'; all.onclick = () => { bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b === all))); load(null); }; bar.append(all);
@@ -160,7 +160,7 @@ function receive(host) {
   const P = (id, label, x, y, o = {}) => ({ id, label, x, y, team: 'o', ...o });
   const S = P('S', 'S', 8.4, 6.3, { hl: true, info: 'The setter stays out of the pass so he can set.' });
   sceneSwitcher(stage, d, {
-    w: { chip: 'W (5 passers)', title: 'The W', about: 'Five players share the court in a W shape — common for beginners because nobody has to cover much ground.', static: true, view: HALF,
+    w: { chip: 'W (5 passers)', title: 'The W', about: 'Five players share the court in a W shape. It is common for beginners because nobody has to cover much ground.', static: true, view: HALF,
       players: [S, P('a', '', 5.3, 1.3), P('b', '', 5.3, 7.7), P('c', '', 3.8, 4.5), P('d', '', 1.7, 1.6), P('e', '', 1.7, 7.4)],
       zones: [zone([[6.2, 0], [6.2, 3], [2.8, 3], [2.8, 0]], ''), zone([[6.2, 6], [6.2, 9], [2.8, 9], [2.8, 6]], ''), zone([[4.6, 3], [4.6, 6], [2.8, 6], [2.8, 3]], '')] },
     u: { chip: '4 passers', title: 'Four-person receive', about: 'Four passers in a U, with the setter and one middle at the net. Fewer seams between passers.', static: true, view: HALF,
@@ -168,7 +168,7 @@ function receive(host) {
     three: { chip: '3 passers', title: 'Three-person receive', about: 'The modern standard: two outside hitters and the libero pass everything. The other three are free to attack.', static: true, view: HALF,
       players: [S, P('m', 'MB', 8.3, 3.6), P('o', 'OP', 8.1, 7.8), P('oh1', 'OH', 3.8, 1.8), P('l', 'L', 3.3, 4.5, { team: 'k' }), P('oh2', 'OH', 3.8, 7.2)],
       zones: [zone([[6, 0], [6, 3], [1, 3], [1, 0]], 'OH'), zone([[6, 3], [6, 6], [1, 6], [1, 3]], 'LIBERO'), zone([[6, 6], [6, 9], [1, 9], [1, 6]], 'OH')] },
-    two: { chip: '2 passers', title: 'Two-person receive', about: 'Elite teams sometimes hide a weak passer by having only two players — often the libero and the best outside hitter — cover the whole court.', static: true, view: HALF,
+    two: { chip: '2 passers', title: 'Two-person receive', about: 'Elite teams sometimes hide a weak passer by having only two players (often the libero and the best outside hitter) cover the whole court.', static: true, view: HALF,
       players: [S, P('m', 'MB', 8.3, 3.6), P('o', 'OP', 8.1, 7.8), P('oh', 'OH', 7.6, 1.3), P('l', 'L', 3.4, 2.6, { team: 'k' }), P('oh2', 'OH', 3.4, 6.4)],
       zones: [zone([[6, 0], [6, 4.5], [.8, 4.5], [.8, 0]], 'LIBERO'), zone([[6, 4.5], [6, 9], [.8, 9], [.8, 4.5]], 'OH')] }
   }, { label: 'Formation', noAutoplay: true });
@@ -187,12 +187,12 @@ function block(host) {
       players: [att, P('b1', 'B', 8.7, 8.1, { hl: true }), P('b2', 'B', 8.7, 7.1, { hl: true }), P('dl', 'D', 1.8, 8.1), P('dm', 'D', 1.3, 4.6), P('da', 'D', 2.6, 1.6), P('tip', 'T', 6.2, 6.4)],
       zones: [{ ...shade([[8.9, 8.6], [8.9, 6.6], [3, 5.4], [3, 9]], 'BLOCK SHADOW', 'soft'), lx: 4.3, ly: 7.7 }, { ...shade([[9, 6.4], [9, 3], [.5, .3], [.5, 3.6]], 'OPEN ANGLE', 'hot'), lx: 5.2, ly: 2.75 }],
       paths: [{ kind: 'shot', from: 'A', toPt: [1.5, 1.8], t: .6, d: .5, bend: 0 }],
-      captions: [{ t: 0, text: 'The block takes away the line; defenders line up in the angle.' }, { t: .6, text: 'The hitter goes cross-court — right into the dig.' }] },
+      captions: [{ t: 0, text: 'The block takes away the line; defenders line up in the angle.' }, { t: .6, text: 'The hitter goes cross-court, right into the dig.' }] },
     angle: { chip: 'Angle block', title: 'Angle (cross-court) block', about: 'The blockers slide inside to take away the cross-court angle. Now the line is open, so a defender plays deep down the line.', view: [-1.2, -1.2, 13.6, 11.4], ball: { holder: 'A' },
       players: [att, P('b1', 'B', 8.7, 6.8, { hl: true }), P('b2', 'B', 8.7, 5.8, { hl: true }), P('dl', 'D', 1.4, 8.2), P('dm', 'D', 1.6, 4.4), P('da', 'D', 4.6, 1.4), P('tip', 'T', 6.4, 7.9)],
       zones: [shade([[8.9, 7.3], [8.9, 5.3], [2, 1.8], [2, 5.4]], 'BLOCK SHADOW', 'soft'), { ...shade([[9, 9], [9, 7.6], [.5, 7.7], [.5, 9]], 'OPEN LINE', 'hot'), lx: 4.4, ly: 8.66 }],
       paths: [{ kind: 'shot', from: 'A', toPt: [1.6, 8.3], t: .6, d: .5, bend: 0 }],
-      captions: [{ t: 0, text: 'The block takes away the angle; one defender guards the line.' }, { t: .6, text: 'The hitter goes down the line — the line defender is waiting.' }] }
+      captions: [{ t: 0, text: 'The block takes away the angle; one defender guards the line.' }, { t: .6, text: 'The hitter goes down the line, where the line defender is waiting.' }] }
   }, { label: 'Block' });
 }
 

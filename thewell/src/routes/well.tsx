@@ -31,7 +31,7 @@ function WellPage() {
 
   return (
     <main className="px-4 py-8 sm:px-8">
-      <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">I have this</p>
+      <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">I have this</p>
       <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
         Stock the well
       </h1>
@@ -50,7 +50,7 @@ function WellPage() {
           if (!items.length) return null;
           return (
             <section key={shelf.id}>
-              <h2 className="mb-3 font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
+              <h2 className="mb-3 font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
                 {shelf.label}
               </h2>
               <ul className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8">

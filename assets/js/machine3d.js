@@ -763,10 +763,17 @@ export async function mountMachine(host, opts = {}) {
   });
 
   // sizing + visibility-aware render loop
-  let framed = false;
+  let framed = false, lastK = 1;
   const resize = () => {
     const w = host.clientWidth || 600, h = host.clientHeight || 400; renderer.setSize(w, h, false); leaders.setAttribute('viewBox', `0 0 ${w} ${h}`); camera.aspect = w / h; camera.updateProjectionMatrix();
+    const k = Math.max(1, 1.3 / camera.aspect);
     if (!framed) { framed = true; camera.position.copy(fit(VIEWS[o.view]?.pos || VIEWS.overview.pos, VIEWS[o.view]?.target || VIEWS.overview.target)); controls.target.set(...(VIEWS[o.view]?.target || VIEWS.overview.target)); }
+    else if (Math.abs(k - lastK) > 0.005) {
+      // the view changed shape (e.g. the expanded view): keep the car framed the same way instead of leaving it tiny or cropped
+      camera.position.sub(controls.target).multiplyScalar(k / lastK).add(controls.target);
+      if (tween) tween.p1.sub(tween.t1).multiplyScalar(k / lastK).add(tween.t1);
+    }
+    lastK = k;
   };
   new ResizeObserver(resize).observe(host); resize();
   let visible = true, raf = 0, last = performance.now(), t = 0;

@@ -1,4 +1,4 @@
-// Safi Solutions — site check. Run from the repository root:  node tools/check-site.cjs
+// Safi Solutions: site check. Run from the repository root:  node tools/check-site.cjs
 // 1. Every local link, script, stylesheet and image referenced by an HTML page exists.
 // 2. Every URL in sitemap.xml exists.
 // 3. Guardrails: contact/support forms, checkout switch, licensing language, mobile breakpoints, key assets.
@@ -55,7 +55,7 @@ for (const m of read('sitemap.xml').matchAll(/<loc>https:\/\/www\.safisolutions\
 // ---------------------------------------------------------------- 3. guardrails
 const must = (cond, msg) => { if (!cond) fail(msg); };
 const home = read('index.html');
-must(/formsubmit\.co\/safihelal@gmail\.com/.test(home), 'home contact form must post to FormSubmit');
+must(/formsubmit\.co\/safihelal@gmail\.com/.test(read('contact/index.html')), 'contact form must post to FormSubmit');
 must(/formsubmit\.co\/safihelal@gmail\.com/.test(read('support.html')), 'support form must post to FormSubmit');
 must(/\/assets\/threads\.js/.test(home), 'home must load the hero threads');
 const launch = read('LAUNCH_SWITCH.js');

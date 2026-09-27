@@ -113,13 +113,13 @@ OT.RUDIMENTS=[
    tip:'Good for building endurance and for phrasing across a whole bar rather than a beat.'},
   {id:'paradiddlediddle', n:'Paradiddle-diddle', cat:'diddle', sub:3, p:'RLRRLL', acc:[0],
    note:'One alternating pair followed by two diddles. Six notes, so it leads with the same hand every time.',
-   tip:'Because the lead hand never changes it loops beautifully in triplets — a staple of groove playing.'},
+   tip:'Because the lead hand never changes it loops beautifully in triplets, a staple of groove playing.'},
   {id:'invpara', n:'Inverted Paradiddle', cat:'diddle', sub:4, p:'RLLRLRRL', acc:[0,4],
    note:'A paradiddle rotated so the diddle sits in the middle.',
    tip:'The four paradiddle inversions are where the real vocabulary is. Learn all of them.'},
   {id:'flam', n:'Flam', cat:'flam', sub:2, p:'lR lL', acc:[0,2],
    note:'A quiet grace note just before the main stroke, played by the opposite hand.',
-   tip:'Both sticks start at different heights. The grace note is low, the main stroke is high — that is the whole technique.'},
+   tip:'Both sticks start at different heights. The grace note is low, the main stroke is high. That is the whole technique.'},
   {id:'flamtap', n:'Flam Tap', cat:'flam', sub:4, p:'lRR lLL', acc:[0,3],
    note:'A flam followed by a tap with the same hand.',
    tip:'The tap must be quieter than the flammed stroke or the figure loses its shape.'},
@@ -137,13 +137,13 @@ OT.RUDIMENTS=[
    tip:'Keep the drag tight against the main note. Space between them turns it into a triplet.'},
   {id:'doubledragtap', n:'Double Drag Tap', cat:'drag', sub:4, p:'llR llR L', acc:[0,3],
    note:'Two drags in succession before the closing tap.',
-   tip:'This is where drag control gets tested — the second drag usually collapses first.'},
+   tip:'This is where drag control gets tested: the second drag usually collapses first.'},
   {id:'ratamacue', n:'Single Ratamacue', cat:'drag', sub:3, p:'llR L R L', acc:[4],
    note:'A drag followed by four notes, accented on the last.',
    tip:'The accent at the end is what makes it a ratamacue rather than a drag with notes after it.'},
   {id:'sixstroke', n:'Six Stroke Roll', cat:'roll', sub:4, p:'RLLRRL', acc:[0,5],
    note:'An accent, two doubles, then a closing accent.',
-   tip:'A modern favourite for grooves — play the accents on the toms and the doubles on the snare.'}
+   tip:'A modern favourite for grooves: play the accents on the toms and the doubles on the snare.'}
 ];
 
 /* ---- gap-click and polyrhythm presets ---- */
@@ -153,5 +153,5 @@ OT.POLY=[
   {n:'5 : 4', a:5, b:4, note:'Five against four. Common in progressive and modern jazz drumming.'},
   {n:'7 : 4', a:7, b:4, note:'Seven against four. The cycle takes a full bar to resolve.'},
   {n:'5 : 3', a:5, b:3, note:'Wide and unstable. Both parts feel like the odd one out.'},
-  {n:'3 : 4', a:3, b:4, note:'The same ratio as 4:3 with the roles swapped — and it feels completely different.'}
+  {n:'3 : 4', a:3, b:4, note:'The same ratio as 4:3 with the roles swapped, and it feels completely different.'}
 ];

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>OVERTONE — hear how music works</title>
-<meta name="description" content="A playable music theory workbench for scales, chords, rhythm, ear training, instrument shapes, and composition — every core idea can be heard and explored.">
+<title>OVERTONE: hear how music works</title>
+<meta name="description" content="A playable music theory workbench for scales, chords, rhythm, ear training, instrument shapes, and composition. Every core idea can be heard and explored.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -527,7 +527,7 @@ body{background:
   <div class="hero has-series">
     <div class="hero-text">
     <h1>Music, made<span>audible on the page.</span></h1>
-    <p>A theory workbench you can play. Every scale, chord and progression here makes sound —
+    <p>A theory workbench you can play. Every scale, chord and progression here makes sound,
        with sampled instruments or a built-in synth engine. Learn by hearing, seeing and playing the idea yourself.</p>
     <div class="hero-cta">
       <button class="btn btn-brass" onclick="heroDemo()">Play me something</button>
@@ -540,7 +540,7 @@ body{background:
       <div class="series-keys" role="group" aria-label="Harmonics 1 to 16"></div>
       <div class="series-actions"><button class="btn btn-brass" type="button" id="seriesPlay">Play the series</button><button class="btn btn-ghost" type="button" id="seriesStack">Stack 1–8 into one note</button></div>
       <p class="series-why" id="seriesWhy" aria-live="polite"></p>
-      <figcaption id="seriesCap">Pluck any string and it vibrates in halves, thirds and quarters at the same time. Those overtones give a note its colour — and harmonics 4, 5 and 6 spell a major chord.</figcaption>
+      <figcaption id="seriesCap">Pluck any string and it vibrates in halves, thirds and quarters at the same time. Those overtones give a note its colour, and harmonics 4, 5 and 6 spell a major chord.</figcaption>
     </figure>
   </div>
   <div class="gates" id="gates"></div>
@@ -616,7 +616,7 @@ body{background:
   <div class="vhead">
     <div class="eyebrow">Around the World</div>
     <h2>Twelve traditions, <em>and what each one solved.</em></h2>
-    <p>Every region below worked out its own answer to the same questions — how to organise pitch, how to
+    <p>Every region below worked out its own answer to the same questions: how to organise pitch, how to
        organise time. Open one to hear its scales, its grooves and a real melody from it.</p>
   </div>
   <div id="worldBody"></div>
@@ -637,7 +637,7 @@ body{background:
   <div class="vhead">
     <div class="eyebrow">The Path · 10 stages, in order</div>
     <h2>Zero to <em>reading the language.</em></h2>
-    <p>Each stage assumes the last. Tick them off as they click — progress is saved on this device.</p>
+    <p>Each stage assumes the last. Tick them off as they click. Progress is saved on this device.</p>
   </div>
   <div id="pathBody"></div>
 </section>
@@ -652,14 +652,14 @@ body{background:
 <!-- KEYBED -->
 <div id="keybed">
   <div class="kb-bar">
-    <span class="now" id="nowNote">—</span>
+    <span class="now" id="nowNote">–</span>
     <span class="grp">
       <button onclick="octShift(-1)" aria-label="Octave down">◀</button>
       <span id="octLbl" style="color:var(--dim)">C3</span>
       <button onclick="octShift(1)" aria-label="Octave up">▶</button>
     </span>
     <span class="grp">
-      <button id="susBtn" onclick="toggleSustain()" title="Sustain pedal — or hold the space bar">sustain</button>
+      <button id="susBtn" onclick="toggleSustain()" title="Sustain pedal, or hold the space bar">sustain</button>
       <button id="holdBtn" onclick="toggleHold()" title="Latch notes on until pressed again">hold</button>
     </span>
     <span class="grp">

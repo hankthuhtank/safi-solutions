@@ -1,5 +1,5 @@
-/* Safi Solutions — shared page behaviour: menu, reveals, the Paris TX clock, the showroom, project filters,
-   "add to phone" help, and forwarding of links made for the old single-page site. */
+/* Safi Solutions: shared page behaviour. Menu, reveals, the Paris TX clock, the project detail view,
+   "add to phone" help, contact-form prefill, and forwarding of links made for the old single-page site. */
 (() => {
   'use strict';
   const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -9,15 +9,17 @@
   /* ------------------------------------------------ links from the old one-page site (index.html#products etc.) */
   if (document.body.classList.contains('page-home') && location.hash) {
     const h = decodeURIComponent(location.hash.slice(1));
-    const projects = ['sportsatlas', 'motoratlas', 'voltvisual', 'tradeschool', 'overtone', 'thebench', 'houseedge', 'thewell', 'vellum', 'cardesk', 'movedesk', 'tradingdesk'];
+    const projects = ['sportsatlas', 'motoratlas', 'voltvisual', 'tradeschool', 'overtone', 'thebench', 'houseedge', 'thewell', 'vellum', 'cardesk', 'movedesk'];
     let to = null;
     if (['products', 'main', 'top', 'desk', 'playground'].includes(h)) to = '/products/';
     else if (/^[a-z]+-product$/.test(h)) to = '/products/#' + h.replace('-product', '');
     else if (h === 'work') to = '/projects/';
-    else if (h === 'markets') to = '/projects/#tradingdesk';
+    else if (h === 'markets' || h === 'tradingdesk') to = '/tradingdesk/';
     else if (projects.includes(h)) to = '/projects/#' + h;
     else if (['websites', 'services', 'packages', 'elizabeth', 'baker'].includes(h)) to = '/websites/' + (['elizabeth', 'baker'].includes(h) ? '#' + h : '');
     else if (h === 'safistudios' || h.startsWith('studio-')) to = '/studio/';
+    else if (h === 'about') to = '/about/';
+    else if (h === 'contact') to = '/contact/';
     if (to) { location.replace(to); return; }
   }
 
@@ -42,78 +44,89 @@
   /* ------------------------------------------------ reveal on scroll */
   if ('IntersectionObserver' in window && !reduced) {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
-    $$('.rv').forEach((el, i) => { if (el.dataset.d) el.style.transitionDelay = el.dataset.d + 'ms'; io.observe(el); });
+    $$('.rv').forEach(el => { if (el.dataset.d) el.style.transitionDelay = el.dataset.d + 'ms'; io.observe(el); });
   } else $$('.rv').forEach(el => el.classList.add('in'));
 
-  /* ------------------------------------------------ pointer light on screenshots */
-  $$('.card-shot, .screen-view').forEach(el => el.addEventListener('pointermove', e => {
+  /* ------------------------------------------------ pointer light on tiles and screenshots */
+  $$('.tile-cover, .site-cover, .detail-view').forEach(el => el.addEventListener('pointermove', e => {
     if (e.pointerType === 'touch') return;
     const r = el.getBoundingClientRect();
     el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%'); el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
   }, { passive: true }));
 
-  /* ------------------------------------------------ "I'm interested in…" prefill */
-  document.addEventListener('click', e => {
-    const a = e.target.closest('[data-interest]'); if (!a) return;
-    const sel = $('#iq-interest'); if (sel && [...sel.options].some(o => o.value === a.dataset.interest)) sel.value = a.dataset.interest;
+  /* ------------------------------------------------ client logos that fail to load fall back to a wordmark */
+  $$('img[data-fallback]').forEach(img => {
+    const swap = () => { const b = document.createElement('b'); b.className = 'site-wordmark'; b.textContent = img.dataset.fallback; img.replaceWith(b); };
+    if (img.complete && img.naturalWidth === 0) swap(); else img.addEventListener('error', swap, { once: true });
   });
-
-  /* ------------------------------------------------ showroom: one screen, a list of work beside it */
-  const show = $('.show-grid');
-  if (show) {
-    const tabs = $$('[role="tab"]', show), screen = $('.screen-view', show), url = $('.screen-url span', show);
-    const cap = $('.show-cap p', show), open = $('.show-cap .button', show);
-    const DUR = 6500; let i = 0, timer = null, paused = false;
-    show.style.setProperty('--dur', DUR + 'ms');
-    const imgs = tabs.map(tb => {
-      let el;
-      if (tb.dataset.splash) { el = document.createElement('div'); el.className = 'splash out'; el.style.background = tb.dataset.bg || '#101418'; el.innerHTML = `<img src="${tb.dataset.splash}" alt="">`; }
-      else { el = document.createElement('img'); el.src = tb.dataset.img; el.alt = tb.dataset.alt || ''; el.loading = 'lazy'; el.className = 'out'; }
-      screen.appendChild(el); return el;
-    });
-    const first = $('img.first', screen); if (first) first.remove();
-    function go(n, user) {
-      i = (n + tabs.length) % tabs.length; const tb = tabs[i];
-      tabs.forEach((b, k) => { b.setAttribute('aria-selected', String(k === i)); b.tabIndex = k === i ? 0 : -1; });
-      imgs.forEach((el, k) => el.classList.toggle('out', k !== i));
-      screen.href = tb.dataset.href; screen.setAttribute('aria-label', 'Open ' + tb.dataset.name);
-      url.textContent = tb.dataset.url; cap.textContent = tb.dataset.desc;
-      open.href = tb.dataset.href; open.firstChild.textContent = tb.dataset.cta + ' ';
-      if (tb.dataset.ext) { open.target = screen.target = '_blank'; open.rel = screen.rel = 'noopener noreferrer'; } else { open.removeAttribute('target'); screen.removeAttribute('target'); }
-      // restart the progress bar
-      const bar = $('.sl-bar i', tb); if (bar) { bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
-      schedule(user);
-    }
-    function schedule(user) { clearTimeout(timer); if (reduced || user === 'stop') return; timer = setTimeout(() => { if (!paused) go(i + 1); else schedule(); }, DUR); }
-    tabs.forEach((b, k) => b.addEventListener('click', () => go(k, 'user')));
-    show.addEventListener('keydown', e => { if (!e.target.matches('[role="tab"]')) return; const m = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (m) { e.preventDefault(); go(i + m, 'user'); tabs[i].focus(); } });
-    const pause = v => { paused = v; show.classList.toggle('paused', v); };
-    show.addEventListener('pointerenter', () => pause(true)); show.addEventListener('pointerleave', () => pause(false));
-    show.addEventListener('focusin', () => pause(true)); show.addEventListener('focusout', () => pause(false));
-    if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (es[0].isIntersecting) go(i); else clearTimeout(timer); }, { threshold: .35 }).observe(show);
-    else go(0);
-  }
-
-  /* ------------------------------------------------ project filters */
-  const filters = $('.filters');
-  if (filters) {
-    const cards = $$('.card[data-kind]');
-    filters.addEventListener('click', e => {
-      const b = e.target.closest('.chip'); if (!b) return;
-      $$('.chip', filters).forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-      const k = b.dataset.filter; cards.forEach(c => c.classList.toggle('is-hidden', k !== 'all' && c.dataset.kind !== k));
-    });
-  }
 
   /* ------------------------------------------------ add to phone */
   const dlg = $('#phone-dialog');
+  const openPhone = (name, href) => {
+    if (!dlg) return;
+    $('#phone-name', dlg).textContent = name; const a = $('#phone-open', dlg); a.href = href; a.firstChild.textContent = 'Open ' + name + ' ';
+    dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', '');
+  };
   if (dlg) {
-    $$('[data-phone]').forEach(b => b.addEventListener('click', () => {
-      $('#phone-name', dlg).textContent = b.dataset.phone; const a = $('#phone-open', dlg); a.href = b.dataset.href; a.firstChild.textContent = 'Open ' + b.dataset.phone + ' ';
-      dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', '');
-    }));
     $('.sd-close', dlg).addEventListener('click', () => dlg.close());
     dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+  }
+
+  /* ------------------------------------------------ projects: the tile wall and one detail view per project (/projects/#id) */
+  const detail = $('#project-detail'), list = $('#project-list'), dataEl = $('#project-data');
+  if (detail && list && dataEl) {
+    const P = JSON.parse(dataEl.textContent), byId = new Map(P.map(p => [p.id, p]));
+    const baseTitle = document.title;
+    let current = null, listScroll = 0;
+    const show = p => {
+      const i = P.indexOf(p), prev = P[(i - 1 + P.length) % P.length], next = P[(i + 1) % P.length];
+      $('#d-type').textContent = p.type; $('#d-title').textContent = p.name; $('#d-copy').textContent = p.detail;
+      $('#d-open').href = $('#d-view').href = p.href;
+      $('#d-view').setAttribute('aria-label', 'Open ' + p.name);
+      const img = $('#d-img'); img.src = p.shot; img.alt = p.name + ': screenshot of the live project';
+      $('#d-url').textContent = 'safisolutions.org' + p.href;
+      $('#d-prev').href = '#' + prev.id; $('#d-prev').setAttribute('aria-label', 'Previous project: ' + prev.name);
+      $('#d-next').href = '#' + next.id; $('#d-next').setAttribute('aria-label', 'Next project: ' + next.name);
+      document.title = p.name + ' | Safi Solutions';
+      current = p;
+    };
+    const route = () => {
+      const p = byId.get(decodeURIComponent(location.hash.slice(1)));
+      if (p) {
+        if (!current) listScroll = scrollY;
+        show(p); list.hidden = true; detail.hidden = false;
+        scrollTo({ top: 0, behavior: 'instant' });
+      } else {
+        const was = current; current = null; detail.hidden = true; list.hidden = false; document.title = baseTitle;
+        if (was) {
+          const t = $('#t-' + was.id);
+          if (t) {
+            if (listScroll) scrollTo({ top: listScroll, behavior: 'instant' }); else t.scrollIntoView({ block: 'center', behavior: 'instant' });
+            $('.tile-cover', t).focus({ preventScroll: true });
+          }
+        }
+      }
+    };
+    $('[data-all]', detail).addEventListener('click', e => {
+      e.preventDefault();
+      if (history.state && history.state.fromList) history.back();
+      else { history.pushState(null, '', location.pathname); route(); }
+    });
+    // remember that the detail view was opened from the wall, so "All projects" can simply go back
+    list.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]'); if (!a || !byId.has(a.getAttribute('href').slice(1))) return;
+      e.preventDefault(); listScroll = scrollY; history.pushState({ fromList: true }, '', a.getAttribute('href')); route();
+    });
+    $('#d-phone').addEventListener('click', () => current && openPhone(current.name, current.href));
+    addEventListener('hashchange', route); addEventListener('popstate', route);
+    route();
+  }
+
+  /* ------------------------------------------------ contact: "I'm interested in" follows the link you came from */
+  const interest = $('#iq-interest');
+  if (interest) {
+    const want = new URLSearchParams(location.search).get('interest');
+    if (want && [...interest.options].some(o => o.value === want)) interest.value = want;
   }
 
   /* ------------------------------------------------ product screenshot zoom */

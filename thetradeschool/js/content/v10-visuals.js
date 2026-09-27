@@ -70,7 +70,7 @@
     relay: asset(
       "assets/reference/electrical/contactor_internals.svg",
       "Contactor parts (schematic)",
-      "Coil, armature, main contacts, and aux contacts — what each part does in the device.",
+      "Coil, armature, main contacts, and aux contacts: what each part does in the device.",
       "TradeSchool technical visual"
     ),
     coil: asset(
@@ -82,7 +82,7 @@
     "aux-contact": asset(
       "assets/reference/electrical/contactor_internals.svg",
       "Auxiliary contacts",
-      "Smaller contacts used for seal-in, interlocks, and status — not for carrying motor current.",
+      "Smaller contacts used for seal-in, interlocks, and status, not for carrying motor current.",
       "TradeSchool technical visual"
     ),
     "motor-starter": asset(
@@ -112,7 +112,7 @@
     mcc: asset(
       "assets/hero/electrical-mcc.jpg",
       "Motor control center",
-      "Buckets, stabs, and vertical bus — where power distribution and motor control live together.",
+      "Buckets, stabs, and vertical bus: where power distribution and motor control live together.",
       "Achim Hering / Wikimedia Commons", "CC BY 3.0"
     ),
     compressor: asset(
@@ -238,7 +238,7 @@
     "wall-framing": asset(
       "assets/reference/construction/light_framing.jpg",
       "Light-frame wall",
-      "Studs, plates, sheathing, and openings — the assembly most residential walls are built from.",
+      "Studs, plates, sheathing, and openings: the assembly most residential walls are built from.",
       "Nerv3d5053 / Wikimedia Commons", "CC BY-SA 4.0"
     ),
     header: asset(

@@ -31,17 +31,17 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 {
   // sd = standard deviation of one bet, in units of the bet (from each bet's payout distribution)
   const GAMES = [
-    ['Blackjack — basic strategy, 3:2 table', .005, 70, 1.15],
-    ['Blackjack — same game at a 6:5 table', .0189, 70, 1.15],
-    ['Baccarat — Banker', .0106, 72, .927],
-    ['Baccarat — Player', .0124, 72, .951],
-    ['Baccarat — Tie (8:1)', .1436, 72, 2.641],
-    ['Craps — Pass line (per decision)', .0141, 30, 1],
-    ['Roulette — single zero, red or black', .027, 38, .9996],
-    ['Roulette — double zero, red or black', .0526, 38, .9986],
-    ['Roulette — double zero, one number', .0526, 38, 5.763],
-    ['Roulette — triple zero, red or black', .0769, 38, .997],
-    ['Slots — typical penny machine (≈91% RTP)', .0909, 600, 7]
+    ['Blackjack: basic strategy, 3:2 table', .005, 70, 1.15],
+    ['Blackjack: same game at a 6:5 table', .0189, 70, 1.15],
+    ['Baccarat: Banker', .0106, 72, .927],
+    ['Baccarat: Player', .0124, 72, .951],
+    ['Baccarat: Tie (8:1)', .1436, 72, 2.641],
+    ['Craps: Pass line (per decision)', .0141, 30, 1],
+    ['Roulette: single zero, red or black', .027, 38, .9996],
+    ['Roulette: double zero, red or black', .0526, 38, .9986],
+    ['Roulette: double zero, one number', .0526, 38, 5.763],
+    ['Roulette: triple zero, red or black', .0769, 38, .997],
+    ['Slots: typical penny machine (≈91% RTP)', .0909, 600, 7]
   ];
   const sel = $('#costGame'), bet = $('#costBet'), pace = $('#costPace'), hrs = $('#costHours');
   sel.innerHTML = GAMES.map((g, i) => `<option value="${i}">${g[0]}</option>`).join('');
@@ -54,8 +54,8 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     $('#costAction').textContent = money(action);
     $('#costEdge').textContent = pct(edge, edge < .01 ? 2 : 2);
     const lo = mean - spread, hi = mean + spread;
-    $('#costRange').textContent = n ? `${signed(Math.round(lo))} and ${signed(Math.round(hi))}` : '—';
-    $('#costRangeNote').textContent = hi > 0 ? `Winning nights happen — about ${Math.round(100 * (1 - normCdf(-mean / (spread || 1))))}% of sessions like this finish ahead. The average still costs ${money(-mean)}.` : 'At this length, even a lucky night usually finishes behind.';
+    $('#costRange').textContent = n ? `${signed(Math.round(lo))} and ${signed(Math.round(hi))}` : '–';
+    $('#costRangeNote').textContent = hi > 0 ? `Winning nights happen: about ${Math.round(100 * (1 - normCdf(-mean / (spread || 1))))}% of sessions like this finish ahead. The average still costs ${money(-mean)}.` : 'At this length, even a lucky night usually finishes behind.';
     // bar: domain mean ± 2.4 sd, always including zero
     const d0 = Math.min(mean - 2.4 * spread, 0), d1 = Math.max(mean + 2.4 * spread, 0), X = v => (v - d0) / (d1 - d0 || 1) * 100;
     Object.assign($('#costBarLo').style, { left: X(lo) + '%', width: (X(hi) - X(lo)) + '%' });
@@ -85,11 +85,11 @@ function why(kind, hand, up, act) {
   const weak = ['2', '3', '4', '5', '6'].includes(up), u = up === 'A' ? 'an ace' : `a ${up}`;
   if (kind === 'hard') {
     if (hand === '5–8') return 'No single card can bust you, so there is nothing to lose by hitting.';
-    if (hand === '17+') return 'Hard 17 or more busts too often to hit — stand and let the dealer draw.';
+    if (hand === '17+') return 'Hard 17 or more busts too often to hit. Stand and let the dealer draw.';
     if (act === 'D') return `A ten-value card turns ${hand} into ${+hand + 10}, and ${u} is weak enough that doubling earns more than just hitting.`;
     if (act === 'R') return `Hard ${hand} against ${u} loses well over half the time however you play it. Surrender gives up exactly half your bet, which is cheaper.`;
     if (act === 'S') return `Against ${u} the dealer busts often. Standing makes the dealer take the risk instead of you.`;
-    if (hand === '9' || hand === '10' || hand === '11') return `Against ${u} the dealer is too strong for doubling to pay off — just hit and try to improve.`;
+    if (hand === '9' || hand === '10' || hand === '11') return `Against ${u} the dealer is too strong for doubling to pay off. Just hit and try to improve.`;
     if (hand === '12' && weak) return `12 only busts on a ten-value card, and a dealer showing ${up} doesn't bust often enough to justify standing.`;
     return `The dealer showing ${u} will usually finish with 17 or better, so standing on ${hand} loses more than the risk of hitting.`;
   }
@@ -97,15 +97,15 @@ function why(kind, hand, up, act) {
     const t = +hand.split(',')[1] + 11;
     if (act === 'D') return `Soft ${t} can't bust with one more card, so double while the dealer shows a weak ${up}.`;
     if (act === 'Ds') return `Soft 18 against ${u}: double to press the advantage. If doubling isn't allowed, 18 is good enough to stand.`;
-    if (act === 'S') return t >= 19 ? `Soft ${t} is a strong total — stand.` : `Soft 18 already ties or beats ${u}'s likely finish. Stand.`;
-    return t === 18 ? `18 is an underdog against ${u}. Hitting a soft hand can't bust it, so try to improve.` : `A soft ${t} can't bust on the next card — take the free hit.`;
+    if (act === 'S') return t >= 19 ? `Soft ${t} is a strong total. Stand.` : `Soft 18 already ties or beats ${u}'s likely finish. Stand.`;
+    return t === 18 ? `18 is an underdog against ${u}. Hitting a soft hand can't bust it, so try to improve.` : `A soft ${t} can't bust on the next card, so take the free hit.`;
   }
   const p = hand.split(',')[0];
-  if (p === 'A') return 'As one hand, two aces are just a soft 12. As two hands, each starts with an ace — always split.';
+  if (p === 'A') return 'As one hand, two aces are just a soft 12. As two hands, each starts with an ace. Always split.';
   if (p === '10') return '20 wins most of the time. Never break it up.';
   if (p === '8') return '16 is the worst total in blackjack. Two hands starting with 8 are far better, even against strong upcards.';
-  if (p === '5') return act === 'D' ? 'Never split fives: as a hard 10 it is one of the best doubling hands.' : `Never split fives. Play it as a hard 10 — against ${u}, just hit.`;
-  if (p === '9') return act === 'P' ? `Two hands starting with 9 beat standing on 18 against ${u}.` : up === '7' ? 'The dealer showing 7 most often makes 17 — your 18 already wins. Stand.' : `Against ${u}, 18 is best left alone; splitting makes two hands that are likely to lose.`;
+  if (p === '5') return act === 'D' ? 'Never split fives: as a hard 10 it is one of the best doubling hands.' : `Never split fives. Play it as a hard 10. Against ${u}, just hit.`;
+  if (p === '9') return act === 'P' ? `Two hands starting with 9 beat standing on 18 against ${u}.` : up === '7' ? 'The dealer showing 7 most often makes 17, so your 18 already wins. Stand.' : `Against ${u}, 18 is best left alone; splitting makes two hands that are likely to lose.`;
   if (act === 'P') return `Against a weak ${up}, two small hands (with doubling after the split allowed) earn more than one poor total.`;
   return `Against ${u}, splitting ${p}s creates two weak hands. Hit instead.`;
 }
@@ -153,7 +153,7 @@ function why(kind, hand, up, act) {
     total++; if (ok) { right++; streak++; } else streak = 0; hand.done = true;
     b.classList.add(ok ? 'right' : 'wrong'); if (!ok) acts.find(x => x.dataset.act === (want === 'Ds' ? 'D' : want))?.classList.add('right');
     verdict.className = 'trainer-verdict ' + (ok ? 'ok' : 'no');
-    verdict.innerHTML = `<b>${ok ? 'Correct' : 'Not quite'} — ${NAME[want]}.</b> ${why(hand.kind, hand.key, hand.up, want)}`;
+    verdict.innerHTML = `<b>${ok ? 'Correct' : 'Not quite'}: ${NAME[want]}.</b> ${why(hand.kind, hand.key, hand.up, want)}`;
     $('#trStreak').textContent = streak; $('#trScore').textContent = `${right} / ${total}`;
   }));
   $('#trDeal').addEventListener('click', deal);
@@ -165,7 +165,7 @@ function why(kind, hand, up, act) {
   const bankerDraws = (b, p3) => p3 === 'none' ? b <= 5 : b <= 2 ? true : b === 3 ? p3 !== 8 : b === 4 ? p3 >= 2 && p3 <= 7 : b === 5 ? p3 >= 4 && p3 <= 7 : b === 6 ? p3 === 6 || p3 === 7 : false;
   const grid = $('#tbGrid'), selB = $('#tbBanker'), selP = $('#tbPlayer'), out = $('#tbVerdict');
   const cols = ['none', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  grid.innerHTML = `<thead><tr><th scope="col">Banker</th>${cols.map(c => `<th scope="col" data-c="${c}">${c === 'none' ? '—' : c}</th>`).join('')}</tr></thead><tbody>${[0, 1, 2, 3, 4, 5, 6, 7].map(b => `<tr><th scope="row" data-b="${b}">${b}</th>${cols.map(c => { const d = bankerDraws(b, c); return `<td class="${d ? 'dr' : 'st'}" data-b="${b}" data-c="${c}">${d ? 'D' : 'S'}</td>`; }).join('')}</tr>`).join('')}</tbody>`;
+  grid.innerHTML = `<thead><tr><th scope="col">Banker</th>${cols.map(c => `<th scope="col" data-c="${c}">${c === 'none' ? '–' : c}</th>`).join('')}</tr></thead><tbody>${[0, 1, 2, 3, 4, 5, 6, 7].map(b => `<tr><th scope="row" data-b="${b}">${b}</th>${cols.map(c => { const d = bankerDraws(b, c); return `<td class="${d ? 'dr' : 'st'}" data-b="${b}" data-c="${c}">${d ? 'D' : 'S'}</td>`; }).join('')}</tr>`).join('')}</tbody>`;
   const upd = () => {
     const b = +selB.value, c = selP.value === 'none' ? 'none' : +selP.value, d = bankerDraws(b, c);
     $$('.hit', grid).forEach(x => x.classList.remove('hit'));
@@ -173,7 +173,7 @@ function why(kind, hand, up, act) {
     out.innerHTML = `<b>Banker ${d ? 'draws' : 'stands'}.</b> ` + (c === 'none' ? `Player stood, so Banker follows Player's own rule: draw on 0–5, stand on 6–7.` : b <= 2 ? 'With 0, 1 or 2, Banker always draws.' : b === 7 ? 'Banker always stands on 7.' : `With ${b}, Banker draws only when Player's third card is ${{ 3: 'anything but 8', 4: '2 through 7', 5: '4 through 7', 6: '6 or 7' }[b]}.`);
   };
   [selB, selP].forEach(s => s.addEventListener('change', upd)); upd();
-  $('#tbGrid').insertAdjacentHTML('afterend', '<p class="fine" style="margin-top:8px">D = Banker draws a third card · S = stands · “—” = Player did not draw. If either hand has a natural 8 or 9, nobody draws.</p>');
+  $('#tbGrid').insertAdjacentHTML('afterend', '<p class="fine" style="margin-top:8px">D = Banker draws a third card · S = stands · “–” = Player did not draw. If either hand has a natural 8 or 9, nobody draws.</p>');
 }
 
 /* ------------------------------------------------------------------ craps: dice lab */
@@ -197,15 +197,15 @@ function why(kind, hand, up, act) {
       $$('li', dist).forEach(li => li.classList.toggle('hit', +li.dataset.s === s));
       let text;
       if (point === null) {
-        if (s === 7 || s === 11) text = `${s === 7 ? 'Seven' : 'Yo-leven'} on the come-out — pass line wins.`;
-        else if (s === 2 || s === 3 || s === 12) text = `Craps (${s}) on the come-out — pass line loses${s === 12 ? ', and don’t pass pushes' : ''}.`;
+        if (s === 7 || s === 11) text = `${s === 7 ? 'Seven' : 'Yo-leven'} on the come-out: pass line wins.`;
+        else if (s === 2 || s === 3 || s === 12) text = `Craps (${s}) on the come-out: pass line loses${s === 12 ? ', and don’t pass pushes' : ''}.`;
         else { point = s; text = `The point is ${s}. Now roll ${s} again before a 7. Odds on ${s} pay ${{ 4: '2:1', 10: '2:1', 5: '3:2', 9: '3:2', 6: '6:5', 8: '6:5' }[s]}.`; }
-      } else if (s === point) { text = `Point made! ${s} came before 7 — pass line wins. New come-out roll.`; point = null; }
-      else if (s === 7) { text = 'Seven-out — pass line loses and the dice move to the next shooter.'; point = null; }
+      } else if (s === point) { text = `Point made! ${s} came before 7: pass line wins. New come-out roll.`; point = null; }
+      else if (s === 7) { text = 'Seven-out: pass line loses and the dice move to the next shooter.'; point = null; }
       else text = `${s} doesn't decide the pass line. Still rolling for ${point}.`;
       msg.textContent = text;
       puck.textContent = point ? 'ON' : 'OFF'; puck.classList.toggle('on', !!point); pl.textContent = point ? `Point: ${point}` : 'No point yet';
-      $('#diceStats').textContent = `Rolls: ${rolls} · Sevens: ${sevens} (${(sevens / rolls * 100).toFixed(0)}% — expected 16.7%)`;
+      $('#diceStats').textContent = `Rolls: ${rolls} · Sevens: ${sevens} (${(sevens / rolls * 100).toFixed(0)}%, expected 16.7%)`;
     }, reduced ? 60 : 1050);
   });
 }
@@ -247,14 +247,14 @@ function why(kind, hand, up, act) {
     const odds = 2598960 / ways, o = odds >= 100 ? Math.round(odds).toLocaleString('en-US') : odds.toFixed(1);
     const cards = cs.split(' ').map((c, k) => { const r = c.slice(0, -1), s = c.slice(-1); return `<span class="mini${s === 'H' || s === 'D' ? ' red' : ''}${used[n] !== undefined && k >= used[n] ? ' dim' : ''}">${r}<i>${SUIT[s]}</i></span>`; }).join('');
     return `<div class="hrow"><span class="rk">${i + 1}</span><span class="nm">${n}<small>1 in ${o}</small></span><span class="cards">${cards}</span></div>`;
-  }).join('') + '<p class="fine" style="grid-column:1/-1;margin:8px 0 0;color:#cfe0d4">Odds of being dealt each hand in five cards (2,598,960 possible hands). Faded cards are kickers — they only break ties.</p>';
+  }).join('') + '<p class="fine" style="grid-column:1/-1;margin:8px 0 0;color:#cfe0d4">Odds of being dealt each hand in five cards (2,598,960 possible hands). Faded cards are kickers: they only break ties.</p>';
   const pot = $('#potPot'), call = $('#potCall'), outs = $('#potOuts');
   function upd() {
     const P = Math.max(0, num(pot)), C = Math.max(0, num(call)), o = clamp(Math.round(num(outs)), 0, 20);
     const need = C / (P + C || 1), one = o / 47, two = 1 - ((47 - o) * (46 - o)) / (47 * 46);
     $('#potNeed').textContent = pct(need, 1); $('#potOne').textContent = pct(one, 1); $('#potTwo').textContent = pct(two, 1);
     $('#potBarNeed').style.width = need * 100 + '%'; $('#potBarHit').style.width = one * 100 + '%';
-    $('#potVerdict').innerHTML = one >= need ? `<b>Call is profitable on direct odds.</b> You hit ${pct(one, 1)} of the time with one card to come; the price only needs ${pct(need, 1)}.` : two >= need ? `<b>Close.</b> One card gives ${pct(one, 1)} vs ${pct(need, 1)} needed — only worth it if you're all-in (${pct(two, 1)} by the river) or expect to win more later (implied odds).` : `<b>Fold on direct odds.</b> Even with two cards to come you hit ${pct(two, 1)}, below the ${pct(need, 1)} this price requires.`;
+    $('#potVerdict').innerHTML = one >= need ? `<b>Call is profitable on direct odds.</b> You hit ${pct(one, 1)} of the time with one card to come; the price only needs ${pct(need, 1)}.` : two >= need ? `<b>Close.</b> One card gives ${pct(one, 1)} vs ${pct(need, 1)} needed. Only worth it if you're all-in (${pct(two, 1)} by the river) or expect to win more later (implied odds).` : `<b>Fold on direct odds.</b> Even with two cards to come you hit ${pct(two, 1)}, below the ${pct(need, 1)} this price requires.`;
   }
   [pot, call, outs].forEach(el => el.addEventListener('input', upd));
   $$('#potLab [data-outs]').forEach(b => b.addEventListener('click', () => { outs.value = b.dataset.outs; upd(); }));
@@ -272,7 +272,7 @@ function why(kind, hand, up, act) {
   const odds = $('#olOdds'), stake = $('#olStake');
   function conv() {
     const o = parse(odds.value), s = Math.max(0, num(stake));
-    if (!Number.isFinite(o)) { ['olProb', 'olDec', 'olFrac', 'olProfit'].forEach(id => $('#' + id).textContent = '—'); return; }
+    if (!Number.isFinite(o)) { ['olProb', 'olDec', 'olFrac', 'olProfit'].forEach(id => $('#' + id).textContent = '–'); return; }
     $('#olProb').textContent = pct(imp(o)); $('#olDec').textContent = dec(o).toFixed(2); $('#olFrac').textContent = frac(o); $('#olProfit').textContent = money(s * (dec(o) - 1), 2);
   }
   const A = $('#hvA'), Bx = $('#hvB');
@@ -280,7 +280,7 @@ function why(kind, hand, up, act) {
     const a = parse(A.value), b = parse(Bx.value);
     if (!Number.isFinite(a) || !Number.isFinite(b)) { $('#hvOut').textContent = 'Enter two American prices, like −110 and −110 or −180 and +155.'; return; }
     const pa = imp(a), pb = imp(b), S = pa + pb, h = 1 - 1 / S;
-    $('#hvOut').innerHTML = `The two prices add up to <b>${pct(S)}</b> — more than 100%. The extra is the book's margin: it keeps about <b>${pct(h)}</b> of all money bet on this market if action is balanced. Without the margin, the fair prices would be <b>${amer(1 / (pa / S))}</b> and <b>${amer(1 / (pb / S))}</b> (${pct(pa / S, 1)} / ${pct(pb / S, 1)}).`;
+    $('#hvOut').innerHTML = `The two prices add up to <b>${pct(S)}</b>, more than 100%. The extra is the book's margin: it keeps about <b>${pct(h)}</b> of all money bet on this market if action is balanced. Without the margin, the fair prices would be <b>${amer(1 / (pa / S))}</b> and <b>${amer(1 / (pb / S))}</b> (${pct(pa / S, 1)} / ${pct(pb / S, 1)}).`;
   }
   const legs = $('#plLegs'), plo = $('#plOdds'), plc = $('#plChance');
   function parlay() {

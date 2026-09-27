@@ -18,11 +18,11 @@ function Chapter() {
     <main className="mx-auto max-w-2xl px-4 py-8 sm:px-8">
       <Link
         to="/learn"
-        className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase hover:text-fg"
+        className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase hover:text-fg"
       >
         All chapters
       </Link>
-      <p className="mt-8 font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">{ch.kicker}</p>
+      <p className="mt-8 font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">{ch.kicker}</p>
       <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
         {ch.title}
       </h1>
@@ -58,7 +58,7 @@ function ShakeStir() {
   return (
     <div className="mt-8 grid gap-4 sm:grid-cols-2">
       <div className="rounded-lg bg-elevated p-5">
-        <p className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">Shake</p>
+        <p className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">Shake</p>
         <p className="mt-2 font-display text-2xl">Juice, dairy, egg</p>
         <p className="mt-2 text-sm leading-6 text-muted">
           Two tins, hard ice, 10–12 seconds. The drink comes out cold, diluted, and cloudy. Aeration
@@ -66,7 +66,7 @@ function ShakeStir() {
         </p>
       </div>
       <div className="rounded-lg bg-elevated p-5">
-        <p className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">Stir</p>
+        <p className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">Stir</p>
         <p className="mt-2 font-display text-2xl">Spirits only</p>
         <p className="mt-2 text-sm leading-6 text-muted">
           Mixing glass, a spoon around the ice, 20–30 seconds. Silk, not foam. You should still

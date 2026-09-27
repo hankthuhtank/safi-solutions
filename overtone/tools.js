@@ -156,7 +156,7 @@ const Chords={
         <div class="grid2">
           <p class="note-txt">
             The vertical lines are the strings, thickest on the left. The horizontal lines are the frets, with the
-            thick bar at the top being the nut \u2014 the very end of the neck. A number inside a dot is the finger
+            thick bar at the top being the nut, the very end of the neck. A number inside a dot is the finger
             to use: <b>1 index, 2 middle, 3 ring, 4 pinky</b>. Gold dots are the root of the chord.
             <br><br>
             Above the diagram, a circle means play that string open and a cross means do not play it at all.
@@ -169,7 +169,7 @@ const Chords={
             Learn one open shape and one barre shape per chord type and you can play in all twelve keys.
             <br><br><span class="kv">Try this</span>
             Pick a root, then click through Major, Minor and Dominant 7th and strum each one. Three fingers move
-            and the entire emotional character changes \u2014 that is the whole of harmony in one experiment.</p>
+            and the entire emotional character changes. That is the whole of harmony in one experiment.</p>
         </div>
       </div>`;
     KB.setScale(Chords.root,null);
@@ -249,7 +249,7 @@ const Perc={
           <p class="note-txt" style="border-top:1px solid var(--line);padding-top:13px">
             <span class="kv">Why rudiments</span>
             They are the alphabet. Every fill and groove you admire is rudiments rearranged and moved around the
-            kit. Learning them at a controlled tempo is worth more than an hour of playing along to records \u2014
+            kit. Learning them at a controlled tempo is worth more than an hour of playing along to records,
             and the ramp button above is how competitive drummers actually drill them.</p>
         </div>
       </div>`;
@@ -324,7 +324,7 @@ const Perc={
             <em>generate</em> one. The gap is where you find out whether the time is actually internal or whether
             you have been leaning on the metronome the whole time.</p>
           <p class="note-txt"><span class="kv">How to use it</span><b>Start with two bars off. When the click
-            returns and you are still locked, double the gap. Most people discover they rush \u2014 the silence
+            returns and you are still locked, double the gap. Most people discover they rush; the silence
             makes that impossible to hide from.</b></p>
         </div>
       </div>`;
@@ -385,7 +385,7 @@ const Perc={
           <p class="note-txt"><span class="kv">What you are hearing</span>${esc(p.note)}</p>
           <p class="note-txt"><span class="kv">How to internalise it</span>
             Play only the lower voice with one hand until it is automatic. Then add the upper voice without
-            trying to line them up \u2014 they only meet at the start of each cycle, and that meeting point is the
+            trying to line them up. They only meet at the start of each cycle, and that meeting point is the
             only thing you need to feel.</p>
           <p class="note-txt"><span class="kv">The trap</span><b>Counting both parts at once does not work and
             never will. Feel one, play the other against it.</b></p>
@@ -452,7 +452,7 @@ const Perc={
             Quintuplets and sextuplets are where most people fall apart. Use words: five is "u-ni-ver-si-ty",
             six is two triplets stacked. Say them out loud while you play.</p>
           <p class="note-txt"><span class="kv">Auto-climb</span><b>Runs each subdivision for four bars and
-            steps up automatically. The moment of the change is the whole exercise \u2014 that is where time
+            steps up automatically. The moment of the change is the whole exercise: that is where time
             gets lost.</b></p>
         </div>
       </div>`;

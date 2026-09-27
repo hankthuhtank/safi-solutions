@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
   <rect width="1200" height="700" fill="#06110d"/>
   <rect x="40" y="40" width="1120" height="620" rx="24" fill="#0a1511" stroke="#24362c"/>
-  <text x="70" y="95" fill="#e8eee9" font-family="system-ui,sans-serif" font-size="36" font-weight="700">Contactor — what the parts do</text>
+  <text x="70" y="95" fill="#e8eee9" font-family="system-ui,sans-serif" font-size="36" font-weight="700">Contactor: what the parts do</text>
   <text x="70" y="135" fill="#9fb0a7" font-family="system-ui,sans-serif" font-size="18">Same ideas as a relay, built for higher load current and repeated switching.</text>
 
   <!-- Coil -->

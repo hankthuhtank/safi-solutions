@@ -97,7 +97,7 @@ const Sketch={
     const tonic=seq.filter(x=>x.i===0).length, dominant=seq.filter(x=>x.i===4).length;
     let shape='This loop stays fairly open because it avoids a strong dominant-to-tonic resolution.';
     if(dominant&&tonic) shape='You have both dominant and tonic function in the loop, so the progression has a clear tension-and-release engine.';
-    if(seq[seq.length-1].i===4&&seq[0].i===0) shape='The loop ends on V and restarts on I — a strong turnaround that makes the repeat feel intentional.';
+    if(seq[seq.length-1].i===4&&seq[0].i===0) shape='The loop ends on V and restarts on I, a strong turnaround that makes the repeat feel intentional.';
     return `<p class="note-txt"><span class="kv">Roman numerals</span><b>${esc(names)}</b></p>
       <p class="note-txt"><span class="kv">What the loop is doing</span>${esc(shape)}</p>
       <p class="note-txt"><span class="kv">Try this</span>Change only one slot at a time. The fastest way to hear harmonic function is to keep three chords fixed and compare the fourth.</p>`;

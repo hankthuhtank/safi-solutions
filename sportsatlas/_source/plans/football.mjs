@@ -17,7 +17,7 @@ export default function football(o) {
     ],
     sections: [
       { id: 'words', period: 'q1', title: 'Start here: the words', short: 'Start here: the words', core: true,
-        intro: 'Read this first. These are the words the rest of the page assumes you know — each one defined before it is used to explain anything harder.',
+        intro: 'Read this first. These are the words the rest of the page assumes you know, each one defined before it is used to explain anything harder.',
         blocks: [
           viz('football/anatomy', 'The field, to scale', 'NFL RULE 1 · TAP THE LAYERS', 'Every stripe has a job: yard lines every 5 yards, **hash marks** that set where each play starts, and **end zones** where points are scored. Dimensions follow the NFL Rulebook.'),
           terms(rowsOf(S[0]), 'Core vocabulary', '25 words used everywhere below')
@@ -25,10 +25,10 @@ export default function football(o) {
       { id: 'glance', period: 'q1', title: 'The game at a glance', short: 'The game at a glance',
         intro: S[1].intro,
         blocks: [
-          viz('football/chains', 'Move the chains', 'DOWN & DISTANCE SIMULATOR', 'Run a drive yourself. The **blue line** is the line of scrimmage, the **yellow line** is the line to gain — the same lines you see on a TV broadcast.'),
+          viz('football/chains', 'Move the chains', 'DOWN & DISTANCE SIMULATOR', 'Run a drive yourself. The **blue line** is the line of scrimmage, the **yellow line** is the line to gain. These are the same lines you see on a TV broadcast.'),
           tbl(['Score', 'Points', 'How it happens'], [
             ['Touchdown', '<span class="num">6</span>', 'The ball is carried into, or caught in, the opponent’s end zone.'],
-            ['Extra-point kick', '<span class="num">1</span>', 'After a touchdown. In the NFL the ball is snapped from the 15-yard line — a 33-yard kick.'],
+            ['Extra-point kick', '<span class="num">1</span>', 'After a touchdown. In the NFL the ball is snapped from the 15-yard line, making it a 33-yard kick.'],
             ['Two-point try', '<span class="num">2</span>', 'After a touchdown, run or pass it in from the 2-yard line instead of kicking.'],
             ['Field goal', '<span class="num">3</span>', 'Kicked through the uprights. Kick distance ≈ yards to the goal line + 17 (10-yard end zone + 7-yard hold).'],
             ['Safety', '<span class="num">2</span>', 'The offense is downed in its own end zone. The team that gave it up then free-kicks from its own 20.'],
@@ -46,13 +46,13 @@ export default function football(o) {
       { id: 'offense-positions', period: 'q2', title: 'Offensive positions', short: 'Offensive positions',
         intro: 'Eleven players, three groups: the **offensive line** protects, the **backfield** handles the ball, and the **receivers** stretch the field. Tap any player to see the job.',
         blocks: [
-          viz('football/offense', 'Who lines up where — offense', '11 PERSONNEL · SHOTGUN · TAP A PLAYER'),
+          viz('football/offense', 'Who lines up where: offense', '11 PERSONNEL · SHOTGUN · TAP A PLAYER'),
           terms(rowsOf(S[2]), 'Jobs', 'Position by position')
         ] },
       { id: 'personnel', period: 'q2', title: 'Personnel and formations', short: 'Personnel & formations',
-        intro: S[4].intro + ' The two-digit code counts **running backs** first, then **tight ends** — whatever is left of the five eligible players are wide receivers.',
+        intro: S[4].intro + ' The two-digit code counts **running backs** first, then **tight ends**; whatever is left of the five eligible players are wide receivers.',
         blocks: [
-          viz('football/personnel', 'Personnel builder', 'CODE = RBs + TEs', 'Pick a package and watch the formation reshape. “11” = 1 back, 1 tight end, 3 receivers — the most common grouping in today’s NFL.'),
+          viz('football/personnel', 'Personnel builder', 'CODE = RBs + TEs', 'Pick a package and watch the formation reshape. “11” = 1 back, 1 tight end, 3 receivers. It is the most common grouping in today’s NFL.'),
           terms(rowsOf(S[4]), 'Packages & shapes', 'The language on the sideline')
         ] },
       { id: 'runs', period: 'q2', title: 'The run game', short: 'Run families',
@@ -63,14 +63,14 @@ export default function football(o) {
           { type: 'table', table: S[5].table, heading: 'Why a run can work', sub: 'Read the defense first' }
         ] },
       { id: 'passing', period: 'q2', title: 'Routes and pass concepts', short: 'Routes & concepts',
-        intro: 'A **route** is one receiver’s path. A **concept** combines routes so that one defender has to choose between two threats — whichever way he goes, the quarterback throws to the other.',
+        intro: 'A **route** is one receiver’s path. A **concept** combines routes so that one defender has to choose between two threats: whichever way he goes, the quarterback throws to the other.',
         blocks: [
           viz('football/routetree', 'The route tree', 'NUMBERED 1–9 · TAP A ROUTE', 'Most teams number routes so a whole play can be called in a few digits. Numbering varies by team; this is the classic tree.'),
           viz('football/concepts', 'Pass concepts in motion', 'READ ORDER SHOWN 1 → 2 → 3', 'Each concept is drawn against the coverage it is built to beat. The numbers show the quarterback’s read order.'),
           terms(rowsOf(S[6]), 'Routes & concepts', 'Twenty-seven entries')
         ] },
       { id: 'protection', period: 'q2', title: 'Pass protection', short: 'Pass protection',
-        intro: 'More blockers means more time — but fewer receivers. Protection is the trade-off between the two.',
+        intro: 'More blockers means more time, but fewer receivers. Protection is the trade-off between the two.',
         blocks: [
           viz('football/protection', 'Protection counts', '5 · 6 · 7 MAN', 'Five blockers leave five receivers; seven blockers buy time for a deep shot with only three receivers out.'),
           terms(rowsOf(S[7])),
@@ -79,7 +79,7 @@ export default function football(o) {
       { id: 'defense-positions', period: 'q3', title: 'Defensive positions', short: 'Defensive positions',
         intro: 'Three levels: **linemen** at the ball, **linebackers** behind them, **defensive backs** (cornerbacks and safeties) deepest. Packages swap linebackers for defensive backs as offenses spread out.',
         blocks: [
-          viz('football/defense', 'Who lines up where — defense', 'BASE · NICKEL · DIME · TAP A PLAYER'),
+          viz('football/defense', 'Who lines up where: defense', 'BASE · NICKEL · DIME · TAP A PLAYER'),
           terms(rowsOf(S[3]), 'Jobs', 'Position by position')
         ] },
       { id: 'fronts', period: 'q3', title: 'Fronts, gaps and techniques', short: 'Fronts & gaps',
@@ -104,7 +104,7 @@ export default function football(o) {
       { id: 'reading', period: 'q3', title: 'Reading the defense', short: 'Reading the defense',
         intro: S[11].intro,
         blocks: [
-          viz('football/readdefense', 'Pre-snap to post-snap: an 8-step read', 'STEP THROUGH IT', 'This is the order quarterbacks — and good video-game players — use. Each step lights up what to look at.'),
+          viz('football/readdefense', 'Pre-snap to post-snap: an 8-step read', 'STEP THROUGH IT', 'This is the order quarterbacks (and good video-game players) use. Each step lights up what to look at.'),
           steps(S[11].bullets.map(b => b.replace(/^\d+\.\s*/, ''))),
           note(S[11].note)
         ] },
@@ -115,7 +115,7 @@ export default function football(o) {
           terms(rowsOf(S[12], { add: [{ term: 'Two-minute warning', desc: 'An automatic stoppage when two minutes remain in each half. It works like a free timeout for both teams.' }, { term: 'Kneel-down math', desc: 'Each kneel uses a snap plus up to 40 seconds of play clock. With no opposing timeouts, three kneels can run out roughly two minutes.' }] }))
         ] },
       { id: 'special-teams', period: 'q4', title: 'Special teams', short: 'Special teams',
-        intro: 'Kicks trade possession for field position. The NFL rebuilt the kickoff in 2024 to bring returns back safely — and tweaked it again in 2025 and 2026.',
+        intro: 'Kicks trade possession for field position. The NFL rebuilt the kickoff in 2024 to bring returns back safely, and tweaked it again in 2025 and 2026.',
         blocks: [
           viz('football/kickoff', 'The dynamic kickoff (2026)', 'ALIGNMENT · LANDING ZONE · TOUCHBACK', 'Ten coverage players start on the receiving team’s 40 and cannot move until the ball lands or is touched. Kicks into the end zone come out to the **35**.'),
           terms(rowsOf(S[13], {
@@ -138,8 +138,8 @@ export default function football(o) {
             ['Offside / neutral-zone infraction', '<span class="num">5 YD</span>', 'A defender is across the line at the snap, or draws an offensive player into flinching.'],
             ['Delay of game', '<span class="num">5 YD</span>', 'The play clock hits zero before the snap.'],
             ['Too many men on the field', '<span class="num">5 YD</span>', 'More than 11 players in the formation at the snap.'],
-            ['Holding — offense', '<span class="num">10 YD</span>', 'Grabbing or restricting a defender to prevent a tackle or pass rush.'],
-            ['Holding — defense', '<span class="num">5 YD + AUTO 1ST</span>', 'Illegally restricting a receiver or blocker.'],
+            ['Holding (offense)', '<span class="num">10 YD</span>', 'Grabbing or restricting a defender to prevent a tackle or pass rush.'],
+            ['Holding (defense)', '<span class="num">5 YD + AUTO 1ST</span>', 'Illegally restricting a receiver or blocker.'],
             ['Illegal contact', '<span class="num">5 YD + AUTO 1ST</span>', 'Contact with a receiver more than 5 yards downfield before the pass is thrown.'],
             ['Defensive pass interference', '<span class="num">SPOT + AUTO 1ST</span>', 'Ball placed where the foul happened. In the end zone it goes to the 1-yard line.'],
             ['Offensive pass interference', '<span class="num">10 YD</span>', 'A receiver pushes off or blocks a defender while the pass is in the air.'],
@@ -149,7 +149,7 @@ export default function football(o) {
             ['Unsportsmanlike conduct / taunting', '<span class="num">15 YD</span>', 'Two in one game means an ejection.']
           ], 'Common penalties', 'NFL enforcement'),
           terms(rowsOf(S[14]), 'Officiating words', 'What the referee is saying'),
-          note('**2026 officiating note:** league officials in New York may now advise on-field referees about disqualifications for flagrant football and non-football acts — and a flag can be added if one was not thrown.')
+          note('**2026 officiating note:** league officials in New York may now advise on-field referees about disqualifications for flagrant football and non-football acts, and a flag can be added if one was not thrown.')
         ] },
       { id: 'game-mode', period: 'ot', title: 'Madden and football-game mode', short: 'Game mode',
         intro: 'Video games reward the same logic as the real sport. Learn the thinking once and it carries across every edition.',
@@ -163,26 +163,26 @@ export default function football(o) {
       { when: '2026 season', title: 'Onside kicks at any time', text: 'A team may now declare an onside kick at any point in the game. Previously it was allowed only in the fourth quarter. It still has to be declared, with the special onside alignment.' },
       { when: '2026 season', title: 'Kickoff setup-zone tweak', text: 'The receiving team gets more flexibility in how many players stand off the restraining line inside the 5-yard setup zone, with at least one player required near each sideline.' },
       { when: '2026 season', title: 'Replay help on ejections', text: 'The league’s officiating department can consult with on-field referees on disqualifications for flagrant football and non-football acts, and a flag can be thrown if one was missed.' },
-      { when: 'Since 2025', title: 'Touchbacks on kickoffs to the 35', text: 'The dynamic kickoff was made permanent and a kickoff into the end zone that becomes a touchback now puts the ball on the 35-yard line — up from the 30 — to encourage returns.' },
+      { when: 'Since 2025', title: 'Touchbacks on kickoffs to the 35', text: 'The dynamic kickoff was made permanent and a kickoff into the end zone that becomes a touchback now puts the ball on the 35-yard line (up from the 30) to encourage returns.' },
       { when: 'Since 2025', title: 'Both teams get the ball in overtime', text: 'Regular-season overtime now matches the playoffs: both teams get a possession unless the first ends in a defensive score. The period stays 10 minutes, so games can still end tied.' }
     ],
     glossary: glossary(o, {
       add: [
         { term: 'Landing zone', desc: 'Area between the receiving team’s goal line and 20-yard line where a kickoff must land.' },
         { term: 'Setup zone', desc: 'The 5-yard band between the receiving team’s 30 and 35 where most of the return team lines up on a kickoff.' },
-        { term: 'Line to gain', desc: 'The yard line the offense must reach for a new first down — the yellow line on TV.' },
+        { term: 'Line to gain', desc: 'The yard line the offense must reach for a new first down, the yellow line on TV.' },
         { term: 'Hash marks', desc: 'The rows of short lines (70 ft 9 in from each sideline in the NFL) that mark where the ball is placed for the next play.' },
         { term: 'Personnel', desc: 'Which types of players are on the field, written RBs then TEs (e.g. 11 = 1 RB, 1 TE, 3 WR).' },
         { term: 'Technique', desc: 'A number describing exactly where a defensive lineman aligns on an offensive lineman.' }
       ],
-      edit: { 'Touchback': 'Ball becomes dead behind the goal line and is placed at a rule-defined spot — the 35 on kickoffs (since 2025), the 20 on punts.' }
+      edit: { 'Touchback': 'Ball becomes dead behind the goal line and is placed at a rule-defined spot: the 35 on kickoffs (since 2025), the 20 on punts.' }
     }),
     sources: [
       ['2026 NFL Rulebook', 'https://operations.nfl.com/rules-officiating/2026-nfl-rulebook'],
-      ['NFL Football Operations — Football terms', 'https://operations.nfl.com/rules-officiating/nfl-football-basics/football-terms'],
-      ['NFL — 2026 rule changes approved (Annual League Meeting)', 'https://www.nfl.com/news/'],
-      ['NFL — Dynamic kickoff made permanent, touchbacks to the 35', 'https://www.nfl.com/news/nfl-owners-vote-to-make-dynamic-kickoff-permanent-adjust-ball-spot-on-touchbacks-to-35-yard-line'],
-      ['NFL Football Operations — Rulebook archive', 'https://operations.nfl.com/the-rules/nfl-rulebook']
+      ['NFL Football Operations: Football terms', 'https://operations.nfl.com/rules-officiating/nfl-football-basics/football-terms'],
+      ['NFL: 2026 rule changes approved (Annual League Meeting)', 'https://www.nfl.com/news/'],
+      ['NFL: Dynamic kickoff made permanent, touchbacks to the 35', 'https://www.nfl.com/news/nfl-owners-vote-to-make-dynamic-kickoff-permanent-adjust-ball-spot-on-touchbacks-to-35-yard-line'],
+      ['NFL Football Operations: Rulebook archive', 'https://operations.nfl.com/the-rules/nfl-rulebook']
     ]
   };
 }

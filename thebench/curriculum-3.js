@@ -17,11 +17,11 @@
         why: 'Almost every web bug is answered by looking at one request and one response. Once you can read them, the Network tab stops being noise and becomes the fastest debugging tool you own.',
         analogy: 'Posting a letter with a return address. You state what you want, they post something back, and both envelopes carry notes on the outside.',
         points: [
-          'Method — GET reads, POST creates, PUT replaces, PATCH edits, DELETE removes',
-          'Path — which resource you want',
-          'Headers — information about the message, not the message itself',
-          'Body — the actual payload, on requests that carry one',
-          'Status — a three-digit summary of what happened',
+          ['Method', 'GET reads, POST creates, PUT replaces, PATCH edits, DELETE removes'],
+          ['Path', 'which resource you want'],
+          ['Headers', 'information about the message, not the message itself'],
+          ['Body', 'the actual payload, on requests that carry one'],
+          ['Status', 'a three-digit summary of what happened'],
           'GET should never change anything on the server'
         ],
         lang: 'none',
@@ -64,7 +64,7 @@
           'Missing and null are different, and code must handle both'
         ],
         lang: 'js',
-        code: 'const response = {\n  ok: true,\n  count: 2,\n  orders: [\n    { id: 8812, sku: "BLT-12", qty: 40, shipped: false },\n    { id: 8813, sku: "BRG-22", qty: 2,  shipped: true }\n  ]\n};\n\nconsole.log("Returned " + response.count + " orders");\n\nlet pending = 0;\nfor (const order of response.orders) {\n  const state = order.shipped ? "shipped" : "pending";\n  if (!order.shipped) pending = pending + 1;\n  console.log("  #" + order.id + " " + order.sku + " x" + order.qty + " — " + state);\n}\n\nconsole.log("Still pending: " + pending);',
+        code: 'const response = {\n  ok: true,\n  count: 2,\n  orders: [\n    { id: 8812, sku: "BLT-12", qty: 40, shipped: false },\n    { id: 8813, sku: "BRG-22", qty: 2,  shipped: true }\n  ]\n};\n\nconsole.log("Returned " + response.count + " orders");\n\nlet pending = 0;\nfor (const order of response.orders) {\n  const state = order.shipped ? "shipped" : "pending";\n  if (!order.shipped) pending = pending + 1;\n  console.log("  #" + order.id + " " + order.sku + " x" + order.qty + " · " + state);\n}\n\nconsole.log("Still pending: " + pending);',
         notes: {
           0: 'In JavaScript this is an object literal. Sent over the wire it becomes JSON text.',
           3: 'An array of objects. This is the shape of nearly every list endpoint.',
@@ -86,15 +86,15 @@
         why: 'When a site is unreachable, knowing whether DNS resolved, TLS negotiated, or the app returned an error tells you which of three completely different teams to call.',
         analogy: 'Looking up a phone number, agreeing on a scrambler both handsets understand, and only then starting the conversation.',
         points: [
-          'Registrar — where you buy the name',
-          'Nameserver — which service answers questions about it',
+          ['Registrar', 'where you buy the name'],
+          ['Nameserver', 'which service answers questions about it'],
           'A record points at an IP; CNAME points at another name',
           'TTL controls how long answers are cached, which is why changes feel slow',
           'HTTPS means TLS is wrapping HTTP; the certificate proves identity',
           'A certificate error is a trust failure, not a coding failure'
         ],
         lang: 'none',
-        codeBlock: 'you type            safihardware.com\n\n1. DNS lookup       "what IP is safihardware.com?"\n                    -> 203.0.113.42        (cached for the TTL)\n\n2. TCP connect      open a socket to 203.0.113.42 on port 443\n\n3. TLS handshake    server presents a certificate\n                    browser verifies who signed it\n                    both sides agree on encryption keys\n\n4. HTTP request     GET / HTTP/1.1\n                    Host: safihardware.com\n\n5. HTTP response    200 OK  +  the HTML\n\n6. Browser parses   fetches CSS, JS, images — each one repeats 1-5\n                    (usually reusing the same connection)',
+        codeBlock: 'you type            safihardware.com\n\n1. DNS lookup       "what IP is safihardware.com?"\n                    -> 203.0.113.42        (cached for the TTL)\n\n2. TCP connect      open a socket to 203.0.113.42 on port 443\n\n3. TLS handshake    server presents a certificate\n                    browser verifies who signed it\n                    both sides agree on encryption keys\n\n4. HTTP request     GET / HTTP/1.1\n                    Host: safihardware.com\n\n5. HTTP response    200 OK  +  the HTML\n\n6. Browser parses   fetches CSS, JS, images, each one repeats 1-5\n                    (usually reusing the same connection)',
         terms: ['DNS', 'TLS', 'Certificate', 'IP Address', 'CDN'],
         callout: { kind: 'warn', text: 'DNS changes are not instant. The TTL you set is how long the old answer may keep being served, so lower it before you plan a migration.' }
       }
@@ -190,11 +190,11 @@
         why: 'Choosing a database server for a brochure site wastes money, and choosing static hosting for something needing a secret key is impossible. Matching the model to the need saves both.',
         analogy: 'Renting a shelf, hiring a van by the trip, leasing a truck, or buying the depot.',
         points: [
-          'Static (CDN) — HTML, CSS, JS files only; fastest and cheapest',
-          'Serverless functions — per-request billing, scales to zero, cold starts',
-          'Containers — your process, your dependencies, runs anywhere',
-          'Virtual machines — full control and full responsibility',
-          'Managed platform — you push code, they run it',
+          ['Static (CDN)', 'HTML, CSS, JS files only; fastest and cheapest'],
+          ['Serverless functions', 'per-request billing, scales to zero, cold starts'],
+          ['Containers', 'your process, your dependencies, runs anywhere'],
+          ['Virtual machines', 'full control and full responsibility'],
+          ['Managed platform', 'you push code, they run it'],
           'Anything needing a secret key needs a server, not a browser'
         ],
         lang: 'none',
@@ -271,8 +271,8 @@
         why: 'The classic reporting bug is using an inner join and silently losing every customer who has not ordered yet. The count looks plausible, so nobody notices for months.',
         analogy: 'Laying two lists side by side and lining them up by reference number. Inner join throws away unmatched lines; left join keeps them with blanks.',
         points: [
-          'INNER JOIN — only rows present in both',
-          'LEFT JOIN — all rows from the left, nulls where the right had nothing',
+          ['INNER JOIN', 'only rows present in both'],
+          ['LEFT JOIN', 'all rows from the left, nulls where the right had nothing'],
           'ON says which columns must match',
           'Alias tables (c, o) to keep the query readable',
           'Counting after an inner join silently hides the unmatched rows'
@@ -348,10 +348,10 @@
         points: [
           'BEGIN, then statements, then COMMIT',
           'ROLLBACK undoes everything since BEGIN',
-          'Atomic — all or nothing, never half',
-          'Consistent — the rules hold before and after',
-          'Isolated — concurrent transactions do not see each other half-done',
-          'Durable — once committed it survives a power cut'
+          ['Atomic', 'all or nothing, never half'],
+          ['Consistent', 'the rules hold before and after'],
+          ['Isolated', 'concurrent transactions do not see each other half-done'],
+          ['Durable', 'once committed it survives a power cut']
         ],
         lang: 'sql',
         code: "BEGIN;\n\nUPDATE inventory\n   SET on_hand = on_hand - 40\n WHERE sku = 'BLT-12';\n\nINSERT INTO orders (customer_id, sku, qty, unit_price, status, created_at)\nVALUES (2, 'BLT-12', 40, 0.35, 'pending', '2026-08-25');\n\n-- If the stock went negative, undo everything:\n--   ROLLBACK;\n\nCOMMIT;",
@@ -406,7 +406,7 @@
         why: 'Databases leak. The question is whether the leak hands attackers working passwords or a pile of expensive-to-crack noise.',
         analogy: 'Storing a fingerprint of the key rather than a copy of the key. You can check a key fits without holding one that opens the door.',
         points: [
-          'Use bcrypt, scrypt, or Argon2 — deliberately slow by design',
+          ['Use bcrypt, scrypt, or Argon2', 'deliberately slow by design'],
           'Never MD5 or SHA-256 alone; they are far too fast for passwords',
           'A salt is random per user and prevents precomputed lookup tables',
           'Session cookie or signed token carries identity after login',
@@ -429,7 +429,7 @@
           'SQL: use parameterised queries, never string concatenation',
           'HTML: use textContent, not innerHTML, for anything a user supplied',
           'Validate on the server; client validation is only a convenience',
-          'Allow-lists beat block-lists — define what is valid, reject the rest',
+          ['Allow-lists beat block-lists', 'define what is valid, reject the rest'],
           'Escape at the point of output, based on where it is going'
         ],
         lang: 'js',
@@ -451,7 +451,7 @@
         why: 'Most breaches are not clever. They are an unpatched dependency, an over-permissioned key, or a debug endpoint left exposed.',
         analogy: 'Locking up at night. Not sophisticated, just done consistently every single time.',
         points: [
-          'Least privilege — every key and account gets the minimum it needs',
+          ['Least privilege', 'every key and account gets the minimum it needs'],
           'HTTPS everywhere, with HSTS so downgrades are refused',
           'Patch dependencies; most compromises come through them',
           'Validate and authorize on the server, always',
@@ -481,9 +481,9 @@
         why: 'People memorise commands and stay lost. Understanding the three places means you can reason about a command you have never seen.',
         analogy: 'Your desk, the outbox, and the filing cabinet. Staging is choosing what goes in this envelope.',
         points: [
-          'Working directory — edited but not selected',
-          'Staging area — selected for the next commit',
-          'Repository — committed permanently, with history',
+          ['Working directory', 'edited but not selected'],
+          ['Staging area', 'selected for the next commit'],
+          ['Repository', 'committed permanently, with history'],
           'git add moves working → staging',
           'git commit moves staging → repository',
           'git push sends local commits to the remote',
@@ -622,7 +622,7 @@
           'A Dockerfile lists the steps to build the image',
           'Layers are cached, so put the steps that rarely change first',
           'Containers are disposable; data lives in a volume or a database',
-          'Never bake secrets into an image — anyone with the image has them'
+          ['Never bake secrets into an image', 'anyone with the image has them']
         ],
         lang: 'shell',
         code: '# Dockerfile\nFROM node:22-alpine              # a small, pinned base image\n\nWORKDIR /app\n\nCOPY package*.json ./            # dependency manifest first,\nRUN  npm ci --omit=dev           # so this layer caches between builds\n\nCOPY . .                         # then the source, which changes often\n\nEXPOSE 3000\nUSER node                        # do not run as root\nCMD ["node", "server.js"]',
@@ -643,15 +643,15 @@
         why: 'Alerting on everything trains people to ignore alerts. Alerting on nothing means your users are the monitoring system.',
         analogy: 'Dashboard warning lights. A light for every sensor is noise. A light for "you are about to be stranded" gets acted on.',
         points: [
-          'Logs — what happened, with enough context to reconstruct it',
-          'Metrics — error rate, latency, throughput, saturation',
-          'Traces — one request followed across every service it touched',
+          ['Logs', 'what happened, with enough context to reconstruct it'],
+          ['Metrics', 'error rate, latency, throughput, saturation'],
+          ['Traces', 'one request followed across every service it touched'],
           'Alert on user-visible symptoms, not internal curiosities',
           'Every alert needs a documented action, or delete it',
           'Structured logs are searchable; free-text logs are not'
         ],
         lang: 'js',
-        code: 'const requests = [\n  { path: "/api/orders", ms: 42,   status: 200 },\n  { path: "/api/orders", ms: 38,   status: 200 },\n  { path: "/api/orders", ms: 2100, status: 500 },\n  { path: "/api/parts",  ms: 61,   status: 200 },\n  { path: "/api/orders", ms: 1890, status: 500 }\n];\n\nlet errors = 0;\nlet totalMs = 0;\nlet slowest = 0;\n\nfor (const r of requests) {\n  totalMs = totalMs + r.ms;\n  if (r.status >= 500) errors = errors + 1;\n  if (r.ms > slowest) slowest = r.ms;\n\n  const level = r.status >= 500 ? "ERROR" : "info";\n  console.log(level + "  " + r.path + "  " + r.status + "  " + r.ms + "ms");\n}\n\nconst errorRate = errors / requests.length * 100;\nconsole.log("");\nconsole.log("error rate: " + errorRate + "%");\nconsole.log("avg latency: " + totalMs / requests.length + "ms");\nconsole.log("slowest: " + slowest + "ms");\n\nif (errorRate > 5) {\n  console.log("ALERT: error rate above the 5% threshold — page the on-call engineer");\n}',
+        code: 'const requests = [\n  { path: "/api/orders", ms: 42,   status: 200 },\n  { path: "/api/orders", ms: 38,   status: 200 },\n  { path: "/api/orders", ms: 2100, status: 500 },\n  { path: "/api/parts",  ms: 61,   status: 200 },\n  { path: "/api/orders", ms: 1890, status: 500 }\n];\n\nlet errors = 0;\nlet totalMs = 0;\nlet slowest = 0;\n\nfor (const r of requests) {\n  totalMs = totalMs + r.ms;\n  if (r.status >= 500) errors = errors + 1;\n  if (r.ms > slowest) slowest = r.ms;\n\n  const level = r.status >= 500 ? "ERROR" : "info";\n  console.log(level + "  " + r.path + "  " + r.status + "  " + r.ms + "ms");\n}\n\nconst errorRate = errors / requests.length * 100;\nconsole.log("");\nconsole.log("error rate: " + errorRate + "%");\nconsole.log("avg latency: " + totalMs / requests.length + "ms");\nconsole.log("slowest: " + slowest + "ms");\n\nif (errorRate > 5) {\n  console.log("ALERT: error rate above the 5% threshold. Page the on-call engineer");\n}',
         notes: {
           12: 'Metrics are accumulated as requests flow through, not computed later.',
           17: 'Log level chosen from the outcome, so filtering for real problems works.',
@@ -676,7 +676,7 @@
           'Ship it publicly, even if it is small. Deployment teaches its own lessons.'
         ],
         lang: 'none',
-        codeBlock: 'STEP 1 — a single file\n  a calculator, a unit converter, a countdown timer\n  learns: variables, conditionals, functions, DOM events\n\nSTEP 2 — data that persists\n  a task list, a bookmark manager, an inventory tracker\n  learns: arrays of objects, rendering from state, storage\n\nSTEP 3 — talking to something else\n  a weather board, a currency converter, a GitHub profile viewer\n  learns: HTTP, JSON, async, error and loading states\n\nSTEP 4 — your own backend\n  a link shortener, a notes API, a form-submission endpoint\n  learns: routes, a database, validation, environment variables\n\nSTEP 5 — accounts and deployment\n  add login and ownership checks, then deploy it publicly\n  learns: hashing, sessions, authorization, CI, DNS, TLS\n\nSTEP 6 — do it again, differently\n  rebuild step 4 in C++ or Java\n  learns: which parts were the language and which were the ideas',
+        codeBlock: 'STEP 1: a single file\n  a calculator, a unit converter, a countdown timer\n  learns: variables, conditionals, functions, DOM events\n\nSTEP 2: data that persists\n  a task list, a bookmark manager, an inventory tracker\n  learns: arrays of objects, rendering from state, storage\n\nSTEP 3: talking to something else\n  a weather board, a currency converter, a GitHub profile viewer\n  learns: HTTP, JSON, async, error and loading states\n\nSTEP 4: your own backend\n  a link shortener, a notes API, a form-submission endpoint\n  learns: routes, a database, validation, environment variables\n\nSTEP 5: accounts and deployment\n  add login and ownership checks, then deploy it publicly\n  learns: hashing, sessions, authorization, CI, DNS, TLS\n\nSTEP 6: do it again, differently\n  rebuild step 4 in C++ or Java\n  learns: which parts were the language and which were the ideas',
         terms: ['Project', 'Portfolio', 'Practice'],
         callout: { kind: 'tip', text: 'Step 6 is the one people skip and the one that turns knowledge into understanding. The ideas that survive a language change are the real ones.' }
       }

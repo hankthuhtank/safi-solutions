@@ -1,6 +1,6 @@
-/* Safi Solutions — the hero threads.
-   Forty strands in the logo's two colours (brushed silver and Safi blue) drift in from the edges, knot together, then
-   leave as four clean bundles — one per door. On load the order spreads out from the knot; the pointer pushes strands
+/* Safi Solutions: the hero threads.
+   About forty strands in the logo's two colours (brushed silver and Safi blue) drift in from the edges, knot together,
+   then leave as clean bundles, one per door. On load the order spreads out from the knot; the pointer pushes strands
    aside and they settle back; hovering a door lights its lane and sends signal pulses down it. */
 (() => {
   const hero = document.querySelector('.hero');
@@ -10,7 +10,7 @@
   const copy = hero.querySelector('.hero-copy'), doorsBox = hero.querySelector('.doors');
   const doors = [...hero.querySelectorAll('.door')];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const LANES = doors.length, PER = 10, N = LANES * PER, S = 170, JOIN = .5, SIG = .055;
+  const LANES = doors.length, PER = Math.max(5, Math.round(42 / LANES)), N = LANES * PER, S = 170, JOIN = .5, SIG = .055;
   const TAU = Math.PI * 2;
 
   let seed = 11;

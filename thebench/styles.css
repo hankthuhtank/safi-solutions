@@ -350,6 +350,10 @@ h1.title {
   color: var(--gold-dim); padding-top: 3px;
 }
 .keylist { counter-reset: k; }
+/* term + definition points: the term reads as a label, the definition sits under it */
+.keylist .kp-t { display: block; font-family: var(--mono); font-size: .8rem; font-weight: 600; color: var(--gold); line-height: 1.45; overflow-wrap: anywhere; }
+.keylist .kp-d { display: block; margin-top: 1px; }
+.keylist .kp-d::first-letter { text-transform: uppercase; }
 
 .callout {
   display: grid; grid-template-columns: auto 1fr; gap: 10px;

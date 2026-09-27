@@ -35,7 +35,7 @@ function hole(host) {
     chips.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.k === k)));
     const keep = k ? areas[k][2] : all;
     d.svg.querySelectorAll('[data-layer]').forEach(n => n.style.opacity = keep.includes(n.dataset.layer) || !k ? '' : '.18');
-    const [t, text] = k ? areas[k] : ['The five areas of the course', 'Rule 2.2 divides every course into the **general area**, **teeing area**, **bunkers**, **penalty areas** and **putting green** — plus **out of bounds** beyond the white stakes. Tap one.'];
+    const [t, text] = k ? areas[k] : ['The five areas of the course', 'Rule 2.2 divides every course into the **general area**, **teeing area**, **bunkers**, **penalty areas** and **putting green**, plus **out of bounds** beyond the white stakes. Tap one.'];
     v.className = 'verdict mid'; v.innerHTML = `<strong>${t}</strong>${text.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')}`;
   };
   const b0 = h('button', 'chip', 'All'); b0.type = 'button'; b0.dataset.k = ''; b0.onclick = () => pick(null); chips.append(b0);
@@ -60,7 +60,7 @@ function scoring(host) {
     for (let n = 1; n <= par + 4; n++) { const b = h('button', 'chip', `${n} stroke${n > 1 ? 's' : ''}`); b.type = 'button'; b.setAttribute('aria-pressed', String(n === st)); b.onclick = () => { st = n; render(); }; strokes.append(b); }
     const diff = st - par, name = st === 1 ? `Hole-in-one${diff <= -2 ? ` (${NAMES[diff]})` : ''}` : NAMES[diff] || `+${diff}`;
     v.className = 'verdict ' + (diff < 0 ? 'ok' : diff === 0 ? 'mid' : 'bad');
-    v.innerHTML = `<strong>${name} · ${diff > 0 ? '+' : ''}${diff === 0 ? 'E' : diff}</strong>${st} strokes on a par ${par}. ${diff < 0 ? 'Under par — every stroke below par is a stroke gained on the course.' : diff === 0 ? 'Even par: what a skilled player is expected to score.' : 'Over par. On a scorecard, bogeys are often shown with a square and birdies with a circle.'}`;
+    v.innerHTML = `<strong>${name} · ${diff > 0 ? '+' : ''}${diff === 0 ? 'E' : diff}</strong>${st} strokes on a par ${par}. ${diff < 0 ? 'Under par: every stroke below par is a stroke gained on the course.' : diff === 0 ? 'Even par: what a skilled player is expected to score.' : 'Over par. On a scorecard, bogeys are often shown with a square and birdies with a circle.'}`;
     card.innerHTML = [-3, -2, -1, 0, 1, 2].map(k => `<div style="padding:10px;border:1px solid ${k === diff ? 'var(--yellow)' : 'var(--line)'};border-radius:4px;background:var(--panel);text-align:center"><b style="font:800 22px/1 var(--display);color:${k < 0 ? 'var(--green)' : k === 0 ? 'var(--chalk)' : 'var(--orange)'}">${k > 0 ? '+' : ''}${k === 0 ? 'E' : k}</b><div style="font:600 10px var(--mono);color:var(--muted);letter-spacing:.06em;margin-top:6px;text-transform:uppercase">${NAMES[k]}</div></div>`).join('');
   };
   pars.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { par = +b.dataset.p; st = Math.min(st, par + 4); render(); } });
@@ -73,7 +73,7 @@ function bag(host) {
   const tool = h('div', 'tool'); body.append(tool);
   tool.innerHTML = `<div class="tool-row"><label for="g7">Your 7-iron carry <b></b></label><input id="g7" type="range" min="100" max="190" value="150"></div>`;
   const list = h('div'); list.style.cssText = 'display:grid;gap:6px';
-  tool.append(list, h('p', 'kicker', 'Ratios from TrackMan PGA Tour averages (driver ≈ 1.6× a 7-iron). Gap, sand and lob wedges are estimates — full-swing wedge carries vary most between players.'));
+  tool.append(list, h('p', 'kicker', 'Ratios from TrackMan PGA Tour averages (driver ≈ 1.6× a 7-iron). Gap, sand and lob wedges are estimates; full-swing wedge carries vary most between players.'));
   // [club, loft, ratio to 7-iron carry, estimated?]
   const C = [['Driver', '10.5°', 1.60], ['3-wood', '15°', 1.41], ['5-wood', '18°', 1.34], ['Hybrid', '21°', 1.31], ['4-iron', '22°', 1.18], ['5-iron', '25°', 1.13], ['6-iron', '28°', 1.06], ['7-iron', '32°', 1.00], ['8-iron', '36°', .93], ['9-iron', '40°', .86], ['Pitching wedge', '45°', .79], ['Gap wedge', '50°', .72, 1], ['Sand wedge', '56°', .63, 1], ['Lob wedge', '60°', .55, 1]];
   const inp = tool.querySelector('#g7');
@@ -142,7 +142,7 @@ function putt(host) {
   <div class="tool-row"><label for="pt-s">Slope <b></b></label><input id="pt-s" type="range" min="0" max="4" step=".25" value="2"></div>
   <div class="tool-row"><label for="pt-a">Slope falls toward <b></b></label><input id="pt-a" type="range" min="0" max="345" step="15" value="0"></div>
   <div class="tool-row"><label for="pt-st">Green speed (Stimpmeter) <b></b></label><input id="pt-st" type="range" min="7" max="14" step=".5" value="11"></div>`;
-  const ro = h('div', 'readout'); const v = h('div', 'verdict'); right.append(ro, v, h('p', 'kicker', 'Aims for the ball to finish about 17 inches past the hole if it missed — the pace most putting research recommends.'));
+  const ro = h('div', 'readout'); const v = h('div', 'verdict'); right.append(ro, v, h('p', 'kicker', 'Aims for the ball to finish about 17 inches past the hole if it missed, the pace most putting research recommends.'));
   const G = 32.17, HOLE_R = 4.25 / 24;
   const sim = (D, slope, fall, stimp, ang, v0, record) => {
     // math coords (feet): ball at (0,-D), hole at (0,0); fall = downhill direction (radians, 0 = +x)
@@ -219,7 +219,7 @@ function relief(host) {
   const view = [-58, -392, 92, 150];
   const U = [69, -205], C = [52, -262];
   sceneSwitcher(stage, d, {
-    red: { chip: 'Red penalty area', title: 'Ball in a red penalty area — three options', about: 'One penalty stroke for any of them: (1) stroke-and-distance from where you last played; (2) back-on-the-line: keep the point where the ball last crossed into the area between you and the hole, and drop on that line as far back as you like; (3) red only — lateral relief within two club-lengths of that point, no nearer the hole.', view,
+    red: { chip: 'Red penalty area', title: 'Ball in a red penalty area: three options', about: 'One penalty stroke for any of them: (1) stroke-and-distance from where you last played; (2) back-on-the-line: keep the point where the ball last crossed into the area between you and the hole, and drop on that line as far back as you like; (3) red only: lateral relief within two club-lengths of that point, no nearer the hole.', view,
       players: [{ id: 'b', label: '', team: 'n', x: B[0], y: B[1], r: 1.8, info: 'Your ball, in the water.' }],
       marks: [
         { type: 'line', x1: H[0], y1: H[1], x2: behind(70)[0], y2: behind(70)[1], tone: 'ltg', label: '② BACK-ON-THE-LINE', fs: 4.2, lx: behind(46)[0] - 3, ly: behind(46)[1] },
@@ -229,8 +229,8 @@ function relief(host) {
         { type: 'circle', x: X[0], y: X[1], r: 1.4, tone: 'hot', label: '', pill: false }
       ],
       paths: [{ kind: 'shot', fromPt: P0, toPt: B, t: .2, d: 1, bend: .15 }],
-      captions: [{ t: 0, text: 'The approach from the fairway drifts left and splashes into the red penalty area.' }, { t: 1.2, text: 'Everything is measured from where it last crossed the red line (the red dot) — not where it finished.' }] },
-    yellow: { chip: 'Yellow penalty area', title: 'Ball in a yellow penalty area', about: 'Same as red, minus lateral relief: stroke-and-distance, or back-on-the-line — one penalty stroke either way. (Or play the ball as it lies, with no penalty, if you can.)', static: true, view,
+      captions: [{ t: 0, text: 'The approach from the fairway drifts left and splashes into the red penalty area.' }, { t: 1.2, text: 'Everything is measured from where it last crossed the red line (the red dot), not where it finished.' }] },
+    yellow: { chip: 'Yellow penalty area', title: 'Ball in a yellow penalty area', about: 'Same as red, minus lateral relief: stroke-and-distance, or back-on-the-line, one penalty stroke either way. (Or play the ball as it lies, with no penalty, if you can.)', static: true, view,
       players: [{ id: 'b', label: '', team: 'n', x: B[0], y: B[1], r: 1.8 }],
       marks: [
         { type: 'line', x1: H[0], y1: H[1], x2: behind(70)[0], y2: behind(70)[1], tone: 'ltg', label: 'BACK-ON-THE-LINE', fs: 4.2, lx: behind(46)[0] - 3, ly: behind(46)[1] },

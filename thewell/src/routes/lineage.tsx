@@ -8,7 +8,7 @@ export const Route = createFileRoute("/lineage")({ component: LineagePage });
 function LineagePage() {
   return (
     <main className="px-4 py-8 sm:px-8">
-      <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">Family tree</p>
+      <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">Family tree</p>
       <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
         Lineage
       </h1>
@@ -20,7 +20,7 @@ function LineagePage() {
       <div className="mt-12 space-y-16">
         {FAMILIES.map((fam) => (
           <section key={fam.id}>
-            <p className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
+            <p className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
               {fam.formula}
             </p>
             <h2 className="mt-2 font-display text-3xl">{fam.name}</h2>
@@ -32,7 +32,7 @@ function LineagePage() {
                 return (
                   <li key={id} className="flex shrink-0 items-end">
                     {idx > 0 ? (
-                      <span className="mb-16 px-1 font-mono text-[11px] text-subtle">→</span>
+                      <span className="mb-16 px-1 font-mono text-[10px] text-subtle">→</span>
                     ) : null}
                     <Link
                       to="/d/$slug"

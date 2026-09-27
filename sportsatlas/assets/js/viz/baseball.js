@@ -13,15 +13,15 @@ const R = NARROW ? 16 : 8;
 const OPT = { sport: 'baseball', orient: 'h', r: R };
 
 const POS = {
-  P: { n: 1, name: 'Pitcher', at: [0, -59.6], info: 'Pitcher (1) — delivers every pitch, then becomes a fifth infielder: fields bunts, covers first on balls to the right side, backs up bases on throws.' },
-  C: { n: 2, name: 'Catcher', at: [0, 5], info: 'Catcher (2) — receives pitches, calls the game with the pitcher, blocks balls in the dirt and throws out base stealers.' },
-  '1B': { n: 3, name: 'First baseman', at: polar(108, 39), info: 'First baseman (3) — takes most infield throws for outs, holds runners on, fields the right side.' },
-  '2B': { n: 4, name: 'Second baseman', at: polar(148, 17), info: 'Second baseman (4) — right side of second base; turns double plays and is the cutoff on many throws.' },
-  '3B': { n: 5, name: 'Third baseman', at: polar(112, -39), info: 'Third baseman (5) — the “hot corner”: hard-hit balls, bunts and the long throw across the diamond.' },
-  SS: { n: 6, name: 'Shortstop', at: polar(146, -17), info: 'Shortstop (6) — the infield’s range-and-arm position; leads cutoffs and double plays.' },
-  LF: { n: 7, name: 'Left fielder', at: polar(285, -28), info: 'Left fielder (7) — covers left field; backs up third base.' },
-  CF: { n: 8, name: 'Center fielder', at: polar(318, 0), info: 'Center fielder (8) — most ground to cover; has priority on fly balls he can reach.' },
-  RF: { n: 9, name: 'Right fielder', at: polar(285, 28), info: 'Right fielder (9) — usually the strongest outfield arm (long throw to third).' }
+  P: { n: 1, name: 'Pitcher', at: [0, -59.6], info: 'Pitcher (1): delivers every pitch, then becomes a fifth infielder: fields bunts, covers first on balls to the right side, backs up bases on throws.' },
+  C: { n: 2, name: 'Catcher', at: [0, 5], info: 'Catcher (2): receives pitches, calls the game with the pitcher, blocks balls in the dirt and throws out base stealers.' },
+  '1B': { n: 3, name: 'First baseman', at: polar(108, 39), info: 'First baseman (3): takes most infield throws for outs, holds runners on, fields the right side.' },
+  '2B': { n: 4, name: 'Second baseman', at: polar(148, 17), info: 'Second baseman (4): right side of second base; turns double plays and is the cutoff on many throws.' },
+  '3B': { n: 5, name: 'Third baseman', at: polar(112, -39), info: 'Third baseman (5): the “hot corner”: hard-hit balls, bunts and the long throw across the diamond.' },
+  SS: { n: 6, name: 'Shortstop', at: polar(146, -17), info: 'Shortstop (6): the infield’s range-and-arm position; leads cutoffs and double plays.' },
+  LF: { n: 7, name: 'Left fielder', at: polar(285, -28), info: 'Left fielder (7): covers left field; backs up third base.' },
+  CF: { n: 8, name: 'Center fielder', at: polar(318, 0), info: 'Center fielder (8): most ground to cover; has priority on fly balls he can reach.' },
+  RF: { n: 9, name: 'Right fielder', at: polar(285, 28), info: 'Right fielder (9): usually the strongest outfield arm (long throw to third).' }
 };
 const fielders = (over = {}, o = {}) => Object.entries(POS).map(([k, p]) => ({ id: k, label: o.numbers ? String(p.n) : k, name: p.name, team: 'd', x: (over[k] || p.at)[0], y: (over[k] || p.at)[1], info: p.info }));
 
@@ -125,7 +125,7 @@ function abs(host) {
     pending = { truth, ump, x, yIn };
     s('circle', { cx: x, cy: 84 - yIn, r: 1.45, fill: truth ? '#ffd400' : '#fff', 'fill-opacity': .9, stroke: '#000', 'stroke-width': .25 }, pitches);
     call.className = 'verdict mid';
-    call.innerHTML = `<strong>Umpire: ${ump ? 'Strike' : 'Ball'}</strong>${Math.abs(dist) < 2.2 ? 'That one was close to the edge. Think the umpire missed it? Challenge.' : 'Clear call — challenging this would probably waste one.'}`;
+    call.innerHTML = `<strong>Umpire: ${ump ? 'Strike' : 'Ball'}</strong>${Math.abs(dist) < 2.2 ? 'That one was close to the edge. Think the umpire missed it? Challenge.' : 'Clear call. Challenging this would probably waste one.'}`;
     btn.disabled = challenges <= 0;
     if (pitches.children.length > 12) pitches.firstChild.remove();
   });
@@ -134,7 +134,7 @@ function abs(host) {
     const right = pending.truth !== pending.ump;
     if (!right) challenges--;
     call.className = 'verdict ' + (right ? 'ok' : 'bad');
-    call.innerHTML = `<strong>ABS: ${pending.truth ? 'Strike' : 'Ball'} — ${right ? 'overturned' : 'call stands'}</strong>${right ? 'Challenge won: the team keeps it.' : 'Challenge lost.'} ${challenges} left.${challenges === 0 ? ' No more challenges this game (one is added for each extra inning).' : ''}`;
+    call.innerHTML = `<strong>ABS: ${pending.truth ? 'Strike' : 'Ball'} · ${right ? 'overturned' : 'call stands'}</strong>${right ? 'Challenge won: the team keeps it.' : 'Challenge lost.'} ${challenges} left.${challenges === 0 ? ' No more challenges this game (one is added for each extra inning).' : ''}`;
     pending = null; btn.disabled = true; renderZone();
   };
   reset.onclick = () => { challenges = 2; pitches.innerHTML = ''; pending = null; btn.disabled = true; call.className = 'verdict'; call.innerHTML = '<strong>Play ball</strong>Tap the zone to throw a pitch.'; renderZone(); };
@@ -160,14 +160,14 @@ function count(host) {
   const gridEl = h('div'); const info = h('div', 'tool'); wrap.append(gridEl, info);
   const edge = { '3-0': 3, '2-0': 2, '3-1': 2, '1-0': 1, '2-1': 1, '3-2': 0, '0-0': 0, '1-1': 0, '2-2': -1, '0-1': -1, '1-2': -2, '0-2': -3 };
   const text = {
-    '0-0': 'Neutral. Pitchers want strike one — the most important pitch in many at-bats. Some hitters ambush a first-pitch fastball.',
+    '0-0': 'Neutral. Pitchers want strike one, the most important pitch in many at-bats. Some hitters ambush a first-pitch fastball.',
     '1-0': 'Hitter’s count. The pitcher now wants to avoid 2-0, so a strike is likely.',
     '2-0': 'Strong hitter’s count: expect a strike, often a fastball. Hitters look for one spot and swing hard.',
     '3-0': 'Best hitter’s count. Many hitters take (don’t swing) unless given the “green light”; the pitcher must throw a strike or walk him.',
     '0-1': 'Pitcher ahead. The hitter must now protect more of the zone.',
-    '1-1': 'Even. The next pitch swings the at-bat either way — a big “leverage pitch”.',
+    '1-1': 'Even. The next pitch swings the at-bat either way, a big “leverage pitch”.',
     '2-1': 'Slight hitter edge. Pitchers still need strikes, hitters can still be selective.',
-    '3-1': 'Hitter’s count. The pitcher can’t afford ball four — hitters hunt a pitch to drive.',
+    '3-1': 'Hitter’s count. The pitcher can’t afford ball four; hitters hunt a pitch to drive.',
     '0-2': 'Pitcher’s best count. Time to “expand”: chase pitches just off the zone. Hitters shorten up and protect.',
     '1-2': 'Pitcher ahead. Breaking balls out of the zone are the classic putaway pitch.',
     '2-2': 'Battle count. The pitcher can waste one; the hitter must defend the plate.',
@@ -190,11 +190,11 @@ function pitchesViz(host) {
   const left = h('div'); const right = h('div', 'tool'); wrap.append(left, right);
   // x: horizontal break in inches (+ = arm side for the chosen hand, drawn from the pitcher's view); y: induced vertical break
   const P = [
-    { k: 'FF', name: 'Four-seam fastball', v: 94.5, hb: 7, ivb: 16, c: '#ef4136', d: 'The most-thrown pitch. Backspin makes it drop less than hitters expect — the “rising” fastball.' },
+    { k: 'FF', name: 'Four-seam fastball', v: 94.5, hb: 7, ivb: 16, c: '#ef4136', d: 'The most-thrown pitch. Backspin makes it drop less than hitters expect: the “rising” fastball.' },
     { k: 'SI', name: 'Sinker', v: 93.5, hb: 15, ivb: 8, c: '#ff8a3d', d: 'Fastball with more arm-side run and less lift: aimed at ground balls.' },
-    { k: 'FC', name: 'Cutter', v: 89, hb: -2.5, ivb: 9, c: '#c07bff', d: 'Fastball that breaks late toward the glove side — small, sharp and hard.' },
+    { k: 'FC', name: 'Cutter', v: 89, hb: -2.5, ivb: 9, c: '#c07bff', d: 'Fastball that breaks late toward the glove side, small, sharp and hard.' },
     { k: 'SL', name: 'Slider', v: 85.5, hb: -5, ivb: 1.5, c: '#ffd400', d: 'Breaking ball with glove-side and downward movement.' },
-    { k: 'ST', name: 'Sweeper', v: 82, hb: -15, ivb: 0, c: '#e8e36a', d: 'Slider that moves mostly sideways — often 15+ inches across the plate.' },
+    { k: 'ST', name: 'Sweeper', v: 82, hb: -15, ivb: 0, c: '#e8e36a', d: 'Slider that moves mostly sideways, often 15+ inches across the plate.' },
     { k: 'CU', name: 'Curveball', v: 79.5, hb: -9, ivb: -10, c: '#3d8bff', d: 'Topspin makes it drop far more than a spinless ball: the “12-to-6” family.' },
     { k: 'CH', name: 'Changeup', v: 85.5, hb: 14, ivb: 6, c: '#2fcf7a', d: 'Thrown with fastball arm speed but ~8–10 mph slower, fading to the arm side.' },
     { k: 'FS', name: 'Splitter', v: 86, hb: 9.5, ivb: 2.5, c: '#5ed6c6', d: 'Low spin: looks like a fastball, then “tumbles” as it reaches the plate.' },
@@ -285,7 +285,7 @@ function force(host) {
     toggles.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(st.on[b.dataset.n])));
     outs.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.o === st.outs)));
     const forced = { 1: st.on[1], 2: st.on[1] && st.on[2], 3: st.on[1] && st.on[2] && st.on[3] };
-    const players = [{ id: 'BR', label: 'BAT', team: 'o', x: -3, y: -1, hl: true, info: 'The batter becomes a runner the moment he hits the ball — which is what creates force plays.' }];
+    const players = [{ id: 'BR', label: 'BAT', team: 'o', x: -3, y: -1, hl: true, info: 'The batter becomes a runner the moment he hits the ball, which is what creates force plays.' }];
     const marks = [{ type: 'circle', x: B1[0], y: B1[1], r: 7, tone: 'hot' }];
     [1, 2, 3].forEach(n => { if (!st.on[n]) return; const [x, y] = bases[n]; players.push({ id: 'R' + n, label: 'R' + n, team: 'o', x, y: y + (n === 2 ? 4 : 0), hl: forced[n], info: forced[n] ? `Forced: must run to ${n === 3 ? 'home' : 'the next base'} on a ground ball.` : 'Not forced: can stay put; must be tagged if he runs.' }); if (forced[n]) { const nx = bases[n + 1]; marks.push({ type: 'circle', x: nx[0], y: nx[1], r: 7, tone: 'hot' }); } });
     d.load({ static: true, view: INF, players, marks });
@@ -293,8 +293,8 @@ function force(host) {
     if (forced[1]) fb.push('second'); if (forced[2]) fb.push('third'); if (forced[3]) fb.push('home');
     const dp = st.outs < 2 && st.on[1], ifr = st.outs < 2 && st.on[1] && st.on[2], sac = st.outs < 2 && st.on[3];
     out.className = 'verdict mid';
-    out.innerHTML = `<strong>Force outs possible at ${fb.join(', ')}</strong>${fb.length > 1 ? 'Step on the base ahead of a forced runner (holding the ball) and he is out — no tag needed.' : 'Only the batter is forced.'}
-      <ul class="bullets" style="margin-top:10px">${dp ? '<li><b>Double play is on:</b> a ground ball can get two outs.</li>' : ''}${ifr ? '<li><b>Infield fly rule is in effect:</b> a routine pop-up in the infield is an automatic out, so the defense can’t drop it on purpose for a double play.</li>' : ''}${sac ? '<li><b>Sacrifice fly possible:</b> the runner on third can tag up and score after a catch.</li>' : ''}${st.outs === 2 ? '<li><b>Two outs:</b> runners go on contact — any out ends the inning.</li>' : ''}${[1, 2, 3].some(n => st.on[n] && !forced[n]) ? '<li>Runners without a force must be <b>tagged</b> if they try to advance.</li>' : ''}</ul>`;
+    out.innerHTML = `<strong>Force outs possible at ${fb.join(', ')}</strong>${fb.length > 1 ? 'Step on the base ahead of a forced runner (holding the ball) and he is out, no tag needed.' : 'Only the batter is forced.'}
+      <ul class="bullets" style="margin-top:10px">${dp ? '<li><b>Double play is on:</b> a ground ball can get two outs.</li>' : ''}${ifr ? '<li><b>Infield fly rule is in effect:</b> a routine pop-up in the infield is an automatic out, so the defense can’t drop it on purpose for a double play.</li>' : ''}${sac ? '<li><b>Sacrifice fly possible:</b> the runner on third can tag up and score after a catch.</li>' : ''}${st.outs === 2 ? '<li><b>Two outs:</b> runners go on contact, since any out ends the inning.</li>' : ''}${[1, 2, 3].some(n => st.on[n] && !forced[n]) ? '<li>Runners without a force must be <b>tagged</b> if they try to advance.</li>' : ''}</ul>`;
   }
   render();
 }
@@ -311,7 +311,7 @@ function alignments(host) {
     infield: sc('Infield in', 'Infield in', 'Runner on third, fewer than two outs, run matters: infielders play on the grass to throw the runner out at home. Grounders that would be outs now get through.', { '1B': polar(86, 41), '2B': polar(100, 17), SS: polar(100, -17), '3B': polar(86, -41) }),
     bunt: sc('Corners in', 'Corners in (bunt defense)', 'First and third basemen charge toward the plate to field a bunt; the middle infielders rotate to cover the bases.', { '1B': polar(64, 38), '3B': polar(64, -38), '2B': polar(96, 44) }),
     nodoubles: sc('No-doubles', 'No-doubles defense', 'Late with a small lead: outfielders play deep and the corner outfielders guard the lines, giving up singles to prevent extra-base hits.', { LF: polar(318, -35), CF: polar(350, 0), RF: polar(318, 35), '1B': polar(100, 43), '3B': polar(104, -43) }),
-    illegal: sc('Old “shift” (illegal)', 'The overloaded shift — illegal since 2023', 'Three infielders on the right side for a pull-hitting lefty. Since 2023 this is illegal: two infielders must be on each side of second base, all four on the dirt. The penalty is an automatic ball (or the offense takes the play result).', { '3B': polar(145, -10), SS: polar(150, 8), '2B': polar(178, 26) }, { marks: [...line2B, { type: 'path', d: `M0,-127 L${polar(260, 5)} L${polar(260, 45)} L${B1} Z`, tone: 'hot', under: true }] })
+    illegal: sc('Old “shift” (illegal)', 'The overloaded shift, illegal since 2023', 'Three infielders on the right side for a pull-hitting lefty. Since 2023 this is illegal: two infielders must be on each side of second base, all four on the dirt. The penalty is an automatic ball (or the offense takes the play result).', { '3B': polar(145, -10), SS: polar(150, 8), '2B': polar(178, 26) }, { marks: [...line2B, { type: 'path', d: `M0,-127 L${polar(260, 5)} L${polar(260, 45)} L${B1} Z`, tone: 'hot', under: true }] })
   }, { label: 'Alignment', noAutoplay: true });
 }
 
@@ -340,7 +340,7 @@ function relay(host) {
       { kind: 'toss', fromPt: [120, -236], toPt: [-8, -126], t: 1.55, d: .9, bend: .05 },
       { kind: 'toss', fromPt: [-8, -126], toPt: [-60, -68], t: 2.55, d: .55, bend: .05 }
     ],
-    captions: [{ t: 0, text: 'Runner on first. Line drive single into right field.' }, { t: .7, text: 'The shortstop races to line up between the right fielder and third base: the cutoff. The pitcher runs to back up third.' }, { t: 1.6, text: 'The right fielder hits the cutoff man chest-high…' }, { t: 2.55, text: '…and the relay goes to third, where the runner arrives just in time — a bang-bang play.' }]
+    captions: [{ t: 0, text: 'Runner on first. Line drive single into right field.' }, { t: .7, text: 'The shortstop races to line up between the right fielder and third base: the cutoff. The pitcher runs to back up third.' }, { t: 1.6, text: 'The right fielder hits the cutoff man chest-high…' }, { t: 2.55, text: '…and the relay goes to third, where the runner arrives just in time: a bang-bang play.' }]
   });
 }
 
@@ -361,7 +361,7 @@ function baseout(host) {
   body.append(table, tool);
   const explain = (k, o) => { v.className = 'verdict mid'; v.innerHTML = `<strong>${names[k]}, ${o} out${o === 1 ? '' : 's'}: ${RE[k][o].toFixed(3)} runs</strong>On average, this is how many runs scored from here to the end of the inning.`; table.querySelectorAll('.re-cell').forEach(b => b.style.outline = b.dataset.k === k && +b.dataset.o === o ? '2px solid #fff' : 'none'); };
   const compare = (label, a, b, why) => { const [ka, oa] = a, [kb, ob] = b; const dv = RE[kb][ob] - RE[ka][oa]; v.className = 'verdict ' + (dv >= 0 ? 'ok' : 'bad'); v.innerHTML = `<strong>${label}: ${dv >= 0 ? '+' : ''}${dv.toFixed(3)} runs</strong>${names[ka]}, ${oa} out (${RE[ka][oa].toFixed(3)}) → ${names[kb]}, ${ob} out${ob === 1 ? '' : 's'} (${RE[kb][ob].toFixed(3)}). ${why}`; table.querySelectorAll('.re-cell').forEach(btn => btn.style.outline = (btn.dataset.k === ka && +btn.dataset.o === oa) || (btn.dataset.k === kb && +btn.dataset.o === ob) ? '2px solid #fff' : 'none'); };
-  [['Sacrifice bunt (runner on 1st, 0 out)', ['1__', 0], ['_2_', 1], 'Trading an out for a base usually costs runs — one reason teams bunt far less than they used to (it can still make sense late when one run matters most).'],
+  [['Sacrifice bunt (runner on 1st, 0 out)', ['1__', 0], ['_2_', 1], 'Trading an out for a base usually costs runs, one reason teams bunt far less than they used to (it can still make sense late when one run matters most).'],
    ['Successful steal of 2nd (0 out)', ['1__', 0], ['_2_', 0], 'A stolen base adds value…'],
    ['Caught stealing (0 out)', ['1__', 0], ['___', 1], '…but getting caught costs far more. That is why steals need a high success rate to be worth it.'],
    ['Intentional walk (2nd & 3rd, 1 out)', ['_23', 1], ['123', 1], 'It sets up a force at every base and a possible double play, but it also adds a runner.']
@@ -380,7 +380,7 @@ function statcalc(host) {
   const right = h('div', 'tool'); const ro = h('div', 'readout'); const expl = h('p', 'note'); right.append(ro, expl);
   wrap.append(form, right);
   const val = k => Math.max(0, +form.querySelector('#sc-' + k).value || 0);
-  const fmt = x => isFinite(x) ? x.toFixed(3).replace(/^0/, '') : '—';
+  const fmt = x => isFinite(x) ? x.toFixed(3).replace(/^0/, '') : '–';
   const run = () => {
     const ab = val('ab'), H = val('h'), d2 = val('d'), t3 = val('t'), hr = val('hr'), bb = val('bb'), hbp = val('hbp'), sf = val('sf');
     const singles = Math.max(0, H - d2 - t3 - hr), tb = singles + 2 * d2 + 3 * t3 + 4 * hr;

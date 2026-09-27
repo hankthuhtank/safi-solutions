@@ -22,14 +22,14 @@ export function DrinkTicket({ drink, service = false }: { drink: Drink; service?
       <div className={cn("flex flex-col gap-8 lg:flex-row lg:items-start", service && "lg:gap-16")}>
         <div className="flex shrink-0 flex-col items-center lg:w-[280px]">
           <DrinkGlass drink={drink} size="xl" pour />
-          <p className="mt-4 font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">
+          <p className="mt-4 font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">
             {GLASS_LABEL[drink.glass]} · {METHOD_LABEL[drink.method]}
             {drink.ice !== "none" ? ` · ${drink.ice.replace("-", " ")} ice` : ""}
           </p>
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="font-mono text-[11px] tracking-[0.22em] text-subtle uppercase">
+          <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">
             {FAMILY_LABEL[drink.family]} · {drink.abv}% ABV
             {drink.zero ? " · zero-proof" : ""}
           </p>
@@ -111,7 +111,7 @@ export function DrinkTicket({ drink, service = false }: { drink: Drink; service?
 
               {drink.related.filter((id) => drinkById.has(id)).length ? (
                 <div className="mt-10">
-                  <p className="font-mono text-[11px] tracking-[0.2em] text-subtle uppercase">
+                  <p className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">
                     Next to it
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -157,7 +157,7 @@ function Taste({ drink }: { drink: Drink }) {
     <div className="mt-10 grid gap-3 sm:grid-cols-3">
       {rows.map(([a, av, b, bv]) => (
         <div key={a}>
-          <div className="mb-1 flex justify-between font-mono text-[11px] tracking-[0.16em] text-subtle uppercase">
+          <div className="mb-1 flex justify-between font-mono text-[10px] tracking-[0.16em] text-subtle uppercase">
             <span>{a}</span>
             <span>{b}</span>
           </div>

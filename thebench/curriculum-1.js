@@ -17,10 +17,10 @@
         why: 'When a language looks like noise, this is the reduction that saves you: find the data, find the rule, find the output. Syntax is the last thing that matters, not the first.',
         analogy: 'A recipe card. Ingredients are data, steps are rules, the plated dish is output. The machine is a cook who never guesses and never skips a step.',
         points: [
-          'Input — information arriving from a person, a file, or another system',
-          'State — what the program currently remembers',
-          'Logic — rules that transform or judge that state',
-          'Output — what a person or another system finally sees',
+          ['Input', 'information arriving from a person, a file, or another system'],
+          ['State', 'what the program currently remembers'],
+          ['Logic', 'rules that transform or judge that state'],
+          ['Output', 'what a person or another system finally sees'],
           'Everything else you will learn is a way to organise those four'
         ],
         lang: 'cpp',
@@ -46,9 +46,9 @@
         why: 'This single difference explains why C++ yells at you before you run anything, why a JavaScript typo can sit quietly in production for a month, and why Java needs a JVM installed.',
         analogy: 'Compiling is translating a whole book before handing it over. Interpreting is a live translator speaking one sentence at a time. Bytecode is translating into a shared shorthand that any trained reader can pick up.',
         points: [
-          'Compiled (C++, Rust, Go) — errors surface before running; output is a native binary',
-          'Bytecode (Java, C#) — compile once, run on any machine with the virtual machine',
-          'Interpreted (JavaScript, Python) — runs immediately; some errors only appear when reached',
+          ['Compiled (C++, Rust, Go)', 'errors surface before running; output is a native binary'],
+          ['Bytecode (Java, C#)', 'compile once, run on any machine with the virtual machine'],
+          ['Interpreted (JavaScript, Python)', 'runs immediately; some errors only appear when reached'],
           'None of these are "better". They trade startup speed against safety and portability.'
         ],
         lang: 'java',
@@ -60,7 +60,7 @@
           7: 'Same instruction, different result, because the state changed in between.'
         },
         terms: ['Compiler', 'Runtime', 'Bytecode'],
-        callout: { kind: 'note', text: 'Step through this with the scrubber and watch filesChecked change. Same line, different value — that is state.' }
+        callout: { kind: 'note', text: 'Step through this with the scrubber and watch filesChecked change. Same line, different value: that is state.' }
       },
       {
         id: 'reading-errors',
@@ -70,10 +70,10 @@
         why: 'Most people delete code at random when something breaks. The error already told them where to look. Reading it carefully is the single highest-return habit in programming.',
         analogy: 'A smoke alarm tells you which room. It does not tell you which pan. But knowing the room saves you searching the whole house.',
         points: [
-          'Type — is it a syntax error, a type error, or a runtime error?',
-          'Message — the plain-English complaint',
-          'Location — file and line number, which is where it was noticed, not always where it started',
-          'Trace — the chain of calls that got there, read bottom-up',
+          ['Type', 'is it a syntax error, a type error, or a runtime error?'],
+          ['Message', 'the plain-English complaint'],
+          ['Location', 'file and line number, which is where it was noticed, not always where it started'],
+          ['Trace', 'the chain of calls that got there, read bottom-up'],
           'Syntax errors happen before running. Runtime errors happen during.'
         ],
         lang: 'cpp',
@@ -100,12 +100,12 @@
         why: 'Beginners often think "learning to code" means learning a language. In practice most confusion comes from the tools around the language, not the language itself.',
         analogy: 'A workshop. The language is the material you cut. Everything else is the saw, the bench, the tape measure, and the truck that delivers it.',
         points: [
-          'Editor / IDE — where you type (VS Code, IntelliJ, Vim)',
-          'Compiler or runtime — turns text into behaviour (g++, javac + JVM, Node)',
-          'Package manager — installs libraries (npm, Maven, vcpkg)',
-          'Version control — records history and enables undo (Git)',
-          'Build tool — automates the chain (make, Gradle, Vite)',
-          'Host — runs it somewhere the public can reach (a server, a CDN)'
+          ['Editor / IDE', 'where you type (VS Code, IntelliJ, Vim)'],
+          ['Compiler or runtime', 'turns text into behaviour (g++, javac + JVM, Node)'],
+          ['Package manager', 'installs libraries (npm, Maven, vcpkg)'],
+          ['Version control', 'records history and enables undo (Git)'],
+          ['Build tool', 'automates the chain (make, Gradle, Vite)'],
+          ['Host', 'runs it somewhere the public can reach (a server, a CDN)']
         ],
         lang: 'none',
         codeBlock: 'my-app/\n├─ src/\n│  ├─ main.cpp          the code you write\n│  └─ helpers.cpp       more of it, split by job\n├─ include/             shared declarations\n├─ tests/               proof it still works\n├─ build/               compiler output, never edited by hand\n├─ .gitignore           what version control should ignore\n├─ Makefile             the recipe that runs the compiler\n└─ README.md            how a human starts this project',
@@ -129,12 +129,12 @@
         why: 'This skeleton never changes. Once these six lines feel boring, every C++ file you open will have a familiar shape.',
         analogy: 'A letter. The includes are the stationery you gather, main is the body, and cout is dropping it in the postbox.',
         points: [
-          '#include <iostream> — brings in input and output tools',
-          'using namespace std; — lets you write cout instead of std::cout',
-          'int main() — the one function that runs automatically',
-          'cout << value — sends a value to the screen',
-          'endl — ends the line',
-          'return 0; — tells the operating system it finished cleanly'
+          ['#include <iostream>', 'brings in input and output tools'],
+          ['using namespace std;', 'lets you write cout instead of std::cout'],
+          ['int main()', 'the one function that runs automatically'],
+          ['cout << value', 'sends a value to the screen'],
+          ['endl', 'ends the line'],
+          ['return 0;', 'tells the operating system it finished cleanly']
         ],
         lang: 'cpp',
         code: '#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << "Hello from C++" << endl;\n  cout << "Two plus two is " << 2 + 2 << endl;\n  return 0;\n}',
@@ -161,11 +161,11 @@
         why: 'Integer division is the classic trap: 7 / 2 is 3 in C++, not 3.5, because both sides are whole numbers so the answer is forced to be whole too. This bug has shipped in real banking software.',
         analogy: 'Labelled containers in a workshop. You cannot pour paint into the screw drawer, and the label tells everyone what to expect without opening it.',
         points: [
-          'int — whole numbers, roughly ±2 billion',
-          'double — decimals, about 15 digits of precision',
-          'char — a single character in single quotes',
-          'bool — true or false only',
-          'string — text (needs #include <string>)',
+          ['int', 'whole numbers, roughly ±2 billion'],
+          ['double', 'decimals, about 15 digits of precision'],
+          ['char', 'a single character in single quotes'],
+          ['bool', 'true or false only'],
+          ['string', 'text (needs #include <string>)'],
           'Integer ÷ integer gives an integer. Make one side a decimal to fix it.'
         ],
         lang: 'cpp',
@@ -223,9 +223,9 @@
         why: 'Every loop needs something that changes and eventually makes the condition false. Forget that and the program hangs forever, which is the most common beginner crash.',
         analogy: 'A for loop is climbing a set number of stairs. A while loop is climbing until you reach the top, however many there are.',
         points: [
-          'for (start; test; step) — the counter pattern',
-          'while (test) — repeat until a condition changes',
-          'do { } while (test); — always runs the body once first',
+          ['for (start; test; step)', 'the counter pattern'],
+          ['while (test)', 'repeat until a condition changes'],
+          ['do { } while (test);', 'always runs the body once first'],
           'break exits the loop immediately',
           'continue skips to the next round',
           'Something inside the loop must move the condition toward false'
@@ -283,7 +283,7 @@
         why: 'Position numbering starts at 0, so an array of 5 has valid positions 0 to 4. Reading position 5 is undefined behaviour in C++, which means it might print garbage rather than crash. That is worse than crashing.',
         analogy: 'An array is a row of numbered post office boxes bolted to the wall. A vector is a shelf you can add more boxes to.',
         points: [
-          'int a[5]; — five slots, positions 0 to 4',
+          ['int a[5];', 'five slots, positions 0 to 4'],
           'a[0] is the first item, a[4] is the last',
           'vector<int> v; then v.push_back(x) to add',
           'v.size() gives the current count',
@@ -314,10 +314,10 @@
         why: 'Almost every real program is mostly text handling: names, addresses, file paths, JSON, log lines. Being fluent here removes a whole category of friction.',
         analogy: 'A tape measure with scissors. You can measure it, cut a section out, and tape two lengths together.',
         points: [
-          's.length() or s.size() — number of characters',
-          's[0] — the first character',
-          's.substr(start, count) — a piece of it',
-          's.find("x") — position of a substring, or a huge number if absent',
+          ['s.length() or s.size()', 'number of characters'],
+          ['s[0]', 'the first character'],
+          ['s.substr(start, count)', 'a piece of it'],
+          ['s.find("x")', 'position of a substring, or a huge number if absent'],
           '+ joins two strings; to_string() converts a number into one'
         ],
         lang: 'cpp',
@@ -345,7 +345,7 @@
         why: 'Once a program has more than a handful of related variables, passing them around separately gets fragile. A class keeps the data and the rules that protect it in the same place.',
         analogy: 'A blueprint for a house versus the houses built from it. One drawing, many buildings, each with its own furniture.',
         points: [
-          'class Name { ... }; — note the semicolon at the end',
+          ['class Name { ... };', 'note the semicolon at the end'],
           'public: members anyone can reach; private: members only the class can touch',
           'The constructor has the same name as the class and no return type',
           'Each object gets its own copy of the fields',
@@ -376,10 +376,10 @@
         why: 'This is where C++ stops feeling like other languages. Understanding copy-versus-reference removes most "why did nothing change?" and "why did everything change?" confusion, in every language.',
         analogy: 'A copy is a photocopy of a form. A reference is the original on your desk. A pointer is a sticky note with the drawer number written on it.',
         points: [
-          'int x — a copy, safe to change, caller unaffected',
-          'int& x — a reference to the original, changes stick',
-          'const int& x — read the original without copying and without changing it',
-          'int* p — holds an address; *p reads the value there',
+          ['int x', 'a copy, safe to change, caller unaffected'],
+          ['int& x', 'a reference to the original, changes stick'],
+          ['const int& x', 'read the original without copying and without changing it'],
+          ['int* p', 'holds an address; *p reads the value there'],
           'Big objects are usually passed by const reference to avoid copying cost'
         ],
         lang: 'cpp',
@@ -402,8 +402,8 @@
         why: 'A memory leak is heap memory you allocated and never released. A dangling pointer is an address to something already destroyed. Both are invisible until they are catastrophic.',
         analogy: 'The stack is a desk that gets cleared every time you leave the room. The heap is a storage unit that keeps charging you until you cancel it.',
         points: [
-          'Stack — automatic, fast, freed when the function returns',
-          'Heap — manual, flexible, freed only when you say so',
+          ['Stack', 'automatic, fast, freed when the function returns'],
+          ['Heap', 'manual, flexible, freed only when you say so'],
           'Every new needs a matching delete',
           'Losing the last pointer to heap memory is a leak',
           'Prefer vector, string, and smart pointers so the cleanup is automatic'
@@ -453,7 +453,7 @@
         why: 'A program that only ever prints the same thing is a document. Reading input is the point where it becomes a tool.',
         analogy: 'A form at a counter. The program hands over a blank, waits, and works with whatever comes back.',
         points: [
-          'cin >> variable — read one value',
+          ['cin >> variable', 'read one value'],
           'The arrows point the way the data flows: cin >> x pulls in, cout << x pushes out',
           'Reading stops at whitespace, so "Hank Thomas" reads as two values',
           'Always tell the user what you expect before you ask for it',
@@ -489,10 +489,10 @@
         analogy: 'A building with one clearly marked front door. The security guard only opens a door with exactly that label.',
         points: [
           'Every Java file contains at least one class',
-          'public — accessible from anywhere',
-          'static — belongs to the class, not to an instance',
-          'void — returns nothing',
-          'main(String[] args) — the exact name and shape the JVM looks for',
+          ['public', 'accessible from anywhere'],
+          ['static', 'belongs to the class, not to an instance'],
+          ['void', 'returns nothing'],
+          ['main(String[] args)', 'the exact name and shape the JVM looks for'],
           'System.out.println prints a line'
         ],
         lang: 'java',
@@ -518,8 +518,8 @@
         why: 'The lowercase/uppercase distinction confuses everyone at first. int cannot be null, Integer can. That difference causes real crashes when data is missing.',
         analogy: 'A primitive is a raw number written on a card. An object is a folder that contains the number plus everything else you might want to do with it.',
         points: [
-          'int, double, boolean, char — primitives, lowercase, never null',
-          'String, Integer, ArrayList — objects, capitalised, can be null',
+          ['int, double, boolean, char', 'primitives, lowercase, never null'],
+          ['String, Integer, ArrayList', 'objects, capitalised, can be null'],
           'Integer ÷ integer truncates, exactly like C++',
           'Java prints doubles with a decimal: 4.0 not 4',
           'final marks a value that must never be reassigned'
@@ -549,9 +549,9 @@
         why: 'Index-based loops are where off-by-one bugs live. When you do not need the position, the enhanced for removes the possibility of the bug entirely.',
         analogy: 'A counted loop is reading page numbers. An enhanced for is just turning pages until there are none left.',
         points: [
-          'for (int i = 0; i < n; i++) — when you need the position',
-          'for (Type item : collection) — when you only need each value',
-          'while (condition) — when the count is unknown',
+          ['for (int i = 0; i < n; i++)', 'when you need the position'],
+          ['for (Type item : collection)', 'when you only need each value'],
+          ['while (condition)', 'when the count is unknown'],
           'break exits, continue skips to the next round',
           'switch handles many discrete cases cleanly'
         ],
@@ -605,8 +605,8 @@
         why: 'The == trap is the single most common Java beginner bug. It sometimes appears to work, because Java reuses identical literals, and then fails the moment the string comes from user input.',
         analogy: 'Two identical printed pages. == asks "is this the same sheet of paper?" and .equals() asks "does it say the same thing?"',
         points: [
-          '.length() — with brackets, unlike arrays',
-          '.substring(start, end) — end is exclusive',
+          ['.length()', 'with brackets, unlike arrays'],
+          ['.substring(start, end)', 'end is exclusive'],
           '.equals() compares content; == compares identity',
           '.trim(), .toUpperCase(), .contains(), .split()',
           'Strings never change; every method hands back a new one'
@@ -635,8 +635,8 @@
         why: 'Most real data has an unknown length: rows from a database, lines from a file, items in a cart. Arrays fight you there; lists do not.',
         analogy: 'An array is an egg carton with a set number of dents. An ArrayList is a shopping bag.',
         points: [
-          'int[] a = new int[5]; — fixed at 5, all zeros',
-          'a.length — a field, no brackets',
+          ['int[] a = new int[5];', 'fixed at 5, all zeros'],
+          ['a.length', 'a field, no brackets'],
           'ArrayList<Integer> list = new ArrayList<>();',
           'list.add(x), list.get(i), list.size(), list.remove(i)',
           'Angle brackets hold the element type and must be an object type'
@@ -719,9 +719,9 @@
         why: 'Failure is normal: files go missing, networks drop, users type letters into number boxes. The question is never whether things break, only whether your program has a plan.',
         analogy: 'A dropped plate. try is carrying it carefully, catch is the mat that stops it shattering, finally is sweeping up either way.',
         points: [
-          'try — the risky work',
-          'catch (Type e) — what to do when that specific failure happens',
-          'finally — always runs, success or not, used for cleanup',
+          ['try', 'the risky work'],
+          ['catch (Type e)', 'what to do when that specific failure happens'],
+          ['finally', 'always runs, success or not, used for cleanup'],
           'throw raises one deliberately',
           'Catch the specific exception, not everything, or you hide real bugs'
         ],
@@ -749,9 +749,9 @@
         why: 'Choosing the wrong collection is why code ends up with nested loops searching for matches. The right one makes the lookup a single call.',
         analogy: 'A list is a queue, a set is a guest list where nobody appears twice, a map is a phone book.',
         points: [
-          'List — ordered, duplicates allowed, indexed',
-          'Set — unique items, membership test is instant',
-          'Map — keys mapped to values, no duplicate keys',
+          ['List', 'ordered, duplicates allowed, indexed'],
+          ['Set', 'unique items, membership test is instant'],
+          ['Map', 'keys mapped to values, no duplicate keys'],
           'Reach for a Map whenever you are looking things up by a name or id',
           'Choosing right often removes an entire loop'
         ],

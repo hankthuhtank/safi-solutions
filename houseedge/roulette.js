@@ -65,7 +65,7 @@ export function init(host) {
     const outcomes = P.map(p => active.reduce((s, b) => s + (b.nums.includes(p) ? state.unit * (b.pays + 1) : 0), 0) - total);
     const covered = P.filter(p => active.some(b => b.nums.includes(p))).length, avg = outcomes.reduce((a, b) => a + b, 0) / P.length;
     $('#slCount').textContent = active.length; $('#slTotal').textContent = money(total); $('#slCover').textContent = `${covered} / ${P.length}`;
-    $('#slLoss').textContent = active.length ? money(-avg, 2) : '$0'; $('#slEdge').textContent = active.length ? (-avg / total * 100).toFixed(2) + '%' : '—';
+    $('#slLoss').textContent = active.length ? money(-avg, 2) : '$0'; $('#slEdge').textContent = active.length ? (-avg / total * 100).toFixed(2) + '%' : '–';
     state.exp = active.length ? -avg / total : null; $('#lgExp').textContent = state.exp === null ? 'place a bet to compare' : `math says ${(state.exp * 100).toFixed(2)}%`;
   }
   function clearMarks() { $$('.win, .hitpocket', lay).forEach(e => e.classList.remove('win', 'hitpocket')); }
@@ -94,7 +94,7 @@ export function init(host) {
     hist.innerHTML = state.history.map(p => `<li class="${colorOf(p)}">${p}</li>`).join('');
     $('#lgSpins').textContent = state.spins.toLocaleString('en-US'); $('#lgWagered').textContent = money(state.wagered);
     const n = $('#lgNet'); n.textContent = (state.net > 0 ? '+' : '') + money(state.net); n.className = state.net < 0 ? 'neg' : state.net > 0 ? 'pos' : '';
-    $('#lgEdge').textContent = state.wagered ? (-state.net / state.wagered * 100).toFixed(2) + '%' : '—';
+    $('#lgEdge').textContent = state.wagered ? (-state.net / state.wagered * 100).toFixed(2) + '%' : '–';
     if (state.spins && state.spins < 30) $('#lgExp').textContent = `math says ${((state.exp ?? 0) * 100).toFixed(2)}% · keep spinning`;
   }
 
