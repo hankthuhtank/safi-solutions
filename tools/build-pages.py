@@ -6,7 +6,7 @@
 # rewrites them. Every other page (pricing, support, legal, product detail pages, the projects themselves) is untouched.
 import os, html, json
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-V = "7"
+V = "8"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
@@ -173,8 +173,8 @@ landing = f'''<section class="hero" aria-labelledby="hero-title">
   <canvas class="threads" aria-hidden="true"></canvas>
   <div class="hero-copy">
     <p class="micro">Software · Websites · Interactive guides</p>
-    <h1 id="hero-title">Complicated tasks.<span>Made simpler.</span></h1>
-    <p class="hero-lede">I’m <b>Helal Safi</b>. I design and build software, websites, and interactive guides that take something complicated, whether it’s a car or a business process, and make it easy to see, learn, and use.</p>
+    <h1 id="hero-title" class="hero-title-pyramid"><span class="hero-line hero-line-1">Complicated</span><span class="hero-line hero-line-2">tasks. <span class="hero-made">Made</span></span><span class="hero-line hero-line-3">simpler.</span></h1>
+    <p class="hero-lede">I design and build software, websites, and interactive guides that take something complicated, whether it’s a car or a business process, and make it easy to see, learn, and use.</p>
     <div class="hero-cta"><a class="button" href="/projects/">See the work {ARROW}</a><a class="button ghost" href="/contact/">Start a project</a></div>
   </div>
   <nav class="doors" aria-label="Explore Safi Solutions">{doors}</nav>
