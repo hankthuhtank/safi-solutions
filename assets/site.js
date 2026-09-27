@@ -9,13 +9,14 @@
   /* ------------------------------------------------ links from the old one-page site (index.html#products etc.) */
   if (document.body.classList.contains('page-home') && location.hash) {
     const h = decodeURIComponent(location.hash.slice(1));
-    const projects = ['sportsatlas', 'motoratlas', 'voltvisual', 'tradeschool', 'overtone', 'thebench', 'houseedge', 'thewell', 'vellum', 'cardesk', 'movedesk'];
+    const projects = ['playbook', 'motoratlas', 'voltvisual', 'tradeschool', 'overtone', 'thebench', 'houseedge', 'thewell', 'vellum', 'cardesk', 'movedesk'];
     let to = null;
     if (['products', 'main', 'top', 'desk', 'playground'].includes(h)) to = '/products/';
     else if (/^[a-z]+-product$/.test(h)) to = '/products/#' + h.replace('-product', '');
     else if (h === 'work') to = '/projects/';
     else if (h === 'markets' || h === 'tradingdesk') to = '/tradingdesk/';
     else if (projects.includes(h)) to = '/projects/#' + h;
+    else if (h === 'sportsatlas') to = '/projects/#playbook';
     else if (['websites', 'services', 'packages', 'elizabeth', 'baker'].includes(h)) to = '/websites/' + (['elizabeth', 'baker'].includes(h) ? '#' + h : '');
     else if (h === 'safistudios' || h.startsWith('studio-')) to = '/studio/';
     else if (h === 'about') to = '/about/';
@@ -90,8 +91,11 @@
       document.title = p.name + ' | Safi Solutions';
       current = p;
     };
+    const ALIAS = { sportsatlas: 'playbook' }; // Playbook was called Sports Atlas for its first day online
     const route = () => {
-      const p = byId.get(decodeURIComponent(location.hash.slice(1)));
+      const h = decodeURIComponent(location.hash.slice(1));
+      if (ALIAS[h]) { history.replaceState(history.state, '', '#' + ALIAS[h]); return route(); }
+      const p = byId.get(h);
       if (p) {
         if (!current) listScroll = scrollY;
         show(p); list.hidden = true; detail.hidden = false;

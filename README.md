@@ -20,7 +20,7 @@ pricing.html  support.html  terms.html  privacy.html  refunds.html
 download.html update.html   Customer download / update pages (not indexed)
 404.html              Not-found page (also hands /thewell/* deep links back to The Well)
 
-sportsatlas/          Sports Atlas: six sports explained from zero
+playbook/             Playbook: six sports explained from zero (formerly Sports Atlas)
 motoratlas/           MotorAtlas: how a car works, in a 3D X-ray (with an Expand view button)
 houseedge/            HouseEdge: casino games and the real math
 voltvisual/           VoltVisual: industrial electrical systems
@@ -36,7 +36,7 @@ vellum/               Vellum
 assets/
   site.css site.js threads.js    Main pages: styles, behaviour, the hero's thread animation
   images/                        Logo, portrait, social-share image (og.jpg)
-  project-logos/                 One logo per project (sportsatlas.svg is a placeholder)
+  project-logos/                 One logo per project (The Well's header also loads thewell.jpg from here)
   website-logos/                 Client logos used on the Websites page
   showcase/                      Screenshots used on the project detail views
   products/                      Desktop app screenshots
@@ -51,10 +51,9 @@ tools/               check-site.cjs · build-pages.py · hash-releases.ps1
 
 ## Everyday tasks
 
-**Swap in the Sports Atlas logo.** Replace these two files, keeping the names:
-`sportsatlas/assets/logo.svg` (top-left of every Sports Atlas page, shown 40 px tall) and
-`assets/project-logos/sportsatlas.svg` (its tile on the Projects page). PNG works too; update the file extension where
-it's referenced (`tools/build-pages.py` for the tile, `sportsatlas/_source/build.mjs` for the pages).
+**Playbook logo.** Three files: `playbook/assets/logo.webp` (top-left of every Playbook page, shown 40 px tall),
+`assets/project-logos/playbook.webp` (its tile on the Projects page) and `playbook/assets/img/favicon.png`.
+Replace them keeping the names to update the logo everywhere.
 
 **Add or edit a project, product or website on the main pages.** Edit the lists at the top of
 `tools/build-pages.py`, then run `python3 tools/build-pages.py`. It rewrites the main pages (landing, projects,
@@ -64,8 +63,8 @@ products, websites, TheTradingDesk, studio, about, contact) and nothing else. A 
 **Check before publishing.** `node tools/check-site.cjs` confirms every local link, image, script and sitemap URL
 exists, and that the forms, store scripts and licence wording are in place.
 
-**Sports Atlas content.** Pages are generated: edit `sportsatlas/_source/plans/<sport>.mjs`, then
-`cd sportsatlas && node _source/build.mjs`.
+**Playbook content.** Pages are generated: edit `playbook/_source/plans/<sport>.mjs`, then
+`cd playbook && node _source/build.mjs`. Old `/sportsatlas/...` links are forwarded to `/playbook/...` by `404.html`.
 
 **HouseEdge photographs.** They're renders of the 3D scenes in `houseedge/_source/scenes.js`
 (serve the folder locally, open `/houseedge/_source/render.html?scene=blackjack&w=1600&h=1066` and save the canvas image).
@@ -73,7 +72,9 @@ exists, and that the forms, store scripts and licence wording are in place.
 ## The Well
 
 `thewell/index.html` loads the app from the separate **the-well** repository through jsDelivr, pinned to one commit
-(`cdn.jsdelivr.net/gh/hankthuhtank/the-well@<commit>/dist-portfolio/...`). To publish a new version of The Well, build
+(`cdn.jsdelivr.net/gh/hankthuhtank/the-well@<commit>/dist-portfolio/...`). Its top-left logo is
+`/assets/project-logos/thewell.jpg` from this site, the same art as The Well's tile on the Projects page; a small script
+in `thewell/index.html` keeps it pointed at that logo. To publish a new version of The Well, build
 it in that repository and update the two URLs in `thewell/index.html`. The `thewell/src` folder here is an older copy
 of the source and is not what the live page runs.
 
@@ -100,7 +101,8 @@ Site copy avoids em dashes. Use a comma, colon, period or parentheses instead.
   "Open live project" and "Add to phone". Old links such as `index.html#products`, `#thebench`, `#markets`,
   `#about` or `#contact` forward to the right page automatically.
 - **Websites** shows the Elizabeth Aven and Baker Precision logos.
-- **Sports Atlas** finished: six sports, 3D stadiums, animated diagrams, glossary and 2026 rule changes.
+- **Playbook** (first published as Sports Atlas) finished: six sports, 3D stadiums, animated diagrams, glossary and
+  2026 rule changes, with its own logo.
 - **HouseEdge** rebuilt: rendered table photography, a live 3D roulette wheel, a basic strategy trainer, and
   calculators for a night's cost, pot odds, parlays and bookmaker margin (helpline 1-800-MY-RESET).
 - **MotorAtlas / CarDesk**: shared 3D vehicle model; MotorAtlas adds an Expand view that fills the screen.

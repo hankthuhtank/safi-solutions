@@ -163,7 +163,7 @@ main { margin-left: var(--rail-w); min-height: 100vh; outline: 0; }
 .tile:hover .tile-cover::before { border-color: rgba(255, 255, 255, .14); }
 .tile:hover .tile-cover::after { opacity: 1; }
 .tile:hover .tile-cover img, .tile-cover:focus-visible img { transform: scale(1.035); }
-.tile-badge { position: absolute; left: 18px; top: 18px; z-index: 2; font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 4px 7px 3px; border-radius: 3px; background: #ffd400; color: #17140a; }
+.tile-badge { position: absolute; left: 18px; top: 18px; z-index: 2; font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 4px 7px 3px; border-radius: 3px; background: #c9f23a; color: #0d1a0f; }
 .tile-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 1px 0; }
 .tile-cap a { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
 .tile-cap a:hover { color: var(--accent); }

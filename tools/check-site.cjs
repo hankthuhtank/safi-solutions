@@ -69,7 +69,7 @@ must(/use, copy, modify, redistribute(,)? (or|and) resell/i.test(terms), 'terms:
 must(!/may not resell|may not.*redistribut/i.test(terms), 'terms: must not forbid resale/redistribution');
 const siteCss = read('assets/site.css');
 for (const bp of ['max-width: 1180px', 'max-width: 999px', 'max-width: 640px']) must(siteCss.includes(bp), `site.css missing breakpoint ${bp}`);
-for (const p of ['assets/images/logo-lockup.png', 'assets/images/logo-mark.png', 'assets/images/og.jpg', 'assets/project-logos/sportsatlas.svg', 'assets/vendor/three.min.js', 'assets/vendor/leaflet/leaflet.js']) must(fs.existsSync(path.join(root, p)), `missing asset ${p}`);
+for (const p of ['assets/images/logo-lockup.png', 'assets/images/logo-mark.png', 'assets/images/og.jpg', 'assets/project-logos/playbook.webp', 'playbook/assets/logo.webp', 'assets/vendor/three.min.js', 'assets/vendor/leaflet/leaflet.js']) must(fs.existsSync(path.join(root, p)), `missing asset ${p}`);
 must(/\/thewell\//.test(read('404.html')), '404.html must hand /thewell/* deep links back to the app');
 
 // ---------------------------------------------------------------- report

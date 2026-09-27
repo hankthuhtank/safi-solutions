@@ -24,6 +24,22 @@
         } catch (e) {}
       })();
     </script>
+    <script>
+      /* Keep the top-left logo identical to The Well's tile on the Safi Solutions Projects page. */
+      (function () {
+        var LOGO = "/assets/project-logos/thewell.webp";
+        var SEL = 'a[aria-label="The Well home"] img, aside img[alt="The Well"], header img[alt="The Well"]';
+        function fix() {
+          var imgs = document.querySelectorAll(SEL);
+          for (var i = 0; i < imgs.length; i++) if (imgs[i].getAttribute("src") !== LOGO) imgs[i].setAttribute("src", LOGO);
+        }
+        function start() {
+          fix();
+          new MutationObserver(fix).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
+        }
+        if (document.body) start(); else document.addEventListener("DOMContentLoaded", start);
+      })();
+    </script>
     <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/hankthuhtank/the-well@efd370f489cc21da91c0fa1e921b9346bd32fc85/dist-portfolio/assets/portfolio-C3IRxaT5.js"></script>
     <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/hankthuhtank/the-well@efd370f489cc21da91c0fa1e921b9346bd32fc85/dist-portfolio/assets/portfolio-Dp_4NQah.css" />
   </head>
