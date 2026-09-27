@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,300..900;1,400..800&family=Overpass+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="styles.css?v=20260907">
-<link rel="stylesheet" href="interstate.css?v=1">
+<link rel="stylesheet" href="interstate.css?v=2">
 </head>
 <body>
 <div id="boot" aria-hidden="true"><div class="boot-card"><img src="/assets/project-logos/movedesk.svg?v=3" alt="" class="boot-logo"><div class="boot-route"><i></i></div><div class="boot-foot"><span>Building relocation workspace</span><b>ROUTE · COST · TASKS</b></div></div></div>
@@ -41,7 +41,35 @@
       <button class="sample-move" id="sampleMove" type="button">TRY PARIS, TX → NASHVILLE, TN</button>
     </form>
   </div>
-  <div class="route-art" aria-hidden="true"><div class="route-line"><i></i><i></i><i></i><i></i></div><span class="route-label a">A</span><span class="route-label b">B</span></div>
+  <div class="route-art journey-ribbon" aria-hidden="true">
+    <div class="journey-contours"></div>
+    <div class="journey-node journey-from"><i></i><small>FROM</small><b id="heroRouteFrom">CURRENT LOCATION</b></div>
+    <div class="journey-track">
+      <svg viewBox="0 0 1000 130" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="journeyGradient" x1="0" x2="1">
+            <stop offset="0" stop-color="#1f9d62"/>
+            <stop offset=".52" stop-color="#7ea76f"/>
+            <stop offset="1" stop-color="#f5c518"/>
+          </linearGradient>
+          <filter id="journeyGlow" x="-20%" y="-40%" width="140%" height="180%">
+            <feGaussianBlur stdDeviation="5"/>
+          </filter>
+        </defs>
+        <path class="jr-shadow" d="M18 93 C210 18 400 24 555 67 S824 116 982 37"/>
+        <path class="jr-glow" d="M18 93 C210 18 400 24 555 67 S824 116 982 37"/>
+        <path class="jr-line" d="M18 93 C210 18 400 24 555 67 S824 116 982 37"/>
+        <path class="jr-dash" d="M18 93 C210 18 400 24 555 67 S824 116 982 37"/>
+        <circle class="jr-pulse" r="5">
+          <animateMotion dur="5.5s" repeatCount="indefinite" path="M18 93 C210 18 400 24 555 67 S824 116 982 37"/>
+        </circle>
+      </svg>
+      <div class="journey-stat journey-distance"><small>ROUTE</small><b id="heroRouteMiles">BUILD YOUR MOVE</b></div>
+      <div class="journey-stat journey-duration"><small>TRAVEL TIME</small><b id="heroRouteTime">LIVE ROUTING</b></div>
+      <div class="journey-milestones"><span>ROUTE</span><span>COST</span><span>WEATHER</span><span>ARRIVAL</span></div>
+    </div>
+    <div class="journey-node journey-to"><i></i><small>TO</small><b id="heroRouteTo">NEW LOCATION</b></div>
+  </div>
 </section>
 
 <section class="brief hidden" id="brief">
@@ -99,7 +127,7 @@
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/assets/vendor/leaflet/leaflet.js"></script>
-<script src="app.js?v=20260907"></script>
+<script src="app.js?v=20260927"></script>
 <script src="extras.js?v=20260907"></script>
 </body>
 </html>
