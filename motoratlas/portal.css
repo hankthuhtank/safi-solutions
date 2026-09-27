@@ -1,0 +1,58 @@
+:root{--ma-bg:#090b0c;--ma-panel:#0e1112;--ma-line:rgba(255,255,255,.11);--ma-line2:rgba(255,255,255,.055);--ma-paper:#f1efe8;--ma-steel:#a8b1b5;--ma-muted:#647076;--ma-amber:#f0a43b;--ma-cyan:#75c7d1;--ma-head:'Saira Condensed',sans-serif;--ma-body:'Chivo',sans-serif;--ma-mono:'IBM Plex Mono',monospace}
+*{box-sizing:border-box}
+body.motoratlas-portal{margin:0;min-height:100dvh;background:#090b0c;color:var(--ma-paper);font-family:var(--ma-body);overflow:hidden}
+.ma-portal-bar{height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 26px;border-bottom:1px solid var(--ma-line);background:rgba(9,11,12,.92);position:relative;z-index:30}
+.ma-logo{display:block;width:176px}.ma-logo img{display:block;width:100%;height:auto}
+.ma-portal-nav{display:flex;align-items:center;gap:4px;padding:4px;border:1px solid var(--ma-line);background:#0d1011}
+.ma-portal-nav a{padding:9px 12px;text-decoration:none;color:#899499;font:600 9px/1 var(--ma-mono);letter-spacing:.11em;text-transform:uppercase}
+.ma-portal-nav a:hover{color:var(--ma-paper);background:#15191a}
+.ma-back{justify-self:end;text-decoration:none;color:#748087;font:600 9px/1 var(--ma-mono);letter-spacing:.12em;text-transform:uppercase}.ma-back:hover{color:var(--ma-amber)}
+
+.ma-stage{height:calc(100dvh - 68px);min-height:620px;position:relative;overflow:hidden}
+.ma-stage:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(9,11,12,.88),rgba(9,11,12,.94)),radial-gradient(circle at 72% 44%,rgba(240,164,59,.10),transparent 30%),linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:auto,auto,58px 58px,58px 58px}
+.ma-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090b0c 0%,rgba(9,11,12,.55) 36%,rgba(9,11,12,.16) 68%,rgba(9,11,12,.68) 100%);pointer-events:none}
+.ma-inner{position:relative;z-index:2;width:min(1460px,calc(100% - 64px));height:100%;margin:auto;display:grid;grid-template-columns:minmax(0,.82fr) minmax(620px,1.18fr);gap:48px;align-items:center}
+.ma-copy{max-width:650px}.ma-kicker{display:flex;align-items:center;gap:10px;margin:0 0 18px;color:var(--ma-steel);font:500 10px/1 var(--ma-mono);letter-spacing:.17em;text-transform:uppercase}.ma-kicker:before{content:"";width:30px;height:1px;background:var(--ma-amber)}
+.ma-copy h1{margin:0;font:800 clamp(76px,8vw,132px)/.78 var(--ma-head);letter-spacing:-.045em;text-transform:uppercase}.ma-copy h1 em{display:block;color:var(--ma-amber);font-style:normal}
+.ma-copy>p{max-width:600px;margin:26px 0 0;color:#9da7ab;font-size:16px;line-height:1.7}
+.ma-status{display:flex;gap:20px;flex-wrap:wrap;margin-top:26px;color:#5f696e;font:600 9px/1 var(--ma-mono);letter-spacing:.1em;text-transform:uppercase}.ma-status b{color:var(--ma-cyan);font-weight:600}
+
+.ma-plate{position:relative;height:min(620px,calc(100dvh - 120px));min-height:510px}
+.ma-machine{position:absolute;left:8%;right:2%;top:12%;bottom:8%;border:1px solid var(--ma-line);background:#0b0e0f;box-shadow:0 30px 70px rgba(0,0,0,.34);overflow:hidden}
+.ma-machine:before{content:"REFERENCE PLATE 01 / GASOLINE VEHICLE";position:absolute;z-index:4;left:15px;top:13px;color:#68747a;font:600 8px/1 var(--ma-mono);letter-spacing:.12em}
+.ma-machine:after{content:"";position:absolute;z-index:3;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--ma-cyan),transparent);box-shadow:0 0 20px rgba(117,199,209,.4);animation:maScan 4.5s linear infinite}
+@keyframes maScan{from{transform:translateY(0)}to{transform:translateY(480px)}}
+.ma-machine img{width:100%;height:100%;object-fit:cover;filter:saturate(.65) contrast(1.06) brightness(.62)}
+.ma-machine-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,11,12,.94),transparent 42%),linear-gradient(90deg,rgba(8,11,12,.25),transparent 35%)}
+
+.ma-link{position:absolute;z-index:8;text-decoration:none;color:var(--ma-paper);min-width:180px;padding:12px 13px 11px;border-left:2px solid var(--ma-amber);background:rgba(9,11,12,.88);box-shadow:0 10px 26px rgba(0,0,0,.28);transition:transform .18s ease,background .18s ease}
+.ma-link:before{content:"";position:absolute;height:1px;background:rgba(240,164,59,.5);top:50%;width:44px}
+.ma-link small{display:block;color:var(--ma-amber);font:600 8px/1 var(--ma-mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.ma-link b{display:block;font:700 24px/.9 var(--ma-head);text-transform:uppercase;letter-spacing:.01em}
+.ma-link span{display:block;margin-top:5px;color:#7f8a8f;font-size:11px;line-height:1.3}
+.ma-link:hover{transform:translateY(-3px);background:#111617}
+.ma-parts{left:0;top:20%}.ma-parts:before{left:100%}
+.ma-architecture{right:0;top:13%;text-align:right;border-left:0;border-right:2px solid var(--ma-cyan)}.ma-architecture:before{right:100%;background:rgba(117,199,209,.5)}
+.ma-diagnostics{right:-1%;top:47%;text-align:right;border-left:0;border-right:2px solid #d96a5d}.ma-diagnostics:before{right:100%;background:rgba(217,106,93,.55)}
+.ma-drive{right:7%;bottom:3%;text-align:right;border-left:0;border-right:2px solid var(--ma-amber)}.ma-drive:before{right:100%}
+.ma-sources{left:1%;bottom:7%}.ma-sources:before{left:100%}
+.ma-open{position:absolute;z-index:7;left:50%;bottom:13%;transform:translateX(-50%);text-decoration:none;padding:10px 15px;border:1px solid rgba(240,164,59,.42);background:rgba(9,11,12,.82);color:var(--ma-amber);font:600 9px/1 var(--ma-mono);letter-spacing:.12em;text-transform:uppercase}.ma-open:hover{background:var(--ma-amber);color:#101112}
+
+@media(max-width:980px){body.motoratlas-portal{overflow:auto}.ma-portal-bar{grid-template-columns:1fr auto;height:62px;padding:0 16px}.ma-logo{width:150px}.ma-portal-nav{display:none}.ma-stage{height:auto;min-height:calc(100dvh - 62px)}.ma-inner{width:calc(100% - 28px);height:auto;grid-template-columns:1fr;gap:28px;padding:52px 0 38px}.ma-copy h1{font-size:clamp(70px,18vw,110px)}.ma-copy>p{font-size:14px}.ma-plate{height:auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:9px;padding-top:270px}.ma-machine{left:0;right:0;top:0;height:250px;bottom:auto}.ma-link{position:relative;inset:auto!important;min-width:0;text-align:left!important;border:1px solid var(--ma-line)!important;border-left:2px solid var(--ma-amber)!important;padding:12px}.ma-link:before{display:none}.ma-link b{font-size:22px}.ma-link span{font-size:10px}.ma-diagnostics{border-left-color:#d96a5d!important}.ma-architecture{border-left-color:var(--ma-cyan)!important}.ma-drive{grid-column:1/-1}.ma-open{display:none}}
+@media(max-width:540px){.ma-inner{padding-top:34px}.ma-copy h1{font-size:clamp(62px,19vw,88px)}.ma-plate{grid-template-columns:1fr 1fr;padding-top:220px}.ma-machine{height:205px}.ma-link b{font-size:19px}.ma-link span{display:none}.ma-status{gap:10px 16px}.ma-back{font-size:8px}}
+
+/* Split section pages. Keep the original DOM so the existing JS/data remains intact. */
+.atlas-section-page{background:#090b0c}
+.atlas-section-page .topbar{background:rgba(9,11,12,.96);border-bottom:1px solid var(--ma-line);backdrop-filter:blur(14px)}
+.atlas-section-page .hero{display:none!important}
+.atlas-section-page main{padding-top:72px}
+.atlas-section-page main>section{display:none!important}
+.atlas-section-page.section-parts #explorer,
+.atlas-section-page.section-architecture #architecture,
+.atlas-section-page.section-diagnostics #diagnostics,
+.atlas-section-page.section-sources #sources{display:block!important}
+.atlas-section-page.section-drive #ratioLab{display:block!important}
+.atlas-section-page footer{margin-top:0}
+.atlas-section-page .section-heading{padding-top:48px}
+.atlas-section-page .nav-links a[aria-current="page"]{color:var(--ma-amber)}
+@media(max-width:700px){.atlas-section-page main{padding-top:64px}.atlas-section-page .section-heading{padding-top:30px}}
