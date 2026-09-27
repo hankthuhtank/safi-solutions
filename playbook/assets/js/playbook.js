@@ -61,6 +61,170 @@ function progress() {
   secs.forEach(s => { const end = document.createElement('i'); end.className = 'sec-end'; end.setAttribute('aria-hidden', 'true'); s.append(end); readIO.observe(end); });
 }
 
+/* ---------------- responsive section navigator / mobile focus reader */
+function sectionNavigator() {
+  const toc = $('.toc'), periodbar = $('.periodbar'), content = $('.content');
+  if (!toc || !periodbar || !content) return;
+
+  const sections = $('.content > .sec[id]');
+  if (!sections.length) return;
+
+  const links = $('.toc a[href^="#"]');
+  const meta = new Map(links.map(a => {
+    const id = a.getAttribute('href').slice(1);
+    return [id, {
+      id,
+      label: a.textContent.replace(/^\s*(?:\d+|★|A–Z|§)\s*/, '').trim(),
+      code: a.querySelector('span')?.textContent.trim() || ''
+    }];
+  }));
+
+  const bar = document.createElement('div');
+  bar.className = 'section-jumpbar';
+  bar.innerHTML = `
+    <button class="sj-menu" type="button" aria-expanded="false"><span>Sections</span><b>☰</b></button>
+    <button class="sj-current" type="button" aria-expanded="false"><small></small><span></span></button>
+    <span class="sj-count"></span>
+  `;
+  periodbar.after(bar);
+
+  const drawer = document.createElement('div');
+  drawer.className = 'section-drawer';
+  drawer.setAttribute('aria-hidden', 'true');
+  drawer.innerHTML = `
+    <div class="section-drawer-shade" data-close-sections></div>
+    <div class="section-drawer-panel" role="dialog" aria-modal="true" aria-label="Choose a section">
+      <header><div><small>PLAYBOOK / ${sport.toUpperCase()}</small><b>Jump to a section</b></div><button type="button" data-close-sections aria-label="Close section navigator">×</button></header>
+      <nav class="section-drawer-nav">${toc.innerHTML}</nav>
+    </div>
+  `;
+  document.body.append(drawer);
+
+  const stepper = document.createElement('nav');
+  stepper.className = 'section-stepper';
+  stepper.setAttribute('aria-label', 'Section navigation');
+  stepper.innerHTML = `
+    <button class="ss-prev" type="button"><small>Previous</small><b></b></button>
+    <button class="ss-menu" type="button"><small>Playbook</small><b>Contents</b></button>
+    <button class="ss-next" type="button"><small>Next</small><b></b></button>
+  `;
+  content.append(stepper);
+
+  const mqFocus = matchMedia('(max-width: 760px)');
+  let active = null;
+
+  const infoFor = s => meta.get(s.id) || { id:s.id, label:s.querySelector('h2')?.textContent.trim() || s.id, code:'' };
+  const indexOf = s => Math.max(0, sections.indexOf(s));
+
+  const updateChrome = s => {
+    if (!s) return;
+    active = s;
+    const info = infoFor(s), i = indexOf(s);
+    $('.sj-current small', bar).textContent = info.code || s.querySelector('.sec-period')?.textContent.trim() || 'SECTION';
+    $('.sj-current span', bar).textContent = info.label;
+    $('.sj-count', bar).textContent = `${i + 1} / ${sections.length}`;
+    $('.section-drawer-nav a', drawer).forEach(a => a.classList.toggle('is-current', a.getAttribute('href') === '#' + s.id));
+    const prev = sections[i - 1], next = sections[i + 1];
+    const pb = $('.ss-prev', stepper), nb = $('.ss-next', stepper);
+    pb.disabled = !prev; nb.disabled = !next;
+    $('b', pb).textContent = prev ? infoFor(prev).label : 'Start';
+    $('b', nb).textContent = next ? infoFor(next).label : 'Finished';
+  };
+
+  const show = (s, opts={}) => {
+    if (!s) return;
+    if (mqFocus.matches) {
+      document.body.classList.add('section-focus');
+      sections.forEach(x => x.classList.toggle('is-section-active', x === s));
+    } else {
+      document.body.classList.remove('section-focus');
+      sections.forEach(x => x.classList.remove('is-section-active'));
+    }
+    updateChrome(s);
+    if (opts.hash !== false && location.hash !== '#' + s.id) history.pushState(null, '', '#' + s.id);
+    if (opts.scroll !== false) {
+      requestAnimationFrame(() => {
+        const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--top')) +
+          parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar')) +
+          (bar.offsetHeight || 0) + 10;
+        const y = s.getBoundingClientRect().top + scrollY - offset;
+        scrollTo({ top: Math.max(0, y), behavior: opts.instant || reduced ? 'auto' : 'smooth' });
+      });
+    }
+  };
+
+  const reveal = target => {
+    const s = target?.closest?.('.sec') || (target?.classList?.contains('sec') ? target : null);
+    if (s) show(s, { scroll:false, hash:false, instant:true });
+  };
+  window.PlaybookSectionNav = { reveal, show };
+
+  const openDrawer = () => {
+    drawer.classList.add('on'); drawer.setAttribute('aria-hidden','false');
+    document.body.classList.add('sections-open');
+    $('.sj-menu', bar).setAttribute('aria-expanded','true');
+    $('.sj-current', bar).setAttribute('aria-expanded','true');
+    setTimeout(() => $('.section-drawer-nav a.is-current', drawer)?.focus({preventScroll:true}), 40);
+  };
+  const closeDrawer = () => {
+    drawer.classList.remove('on'); drawer.setAttribute('aria-hidden','true');
+    document.body.classList.remove('sections-open');
+    $('.sj-menu', bar).setAttribute('aria-expanded','false');
+    $('.sj-current', bar).setAttribute('aria-expanded','false');
+  };
+
+  $('.sj-menu', bar).onclick = openDrawer;
+  $('.sj-current', bar).onclick = openDrawer;
+  $('.ss-menu', stepper).onclick = openDrawer;
+  $('[data-close-sections]', drawer).forEach(b => b.onclick = closeDrawer);
+
+  $('.ss-prev', stepper).onclick = () => { const p=sections[indexOf(active)-1]; if(p) show(p); };
+  $('.ss-next', stepper).onclick = () => { const n=sections[indexOf(active)+1]; if(n) show(n); };
+
+  $('.section-drawer-nav', drawer).addEventListener('click', e => {
+    const a=e.target.closest('a[href^="#"]'); if(!a) return;
+    const s=document.getElementById(a.getAttribute('href').slice(1)); if(!s) return;
+    e.preventDefault(); closeDrawer(); show(s);
+  });
+
+  periodbar.addEventListener('click', e => {
+    if (!mqFocus.matches) return;
+    const a=e.target.closest('a.period[href^="#"]'); if(!a) return;
+    const s=document.getElementById(a.getAttribute('href').slice(1)); if(!s) return;
+    e.preventDefault(); show(s);
+  });
+
+  addEventListener('keydown', e => { if(e.key==='Escape' && drawer.classList.contains('on')) closeDrawer(); });
+
+  const fromHash = () => {
+    const raw=location.hash.slice(1);
+    const target=raw ? document.getElementById(raw) : null;
+    const s=target?.closest?.('.sec') || sections[0];
+    show(s, { scroll:false, hash:false, instant:true });
+  };
+  addEventListener('hashchange', fromHash);
+
+  const resize = () => {
+    if (mqFocus.matches) {
+      const target=(location.hash && document.getElementById(location.hash.slice(1))) || active || sections[0];
+      reveal(target);
+    } else {
+      document.body.classList.remove('section-focus');
+      sections.forEach(x=>x.classList.remove('is-section-active'));
+    }
+  };
+  mqFocus.addEventListener?.('change', resize);
+
+  // Above phone size, keep the current-section chip synced while normal scrolling remains enabled.
+  const io = new IntersectionObserver(es => {
+    if (mqFocus.matches) return;
+    es.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio).slice(0,1).forEach(e=>updateChrome(e.target));
+  }, { rootMargin:'-30% 0px -58% 0px', threshold:[0,.1,.3] });
+  sections.forEach(s=>io.observe(s));
+
+  fromHash();
+}
+
 /* ---------------- jargon popovers */
 function jargon() {
   const data = $('#glossary-data'); if (!data) return;
@@ -146,6 +310,7 @@ function palette() {
     close();
     const target = r.id ? document.getElementById(r.id) : r.el;
     if (r.el?.hidden) { const gi = $('.gloss-search'); if (gi) { gi.value = ''; gi.dispatchEvent(new Event('input')); } }
+    window.PlaybookSectionNav?.reveal(target);
     target?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
     if (r.el) { r.el.classList.add('is-hit'); setTimeout(() => r.el.classList.remove('is-hit'), 2200); }
   };
@@ -210,4 +375,4 @@ function reveal() {
   $$('.term, .update, .steps li, .plate, .watch-row').forEach((n, i) => { n.classList.add('reveal'); n.style.transitionDelay = (i % 6) * 40 + 'ms'; io.observe(n); });
 }
 
-hero3d(); progress(); jargon(); glossary(); palette(); visuals(); homeSlate(); reveal();
+hero3d(); sectionNavigator(); progress(); jargon(); glossary(); palette(); visuals(); homeSlate(); reveal();
