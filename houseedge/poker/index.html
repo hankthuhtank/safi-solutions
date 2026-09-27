@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06100c">
+<title>Poker | HouseEdge</title>
+<meta name="description" content="Learn hand strength, pot odds and why poker economics differ from house-banked games.">
+<base href="/houseedge/">
+<link rel="icon" href="/assets/project-logos/houseedge.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="houseedge.css?v=3">
+<link rel="stylesheet" href="portal.css?v=1">
+<script type="module" src="houseedge.js?v=3"></script>
+</head>
+<body class="portal-page room-page room-poker">
+<header class="floorbar">
+  <a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a>
+  <nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/">Floor</a><a href="edge/">Cost Lab</a><a href="safe/">Play Safe</a></nav>
+  <button class="floor-help" type="button" data-glossary>Glossary</button>
+</header>
+<nav class="room-strip" aria-label="Game rooms"><a href="blackjack/">Blackjack</a><a href="baccarat/">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/">Slots</a><a href="poker/" aria-current="page">Poker</a><a href="sportsbook/">Sportsbook</a></nav>
+<main class="room-main"><section class="chapter" id="poker" aria-labelledby="poker-title">
+  <div class="ch-photo" style="--img:url('media/poker.webp');--pos:center 55%" role="img" aria-label="Poker table with a five-card board, a pot of chips and the dealer button"></div>
+  <header class="ch-head">
+    <p class="ch-no">Room 06 <span>Poker</span></p>
+    <h2 id="poker-title">Poker is different: you play the people, not the house.</h2>
+    <p>The casino takes a small fee from each pot (the "rake") and lets players compete. Good decisions (which hands to play, from which seat, and at what price) win money from worse decisions over time.</p>
+    <dl class="stats"><div><dt>Hands in a deck</dt><dd>2,598,960</dd><small>five-card combinations</small></div><div><dt>Chance of a royal flush</dt><dd>1 in 649,740</dd><small>in any five cards</small></div><div><dt>Flush draw hits by the river</dt><dd>35%</dd><small>not the 50/50 it feels like</small></div></dl>
+  </header>
+  <div class="ladder-hands" id="handLadder" aria-label="Hand rankings, best to worst"></div>
+  <div class="ch-body">
+    <article class="panel">
+      <h3>Position changes the value of the same cards</h3>
+      <div class="seats" aria-hidden="true"><span style="--a:125deg">SB</span><span style="--a:180deg">BB</span><span style="--a:235deg">UTG</span><span style="--a:305deg">HJ</span><span style="--a:0deg">CO</span><span style="--a:55deg" class="btn-seat">BTN</span><b>Preflop, action starts left of the big blind<br>and moves clockwise</b></div>
+      <ul class="facts">
+        <li><b>Early seats play tighter</b>: more players still to act behind you.</li>
+        <li><b>The button is the best seat</b>: it acts last after the flop on every street.</li>
+        <li><b>The blinds</b> have money in already but play the rest of the hand out of position.</li>
+      </ul>
+    </article>
+    <article class="panel lab" id="potLab" aria-labelledby="pot-title">
+      <h3 id="pot-title">Pot odds lab</h3>
+      <p class="fine">Count only "clean" outs: cards that make your hand without also helping the opponent more.</p>
+      <div class="presets"><button type="button" data-outs="9">Flush draw · 9</button><button type="button" data-outs="8">Open-ended straight · 8</button><button type="button" data-outs="4">Gutshot · 4</button><button type="button" data-outs="2">Pocket pair to a set · 2</button></div>
+      <div class="lab-in"><label class="field">Pot before your call<span class="unit">$<input id="potPot" type="number" min="1" value="100" inputmode="decimal"></span></label><label class="field">Your call<span class="unit">$<input id="potCall" type="number" min="1" value="20" inputmode="decimal"></span></label><label class="field">Clean outs<input id="potOuts" type="number" min="0" max="20" value="9" inputmode="numeric"></label></div>
+      <div class="meter"><div><span>You need</span><b id="potNeed">16.7%</b></div><div><span>Next card</span><b id="potOne">19.1%</b></div><div><span>By the river</span><b id="potTwo">35.0%</b></div></div>
+      <div class="meter-bar" aria-hidden="true"><i id="potBarNeed"></i><i id="potBarHit"></i></div>
+      <p class="verdict" id="potVerdict" aria-live="polite"></p>
+    </article>
+  </div>
+</section></main>
+<div class="room-return"><a href="/houseedge/">← Back to the casino floor</a></div>
+<footer class="foot">
+  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
+  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
+  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
+</footer>
+<div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
+  <div class="gl-panel">
+    <button class="gl-close" type="button" aria-label="Close glossary">×</button>
+    <p class="plaque small"><span>Glossary</span></p>
+    <h2 id="gl-title">Twelve words that unlock the casino.</h2>
+    <dl class="gl-list">
+      <div><dt>House edge</dt><dd>The average share of each bet the casino keeps over the long run.</dd></div>
+      <div><dt>RTP</dt><dd>Return to player, the flip side of the edge. 95% RTP means a 5% edge.</dd></div>
+      <div><dt>Variance</dt><dd>How far short-term results swing around the average.</dd></div>
+      <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
+      <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
+      <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
+      <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
+      <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
+      <div><dt>Outs</dt><dd>In poker, the unseen cards that would improve your hand to a likely winner.</dd></div>
+      <div><dt>Rake</dt><dd>The fee a poker room takes from each pot.</dd></div>
+    </dl>
+  </div>
+</div>
+</body>
+</html>
