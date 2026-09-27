@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06100c">
+<title>Slots | HouseEdge</title>
+<meta name="description" content="Understand RTP, volatility, hit rate and why equal RTP can feel completely different.">
+<base href="/houseedge/">
+<link rel="icon" href="/assets/project-logos/houseedge.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="houseedge.css?v=3">
+<link rel="stylesheet" href="portal.css?v=1">
+<script type="module" src="houseedge.js?v=3"></script>
+</head>
+<body class="portal-page room-page room-slots">
+<header class="floorbar">
+  <a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a>
+  <nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/">Floor</a><a href="edge/">Cost Lab</a><a href="safe/">Play Safe</a></nav>
+  <button class="floor-help" type="button" data-glossary>Glossary</button>
+</header>
+<nav class="room-strip" aria-label="Game rooms"><a href="blackjack/">Blackjack</a><a href="baccarat/">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/" aria-current="page">Slots</a><a href="poker/">Poker</a><a href="sportsbook/">Sportsbook</a></nav>
+<main class="room-main"><section class="chapter" id="slots" aria-labelledby="slots-title">
+  <div class="ch-photo" style="--img:url('media/slots.webp');--pos:center 78%" role="img" aria-label="Three-reel slot machine showing seven, seven, bar on the payline"></div>
+  <header class="ch-head">
+    <p class="ch-no">Floor 05 <span>Slots</span></p>
+    <h2 id="slots-title">RTP is the long-run average. Volatility is how the ride feels.</h2>
+    <p>A slot's outcome is chosen by a random number generator the instant you press spin; the reels just display it. Nothing you do changes the odds, but the machine's math decides how fast money leaves.</p>
+    <dl class="stats"><div><dt>Penny slots kept</dt><dd>9.09%</dd><small>Nevada statewide, 2025</small></div><div><dt>Strip slot machines kept</dt><dd>7.83%</dd><small>Las Vegas Strip, 2025</small></div><div><dt>Nevada minimum payback</dt><dd>75%</dd><small>by state regulation</small></div></dl>
+  </header>
+  <div class="ch-body">
+    <article class="panel">
+      <h3>Read a machine like a spec sheet</h3>
+      <dl class="terms">
+        <div><dt>RTP · return to player</dt><dd>The share of all money wagered that a machine pays back over millions of spins. 92% RTP = an 8% edge. It says nothing about your next hour.</dd></div>
+        <div><dt>Volatility</dt><dd>How the return is packaged: many small wins (low) or rare big ones (high). Same RTP, very different sessions.</dd></div>
+        <div><dt>Hit frequency</dt><dd>How often a spin pays anything, including "wins" smaller than your bet.</dd></div>
+        <div><dt>Bet per spin</dt><dd>A “penny” machine rarely bets a penny; most spins cost dozens of credits. Check the total bet on screen, not the denomination.</dd></div>
+        <div><dt>Speed</dt><dd>About 600 spins an hour is typical. That's why a small edge on slots costs more per hour than a bigger one at a slow table.</dd></div>
+      </dl>
+    </article>
+    <article class="panel sim" id="slotSim" aria-labelledby="sim-title">
+      <h3 id="sim-title">Same RTP, different ride</h3>
+      <p class="fine">Two simulated machines, both 92% RTP. Each starts with 100 credits and bets 1 credit a spin for 300 spins.</p>
+      <svg class="sim-chart" id="simChart" viewBox="0 0 600 260" role="img" aria-label="Bankroll over 300 spins for a low and a high volatility machine"></svg>
+      <div class="sim-legend"><span class="lo">Low volatility · pays often, pays small</span><span class="hi">High volatility · long droughts, rare big hits</span></div>
+      <dl class="sim-stats" id="simStats"></dl>
+      <button class="btn btn-gold small" type="button" id="simRun">Run another session</button>
+    </article>
+  </div>
+</section></main>
+<div class="room-return"><a href="/houseedge/">← Back to the casino floor</a></div>
+<footer class="foot">
+  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
+  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
+  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
+</footer>
+<div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
+  <div class="gl-panel">
+    <button class="gl-close" type="button" aria-label="Close glossary">×</button>
+    <p class="plaque small"><span>Glossary</span></p>
+    <h2 id="gl-title">Twelve words that unlock the casino.</h2>
+    <dl class="gl-list">
+      <div><dt>House edge</dt><dd>The average share of each bet the casino keeps over the long run.</dd></div>
+      <div><dt>RTP</dt><dd>Return to player, the flip side of the edge. 95% RTP means a 5% edge.</dd></div>
+      <div><dt>Variance</dt><dd>How far short-term results swing around the average.</dd></div>
+      <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
+      <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
+      <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
+      <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
+      <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
+      <div><dt>Outs</dt><dd>In poker, the unseen cards that would improve your hand to a likely winner.</dd></div>
+      <div><dt>Rake</dt><dd>The fee a poker room takes from each pot.</dd></div>
+    </dl>
+  </div>
+</div>
+</body>
+</html>
