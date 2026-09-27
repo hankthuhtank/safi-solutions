@@ -326,8 +326,15 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .page-home .particle-layer i { filter: brightness(1.12); }
 }
 
-/* ---------------------------------------------------------------- responsive */
 @media (max-width: 1320px) {
+  .page-home .hero { grid-template-columns: minmax(0, 1fr); gap: 40px; min-height: 0; }
+  .page-home .hero-copy { max-width: 640px; }
+  .page-home .doors { grid-column: 1; max-width: 640px; width: calc(100% - 30px); margin-left: 30px; }
+  .page-home .hero-hint { display: none; }
+}
+
+/* ---------------------------------------------------------------- responsive */
+@media (max-width: 1180px) {
   .hero { grid-template-columns: minmax(0, 1fr); gap: 40px; min-height: 0; }
   .hero-copy { max-width: 640px; }
   .doors { grid-column: 1; max-width: 640px; width: calc(100% - 30px); margin-left: 30px; }
