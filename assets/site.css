@@ -87,7 +87,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .hero h1:not(.hero-title-pyramid) > span { display: block; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
 .hero-title-pyramid { display: flex; flex-direction: column; align-items: center; width: auto; max-width: none; margin: 18px auto 22px; line-height: .91; overflow: visible; }
 .hero-title-pyramid .hero-line { display: block; width: auto; max-width: none; white-space: nowrap; text-align: center; color: var(--text); background: none; -webkit-background-clip: initial; background-clip: initial; overflow: visible; }
-.hero-title-pyramid .hero-line-1 { font-size: .96em; }
+.hero-title-pyramid .hero-line-1 { font-size: .96em; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
 .hero-title-pyramid .hero-line-2 { font-size: .84em; margin-top: .05em; }
 .hero-title-pyramid .hero-line-3 { font-size: .74em; margin-top: .08em; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
 .hero-title-pyramid .hero-made { display: inline !important; color: transparent; background: linear-gradient(95deg, #f6f8fa 10%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; padding-right: .10em; margin-right: -.10em; }
