@@ -90,7 +90,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .hero-title-pyramid .hero-line-1 { font-size: .96em; }
 .hero-title-pyramid .hero-line-2 { font-size: .84em; margin-top: .05em; }
 .hero-title-pyramid .hero-line-3 { font-size: .74em; margin-top: .08em; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
-.hero-title-pyramid .hero-made { display: inline !important; color: transparent; background: linear-gradient(95deg, #f6f8fa 10%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
+.hero-title-pyramid .hero-made { display: inline !important; color: transparent; background: linear-gradient(95deg, #f6f8fa 10%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; padding-right: .10em; margin-right: -.10em; }
 .hero-lede { max-width: 500px; margin-left: auto; margin-right: auto; font-size: clamp(16px, 1.3vw, 18.5px); line-height: 1.6; color: #c4cad1; text-align: center; }
 .hero-lede b { color: var(--text); font-weight: 600; }
 .hero-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
@@ -233,7 +233,7 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 
 /* ---------------------------------------------------------------- product shelves */
 .shelves { display: grid; gap: 22px; }
-.shelf { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(20px, 3vw, 44px); align-items: center; padding: clamp(20px, 2.6vw, 32px); border: 1px solid rgba(86,96,108,.72); border-radius: 8px; background: linear-gradient(160deg, rgba(29,33,38,.70), rgba(25,28,32,.52)); box-shadow: inset 0 1px 0 rgba(255,255,255,.018); scroll-margin-top: 24px; }
+.shelf { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(20px, 3vw, 44px); align-items: center; padding: clamp(20px, 2.6vw, 32px); border: 1px solid rgba(86,96,108,.72); border-radius: 8px; background: linear-gradient(160deg, rgba(29,33,38,.42), rgba(25,28,32,.28)); box-shadow: inset 0 1px 0 rgba(255,255,255,.018); scroll-margin-top: 24px; }
 .shelf-kicker { display: flex; gap: 10px; align-items: center; }
 .pill { display: inline-flex; align-items: center; font: 500 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px 3px; border-radius: 3px; border: 1px solid #4b5561; color: var(--muted); }
 .pill.free { border-color: rgba(123, 214, 172, .5); color: #9fe0bf; }
@@ -248,12 +248,12 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 .price strong { font-size: 32px; font-weight: 600; letter-spacing: -.04em; line-height: 1; }
 .price small { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .shelf-shots { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.shelf-shots figure { border: 1px solid rgba(86,96,108,.7); border-radius: 6px; overflow: hidden; background: rgba(14,16,19,.56); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.shelf-shots figure { border: 1px solid rgba(86,96,108,.7); border-radius: 6px; overflow: hidden; background: rgba(14,16,19,.30); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
 .shelf-shots figure:nth-child(2) { transform: translateY(18px); }
 .shelf:hover .shelf-shots figure:first-child { transform: translateY(-4px); }
 .shelf:hover .shelf-shots figure:nth-child(2) { transform: translateY(12px); }
 .shelf-shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }
-.shelf-shots figcaption { padding: 8px 10px; font-size: 12.5px; color: var(--muted); border-top: 1px solid rgba(70,78,87,.7); background: rgba(14,16,19,.42); }
+.shelf-shots figcaption { padding: 8px 10px; font-size: 12.5px; color: var(--muted); border-top: 1px solid rgba(70,78,87,.7); background: rgba(14,16,19,.22); }
 .shelf.w-kwezeen h2 { font-family: 'Fraunces', Georgia, serif; }
 .shelf.w-doqcorp h2 { font-family: 'Roboto Slab', Georgia, serif; }
 .shelf.w-padeff h2 { font-family: 'Newsreader', Georgia, serif; }
