@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base href="/motoratlas/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Parts Library | MotorAtlas</title>
+<meta name="description" content="A visual, parts-first guide to how cars work: components, systems, failure signs, diagnostics, gasoline, hybrid and electric vehicle architecture.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700;800&family=Chivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="atlas.css?v=20260905">
+<link rel="stylesheet" href="features.css?v=1">
+<link rel="stylesheet" href="machine.css?v=2">
+
+<style id="ss-loader-style">
+#ss-themed-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#090b0c;color:#f1efe8;overflow:hidden;transition:opacity .46s ease,visibility .46s ease}
+#ss-themed-loader.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+#ss-themed-loader::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(circle at center,#000 0,transparent 76%)}
+.ss-motor-loader{position:relative;width:min(510px,86vw);font-family:"IBM Plex Mono",monospace}
+.ss-motor-head{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.11);padding-bottom:11px;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#647076}.ss-motor-head b{font-weight:500;color:#f0a43b}
+.ss-motor-name{font-family:"Saira Condensed",sans-serif;font-size:clamp(54px,14vw,88px);font-weight:800;line-height:.8;letter-spacing:-.035em;text-transform:uppercase;margin:30px 0 24px}.ss-motor-name span{color:#f0a43b}
+.ss-engine-bank{height:86px;border:1px solid rgba(255,255,255,.11);background:#0e1112;display:flex;align-items:end;justify-content:center;gap:9px;padding:13px 22px;position:relative;overflow:hidden}
+.ss-engine-bank::before{content:"ENGINE / SYSTEM INDEX";position:absolute;left:10px;top:8px;font-size:7px;letter-spacing:.12em;color:#4f5a5f}.ss-engine-bank::after{content:"";position:absolute;left:0;right:0;height:1px;top:0;background:linear-gradient(90deg,transparent,#75c7d1,transparent);box-shadow:0 0 16px rgba(117,199,209,.4);animation:ss-motor-scan 1.25s linear infinite}
+.ss-piston{width:48px;height:48px;border:1px solid rgba(255,255,255,.13);position:relative}.ss-piston i{position:absolute;left:8px;right:8px;top:7px;height:15px;background:#f0a43b;animation:ss-motor-piston .7s ease-in-out infinite alternate}.ss-piston:nth-child(2) i{animation-delay:-.35s}.ss-piston:nth-child(4) i{animation-delay:-.35s}
+.ss-motor-status{margin-top:17px;display:flex;justify-content:space-between;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#647076}.ss-motor-status strong{color:#75c7d1;font-weight:500}
+@keyframes ss-motor-piston{from{transform:translateY(0)}to{transform:translateY(20px)}}
+@keyframes ss-motor-scan{from{transform:translateY(0)}to{transform:translateY(84px)}}
+@media(prefers-reduced-motion:reduce){.ss-piston i,.ss-engine-bank::after{animation:none}}
+</style>
+
+<link rel="stylesheet" href="discovery.css?v=20260907">
+<link rel="stylesheet" href="portal.css?v=1">
+</head>
+<body class="atlas-section-page section-parts">
+
+<div id="ss-themed-loader" aria-hidden="true">
+  <div class="ss-motor-loader">
+    <div class="ss-motor-head"><span>Reference plate / startup</span><b>Machine online</b></div>
+    <div class="ss-motor-name">MOTOR<span>ATLAS</span></div>
+    <div class="ss-engine-bank"><div class="ss-piston"><i></i></div><div class="ss-piston"><i></i></div><div class="ss-piston"><i></i></div><div class="ss-piston"><i></i></div></div>
+    <div class="ss-motor-status"><span>Indexing the machine…</span><strong>Parts · systems · diagnosis</strong></div>
+  </div>
+</div>
+
+<div class="ambient-grid" aria-hidden="true"></div>
+<nav class="topbar" id="topbar">
+  <div class="shell nav-inner">
+    <a class="brand" href="/motoratlas/" aria-label="MotorAtlas home"><img src="/assets/project-logos/motoratlas.svg?v=2" alt="MotorAtlas" class="site-brand-logo"></a>
+    <div class="nav-links" id="navLinks">
+      <a href="/motoratlas/parts/" aria-current="page">Parts</a>
+      <a href="/motoratlas/architecture/">Vehicle architecture</a>
+      <a href="/motoratlas/diagnostics/">Diagnostics</a>
+      <a href="/motoratlas/sources/">Sources</a>
+    <a href="/motoratlas/drive-lab/">Drive Lab</a></div>
+    <button class="menu" id="menuBtn" type="button" aria-expanded="false">MENU</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-noise" aria-hidden="true"></div>
+  <div class="shell hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow"><span></span>PARTS-FIRST AUTOMOTIVE EDUCATION</div>
+      <h1>Know the part.<br><em>Understand the machine.</em></h1>
+      <p>Search a component, open its system, see what it does, where it lives, what it works with, what failure feels like, and how the whole system moves around it.</p>
+      <label class="hero-search">
+        <span>SEARCH THE VEHICLE</span>
+        <input id="globalSearch" type="search" autocomplete="off" placeholder="Try: thermostat, crankshaft, ABS, alternator, CV axle…">
+        <kbd>/</kbd>
+      </label>
+      <div class="hero-meta"><span id="heroCount">Loading component index…</span><span>Gas · diesel · hybrid · EV</span><span>Beginner-first</span></div>
+    </div>
+    <div class="hero-plate machine" id="machine">
+      <div class="plate-top"><span>REFERENCE PLATE 01 · THE MACHINE</span><span id="machineSpec">GASOLINE · TURBO 4-CYL · AWD</span></div>
+      <div class="machine-stage" id="machineStage" role="img" aria-label="Interactive 3D X-ray of a compact sedan showing every system colour-coded. Drag to rotate, tap a part to learn what it does.">
+        <span class="machine-hint" aria-hidden="true">Drag to rotate · tap a part</span>
+        <button type="button" class="machine-expand" id="machineExpand" aria-pressed="false" aria-controls="machine"><svg class="mx-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="mx-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg><span>Expand view</span></button>
+        <div class="machine-card" id="machineCard" aria-live="polite" hidden></div>
+      </div>
+      <div class="machine-bar">
+        <div class="machine-seg" role="group" aria-label="Powertrain"><button type="button" data-mode="gas" aria-pressed="true">Gasoline</button><button type="button" data-mode="hybrid" aria-pressed="false">Hybrid</button><button type="button" data-mode="ev" aria-pressed="false">Electric</button></div>
+        <div class="machine-seg" role="group" aria-label="Camera"><button type="button" data-view="overview">3/4</button><button type="button" data-view="side">Side</button><button type="button" data-view="top">Top</button><button type="button" data-xray aria-pressed="true">X-ray</button></div>
+      </div>
+      <div class="machine-systems" id="machineSystems" role="group" aria-label="Highlight a system"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="system-entry" id="explorer">
+  <div class="shell">
+    <div class="section-heading">
+      <div class="index">01 / PARTS LIBRARY</div>
+      <div><span class="eyebrow-text">START HERE</span><h2>Pick a system.<br>Open the hardware.</h2><p>Choose a system below or search directly for a part. Each page starts in plain English, then lets you go deeper only when you want to.</p></div>
+    </div>
+    <div class="system-strip" id="systemStrip" aria-label="Vehicle systems"></div>
+
+    <div class="workbench" id="workbench">
+      <aside class="part-index">
+        <div class="part-index-head">
+          <div><span id="partSystemLabel">SYSTEM</span><b id="partCountLabel">0 PARTS</b></div>
+          <label><input id="partSearch" type="search" placeholder="Filter this system…"></label>
+        </div>
+        <div class="part-list" id="partList"></div>
+      </aside>
+
+      <section class="manual-page">
+        <header class="manual-head">
+          <div><span class="manual-code" id="manualCode">01.01</span><h3 id="partTitle">Select a part</h3></div>
+          <div class="manual-tags" id="partTags"></div>
+        </header>
+        <div class="detail-view" id="detailView"></div>
+        <div class="related-row"><span>LEARN NEXT</span><div id="relatedParts"></div></div>
+      </section>
+
+      <aside class="system-visual">
+        <div class="visual-head"><div class="visual-tabs" role="tablist" aria-label="Reference view"><button type="button" role="tab" aria-selected="true" data-vt="where">Where it lives</button><button type="button" role="tab" aria-selected="false" data-vt="photo">Real hardware</button></div><a id="visualSource" target="_blank" rel="noopener">SOURCE ↗</a></div>
+        <figure class="visual-frame is-where"><div class="locator" id="locator"><p class="locator-note" id="locatorNote"></p></div><img id="systemImage" alt="" decoding="async"><figcaption id="visualCaption"></figcaption><figcaption id="locatorCaption" class="locator-caption"></figcaption></figure>
+        <div class="system-copy"><span class="system-code" id="systemCode"></span><h3 id="systemTitle"></h3><p id="systemSummary"></p></div>
+      </aside>
+    </div>
+
+    <section class="flow-bench" id="flowBench">
+      <div class="flow-copy"><span class="eyebrow-text">SYSTEM VIEW</span><h3 id="flowTitle">Follow what moves.</h3><p id="flowSummary"></p><div class="flow-legend"><span><i class="energy"></i> energy / force</span><span><i class="fluid"></i> fluid / air</span><span><i class="signal"></i> electrical / control</span></div></div>
+      <div class="flow-stage" id="flowStage"></div>
+    </section>
+  </div>
+</section>
+
+<section class="architecture" id="architecture">
+  <div class="shell">
+    <div class="section-heading compact">
+      <div class="index">02 / VEHICLE ARCHITECTURE</div>
+      <div><span class="eyebrow-text">DIFFERENCES THAT ACTUALLY MATTER</span><h2>Gasoline. Hybrid. Electric.</h2><p>Compare powertrain architectures where the component set really changes.</p></div>
+    </div>
+    <div class="arch-tabs" id="archTabs"><button class="active" data-arch="gas">Gasoline</button><button data-arch="hybrid">Hybrid</button><button data-arch="ev">Electric</button></div>
+    <div class="arch-stage">
+      <figure><img id="archImage" src="https://afdc.energy.gov/files/vehicles/gas-high-res.jpg" alt="U.S. Department of Energy labeled gasoline vehicle component diagram" loading="lazy" decoding="async"></figure>
+      <div class="arch-copy"><span class="arch-source" id="archSource">U.S. DEPARTMENT OF ENERGY / AFDC</span><h3 id="archTitle">Gasoline vehicle</h3><p id="archText"></p><div class="arch-parts" id="archParts"></div><a id="archLink" target="_blank" rel="noopener">Open official DOE reference ↗</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="diagnostics" id="diagnostics">
+  <div class="shell">
+    <div class="section-heading compact">
+      <div class="index">03 / COMMON DIAGNOSTICS</div>
+      <div><span class="eyebrow-text">SYMPTOM → SYSTEM → TEST</span><h2>Something feels wrong.<br>Start with the symptom.</h2><p>Work through common vehicle problems in a sensible order instead of guessing which part to replace.</p></div>
+    </div>
+    <div class="diag-shell">
+      <aside class="case-list" id="caseList"></aside>
+      <section class="case-workspace">
+        <div class="case-ticket"><span id="caseCode"></span><span id="caseStatus">OPEN CASE</span></div>
+        <h3 id="caseTitle"></h3><p class="case-complaint" id="caseComplaint"></p>
+        <div class="case-steps" id="caseSteps"></div>
+        <div class="case-result" id="caseResult"><b>Start with the symptom.</b><span>Select a test to reveal evidence.</span></div>
+        <button class="case-reset" id="caseReset" type="button">RESET CASE</button>
+      </section>
+    </div>
+  </div>
+</section>
+
+<section class="sources" id="sources">
+  <div class="shell">
+    <div class="section-heading compact">
+      <div class="index">04 / SOURCE DESK</div>
+      <div><span class="eyebrow-text">ACCURACY + VISUAL CREDITS</span><h2>Built from real references.</h2><p>Government references, open educational material, museum cutaways, technical manuals, and openly licensed component photography.</p></div>
+    </div>
+    <div class="source-grid" id="sourceGrid"></div>
+    <div class="safety-note"><b>Important:</b> This is educational material, not a substitute for model-specific service information. High-voltage EV systems, pressurized fuel, hot cooling systems, airbags, lifted vehicles and braking systems can cause serious injury. Use manufacturer procedures and qualified service information before hands-on work.</div>
+  </div>
+</section>
+</main>
+
+<footer><div class="shell footer-inner"><span>MotorAtlas</span><span>PARTS · SYSTEMS · FAILURE · DIAGNOSIS</span><span>SAFI SOLUTIONS / CONCEPT BUILD</span></div></footer>
+
+<script src="atlas-data.js?v=4"></script>
+<script src="diagnostics-data.js?v=2"></script>
+<script src="beginner-data.js?v=2"></script>
+<script src="atlas-core.js?v=20260905"></script>
+<script src="features.js?v=20260907"></script>
+<script type="module" src="machine-ui.js?v=2"></script>
+
+<script id="ss-loader-script">
+(()=>{
+  const el=document.getElementById('ss-themed-loader');
+  if(!el) return;
+  const started=performance.now();
+  let leaving=false;
+  const leave=()=>{
+    if(leaving) return;
+    leaving=true;
+    const wait=Math.max(0,1100-(performance.now()-started));
+    setTimeout(()=>{
+      el.classList.add('is-leaving');
+      setTimeout(()=>el.remove(),520);
+    },wait);
+  };
+  if(document.readyState==='complete') leave();
+  else window.addEventListener('load',leave,{once:true});
+  setTimeout(leave,2200);
+})();
+</script>
+
+<script src="discovery.js?v=20260907"></script>
+</body>
+</html>
