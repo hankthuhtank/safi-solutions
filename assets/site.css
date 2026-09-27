@@ -92,6 +92,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .hero-title-pyramid .hero-line-3 { font-size: .74em; margin-top: .08em; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
 .hero-title-pyramid .hero-made { display: inline !important; color: transparent; background: linear-gradient(95deg, #f6f8fa 10%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; padding-right: .10em; margin-right: -.10em; }
 .hero-lede { max-width: 500px; margin-left: auto; margin-right: auto; font-size: clamp(16px, 1.3vw, 18.5px); line-height: 1.6; color: #c4cad1; text-align: center; }
+@media (min-width: 1181px) { .page-home .hero-lede { max-width: 560px; } }
 .hero-lede b { color: var(--text); font-weight: 600; }
 .hero-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
 .hero-hint { position: absolute; left: var(--pad); bottom: 22px; display: flex; align-items: center; gap: 10px; font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); pointer-events: none; transition: opacity .6s; }
