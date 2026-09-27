@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06100c"><title>Sportsbook | HouseEdge</title><meta name="description" content="Decode American odds, implied probability, sportsbook hold and parlay pricing."><base href="/houseedge/"><link rel="icon" href="/assets/project-logos/houseedge.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="houseedge.css?v=3"><link rel="stylesheet" href="portal.css?v=1"><script type="module" src="houseedge.js?v=3"></script></head><body class="portal-page room-page room-sportsbook"><header class="floorbar"><a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a><nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/">Floor</a><a href="edge/">Cost Lab</a><a href="safe/">Play Safe</a></nav><button class="floor-help" type="button" data-glossary>Glossary</button></header><nav class="room-strip" aria-label="Game rooms"><a href="blackjack/">Blackjack</a><a href="baccarat/">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/">Slots</a><a href="poker/">Poker</a><a href="sportsbook/" aria-current="page">Sportsbook</a></nav><main class="room-main"><section class="chapter" id="sportsbook" aria-labelledby="sb-title">
+  <div class="odds-board" aria-label="Example odds board">
+    <div class="ob-head"><span>NFL · WEEK 4</span><span>SPREAD</span><span>MONEYLINE</span><span>TOTAL</span></div>
+    <div class="ob-row"><b>DENVER</b><span>−3.5 <em>−110</em></span><span>−180</span><span>O 47.5 <em>−110</em></span></div>
+    <div class="ob-row"><b>KANSAS CITY</b><span>+3.5 <em>−110</em></span><span>+155</span><span>U 47.5 <em>−110</em></span></div>
+    <div class="ob-row dim"><b>SEATTLE</b><span>+1.5 <em>−105</em></span><span>+100</span><span>O 44.0 <em>−115</em></span></div>
+    <div class="ob-row dim"><b>ARIZONA</b><span>−1.5 <em>−115</em></span><span>−120</span><span>U 44.0 <em>−105</em></span></div>
+    <p class="ob-note">Example lines for illustration only.</p>
+  </div>
+  <header class="ch-head">
+    <p class="ch-no">Book 07 <span>Sportsbook</span></p>
+    <h2 id="sb-title">Bet the number, not the team name.</h2>
+    <p>A sports bet is a price on an outcome. The book builds a small margin into both sides of every line, so to profit, you need to be right more often than the price implies, not just more often than not.</p>
+    <dl class="stats"><div><dt>Break-even at −110</dt><dd>52.38%</dd><small>not 50%</small></div><div><dt>Book's hold at −110 / −110</dt><dd>4.55%</dd><small>the "vig" or "juice"</small></div><div><dt>3-leg parlay at −110</dt><dd>≈13%</dd><small>hold compounds with each leg</small></div></dl>
+  </header>
+  <div class="ch-body">
+    <article class="panel">
+      <h3>Reading a line</h3>
+      <table class="rate lines">
+        <thead><tr><th scope="col">Market</th><th scope="col">Example</th><th scope="col">Means</th></tr></thead>
+        <tbody>
+          <tr><td>Moneyline (favorite)</td><td>−180</td><td>Risk $180 to win $100</td></tr>
+          <tr><td>Moneyline (underdog)</td><td>+155</td><td>Risk $100 to win $155</td></tr>
+          <tr><td>Point spread</td><td>−3.5</td><td>Favorite must win by 4 or more</td></tr>
+          <tr><td>Total (over/under)</td><td>O 47.5</td><td>Combined score must be 48+</td></tr>
+          <tr><td>Parlay</td><td>3 legs</td><td>Every leg must win; payout multiplies</td></tr>
+        </tbody>
+      </table>
+    </article>
+    <article class="panel lab" id="oddsLab" aria-labelledby="ol-title">
+      <h3 id="ol-title">Odds lab</h3>
+      <div class="lab-in two"><label class="field">American odds<input id="olOdds" type="text" value="-110" inputmode="text" autocomplete="off"></label><label class="field">Stake<span class="unit">$<input id="olStake" type="number" min="0" value="100" inputmode="decimal"></span></label></div>
+      <div class="meter"><div><span>Implied chance</span><b id="olProb">52.38%</b></div><div><span>Decimal</span><b id="olDec">1.91</b></div><div><span>Fractional</span><b id="olFrac">10/11</b></div><div><span>Profit if it wins</span><b id="olProfit">$90.91</b></div></div>
+      <h4>What's the book's cut?</h4>
+      <div class="lab-in two"><label class="field">Side A<input id="hvA" type="text" value="-110" autocomplete="off"></label><label class="field">Side B<input id="hvB" type="text" value="-110" autocomplete="off"></label></div>
+      <p class="verdict" id="hvOut" aria-live="polite"></p>
+      <h4>Parlay builder</h4>
+      <div class="parlay"><label class="field">Legs<input id="plLegs" type="number" min="2" max="10" value="3" inputmode="numeric"></label><label class="field">Price per leg<input id="plOdds" type="text" value="-110" autocomplete="off"></label><label class="field">Real chance per leg<span class="unit"><input id="plChance" type="number" min="1" max="99" value="50" inputmode="decimal">%</span></label></div>
+      <p class="verdict" id="plOut" aria-live="polite"></p>
+    </article>
+  </div>
+</section></main><div class="room-return"><a href="/houseedge/">← Back to the casino floor</a></div><footer class="foot">
+  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
+  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
+  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
+</footer><div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
+  <div class="gl-panel">
+    <button class="gl-close" type="button" aria-label="Close glossary">×</button>
+    <p class="plaque small"><span>Glossary</span></p>
+    <h2 id="gl-title">Twelve words that unlock the casino.</h2>
+    <dl class="gl-list">
+      <div><dt>House edge</dt><dd>The average share of each bet the casino keeps over the long run.</dd></div>
+      <div><dt>RTP</dt><dd>Return to player, the flip side of the edge. 95% RTP means a 5% edge.</dd></div>
+      <div><dt>Variance</dt><dd>How far short-term results swing around the average.</dd></div>
+      <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
+      <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
+      <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
+      <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
+      <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
+      <div><dt>Outs</dt><dd>In poker, the unseen cards that would improve your hand to a likely winner.</dd></div>
+      <div><dt>Rake</dt><dd>The fee a poker room takes from each pot.</dd></div>
+    </dl>
+  </div>
+</div></body></html>
