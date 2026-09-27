@@ -12,73 +12,71 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="houseedge.css?v=3">
-<link rel="stylesheet" href="portal.css?v=1">
+<link rel="stylesheet" href="portal.css?v=2">
 <script type="module" src="houseedge.js?v=3"></script>
 </head>
-<body class="portal-page floor-page">
+<body class="portal-page floor-page floor-compact">
 <header class="floorbar">
   <a class="floor-logo" href="/houseedge/" aria-label="HouseEdge floor"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge"></a>
-  <nav class="floor-main" aria-label="HouseEdge"><a href="/houseedge/" aria-current="page">Floor</a><a href="edge/">Cost Lab</a><a href="safe/">Play Safe</a></nav>
+  <nav class="floor-main" aria-label="HouseEdge">
+    <a href="/houseedge/" aria-current="page">Floor</a>
+    <a href="edge/">Cost Lab</a>
+    <a href="safe/">Play Safe</a>
+  </nav>
   <button class="floor-help" type="button" data-glossary>Glossary</button>
 </header>
-<nav class="room-strip" aria-label="Game rooms"><a href="blackjack/">Blackjack</a><a href="baccarat/">Baccarat</a><a href="craps/">Craps</a><a href="roulette/">Roulette</a><a href="slots/">Slots</a><a href="poker/">Poker</a><a href="sportsbook/">Sportsbook</a></nav>
-<main>
-<section class="floor-hero">
+
+<main class="floor-stage">
   <div class="floor-hero-photo" aria-hidden="true"></div>
   <div class="floor-hero-shade" aria-hidden="true"></div>
-  <div class="floor-hero-copy">
-    <p class="floor-kicker">THE CASINO, TAKEN APART</p>
-    <h1>Know the game<br><em>before the game knows you.</em></h1>
-    <p>Pick a table, learn exactly where the edge comes from, and use the interactive tools without digging through one endless page.</p>
-    <div class="floor-actions"><a class="floor-cta primary" href="#floor">Enter the floor</a><a class="floor-cta" href="edge/">Open the cost lab</a></div>
-  </div>
-  <div class="edge-ticker" aria-label="Example house edges">
-    <span><b>BLACKJACK</b> ≈0.5%</span><span><b>BACCARAT</b> 1.06%</span><span><b>CRAPS PASS</b> 1.41%</span><span><b>ROULETTE</b> 2.70%+</span><span><b>SPORTS −110</b> ≈4.55%</span>
-  </div>
-</section>
 
-<section class="casino-floor" id="floor">
-  <header class="floor-intro">
-    <div><p class="floor-kicker">CHOOSE YOUR ROOM</p><h2>Seven games.<br>Seven different ways to pay.</h2></div>
-    <p>Each room starts from zero, shows the actual math, and keeps the interactive tools with the game they belong to.</p>
-  </header>
+  <div class="floor-stage-inner">
+    <section class="floor-stage-copy" aria-labelledby="floor-title">
+      <p class="floor-kicker">THE CASINO, TAKEN APART</p>
+      <h1 id="floor-title">Know the game<br><em>before the game knows you.</em></h1>
+      <p>Pick a table, learn exactly where the edge comes from, and use the interactive tools without digging through an endless page.</p>
+    </section>
 
-  <div class="floor-directory">
-    <a class="room-card room-card-lg" href="blackjack/" style="--room:url('media/blackjack-card.webp')">
-      <span class="room-photo"></span><span class="room-sign"><small>TABLE 01</small><b>Blackjack</b><em>Decisions · rules · basic strategy</em><strong>≈0.5% <i>with good rules + strategy</i></strong></span>
-    </a>
-    <a class="room-card" href="baccarat/" style="--room:url('media/baccarat-card.webp')">
-      <span class="room-photo"></span><span class="room-sign"><small>TABLE 02</small><b>Baccarat</b><em>Banker · Player · Tie</em><strong>1.06% <i>Banker</i></strong></span>
-    </a>
-    <a class="room-card" href="craps/" style="--room:url('media/craps-card.webp')">
-      <span class="room-photo"></span><span class="room-sign"><small>TABLE 03</small><b>Craps</b><em>Pass line · point · odds</em><strong>1.41% <i>Pass line</i></strong></span>
-    </a>
-    <a class="room-card room-card-tall" href="roulette/" style="--room:url('media/roulette-card.webp')">
-      <span class="room-photo"></span><span class="room-sign"><small>TABLE 04</small><b>Roulette</b><em>Zeros · inside · outside bets</em><strong>2.70% <i>single zero</i></strong></span>
-    </a>
-    <a class="room-card" href="slots/" style="--room:url('media/slots-card.webp')">
-      <span class="room-photo"></span><span class="room-sign"><small>FLOOR 05</small><b>Slots</b><em>RTP · volatility · hit rate</em><strong>RTP <i>is the price tag</i></strong></span>
-    </a>
-    <a class="room-card" href="poker/" style="--room:url('media/poker-card.webp')">
-      <span class="room-photo"></span><span class="room-sign"><small>ROOM 06</small><b>Poker</b><em>Hands · position · pot odds</em><strong>RAKE <i>replaces the house edge</i></strong></span>
-    </a>
-    <a class="room-card room-card-book" href="sportsbook/">
-      <span class="sports-board" aria-hidden="true"><i><b>DEN</b><em>−3.5</em><em>−110</em></i><i><b>KC</b><em>+3.5</em><em>−110</em></i><i><b>O/U</b><em>47.5</em><em>−110</em></i></span>
-      <span class="room-sign"><small>BOOK 07</small><b>Sportsbook</b><em>Odds · hold · parlays</em><strong>−110 <i>is not even money</i></strong></span>
-    </a>
+    <section class="floor-room-panel" aria-labelledby="room-title">
+      <div class="floor-room-heading">
+        <p class="floor-kicker">CHOOSE YOUR ROOM</p>
+        <h2 id="room-title">Seven games. Seven prices.</h2>
+      </div>
+
+      <div class="floor-room-grid">
+        <a class="floor-room-card" href="blackjack/" style="--room:url('media/blackjack-card.webp')">
+          <span class="floor-room-photo"></span>
+          <span class="floor-room-copy"><small>TABLE 01</small><b>Blackjack</b><em>≈0.5%</em></span>
+        </a>
+        <a class="floor-room-card" href="baccarat/" style="--room:url('media/baccarat-card.webp')">
+          <span class="floor-room-photo"></span>
+          <span class="floor-room-copy"><small>TABLE 02</small><b>Baccarat</b><em>1.06%</em></span>
+        </a>
+        <a class="floor-room-card" href="craps/" style="--room:url('media/craps-card.webp')">
+          <span class="floor-room-photo"></span>
+          <span class="floor-room-copy"><small>TABLE 03</small><b>Craps</b><em>1.41%</em></span>
+        </a>
+        <a class="floor-room-card" href="roulette/" style="--room:url('media/roulette-card.webp')">
+          <span class="floor-room-photo"></span>
+          <span class="floor-room-copy"><small>TABLE 04</small><b>Roulette</b><em>2.70%+</em></span>
+        </a>
+        <a class="floor-room-card" href="slots/" style="--room:url('media/slots-card.webp')">
+          <span class="floor-room-photo"></span>
+          <span class="floor-room-copy"><small>FLOOR 05</small><b>Slots</b><em>RTP</em></span>
+        </a>
+        <a class="floor-room-card" href="poker/" style="--room:url('media/poker-card.webp')">
+          <span class="floor-room-photo"></span>
+          <span class="floor-room-copy"><small>ROOM 06</small><b>Poker</b><em>Rake</em></span>
+        </a>
+        <a class="floor-room-card floor-room-sports" href="sportsbook/">
+          <span class="floor-room-board" aria-hidden="true"><i>DEN <b>−3.5</b></i><i>KC <b>+3.5</b></i></span>
+          <span class="floor-room-copy"><small>BOOK 07</small><b>Sportsbook</b><em>−110</em></span>
+        </a>
+      </div>
+    </section>
   </div>
-</section>
-
-<section class="floor-tools">
-  <a class="tool-door cost-door" href="edge/"><small>THE ONE NUMBER TO KNOW</small><h2>What does a night actually cost?</h2><p>Use bet size, pace, time and house edge to see the average price of a session—and how wide the short-term swings can be.</p><span>Open Cost Lab →</span></a>
-  <a class="tool-door safe-door" href="safe/"><small>BEFORE YOU PLAY</small><h2>Better strategy lowers the price. It does not remove the risk.</h2><p>Bankroll limits, volatility, and the boundaries that matter more than any betting system.</p><span>Play Safe →</span></a>
-</section>
 </main>
-<footer class="foot">
-  <div class="foot-brand"><img src="/assets/project-logos/houseedge.svg" alt="HouseEdge" width="210" height="70"><p>Educational content only. HouseEdge doesn't take bets or link to gambling sites.</p></div>
-  <div class="foot-src"><p class="kicker">Sources</p><ul><li><a href="https://wizardofodds.com/gambling/house-edge/" rel="noopener" target="_blank">Wizard of Odds: house edge of casino games</a></li><li><a href="https://wizardofodds.com/games/blackjack/rule-variations/" rel="noopener" target="_blank">Wizard of Odds: blackjack rule variations</a></li><li><a href="https://gaming.nv.gov/about/gaming-revenue-information-gri/" rel="noopener" target="_blank">Nevada Gaming Control Board: gaming revenue reports</a></li><li><a href="https://vegasadvantage.com/las-vegas-table-game-survey/roulette/" rel="noopener" target="_blank">Vegas Advantage: Las Vegas roulette survey</a></li><li><a href="https://www.ncpgambling.org/" rel="noopener" target="_blank">National Council on Problem Gambling</a></li></ul></div>
-  <div class="foot-end"><a href="/">← Safi Solutions</a><span>Learn the game · Respect the math</span></div>
-</footer>
+
 <div class="glossary" id="glossary" role="dialog" aria-modal="true" aria-labelledby="gl-title" hidden>
   <div class="gl-panel">
     <button class="gl-close" type="button" aria-label="Close glossary">×</button>
@@ -91,7 +89,7 @@
       <div><dt>Push</dt><dd>A tie. Your bet is returned, nothing won or lost.</dd></div>
       <div><dt>Natural</dt><dd>A winning total on the first two cards: 21 in blackjack, 8 or 9 in baccarat.</dd></div>
       <div><dt>Soft hand</dt><dd>A blackjack hand with an ace counted as 11, so it can't bust on the next card.</dd></div>
-      <div><dt>Point</dt><dd>In craps, the number (4, 5, 6, 8, 9 or 10) the shooter must repeat before a 7.</dd></div>
+      <div><dt>Point</dt><dd>In craps, the number the shooter must repeat before a 7.</dd></div>
       <div><dt>True odds</dt><dd>The payout that would make a bet perfectly fair. Casino payouts are set below it.</dd></div>
       <div><dt>Vig / juice</dt><dd>The sportsbook's built-in margin, e.g. risking $110 to win $100.</dd></div>
       <div><dt>Implied probability</dt><dd>The win chance a price assumes. −110 implies 52.38%.</dd></div>
