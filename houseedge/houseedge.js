@@ -17,7 +17,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /* ------------------------------------------------------------------ glossary dialog */
-{
+if ($('#glossary')) {
   const dlg = $('#glossary'); let last = null;
   const open = () => { last = document.activeElement; dlg.hidden = false; document.body.style.overflow = 'hidden'; $('.gl-close', dlg).focus(); };
   const close = () => { dlg.hidden = true; document.body.style.overflow = ''; last?.focus(); };
@@ -28,7 +28,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /* ------------------------------------------------------------------ what a night costs */
-{
+if ($('#costGame')) {
   // sd = standard deviation of one bet, in units of the bet (from each bet's payout distribution)
   const GAMES = [
     ['Blackjack: basic strategy, 3:2 table', .005, 70, 1.15],
@@ -109,7 +109,7 @@ function why(kind, hand, up, act) {
   if (act === 'P') return `Against a weak ${up}, two small hands (with doubling after the split allowed) earn more than one poor total.`;
   return `Against ${u}, splitting ${p}s creates two weak hands. Hit instead.`;
 }
-{
+if ($('#bjChart')) {
   const table = $('#bjChart'), whyEl = $('#bjWhy'); let current = 'hard';
   const render = kind => {
     current = kind;
@@ -123,7 +123,7 @@ function why(kind, hand, up, act) {
   render('hard');
 }
 /* practice table */
-{
+if ($('#bjTrainer')) {
   const dealerEl = $('#trDealer'), playerEl = $('#trPlayer'), verdict = $('#trVerdict'), acts = $$('#bjTrainer [data-act]');
   let hand = null, streak = 0, right = 0, total = 0;
   const tenRank = () => ['10', 'J', 'Q', 'K'][rnd(4)];
@@ -161,7 +161,7 @@ function why(kind, hand, up, act) {
 }
 
 /* ------------------------------------------------------------------ baccarat: banker's tableau */
-{
+if ($('#tbGrid')) {
   const bankerDraws = (b, p3) => p3 === 'none' ? b <= 5 : b <= 2 ? true : b === 3 ? p3 !== 8 : b === 4 ? p3 >= 2 && p3 <= 7 : b === 5 ? p3 >= 4 && p3 <= 7 : b === 6 ? p3 === 6 || p3 === 7 : false;
   const grid = $('#tbGrid'), selB = $('#tbBanker'), selP = $('#tbPlayer'), out = $('#tbVerdict');
   const cols = ['none', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -177,7 +177,7 @@ function why(kind, hand, up, act) {
 }
 
 /* ------------------------------------------------------------------ craps: dice lab */
-{
+if ($('#die1')) {
   const PIPS = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
   const face = n => `<div class="f f${n}">${PIPS[n].map(k => `<i style="grid-area:${Math.ceil(k / 3)} / ${(k - 1) % 3 + 1}"></i>`).join('')}</div>`;
   const dice = [$('#die1'), $('#die2')]; dice.forEach(d => d.innerHTML = [1, 2, 3, 4, 5, 6].map(face).join(''));
@@ -211,7 +211,7 @@ function why(kind, hand, up, act) {
 }
 
 /* ------------------------------------------------------------------ slots: same RTP, different volatility */
-{
+if ($('#simChart')) {
   // each machine: [probability, payout multiple] — both return 92% of money wagered
   const LOW = [[.34, 1.5], [.1, 3], [.011, 10]], HIGH = [[.12, 2], [.014, 20], [.002, 200]];
   const rtp = m => m.reduce((s, [p, x]) => s + p * x, 0);
@@ -240,7 +240,7 @@ function why(kind, hand, up, act) {
 }
 
 /* ------------------------------------------------------------------ poker: hand ladder + pot odds */
-{
+if ($('#handLadder')) {
   const H = [['Royal flush', 'AH KH QH JH 10H', 4], ['Straight flush', '9C 8C 7C 6C 5C', 36], ['Four of a kind', 'QS QH QD QC 2H', 624], ['Full house', 'KS KH KD 9C 9D', 3744], ['Flush', 'AD JD 8D 5D 2D', 5108], ['Straight', '9S 8H 7D 6C 5S', 10200], ['Three of a kind', '7S 7H 7D KC 2S', 54912], ['Two pair', 'JS JH 4D 4C 9S', 123552], ['One pair', 'AS AD 10C 7H 3S', 1098240], ['High card', 'AS JD 8C 5H 2C', 1302540]];
   const used = { 'Four of a kind': 4, 'Full house': 5, 'Three of a kind': 3, 'Two pair': 4, 'One pair': 2, 'High card': 1 };
   $('#handLadder').innerHTML = H.map(([n, cs, ways], i) => {
@@ -262,7 +262,7 @@ function why(kind, hand, up, act) {
 }
 
 /* ------------------------------------------------------------------ odds lab */
-{
+if ($('#olOdds')) {
   const parse = s => { const v = parseFloat(String(s).replace(/[−–]/g, '-').replace(/[^\d.\-+]/g, '')); return Number.isFinite(v) && Math.abs(v) >= 100 ? v : NaN; };
   const imp = o => o < 0 ? -o / (-o + 100) : 100 / (o + 100);
   const dec = o => o < 0 ? 1 + 100 / -o : 1 + o / 100;
@@ -294,7 +294,7 @@ function why(kind, hand, up, act) {
 }
 
 /* ------------------------------------------------------------------ roulette: load when the table comes into view */
-{
+if ($('#rl')) {
   const host = $('#rl'); let loaded = false;
   const load = () => { if (loaded) return; loaded = true; import('./roulette.js?v=2').then(m => m.init(host)).catch(e => console.warn('Roulette table unavailable', e)); };
   if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '600px 0px' }); io.observe(host); } else load();
