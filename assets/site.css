@@ -82,7 +82,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .hero::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 48% 62% at 20% 48%, rgba(24, 27, 31, .85), transparent 75%); }
 .hero-copy { grid-column: 1; align-self: center; justify-self: center; width: 100%; max-width: 600px; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .hero-copy .micro { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
-.hero-copy .micro::before { content: ''; width: 26px; height: 1px; background: var(--accent); }
+.hero-copy .micro::before { display: none; }
 .hero h1 { margin: 18px 0 22px; font-size: clamp(68px, 5.4vw, 100px); line-height: .94; letter-spacing: -.055em; font-weight: 500; }
 .hero h1:not(.hero-title-pyramid) > span { display: block; color: transparent; background: linear-gradient(95deg, var(--silver) 0%, #f6f8fa 30%, var(--accent) 62%, var(--blue) 100%); -webkit-background-clip: text; background-clip: text; }
 .hero-title-pyramid { display: flex; flex-direction: column; align-items: center; width: auto; max-width: none; margin: 18px auto 22px; line-height: .91; overflow: visible; }
@@ -100,7 +100,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 
 /* the four doors each lane of thread runs into */
 .doors { grid-column: 3; position: relative; align-self: center; display: flex; flex-direction: column; border-top: 1px solid var(--line); background: rgba(16, 18, 21, .55); }
-.door { position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto 22px; align-items: center; gap: 4px 12px; padding: 13px 16px 13px 18px; border-bottom: 1px solid var(--line); transition: background .25s, padding .25s; }
+.door { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto 22px; align-items: center; gap: 4px 12px; padding: 13px 16px 13px 18px; border-bottom: 1px solid var(--line); transition: background .25s, padding .25s; }
 .door::before { content: ''; position: absolute; left: -5px; top: 50%; width: 9px; height: 9px; margin-top: -4.5px; border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 1.5px var(--lane-c, #5f6b77); transition: box-shadow .25s, background .25s; }
 .door:hover, .door:focus-visible, .door.lit { background: rgba(184, 216, 250, .06); padding-left: 24px; }
 .door:hover::before, .door.lit::before { background: var(--accent); box-shadow: 0 0 0 1.5px var(--accent), 0 0 14px 2px rgba(184, 216, 250, .55); }
@@ -376,7 +376,7 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .hero-title-pyramid .hero-line-2 { font-size: .76em; }
   .hero-title-pyramid .hero-line-3 { font-size: .68em; }
   .doors { width: calc(100% - 22px); margin-left: 22px; }
-  .door { grid-template-columns: 28px minmax(0, 1fr) auto; padding: 16px 12px 16px 16px; }
+  .door { grid-template-columns: minmax(0, 1fr) auto; padding: 16px 12px 16px 16px; }
   .door .arrow { display: none; }
   .door-body b { font-size: 20px; }
   .door-count b { font-size: 19px; }
