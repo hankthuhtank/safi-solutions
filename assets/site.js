@@ -24,6 +24,35 @@
     if (to) { location.replace(to); return; }
   }
 
+  /* ------------------------------------------------ Dense floating particle field, restored from the pre-refresh site. */
+  if (!document.querySelector('.particle-layer')) {
+    const particleLayer = document.createElement('div');
+    particleLayer.className = 'particle-layer';
+    particleLayer.setAttribute('aria-hidden', 'true');
+    const particlePalette = [
+      'rgba(236,242,255,.92)',
+      'rgba(184,216,250,.88)',
+      'rgba(117,188,255,.82)',
+      'rgba(104,231,220,.76)'
+    ];
+    const particleTotal = matchMedia('(max-width:760px)').matches ? 180 : 240;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < particleTotal; i++) {
+      const dot = document.createElement('i');
+      const duration = 18 + Math.random() * 34;
+      const drift = (Math.random() - .5) * 130;
+      const size = .75 + Math.random() * 2.9;
+      const opacity = .16 + Math.random() * .55;
+      const glow = 4 + Math.random() * 12;
+      const color = particlePalette[Math.floor(Math.random() * particlePalette.length)];
+      const y = -8 + Math.random() * 116;
+      dot.style.cssText = `--x:${(Math.random()*100).toFixed(2)}%;--y:${y.toFixed(2)}vh;--s:${size.toFixed(2)}px;--o:${opacity.toFixed(2)};--d:${duration.toFixed(1)}s;--delay:-${(Math.random()*duration).toFixed(1)}s;--drift:${drift.toFixed(1)}px;--glow:${glow.toFixed(1)}px;--c:${color}`;
+      frag.append(dot);
+    }
+    particleLayer.append(frag);
+    document.body.prepend(particleLayer);
+  }
+
   /* ------------------------------------------------ mobile menu */
   const menu = $('#menu-toggle'), mnav = $('#mobile-nav');
   if (menu && mnav) {
