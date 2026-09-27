@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="/voltvisual/" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#090b0c" />
+  <link rel="icon" href="/assets/project-logos/voltvisual.svg" />
+  <title>Learning Paths | VoltVisual</title>
+  <meta name="description" content="VoltVisual is a visual, beginner-first field guide to industrial electrical engineering, controls, PLCs, drives, motion, safety, networks, and drawings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Semi+Condensed:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="discovery.css?v=20260907" />
+  <link rel="stylesheet" href="drawing.css?v=5" />
+  <link rel="stylesheet" href="portal.css?v=1" />
+</head>
+<body class="vv-section-page vv-learn">
+  <div class="boot" id="boot" aria-hidden="true">
+    <div class="boot-mark"><span>VV</span><i></i></div>
+    <div class="boot-line"><b></b></div>
+    <p>Tracing the machine…</p>
+  </div>
+
+  <div class="noise" aria-hidden="true"></div>
+  <div class="page-progress" id="pageProgress"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/voltvisual/" aria-label="VoltVisual home">
+      <img src="/assets/project-logos/voltvisual.svg" alt="VoltVisual" style="display:block;height:34px;width:auto;max-width:170px;object-fit:contain;object-position:left center;">
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/voltvisual/machine-map/">Machine Map</a>
+      <a href="/voltvisual/visual-lab/">Visual Lab</a>
+      <a href="/voltvisual/learn/" aria-current="page">Learn</a>
+      <a href="/voltvisual/drawings/">Drawings</a>
+      <a href="/voltvisual/library/">Library</a>
+      <a href="/voltvisual/troubleshoot/">Troubleshoot</a>
+    </nav>
+    <div class="top-actions">
+      <button class="mode-toggle" id="modeToggle" aria-pressed="false" title="Switch between beginner and field detail">
+        <span class="mode-dot"></span><b id="modeLabel">BEGINNER</b>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="/voltvisual/machine-map/">Machine Map</a><a href="/voltvisual/visual-lab/">Visual Lab</a><a href="/voltvisual/learn/">Learning Paths</a><a href="/voltvisual/library/">Term Library</a><a href="/voltvisual/drawings/">Drawings</a><a href="/voltvisual/troubleshoot/">Troubleshooting</a>
+  </aside>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> MANUFACTURING / CONTROLS / POWER</div>
+        <h1>Industrial EE.<br><em>Finally visual.</em></h1>
+        <p class="hero-lede">Don’t memorize random terms. <strong>Trace the machine.</strong> Follow power, signals, logic, motion, safety, and data until the whole floor makes sense.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#machine">Enter the machine <span>→</span></a>
+          <button class="text-btn" data-open="quickStart">I know absolutely nothing <span>↗</span></button>
+        </div>
+        <div class="term-stream" aria-label="Included topics">
+          <span>ControlLogix</span><span>Studio 5000</span><span>PowerFlex</span><span>Kinetix 5700</span><span>GuardLogix</span><span>POINT I/O</span><span>FLEX I/O</span><span>EtherNet/IP</span><span>DeviceNet</span><span>ControlNet</span><span>Pilz</span><span>Ladder Logic</span>
+        </div>
+      </div>
+
+      <div class="hero-machine" id="heroMachine">
+        <div class="machine-titlebar"><span>LIVE MACHINE MAP</span><b>CONCEPT MODEL</b></div>
+        <svg viewBox="0 0 760 570" role="img" aria-label="Animated industrial control system showing power, signal, safety and network flow">
+          <defs>
+            <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <marker id="arrowSignal" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" class="arrow-signal"/></marker>
+            <marker id="arrowPower" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" class="arrow-power"/></marker>
+            <marker id="arrowSafe" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" class="arrow-safe"/></marker>
+          </defs>
+
+          <g class="floor-grid" opacity=".22">
+            <path d="M20 510 H735 M20 470 H735 M20 430 H735 M20 390 H735" />
+            <path d="M60 365 V530 M140 365 V530 M220 365 V530 M300 365 V530 M380 365 V530 M460 365 V530 M540 365 V530 M620 365 V530 M700 365 V530" />
+          </g>
+
+          <g class="wire power-wire"><path d="M80 100 H220 V198 H350" marker-end="url(#arrowPower)"/><path d="M430 198 H570 V330" marker-end="url(#arrowPower)"/></g>
+          <g class="wire signal-wire"><path d="M110 420 H235 V275" marker-end="url(#arrowSignal)"/><path d="M315 240 H488" marker-end="url(#arrowSignal)"/></g>
+          <g class="wire network-wire"><path d="M275 220 C350 130, 480 120, 595 180"/><path d="M595 180 V258"/></g>
+          <g class="wire safety-wire"><path d="M120 505 H365 V300" marker-end="url(#arrowSafe)"/><path d="M415 300 H610 V286" marker-end="url(#arrowSafe)"/></g>
+
+          <g class="machine-node node-power" data-inspect="incomingPower" tabindex="0">
+            <rect x="28" y="55" width="108" height="94" rx="12"/><path d="M49 121 l18 -38 18 38 18 -38 15 38"/><text x="82" y="76">480 VAC</text><text x="82" y="138">3-PHASE</text>
+          </g>
+          <g class="machine-node node-panel" data-inspect="panel" tabindex="0">
+            <rect x="220" y="160" width="215" height="175" rx="14"/>
+            <rect x="240" y="185" width="50" height="126" rx="6"/><rect x="300" y="185" width="110" height="48" rx="6"/><rect x="300" y="242" width="110" height="69" rx="6"/>
+            <text x="327" y="179">CONTROL PANEL</text><text x="265" y="210">PLC</text><text x="355" y="207">I/O + NET</text><text x="355" y="272">SAFETY</text><text x="355" y="292">24 VDC</text>
+          </g>
+          <g class="machine-node node-drive" data-inspect="vfd" tabindex="0">
+            <rect x="506" y="166" width="142" height="112" rx="14"/><path d="M535 215 q14 -28 28 0 t28 0 t28 0"/><text x="577" y="191">POWERFLEX</text><text x="577" y="253">VFD</text>
+          </g>
+          <g class="machine-node node-motor" data-inspect="motor" tabindex="0">
+            <circle cx="610" cy="365" r="42"/><circle cx="610" cy="365" r="16"/><path d="M652 365 H694"/><text x="700" y="330">3φ MOTOR</text>
+          </g>
+          <g class="machine-node node-sensor" data-inspect="sensor" tabindex="0">
+            <rect x="58" y="386" width="103" height="66" rx="12"/><circle cx="88" cy="419" r="10"/><path d="M100 409 l30 -14 M100 419 h34 M100 429 l30 14"/><text x="110" y="377">PHOTOEYE</text>
+          </g>
+          <g class="machine-node node-estop" data-inspect="safety" tabindex="0">
+            <circle cx="88" cy="510" r="31"/><circle cx="88" cy="510" r="17"/><text x="152" y="484">E-STOP</text>
+          </g>
+          <g class="machine-node node-hmi" data-inspect="hmi" tabindex="0">
+            <rect x="544" y="62" width="128" height="74" rx="12"/><rect x="559" y="76" width="98" height="40" rx="4"/><path d="M574 102 l18 -10 18 7 29 -16"/><text x="608" y="53">HMI</text>
+          </g>
+
+          <g class="belt"><path d="M486 442 H704"/><circle cx="516" cy="466" r="20"/><circle cx="676" cy="466" r="20"/><path d="M516 446 H676 M516 486 H676"/><rect class="box-on-belt" x="560" y="405" width="56" height="36" rx="4"/></g>
+
+          <g class="legend" transform="translate(250 520)">
+            <circle cx="0" cy="0" r="4" class="lg-signal"/><text x="10" y="4">SIGNAL</text>
+            <circle cx="90" cy="0" r="4" class="lg-power"/><text x="100" y="4">POWER</text>
+            <circle cx="178" cy="0" r="4" class="lg-safe"/><text x="188" y="4">SAFETY</text>
+            <circle cx="265" cy="0" r="4" class="lg-network"/><text x="275" y="4">NETWORK</text>
+          </g>
+        </svg>
+        <div class="machine-inspector" id="machineInspector">
+          <small>CLICK ANY COMPONENT</small>
+          <strong>One machine. Six systems.</strong>
+          <p>Everything below becomes easier once you see how each piece connects.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="system-strip" aria-label="Core system categories">
+      <button data-jump="power"><b>01</b><span>POWER</span><small>What feeds it</small></button>
+      <button data-jump="signals"><b>02</b><span>SIGNALS</span><small>What it senses</small></button>
+      <button data-jump="controls"><b>03</b><span>CONTROL</span><small>What decides</small></button>
+      <button data-jump="motion"><b>04</b><span>MOTION</span><small>What moves</small></button>
+      <button data-jump="safety"><b>05</b><span>SAFETY</span><small>What protects</small></button>
+      <button data-jump="network"><b>06</b><span>NETWORK</span><small>What talks</small></button>
+    </section>
+
+    <section class="machine-map section-shell" id="machine">
+      <div class="section-heading split-heading">
+        <div><div class="eyebrow"><span></span> START HERE</div><h2>Learn the machine,<br>not the dictionary.</h2></div>
+        <p>Click a layer. The same physical machine changes depending on what an engineer is tracing.</p>
+      </div>
+
+      <div class="layer-console">
+        <div class="layer-controls" role="tablist" aria-label="Machine system layers">
+          <button class="active" role="tab" data-layer="signal"><i></i><b>Signal path</b><span>Sensor → decision → action</span></button>
+          <button role="tab" data-layer="power"><i></i><b>Power path</b><span>Source → conversion → load</span></button>
+          <button role="tab" data-layer="safety"><i></i><b>Safety path</b><span>Hazard → detect → safe state</span></button>
+          <button role="tab" data-layer="network"><i></i><b>Data path</b><span>Device → network → controller</span></button>
+        </div>
+        <div class="layer-stage" id="layerStage" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="visual-lab section-shell" id="lab">
+      <div class="section-heading split-heading">
+        <div><div class="eyebrow"><span></span> VISUAL LAB</div><h2>Touch it.<br>Then understand it.</h2></div>
+        <p>These are deliberately simplified learning models, enough to build intuition without pretending a real machine is this simple.</p>
+      </div>
+
+      <div class="lab-tabs" role="tablist" aria-label="Interactive engineering visualizers">
+        <button class="active" data-lab="ladder">Ladder Logic</button>
+        <button data-lab="rack">PLC Rack</button>
+        <button data-lab="vfd">VFD</button>
+        <button data-lab="servo">Servo</button>
+        <button data-lab="analog">4–20 mA</button>
+        <button data-lab="network">Networks</button>
+        <button data-lab="safety">Safety Chain</button>
+      </div>
+      <div class="lab-stage" id="labStage"></div>
+    </section>
+
+    <section class="paths section-shell" id="paths">
+      <div class="section-heading split-heading">
+        <div>
+          <div class="eyebrow"><span></span> LEARNING PATH</div>
+          <h2>Six stops.<br>One mental map.</h2>
+        </div>
+        <p>Instead of throwing 80 terms at you, this gives you the order that makes the floor start to make sense. Each stop tells you what to understand and what you should be able to recognize afterward.</p>
+      </div>
+      <div class="path-rail" id="pathRail"></div>
+    </section>
+
+    <section class="brand-decoder section-shell" id="brandDecoder">
+      <div class="decoder-intro">
+        <div class="eyebrow"><span></span> THE ALLEN-BRADLEY / ROCKWELL DECODER</div>
+        <h2>The names sound worse<br>than the concepts.</h2>
+        <p>A lot of the vocabulary you’ll hear on a plant floor is product-family language. This translates it into what the thing actually <em>does</em>.</p>
+      </div>
+      <div class="decoder-board" id="decoderBoard"></div>
+    </section>
+
+    <section class="drawings section-shell" id="drawings">
+      <div class="section-heading split-heading">
+        <div><div class="eyebrow"><span></span> DRAWINGS & SYMBOLS</div><h2>Learn to read<br>the paper trail.</h2></div>
+        <p>The drawing is the map. Learn the recurring symbols first, then trace left-to-right or source-to-load.</p>
+      </div>
+      <div class="drawing-workbench">
+        <div class="drawing-canvas" id="drawingCanvas"></div>
+        <div class="symbol-tray" id="symbolTray"></div>
+      </div>
+    </section>
+
+    <section class="library section-shell" id="library">
+      <div class="library-head">
+        <div>
+          <div class="eyebrow"><span></span> FIELD LIBRARY</div>
+          <h2>Search the floor.</h2>
+        </div>
+        <div class="search-wrap">
+          <span>⌕</span><input id="termSearch" type="search" placeholder="Try “servo”, “sinking”, “GuardLogix”…" autocomplete="off" />
+          <kbd>/</kbd>
+        </div>
+      </div>
+      <div class="filter-row" id="filterRow"></div>
+      <div class="library-stats"><span id="termCount"></span><small>Click any term for the plain-English version + where it fits.</small></div>
+      <div class="term-grid" id="termGrid"></div>
+    </section>
+
+    <section class="troubleshoot section-shell" id="troubleshoot">
+      <div class="trouble-wrap">
+        <div class="trouble-left">
+          <div class="eyebrow"><span></span> TROUBLESHOOTING MINDSET</div>
+          <h2>Stop guessing.<br>Trace the chain.</h2>
+          <p>The most reusable skill on a manufacturing floor is turning “it doesn’t work” into a sequence of yes/no questions.</p>
+          <div class="safety-note"><b>⚠ CONCEPT ONLY</b><span>Not a live-work, LOTO, commissioning, or functional-safety procedure. Site rules, qualified personnel, drawings, risk assessments, and manufacturer documentation win every time.</span></div>
+        </div>
+        <div class="trouble-right" id="troubleRight"></div>
+      </div>
+    </section>
+
+    <section class="finish section-shell">
+      <div class="finish-grid">
+        <div><small>THE GOAL</small><h2>See a machine.<br><em>Know what to trace.</em></h2></div>
+        <p>Power gives it energy. Inputs tell it what is happening. The controller decides. Outputs make something happen. Networks move data. Safety can override everything to reach a safe state.</p>
+      </div>
+      <div class="finish-flow"><span>POWER</span><i>→</i><span>SENSE</span><i>→</i><span>DECIDE</span><i>→</i><span>ACT</span><i>↺</i><span>FEEDBACK</span></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>VOLTVISUAL / PROTOTYPE V2</span>
+    <span>Industrial controls education · beginner-first, field-aware.</span>
+    <button data-open="sources">Sources + accuracy notes</button>
+  </footer>
+
+  <dialog class="modal" id="infoModal">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div id="modalBody"></div>
+  </dialog>
+
+  <script src="app.js?v=4"></script>
+<script src="discovery.js?v=20260907"></script>
+<script src="drawing.js?v=1"></script>
+</body>
+</html>
