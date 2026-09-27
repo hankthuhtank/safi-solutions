@@ -44,7 +44,7 @@ function head({ title, desc, url, image, prefix }) {
 <link rel="apple-touch-icon" href="${prefix}assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="${FONTS}" rel="stylesheet">
-<link rel="stylesheet" href="${prefix}assets/css/playbook.css">
+<link rel="stylesheet" href="${prefix}assets/css/playbook.css?v=2">
 </head>`;
 }
 function topbar(active, prefix) {
@@ -151,7 +151,7 @@ ${sport.sections.map((s, i) => section(s, i, sport)).join('\n')}
 ${footer(prefix)}
 ${palette(`Search ${sport.name.toLowerCase()} terms, concepts and sections…`)}
 <script type="application/json" id="glossary-data">${JSON.stringify(gdata).replace(/</g, '\\u003c')}</script>
-<script type="module" src="${prefix}assets/js/playbook.js"></script>
+<script type="module" src="${prefix}assets/js/playbook.js?v=2"></script>
 </body>
 </html>
 `;
