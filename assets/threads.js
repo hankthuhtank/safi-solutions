@@ -39,7 +39,15 @@
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     stacked = nb.top - r.top > cb.bottom - r.top - 4; // doors sit under the copy (narrow screens)
     anchors = doors.map(d => { const b = d.getBoundingClientRect(); return { x: b.left - r.left - .5, y: b.top - r.top + b.height / 2 }; });
-    if (stacked) {
+    if (mobile) {
+      K = {
+        x: Math.max(62, Math.min(84, W * .19)),
+        y: (anchors[0].y + anchors[LANES - 1].y) / 2
+      };
+      knotAmp = 24;
+      gapL = 0;
+      gapR = anchors[0].x;
+    } else if (stacked) {
       K = { x: Math.max(14, nb.left - r.left - 18), y: nb.top - r.top - 46 }; knotAmp = 16; gapL = 0; gapR = K.x + 40;
     } else {
       gapL = cb.right - r.left; gapR = nb.left - r.left;
@@ -76,7 +84,10 @@
       if (u <= JOIN) { const q = u / JOIN; x = bez(Sx, c1x, c2x, K.x, q); y = bez(Sy, c1y, c2y, K.y, q); }
       else {
         const q = (u - JOIN) / (1 - JOIN);
-        if (stacked) { x = bez(K.x, K.x, K.x + (Ax - K.x) * .3, Ax, q); y = bez(K.y, Ay - 18, Ay, Ay, q); }
+        if (mobile) {
+          x = bez(K.x, K.x + 8, K.x + (Ax - K.x) * .58, Ax, q);
+          y = bez(K.y, K.y, Ay, Ay, q);
+        } else if (stacked) { x = bez(K.x, K.x, K.x + (Ax - K.x) * .3, Ax, q); y = bez(K.y, Ay - 18, Ay, Ay, q); }
         else { const mx = K.x + (Ax - K.x) * .5; x = bez(K.x, mx, mx, Ax, q); y = bez(K.y, K.y, Ay, Ay, q); }
       }
       // a tight knot at the join, loose drift on the way in, disorder only ahead of the ordering front
