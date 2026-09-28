@@ -443,3 +443,218 @@ html.rig-lock,html.rig-lock body{ overflow:hidden }
   .top-actions{gap:6px}
   .top-actions > .ghost-btn{display:none}
 }
+
+
+/* MOBILE POLISH — compact, readable, touch-friendly */
+@media(max-width:700px){
+  html,body{overflow-x:hidden}
+  body{-webkit-text-size-adjust:100%}
+
+  .topbar{
+    padding-left:max(10px,env(safe-area-inset-left));
+    padding-right:max(10px,env(safe-area-inset-right));
+    gap:8px;
+  }
+  .brand{min-width:0}
+  .site-brand-logo{width:148px;max-width:42vw;height:auto}
+  .top-actions{margin-left:auto;gap:6px}
+  .nav-toggle,
+  .search-trigger{
+    width:38px;
+    min-width:38px;
+    height:38px;
+    padding:0;
+    border-radius:7px;
+  }
+  .search-trigger{display:grid;place-items:center;font-size:0}
+  .search-trigger::before{content:"⌕";font:500 20px/1 var(--mono);color:var(--text)}
+  .search-trigger .kbd{display:none}
+
+  .main{
+    width:100%;
+    padding-left:max(12px,env(safe-area-inset-left));
+    padding-right:max(12px,env(safe-area-inset-right));
+    padding-bottom:48px;
+  }
+
+  .v18-home{gap:20px;padding:24px 0 26px}
+  .v18-home-copy .eyebrow{font-size:9px;line-height:1.45}
+  .v18-home-copy h1{
+    font-size:clamp(42px,12.4vw,56px);
+    line-height:.91;
+    margin:14px 0 16px;
+    letter-spacing:-.015em;
+  }
+  .v18-home-copy > p{font-size:15.5px;line-height:1.55;margin:0}
+  .v18-home .hero-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:20px;
+  }
+  .v18-home .hero-actions .solid-btn{grid-column:1 / -1}
+  .v18-home .hero-action{
+    min-height:44px;
+    padding:11px 12px;
+    border-radius:8px;
+    font-size:13px;
+  }
+  .v18-proof{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    margin-top:16px;
+  }
+  .v18-proof span{font-size:9px;line-height:1.35;padding:7px 8px}
+  .v18-proof span:first-child{grid-column:1 / -1}
+
+  .rig-home{margin-top:2px}
+  .rig-home .rp-stage{height:min(52vh,360px);min-height:300px}
+  .rp-head{min-height:34px;padding:7px 22px;font-size:8px;gap:6px}
+  .rp-course{font-size:9px}
+  .rp-hint{font-size:8px;padding:4px 6px}
+  .rp-tabs button{
+    min-height:40px;
+    padding:8px 4px;
+    gap:5px;
+    font-size:8px;
+    line-height:1.15;
+  }
+  .rp-tabs i{width:6px;height:6px}
+  .rp-tools{gap:4px}
+  .rp-seg button,.rp-btns button,.rp-play{min-height:32px;min-width:32px}
+  .rp-card{max-height:48%;overflow:auto}
+  .rp-card p{line-height:1.4}
+
+  .section{padding:30px 0}
+  .section-head{gap:10px;margin-bottom:14px}
+  .section-head h2{font-size:30px;line-height:1.05;margin-top:6px}
+  .section-head p{font-size:14px;line-height:1.5}
+
+  .v18-world-grid{gap:10px}
+  .v18-world-card figure{aspect-ratio:16 / 9}
+  .v18-world-body{padding:15px 16px 16px}
+  .v18-world-body small{font-size:9px}
+  .v18-world-body h3{font-size:27px;margin:7px 0}
+  .v18-world-body p{font-size:13.5px;line-height:1.45;margin-bottom:12px}
+  .v18-world-foot{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:6px;
+    padding-top:10px;
+    font-size:9.5px;
+  }
+
+  .v18-trade-head{padding:22px 0 15px}
+  .v18-trade-title{gap:12px}
+  .v18-trade-title h1{
+    font-size:clamp(42px,13vw,58px);
+    line-height:.88;
+    margin-top:6px;
+    overflow-wrap:anywhere;
+  }
+  .v18-trade-title h2{font-size:21px;line-height:1.1;margin-bottom:6px}
+  .v18-trade-title p{font-size:14.5px;line-height:1.5}
+  .v18-trade-meta{gap:7px 12px;margin-top:14px;font-size:9.5px}
+  .v18-progress{width:100px}
+
+  .v18-start{gap:18px;margin:16px 0;padding:18px}
+  .v18-start-copy h2{font-size:29px;margin:8px 0 9px}
+  .v18-start-copy p{font-size:14px;line-height:1.5}
+  .v18-route{grid-template-columns:1fr;gap:6px}
+  .v18-route a{padding:11px}
+  .v18-outline{margin-top:18px}
+  .v18-outline-head{gap:10px;margin-bottom:12px}
+  .v18-outline-head h2{font-size:29px}
+  .v18-outline-head p{font-size:14px;line-height:1.5}
+
+  .v18-unit-row{
+    grid-template-columns:82px minmax(0,1fr);
+    gap:10px;
+    padding:8px 10px 8px 8px;
+  }
+  .v18-unit-copy small{font-size:8.5px}
+  .v18-unit-copy h3{font-size:20px;margin:3px 0 5px}
+  .v18-unit-tags{gap:4px}
+  .v18-unit-tags span{font-size:10px;padding:2px 5px}
+
+  .v18-unit-head{padding:22px 0 18px}
+  .v18-unit-head .eyebrow{margin-top:8px}
+  .v18-unit-head h1{
+    font-size:clamp(39px,12vw,52px);
+    line-height:.9;
+    margin:9px 0 10px;
+    overflow-wrap:anywhere;
+  }
+  .v18-unit-head > p{font-size:15px;line-height:1.5}
+  .v18-unit-chips{gap:5px;margin-top:12px}
+  .v18-unit-chips span{font-size:9px;padding:5px 7px}
+
+  .v18-unit-layout{margin-top:16px}
+  .v18-unit-aside{margin-left:-12px;margin-right:-12px}
+  .rig-unit .rp-stage{height:238px;min-height:210px}
+  .rig-unit .rp-now{padding:5px 10px}
+  .rig-unit .rp-now b{font-size:13px}
+  .rig-unit .rp-dots{padding:5px 8px}
+  .v18-topic{
+    padding:24px 0 22px 12px;
+    margin-left:0;
+    scroll-margin-top:340px;
+  }
+  .v18-topic header{gap:8px}
+  .v18-topic h2{font-size:27px;line-height:1.02}
+  .v18-num{font-size:10px}
+  .v18-show{
+    max-width:100%;
+    padding:6px 8px;
+    font-size:8.5px;
+  }
+  .v18-lead{font-size:17px;line-height:1.45;margin-top:11px}
+  .v18-why{font-size:14px;line-height:1.55}
+  .v18-where{gap:4px;margin-bottom:10px}
+  .v18-where span{font-size:11px;padding:3px 6px}
+  .v18-words{padding:14px 15px}
+  .v18-words dl{grid-template-columns:1fr;gap:9px}
+  .v18-words dt{font-size:15px}
+  .v18-words dd{font-size:13px}
+
+  .v18-concept-head{gap:16px;padding:20px 0 16px}
+  .rig-concept .rp-stage{height:min(48vh,340px);min-height:280px}
+  .v18-concept{padding-bottom:16px}
+  .v18-plain{padding:20px 0 6px}
+  .v18-big{font-size:21px;line-height:1.35}
+  .v18-plain > p:not(.v18-big):not(.v18-why){font-size:15px;line-height:1.58}
+  .v18-steps,.v18-evidence,.v18-related{margin:26px 0}
+  .v18-steps h2,.v18-evidence h2{font-size:28px;margin-bottom:14px}
+  .v18-steps ol{grid-template-columns:1fr}
+  .v18-steps li{padding:14px 0 16px}
+  .v18-related > div{grid-template-columns:1fr}
+
+  .v18-more summary{padding:11px 12px;gap:8px;flex-wrap:wrap}
+  .v18-more > p,.v18-more > blockquote{padding-left:14px;padding-right:14px}
+  .v18-safety{padding:14px 15px;margin:18px 0}
+
+  .footer{gap:10px;padding-top:20px;font-size:10px;line-height:1.45}
+
+  .trade-side-nav{
+    width:min(300px,88vw);
+    padding:18px 12px calc(18px + env(safe-area-inset-bottom));
+  }
+  .trade-nav-head{padding-bottom:14px}
+  .trade-nav-link{min-height:42px;font-size:14px}
+}
+
+@media(max-width:440px){
+  .site-brand-logo{width:132px;max-width:40vw}
+  .v18-home-copy h1{font-size:40px}
+  .v18-home .hero-actions{grid-template-columns:1fr}
+  .v18-home .hero-actions .solid-btn{grid-column:auto}
+  .v18-proof{grid-template-columns:1fr}
+  .v18-proof span:first-child{grid-column:auto}
+  .rig-home .rp-stage{height:310px;min-height:280px}
+  .rp-tabs button{font-size:7.5px}
+  .rp-tabs i{display:none}
+  .v18-unit-row{grid-template-columns:72px minmax(0,1fr)}
+  .v18-unit-copy h3{font-size:18px}
+  .v18-unit-tags span:nth-child(n+4){display:none}
+}
