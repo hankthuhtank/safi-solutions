@@ -56,7 +56,7 @@
     let Sx, Sy, c1x, c1y, c2x, c2y;
     if (mobile) {
       const spread = Math.max(155, Math.min(250, H * .27));
-      Sx = 6 + s.a * Math.max(26, K.x * .9);
+      Sx = 4 + s.a * Math.max(42, K.x * 1.15);
       Sy = K.y + (s.top ? -1 : 1) * (spread * (.58 + s.b * .72));
       c1x = Sx + (s.b - .5) * 34;
       c1y = Sy + (K.y - Sy) * .34;
