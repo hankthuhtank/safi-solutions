@@ -564,11 +564,11 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 /* Final mobile home composition: knot on the left, navigation fixed to the right. */
 @media (max-width: 760px) {
   .page-home .hero {
-    min-height: calc(100svh - 66px);
+    min-height: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(470px, 1fr);
-    gap: 10px;
-    padding: 28px 10px 30px;
+    grid-template-rows: auto minmax(414px, auto);
+    gap: 6px;
+    padding: 28px 10px 10px;
     overflow: hidden;
   }
 
@@ -589,27 +589,36 @@ a:hover > .arrow.back { transform: translateX(-3px); }
     max-width: 230px;
     margin: 0;
     margin-left: auto;
-    background: rgba(16, 18, 21, .34);
-    border-top: 1px solid var(--line);
+    background: transparent;
+    border-top: 0;
     position: relative;
     z-index: 2;
   }
 
   .page-home .door {
     grid-template-columns: minmax(0, 1fr);
-    min-height: 58px;
-    padding: 9px 8px 9px 14px;
+    min-height: 56px;
+    padding: 9px 8px 9px 16px;
+    margin: 2px 0;
+    border-bottom: 0;
+    border-radius: 10px 0 0 10px;
+    background: linear-gradient(90deg, rgba(184,216,250,.045), rgba(16,18,21,0) 82%);
+  }
+
+  .page-home .door-ttd {
+    background: linear-gradient(90deg, rgba(60,139,130,.13), rgba(16,18,21,0) 82%);
   }
 
   .page-home .door-body b {
-    font-size: clamp(15.5px, 4.15vw, 18.5px);
+    font-size: clamp(17px, 4.6vw, 20px);
+    line-height: 1.08;
     white-space: nowrap;
   }
 
   .page-home .door-body small {
-    font-size: clamp(9px, 2.45vw, 11px);
+    font-size: clamp(9.5px, 2.6vw, 11.5px);
     line-height: 1.35;
-    margin-top: 3px;
+    margin-top: 4px;
   }
 
   .page-home .door-count,
@@ -619,5 +628,9 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 
   .page-home .threads {
     display: block !important;
+  }
+
+  .page-home .site-footer {
+    padding-top: 18px;
   }
 }
