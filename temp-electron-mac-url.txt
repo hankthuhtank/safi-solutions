@@ -1,1 +1,0 @@
-https://github.com/electron/electron/releases/download/v44.4.3/electron-v44.4.3-darwin-arm64.zip
