@@ -75,8 +75,60 @@
   function go(path){ location.hash = path.startsWith("#") ? path : "#/" + path; }
   window.go = go;
 
+  function navItemActive(key, theme, raw){
+    if(key === "home") return !raw;
+    if(key === "fieldcheck") return raw === "tool/fieldcheck";
+    if(key === "standards") return raw === "standards";
+    return key === theme;
+  }
+
+  function sideNav(theme, raw){
+    const active = key => navItemActive(key, theme, raw) ? " is-active" : "";
+    return `
+      <aside class="trade-side-nav" id="siteNav" aria-label="TradeSchool navigation">
+        <div class="trade-nav-head"><small>COURSE INDEX</small><strong>TradeSchool</strong></div>
+        <nav class="trade-nav-list">
+          <div class="trade-nav-group">
+            <span class="trade-nav-label">START</span>
+            <a class="trade-nav-link${active("home")}" href="#/"><span class="trade-nav-code">00</span><span>Home</span></a>
+          </div>
+          <div class="trade-nav-group">
+            <span class="trade-nav-label">TRADES</span>
+            <a class="trade-nav-link${active("electrical")}" href="#/world/electrical" style="--item-c:var(--sig-electrical)"><span class="trade-nav-code">01</span><span>Electrical</span></a>
+            <a class="trade-nav-link${active("hvac")}" href="#/world/hvac" style="--item-c:var(--sig-hvac)"><span class="trade-nav-code">02</span><span>HVAC</span></a>
+            <a class="trade-nav-link${active("plumbing")}" href="#/world/plumbing" style="--item-c:var(--sig-plumbing)"><span class="trade-nav-code">03</span><span>Plumbing</span></a>
+            <a class="trade-nav-link${active("industrial")}" href="#/world/industrial" style="--item-c:var(--sig-industrial)"><span class="trade-nav-code">04</span><span>Industrial</span></a>
+            <a class="trade-nav-link${active("welding")}" href="#/world/welding" style="--item-c:var(--sig-welding)"><span class="trade-nav-code">05</span><span>Welding</span></a>
+            <a class="trade-nav-link${active("construction")}" href="#/world/construction" style="--item-c:var(--sig-construction)"><span class="trade-nav-code">06</span><span>Construction</span></a>
+          </div>
+          <div class="trade-nav-group">
+            <span class="trade-nav-label">QUICK ACCESS</span>
+            <a class="trade-nav-link${active("fieldcheck")}" href="#/tool/fieldcheck"><span class="trade-nav-code">↳</span><span>Field Decision</span></a>
+            <a class="trade-nav-link${active("standards")}" href="#/standards"><span class="trade-nav-code">↳</span><span>Standards</span></a>
+            <button class="trade-nav-link trade-nav-search" type="button" onclick="openSearch();closeSideNav()"><span class="trade-nav-code">⌕</span><span>Search topics</span></button>
+          </div>
+        </nav>
+      </aside>
+      <button class="trade-nav-backdrop" type="button" aria-label="Close navigation" onclick="closeSideNav()"></button>`;
+  }
+
+  function toggleSideNav(btn){
+    const shellEl=document.querySelector(".shell");
+    if(!shellEl) return;
+    const open=shellEl.classList.toggle("nav-open");
+    if(btn) btn.setAttribute("aria-expanded", String(open));
+  }
+  function closeSideNav(){
+    const shellEl=document.querySelector(".shell");
+    if(shellEl) shellEl.classList.remove("nav-open");
+    document.querySelector(".nav-toggle")?.setAttribute("aria-expanded","false");
+  }
+  window.toggleSideNav=toggleSideNav;
+  window.closeSideNav=closeSideNav;
+
   function shell(content){
     const theme=worldThemeFromHash();
+    const raw=location.hash.replace(/^#\\/?/,"").split("?")[0];
     app.innerHTML = `
       <div class="shell theme-${theme}" data-world="${theme}">
         <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -85,10 +137,12 @@
             <img src="/assets/project-logos/tradeschool.svg?v=2" alt="The TradeSchool" class="site-brand-logo">
           </div>
           <div class="top-actions">
+            <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="siteNav" aria-expanded="false" onclick="toggleSideNav(this)"><span></span><span></span><span></span></button>
             <button class="icon-btn search-trigger" onclick="openSearch()"><span>Search anything: “what is a contactor?”</span><span class="kbd">⌘ K</span></button>
             <button class="ghost-btn" onclick="showWorlds()">Explore Trades</button>
           </div>
         </header>
+        ${sideNav(theme, raw)}
         <main class="main">${content}</main>
         <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="Search TradeSchool" onclick="modalClick(event)">
           <div class="search-box" onclick="event.stopPropagation()">
@@ -198,14 +252,6 @@
       <section class="section v18-trades" id="worldsSection">
         <div class="section-head"><div><div class="eyebrow">Pick a trade</div><h2>Start where you work, or where you want to work.</h2></div><p>Each course follows the way the job is built: the system first, then the parts, then what fails and how you prove it.</p></div>
         <div class="v18-world-grid">${D.worlds.map(worldCard).join("")}</div>
-      </section>
-      <section class="v18-how">
-        <div class="v18-how-head"><small>HOW EVERY TOPIC IS BUILT</small><h2>See it. Name it. Prove it.</h2></div>
-        <ol class="v18-how-steps">
-          <li><span>01</span><b>See it on the model</b><p>${placed} topics sit on a real, named part of a 3D machine, pipe run or frame. The part lights up and the rest of the system stays in view, so you learn where it lives and what it connects to.</p></li>
-          <li><span>02</span><b>Name it in plain English</b><p>One sentence for what it is and one for why it matters. Trade words are defined where they first appear, not in a glossary you have to hunt for.</p></li>
-          <li><span>03</span><b>Prove it in the field</b><p>What you would see, what you would measure and what failure looks like, with the standard and edition it was written against on the <button class="footer-link" onclick="go('standards')">standards page</button>.</p></li>
-        </ol>
       </section>
       ${footer()}
     `);
