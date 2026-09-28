@@ -398,8 +398,9 @@ function createStage() {
     if (!M) return;
     const list = sys == null ? null : (Array.isArray(sys) ? sys : [sys]).filter(s => M.meta.systems[s]);
     state.focus = list && list.length ? (list.length === 1 ? list[0] : list) : null; state.part = null;
-    const sl = typeof state.focus === 'string' ? M.meta.sysLayer?.[state.focus] : null;
-    if (sl != null && sl !== state.layer) { state.layer = sl; emit('state', { mode: state.mode, layer: state.layer }); }
+    const one = typeof state.focus === 'string' ? state.focus : null;
+    const sl = one ? M.meta.sysLayer?.[one] : null, sm = one ? M.meta.sysMode?.[one] : null;
+    if ((sl != null && sl !== state.layer) || (sm && sm !== state.mode)) { if (sl != null) state.layer = sl; if (sm) state.mode = sm; apply(); emit('state', { mode: state.mode, layer: state.layer }); }
     controls.autoRotate = false; idleT = 0; apply(); pickList = pickables();
     if (fly) {
       if (!state.focus) frameOverview(state.view || 'overview', dur);

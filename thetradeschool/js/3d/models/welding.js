@@ -21,6 +21,7 @@ export const meta = {
   },
   modes: { sound: 'Sound welds', defects: 'Show defects' },
   defaultMode: 'sound',
+  sysMode: { 'weld-defects': 'defects' },
   views: { overview: { dir: [0.25, 0.45, 1], pad: 1.0 }, joints: { dir: [0.2, 0.3, 1], box: [[0.7, 0.8, -0.5], [2.6, 1.7, 0.62]] } },
   focus: {
     'weld-joints': { dir: [0.2, 0.3, 1], box: [[0.7, 0.8, -0.5], [2.6, 1.7, 0.62]] },
