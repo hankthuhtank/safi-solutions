@@ -14,7 +14,7 @@
 
   <!-- Armature -->
   <rect x="360" y="200" width="220" height="160" rx="16" fill="#12241c" stroke="#7ce3a0" stroke-width="2"/>
-  <rect x="400" cy="250" x="400" y="245" width="140" height="28" rx="6" fill="#d9e2dd"/>
+  <rect x="400" y="245" width="140" height="28" rx="6" fill="#d9e2dd"/>
   <rect x="430" y="280" width="80" height="50" rx="4" fill="#8a9a90"/>
   <text x="470" y="390" text-anchor="middle" fill="#e8eee9" font-family="system-ui,sans-serif" font-size="20" font-weight="700">Armature</text>
   <text x="470" y="418" text-anchor="middle" fill="#9fb0a7" font-family="system-ui,sans-serif" font-size="14">Moves when coil pulls</text>

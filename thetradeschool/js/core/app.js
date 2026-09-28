@@ -82,7 +82,7 @@
         <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
         <header class="topbar">
           <div class="brand" onclick="go('')" role="link" tabindex="0" aria-label="The TradeSchool home">
-            <img src="/assets/project-logos/tradeschool.svg?v=2" alt="The TradeSchool">
+            <img src="/assets/project-logos/tradeschool.svg?v=2" alt="The TradeSchool" class="site-brand-logo">
           </div>
           <div class="top-actions">
             <button class="icon-btn search-trigger" onclick="openSearch()"><span>Search anything: “what is a contactor?”</span><span class="kbd">⌘ K</span></button>
@@ -99,63 +99,124 @@
         <div class="toast" id="toast"></div>
       </div>`;
     bindSearchHotkey();
-    initParticles();
+    // V18: the floating-dust particle canvas is retired; the 3D plates carry the motion now
+    // V18: a new page starts at the top; the 3D plate on it (if any) is mounted after paint
+    const path = location.hash.split("?")[0];
+    if (path !== lastPath) { lastPath = path; if (!location.hash.includes("?")) window.scrollTo(0, 0); }
+    requestAnimationFrame(() => window.TradeRig?.hydrate());
   }
+  let lastPath = null;
 
   function footer(){
     const rev = (D.standards && D.standards.reviewed) ? ` \u00b7 reviewed ${D.standards.reviewed}` : '';
     return `<footer class="footer"><span>TradeSchool \u00b7 Visual learning engine</span><span><button class="footer-link" onclick="go('standards')">Standards and currency${rev}</button></span><span>Education only. Workplace tasks require proper training, procedures and qualifications.</span></footer>`;
   }
 
+  /* V18: the beginner helpers from the V16 layer now live here, so each view renders once and
+     clean instead of being rewritten by later scripts after it appears. Mayer's coherence
+     principle is the rule: one plain definition, one reason it matters, the part on the model,
+     and everything technician-level one tap away. */
+  const B = window.TRADE_BEGINNER || { replacements: [], friendly: {}, glossary: {}, worldIntro: {} };
+  const RIG = window.TRADE_RIG || { parts: {}, models: {} };
+  const norm = s => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const onModel = (cid, w) => { const p = RIG.parts[cid]; return !!p && (!w || p[0] === w); };
+  const partLabel = cid => (RIG.parts[cid] || [])[1] || "";
+  const sysColor = (w, sys) => RIG.models[w]?.systems?.[sys]?.color || "var(--accent)";
+  const still = (w, unit) => unit ? `assets/renders/${w}--${unit}.webp` : `assets/renders/${w}.webp`;
+  function simplify(text){
+    let s = String(text || "").trim();
+    (B.replacements || []).forEach(([re, to]) => { s = s.replace(re, to); });
+    return s.replace(/\butilizes?\b/gi, "uses").replace(/\bapproximately\b/gi, "about").replace(/\bsubsequent\b/gi, "next").replace(/\bprior to\b/gi, "before").replace(/\bvia\b/gi, "through").replace(/\btherefore\b/gi, "so").replace(/\bin order to\b/gi, "to");
+  }
+  const clip = (s, n) => s.length > n ? s.slice(0, n - 3).replace(/\s+\S*$/, "") + "…" : s;
+  const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  function friendly(c){ return c ? cap((B.friendly || {})[norm(c.title)] || clip(simplify(c.oneLine || c.plain || ""), 260)) : ""; }
+  /* 373 topics carry one of eight fill-in-the-blank "why" sentences ("X is part of the physical
+     power or machine path…"). They say nothing about the topic, so they are not shown. */
+  const GENERIC_WHY = [/matters in industrial maintenance because small mechanical/i, /matters because construction quality depends on transferring/i, /changes how the whole (water\/drainage|comfort) system behaves/i, /matters because weld quality comes from controlling a process/i, /is part of the physical power or machine path/i, /is a measurement concept\. Technicians use/i, /lives in the control layer\. Understanding/i];
+  /* Same idea, found in the data instead of by hand: a long sentence that is word-for-word the
+     same across five or more topics once the topic's own name is swapped out is a template
+     ("Choose a measurement or observation that directly tests X…" sits on 213 topics). */
+  const templated = (() => {
+    const key = (c, x) => String(x).split(c.title).join("X").split(c.title.toLowerCase()).join("X");
+    const count = new Map(), F = ["recognize", "verify", "steps", "misconceptions", "failures"];
+    D.concepts.forEach(c => { F.forEach(f => (c[f] || []).forEach(x => { if (String(x).length > 40) { const k = f + "|" + key(c, x); count.set(k, (count.get(k) || 0) + 1); } })); ["why", "fieldScenario"].forEach(f => { if (c[f]) { const k = f + "|" + key(c, c[f]).slice(0, 90); count.set(k, (count.get(k) || 0) + 1); } }); });
+    return (c, f, x) => { const k = f + "|" + (Array.isArray(c[f]) ? key(c, x) : key(c, x).slice(0, 90)); return String(x).length > 40 && (count.get(k) || 0) >= 5; };
+  })();
+  const listOf = (c, f) => (c[f] || []).filter(x => !templated(c, f, x));
+  function whyLine(c){ return c && c.why && !GENERIC_WHY.some(re => re.test(c.why)) && !templated(c, "why", c.why) ? clip(simplify(c.why), 320) : ""; }
+  /* the beginner glossary is one flat list; "phase" means an AC waveform to an electrician and a
+     state of matter to an HVAC tech, so each trade only borrows the words that mean what it means */
+  const GLOSS_WORLDS = {
+    electrical: ["voltage", "current", "resistance", "load", "source", "conductor", "coil", "contact", "normally open", "normally closed", "line side", "load side", "phase", "frequency", "hertz", "torque", "horsepower"],
+    hvac: ["pressure", "flow", "restriction", "temperature", "heat", "refrigerant", "vapor", "liquid", "condense", "evaporate", "cfm", "static pressure", "coil"],
+    plumbing: ["pressure", "flow", "restriction", "temperature", "trap seal", "vent", "fixture", "backflow"],
+    industrial: ["torque", "horsepower", "pressure", "flow", "restriction", "shaft", "bearing", "coupling", "alignment", "runout", "impeller", "hydraulic", "pneumatic", "cylinder", "actuator", "load", "tension"],
+    welding: ["arc", "puddle", "fusion", "penetration", "base metal", "filler metal", "heat-affected zone", "heat", "current", "voltage"],
+    construction: ["stud", "plate", "joist", "rafter", "header", "shear", "compression", "tension", "flashing", "load"]
+  };
+  function glossaryHits(list, max = 8){
+    const out = [], titles = new Set(list.map(c => norm(c.title))), allow = new Set(GLOSS_WORLDS[worldOf(list[0])] || []);
+    const blob = " " + norm(list.map(c => [c.title, c.oneLine, c.plain, c.why].join(" ")).join(" ")) + " ";
+    Object.entries(B.glossary || {}).sort((a, b) => b[0].length - a[0].length).forEach(([term, definition]) => {
+      if (out.length >= max) return;
+      const t = norm(term); if (!t || titles.has(t) || !allow.has(term) || !blob.includes(" " + t + " ")) return;
+      if (out.some(x => norm(x.term).includes(t) || t.includes(norm(x.term)))) return;
+      out.push({ term, definition });
+    });
+    return out;
+  }
+  const wordsBlock = (words, title) => words.length ? `<section class="v18-words"><small>${esc(title)}</small><dl>${words.map(w => `<div><dt>${esc(w.term)}</dt><dd>${esc(w.definition)}</dd></div>`).join("")}</dl></section>` : "";
+  const figure = (a, cls = "") => `<figure class="v18-fig ${/\.svg$/i.test(a.src) ? "is-diagram" : "is-photo"} ${cls}"><button type="button" class="v18-fig-open" onclick="openFigure(this)" aria-label="Enlarge: ${esc(a.title || "")}"><img src="${a.src}" alt="${esc(a.title || a.caption || "")}" loading="lazy"></button><figcaption><b>${esc(a.title || "")}</b>${a.caption ? `<span>${esc(a.caption)}</span>` : ""}${a.credit ? `<em>${esc(a.credit)}${a.license ? ` · ${esc(a.license)}` : ""}</em>` : ""}</figcaption></figure>`;
+  window.openFigure = btn => {
+    const img = btn.querySelector("img"); let dlg = document.getElementById("figDialog");
+    if (!dlg) { dlg = document.createElement("dialog"); dlg.id = "figDialog"; dlg.className = "v18-dialog"; dlg.innerHTML = `<button type="button" aria-label="Close" onclick="this.closest('dialog').close()">×</button><img alt="">`; dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); }); document.body.append(dlg); }
+    const big = dlg.querySelector("img"); big.src = img.src; big.alt = img.alt; dlg.showModal();
+  };
+  const ICON = {
+    eye: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>',
+    meter: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><rect x="8" y="5" width="8" height="5"/><circle cx="12" cy="15.5" r="2.5"/></svg>',
+    warn: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 10v5M12 18v.5"/></svg>'
+  };
+  const LAB_FOR = { voltage: "circuit", ohms: "circuit", series: "circuit", relay: "ladder", starter: "ladder", ladder: "ladder", scan: "ladder", troubleshoot: "troubleshoot", meter: "troubleshoot" };
+  const LAB_NAME = { circuit: "Circuit Bench", ladder: "Ladder Logic Trainer", troubleshoot: "Troubleshooter", "hvac-cycle": "Refrigeration Cycle", airflow: "Airflow Lab", "hvac-controls": "HVAC Controls", "pressure-flow": "Pressure + Flow", "drain-vent": "Trap + Vent", "water-heater-lab": "Water Heater Lab", "shaft-alignment": "Shaft Alignment", "hydraulic-lab": "Hydraulic Force + Motion", "pneumatic-lab": "Pneumatic Sequence", "bearing-lab": "Bearing Health", "conveyor-lab": "Conveyor Drive", "weld-puddle": "Weld Parameter Window", "joint-lab": "Joint + Penetration", "defect-lab": "Weld Defects", "blueprint-lab": "Blueprint + Layout", "framing-lab": "Framing Builder", "loadpath-lab": "Load Path", "envelope-lab": "Water Management" };
+  const labFor = c => { const t = LAB_FOR[c.lesson] || (LAB_NAME[c.lesson] ? c.lesson : null); return t ? { id: t, name: LAB_NAME[t] } : null; };
+
   function renderHome(){
-    const liveWorlds = D.worlds.filter(w=>w.status==="live");
-    const featured = [
-      {src:WORLD_MEDIA.electrical.image, label:"Motor control equipment"},
-      {src:WORLD_MEDIA.hvac.image, label:"Rooftop HVAC"},
-      {src:WORLD_MEDIA.welding.image, label:"GTAW at the bench"}
-    ];
+    const placed = D.concepts.filter(c => onModel(c.id)).length;
     shell(`
-      <section class="home-intro home-intro-v14">
-        <div class="home-copy">
+      <section class="v18-home">
+        <div class="v18-home-copy">
           <div class="eyebrow">Built for people who work with their hands and tools</div>
-          <h1>Know what you're looking at<br><span>before you touch it.</span></h1>
-          <p>TradeSchool teaches the systems behind electrical, HVAC, plumbing, industrial maintenance, welding, and construction, so when you're on a job, the equipment and the problem make sense.</p>
+          <h1>Know what you're looking at <span>before you touch it.</span></h1>
+          <p>Every trade here is a working 3D model you can take apart: the wiring from transformer to motor, the refrigerant loop, the drain and vent stack, the pump skid, the weld joint, the house frame. Tap a part and its lesson opens right there.</p>
           <div class="hero-actions"><button class="solid-btn hero-action" onclick="showWorlds()">Start a trade</button><button class="ghost-btn hero-action" onclick="go('tool/fieldcheck')">Try a field decision</button><button class="ghost-btn hero-action" onclick="openSearch()">Find a topic</button></div>
-          <div class="home-proof"><span><b>${D.concepts.length}</b> topics across 6 trades</span><span><b>${Object.keys(D.visualAssets||{}).length}</b> checked visuals</span><span>Standards reviewed ${esc((D.standards&&D.standards.reviewed)||'')}</span></div>
+          <div class="v18-proof"><span><b>${placed}</b> of ${D.concepts.length} topics placed on a 3D model</span><span><b>6</b> working models</span><span>Standards reviewed ${esc((D.standards && D.standards.reviewed) || "")}</span></div>
         </div>
-        <div class="home-hero-strip" aria-hidden="true">
-          ${featured.map(f=>`<figure><img src="${f.src}" alt=""><figcaption>${esc(f.label)}</figcaption></figure>`).join("")}
-        </div>
+        <div class="rig-plate rig-home" data-rig="home" data-model="electrical"></div>
       </section>
-      <section class="section" id="worldsSection">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Pick a trade</div>
-            <h2>Start where you work, or where you want to work.</h2>
-          </div>
-          <p>Each course is organized the way the job is organized: systems first, then the parts, then what fails and how you prove it.</p>
-        </div>
-        <div class="world-grid world-grid-v7">${D.worlds.map(worldCard).join("")}</div>
+      <section class="section v18-trades" id="worldsSection">
+        <div class="section-head"><div><div class="eyebrow">Pick a trade</div><h2>Start where you work, or where you want to work.</h2></div><p>Each course follows the way the job is built: the system first, then the parts, then what fails and how you prove it.</p></div>
+        <div class="v18-world-grid">${D.worlds.map(worldCard).join("")}</div>
       </section>
-      <section class="research-note">
-        <div><small>HOW THIS IS BUILT</small><h2>Every picture shows what it names. Every claim shows its source.</h2></div>
-        <p>Photos and diagrams are checked against the equipment they claim to show. Technical claims point to the standard and edition they come from. Interactive labs simplify real equipment to teach the idea. They don't set service limits or qualify a repair.</p>
-        <div class="method-rows">
-          <div class="method-row"><b>${Object.keys(D.visualAssets||{}).length}</b><span>topics come with a checked photo or diagram of the actual equipment, labelled part by part.</span></div>
-          <div class="method-row"><b>${D.concepts.length}</b><span>topics written beginner-first: the words and the system idea come before technician-level detail.</span></div>
-          <div class="method-row"><b>${(D.standards&&D.standards.items.length)||0}</b><span>standards and dates are stated openly on the <button class="footer-link" onclick="go('standards')">standards page</button>, so you can see what edition this was written against instead of guessing.</span></div>
-        </div>
+      <section class="v18-how">
+        <div class="v18-how-head"><small>HOW EVERY TOPIC IS BUILT</small><h2>See it. Name it. Prove it.</h2></div>
+        <ol class="v18-how-steps">
+          <li><span>01</span><b>See it on the model</b><p>${placed} topics sit on a real, named part of a 3D machine, pipe run or frame. The part lights up and the rest of the system stays in view, so you learn where it lives and what it connects to.</p></li>
+          <li><span>02</span><b>Name it in plain English</b><p>One sentence for what it is and one for why it matters. Trade words are defined where they first appear, not in a glossary you have to hunt for.</p></li>
+          <li><span>03</span><b>Prove it in the field</b><p>What you would see, what you would measure and what failure looks like, with the standard and edition it was written against on the <button class="footer-link" onclick="go('standards')">standards page</button>.</p></li>
+        </ol>
       </section>
       ${footer()}
     `);
   }
 
   function worldCard(w){
-    const m=WORLD_MEDIA[w.id], copy=WORLD_COPY[w.id];
-    return `<article class="world-card-v7 world-card-${w.id}" onclick="go('world/${w.id}')">
-      <div class="world-card-photo"><img src="${m.image}" alt="${esc(m.label)}"><span></span></div>
-      <div class="world-card-body"><small>${esc(copy.tag)}</small><h3>${esc(w.name)}</h3><p>${esc(copy.desc)}</p><div class="world-card-foot"><span>${conceptsFor(w.id).length} topics</span><b>Open course →</b></div></div>
-    </article>`;
+    const copy = WORLD_COPY[w.id], m = WORLD_MEDIA[w.id], n = conceptsFor(w.id).length, units = categoriesFor(w.id).length;
+    return `<a class="v18-world-card" href="#/world/${w.id}" style="--c:var(--sig-${w.id})">
+      <figure><img src="${still(w.id)}" alt="3D model: ${esc(m?.label || w.name)}" loading="lazy"></figure>
+      <div class="v18-world-body"><small>${esc(copy.tag)}</small><h3>${esc(w.name)}</h3><p>${esc(copy.desc)}</p><div class="v18-world-foot"><span>${n} topics · ${units} units · ${esc(m?.label || "")}</span><b>Open course →</b></div></div>
+    </a>`;
   }
 
   function pathCard(p){
@@ -198,59 +259,93 @@
     return labs[world]||[];
   }
 
+  function startHere(world){
+    const intro = (B.worldIntro || {})[world]; if (!intro) return "";
+    const find = k => { const c = conceptById(k); if (c && worldOf(c) === world) return c; const q = norm(k); return D.concepts.find(x => worldOf(x) === world && (norm(x.title) === q || norm(x.title).includes(q))); };
+    const path = intro.path.map(find).filter((c, i, a) => c && a.indexOf(c) === i).slice(0, 9);
+    const name = (D.worlds.find(w => w.id === world) || {}).name || world;
+    return `<section class="v18-start"><div class="v18-start-copy"><small>NEW TO ${esc(name.toUpperCase())}? START HERE</small><h2>${esc(intro.title)}</h2><p>${esc(intro.text)}</p></div>
+      <ol class="v18-route">${path.map((c, i) => `<li><a href="#/concept/${c.id}" data-rig-peek="${c.id}"><span>${String(i + 1).padStart(2, "0")}</span><b>${esc(c.title)}</b><small>${esc(friendly(c))}</small></a></li>`).join("")}</ol></section>`;
+  }
+
   function renderWorld(id, tab="course"){
-    const world=D.worlds.find(w=>w.id===id);
-    if(!world||world.status!=="live") return renderComingSoon(world);
-    const concepts=conceptsFor(id), completed=completedCount(id), copy=WORLD_COPY[id], media=WORLD_MEDIA[id];
-    const categories=categoriesFor(id);
+    const world = D.worlds.find(w => w.id === id);
+    if (!world || world.status !== "live") return renderComingSoon(world);
+    const concepts = conceptsFor(id), completed = completedCount(id), copy = WORLD_COPY[id];
+    const placed = concepts.filter(c => onModel(c.id, id)).length;
     shell(`
-      <section class="course-hero course-hero-${id}">
-        <div class="course-hero-media"><img src="${media.image}" alt="${esc(media.label)}"><div class="course-hero-overlay"></div><span class="field-caption">FIELD REFERENCE · ${esc(media.label).toUpperCase()}</span></div>
-        <div class="course-hero-copy"><div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span>${esc(world.name)}</span></div><div class="eyebrow">${esc(copy.tag)}</div><h1>${esc(world.name)}</h1><h2>${esc(copy.title)}</h2><p>${esc(copy.desc)}</p><div class="course-progress"><span>${completed} / ${concepts.length} topics marked complete</span><div class="progress-track"><div class="progress-fill" style="width:${concepts.length?Math.round(completed/concepts.length*100):0}%"></div></div></div></div>
+      <section class="v18-trade-head">
+        <div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span>${esc(world.name)}</span></div>
+        <div class="v18-trade-title"><div><div class="eyebrow">${esc(copy.tag)}</div><h1>${esc(world.name)}</h1></div><div><h2>${esc(copy.title)}</h2><p>${esc(copy.desc)}</p></div></div>
+        <div class="v18-trade-meta"><span><b>${concepts.length}</b> topics</span><span><b>${placed}</b> on the model</span><span><b>${categoriesFor(id).length}</b> units</span><span class="v18-progress"><i style="width:${pct(Math.round(completed / Math.max(1, concepts.length) * 100))}%"></i></span><span>${completed} / ${concepts.length} marked understood</span></div>
       </section>
-      <nav class="course-tabs"><button class="${tab==='course'||tab==='map'?'active':''}" onclick="go('world/${id}/course')">Course</button><button class="${tab==='labs'?'active':''}" onclick="go('world/${id}/labs')">Practice labs</button><button class="${tab==='concepts'?'active':''}" onclick="go('world/${id}/concepts')">Reference index</button></nav>
-      ${tab==='labs'?renderLabs(id):tab==='concepts'?renderAllConcepts(id):renderKnowledgeMap(id)}
+      <div class="rig-plate rig-world" data-rig="world" data-model="${id}"></div>
+      ${startHere(id)}
+      <nav class="course-tabs"><button class="${tab === "course" || tab === "map" ? "active" : ""}" onclick="go('world/${id}/course')">Course</button><button class="${tab === "labs" ? "active" : ""}" onclick="go('world/${id}/labs')">Practice labs</button><button class="${tab === "concepts" ? "active" : ""}" onclick="go('world/${id}/concepts')">Reference index</button></nav>
+      ${tab === "labs" ? renderLabs(id) : tab === "concepts" ? renderAllConcepts(id) : renderKnowledgeMap(id)}
       ${footer()}
     `);
   }
 
   function renderKnowledgeMap(world){
-    const cats=categoriesFor(world);
-    return `<section class="course-outline"><div class="course-outline-head"><div><div class="eyebrow">Course outline</div><h2>Work through systems, not isolated vocabulary.</h2></div><p>Each unit is a scrollable lesson containing the related terms together. You can still open a single term from search when you need a quick reference.</p></div><div class="unit-list">${cats.map((cat,i)=>{
-      const cs=conceptsFor(world).filter(c=>c.category===cat.id), done=cs.filter(c=>state.progress[c.id]).length;
-      return `<article class="unit-row" onclick="go('world/${world}/unit/${cat.id}')"><div class="unit-number">${String(i+1).padStart(2,'0')}</div><div class="unit-copy"><small>${done}/${cs.length} COMPLETE</small><h3>${esc(cat.name)}</h3><p>${esc(cat.description)}</p><div class="unit-preview">${cs.slice(0,4).map(c=>`<span>${esc(c.title)}</span>`).join('')}${cs.length>4?`<span>+${cs.length-4} more</span>`:''}</div></div><div class="unit-action">Study unit <b>→</b></div></article>`;
-    }).join('')}</div></section>`;
+    const cats = categoriesFor(world);
+    return `<section class="v18-outline"><div class="v18-outline-head"><div><div class="eyebrow">Course outline</div><h2>Work through systems, not isolated vocabulary.</h2></div><p>Each unit is one scrollable lesson. The model on the right follows along: the part for the topic you are reading lights up.</p></div>
+      <div class="v18-units">${cats.map((cat, i) => {
+        const cs = conceptsFor(world).filter(c => c.category === cat.id), done = cs.filter(c => state.progress[c.id]).length;
+        return `<a class="v18-unit-row" href="#/world/${world}/unit/${cat.id}" data-rig-unit="${cat.id}" style="--c:${sysColor(world, cat.id)}">
+          <figure><img src="${still(world, cat.id)}" alt="" loading="lazy"></figure>
+          <div class="v18-unit-copy"><small>UNIT ${String(i + 1).padStart(2, "0")}</small><h3>${esc(cat.name)}</h3><p>${esc(cat.description)}</p><div class="v18-unit-tags">${cs.slice(0, 4).map(c => `<span>${esc(c.title)}</span>`).join("")}${cs.length > 4 ? `<span>+${cs.length - 4} more</span>` : ""}</div></div>
+          <div class="v18-unit-meta"><b>${done}/${cs.length}</b><small>understood</small><i><em style="width:${pct(Math.round(done / Math.max(1, cs.length) * 100))}%"></em></i></div>
+        </a>`;
+      }).join("")}</div></section>`;
   }
 
   function renderUnit(worldId, categoryId){
-    const world=D.worlds.find(w=>w.id===worldId), cat=categoryById(categoryId,worldId);
-    if(!world||!cat) return renderWorld(worldId);
-    const cs=conceptsFor(worldId).filter(c=>c.category===categoryId), media=WORLD_MEDIA[worldId];
-    const uniqueSafety=[...new Set(cs.map(c=>c.safety).filter(x=>x && !x.startsWith('Use the correct trade procedures')))].slice(0,3);
-    const shownAssets=new Set();
-    const topicMarkup=cs.map((c,i)=>{
-      const asset=D.visualAssets?.[c.id];
-      const duplicate=!!(asset && shownAssets.has(asset.src));
-      if(asset) shownAssets.add(asset.src);
-      return renderInlineTopic(c,i+1,{suppressAsset:duplicate, sharedReference:duplicate});
-    }).join('');
+    const world = D.worlds.find(w => w.id === worldId), cat = categoryById(categoryId, worldId);
+    if (!world || !cat) return renderWorld(worldId);
+    const cs = conceptsFor(worldId).filter(c => c.category === categoryId);
+    const { index, total } = unitAdjacent(worldId, categoryId);
+    const placed = cs.filter(c => onModel(c.id, worldId)).length;
+    const uniqueSafety = [...new Set(cs.map(c => c.safety).filter(x => x && !x.startsWith("Use the correct trade procedures")))].slice(0, 3);
+    const shown = new Set();
+    const topics = cs.map((c, i) => { const a = D.visualAssets?.[c.id]; const dup = !!(a && shown.has(a.src)); if (a) shown.add(a.src); return renderInlineTopic(c, i + 1, { suppressAsset: dup }); }).join("");
     shell(`
-      <section class="unit-hero unit-${worldId}"><div><div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span onclick="go('world/${worldId}')">${esc(world.name)}</span><b>›</b><span>${esc(cat.name)}</span></div><div class="eyebrow">UNIT · ${esc(WORLD_COPY[worldId].tag)}</div><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p><div class="unit-meta"><span>${cs.length} topics</span><span>Read top to bottom</span><span>Checkpoint at the end</span></div></div><img src="${media.image}" alt="${esc(media.label)}"></section>
-      <div class="unit-layout"><aside class="unit-toc"><b>IN THIS UNIT</b>${cs.map((c,i)=>`<button type="button" onclick="document.getElementById('topic-${c.id}')?.scrollIntoView({behavior:'smooth',block:'start'})"><span>${String(i+1).padStart(2,'0')}</span>${esc(c.title)}</button>`).join('')}</aside><article class="unit-article">
-        <section class="unit-intro"><p>Start with the system idea, then connect each term to something you could actually see, measure or troubleshoot. The goal is not to memorize ${cs.length} definitions; it is to understand how they fit together.</p></section>
-        
-        ${topicMarkup}
-        ${uniqueSafety.length?`<section class="unit-safety"><small>UNIT SAFETY CONTEXT</small><h2>Before this becomes hands-on work</h2>${uniqueSafety.map(x=>`<p>${esc(x)}</p>`).join('')}</section>`:''}
-        ${renderUnitCheckpoint(cs)}
-        ${unitLessonNav(worldId, categoryId)}
-      </article></div>${footer()}
+      <section class="v18-unit-head" style="--c:${sysColor(worldId, categoryId)}">
+        <div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span onclick="go('world/${worldId}')">${esc(world.name)}</span><b>›</b><span>${esc(cat.name)}</span></div>
+        <div class="eyebrow">Unit ${String(index).padStart(2, "0")} of ${total} · ${esc(WORLD_COPY[worldId].tag)}</div>
+        <h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>
+        <div class="v18-unit-chips"><span>${cs.length} topics</span>${placed ? `<span><i></i>${placed} shown on the model</span>` : ""}<span>Checkpoint at the end</span></div>
+      </section>
+      <div class="v18-unit-layout">
+        <article class="v18-unit-article">
+          ${wordsBlock(glossaryHits(cs, 8), "Words you'll meet in this unit")}
+          ${topics}
+          ${uniqueSafety.length ? `<section class="v18-safety"><small>BEFORE THIS BECOMES HANDS-ON WORK</small>${uniqueSafety.map(x => `<p>${esc(x)}</p>`).join("")}</section>` : ""}
+          ${renderUnitCheckpoint(cs)}
+          ${unitLessonNav(worldId, categoryId)}
+        </article>
+        <aside class="v18-unit-aside"><div class="rig-plate rig-unit" data-rig="unit" data-model="${worldId}" data-unit="${categoryId}"></div></aside>
+      </div>${footer()}
     `);
   }
 
-  function renderInlineTopic(c,num,opts={}){
-    const asset=opts.suppressAsset?null:D.visualAssets?.[c.id];
-    const field=(c.recognize||[]).slice(0,2), verify=(c.verify||[]).slice(0,2), failures=(c.failures||[]).slice(0,2);
-    return `<section class="inline-topic" id="topic-${c.id}"><header><span>${String(num).padStart(2,'0')}</span><div><h2>${esc(c.title)}</h2><p>${esc(c.oneLine)}</p></div><button onclick="go('concept/${c.id}')" aria-label="Open ${esc(c.title)} reference">Reference ↗</button></header><div class="inline-topic-body"><div class="topic-prose"><p>${esc(c.plain)}</p>${c.why?`<p>${esc(c.why)}</p>`:''}${c.analogy && !isGenericAnalogy(c.analogy)?`<blockquote>${esc(c.analogy)}</blockquote>`:''}</div>${asset?`<figure class="topic-photo"><img src="${asset.src}" alt="${esc(asset.title||asset.caption||c.title)}"><figcaption><b>${esc(asset.title||c.title)}</b><span>${esc(asset.caption||'')}</span>${asset.credit?`<em>${esc(asset.credit)}</em>`:''}</figcaption></figure>`:renderTopicContextCard(c,opts.sharedReference)}</div>${field.length||verify.length||failures.length?`<div class="field-strip">${field.length?`<div><small>RECOGNIZE</small>${field.map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:''}${verify.length?`<div><small>VERIFY</small>${verify.map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:''}${failures.length?`<div><small>FAILURE CLUES</small>${failures.map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:''}</div>`:''}${c.fieldScenario&&!isGenericScenario(c.fieldScenario)?`<div class="inline-scenario"><small>FIELD EXAMPLE</small><p>${esc(c.fieldScenario)}</p></div>`:''}</section>`;
+  function renderInlineTopic(c, num, opts = {}){
+    const w = worldOf(c), asset = opts.suppressAsset ? null : D.visualAssets?.[c.id];
+    const where = (c.where || []).slice(0, 4), why = whyLine(c);
+    const ev = [["Recognize", listOf(c, "recognize"), "eye"], ["Verify", listOf(c, "verify"), "meter"], ["Failure clues", listOf(c, "failures"), "warn"]].filter(([, v]) => v.length);
+    const lead = friendly(c), plain = simplify(c.plain || "");
+    return `<section class="v18-topic" id="topic-${c.id}" data-topic="${c.id}">
+      <header><span class="v18-num">${String(num).padStart(2, "0")}</span><h2>${esc(c.title)}</h2>${onModel(c.id, w) ? `<button type="button" class="v18-show" data-rig-show="${c.id}"><i></i>On the model<span>: ${esc(partLabel(c.id))}</span></button>` : ""}</header>
+      <p class="v18-lead">${esc(lead)}</p>
+      ${why ? `<p class="v18-why"><b>Why it matters</b>${esc(why)}</p>` : ""}
+      ${where.length ? `<div class="v18-where"><small>Where you'll see it</small>${where.map(x => `<span>${esc(x)}</span>`).join("")}</div>` : ""}
+      ${asset ? figure(asset) : ""}
+      ${plain && plain !== lead || ev.length ? `<details class="v18-more"><summary><b>Field detail</b><span>${ev.map(([k]) => k.toLowerCase()).join(" · ") || "more"}</span></summary>
+        ${plain && plain !== lead ? `<p>${esc(plain)}</p>` : ""}${c.analogy && !isGenericAnalogy(c.analogy) ? `<blockquote>${esc(c.analogy)}</blockquote>` : ""}
+        ${ev.length ? `<div class="v18-ev">${ev.map(([k, v, ic]) => `<div><small>${ICON[ic]}${k}</small>${v.slice(0, 3).map(x => `<p>${esc(x)}</p>`).join("")}</div>`).join("")}</div>` : ""}
+      </details>` : ""}
+      <a class="v18-open" href="#/concept/${c.id}">Open the full topic <span>→</span></a>
+    </section>`;
   }
 
   function isGenericAnalogy(text){
@@ -259,13 +354,7 @@
 
   function isGenericScenario(text){
     const t=String(text||'');
-    return /Instead of immediately changing every machine setting/i.test(t) || /Rather than forcing the work to fit/i.test(t);
-  }
-
-  function renderTopicContextCard(c, sharedReference=false){
-    const where=(c.where||[]).slice(0,4);
-    const related=(c.related||[]).slice(0,3).map(rid=>conceptById(rid)).filter(Boolean);
-    return `<aside class="topic-context-card">${sharedReference?`<div class="shared-note">Shared field reference already shown earlier in this unit.</div>`:''}<small>${sharedReference?'FIELD CONTEXT':'USEFUL CONTEXT'}</small><h3>What should a learner connect this to?</h3>${where.length?`<div class="context-block"><b>Usually shows up in</b><ul>${where.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}${related.length?`<div class="context-block"><b>Keep following the system</b><div class="context-links">${related.map(r=>`<button onclick="go('concept/${r.id}')">${esc(r.title)}</button>`).join('')}</div></div>`:''}<div class="context-block"><b>Learning goal</b><p>Understand how ${esc(c.title.toLowerCase())} affects the system before trying to memorize the term.</p></div></aside>`;
+    return /Instead of immediately changing every machine setting/i.test(t) || /Rather than forcing the work to fit/i.test(t) || /^A service call points toward /i.test(t) || /^A symptom appears that could involve /i.test(t);
   }
 
   function unitVisualsFor(worldId, categoryId, cs){
@@ -671,24 +760,33 @@
   }
 
   function renderConcept(id){
-    const c=conceptById(id); if(!c) return renderHome();
-    const worldId=worldOf(c), world=D.worlds.find(w=>w.id===worldId), cat=categoryById(c.category,worldId);
-    const genericSafety=/^Use the correct trade procedures, manufacturer documentation and applicable codes/i.test(String(c.safety||''));
-    const asset=D.visualAssets?.[c.id];
+    const c = conceptById(id); if (!c) return renderHome();
+    const worldId = worldOf(c), world = D.worlds.find(w => w.id === worldId), cat = categoryById(c.category, worldId);
+    const genericSafety = /^Use the correct trade procedures, manufacturer documentation and applicable codes/i.test(String(c.safety || ""));
+    const asset = D.visualAssets?.[c.id], placed = onModel(c.id, worldId), lab = labFor(c);
+    const lead = friendly(c), plain = simplify(c.plain || ""), why = whyLine(c);
+    const ev = [["Recognize", listOf(c, "recognize"), "eye", "What you would see"], ["Verify", listOf(c, "verify"), "meter", "How you would prove it"], ["Failure clues", listOf(c, "failures"), "warn", "What failure looks like"]].filter(([, v]) => v.length);
+    const steps = listOf(c, "steps");
+    const related = (c.related || []).map(conceptById).filter(Boolean);
     shell(`
-      <section class="reference-hero reference-${worldId}"><div><div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>\u203a</b><span onclick="go('world/${worldId}')">${esc(world?.name||worldId)}</span><b>\u203a</b><span onclick="go('world/${worldId}/unit/${c.category}')">${esc(cat?.name||'Unit')}</span></div>
-        ${nameplate(c, world, cat)}
-        <div class="reference-actions"><button class="${state.progress[c.id]?'ghost-btn':'solid-btn'}" onclick="toggleComplete('${c.id}')">${state.progress[c.id]?'\u2713 Complete':'Mark understood'}</button><button class="ghost-btn" onclick="go('world/${worldId}/unit/${c.category}')">Back to unit</button></div></div>${(asset && !/\.svg$/i.test(asset.src))?`<img src="${asset.src}" alt="${esc(asset.caption||c.title)}">`:`<div class="reference-hero-mark"><span>${esc(WORLD_COPY[worldId].tag)}</span></div>`}</section>
+      <section class="v18-concept-head">
+        <div class="v18-concept-plate">
+          <div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span onclick="go('world/${worldId}')">${esc(world?.name || worldId)}</span><b>›</b><span onclick="go('world/${worldId}/unit/${c.category}')">${esc(cat?.name || "Unit")}</span></div>
+          ${nameplate(c, world, cat)}
+          <div class="reference-actions"><button class="${state.progress[c.id] ? "ghost-btn" : "solid-btn"}" onclick="toggleComplete('${c.id}')">${state.progress[c.id] ? "✓ Understood" : "Mark understood"}</button><button class="ghost-btn" onclick="go('world/${worldId}/unit/${c.category}')">Back to the unit</button>${lab ? `<button class="ghost-btn" onclick="go('tool/${lab.id}')">Practice lab: ${esc(lab.name)} →</button>` : ""}</div>
+        </div>
+        <div class="v18-concept-visual">${placed || !asset ? `<div class="rig-plate rig-concept" data-rig="concept" data-model="${worldId}"${placed ? ` data-part="${c.id}"` : ""}></div>` : figure(asset, "is-hero")}</div>
+      </section>
       ${lessonNav(c.id)}
-      <article class="reference-article">
-        <section class="reference-lead"><div><small>THE IDEA</small><p>${esc(c.plain)}</p>${c.why?`<p>${esc(c.why)}</p>`:''}${c.analogy&&!isGenericAnalogy(c.analogy)?`<blockquote>${esc(c.analogy)}</blockquote>`:''}</div></section>
-        ${renderVisualLearning(c)}
-        ${(c.steps||[]).length?`<section class="behavior-flow"><div class="section-heading-row"><div><div class="eyebrow">Behavior</div><h2>Follow what actually happens.</h2></div><p>Read this as a sequence, not a checklist to memorize.</p></div><div class="behavior-steps">${c.steps.map((x,i)=>`<div><span>${String(i+1).padStart(2,'0')}</span><p>${esc(x)}</p></div>`).join('')}</div></section>`:''}
-        ${((c.recognize||[]).length+(c.verify||[]).length+(c.failures||[]).length)?`
-        <section class="field-evidence"><div class="section-heading-row"><div><div class="eyebrow">Field evidence</div><h2>What would make you believe this is the issue?</h2></div><p>Recognition, measurement and symptoms belong together.</p></div><div class="field-evidence-grid">${[['RECOGNIZE',c.recognize],['VERIFY',c.verify],['FAILURE CLUES',c.failures]].filter(([,v])=>(v||[]).length).map(([k,v])=>`<div><small>${k}</small>${v.slice(0,4).map(x=>`<p>${esc(x)}</p>`).join('')}</div>`).join('')}</div></section>`:''}
-        ${c.fieldScenario&&!isGenericScenario(c.fieldScenario)?`<section class="field-story"><small>FIELD SCENARIO</small><h2>Put it in context.</h2><p>${esc(c.fieldScenario)}</p></section>`:''}
-        ${!genericSafety&&c.safety?`<section class="safety-note-v7"><small>SAFETY CONTEXT</small><p>${esc(c.safety)}</p></section>`:''}
-        ${(c.related||[]).length?`<section class="reference-related"><small>KEEP FOLLOWING THE SYSTEM</small><div>${c.related.map(rid=>{const r=conceptById(rid);return r?`<button onclick="go('concept/${rid}')"><b>${esc(r.title)}</b><span>${esc(r.oneLine)}</span></button>`:''}).join('')}</div></section>`:''}
+      <article class="v18-concept">
+        <section class="v18-plain"><small>PLAIN ENGLISH</small><p class="v18-big">${esc(lead)}</p>${plain && plain !== lead ? `<p>${esc(plain)}</p>` : ""}${why ? `<p class="v18-why"><b>Why it matters</b>${esc(why)}</p>` : ""}${c.analogy && !isGenericAnalogy(c.analogy) ? `<blockquote>${esc(c.analogy)}</blockquote>` : ""}</section>
+        ${wordsBlock(glossaryHits([c], 5), "Words used here")}
+        ${asset && placed ? `<section class="v18-ref"><div class="eyebrow">Real-world reference</div>${figure(asset)}</section>` : ""}
+        ${steps.length ? `<section class="v18-steps"><div class="eyebrow">How it behaves</div><h2>Follow what actually happens.</h2><ol>${steps.map((x, i) => `<li><span>${String(i + 1).padStart(2, "0")}</span><p>${esc(x)}</p></li>`).join("")}</ol></section>` : ""}
+        ${ev.length ? `<section class="v18-evidence"><div class="eyebrow">Field evidence</div><h2>What would make you believe this is the issue?</h2><div class="v18-ev v18-ev-lg">${ev.map(([k, v, ic, sub]) => `<div><small>${ICON[ic]}${k}</small><em>${sub}</em>${v.slice(0, 4).map(x => `<p>${esc(x)}</p>`).join("")}</div>`).join("")}</div></section>` : ""}
+        ${c.fieldScenario && !isGenericScenario(c.fieldScenario) && !templated(c, "fieldScenario", c.fieldScenario) ? `<section class="field-story"><small>FIELD SCENARIO</small><h2>Put it in context.</h2><p>${esc(c.fieldScenario)}</p></section>` : ""}
+        ${!genericSafety && c.safety ? `<section class="safety-note-v7"><small>SAFETY CONTEXT</small><p>${esc(c.safety)}</p></section>` : ""}
+        ${related.length ? `<section class="v18-related"><small>KEEP FOLLOWING THE SYSTEM</small><div>${related.map(r => `<a href="#/concept/${r.id}" data-rig-peek="${r.id}"><b>${esc(r.title)}</b><span>${esc(friendly(r))}</span>${onModel(r.id, worldId) ? "<i>On the model</i>" : ""}</a>`).join("")}</div></section>` : ""}
         ${renderKnowledgeCheck(c)}
       </article>
       ${lessonNav(c.id)}
@@ -894,7 +992,7 @@
 
   function toolIntro(title,desc,world="electrical"){
     const w=D.worlds.find(x=>x.id===world); const m=WORLD_MEDIA[world];
-    return `<section class="tool-page tool-page-v7"><div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span onclick="go('world/${world}/labs')">${esc(w?.name||world)} practice</span><b>›</b><span>${title}</span></div><div class="tool-head-v7"><div><div class="eyebrow">PRACTICE LAB · ${esc(WORLD_COPY[world]?.tag||'SYSTEM')}</div><h1>${title}</h1><p>${desc}</p></div><figure><img src="${m?.image||''}" alt="${esc(m?.label||w?.name||'Trade reference')}"><figcaption>Real equipment reference · ${esc(m?.label||'')}</figcaption></figure></div><button class="tool-back ghost-btn" onclick="go('world/${world}/labs')">← Practice labs</button>`;
+    return `<section class="tool-page tool-page-v7"><div class="breadcrumb"><span onclick="go('')">TradeSchool</span><b>›</b><span onclick="go('world/${world}/labs')">${esc(w?.name||world)} practice</span><b>›</b><span>${title}</span></div><div class="tool-head-v7"><div><div class="eyebrow">PRACTICE LAB · ${esc(WORLD_COPY[world]?.tag||'SYSTEM')}</div><h1>${title}</h1><p>${desc}</p></div><figure><img src="${m?.image||''}" alt="${esc(m?.label||w?.name||'Trade reference')}"><figcaption>3D model · ${esc(m?.label||'')}</figcaption></figure></div><button class="tool-back ghost-btn" onclick="go('world/${world}/labs')">← Practice labs</button>`;
   }
 
   function labGuide(type){
@@ -1390,6 +1488,7 @@
   window.toast = msg => {const t=id("toast");if(!t)return;t.textContent=msg;t.classList.add("show");clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.classList.remove("show"),2200)};
   function id(x){return document.getElementById(x)}
 
-  window.addEventListener("hashchange",route);
+  const quiet = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.addEventListener("hashchange", () => { if (document.startViewTransition && !quiet) document.startViewTransition(route); else route(); });
   route();
 })();

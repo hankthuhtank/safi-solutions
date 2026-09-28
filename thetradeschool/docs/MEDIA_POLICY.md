@@ -6,6 +6,12 @@ TradeSchool uses visuals to teach recognition, mechanism, comparison, procedure 
 
 ## Preferred media stack
 
+### 0. The trade model — the default visual (V18)
+
+Every trade has a procedural 3D model built from real dimensions and colour codes (NFPA 79 panel wiring, PEX red/blue, oxygen-green and fuel-red hoses, AHRI Guideline N refrigerant cylinder grey with the A2L red band, 16 in stud layout, ½ in anchor bolts at ≤ 6 ft). A topic's part on that model is its first visual: learners see the thing, where it sits and what it connects to. The models are schematic in detail but honest in proportion and placement; they are not photographs and do not claim to be a specific manufacturer's product.
+
+A photo or diagram is added on top only when it teaches something the model cannot. Retired photos are listed with reasons in `js/content/v18-media.js`.
+
 ### 1. Wikimedia Commons — primary build-time source
 
 Use Wikimedia Commons when a real component, installation, tool or field condition is needed. The MediaWiki `imageinfo` API can return URLs plus extended metadata such as author/credit and license information.

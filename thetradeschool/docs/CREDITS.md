@@ -1,5 +1,9 @@
 # Visual Asset Credits
 
+**3D models and renders (V18).** The six trade models in `js/3d/models/` and every still in `assets/renders/` are original work generated from code for TradeSchool; no third-party models or textures are used. They run on three.js (MIT licence), vendored at `/assets/vendor/three.min.js` and shared with MotorAtlas.
+
+Photos retired in V18 (the contactor, VFD, TXV and P-trap photos below, among others) stay in the repository but are no longer shown; see `js/content/v18-media.js` for the list and reasons.
+
 TradeSchool V6 includes local reference images from Wikimedia Commons for field-recognition learning. Images were resized/compressed for the prototype; attribution and source information are preserved below.
 
 ## Electrical

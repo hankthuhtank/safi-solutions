@@ -1,0 +1,17 @@
+/* TradeSchool 3D stage: canvas, callout labels, hover tip.
+   Labels use the plate language of the rest of the site: engraved mono caps on a dark tag with the
+   system's colour as a left rule, like a valve tag or a wire marker sleeve. */
+.rig-host{position:relative;overflow:hidden;isolation:isolate}
+.rig-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;outline:none;animation:rigIn .7s ease both}
+@keyframes rigIn{from{opacity:0}to{opacity:1}}
+.rig-labels{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.rig-leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.rig-leaders path{fill:none;stroke:rgba(233,229,220,.5);stroke-width:1}
+.rig-leaders circle{fill:#E9E5DC}
+.rig-tag{position:absolute;left:0;top:0;pointer-events:auto;display:block;background:rgba(14,16,19,.9);border:1px solid rgba(233,229,220,.16);border-left:3px solid var(--c);color:#E9E5DC;font:600 10px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;white-space:nowrap;cursor:pointer;will-change:transform;border-radius:2px;transition:background .15s,color .15s}
+.rig-tag:hover,.rig-tag.is-sel{background:var(--c);color:#0e1013}
+.rig-tag.is-sel{box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent)}
+.rig-tip{position:absolute;left:0;top:0;z-index:5;pointer-events:none;background:rgba(14,16,19,.95);border:1px solid rgba(233,229,220,.16);padding:7px 9px;font:600 12.5px/1.2 "Saira",system-ui,sans-serif;color:#E9E5DC;border-radius:3px}
+.rig-tip span{display:block;margin-top:3px;font:500 9px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#97A1AD}
+@media (max-width:560px){.rig-tag{font-size:9px;padding:5px 6px}}
+@media (prefers-reduced-motion:reduce){.rig-canvas{animation:none}}

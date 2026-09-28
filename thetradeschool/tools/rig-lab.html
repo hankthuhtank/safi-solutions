@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Rig lab · TradeSchool</title>
+<link rel="stylesheet" href="../css/rig.css">
+<style>
+  html,body{margin:0;height:100%;background:#101317;color:#E9E5DC;font:14px/1.4 system-ui,sans-serif}
+  #stage{position:absolute;inset:0}
+  body.capture{background:transparent}
+  #bar{position:fixed;left:8px;top:8px;z-index:9;display:flex;gap:6px;flex-wrap:wrap;max-width:90vw}
+  #bar button{background:#1E232B;color:inherit;border:1px solid #333;padding:4px 8px;border-radius:6px;cursor:pointer}
+  body.capture #bar{display:none}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div id="bar"></div>
+<script>
+  /* Dev + render harness. ?model=hvac&focus=hvac-air&part=compressor&mode=heat&layer=2&capture=1&labels=0 */
+  const q = new URLSearchParams(location.search);
+  if (q.get('capture')) { window.__RIG_CAPTURE = true; document.body.classList.add('capture'); }
+</script>
+<script type="module">
+  import { getStage } from '../js/3d/engine.js';
+  const q = new URLSearchParams(location.search);
+  const stage = await getStage();
+  const host = document.getElementById('stage');
+  const num = k => (q.get(k) == null ? undefined : +q.get(k));
+  await stage.attach(host, { model: q.get('model') || 'hvac', focus: q.get('focus') || undefined, part: q.get('part') || undefined, mode: q.get('mode') || undefined, layer: num('layer'), labels: q.get('labels') !== '0', autoRotate: false, view: q.get('view') || 'overview', dur: 0 });
+  if (q.get('flows') === '0') stage.setFlows(false);
+  stage.settle();
+  const bar = document.getElementById('bar'), M = stage.model;
+  const btn = (t, fn) => { const b = document.createElement('button'); b.textContent = t; b.onclick = fn; bar.append(b); };
+  btn('all', () => stage.focus(null));
+  Object.entries(M.meta.systems).forEach(([id, s]) => btn(s.name, () => stage.focus(id)));
+  Object.keys(M.meta.modes || {}).forEach(m => btn('mode:' + m, () => stage.setMode(m)));
+  (M.meta.layers || []).forEach((l, i) => btn('layer:' + l, () => stage.setLayer(i)));
+  stage.on('pick', d => { console.log('pick', JSON.stringify(d)); stage.focusConcept(d.concept || d.comp); });
+  window.__stage = stage;
+  setTimeout(() => { window.__ready = true; }, 400);
+</script>
+</body>
+</html>
