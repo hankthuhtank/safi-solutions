@@ -642,3 +642,15 @@ a:hover > .arrow.back { transform: translateX(-3px); }
     transform: rotate(45deg);
   }
 }
+
+
+@media (max-width: 999px) {
+  .mobile-header nav a[href="/studio/"] {
+    background: rgba(255,255,255,.035);
+  }
+
+  .mobile-header nav a[href="/tradingdesk/"] {
+    background: rgba(60,139,130,.14);
+    color: #d9f8f3;
+  }
+}
