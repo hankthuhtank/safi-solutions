@@ -566,9 +566,9 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .page-home .hero {
     min-height: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(414px, auto);
-    gap: 6px;
-    padding: 28px 10px 10px;
+    grid-template-rows: auto auto;
+    gap: 2px;
+    padding: 24px 10px 0;
     overflow: hidden;
   }
 
@@ -597,9 +597,9 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 
   .page-home .door {
     grid-template-columns: minmax(0, 1fr);
-    min-height: 56px;
-    padding: 9px 8px 9px 16px;
-    margin: 2px 0;
+    min-height: 49px;
+    padding: 6px 8px 6px 16px;
+    margin: 0;
     border-bottom: 0;
     border-radius: 0;
     background: transparent;
@@ -631,6 +631,7 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   }
 
   .page-home .site-footer {
-    padding-top: 18px;
+    padding-top: 12px;
+    padding-bottom: 14px;
   }
 }
