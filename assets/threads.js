@@ -6,13 +6,12 @@
   const hero = document.querySelector('.hero');
   const canvas = hero && hero.querySelector('.threads');
   if (!canvas || !canvas.getContext) return;
-  // Mobile uses the restored floating particle field instead of the dense thread canvas.
-  if (matchMedia('(max-width: 760px)').matches) { canvas.hidden = true; return; }
+  const mobile = matchMedia('(max-width: 760px)').matches;
   const g = canvas.getContext('2d');
   const copy = hero.querySelector('.hero-copy'), doorsBox = hero.querySelector('.doors');
   const doors = [...hero.querySelectorAll('.door')];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const LANES = doors.length, PER = Math.max(5, Math.round(42 / LANES)), N = LANES * PER, S = 170, JOIN = .5, SIG = .055;
+  const LANES = doors.length, PER = mobile ? 4 : Math.max(5, Math.round(42 / LANES)), N = LANES * PER, S = mobile ? 132 : 170, JOIN = .5, SIG = .055;
   const TAU = Math.PI * 2;
 
   let seed = 11;
@@ -55,7 +54,15 @@
   function strand(s, t) {
     const a = anchors[s.lane];
     let Sx, Sy, c1x, c1y, c2x, c2y;
-    if (stacked) { Sx = -30; Sy = K.y + (s.a - .5) * 120; c1x = Sx + (K.x - Sx) * .5; c1y = Sy; c2x = K.x - 20; c2y = K.y; }
+    if (mobile) {
+      const spread = Math.max(155, Math.min(250, H * .27));
+      Sx = 6 + s.a * Math.max(26, K.x * .9);
+      Sy = K.y + (s.top ? -1 : 1) * (spread * (.58 + s.b * .72));
+      c1x = Sx + (s.b - .5) * 34;
+      c1y = Sy + (K.y - Sy) * .34;
+      c2x = K.x - 18 + (s.a - .5) * 24;
+      c2y = K.y + (s.b - .5) * 50;
+    } else if (stacked) { Sx = -30; Sy = K.y + (s.a - .5) * 120; c1x = Sx + (K.x - Sx) * .5; c1y = Sy; c2x = K.x - 20; c2y = K.y; }
     else {
       const gap = gapR - gapL;
       Sx = gapL - gap * .45 + s.a * gap * 1.25; Sy = s.top ? -30 : H + 30;
