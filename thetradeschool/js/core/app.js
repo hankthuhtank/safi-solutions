@@ -128,7 +128,7 @@
 
   function shell(content){
     const theme=worldThemeFromHash();
-    const raw=location.hash.replace(/^#\\/?/,"").split("?")[0];
+    const raw=location.hash.replace(/^#\/?/,"").split("?")[0];
     app.innerHTML = `
       <div class="shell theme-${theme}" data-world="${theme}">
         <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
