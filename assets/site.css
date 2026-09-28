@@ -15,6 +15,99 @@ body { position: relative; isolation: isolate; }
 .particle-layer { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; contain: layout paint; display: block !important; visibility: visible !important; }
 .particle-layer i { position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s); border-radius: 50%; background: var(--c); opacity: var(--o); box-shadow: 0 0 var(--glow) var(--c); animation: particleFloat var(--d) linear infinite; animation-delay: var(--delay); will-change: transform; }
 @keyframes particleFloat { 0% { transform: translate3d(0,0,0) scale(.72); } 100% { transform: translate3d(var(--drift),-138vh,0) scale(1.15); } }
+
+/* Mobile home: same thread system, re-composed vertically for a phone. */
+@media (max-width: 760px) {
+  .page-home .hero {
+    min-height: calc(100svh - 66px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(430px, 1fr);
+    gap: 14px;
+    align-items: start;
+    padding: 28px 10px 30px;
+    overflow: hidden;
+  }
+
+  .page-home .threads {
+    display: block;
+    z-index: -1;
+  }
+
+  .page-home .hero-copy {
+    grid-column: 1;
+    grid-row: 1;
+    width: calc(100% - 16px);
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 8px;
+  }
+
+  .page-home .hero-copy .micro {
+    font-size: 9.5px;
+  }
+
+  .page-home .hero h1 {
+    margin-top: 14px;
+    margin-bottom: 18px;
+  }
+
+  .page-home .hero-lede {
+    max-width: 390px;
+    font-size: 14.5px;
+    line-height: 1.52;
+  }
+
+  .page-home .hero-cta {
+    margin-top: 22px;
+  }
+
+  .page-home .doors {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    justify-self: end;
+    width: min(48vw, 228px);
+    max-width: none;
+    margin: 8px 0 0;
+    border-top: 1px solid var(--line);
+    background: rgba(16, 18, 21, .46);
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-home .door {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    min-height: 58px;
+    padding: 9px 8px 9px 14px;
+  }
+
+  .page-home .door-body b {
+    font-size: clamp(16px, 4.35vw, 19px);
+    line-height: 1.12;
+    white-space: nowrap;
+  }
+
+  .page-home .door-body small {
+    font-size: clamp(9.5px, 2.55vw, 11.5px);
+    line-height: 1.35;
+    margin-top: 3px;
+  }
+
+  .page-home .door-count,
+  .page-home .door .arrow {
+    display: none;
+  }
+
+  .page-home .door::before {
+    left: -5px;
+  }
+
+  .page-home .hero-hint {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) { .particle-layer i { animation: none !important; opacity: var(--o) !important; } }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
@@ -347,7 +440,6 @@ a:hover > .arrow.back { transform: translateX(-3px); }
 .js .rv.in { opacity: 1; transform: none; }
 
 @media (max-width: 760px) {
-  .page-home .threads { display: none !important; }
   .page-home .particle-layer i { filter: brightness(1.12); }
 }
 
