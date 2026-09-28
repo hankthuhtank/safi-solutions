@@ -559,3 +559,65 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js .rv { opacity: 1; transform: none; }
 }
+
+
+/* Final mobile home composition: knot on the left, navigation fixed to the right. */
+@media (max-width: 760px) {
+  .page-home .hero {
+    min-height: calc(100svh - 66px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(470px, 1fr);
+    gap: 10px;
+    padding: 28px 10px 30px;
+    overflow: hidden;
+  }
+
+  .page-home .hero-copy {
+    grid-column: 1;
+    grid-row: 1;
+    width: calc(100% - 16px);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .page-home .doors {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: end;
+    align-self: center;
+    width: 48%;
+    max-width: 230px;
+    margin: 0;
+    margin-left: auto;
+    background: rgba(16, 18, 21, .34);
+    border-top: 1px solid var(--line);
+    position: relative;
+    z-index: 2;
+  }
+
+  .page-home .door {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 58px;
+    padding: 9px 8px 9px 14px;
+  }
+
+  .page-home .door-body b {
+    font-size: clamp(15.5px, 4.15vw, 18.5px);
+    white-space: nowrap;
+  }
+
+  .page-home .door-body small {
+    font-size: clamp(9px, 2.45vw, 11px);
+    line-height: 1.35;
+    margin-top: 3px;
+  }
+
+  .page-home .door-count,
+  .page-home .door .arrow {
+    display: none;
+  }
+
+  .page-home .threads {
+    display: block !important;
+  }
+}
