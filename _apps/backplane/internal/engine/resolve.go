@@ -1,8 +1,10 @@
 package engine
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"regexp"
 	"strings"
@@ -21,6 +23,8 @@ import (
 //	{{gen:NAME}}           a random secret generated once per environment
 //	{{param:NAME}}         a blueprint parameter
 //	{{code:PATH}}          a generated code file
+//	{{codet:PATH}}         a code template, its non-secret placeholders resolved
+//	{{codever:PATH}}       short digest of a code file (the Worker's CODE_VERSION)
 //	{{env}} {{project}}    environment and project ids
 var placeholder = regexp.MustCompile(`\{\{\s*([a-z]+)(?::([^}]+?))?\s*\}\}`)
 
@@ -48,18 +52,39 @@ type resolver struct {
 	genCreate bool
 	// public forbids secret-bearing placeholders (used inside code templates).
 	public bool
+	// escape is applied to each substituted value (JSON files need their
+	// values escaped so a quote in a business name can't break the file).
+	escape func(string) string
 }
 
-// RenderPublic resolves the non-secret placeholders in a code template (for
-// exports). Secret-bearing placeholders are refused, so the output is safe to
-// share or commit.
-func (e *Engine) RenderPublic(p *core.Project, env, text string) (string, error) {
+// RenderPublic resolves the non-secret placeholders in the code template rel
+// (for exports). Secret-bearing placeholders are refused, so the output is
+// safe to share or commit.
+func (e *Engine) RenderPublic(p *core.Project, env, rel, text string) (string, error) {
 	man, err := e.Store.LoadManifest(p.ID, env)
 	if err != nil {
 		return "", err
 	}
-	r := &resolver{e: e, p: p, env: env, man: man, mode: forApply, public: true}
+	r := &resolver{e: e, p: p, env: env, man: man, mode: forApply, public: true, escape: escaperFor(rel)}
 	return r.str(text)
+}
+
+// escaperFor returns the value escaper for a code template's file type.
+func escaperFor(rel string) func(string) string {
+	if strings.HasSuffix(rel, ".json") || strings.HasSuffix(rel, ".jsonc") {
+		return jsonEscape
+	}
+	return nil
+}
+
+// jsonEscape escapes v for use inside a JSON string literal.
+func jsonEscape(v string) string {
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	_ = enc.Encode(v)
+	out := strings.TrimSuffix(buf.String(), "\n")
+	return out[1 : len(out)-1]
 }
 
 func digestOf(v string) string {
@@ -181,7 +206,7 @@ func (r *resolver) lookup(kind, arg string) (string, error) {
 		if err != nil {
 			return "", &core.Problem{Title: "Generated code missing", Code: "invalid", Summary: "The file " + arg + " is missing. Regenerate the code from the Code screen."}
 		}
-		safe := &resolver{e: r.e, p: r.p, env: r.env, man: r.man, mode: r.mode, public: true}
+		safe := &resolver{e: r.e, p: r.p, env: r.env, man: r.man, mode: r.mode, public: true, escape: escaperFor(arg)}
 		v, err := safe.str(raw)
 		if err != nil {
 			return "", err
@@ -190,6 +215,13 @@ func (r *resolver) lookup(kind, arg string) (string, error) {
 			return digestOf(v), nil
 		}
 		return v, nil
+	case "codever":
+		v, err := r.e.ReadCode(r.p.ID, arg)
+		if err != nil {
+			return "", &core.Problem{Title: "Generated code missing", Code: "invalid", Summary: "The file " + arg + " is missing from this project's code folder. Regenerate the code from the Code screen."}
+		}
+		sum := sha256.Sum256([]byte(v))
+		return hex.EncodeToString(sum[:])[:12], nil
 	case "code":
 		v, err := r.e.ReadCode(r.p.ID, arg)
 		if err != nil {
@@ -213,6 +245,9 @@ func (r *resolver) str(s string) (string, error) {
 		v, err := r.lookup(sub[1], strings.TrimSpace(sub[2]))
 		if err != nil && firstErr == nil {
 			firstErr = err
+		}
+		if r.escape != nil {
+			return r.escape(v)
 		}
 		return v
 	})

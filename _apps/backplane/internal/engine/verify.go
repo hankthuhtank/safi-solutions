@@ -231,7 +231,7 @@ func (e *Engine) Check(ctx context.Context, p *core.Project, env string, opts Ch
 		// Record provider link health for the dashboard.
 		_ = e.Store.SaveManifest(man)
 		if rep.Overall == core.HealthOK {
-			_, _ = e.Snapshot(p, env, man, "Known good after full check "+rep.ID, true)
+			_, _ = e.Snapshot(p, env, man, "Known good — full certification passed", true)
 		}
 	}
 	if err := e.Store.SaveReport(rep, note); err != nil {
@@ -342,7 +342,7 @@ func (c *Checker) level1() {
 				// Environment separation: a live key must never serve tests and
 				// production must not run on test payments.
 				if prov == "stripe" && vr.Mode != "" {
-					if core.IsProduction(c.Env) && vr.Mode == "test" && c.P.Blueprint.Param("allow_test_payments_in_production") != "true" {
+					if core.IsProduction(c.Env) && vr.Mode == "test" && !c.P.Practice && c.P.Blueprint.Param("allow_test_payments_in_production") != "true" {
 						r.Health = core.Worst(r.Health, core.HealthWarn)
 						r.Summary += " Production is using TEST mode — customers cannot really pay."
 					}

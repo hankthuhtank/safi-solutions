@@ -368,7 +368,7 @@ func (a *App) Export(ctx context.Context, p ExportParams) (*ExportResult, error)
 	}
 	if all || want["wrangler"] {
 		if raw, err := a.Engine.ReadCode(pr.ID, "worker/wrangler.jsonc"); err == nil {
-			if out, err := a.Engine.RenderPublic(pr, env, raw); err == nil {
+			if out, err := a.Engine.RenderPublic(pr, env, "worker/wrangler.jsonc", raw); err == nil {
 				files["deploy/wrangler.jsonc"] = []byte(out)
 			} else {
 				notes = append(notes, "The Wrangler config needs a finished build to fill in resource IDs: "+err.Error())
@@ -384,7 +384,7 @@ func (a *App) Export(ctx context.Context, p ExportParams) (*ExportResult, error)
 			}
 		}
 		render := func(s string) string {
-			out, err := a.Engine.RenderPublic(pr, env, s)
+			out, err := a.Engine.RenderPublic(pr, env, "", s)
 			if err != nil {
 				return ""
 			}

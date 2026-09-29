@@ -30,7 +30,7 @@ func (e *Engine) StartRun(p *core.Project, env string, plan *core.Plan, confirm 
 	if err != nil {
 		return nil, err
 	}
-	snap, err := e.Snapshot(p, env, man, "Before build "+plan.ID, false)
+	snap, err := e.Snapshot(p, env, man, "Before "+strings.ToLower(orStr(plan.Purpose, "build")), false)
 	if err != nil {
 		return nil, err
 	}
@@ -531,7 +531,7 @@ func (e *Engine) finish(p *core.Project, run *core.Run, man *core.Manifest, stat
 		if man != nil {
 			man.LastBuild = &now
 			_ = e.Store.SaveManifest(man)
-			_, _ = e.Snapshot(p, run.Environment, man, "After build "+run.ID, false)
+			_, _ = e.Snapshot(p, run.Environment, man, "After "+strings.ToLower(orStr(run.Plan.Purpose, "build")), false)
 		}
 		e.logRun(run, "info", "Build finished. Every step succeeded.", "")
 	case core.RunFailed:

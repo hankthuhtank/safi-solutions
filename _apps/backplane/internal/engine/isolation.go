@@ -177,7 +177,7 @@ func checkDataCheckout(c *Checker, l *core.LinkSpec) core.CheckResult {
 	if url == "" {
 		return core.CheckResult{Health: core.HealthUnknown, Summary: "Not built yet."}
 	}
-	_, err := c.workerCall("POST", "/billing/checkout", []byte(`{}`), nil)
+	_, err := c.workerCall("POST", "/billing/checkout", []byte(`{}`), nil, true)
 	if e, ok := httpx.AsError(err); ok && e.Status == 401 {
 		return core.CheckResult{Health: core.HealthOK, Summary: "Billing endpoint answers and requires a signed-in user."}
 	}

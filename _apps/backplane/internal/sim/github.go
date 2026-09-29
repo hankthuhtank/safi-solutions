@@ -157,6 +157,16 @@ func (s *Server) github(w http.ResponseWriter, r *http.Request, rest string) {
 			entries = append(entries, map[string]any{"path": path, "mode": "100644", "type": "blob", "sha": blobSHA(files[path])})
 		}
 		writeJSON(w, 200, map[string]any{"sha": q[2], "tree": orAny(entries), "truncated": false})
+	case len(q) == 3 && q[0] == "git" && q[1] == "blobs" && m == "GET":
+		for _, files := range repo.Trees {
+			for _, content := range files {
+				if blobSHA(content) == q[2] {
+					writeJSON(w, 200, map[string]any{"sha": q[2], "size": len(content), "encoding": "base64", "content": base64.StdEncoding.EncodeToString([]byte(content))})
+					return
+				}
+			}
+		}
+		ghErr(w, 404, "Not Found")
 	case eq(q, "git", "trees") && m == "POST":
 		var b struct {
 			BaseTree string `json:"base_tree"`

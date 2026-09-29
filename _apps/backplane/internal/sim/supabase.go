@@ -311,6 +311,7 @@ func (s *Server) sbProjectRoute(w http.ResponseWriter, r *http.Request, pr *sbPr
 
 var (
 	reCreateTable = regexp.MustCompile(`(?is)create table if not exists public\.(\w+)\s*\((.*?)\);`)
+	reAddColumn   = regexp.MustCompile(`(?i)alter table public\.(\w+) add column if not exists (\w+)([^;]*);`)
 	reEnableRLS   = regexp.MustCompile(`(?i)alter table public\.(\w+) enable row level security`)
 	reDisableRLS  = regexp.MustCompile(`(?i)alter table public\.(\w+) disable row level security`)
 	reCreatePol   = regexp.MustCompile(`(?is)create policy "([^"]+)" on public\.(\w+)(.*?);`)
@@ -381,6 +382,25 @@ func (s *Server) sbExec(pr *sbProject, sql string) error {
 			t.Columns = append(t.Columns, col)
 		}
 		pr.Tables[name] = t
+	}
+	for _, m := range reAddColumn.FindAllStringSubmatch(sql, -1) {
+		t := pr.Tables[m[1]]
+		if t == nil {
+			continue
+		}
+		exists := false
+		for _, c := range t.Columns {
+			if c.Name == m[2] {
+				exists = true
+			}
+		}
+		if !exists {
+			col := sbColumn{Name: m[2]}
+			if i := strings.Index(strings.ToLower(m[3]), " default "); i >= 0 {
+				col.Default = strings.TrimSpace(m[3][i+9:])
+			}
+			t.Columns = append(t.Columns, col)
+		}
 	}
 	for _, m := range reEnableRLS.FindAllStringSubmatch(sql, -1) {
 		if t := pr.Tables[m[1]]; t != nil {

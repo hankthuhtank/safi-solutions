@@ -396,7 +396,22 @@ func FailedDeliveries(ctx context.Context, c *providers.Conn, since time.Time, t
 	if err := Call(ctx, c, "GET", "/v1/events", params, "", &list); err != nil {
 		return nil, err
 	}
-	return list.Data, nil
+	out := list.Data[:0]
+	for _, ev := range list.Data {
+		if IsProbeEvent(ev) {
+			continue // Backplane's own delivery probes are not customer events
+		}
+		out = append(out, ev)
+	}
+	return out, nil
+}
+
+// IsProbeEvent reports whether an event is about one of Backplane's own
+// no-charge probe checkout sessions.
+func IsProbeEvent(ev Event) bool {
+	meta, _ := ev.Data.Object["metadata"].(map[string]any)
+	v, _ := meta["backplane_probe"].(string)
+	return v == "1"
 }
 
 // SignPayload produces a Stripe-Signature header value for a payload, exactly

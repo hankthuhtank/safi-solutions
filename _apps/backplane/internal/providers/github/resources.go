@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"net/url"
@@ -198,7 +199,7 @@ func (filesH) Apply(ctx context.Context, s *providers.Session, spec *core.Resour
 		switch {
 		case exists && have == ours:
 			written[path] = ours
-		case exists && have != lastWritten[path]:
+		case exists && have != lastWritten[path] && !(lastWritten[path] == "" && initReadme(ctx, c, s, repoName, path, have)):
 			// Someone edited (or created) this file; never overwrite silently.
 			conflicts = append(conflicts, path)
 		default:
@@ -502,4 +503,36 @@ func (envH) Drift(spec *core.ResourceSpec, st *core.ResourceState, obs *provider
 
 func (envH) Delete(ctx context.Context, s *providers.Session, st *core.ResourceState) error {
 	return nil
+}
+
+// initReadme reports whether a file is the README GitHub generated when
+// Backplane created the repository ("initialize with a README"). That file
+// is Backplane's to replace; anything else a person wrote is never touched.
+func initReadme(ctx context.Context, c *providers.Conn, s *providers.Session, repo, path, sha string) bool {
+	if path != "README.md" || s.Manifest == nil {
+		return false
+	}
+	ours := false
+	for _, st := range s.Manifest.Resources {
+		if st.Kind == KindRepo && (st.ID == repo || st.Output("full_name") == repo) && st.CreatedBy == "backplane" {
+			ours = true
+		}
+	}
+	if !ours {
+		return false
+	}
+	var blob struct {
+		Content  string `json:"content"`
+		Encoding string `json:"encoding"`
+		Size     int    `json:"size"`
+	}
+	if _, err := Call(ctx, c, "GET", "/repos/"+repo+"/git/blobs/"+sha, nil, &blob); err != nil || blob.Size > 600 {
+		return false
+	}
+	raw, err := base64.StdEncoding.DecodeString(strings.ReplaceAll(blob.Content, "\n", ""))
+	if err != nil {
+		raw = []byte(blob.Content)
+	}
+	text := strings.TrimSpace(string(raw))
+	return strings.HasPrefix(text, "# ") && strings.Count(text, "\n") <= 3
 }

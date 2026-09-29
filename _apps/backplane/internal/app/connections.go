@@ -17,10 +17,10 @@ import (
 // ConnectionView is a connection as shown in the UI (never the secret).
 type ConnectionView struct {
 	core.Connection
-	Hint     string            `json:"hint"`
-	Fields   map[string]string `json:"fieldHints"` // secret field -> hint
-	UsedBy   []string          `json:"usedBy"`     // "Project (env)"
-	Provider providers.Info    `json:"providerInfo"`
+	Hint   string            `json:"hint"`
+	Fields map[string]string `json:"fieldHints"` // secret field -> hint
+	UsedBy []string          `json:"usedBy"`     // "Project (env)"
+	Info   providers.Info    `json:"providerInfo"`
 }
 
 // CatalogResult lists templates and capabilities.
@@ -54,8 +54,8 @@ func (a *App) ListConnections(ctx context.Context) ([]ConnectionView, error) {
 			v.Hint = vault.Hint(s)
 		}
 		if p, ok := a.Reg.Provider(c.Provider); ok {
-			v.Provider = p.Info()
-			for _, f := range v.Provider.Fields {
+			v.Info = p.Info()
+			for _, f := range v.Info.Fields {
 				if f.Secret && f.Key != "token" {
 					if s, err := a.Vault.GetString(engine.ConnKey(c.ID, f.Key)); err == nil {
 						v.Fields[f.Key] = vault.Hint(s)

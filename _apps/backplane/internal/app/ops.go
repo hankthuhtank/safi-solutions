@@ -133,7 +133,7 @@ func (a *App) afterRun(pr *core.Project, env, runID string) {
 		}
 		switch run.Status {
 		case core.RunSucceeded:
-			a.notifyUser(pr, "Build finished", pr.Name+" ("+env+") was built successfully.")
+			a.notifyUser(pr, "ok", "Build finished", pr.Name+" ("+env+") was built successfully.")
 			if pr.Monitor.CheckAfterBuild {
 				kind := core.CheckFull
 				if run.Plan.Repair {
@@ -148,7 +148,7 @@ func (a *App) afterRun(pr *core.Project, env, runID string) {
 			if run.Error != nil {
 				msg += " " + run.Error.Title
 			}
-			a.notifyUser(pr, "Build stopped", msg)
+			a.notifyUser(pr, "fail", "Build stopped", msg)
 		}
 	}()
 }

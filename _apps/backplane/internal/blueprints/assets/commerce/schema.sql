@@ -27,6 +27,11 @@ create table if not exists public.orders (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- Physical goods (E-commerce preset): where and to whom the order ships.
+alter table public.orders add column if not exists shipping_name text;
+alter table public.orders add column if not exists shipping_address jsonb;
+alter table public.orders add column if not exists phone text;
+alter table public.orders add column if not exists fulfillment_status text not null default 'unfulfilled';
 create index if not exists orders_email_idx on public.orders (lower(email));
 create index if not exists orders_payment_intent_idx on public.orders (stripe_payment_intent);
 

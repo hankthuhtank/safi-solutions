@@ -372,6 +372,9 @@ func (s *Server) commerceFulfil(env *wenv, cs map[string]any, isProbe bool) (map
 		return nil, fmt.Errorf("order insert failed: %v", err)
 	}
 	order := orders[0]
+	if env.get("FULFILLMENT_MODE") == "shipping" {
+		return s.commerceShip(env, cs, order, email, isProbe)
+	}
 	key := env.get("PRODUCT_FILE_KEY")
 	if isProbe && str(meta["backplane_probe_object"]) != "" {
 		key = str(meta["backplane_probe_object"])
@@ -418,6 +421,44 @@ func (s *Server) commerceFulfil(env *wenv, cs map[string]any, isProbe bool) (map
 		return nil, fmt.Errorf("email failed: %s", emailErr)
 	}
 	return map[string]any{"order_id": order["id"], "download_url": link, "email_id": emailID, "email_error": emailErr}, nil
+}
+
+// commerceShip mirrors the generated Worker's physical-goods path: the
+// shipping address is stored with the order and a confirmation is emailed.
+func (s *Server) commerceShip(env *wenv, cs, order map[string]any, email string, isProbe bool) (map[string]any, error) {
+	var ship map[string]any
+	if ci, ok := cs["collected_information"].(map[string]any); ok {
+		ship, _ = ci["shipping_details"].(map[string]any)
+	}
+	if ship == nil {
+		ship, _ = cs["shipping_details"].(map[string]any)
+	}
+	details, _ := cs["customer_details"].(map[string]any)
+	patch := map[string]any{"fulfillment_status": "unfulfilled", "phone": details["phone"]}
+	if ship != nil {
+		patch["shipping_name"], patch["shipping_address"] = ship["name"], ship["address"]
+	}
+	if _, err := s.sbw(env, "PATCH", "orders?id=eq."+str(order["id"]), patch, "return=minimal"); err != nil {
+		return nil, err
+	}
+	emailID, emailErr := "", ""
+	sent, _ := s.sbw(env, "GET", "email_log?stripe_session_id=eq."+str(cs["id"])+"&kind=eq.purchase&select=resend_email_id", nil, "")
+	if len(sent) > 0 {
+		emailID = str(sent[0]["resend_email_id"])
+	} else {
+		status, data := s.resendW(env, "POST", "/emails", map[string]any{"from": env.get("FROM_EMAIL"), "to": []string{email},
+			"subject": "Order confirmed — " + env.get("PRODUCT_NAME"), "html": "<p>Your order is confirmed. We'll ship it soon.</p>"})
+		if status >= 300 {
+			emailErr = fmt.Sprintf("Resend %d: %s", status, str(data["message"]))
+		} else {
+			emailID = str(data["id"])
+			_, _ = s.sbw(env, "POST", "email_log", []map[string]any{{"resend_email_id": emailID, "stripe_session_id": cs["id"], "recipient": email, "kind": "purchase"}}, "return=minimal")
+		}
+	}
+	if emailErr != "" && !isProbe {
+		return nil, fmt.Errorf("email failed: %s", emailErr)
+	}
+	return map[string]any{"order_id": order["id"], "email_id": emailID, "email_error": emailErr}, nil
 }
 
 func (s *Server) commerceDownload(w http.ResponseWriter, r *http.Request, env *wenv) {
@@ -510,12 +551,15 @@ func (s *Server) commerceHealth(w http.ResponseWriter, r *http.Request, env *wen
 			}
 			if k := env.get("PRODUCT_FILE_KEY"); k != "" {
 				if _, ok := b.Objects[k]; !ok {
-					return "", fmt.Errorf("bucket reachable; product file %s NOT uploaded yet", k)
+					return "bucket reachable; product file " + k + " NOT uploaded yet", nil
 				}
 				return "bucket reachable; product file present", nil
 			}
 			return "bucket reachable", nil
 		})
+	}
+	if r2, ok := checks["r2"].(map[string]any); ok && strings.Contains(fmt.Sprint(r2["detail"]), "NOT uploaded") {
+		r2["warn"] = true
 	}
 	checks["kv"] = timed(func() (string, error) {
 		s.mu.Lock()

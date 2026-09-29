@@ -190,7 +190,7 @@ func (m *Monitor) observe(p *core.Project, env string, rep *core.HealthReport) {
 	if rep.Overall != core.HealthOK {
 		body = firstProblem(rep)
 	}
-	m.a.notifyUser(p, title, body)
+	m.a.notifyUser(p, string(rep.Overall), title, body)
 }
 
 func firstProblem(rep *core.HealthReport) string {
@@ -249,10 +249,10 @@ func (m *Monitor) state(p *core.Project, env string) MonitorState {
 	return st
 }
 
-// notifyUser shows an in-app toast and, when the project allows it, a
-// desktop notification.
-func (a *App) notifyUser(p *core.Project, title, body string) {
-	a.Engine.Bus.Publish(engine.Event{Type: "toast", Project: p.ID, Data: map[string]any{"title": title, "body": body}})
+// notifyUser shows an in-app toast (kind: ok, warn, fail, info) and, when
+// the project allows it, a desktop notification.
+func (a *App) notifyUser(p *core.Project, kind, title, body string) {
+	a.Engine.Bus.Publish(engine.Event{Type: "toast", Project: p.ID, Data: map[string]any{"kind": kind, "title": title, "body": body}})
 	if p.Monitor.Notify && a.notify != nil {
 		a.notify(title, body)
 	}

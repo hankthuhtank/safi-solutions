@@ -627,6 +627,10 @@ type DashboardResult struct {
 	Secrets     int                     `json:"secrets"`
 	Environment map[string]core.Health  `json:"environments"`
 	Extra       map[string]string       `json:"extra,omitempty"`
+	// Connections is environment -> provider -> connection id.
+	Connections map[string]map[string]string `json:"connections"`
+	// Answers are the preset answers the blueprint was built from.
+	Answers map[string]any `json:"answers"`
 }
 
 // ResourceRow is one resource in the dashboard's inventory table.
@@ -660,7 +664,8 @@ func (a *App) Dashboard(ctx context.Context, p DashboardParams) (*DashboardResul
 		return nil, err
 	}
 	d := &DashboardResult{Project: a.summarize(pr), Env: env, Blueprint: pr.Blueprint, Manifest: man, LevelNames: core.LevelNames,
-		Costs: engine.EstimateCosts(&pr.Blueprint), Uptime: map[string]float64{}, Environment: map[string]core.Health{}}
+		Costs: engine.EstimateCosts(&pr.Blueprint), Uptime: map[string]float64{}, Environment: map[string]core.Health{},
+		Connections: pr.Connections, Answers: pr.Answers}
 	if t, ok := blueprints.Get(pr.TemplateID); ok {
 		d.Template = &t
 	}

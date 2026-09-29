@@ -329,6 +329,9 @@ func (s *Server) stripeRoute(w http.ResponseWriter, method string, p []string, p
 			}
 		case "DELETE":
 			delete(st.endpoints, ep.ID)
+			for _, ev := range st.events {
+				delete(ev.Pending, ep.ID) // Stripe stops delivering to a deleted endpoint
+			}
 			writeJSON(w, 200, map[string]any{"id": ep.ID, "object": "webhook_endpoint", "deleted": true})
 			return nil
 		}
@@ -364,6 +367,12 @@ func (s *Server) stripeRoute(w http.ResponseWriter, method string, p []string, p
 			"url": "https://checkout.stripe.com/c/pay/" + id, "metadata": meta(params["metadata"]), "livemode": live, "success_url": params["success_url"], "expires_at": now + 86400}
 		st.sessions[id] = cs
 		writeJSON(w, 200, cs)
+	case eq(p, "v1", "checkout", "sessions") && method == "GET":
+		var data []any
+		for _, id := range sortedKeys(st.sessions) {
+			data = append(data, st.sessions[id])
+		}
+		writeJSON(w, 200, map[string]any{"object": "list", "data": orAny(data), "has_more": false})
 	case len(p) == 4 && p[1] == "checkout" && p[2] == "sessions" && method == "GET":
 		cs := st.sessions[p[3]]
 		if cs == nil {
@@ -510,14 +519,23 @@ func (s *Server) newEvent(typ string, obj map[string]any, live bool) *stEvent {
 	return ev
 }
 
-// deliverStripe posts a signed event to each subscribed endpoint.
+// deliverStripe posts a signed event to each subscribed endpoint and, like
+// Stripe, retries failed deliveries with growing delays.
 func (s *Server) deliverStripe(ev *stEvent) {
-	time.Sleep(s.DeliverDelay)
+	for attempt, wait := range []time.Duration{1, 10, 30, 80} {
+		time.Sleep(s.DeliverDelay * wait)
+		if s.deliverStripeOnce(ev) || attempt == 3 {
+			return
+		}
+	}
+}
+
+func (s *Server) deliverStripeOnce(ev *stEvent) bool {
 	s.mu.Lock()
 	type target struct{ id, url, secret string }
 	var targets []target
-	for id := range ev.Pending {
-		if ep := s.st.endpoints[id]; ep != nil {
+	for id, pending := range ev.Pending {
+		if ep := s.st.endpoints[id]; ep != nil && pending && ep.Status != "disabled" {
 			targets = append(targets, target{id, ep.URL, ep.Secret})
 		}
 	}
@@ -546,6 +564,14 @@ func (s *Server) deliverStripe(ev *stEvent) {
 			s.mu.Unlock()
 		}
 	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for _, pending := range ev.Pending {
+		if pending {
+			return false
+		}
+	}
+	return true
 }
 
 // ---- fault helpers ----

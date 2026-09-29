@@ -311,7 +311,7 @@ func checkResendWebhook(c *Checker, l *core.LinkSpec) core.CheckResult {
 		return core.CheckResult{Health: core.HealthFail, Summary: "Resend webhook deleted.", Problem: &core.Problem{Title: "RESEND WEBHOOK MISSING", Provider: "resend", Code: "not_found",
 			Summary: "Bounces and complaints are no longer recorded.", Fixes: []core.Fix{{ID: "reapply:" + spec.Key, Label: "Recreate it", Automatic: true, Action: "repair", Target: spec.Key}}}}
 	}
-	resp, err := c.workerCall("POST", "/resend/webhook", []byte(`{"type":"email.delivered"}`), nil)
+	resp, err := c.workerCall("POST", "/resend/webhook", []byte(`{"type":"email.delivered"}`), nil, true)
 	if err == nil {
 		return core.CheckResult{Health: core.HealthFail, Summary: "The Worker accepted an unsigned delivery event.",
 			Problem: &core.Problem{Title: "WEBHOOK SIGNATURE NOT CHECKED", Code: "drift", Summary: "The Worker's /resend/webhook accepted a request without a valid signature. Rebuild the Worker so only Resend can post events."}}
@@ -330,7 +330,7 @@ func synthWorker(c *Checker) core.CheckResult {
 	res := core.CheckResult{Target: c.componentOf("cloudflare.worker")}
 	var steps []core.StepResult
 	start := time.Now()
-	_, err := c.ProbeClient().Do(c.ctx, httpx.Request{Method: "GET", Path: url + "/__backplane/health", Resource: key})
+	_, err := c.ProbeClient().Do(c.ctx, httpx.Request{Method: "GET", Path: url + "/__backplane/health", Resource: key, Quiet: true})
 	if e, ok := httpx.AsError(err); ok && e.Status == 401 {
 		steps = append(steps, step("Rejects calls without the probe token", core.HealthOK, "401 as expected", time.Since(start).Milliseconds()))
 	} else {

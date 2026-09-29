@@ -20,6 +20,7 @@ type ProbeItem struct {
 	Detail  string `json:"detail"`
 	Error   string `json:"error"`
 	Skipped bool   `json:"skipped"`
+	Warn    bool   `json:"warn"` // works, but needs attention (for example no product file yet)
 	EmailID string `json:"emailId,omitempty"`
 }
 
@@ -133,6 +134,13 @@ func probeLink(item, what string) LinkCheck {
 		if it.Skipped {
 			return core.CheckResult{Health: core.HealthOK, Summary: orStr(it.Detail, "Configured"), LatencyMS: it.MS}
 		}
+		if it.OK && it.Warn {
+			prob := &core.Problem{Title: "PRODUCT FILE NOT UPLOADED", Code: "invalid",
+				Summary:  "Storage works, but the file customers buy isn't there yet, so download links would fail. Upload it, then build to put it in private storage.",
+				Affected: []string{"Download delivery"},
+				Fixes:    []core.Fix{{ID: "upload:product", Label: "Upload the product file", Explain: "Choose the file on the project's Settings tab; the next build uploads it to private storage.", Action: "upload"}}}
+			return core.CheckResult{Health: core.HealthWarn, Summary: orStr(it.Detail, "Needs attention"), LatencyMS: it.MS, Problem: prob}
+		}
 		if it.OK {
 			return core.CheckResult{Health: core.HealthOK, Summary: orStr(it.Detail, "Working"), LatencyMS: it.MS, Details: map[string]string{"measured from": "inside the Worker"}}
 		}
@@ -166,7 +174,9 @@ func diagnoseProbe(item, msg string, c *Checker) []core.Fix {
 }
 
 // providerProbe is a helper to call a Worker path with the probe token.
-func (c *Checker) workerCall(method, path string, body []byte, header http.Header) (*httpx.Response, error) {
+// Pass quiet=true for negative tests that are expected to be rejected, so the
+// log doesn't show them as warnings.
+func (c *Checker) workerCall(method, path string, body []byte, header http.Header, quiet ...bool) (*httpx.Response, error) {
 	url, key := c.WorkerURL()
 	if url == "" {
 		return nil, fmt.Errorf("worker not built")
@@ -178,7 +188,7 @@ func (c *Checker) workerCall(method, path string, body []byte, header http.Heade
 	if header.Get("Authorization") == "" && token != "" && strings.HasPrefix(path, "/__backplane") {
 		header.Set("Authorization", "Bearer "+token)
 	}
-	rq := httpx.Request{Method: method, Path: url + path, Header: header, Resource: key, Body: body}
+	rq := httpx.Request{Method: method, Path: url + path, Header: header, Resource: key, Body: body, Quiet: len(quiet) > 0 && quiet[0]}
 	if body != nil && header.Get("Content-Type") == "" {
 		rq.ContentType = "application/json"
 	}

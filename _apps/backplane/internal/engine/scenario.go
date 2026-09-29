@@ -53,7 +53,8 @@ func scenarioPurchase(c *Checker, sc *core.ScenarioSpec) core.CheckResult {
 	hook := c.resourceOf(stripe.KindWebhook)
 	bucket := c.resourceOf(cloudflare.KindR2Bucket)
 	price := c.resourceOf(stripe.KindPrice)
-	if workerURL == "" || hook == nil || bucket == nil || price == nil || c.State(bucket.Key) == nil || c.State(price.Key) == nil {
+	shipping := c.P.Blueprint.Param("fulfillment_mode") == "shipping"
+	if workerURL == "" || hook == nil || price == nil || c.State(price.Key) == nil || (!shipping && (bucket == nil || c.State(bucket.Key) == nil)) {
 		res.Health, res.Summary = core.HealthUnknown, "Build the backend before running the end-to-end test."
 		return res
 	}
@@ -70,15 +71,19 @@ func scenarioPurchase(c *Checker, sc *core.ScenarioSpec) core.CheckResult {
 	payload := make([]byte, 512)
 	_, _ = rand.Read(payload)
 
-	// 1. Test customer & file.
+	// 1. Test customer (and, for downloads, a test file).
 	start := time.Now()
-	if err := cloudflare.PutObject(c.ctx, cf, acct, c.State(bucket.Key).ID, objectKey, payload, "application/octet-stream"); err != nil {
-		return fail("Create test customer", "could not stage the test download: "+providers.Translate("cloudflare", "upload", err).Summary, nil)
+	if !shipping {
+		if err := cloudflare.PutObject(c.ctx, cf, acct, c.State(bucket.Key).ID, objectKey, payload, "application/octet-stream"); err != nil {
+			return fail("Create test customer", "could not stage the test download: "+providers.Translate("cloudflare", "upload", err).Summary, nil)
+		}
+		c.Defer(func(ctx contextLike) error {
+			return cloudflare.DeleteObject(ctx, cf, acct, c.State(bucket.Key).ID, objectKey)
+		})
+		steps = append(steps, step("Create test customer", core.HealthOK, "Backplane Probe <"+resend.TestDelivered+">, test file staged", time.Since(start).Milliseconds()))
+	} else {
+		steps = append(steps, step("Create test customer", core.HealthOK, "Backplane Probe <"+resend.TestDelivered+">, test address 1 Probe Street", time.Since(start).Milliseconds()))
 	}
-	c.Defer(func(ctx contextLike) error {
-		return cloudflare.DeleteObject(ctx, cf, acct, c.State(bucket.Key).ID, objectKey)
-	})
-	steps = append(steps, step("Create test customer", core.HealthOK, "Backplane Probe <"+resend.TestDelivered+">, test file staged", time.Since(start).Milliseconds()))
 
 	// 2. Test payment → signed event.
 	sessionID := "cs_test_bp" + probeID
@@ -91,10 +96,15 @@ func scenarioPurchase(c *Checker, sc *core.ScenarioSpec) core.CheckResult {
 		"data": map[string]any{"object": map[string]any{
 			"id": sessionID, "object": "checkout.session", "livemode": false, "mode": "payment", "status": "complete", "payment_status": "paid",
 			"amount_total": amount, "currency": currency, "customer": nil,
-			"customer_details": map[string]any{"email": resend.TestDelivered, "name": "Backplane Probe"},
+			"customer_details": map[string]any{"email": resend.TestDelivered, "name": "Backplane Probe", "phone": "+15555550100"},
 			"metadata":         map[string]any{"backplane_probe": "1", "backplane_probe_object": objectKey, "backplane_probe_id": probeID},
 			"payment_intent":   "pi_test_bp" + probeID,
 		}},
+	}
+	if shipping {
+		obj := event["data"].(map[string]any)["object"].(map[string]any)
+		obj["collected_information"] = map[string]any{"shipping_details": map[string]any{"name": "Backplane Probe",
+			"address": map[string]any{"line1": "1 Probe Street", "city": "Testville", "postal_code": "00000", "state": "CA", "country": "US"}}}
 	}
 	body, _ := json.Marshal(event)
 	steps = append(steps, step("Test payment", core.HealthOK, "checkout.session.completed for "+stripe.Money(amount, currency)+" (test mode, nothing charged)", 0))
@@ -142,7 +152,11 @@ func scenarioPurchase(c *Checker, sc *core.ScenarioSpec) core.CheckResult {
 		return fail("Order written to database", prob.Title, prob)
 	}
 	var rows []map[string]any
-	r2, err := cl.Do(c.ctx, httpx.Request{Method: "GET", Path: "/rest/v1/orders", Query: url.Values{"stripe_session_id": {"eq." + sessionID}, "select": {"id,status,email,is_probe"}}})
+	cols := "id,status,email,is_probe"
+	if shipping {
+		cols += ",shipping_address"
+	}
+	r2, err := cl.Do(c.ctx, httpx.Request{Method: "GET", Path: "/rest/v1/orders", Query: url.Values{"stripe_session_id": {"eq." + sessionID}, "select": {cols}}})
 	if err == nil {
 		_ = json.Unmarshal(r2.Body, &rows)
 	}
@@ -160,25 +174,36 @@ func scenarioPurchase(c *Checker, sc *core.ScenarioSpec) core.CheckResult {
 	}
 	steps = append(steps, step("Order written to database", core.HealthOK, "orders row "+providers.Str(rows[0], "id")+" (marked as probe)", time.Since(start).Milliseconds()))
 
+	// 6. Shipped goods: the delivery address was recorded with the order.
+	if shipping {
+		addr, _ := rows[0]["shipping_address"].(map[string]any)
+		if providers.Str(addr, "line1") != "1 Probe Street" {
+			return fail("Shipping details recorded", "the order has no shipping address — the Worker may be running code without shipping support; rebuild it", nil)
+		}
+		steps = append(steps, step("Shipping details recorded", core.HealthOK, "address and phone saved with the order", 0))
+	}
+
 	// 6. Temporary download link works, and a tampered one does not.
 	start = time.Now()
-	if out.Probe.DownloadURL == "" {
-		return fail("Temporary download generated", "the Worker returned no download link", nil)
+	if !shipping {
+		if out.Probe.DownloadURL == "" {
+			return fail("Temporary download generated", "the Worker returned no download link", nil)
+		}
+		dl, err := c.ProbeClient().Do(c.ctx, httpx.Request{Method: "GET", Path: out.Probe.DownloadURL, Resource: workerKey})
+		if err != nil {
+			return fail("Temporary download generated", "download failed: "+err.Error(), nil)
+		}
+		if !bytes.Equal(dl.Body, payload) {
+			return fail("Temporary download generated", "downloaded bytes do not match the file in R2", nil)
+		}
+		tampered := tamper(out.Probe.DownloadURL)
+		_, terr := c.ProbeClient().Do(c.ctx, httpx.Request{Method: "GET", Path: tampered, Resource: workerKey, Quiet: true})
+		if e, ok := httpx.AsError(terr); !ok || (e.Status != 403 && e.Status != 401 && e.Status != 400) {
+			return fail("Temporary download generated", "a tampered link was NOT rejected — download links are not protected", &core.Problem{Title: "DOWNLOAD LINKS UNPROTECTED", Code: "drift",
+				Summary: "Changing a download link's signature still downloaded the file. The Worker's DOWNLOAD_SIGNING_SECRET check is not running; rebuild the Worker."})
+		}
+		steps = append(steps, step("Temporary download generated", core.HealthOK, fmt.Sprintf("%d bytes match; tampered link rejected", len(dl.Body)), time.Since(start).Milliseconds()))
 	}
-	dl, err := c.ProbeClient().Do(c.ctx, httpx.Request{Method: "GET", Path: out.Probe.DownloadURL, Resource: workerKey})
-	if err != nil {
-		return fail("Temporary download generated", "download failed: "+err.Error(), nil)
-	}
-	if !bytes.Equal(dl.Body, payload) {
-		return fail("Temporary download generated", "downloaded bytes do not match the file in R2", nil)
-	}
-	tampered := tamper(out.Probe.DownloadURL)
-	_, terr := c.ProbeClient().Do(c.ctx, httpx.Request{Method: "GET", Path: tampered, Resource: workerKey})
-	if e, ok := httpx.AsError(terr); !ok || (e.Status != 403 && e.Status != 401 && e.Status != 400) {
-		return fail("Temporary download generated", "a tampered link was NOT rejected — download links are not protected", &core.Problem{Title: "DOWNLOAD LINKS UNPROTECTED", Code: "drift",
-			Summary: "Changing a download link's signature still downloaded the file. The Worker's DOWNLOAD_SIGNING_SECRET check is not running; rebuild the Worker."})
-	}
-	steps = append(steps, step("Temporary download generated", core.HealthOK, fmt.Sprintf("%d bytes match; tampered link rejected", len(dl.Body)), time.Since(start).Milliseconds()))
 
 	// 7. Email triggered and delivered.
 	start = time.Now()
@@ -246,7 +271,9 @@ func scenarioPurchase(c *Checker, sc *core.ScenarioSpec) core.CheckResult {
 	steps = append(steps, step("Everything verified", final, "duplicate event ignored; synthetic order and file cleaned up", time.Since(start).Milliseconds()))
 	res.Steps = steps
 	res.Health = final
-	if final == core.HealthOK {
+	if final == core.HealthOK && shipping {
+		res.Summary = "A customer can pay, the order is recorded with where to ship it, and the confirmation email goes out."
+	} else if final == core.HealthOK {
 		res.Summary = "A customer can pay, get recorded, receive the email and download the file."
 	} else {
 		res.Summary = "The journey works with a warning."

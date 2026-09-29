@@ -196,6 +196,9 @@ func (e *Engine) httpLogger(ctxEntry core.LogEntry) func(httpx.LogEvent) {
 		msg := fmt.Sprintf("%s %s → %d (%dms)", ev.Method, ev.URL, ev.Status, ev.Latency.Milliseconds())
 		if ev.Err != nil {
 			level = "warn"
+			if ev.Quiet {
+				level = "debug" // an expected rejection (negative test) or a probe
+			}
 			msg = fmt.Sprintf("%s %s failed (attempt %d): %v", ev.Method, ev.URL, ev.Attempt, ev.Err)
 		}
 		le := ctxEntry

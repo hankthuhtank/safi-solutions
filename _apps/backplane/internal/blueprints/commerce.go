@@ -266,7 +266,7 @@ func buildCommerce(t Template, projectName string, a Answers) (core.Blueprint, e
 		"SUPABASE_URL": "{{out:db.url}}", "FROM_EMAIL": "{{param:from_email}}", "SUPPORT_EMAIL": "{{param:support_email}}", "BUSINESS_NAME": "{{param:business_name}}",
 		"SITE_ORIGIN": "{{param:site_origin}}", "SUCCESS_URL": "{{param:success_url}}", "CANCEL_URL": "{{param:cancel_url}}", "DOWNLOAD_TTL_HOURS": "{{param:download_ttl_hours}}",
 		"MAX_DOWNLOADS": "{{param:max_downloads}}", "LICENSE_MODE": "{{param:license_mode}}", "FULFILLMENT_MODE": "{{param:fulfillment_mode}}",
-		"SHIP_COUNTRIES": "{{param:ship_countries}}", "RESEND_TEMPLATE_PURCHASE": "{{out:email_purchase.id}}", "CODE_VERSION": "{{param:code_version}}",
+		"SHIP_COUNTRIES": "{{param:ship_countries}}", "RESEND_TEMPLATE_PURCHASE": "{{out:email_purchase.id}}", "CODE_VERSION": "{{codever:worker/src/index.js}}",
 	}
 	bindings := []any{map[string]any{"type": "kv_namespace", "name": "PROBES", "namespace_id": "{{out:probes.id}}", "purpose": "Stripe delivery probes"}}
 	deps := []string{"subdomain", "probes", "schema", "db_key", "price", "email_key", "email_purchase"}
@@ -345,6 +345,9 @@ func buildCommerce(t Template, projectName string, a Answers) (core.Blueprint, e
 	if mode != "shipping" {
 		bp.Scenarios = []core.ScenarioSpec{{Key: "purchase", Title: "Customer buys and downloads", Check: "store_purchase",
 			Steps: []string{"Create test customer", "Test payment", "Stripe webhook fires", "Worker receives event", "Order written to database", "Temporary download generated", "Email process triggered", "Everything verified"}}}
+	} else {
+		bp.Scenarios = []core.ScenarioSpec{{Key: "purchase", Title: "Customer orders a shipped product", Check: "store_purchase",
+			Steps: []string{"Create test customer", "Test payment", "Stripe webhook fires", "Worker receives event", "Order written to database", "Shipping details recorded", "Email process triggered", "Everything verified"}}}
 	}
 	bp.Generated = []core.GeneratedFileSpec{
 		{Path: "worker/src/index.js", Role: "generated", Language: "javascript"},

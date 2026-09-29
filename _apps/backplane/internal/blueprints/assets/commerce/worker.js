@@ -214,9 +214,13 @@ async function checkout(request, env, url) {
   const probe = request.headers.get("X-Backplane-Probe");
   const isProbe = Boolean(probe) && timingSafeEqual(probe, env.BACKPLANE_PROBE_TOKEN || "");
   const base = `${url.protocol}//${url.host}`;
+  const shipping = env.FULFILLMENT_MODE === "shipping";
   const session = await stripe(env, "POST", "/v1/checkout/sessions", {
     mode: "payment",
     line_items: [{ price: env.PRICE_ID, quantity: 1 }],
+    // Physical goods: Stripe collects and validates the delivery address.
+    shipping_address_collection: shipping ? { allowed_countries: shipCountries(env) } : undefined,
+    phone_number_collection: shipping ? { enabled: true } : undefined,
     success_url: (env.SUCCESS_URL || `${base}/thanks`) + (String(env.SUCCESS_URL || "").includes("?") ? "&" : "?") + "session_id={CHECKOUT_SESSION_ID}",
     cancel_url: env.CANCEL_URL || env.SITE_URL || base,
     customer_creation: "always",
@@ -272,11 +276,17 @@ async function stripeWebhook(request, env, ctx, url) {
   return json(result);
 }
 
+function shipCountries(env) {
+  const list = String(env.SHIP_COUNTRIES || "US").split(",").map((c) => c.trim().toUpperCase()).filter((c) => /^[A-Z]{2}$/.test(c));
+  return list.length ? list : ["US"];
+}
+
 async function fulfil(session, env, ctx, url, isProbe) {
   if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required") {
     // Delayed payment methods finish later with async_payment_succeeded.
     return { outcome: "awaiting_payment" };
   }
+  if (env.FULFILLMENT_MODE === "shipping") return fulfilShipment(session, env, ctx, isProbe);
   const email = session.customer_details?.email || session.customer_email;
   if (!email) throw new Error("Checkout Session has no customer email");
   const orders = await sb(env, "POST", "orders?on_conflict=stripe_session_id", [{
@@ -327,6 +337,74 @@ async function fulfil(session, env, ctx, url, isProbe) {
     throw new Error(`email failed: ${emailError}`);
   }
   return { outcome: "fulfilled", probe: { order_id: order.id, download_url: downloadUrl, email_id: emailId, email_error: emailError } };
+}
+
+// Physical orders: record who and where to ship, confirm by email. Fulfilment
+// status is updated from your own tools (or the Supabase dashboard).
+async function fulfilShipment(session, env, ctx, isProbe) {
+  const email = session.customer_details?.email || session.customer_email;
+  if (!email) throw new Error("Checkout Session has no customer email");
+  const ship = session.collected_information?.shipping_details || session.shipping_details || null;
+  const orders = await sb(env, "POST", "orders?on_conflict=stripe_session_id", [{
+    stripe_session_id: session.id,
+    stripe_payment_intent: typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id ?? null,
+    email,
+    customer_name: session.customer_details?.name ?? null,
+    product: env.PRODUCT_NAME,
+    amount_total: session.amount_total ?? 0,
+    currency: session.currency ?? "usd",
+    status: "paid",
+    is_probe: isProbe,
+    shipping_name: ship?.name ?? session.customer_details?.name ?? null,
+    shipping_address: ship?.address ?? null,
+    phone: session.customer_details?.phone ?? null,
+    fulfillment_status: "unfulfilled",
+  }], "resolution=merge-duplicates,return=representation");
+  const order = orders[0];
+  let emailId = null;
+  let emailError = null;
+  const sent = await sb(env, "GET", `email_log?stripe_session_id=eq.${encodeURIComponent(session.id)}&kind=eq.purchase&select=resend_email_id`);
+  if (sent?.length) {
+    emailId = sent[0].resend_email_id;
+  } else {
+    try {
+      emailId = await sendOrderEmail(env, { email, name: session.customer_details?.name, order, ship });
+      await sb(env, "POST", "email_log", [{ resend_email_id: emailId, stripe_session_id: session.id, recipient: email, kind: "purchase" }], "return=minimal");
+    } catch (e) {
+      emailError = String(e.message || e);
+      console.error("Order email failed", emailError);
+    }
+  }
+  ctx.waitUntil((async () => {
+    await logEvent(env, "stripe", "payment", `Payment completed ${money(order.amount_total, order.currency)}`, session.id, isProbe);
+    await logEvent(env, "supabase", "order", `Order ${order.id} recorded for shipping`, session.id, isProbe);
+    await logEvent(env, "resend", emailError ? "email_failed" : "email", emailError ? `Email failed: ${emailError}` : `Order confirmation accepted (${emailId})`, session.id, isProbe);
+  })());
+  if (emailError && !isProbe) throw new Error(`email failed: ${emailError}`);
+  return { outcome: "fulfilled", probe: { order_id: order.id, email_id: emailId, email_error: emailError } };
+}
+
+async function sendOrderEmail(env, { email, name, order, ship }) {
+  const a = ship?.address || {};
+  const lines = [ship?.name, a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(" "), a.state, a.country].filter(Boolean);
+  const business = env.BUSINESS_NAME || env.PRODUCT_NAME;
+  const msg = {
+    from: env.FROM_EMAIL, to: [email], tags: [{ name: "kind", value: "purchase" }],
+    subject: `Order confirmed — ${env.PRODUCT_NAME}`,
+    text: `Thanks for your order of ${env.PRODUCT_NAME} (${money(order.amount_total, order.currency)}).\nWe'll ship to:\n${lines.join("\n")}\nOrder ${order.id}`,
+    html: `<!doctype html><html><body style="margin:0;background:#f4f2ee;padding:32px 12px;font:16px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#1b1d1f">
+<table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e3ded4;border-radius:10px"><tr><td style="padding:32px">
+<p style="margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6b665c">${escapeHtml(business)}</p>
+<h1 style="margin:0 0 16px;font-size:24px">Thanks, ${escapeHtml(name || "there")} — your order is confirmed.</h1>
+<p style="margin:0 0 18px">You ordered <strong>${escapeHtml(env.PRODUCT_NAME)}</strong> for ${escapeHtml(money(order.amount_total, order.currency))}. We'll email you when it ships.</p>
+<p style="margin:0 0 6px;color:#555">Shipping to</p><p style="margin:0 0 22px">${lines.map(escapeHtml).join("<br>")}</p>
+<hr style="border:0;border-top:1px solid #eee;margin:26px 0 14px"><p style="margin:0;color:#777;font-size:13px">Order ${escapeHtml(order.id)} · Questions? Reply or write to ${escapeHtml(env.SUPPORT_EMAIL || env.FROM_EMAIL)}.</p>
+</td></tr></table></body></html>`,
+  };
+  if (env.SUPPORT_EMAIL) msg.reply_to = env.SUPPORT_EMAIL;
+  const r = await resend(env, "/emails", msg);
+  if (!r.ok) throw new Error(`Resend ${r.status}: ${r.data?.message || r.data?.name || "error"}`);
+  return r.data.id;
 }
 
 async function refund(charge, env, ctx) {
@@ -572,7 +650,7 @@ async function health(request, env, url) {
     if (env.PRODUCT_FILE_KEY && !product) return `bucket reachable; product file ${env.PRODUCT_FILE_KEY} NOT uploaded yet`;
     return product ? `bucket reachable; product file present (${Math.round(product.size / 1024)} KB)` : "bucket reachable";
   });
-  if (checks.r2.ok && /NOT uploaded/.test(checks.r2.detail)) checks.r2 = { ...checks.r2, ok: false, error: checks.r2.detail };
+  if (checks.r2.ok && /NOT uploaded/.test(checks.r2.detail)) checks.r2 = { ...checks.r2, warn: true };
   checks.kv = await timed(async () => {
     if (!env.PROBES) throw new Error("KV binding PROBES is not bound");
     if (full) {

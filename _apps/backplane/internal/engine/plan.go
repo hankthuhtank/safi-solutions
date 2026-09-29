@@ -187,7 +187,11 @@ func (e *Engine) Plan(ctx context.Context, p *core.Project, env string, opts Pla
 			default:
 				op.Action = core.ActKeep
 				if h, ok := e.Registry.Handler(spec.Kind); ok && obs != nil {
-					if drift := h.Drift(spec, st, obs); len(drift) > 0 {
+					rs, rerr := e.resolveSpec(p, env, man, spec, forHash, false)
+					if rerr != nil {
+						rs = spec
+					}
+					if drift := h.Drift(rs, st, obs); len(drift) > 0 {
 						op.Action = core.ActUpdate
 						op.Why = "Its live configuration drifted from what Backplane set up; it will be restored."
 						for _, d := range drift {
@@ -456,6 +460,11 @@ func plural(noun string, n int) string {
 // separationIssues are warnings about environment mixing.
 func (e *Engine) separationIssues(p *core.Project, env string) []string {
 	var out []string
+	if id := p.Connections[env]["stripe"]; id != "" && core.IsProduction(env) && !p.Practice {
+		if c, err := e.Connection(id); err == nil && (c.Mode == "test" || c.Setting("mode") == "test") {
+			out = append(out, "Production uses a Stripe TEST key: everything works end to end, but no real money moves until you connect a live key.")
+		}
+	}
 	for other, links := range p.Connections {
 		if other == env {
 			continue
@@ -483,9 +492,6 @@ func (e *Engine) separationBlockers(p *core.Project, env string) []string {
 	mode := c.Mode
 	if mode == "" {
 		mode = c.Setting("mode")
-	}
-	if core.IsProduction(env) && mode == "test" && p.Blueprint.Param("allow_test_payments_in_production") != "true" {
-		out = append(out, "Production is connected to a Stripe TEST key. Customers could not pay. Attach a live key to production (or explicitly allow test payments in Advanced).")
 	}
 	if !core.IsProduction(env) && mode == "live" {
 		out = append(out, "The "+env+" environment is connected to a Stripe LIVE key. Tests here could charge real cards. Use a test key outside production.")
