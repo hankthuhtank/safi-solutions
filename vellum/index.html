@@ -1350,7 +1350,7 @@ html[data-theme="dark"] .gilt-track{background:#4A4236;}
   .bind-utils{gap:3px;}
   .bind-size{width:30px;min-height:32px;}
   .theme-pill{padding:0 7px;min-height:32px;}
-  .theme-pill b{display:none;}
+  .theme-pill b{display:block;}
   .bindbar .gilt-num{display:none;}
   .read-size::before{display:none;}
 }
@@ -1680,7 +1680,7 @@ html[data-theme="dark"] .particle-field .mote{opacity:calc(var(--o) * 1.18);box-
   <div class="bind-utils" aria-label="Display settings">
     <button class="bind-size" id="textDownM" aria-label="Decrease site text size">A−</button>
     <button class="bind-size" id="textUpM" aria-label="Increase site text size">A+</button>
-    <button id="btnThemeM" class="theme-m theme-pill" title="Toggle light / dark" aria-label="Toggle theme"><span aria-hidden="true">☾</span><b>Dark</b></button>
+    <button id="btnThemeM" class="theme-m theme-pill" title="Toggle light / dark" aria-label="Toggle theme"><b>Dark</b></button>
   </div>
   <span class="gilt-num" id="giltNumM">0/48</span>
 </div>
@@ -2336,7 +2336,7 @@ async function applyTheme(theme){
   }
   const bm=$("#btnThemeM");
   if(bm){
-    bm.innerHTML=`<span aria-hidden="true">${icon}</span><b>${label}</b>`;
+    bm.innerHTML=`<b>${label}</b>`;
     bm.setAttribute("aria-label",`Current theme: ${label}. Switch to ${next}.`);
     bm.title=`Switch to ${next} mode`;
   }
