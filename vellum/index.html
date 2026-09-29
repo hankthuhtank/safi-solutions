@@ -1736,12 +1736,6 @@ html[data-theme="dark"] .particle-field .mote{opacity:calc(var(--o) * 1.18);box-
   </div>
 
   <div class="spine-foot">
-    <div class="gilt-meter" title="Leaves illuminated">
-      <span class="gilt-line">
-        <span class="gilt-cap">Gilt</span><span class="gilt-num" id="giltNum">0/48</span>
-      </span>
-      <span class="gilt-track"><span class="gilt-fill" id="giltFill"></span></span>
-    </div>
     <div class="display-settings" aria-label="Display settings">
       <span class="display-cap">Display</span>
       <div class="display-row">
@@ -3428,8 +3422,8 @@ async function finishCollation(){
 
 function refreshGilt(){
   const n=Object.keys(S.gilt).length, t=CHRONICLE.length;
-  $("#giltFill").style.width=(n/t*100)+"%";
-  $("#giltNum").textContent=`${n}/${t}`;
+  const gf=$("#giltFill"); if(gf) gf.style.width=(n/t*100)+"%";
+  const gn=$("#giltNum"); if(gn) gn.textContent=`${n}/${t}`;
   const gm=$("#giltNumM"); if(gm) gm.textContent=`${n}/${t}`;
   const qc=$("#quireCount"); if(qc) qc.textContent=`${n} of ${t} gilded`;
 }
