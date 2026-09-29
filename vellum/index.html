@@ -1346,8 +1346,15 @@ html[data-theme="dark"] .gilt-track{background:#4A4236;}
 /* Keep global scaling usable on narrow phones. */
 @media(max-width:640px){
   .bindbar{gap:7px;padding:0 8px;}
-  .bindbar .wordmark{font-size:calc(15px * var(--text-scale));letter-spacing:.20em;}
-  .bind-utils{gap:3px;}
+  .bindbar .wordmark{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    flex:none;
+    pointer-events:none;
+  }
+  .bindbar .wordmark img{height:40px!important;max-width:145px!important;}
+  .bind-utils{gap:3px;margin-left:auto;}
   .bind-size{width:30px;min-height:32px;}
   .theme-pill{padding:0 7px;min-height:32px;}
   .theme-pill b{display:block;}
