@@ -1,8 +1,0 @@
-# build outputs
-/build/
-/dist/
-*.exe
-*.zip
-*.syso
-node_modules/
-/ui/node_modules/
