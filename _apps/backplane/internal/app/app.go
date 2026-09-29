@@ -195,6 +195,15 @@ func (a *App) SaveSettings(ctx context.Context, s store.Settings) (store.Setting
 	return s, a.Store.SaveSettings(s)
 }
 
+// SyncBackgroundTask re-points the hourly background check at this copy of
+// Backplane (it may have been reinstalled somewhere else). Errors are ignored:
+// the Settings screen reports them when the user changes the option.
+func (a *App) SyncBackgroundTask() {
+	if a.Store.LoadSettings().BackgroundTask {
+		_ = setBackgroundTask(true)
+	}
+}
+
 // SystemInfo reports environment facts for the About panel.
 func (a *App) SystemInfo(ctx context.Context) (map[string]any, error) {
 	exe, _ := os.Executable()

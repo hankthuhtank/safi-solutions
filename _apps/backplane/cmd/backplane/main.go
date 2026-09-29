@@ -78,7 +78,10 @@ func main() {
 	}
 	defer a.Close()
 	if exe, err := os.Executable(); err == nil {
-		_ = app.RegisterNotifications(filepath.Join(filepath.Dir(exe), "Backplane.ico"))
+		_ = app.RegisterNotifications(filepath.Join(filepath.Dir(exe), "Backplane.png"))
+	}
+	if !*serve {
+		go a.SyncBackgroundTask()
 	}
 	ctx, stop := context.WithCancel(context.Background())
 	defer stop()
