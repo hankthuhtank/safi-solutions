@@ -1098,3 +1098,16 @@ kbd { display: inline-block; min-width: 1.6em; padding: 1px 7px 2px; margin: 0 2
 }
 .rooms h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin: 0; }
 .bench-body .series-sec:first-child { padding-top: 6px; border-top: 0; }
+
+/* page changes: only the content moves; the piano, top bar and rail stay put and stay on top */
+.vt #keybed { view-transition-name: keybed; }
+.vt #bar { view-transition-name: topbar; }
+.vt #rail { view-transition-name: rail; }
+::view-transition-group(main-view) { z-index: 1; }
+::view-transition-group(topbar) { z-index: 2; }
+::view-transition-group(keybed) { z-index: 3; }
+::view-transition-group(rail) { z-index: 4; }
+::view-transition-group(keybed), ::view-transition-group(topbar), ::view-transition-group(rail),
+::view-transition-old(keybed), ::view-transition-new(keybed), ::view-transition-old(topbar), ::view-transition-new(topbar),
+::view-transition-old(rail), ::view-transition-new(rail) { animation: none; }
+.vt .view.on { animation: none; }
