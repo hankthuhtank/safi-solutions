@@ -654,3 +654,34 @@ a:hover > .arrow.back { transform: translateX(-3px); }
     color: #d9f8f3;
   }
 }
+
+
+/* ---------------------------------------------------------------- page transitions (assets/transit.js)
+   Pull a thread and the next page opens along it: the new page unfolds up and down from the line you clicked, a
+   lit seam runs ahead of each edge, and a door's label flies up into the page title. The rail and phone header stay put. */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+.cabinet-rail { view-transition-name: rail; }
+.mobile-header { view-transition-name: mhead; }
+.page-head h1, .door-body b { width: fit-content; } /* the title morph scales the text itself, not an empty full-width box */
+::view-transition-old(rail), ::view-transition-new(rail), ::view-transition-old(mhead), ::view-transition-new(mhead),
+::view-transition-old(seam), ::view-transition-new(seam) { animation: none; }
+html.seam-vt::view-transition-old(root) { animation: seam-recede .55s cubic-bezier(.4, 0, .2, 1) both; }
+html.seam-vt::view-transition-new(root) { animation: seam-open .62s cubic-bezier(.76, 0, .24, 1) .12s both; }
+html.seam-vt::view-transition-group(page-title) { animation-duration: .74s; animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
+html.seam-in body { animation: seam-open .62s cubic-bezier(.76, 0, .24, 1) .12s both; }
+.vt-seam { position: fixed; inset: 0 0 0 var(--rail-w); z-index: 90; pointer-events: none; view-transition-name: seam; }
+.vt-seam::before, .vt-seam::after { content: ''; position: absolute; left: 0; right: 0; top: var(--seam-y); height: 1px; background: linear-gradient(90deg, transparent, rgba(79, 143, 214, .85) 16%, #eef6ff calc(var(--seam-x) - var(--rail-w)), rgba(79, 143, 214, .85) 84%, transparent); box-shadow: 0 0 14px 1px rgba(184, 216, 250, .6); transform-origin: calc(var(--seam-x) - var(--rail-w)) 50%; animation: seam-draw .16s cubic-bezier(.2, .7, .3, 1) both, seam-up .62s cubic-bezier(.76, 0, .24, 1) .12s both, seam-fade .2s ease .6s both; }
+.vt-seam::after { animation-name: seam-draw, seam-down, seam-fade; }
+@keyframes seam-open { from { clip-path: inset(var(--seam-y) 0 calc(100% - var(--seam-y)) 0); } to { clip-path: inset(0); } }
+@keyframes seam-recede { to { opacity: .2; transform: scale(.985); } }
+@keyframes seam-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes seam-up { from { top: var(--seam-y); } to { top: 0; } }
+@keyframes seam-down { from { top: var(--seam-y); } to { top: calc(100% - 1px); } }
+@keyframes seam-fade { to { opacity: 0; } }
+
+/* the door you pick: its knob flares and a signal sweeps the row before the page turns (assets/threads.js) */
+.door::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(184, 216, 250, .2), rgba(184, 216, 250, .05) 65%, transparent); mix-blend-mode: screen; transform: scaleX(0); transform-origin: left; opacity: 0; }
+.door.pulling::after { animation: door-pull .4s cubic-bezier(.3, .7, .2, 1) forwards; }
+.door.pulling::before { background: #fff; box-shadow: 0 0 0 1.5px var(--accent), 0 0 22px 6px rgba(184, 216, 250, .75); }
+@keyframes door-pull { from { transform: scaleX(0); opacity: 1; } to { transform: scaleX(1); opacity: 1; } }

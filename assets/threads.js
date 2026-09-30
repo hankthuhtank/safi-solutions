@@ -1,7 +1,8 @@
 /* Safi Solutions: the hero threads.
    About forty strands in the logo's two colours (brushed silver and Safi blue) drift in from the edges, knot together,
    then leave as clean bundles, one per door. On load the order spreads out from the knot; the pointer pushes strands
-   aside and they settle back; hovering a door lights its lane and sends signal pulses down it. */
+   aside and they settle back; hovering a door lights its lane and sends signal pulses down it. Choosing a door pulls
+   its lane taut and runs light the full length of every strand in it before the page turns (see assets/transit.js). */
 (() => {
   const hero = document.querySelector('.hero');
   const canvas = hero && hero.querySelector('.threads');
@@ -26,7 +27,7 @@
 
   let W = 0, H = 0, dpr = 1, K = { x: 0, y: 0 }, anchors = [], stacked = false, knotAmp = 30, gapL = 0, gapR = 0;
   let front = reduced ? 1.2 : -.05, start = performance.now() + 300, last = performance.now(), raf = 0, visible = true;
-  const lit = new Array(LANES).fill(0), litTarget = new Array(LANES).fill(0);
+  const lit = new Array(LANES).fill(0), litTarget = new Array(LANES).fill(0), pull = new Array(LANES).fill(0), pullTarget = new Array(LANES).fill(0);
   const ptr = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4 };
   const pulses = []; let nextPulse = 0;
 
@@ -95,6 +96,7 @@
       let E = knot * Math.exp(-w * w * .5) * (1 + .6 * (1 - Math.min(1, front)));
       E += knot * .9 * (1 - smooth(.12, JOIN - .04, u)) * smooth(0, .12, u);
       if (u > JOIN) { const v = (u - JOIN) / (1 - JOIN); E += knot * 1.6 * smooth(front - .16, front, v) * (1 - smooth(.88, 1, v) * .5); }
+      E *= 1 - .85 * pull[s.lane]; // a pulled lane draws straight
       if (E > .01) {
         x += E * (Math.sin(s.f[0] * w + s.ph[0] + s.v[0] * t) * .9 + Math.sin(s.f[1] * w * .55 + s.ph[1] + s.v[1] * t) * .4);
         y += E * (Math.cos(s.f[0] * w * .8 + s.ph[2] + s.v[0] * t * 1.1) * .85 + Math.sin(s.f[2] * w * .45 + s.ph[3] + s.v[2] * t) * .4);
@@ -137,10 +139,12 @@
     for (let i = pulses.length - 1; i >= 0; i--) {
       const pu = pulses[i], q = (now - pu.t0) / pu.dur;
       if (q >= 1) { pulses.splice(i, 1); continue; }
-      const p = strand(strands[pu.s], t), u = JOIN + (1 - JOIN) * (q * q * (3 - 2 * q)), j = Math.min(S - 1, Math.round(u * (S - 1)));
+      if (q < 0) continue; // a staggered pulse that hasn't left yet
+      const u0 = pu.u0 == null ? JOIN : pu.u0, R = pu.r || 9;
+      const p = strand(strands[pu.s], t), u = u0 + (1 - u0) * (q * q * (3 - 2 * q)), j = Math.min(S - 1, Math.round(u * (S - 1)));
       const x = p[j * 2], y = p[j * 2 + 1], a = Math.sin(q * Math.PI);
-      const gr = g.createRadialGradient(x, y, 0, x, y, 9); gr.addColorStop(0, `rgba(235,244,255,${.95 * a})`); gr.addColorStop(1, 'rgba(184,216,250,0)');
-      g.fillStyle = gr; g.beginPath(); g.arc(x, y, 9, 0, TAU); g.fill();
+      const gr = g.createRadialGradient(x, y, 0, x, y, R); gr.addColorStop(0, `rgba(235,244,255,${.95 * a})`); gr.addColorStop(1, 'rgba(184,216,250,0)');
+      g.fillStyle = gr; g.beginPath(); g.arc(x, y, R, 0, TAU); g.fill();
     }
   }
 
@@ -149,7 +153,7 @@
     const dt = Math.min(.05, (now - last) / 1000); last = now;
     if (now > start && front < 1.2) front = Math.min(1.2, front + dt * .6);
     ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 10); ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 10);
-    for (let i = 0; i < LANES; i++) lit[i] += (litTarget[i] - lit[i]) * Math.min(1, dt * 7);
+    for (let i = 0; i < LANES; i++) { lit[i] += (litTarget[i] - lit[i]) * Math.min(1, dt * 7); pull[i] += (pullTarget[i] - pull[i]) * Math.min(1, dt * 11); }
     if (now > nextPulse && front > .95) {
       const hot = litTarget.indexOf(1), lane = hot >= 0 ? hot : Math.floor(Math.random() * LANES);
       pulses.push({ s: lane * PER + Math.floor(Math.random() * PER), t0: now, dur: 1300 + Math.random() * 600 });
@@ -172,6 +176,25 @@
     const off = () => { litTarget[i] = 0; d.classList.remove('lit'); if (reduced) { lit[i] = 0; draw(0); } else kick(); };
     d.addEventListener('pointerenter', on); d.addEventListener('pointerleave', off);
     d.addEventListener('focus', on); d.addEventListener('blur', off);
+  });
+  // choosing a door: pull its lane, send light down every strand, then turn the page
+  let leaving = false;
+  doors.forEach((d, i) => d.addEventListener('click', e => {
+    if (reduced || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (d.target && d.target !== '_self')) return;
+    e.preventDefault();
+    if (leaving) return;
+    leaving = true;
+    litTarget.fill(0); litTarget[i] = 1; pullTarget.fill(0); pullTarget[i] = 1; d.classList.add('lit', 'pulling');
+    const now = performance.now();
+    for (let k = 0; k < PER; k++) pulses.push({ s: i * PER + k, t0: now + k * 28, dur: 360, u0: .08, r: 12 });
+    nextPulse = now + 1e4; kick();
+    setTimeout(() => { location.href = d.href; }, 380);
+  }));
+  // back from the next page (back/forward cache): let the lane go slack again
+  addEventListener('pageshow', e => {
+    if (!e.persisted) return;
+    leaving = false; pullTarget.fill(0); pull.fill(0); litTarget.fill(0); nextPulse = 0;
+    doors.forEach(d => d.classList.remove('lit', 'pulling')); kick();
   });
   new ResizeObserver(() => layout()).observe(hero);
   new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) kick(); }).observe(hero);

@@ -122,6 +122,7 @@ def page(key, path, title, desc, label, body, extra_head='', extra_tail='', dial
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 {extra_head}<link rel="stylesheet" href="/assets/site.css?v={V}">
+<script src="/assets/transit.js?v=1"></script>
 </head>
 <body class="page-{key}">
 <a class="skip-link" href="#main">Skip to content</a>
