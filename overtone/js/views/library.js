@@ -41,7 +41,7 @@ const L = {
     return null;
   },
   hear(e) {
-    const s = L.sound(e); if (!s) return; A.resume();
+    const s = L.sound(e); if (!s) return; A.resume(); A.begin('library');
     if (s.kind === 'interval') { A.play(60, { dur: 1, vel: .7 }); A.play(60 + s.iv.s, { dur: 1.2, vel: .7, when: .55 }); A.chord([60, 60 + s.iv.s], { dur: 1.4, vel: .55, when: 1.3 }); }
     else if (s.kind === 'chord') A.chord(s.ch.iv.map(i => 57 + i), { dur: 1.8, vel: .62 });
     else if (s.kind === 'scale') A.seq(s.sc.iv.map(i => 60 + i).concat([72]), { gap: .2, dur: .45, vel: .7 });

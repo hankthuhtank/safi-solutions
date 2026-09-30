@@ -10,10 +10,11 @@ import { Staff } from '../staff.js';
 import { pc, midiOf, midiName, diatonic, nameQuality, romanFor, romanForStep, spellScale, spellChord, rootName, useKey, scaleById, chordById, progById, voiceLead } from '../music.js';
 import { vhead, keyPicker, playBtn, setPlayBtn } from './shared.js';
 import { go } from '../shell.js';
+import { overtonesHtml, mountOvertones, stopOvertones } from './overtones.js';
 
 const CAT_ORDER = [['major', 'Major'], ['minor', 'Minor'], ['mode', 'Modes'], ['pentatonic', 'Pentatonic & blues'], ['world', 'World'], ['symmetric', 'Symmetric']];
 const MOOD = { bright: '#e9c47a', dark: '#b8564f', cool: '#63b9a6' };
-const TABS = [['scales', 'Scales & modes'], ['chords', 'Chords'], ['progs', 'Progressions'], ['circle', 'Circle of fifths']];
+const TABS = [['scales', 'Scales & modes'], ['chords', 'Chords'], ['progs', 'Progressions'], ['circle', 'Circle of fifths'], ['overtones', 'Overtones']];
 
 const B = {
   tab: store.get('bench.tab', 'scales'), root: store.get('bench.root', 0), scale: store.get('bench.scale', 'ionian'),
@@ -29,7 +30,7 @@ const B = {
   render() {
     B.stopAll(true);
     $$('[data-act="bench.tab"]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.v === B.tab)));
-    ({ scales: B.scales, chords: B.chords, progs: B.progs, circle: B.circle })[B.tab]();
+    ({ scales: B.scales, chords: B.chords, progs: B.progs, circle: B.circle, overtones: B.overtones })[B.tab]();
   },
 
   /* ---------------- scales ---------------- */
@@ -91,7 +92,7 @@ const B = {
     return out;
   },
   playScale(down) {
-    A.resume(); B.stopAll(true);
+    A.resume(); B.stopAll(true); A.begin('bench', () => B.stopAll(true));
     let run = B.run(); if (down) run = run.slice().reverse();
     const gap = .22, t0 = A.ctx.currentTime + .05;
     run.forEach((r, k) => {
@@ -130,6 +131,7 @@ const B = {
     A.resume();
     const r = midiOf(B.root, 2);
     B.drone = [A.play(r, { voice: 'syn_pad', vel: .55, dur: null }), A.play(r + 7, { voice: 'syn_pad', vel: .42, dur: null }), A.play(r + 12, { voice: 'syn_pad', vel: .35, dur: null })].filter(Boolean);
+    B.drone.forEach(h => { h.keep = true; });   /* the drone sits under everything the bench plays */
   },
   droneOff() { B.drone.forEach(h => h.release(A.ctx.currentTime)); B.drone = []; },
 
@@ -176,7 +178,7 @@ const B = {
       </div>`;
   },
   playChord(arp) {
-    A.resume(); const n = B.voiced();
+    A.resume(); A.begin('bench', () => B.stopAll(true)); const n = B.voiced();
     if (arp) A.seq(n.concat([n[0] + 12]), { gap: .15, dur: 1.4, vel: .7 });
     else { A.chord(n, { dur: 1.9, vel: .66 }); A.play(midiOf(B.root, 2), { dur: 1.9, vel: .45 }); }
   },
@@ -222,7 +224,13 @@ const B = {
     if (B.loop && B.loop.running) { B.stopAll(); return; }
     const p = progById(B.prog);
     B.loop = new Loop({ bpm: B.bpm, div: .5, onStep: (step, t) => B.playStep(step % p.steps.length, t) });
-    B.loop.start(); setPlayBtn($('#progBtn'), true, 'Play loop');
+    A.begin('bench', () => B.stopAll(true)); B.loop.start(); setPlayBtn($('#progBtn'), true, 'Play loop');
+  },
+
+  /* ---------------- overtones ---------------- */
+  overtones() {
+    KB.setKey(0, 'ionian'); useKey(0, scaleById('ionian'));
+    $('#benchBody').innerHTML = overtonesHtml(); mountOvertones();
   },
 
   /* ---------------- circle of fifths ---------------- */
@@ -285,6 +293,7 @@ const B = {
   },
 
   stopAll(quiet) {
+    stopOvertones();
     if (B.loop) { B.loop.stop(); B.loop = null; setPlayBtn($('#progBtn'), false, 'Play loop'); }
     clearQueue(B);
     $$('#benchBody .deg.now').forEach(d => d.classList.remove('now'));
@@ -303,7 +312,7 @@ act({
   'bench.note': el => { A.resume(); A.play(+el.dataset.v, { dur: 1.2, vel: .78 }); if (el.classList.contains('deg')) { el.classList.remove('ring'); void el.offsetWidth; el.classList.add('ring'); } },
   'bench.diatonic': el => { A.resume(); const sc = scaleById(B.scale), i = +el.dataset.v; const base = midiOf(B.root, 3) + sc.iv[i]; A.chord(diatonic(sc.iv, i, 4).map(r => base + r), { dur: 1.7, vel: .62 }); },
   'bench.allChords': () => {
-    A.resume(); const sc = scaleById(B.scale); let prev = null; const t0 = A.ctx.currentTime + .05;
+    A.resume(); B.stopAll(true); A.begin('bench', () => B.stopAll(true)); const sc = scaleById(B.scale); let prev = null; const t0 = A.ctx.currentTime + .05;
     sc.iv.forEach((iv, i) => {
       const r = B.root + iv, v = voiceLead(prev, diatonic(sc.iv, i, 4).map(x => r + x), { center: 64 }); prev = v;
       A.chord(v, { at: t0 + i * .7, dur: .9, vel: .55 }); A.play(midiOf(pc(r), 2) + 12, { at: t0 + i * .7, dur: .9, vel: .5 });
@@ -324,7 +333,7 @@ act({
   'bench.cofChord': el => { A.resume(); const iv = scaleById('ionian').iv, i = +el.dataset.v, base = midiOf(B.root, 3) + iv[i]; A.chord(diatonic(iv, i, 3).map(r => base + r), { dur: 1.5, vel: .62 }); },
   'bench.cofScale': () => { B.scale = 'ionian'; B.tab = 'scales'; B.render(); B.playScale(); },
   'bench.walk': () => {
-    A.resume(); const t0 = A.ctx.currentTime + .05;
+    A.resume(); B.stopAll(true); A.begin('bench', () => B.stopAll(true)); const t0 = A.ctx.currentTime + .05;
     OT.CIRCLE.forEach((k, i) => {
       A.chord([0, 4, 7].map(x => midiOf(k.pc, 3) + x + (k.pc > 6 ? 0 : 12)), { at: t0 + i * .62, dur: .75, vel: .5 });
       A.play(midiOf(k.pc, 2), { at: t0 + i * .62, dur: .75, vel: .45 });

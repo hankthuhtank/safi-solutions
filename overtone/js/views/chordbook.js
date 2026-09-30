@@ -90,7 +90,7 @@ const C = {
   midis(sh) { const m = C.meta(); return sh.f.map((fr, s) => fr >= 0 ? midiOf(m[2][s], m[3][s]) + fr : null); },
   strum(i, dir) {
     const sh = C.shapes[i]; if (!sh) return;
-    A.resume();
+    A.resume(); A.begin('chords');
     const voice = C.sound === 'voice' ? A.voiceId : C.sound;
     const notes = C.midis(sh).map((m, s) => ({ m, s })).filter(x => x.m != null);
     const order = dir === 1 ? notes.slice().reverse() : notes;

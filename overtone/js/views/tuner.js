@@ -130,7 +130,7 @@ const T = {
       A.play(plucks[i] + 12, { at: t + .01, voice: 'ks_nylon', dur: 3, vel: .18 });
       at(t, () => $$('.tanpura i').forEach((el, k) => { if (k === i) { el.classList.remove('pl'); void el.offsetWidth; el.classList.add('pl'); } }), T);
     } });
-    T.droneLoop.start();
+    A.begin('drone', () => T.droneStop()); T.droneLoop.start();
     T.hum = [A.play(sa - 12, { voice: 'syn_pad', vel: .3, dur: null }), A.play(sa - 12 + other, { voice: 'syn_pad', vel: .18, dur: null })].filter(Boolean);
     setPlayBtn($('#dBtn'), true, 'Drone');
     KB.setTones(T.droneKey, [T.droneKey, T.droneKey + other]);

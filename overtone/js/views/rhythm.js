@@ -74,7 +74,7 @@ const M = {
         at(t, () => { M.beat = beat; M.beatT = t; M.flash(beat); }, M);
       } else if (M.acc[beat] >= 0) A.click(0, t);
     } });
-    M.loop.start(); M.beatT = A.ctx.currentTime + .06; M.beat = 0;
+    A.begin('metro', () => M.stop()); M.loop.start(); M.beatT = A.ctx.currentTime + .06; M.beat = 0;
     setPlayBtn($('#mBtn'), true, 'Start');
     M.animate();
   },
@@ -157,7 +157,7 @@ const D = {
       });
       at(t, () => $$('#dmPads .lane-steps').forEach(row => row.childNodes.forEach((p, k) => p.classList && p.classList.toggle('cur', k === i))), D);
     } });
-    D.loop.start(); setPlayBtn($('#dmBtn'), true, 'Play groove');
+    A.begin('drum', () => D.stop()); D.loop.start(); setPlayBtn($('#dmBtn'), true, 'Play groove');
   },
   stop() { if (D.loop) D.loop.stop(); D.loop = null; clearQueue(D); setPlayBtn($('#dmBtn'), false, 'Play groove'); $$('#dmPads .cur').forEach(p => p.classList.remove('cur')); }
 };

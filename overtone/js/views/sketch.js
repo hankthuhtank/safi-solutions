@@ -145,7 +145,7 @@ const S = {
       if (S.bass) { if (pos === 0) A.play(x.bass, { at: t, dur: spb * 1.8, vel: .7, voice: bassVoice }); if (pos === 8) A.play(x.fifth, { at: t, dur: spb * 1.4, vel: .55, voice: bassVoice }); if (pos === 14) A.play(x.bass, { at: t, dur: spb * .45, vel: .45, voice: bassVoice }); }
       if (g && g.k.length === 16) { ['k', 's', 'h'].forEach(l => { if (g[l][pos]) A.drum(l, t + (Math.random() - .5) * .006, (l === 'h' ? (pos % 4 === 0 ? .7 : .5) : .95) * (.9 + Math.random() * .15)); }); }
     } });
-    S.loop.start(); setPlayBtn($('#skBtn'), true, 'Play loop');
+    A.begin('sketch', () => S.stop()); S.loop.start(); setPlayBtn($('#skBtn'), true, 'Play loop');
   },
   head(bar) {
     $$('#skBars .bar').forEach((b, i) => { b.classList.toggle('playing', i === bar); if (i === bar) { b.style.setProperty('--dur', (60 / S.bpm * 4) + 's'); const h = b.querySelector('.bar-head'); h.style.animation = 'none'; void h.offsetWidth; h.style.animation = ''; } });

@@ -277,6 +277,33 @@ export const A = {
     A.live.clear(); A.held.clear(); A.pedalled.clear();
   },
 
+  /* ---------- one thing at a time ----------
+     Anything started from a Play button calls begin(). It stops whatever
+     else was playing (its owner's stop function), and damps every note
+     still ringing or scheduled, except keys held on the keybed and voices
+     marked keep (a drone meant to sit underneath). */
+  transport: new Map(),
+  begin(key, stop) {
+    const others = [...A.transport].filter(([k]) => k !== key);
+    A.transport.clear();
+    others.forEach(([, fn]) => { try { fn(); } catch (e) { console.error(e); } });
+    if (key && stop) A.transport.set(key, stop);
+    A.hush();
+  },
+  end(key) { A.transport.delete(key); },
+  hush() {
+    if (!A.ctx) return;
+    const t = A.ctx.currentTime, hands = new Set([...A.held.values(), ...A.pedalled]);
+    A.live.forEach(h => { if (!hands.has(h) && !h.keep) { h.release(t, .07); A.live.delete(h); } });
+  },
+
+  /* track a fire-and-forget source (drum hit, click, sine) so hush() can cancel it */
+  reg(node, until) {
+    const h = { release(at) { try { node.stop(Math.max(at, A.ctx.currentTime)); } catch (e) { } } };
+    A.live.add(h); setTimeout(() => A.live.delete(h), Math.max(0, (until - A.ctx.currentTime) * 1000) + 200);
+    return h;
+  },
+
   /* build a handle: gain node g, stop fn, release time constant */
   handle(g, stop, rel) {
     let ended = false;
@@ -464,7 +491,7 @@ export const A = {
     if (kit && kit.buf[lane]) {
       const src = c.createBufferSource(), g = c.createGain();
       src.buffer = kit.buf[lane]; g.gain.value = vel * (lane === 'h' ? .55 : .95);
-      src.connect(g); g.connect(A.drums); src.start(t);
+      src.connect(g); g.connect(A.drums); src.start(t); A.reg(src, t + src.buffer.duration);
       return;
     }
     A.synthDrum(lane, t, vel);
@@ -475,7 +502,7 @@ export const A = {
       const o = c.createOscillator(), g = c.createGain(), f0 = lane === 'k' ? 150 : 220;
       o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f0 * .3, t + .12);
       g.gain.setValueAtTime(vel * .9, t); g.gain.exponentialRampToValueAtTime(.0001, t + .35);
-      o.connect(g); g.connect(A.drums); o.start(t); o.stop(t + .37);
+      o.connect(g); g.connect(A.drums); o.start(t); o.stop(t + .37); A.reg(o, t + .37);
       return;
     }
     const len = lane === 's' ? .2 : .05;
@@ -488,9 +515,9 @@ export const A = {
       const o = c.createOscillator(), og = c.createGain();
       o.type = 'triangle'; o.frequency.setValueAtTime(190, t);
       og.gain.setValueAtTime(vel * .34, t); og.gain.exponentialRampToValueAtTime(.0001, t + .13);
-      o.connect(og); og.connect(A.drums); o.start(t); o.stop(t + .15);
+      o.connect(og); og.connect(A.drums); o.start(t); o.stop(t + .15); A.reg(o, t + .15);
     } else { f.type = 'highpass'; f.frequency.value = 7800; g.gain.value = vel * .3; }
-    src.connect(f); f.connect(g); g.connect(A.drums); src.start(t);
+    src.connect(f); f.connect(g); g.connect(A.drums); src.start(t); A.reg(src, t + .25);
   },
   clap(t, vel) {
     const c = A.ctx, len = .22;
@@ -501,7 +528,7 @@ export const A = {
     }
     const src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
     src.buffer = b; f.type = 'bandpass'; f.frequency.value = 1300; f.Q.value = 1.1; g.gain.value = vel * .8;
-    src.connect(f); f.connect(g); g.connect(A.drums); src.start(t);
+    src.connect(f); f.connect(g); g.connect(A.drums); src.start(t); A.reg(src, t + .25);
   },
   /* a wooden click: three inharmonic partials. level 2 bar, 1.5 accent, 1 beat, 0 subdivision */
   woodblock(t, vel = 1, pitch = 1) {
@@ -510,7 +537,7 @@ export const A = {
     [[1, 1], [2.76, .45], [5.4, .12]].forEach(([m, a]) => {
       const o = c.createOscillator(), og = c.createGain();
       o.frequency.value = 900 * pitch * m; og.gain.value = a;
-      o.connect(og); og.connect(g); o.start(t); o.stop(t + .08);
+      o.connect(og); og.connect(g); o.start(t); o.stop(t + .08); A.reg(o, t + .08);
     });
     g.connect(A.drums);
   },
@@ -530,7 +557,7 @@ export const A = {
       const src = c.createBufferSource(), g = c.createGain(), f = c.createBiquadFilter();
       src.buffer = kit.buf.s; src.playbackRate.value = right ? 1.06 : .94;
       f.type = 'highpass'; f.frequency.value = 260; g.gain.value = vel * .8;
-      src.connect(f); f.connect(g); g.connect(A.drums); src.start(t); src.stop(t + .35);
+      src.connect(f); f.connect(g); g.connect(A.drums); src.start(t); src.stop(t + .35); A.reg(src, t + .35);
       return;
     }
     A.woodblock(t, vel * .8, right ? 1.1 : .85);
@@ -543,7 +570,7 @@ export const A = {
     const o = c.createOscillator(), g = c.createGain();
     o.frequency.value = f;
     g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(gain, t + attack); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-    o.connect(g); g.connect(A.master); o.start(t); o.stop(t + dur + .05);
+    o.connect(g); g.connect(A.master); o.start(t); o.stop(t + dur + .05); A.reg(o, t + dur);
     return { o, g };
   }
 };

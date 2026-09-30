@@ -80,7 +80,7 @@ const E = {
     setTimeout(() => E.play(), 250);
   },
   play(which) {
-    A.resume(); clearQueue(E);
+    A.resume(); clearQueue(E); A.begin('ear', () => clearQueue(E));
     const q = E.q, g = E.drill; if (!q) return;
     const item = which != null ? q.opts[which] : q.ans;
     const pulse = () => { const b = $('.ear-play'); if (b) { b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse'); } };

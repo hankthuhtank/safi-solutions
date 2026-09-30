@@ -63,7 +63,7 @@ const P = {
       if (step % r.sub === 0) A.click(step % (r.sub * 4) === 0 ? 1 : 0, t);
       at(t, () => $$('#stick .sk').forEach(el => el.classList.toggle('now', +el.dataset.i === i)), P);
     } });
-    P.loop.start(); setPlayBtn($('#pracBtn'), true, 'Play');
+    A.begin('prac', () => P.stop()); P.loop.start(); setPlayBtn($('#pracBtn'), true, 'Play');
   },
   rampRun() {
     P.stop();
@@ -109,7 +109,7 @@ const P = {
         $('#gapLamp').className = 'gap-lamp ' + (on ? 'on' : 'off');
       }, P);
     } });
-    P.loop.start(); setPlayBtn($('#pracBtn'), true, 'Start');
+    A.begin('prac', () => P.stop()); P.loop.start(); setPlayBtn($('#pracBtn'), true, 'Start');
   },
 
   /* ---------- polyrhythm ---------- */
@@ -162,7 +162,7 @@ const P = {
       if (i % p.b === 0) { const k = i / p.b; A.woodblock(t, k === 0 ? .9 : .6, 1.5); at(t, () => { lastA = k; }, P); }
       if (i % p.a === 0) { const k = i / p.a; A.woodblock(t, k === 0 ? .9 : .6, .72); at(t, () => { lastB = k; }, P); }
     } });
-    P.loop.start(); t0 = A.ctx.currentTime + .06;
+    A.begin('prac', () => P.stop()); P.loop.start(); t0 = A.ctx.currentTime + .06;
     const draw = () => { if (!P.loop) return; const f = ((audibleNow() - t0) / P.cycle) % 1; P.drawPoly(f < 0 ? 0 : f, lastA, lastB); P.raf = requestAnimationFrame(draw); };
     P.raf = requestAnimationFrame(draw);
     setPlayBtn($('#pracBtn'), true, 'Play');
@@ -200,7 +200,7 @@ const P = {
         at(t, () => { const r = $$('#ladSteps .lad-rung')[P.lad]; if (r) r.querySelectorAll('i').forEach((d, j) => d.classList.toggle('now', j === k)); }, P);
       }
     } });
-    P.loop.start(); setPlayBtn($('#pracBtn'), true, 'Start');
+    A.begin('prac', () => P.stop()); P.loop.start(); setPlayBtn($('#pracBtn'), true, 'Start');
   },
   showLad() {
     const l = LADDER[P.lad];

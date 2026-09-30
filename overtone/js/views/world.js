@@ -116,7 +116,7 @@ const W = {
       W.audio.addEventListener('playing', () => W.cur && W.cur.classList.remove('buffer'));
     }
     if (W.rec === id + i && !W.audio.paused) { W.audio.pause(); W.recUI(false); return; }
-    W.stopMotif(); A.stopAll();
+    A.begin('world.rec', () => W.stopRec());
     if (W.rec !== id + i) { W.audio.src = r.src; W.rec = id + i; }
     W.cur = row;
     W.audio.play().then(() => W.recUI(true)).catch(() => W.recUI(false));
@@ -160,7 +160,7 @@ const W = {
   playMotif(id, again) {
     const m = OT.MOTIFS.find(x => x.id === id); if (!m) return;
     if (W.playing === id && !again) { W.stopMotif(); return; }
-    if (!again) { W.stopMotif(); W.stopRec(); }
+    if (!again) { W.stopMotif(); A.begin('world', () => W.stopMotif()); }
     A.resume();
     const p = PERFORM[id] || {};
     const spb = 60 / ((m.bpm || 100) * W.rate), root = midiOf(m.root || 0, 4), meter = p.meter || m.meter || 4;
@@ -217,13 +217,13 @@ const W = {
   },
   stopMotif() {
     clearQueue(W);
-    if (W.playing) { A.stopAll(); const b = $('#mp-' + W.playing); if (b) { b.textContent = 'Play'; b.className = 'btn btn-brass btn-sm'; } }
+    if (W.playing) { A.hush(); const b = $('#mp-' + W.playing); if (b) { b.textContent = 'Play'; b.className = 'btn btn-brass btn-sm'; } }
     W.playing = null;
     $$('.roll i.on').forEach(e => e.classList.remove('on'));
     $$('.roll-head').forEach(h => { h.style.transition = 'none'; h.style.left = '0%'; });
   },
   hearScale(sid, rid) {
-    A.resume(); W.stopMotif(); W.stopRec();
+    A.resume(); W.stopMotif(); A.begin('world.scale');
     const sc = scaleById(sid);
     const root = { bhairav: 2, insen: 2, hijaz: 4, pelog: 0, phrygdom: 4, romanian: 2 }[sid] ?? 0;
     const inst = { india: 'shanai', japan: 'koto', indonesia: 'tinkle_bell', northafrica: 'clarinet', balkans: 'clarinet', iberia: 'acoustic_guitar_nylon', britain: 'fiddle', westafrica: 'marimba', cuba: 'piano', brazil: 'acoustic_guitar_nylon', usa: 'electric_guitar_clean', 'europe-art': 'string_ensemble_1' }[rid] || 'piano';

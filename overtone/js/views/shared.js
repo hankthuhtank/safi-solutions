@@ -4,7 +4,7 @@ import { pcName } from '../music.js';
 
 export const SECTIONS_META = [
   ['home', 'Home', 'Start here', ''],
-  ['bench', 'The Bench', 'Scales · chords · keys', 'Any scale, chord or progression in all twelve keys, played, spelled, drawn on the neck and explained.'],
+  ['bench', 'The Bench', 'Scales · chords · keys', 'Any scale, chord or progression in all twelve keys, the circle of fifths, and the overtone series the site is named after.'],
   ['chords', 'Chord Book', 'Guitar · ukulele · mandolin · bass', 'Where the fingers go, with every shape strummed on a modelled string.'],
   ['ear', 'Ear Training', 'Seven drills', 'Intervals, chords, modes, progressions, meters and notes, with streaks that stay on this device.'],
   ['rhythm', 'Rhythm Room', 'Metronome · drum machine', 'A swinging pendulum metronome and a drum machine with real kits and forty grooves.'],
