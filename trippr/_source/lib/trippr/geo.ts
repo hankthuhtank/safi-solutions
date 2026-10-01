@@ -1,0 +1,14 @@
+import type * as GeoJSON from "geojson";
+import type {Coordinate} from "./types";
+const R=3958.7613,rad=(n:number)=>n*Math.PI/180;
+export function validCoordinate(v:unknown):v is Coordinate{return Array.isArray(v)&&v.length===2&&v.every(n=>typeof n==="number"&&Number.isFinite(n))&&Math.abs(v[0])<=180&&Math.abs(v[1])<=85;}
+export function milesBetween(a:Coordinate,b:Coordinate){const t=Math.sin(rad(b[1]-a[1])/2)**2+Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(rad(b[0]-a[0])/2)**2;return R*2*Math.atan2(Math.sqrt(t),Math.sqrt(1-t));}
+export function distanceToRoute(p:Coordinate,line:Coordinate[]){if(!line.length)return Infinity;if(line.length===1)return milesBetween(p,line[0]);let min=Infinity;const sx=Math.cos(rad(p[1]))*69.172,sy=69;for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i],ax=(a[0]-p[0])*sx,ay=(a[1]-p[1])*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,t=Math.max(0,Math.min(1,-(ax*dx+ay*dy)/(dx*dx+dy*dy||1)));min=Math.min(min,Math.hypot(ax+t*dx,ay+t*dy));}return min;}
+export function sampleLine(line:Coordinate[],count=6):Coordinate[]{if(!line.length)return[];if(line.length<=count)return line;let total=0;const lengths=[0];for(let i=1;i<line.length;i++){total+=milesBetween(line[i-1],line[i]);lengths.push(total);}return Array.from({length:count},(_,j)=>{const target=total*j/(count-1);let i=lengths.findIndex(n=>n>=target);if(i<1)i=1;const t=(target-lengths[i-1])/(lengths[i]-lengths[i-1]||1);return[line[i-1][0]+(line[i][0]-line[i-1][0])*t,line[i-1][1]+(line[i][1]-line[i-1][1])*t];});}
+export function boundsOf(points:Coordinate[]){return points.reduce((b,p)=>[Math.min(b[0],p[0]),Math.min(b[1],p[1]),Math.max(b[2],p[0]),Math.max(b[3],p[1])],[180,90,-180,-90]);}
+export const formatMiles=(meters:number)=>Math.round(meters/1609.344).toLocaleString();
+export const formatDrive=(s:number)=>{const h=Math.floor(s/3600),m=Math.round((s%3600)/60);return `${h+Math.floor(m/60)}h ${m%60}m`;};
+export function safeUrl(url?:string){if(!url)return undefined;try{const u=new URL(url);return ["https:","http:"].includes(u.protocol)?u.href:undefined;}catch{return undefined;}}
+export function pointInGeometry(p:Coordinate,g:GeoJSON.Geometry|null|undefined):boolean{if(!g)return false;const ring=(r:number[][])=>{let inside=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))inside=!inside;}return inside;};const poly=(r:number[][][])=>ring(r[0])&&!r.slice(1).some(ring);return g.type==="Polygon"?poly(g.coordinates):g.type==="MultiPolygon"?g.coordinates.some(poly):false;}
+
+export function newId():string{if(typeof crypto.randomUUID==="function")return crypto.randomUUID();const b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;const h=Array.from(b,n=>n.toString(16).padStart(2,"0")).join("");return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;}

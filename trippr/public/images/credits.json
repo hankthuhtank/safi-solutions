@@ -1,0 +1,44 @@
+{
+  "photos": [
+    {
+      "destination": "Grand Canyon National Park",
+      "title": "Yaki Point Sunset 9517",
+      "imageUrl": "https://npgallery.nps.gov/GetAsset/945AD3B2-155D-451F-67B96001E8F3C945/original.jpg",
+      "sourceUrl": "https://npgallery.nps.gov/AssetDetail/945ad3b2-155d-451f-67b9-6001e8f3c945",
+      "credit": "NPS photo by Michael Quinn",
+      "reuse": "NPGallery explicitly lists Public domain:Full Granting Rights.",
+      "localPath": "/workspace/scratch/97c69720058d/trippr-assets/grand-canyon-yaki-sunset.jpg",
+      "width": 6000,
+      "height": 3120,
+      "alt": "Grand Canyon cliffs glowing red beneath blue storm clouds and a faint rainbow at sunset.",
+      "suggestedObjectPosition": "50% 65%"
+    },
+    {
+      "destination": "Zion National Park",
+      "title": "Sunset over Temples and Towers of the Virgin",
+      "imageUrl": "https://www.nps.gov/zion/planyourvisit/images/SnowTemples_11092022_04.jpg?maxwidth=1300&maxheight=1300&autorotate=false",
+      "sourceUrl": "https://www.nps.gov/zion/planyourvisit/sunrise-and-sunset.htm",
+      "credit": "NPS / Jesse Nelson",
+      "reuse": "NPS credit without a copyright symbol; NPS usage guidance says such images are public domain.",
+      "localPath": "/workspace/scratch/97c69720058d/trippr-assets/zion-temples-sunset.jpg",
+      "width": 1080,
+      "height": 592,
+      "alt": "Snow-dusted sandstone cliffs and golden trees beneath orange sunset clouds in Zion.",
+      "suggestedObjectPosition": "50% 50%"
+    },
+    {
+      "destination": "Yosemite National Park",
+      "title": "Tunnel View",
+      "imageUrl": "https://www.nps.gov/common/uploads/cropped_image/primary/0CFC2E25-B7B1-A12D-8621A2F88303D8EF.jpg?width=1600&quality=90&mode=crop",
+      "sourceUrl": "https://www.nps.gov/places/000/tunnel-view.htm",
+      "credit": "NPS Photo / C. Jacoby",
+      "reuse": "NPS credit without a copyright symbol; NPS usage guidance says such images are public domain.",
+      "localPath": "/workspace/scratch/97c69720058d/trippr-assets/yosemite-tunnel-view.jpg",
+      "width": 1600,
+      "height": 900,
+      "alt": "El Capitan and Bridalveil Fall rise above Yosemite Valley forest beneath clearing clouds.",
+      "suggestedObjectPosition": "50% 65%"
+    }
+  ],
+  "npsUsageGuidance": "https://www.nps.gov/media/photo/gallery-item.htm?gid=B17BC4E5-155D-4519-3EC6B73FCE2806A8&id=b164ae80-155d-4519-3e5c-db73a8d053e0"
+}

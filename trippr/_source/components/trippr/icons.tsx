@@ -1,0 +1,4 @@
+import {Mountain,TreePine,Tent,Fuel,Zap,Camera,Footprints,Landmark,Building2,MapPin,Utensils,Waves,Droplets,Sun,CloudSun,Cloud,CloudRain,CloudSnow,CloudLightning,CloudFog} from "lucide-react";
+import type {PlaceKind} from "@/lib/trippr/types";
+export function PlaceIcon({kind,...props}:{kind:PlaceKind;className?:string;size?:number}){const Icon=({park:TreePine,monument:Landmark,recreation:Mountain,statepark:TreePine,camp:Tent,fuel:Fuel,ev:Zap,scenic:Camera,trail:Footprints,historic:Landmark,museum:Building2,attraction:MapPin,food:Utensils,waterfall:Waves,cave:Mountain,hotspring:Droplets,land:TreePine,city:MapPin})[kind]||MapPin;return <Icon {...props}/>;}
+export function WeatherIcon({code=0,...props}:{code?:number;className?:string;size?:number}){const Icon=code===0?Sun:code<=2?CloudSun:code===3?Cloud:code<=48?CloudFog:code<=67?CloudRain:code<=77?CloudSnow:code<=82?CloudRain:code<=86?CloudSnow:CloudLightning;return <Icon {...props}/>;}
