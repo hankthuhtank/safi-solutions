@@ -27,7 +27,7 @@ npm run build
 
 ## Core features
 
-MapLibre atlas with satellite and light modes, a Leaflet fallback for browsers without WebGL2, up to 20 ordered stops, dates and notes, actual driving routes and leg estimates, 5–50 mile route-corridor discovery, official park and campground references, campground amenity filters, current modeled weather and forecasts, NWS alerts, NOAA river conditions, public-land polygons, local saved trips, EV preferences, and landscape, portrait, or clean-map PNG exports. Mobile sheets, text-size controls, keyboard search, focus states, and reduced motion are supported.
+MapLibre atlas with satellite and light modes, a Leaflet fallback with standard OpenStreetMap tiles for browsers without WebGL2, up to 20 ordered stops, dates and notes, actual driving routes and leg estimates, 5–50 mile route-corridor discovery, official park and campground references, campground amenity filters, current modeled weather and forecasts, NWS alerts, NOAA river conditions, public-land polygons, local saved trips, EV preferences, and landscape, portrait, or clean-map PNG exports. Mobile sheets, text-size controls, keyboard search, focus states, and reduced motion are supported.
 
 Drafts save in this browser's local storage. Saved trips retain stop order, dates, notes, saved places, and preferences. Unreadable storage and quota failures are reported instead of silently overwriting the original draft. Nothing is synced to an account.
 

@@ -1,3 +1,4 @@
+import {rasterTileUrl,rasterAttribution} from "./raster";
 import type * as GeoJSON from "geojson";
 import type {StyleSpecification} from "maplibre-gl";
 export type MapTheme="atlas"|"satellite"|"light";
@@ -14,7 +15,7 @@ export async function buildMapStyle(theme:MapTheme="atlas"):Promise<StyleSpecifi
  if(layer.type==="symbol"){p["text-color"]=dark?"#aebcb0":"#4c624f";p["text-halo-color"]=dark?"#1d2e28":"#e9eedb";p["text-halo-width"]=1.6;if(id.startsWith("poi_"))layer.layout={...layer.layout,visibility:"none"};if(id==="label_state"){p["text-opacity"]=.55;layer.layout={...layer.layout,"text-letter-spacing":.18};}}
  if(layer.type==="fill-extrusion")p["fill-extrusion-color"]=dark?"#324035":"#c8d3b5";
  }return s;
- }catch{return{version:8,sources:{base:{type:"raster",tiles:[theme==="atlas"?"https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png":"https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"],tileSize:256,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'}},layers:[{id:"base",type:"raster",source:"base"}]};}
+ }catch{return{version:8,sources:{base:{type:"raster",tiles:[rasterTileUrl(theme)],tileSize:256,attribution:rasterAttribution(theme)}},layers:[{id:"base",type:"raster",source:"base"}]};}
 }
 export function addRouteLayers(map:import("maplibre-gl").Map,coordinates:number[][],approximate=false){
  const data:GeoJSON.Feature<GeoJSON.LineString>={type:"Feature",properties:{},geometry:{type:"LineString",coordinates}};
