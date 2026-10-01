@@ -27,6 +27,8 @@ npm run build
 
 ## How it's organized
 
+Trippr opens on a blank trip (the sample is one click away) and "Clear trip" in the panel footer starts over, with Undo. Clicking open map proposes a spot in a small preview without moving the map; "Details" opens the full card, the next click dismisses it, and double-click zoom never drops a spot.
+
 One map, one trip panel (a bottom sheet with three heights on phones), and three sections:
 
 - **Route** — the itinerary drawn as a TripTik strip: numbered mile-marker stops on a two-lane road, leg miles and drive times, a "Find a break" shortcut on drives over eight hours, dates, notes, overnight flags, drag or arrow reordering.
@@ -49,21 +51,19 @@ Without configuration, the browser requests public, CORS-enabled endpoints direc
 
 The National Park Service reference snapshot contains 474 park records and 62 campground records, retrieved October 1, 2026. Reference descriptions, fees, facilities, and photographs are attributed and linked to their official source; they are not live operational status or reservation availability. Public-land boundaries do not imply camping permission. Driving times are estimates, not traffic predictions. EV discovery does not predict state of charge or guarantee a working charger. Fuel and charging costs are estimates from the vehicle settings (defaults: 28 mpg at $4.25/gal, the September 2026 U.S. average; 3.3 mi/kWh at $0.50/kWh, typical 2026 public fast charging).
 
-## Optional enhanced data
+## Optional enhanced data (no backend required)
 
-Keep API keys out of public JavaScript. If enhanced data is needed, deploy `backend/worker.ts` to an existing compatible server environment with the desired secrets, then set its HTTPS endpoint as `apiUrl` in `public/config.js` and rebuild. The optional backend includes caching, request limits, input bounds, and CORS restricted to the Safi Solutions domain. It has not been provisioned automatically.
+Trippr needs no server. Everything above works with no keys. To add more sources, paste free keys into `publicKeys` in `public/config.js` (and the published copy `config.js`, which is read at runtime, so no rebuild is needed). These keys are visible to anyone, so use only free, rate-limited keys and restrict them to safisolutions.org where the provider allows it. If one is abused, the worst case is that source pausing until its quota resets; Trippr then falls back to the keyless behavior.
 
-| Backend variable | Enables |
-| --- | --- |
-| `NPS_API_KEY` | Live NPS notices, visitor centers, and campground information |
-| `OPENROUTESERVICE_API_KEY` | OpenRouteService routing, including avoidances (Valhalla covers avoidances without it) |
-| `GEOAPIFY_API_KEY` | Enhanced geocoding |
-| `RIDB_API_KEY` | Recreation.gov campground facility discovery |
-| `NREL_API_KEY` | Federal AFDC charging station records |
-| `NASA_FIRMS_MAP_KEY` | Satellite heat detections added to NIFC incidents (not confirmed wildfire perimeters) |
-| `AIRNOW_API_KEY` | Nearby observed air quality |
-| `WZDX_FEED_URLS` | Comma-separated official HTTPS state work-zone feeds |
+| `publicKeys` entry | Enables | Free tier |
+| --- | --- | --- |
+| `NPS_API_KEY` | Live park alerts, campgrounds, visitor centers | 1,000 requests/hour (api.data.gov) |
+| `NREL_API_KEY` | Federal EV charger directory | 1,000 requests/hour (api.data.gov) |
+| `AIRNOW_API_KEY` | Observed (not modeled) air quality | 500 requests/hour |
+| `RIDB_API_KEY` | Recreation.gov campground facilities | Free |
+| `GEOAPIFY_API_KEY` | Alternative address search (restrict the key to your domain) | 3,000 requests/day |
+| `OPENROUTESERVICE_API_KEY` | Alternative routing | 2,000 routes/day |
 
-Unconfigured enhanced sources stay out of the way: park notices link to NPS.gov conditions pages, and road work is only offered once state feeds are connected. Never paste secrets into `config.js` or commit `.dev.vars`.
+Only these names are read from `config.js`; anything else is ignored. Two sources can't be called from a browser and would need the optional `backend/worker.ts` (a single Cloudflare Worker with secrets): `NASA_FIRMS_MAP_KEY` (satellite heat detections — wildfires already come keyless from NIFC) and `WZDX_FEED_URLS` (state work-zone feeds). If you ever deploy it, set its HTTPS address as `apiUrl` and keep those values as Worker secrets, never in `config.js`.
 
 Map attribution remains visible and is included in exported PNGs. Local park photographs are credited in `images/credits.json`; other reference images retain NPS credits. The map worker and shared module must be kept together in `maplibre/`.

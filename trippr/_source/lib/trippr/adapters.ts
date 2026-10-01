@@ -1,11 +1,16 @@
-import {GET} from "./handler";
+import {createTripprHandler} from "./handler";
 import type {Coordinate,Route,Preferences,Weather,Place,Alert,Hazard,Air,WikiPage} from "./types";
 const memory=new Map<string,{data:unknown;until:number}>();
+// Free, rate-limited keys for providers that accept browser calls may sit in config.js under publicKeys.
+// They are public by nature; secret-only sources (FIRMS, state road feeds) still need the optional backend.
+export const BROWSER_KEYS=["NPS_API_KEY","NREL_API_KEY","AIRNOW_API_KEY","OPENROUTESERVICE_API_KEY","GEOAPIFY_API_KEY","RIDB_API_KEY"];
+let local:ReturnType<typeof createTripprHandler>|undefined;
+function browserHandler(){if(!local){const keys:Record<string,unknown>=(globalThis as unknown as {TRIPPR_CONFIG?:{publicKeys?:Record<string,unknown>}}).TRIPPR_CONFIG?.publicKeys||{};local=createTripprHandler(Object.fromEntries(BROWSER_KEYS.flatMap(k=>typeof keys[k]==="string"&&(keys[k] as string).trim()?[[k,(keys[k] as string).trim()]]:[])));}return local;}
 export class ProviderError extends Error {constructor(message:string,public code="unavailable"){super(message);}}
 // Place searches may fall back across several Overpass mirrors, so they get a longer budget.
 const TIMEOUTS:Record<string,number>={places:80000,river:45000,fire:40000};
 export async function api<T>(action:string,params:Record<string,string|number>={},signal?:AbortSignal):Promise<T>{const q=new URLSearchParams({action,...Object.fromEntries(Object.entries(params).map(([k,v])=>[k,String(v)]))}),key=q.toString(),cached=memory.get(key);if(cached&&cached.until>Date.now())return cached.data as T;const limit=AbortSignal.timeout(TIMEOUTS[action]||32000),combined=signal?AbortSignal.any([signal,limit]):limit;const configured=(globalThis as unknown as {TRIPPR_CONFIG?:{apiUrl?:string}}).TRIPPR_CONFIG?.apiUrl?.trim();
- const request = configured ? (()=>{const url=new URL(configured);if(url.protocol!=="https:")throw new ProviderError("The configured data source must use HTTPS.","invalid_configuration");url.search=q.toString();return fetch(url,{signal:combined});})() : GET(new Request(`https://www.safisolutions.org/trippr/data?${q}`,{signal:combined}));
+ const request = configured ? (()=>{const url=new URL(configured);if(url.protocol!=="https:")throw new ProviderError("The configured data source must use HTTPS.","invalid_configuration");url.search=q.toString();return fetch(url,{signal:combined});})() : browserHandler()(new Request(`https://www.safisolutions.org/trippr/data?${q}`,{signal:combined}));
  const response=await abortable(request,combined).catch(e=>{if(signal?.aborted)throw e;throw new ProviderError(limit.aborted?"This source took too long to answer. Try again shortly.":"This source is temporarily unavailable.");});const data:any=await response.json();if(!response.ok)throw new ProviderError(data.error||"This source is unavailable.",data.code);if(memory.size>=100)memory.delete(memory.keys().next().value!);memory.set(key,{data,until:Date.now()+180000});return data as T;}
 function abortable<T>(promise:Promise<T>,signal:AbortSignal):Promise<T>{
  return new Promise((resolve,reject)=>{if(signal.aborted){reject(signal.reason);return;}const onAbort=()=>reject(signal.reason);signal.addEventListener("abort",onAbort,{once:true});promise.then(resolve,reject).finally(()=>signal.removeEventListener("abort",onAbort));});
