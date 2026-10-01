@@ -254,7 +254,8 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 /* ---------------------------------------------------------------- projects: logo tiles (the original layout) */
 .tiles { display: grid; gap: 26px 20px; }
 .tiles.featured { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.tiles.wall { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tiles.wall { display: flex; flex-wrap: wrap; justify-content: center; }
+.tiles.wall .tile { flex: 0 1 calc((100% - 40px) / 3); }
 .tile { position: relative; min-width: 0; }
 .tile-cover { position: relative; display: flex; align-items: center; justify-content: center; height: 250px; padding: 22px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .045); border-radius: 6px; background: var(--identity, #232a30); transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s, border-color .3s; }
 .wall .tile-cover { height: 170px; padding: 16px; }
@@ -456,8 +457,7 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .hero-copy { max-width: 640px; }
   .doors { grid-column: 1; max-width: 640px; width: calc(100% - 30px); margin-left: 30px; }
   .hero-hint { display: none; }
-  .tiles.wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tiles.wall .tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .tiles.wall .tile { flex-basis: calc((100% - 20px) / 2); }
   .market { grid-template-columns: minmax(0, 1fr); }
   .market-visuals { width: min(100%, 860px); margin: 0 auto; }
   .market-logo { width: min(580px, 92%); }
@@ -511,7 +511,7 @@ a:hover > .arrow.back { transform: translateX(-3px); }
   .tiles.featured { grid-template-columns: minmax(0, 1fr); }
   .tile-cover { height: auto; aspect-ratio: 2.1; padding: 14px; }
   .wall .tile-cover { height: auto; aspect-ratio: 1.45; padding: 10px; }
-  .wall .tile:last-child:nth-child(odd) .tile-cover { aspect-ratio: 2.6; }
+  .tiles.wall .tile { flex-basis: calc((100% - 12px) / 2); }
   .tile-cover::before { inset: 7px; }
   .tile-cap { flex-direction: column; gap: 1px; padding-top: 9px; }
   .tile-cap a { font-size: 15px; }
