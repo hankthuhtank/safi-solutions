@@ -15,3 +15,5 @@ export function newId():string{if(typeof crypto.randomUUID==="function")return c
 // Snapping map areas to a grid lets nearby pans reuse the same cached place search.
 export function snapBox(b:number[],step=.25){const down=(n:number)=>Math.floor(n/step)*step,up=(n:number)=>Math.ceil(n/step)*step;return[down(b[0]),down(b[1]),up(b[2]),up(b[3])].map(n=>Number(n.toFixed(4)));}
 export const midpoint=(a:Coordinate,b:Coordinate):Coordinate=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+// Splits a long route into pieces of roughly `miles` each, sharing their end points.
+export function splitLine(line:Coordinate[],miles:number):Coordinate[][]{if(line.length<2)return[line];let total=0;const at=[0];for(let i=1;i<line.length;i++){total+=milesBetween(line[i-1],line[i]);at.push(total);}const count=Math.max(1,Math.ceil(total/miles)),parts:Coordinate[][]=Array.from({length:count},()=>[]);line.forEach((p,i)=>{const k=Math.min(count-1,Math.floor(at[i]/total*count));parts[k].push(p);if(k>0&&parts[k].length===1)parts[k-1].push(p);});return parts.filter(p=>p.length>1);}

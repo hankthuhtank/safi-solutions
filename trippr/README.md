@@ -21,7 +21,7 @@ npm run build
 - `_source/components/trippr/`: map, trip panel (Route / Detours / Conditions), place card, search, map controls, dialogs.
 - `_source/lib/trippr/`: provider adapters, validation, routing geometry, local storage, share links, PNG export, map styles, official reference records (`parks.json` index plus lazily loaded `park-details.json`).
 - `_source/lib/trippr/handler.ts`: host-neutral provider normalization and bounded caching, reused by the browser and optional backend.
-- `public/`: maintained images, logos, the National Park display font (with its OFL license), favicon, and optional backend configuration.
+- `public/`: maintained images, logos, the bundled federal campground list (`data/`), the National Park display font (with its OFL license), favicon, and optional backend configuration.
 - `scripts/`: asset preparation, publication, and meaningful verification of storage, geometry, routing, sharing, and provider failures.
 - `backend/`: optional secret-bearing data service; GitHub Pages does not execute it.
 
@@ -48,6 +48,8 @@ Drafts save in this browser's local storage. Saved trips retain stop order, date
 ## Data on GitHub Pages
 
 Without configuration, the browser requests public, CORS-enabled endpoints directly: OSRM driving routes (Valhalla as a fallback); FOSSGIS Valhalla when road preferences are on (long trips are split under its 1,500 km per-request limit and one-call-per-second policy); Photon/OpenStreetMap search and reverse geocoding; Open-Meteo forecasts, sunrise/sunset and modeled air quality; Overpass places (overpass-api.de, then the private.coffee and VK Maps mirrors when one is busy); NWS alerts; NIFC WFIGS current wildfire incidents; NOAA NWPS river gauges; USGS PAD-US reference boundaries; and Wikipedia geosearch for nearby articles. Each source can fail independently, and unavailable data is labeled. Missing markers never mean an area is safe or that a road is open.
+
+Place search is built for the 2026 state of public Overpass servers (busy, with strict blocking): routes are searched in ~300-mile sections, three at a time across different mirrors, using small grid boxes instead of one long-corridor query, and each section's places appear as it answers. A mirror that fails rests for five minutes. State parks and public lands come from PAD-US rather than Overpass. National parks and 5,260 federal campgrounds (Forest Service, BLM, NPS, Army Corps and others, with tent/RV/electric site types) are bundled, so they appear instantly. Refresh the campground file with `node scripts/update-federal-campgrounds.mjs` (downloads Recreation.gov's public nightly RIDB export, no key), then rebuild.
 
 The National Park Service reference snapshot contains 474 park records and 62 campground records, retrieved October 1, 2026. Reference descriptions, fees, facilities, and photographs are attributed and linked to their official source; they are not live operational status or reservation availability. Public-land boundaries do not imply camping permission. Driving times are estimates, not traffic predictions. EV discovery does not predict state of charge or guarantee a working charger. Fuel and charging costs are estimates from the vehicle settings (defaults: 28 mpg at $4.25/gal, the September 2026 U.S. average; 3.3 mi/kWh at $0.50/kWh, typical 2026 public fast charging).
 

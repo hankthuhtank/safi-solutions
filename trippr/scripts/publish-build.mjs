@@ -5,7 +5,8 @@ import path from "node:path";
 const root = path.resolve(import.meta.dirname, "..");
 await rm(path.join(root, "assets"), { recursive: true, force: true });
 await rm(path.join(root, "fonts"), { recursive: true, force: true });
-for (const name of ["index.html", "assets", "images", "maplibre", "fonts", "favicon.svg", "favicon-mark.svg", "trippr-logo.webp", "trippr-mark.webp", "config.js"]) {
+await rm(path.join(root, "data"), { recursive: true, force: true });
+for (const name of ["index.html", "assets", "images", "maplibre", "fonts", "data", "favicon.svg", "favicon-mark.svg", "trippr-logo.webp", "trippr-mark.webp", "config.js"]) {
   await cp(path.join(root, "build", name), path.join(root, name), { recursive: true });
 }
 const html = await readFile(path.join(root, "index.html"), "utf8");

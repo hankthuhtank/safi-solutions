@@ -18,6 +18,7 @@ function abortable<T>(promise:Promise<T>,signal:AbortSignal):Promise<T>{
 const at=(p:Coordinate)=>({lat:p[1].toFixed(3),lon:p[0].toFixed(3)});
 const line=(points:Coordinate[])=>JSON.stringify(points.map(p=>p.map(n=>Number(n.toFixed(3)))));
 export type ConditionLayer="fire"|"river"|"roads";
+export interface PlaceResult{places:Place[];source:string;updated:string;limited:boolean;partial?:boolean;}
 export interface Capabilities{routing:string;parks:boolean;roads:boolean;firms:boolean;ridb:boolean;nrel:boolean;airnow:boolean;}
 export const providers={
  routing:{get:(points:Coordinate[],p:Preferences,signal?:AbortSignal)=>api<Route>("route",{points:JSON.stringify(points),tolls:p.avoidTolls?1:0,highways:p.avoidHighways?1:0,ferries:p.avoidFerries?1:0},signal)},
@@ -27,7 +28,7 @@ export const providers={
  reverse:{get:(p:Coordinate,signal?:AbortSignal)=>api<{name:string;region:string;source:string}>("reverse",{lat:p[1].toFixed(4),lon:p[0].toFixed(4)},signal)},
  wiki:{get:(p:Coordinate,signal?:AbortSignal)=>api<{pages:WikiPage[];source:string}>("wiki",{...at(p),radius:10000},signal)},
  alerts:{get:(p:Coordinate,signal?:AbortSignal)=>api<{alerts:Alert[];updated:string}>("alerts",at(p),signal)},
- places:{viewport:(bbox:number[],kinds:string[],signal?:AbortSignal)=>api<{places:Place[];source:string;updated:string;limited:boolean}>("places",{bbox:bbox.map(n=>n.toFixed(2)).join(","),kinds:[...kinds].sort().join(",")},signal),corridor:(points:Coordinate[],radius:number,kinds:string[],signal?:AbortSignal)=>api<{places:Place[];source:string;updated:string;limited:boolean}>("places",{points:JSON.stringify(points.map(p=>p.map(n=>Number(n.toFixed(4))))),radius,kinds:[...kinds].sort().join(",")},signal)},
+ places:{viewport:(bbox:number[],kinds:string[],signal?:AbortSignal)=>api<PlaceResult>("places",{bbox:bbox.map(n=>n.toFixed(2)).join(","),kinds:[...kinds].sort().join(",")},signal),corridor:(points:Coordinate[],radius:number,kinds:string[],mirror=0,signal?:AbortSignal)=>api<PlaceResult>("places",{points:JSON.stringify(points.map(p=>p.map(n=>Number(n.toFixed(4))))),radius,kinds:[...kinds].sort().join(","),mirror},signal)},
  conditions:{route:(type:ConditionLayer,points:Coordinate[],radius:number,signal?:AbortSignal)=>api<{hazards:Hazard[];updated:string;source:string;coverage?:string}>(type,{points:line(points),radius},signal),area:(type:ConditionLayer,bbox:number[],signal?:AbortSignal)=>api<{hazards:Hazard[];updated:string;source:string;coverage?:string}>(type,{bbox:bbox.map(n=>n.toFixed(2)).join(",")},signal)},
  capabilities:{get:()=>api<Capabilities>("capabilities")},
 };

@@ -58,10 +58,19 @@ const fires=await (await call({action:"fire",points:JSON.stringify([[-112,36],[-
 assert.equal((await call({action:"roads",points:JSON.stringify([[-112,36],[-113,37]]),radius:"30"})).status,503);
 // In-browser use has no shared visitor bucket, so a busy session is never rate limited.
 for(let i=0;i<95;i++)assert.equal((await call({action:"capabilities"})).status,200);
+// Corridor search: grid boxes instead of a long "around", PAD-US for state parks, mirrors rest after failing.
+const {corridorBoxes,createTripprHandler}=await import(await load("_source/lib/trippr/handler.ts"));
+const boxes=corridorBoxes([[-112,36],[-108,36]],25);assert.ok(boxes.length>0&&boxes.length<12);const inBox=(x,y)=>boxes.some(b=>x>=b[0]&&x<=b[2]&&y>=b[1]&&y<=b[3]);for(let x=-112;x<=-108;x+=.25)for(const dy of [-.3,0,.3])assert.ok(inBox(x,36+dy),`corridor covers ${x},${36+dy}`);assert.ok(boxes.reduce((n,b)=>n+(b[2]-b[0])*(b[3]-b[1]),0)<=6.5,"corridor boxes stay tight");
+const hits=[];globalThis.fetch=async(url,o)=>{hits.push(String(url));if(String(url).startsWith("https://overpass-api.de"))return new Response("busy",{status:429});if(String(url).includes("overpass"))return Response.json({elements:[{type:"node",id:1,lat:36.05,lon:-110,tags:{name:"Near Camp",tourism:"camp_site"}},{type:"node",id:2,lat:38,lon:-110,tags:{name:"Far Camp",tourism:"camp_site"}}]});return Response.json({features:[]});};
+const H=createTripprHandler(),ask=q=>H(new Request("https://t.example/?"+new URLSearchParams(q)));
+const camps=await (await ask({action:"places",points:JSON.stringify([[-112,36],[-108,36]]),radius:"25",kinds:"camp"})).json();
+assert.deepEqual(camps.places.map(p=>p.name),["Near Camp"]);assert.equal(camps.limited,false);assert.ok(hits[0].startsWith("https://overpass-api.de")&&hits[1].includes("private.coffee"));assert.ok(!decodeURIComponent(hits[1]).includes("around:"));
+hits.length=0;await ask({action:"places",points:JSON.stringify([[-112,36],[-108,36]]),radius:"25",kinds:"fuel"});assert.ok(hits[0].includes("private.coffee"),"a mirror that just failed is tried last");
+hits.length=0;const parks=await (await ask({action:"places",points:JSON.stringify([[-112,36],[-108,36]]),radius:"25",kinds:"statepark"})).json();assert.ok(hits.length>0&&hits.every(u=>u.includes("nationalmap.gov")));assert.equal(parks.limited,false);
 // Free browser-safe keys come from config.js; anything outside the allowlist is ignored.
 globalThis.TRIPPR_CONFIG={publicKeys:{NPS_API_KEY:" free-key ",NASA_FIRMS_MAP_KEY:"must-stay-server-side"}};
 const {api}=await import(await load("_source/lib/trippr/adapters.ts"));const caps=await api("capabilities");assert.equal(caps.parks,true);assert.equal(caps.firms,false);delete globalThis.TRIPPR_CONFIG;
 const {encodeTrip,decodeTrip}=await import(await load("_source/lib/trippr/share.ts"));
 const shared=await decodeTrip(await encodeTrip(trip));assert.equal(shared.name,"Western trip");assert.deepEqual(shared.stops.map(s=>s.coordinates),[[-112,36],[-113,37]]);assert.equal(shared.stops[0].date,"2026-10-08");assert.equal(await decodeTrip("zbroken"),null);
 assert.equal((await call({action:"river",bbox:"-180,-80,180,80"})).status,400);
-console.log("Trippr verification passed: corridor geometry, alert polygons, trip round trips, reorder persistence, corrupt-storage protection, quota handling, route validation, cache reuse, road-preference routing, polyline decoding, corridor wildfire filtering, no in-browser rate limit, browser key allowlist, share links, and independent provider failures.");
+console.log("Trippr verification passed: corridor geometry, alert polygons, trip round trips, reorder persistence, corrupt-storage protection, quota handling, route validation, cache reuse, road-preference routing, polyline decoding, corridor wildfire filtering, no in-browser rate limit, browser key allowlist, corridor grid search, mirror fallback and rest, state parks via PAD-US, share links, and independent provider failures.");
