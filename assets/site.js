@@ -9,7 +9,7 @@
   /* ------------------------------------------------ links from the old one-page site (index.html#products etc.) */
   if (document.body.classList.contains('page-home') && location.hash) {
     const h = decodeURIComponent(location.hash.slice(1));
-    const projects = ['playbook', 'motoratlas', 'voltvisual', 'tradeschool', 'overtone', 'thebench', 'houseedge', 'thewell', 'vellum', 'cardesk', 'movedesk'];
+    const projects = ['trippr', 'playbook', 'motoratlas', 'voltvisual', 'tradeschool', 'overtone', 'thebench', 'houseedge', 'thewell', 'vellum', 'cardesk', 'movedesk'];
     let to = null;
     if (['products', 'main', 'top', 'desk', 'playground'].includes(h)) to = '/products/';
     else if (/^[a-z]+-product$/.test(h)) to = '/products/#' + h.replace('-product', '');
