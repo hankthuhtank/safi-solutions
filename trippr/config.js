@@ -7,7 +7,7 @@ window.TRIPPR_CONFIG = {
   apiUrl: "",
   rasterTiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   publicKeys: {
-    NPS_API_KEY: "",              // Live park alerts, campgrounds, visitor centers: https://www.nps.gov/subjects/developer/get-started.htm
+    NPS_API_KEY: "FRgoUGbaY8TbRYkz9BXff6dcoil1pipiVd3ZHmfC", // Live park alerts, campgrounds, visitor centers: https://www.nps.gov/subjects/developer/get-started.htm
     NREL_API_KEY: "",             // Federal EV charger directory: https://developer.nrel.gov/signup/
     AIRNOW_API_KEY: "",           // Observed (not modeled) air quality: https://docs.airnowapi.org/account/request/
     RIDB_API_KEY: "",             // Recreation.gov campgrounds: https://ridb.recreation.gov/profile
