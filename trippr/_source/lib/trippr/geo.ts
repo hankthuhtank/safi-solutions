@@ -12,3 +12,6 @@ export function safeUrl(url?:string){if(!url)return undefined;try{const u=new UR
 export function pointInGeometry(p:Coordinate,g:GeoJSON.Geometry|null|undefined):boolean{if(!g)return false;const ring=(r:number[][])=>{let inside=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))inside=!inside;}return inside;};const poly=(r:number[][][])=>ring(r[0])&&!r.slice(1).some(ring);return g.type==="Polygon"?poly(g.coordinates):g.type==="MultiPolygon"?g.coordinates.some(poly):false;}
 
 export function newId():string{if(typeof crypto.randomUUID==="function")return crypto.randomUUID();const b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;const h=Array.from(b,n=>n.toString(16).padStart(2,"0")).join("");return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;}
+// Snapping map areas to a grid lets nearby pans reuse the same cached place search.
+export function snapBox(b:number[],step=.25){const down=(n:number)=>Math.floor(n/step)*step,up=(n:number)=>Math.ceil(n/step)*step;return[down(b[0]),down(b[1]),up(b[2]),up(b[3])].map(n=>Number(n.toFixed(4)));}
+export const midpoint=(a:Coordinate,b:Coordinate):Coordinate=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
