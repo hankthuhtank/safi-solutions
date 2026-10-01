@@ -179,10 +179,11 @@ svg{flex:none}
 [data-slot=switch][data-state=checked]{background:var(--primary-bg)}
 [data-slot=switch-thumb]{background:#fff}
 :root:not([data-theme=light]) [data-slot=switch][data-state=checked] [data-slot=switch-thumb]{background:var(--hivis-ink)}
-.field-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.field-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:12px}
+.field-pair>*{min-width:0}
 .field-pair label,.field-label{display:grid;gap:6px;font-size:.75rem;font-weight:700;color:var(--ink-3);letter-spacing:.02em}
 input[type=date],input[type=number],select,textarea{width:100%;min-height:40px;padding:8px 11px;border-radius:10px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);font-size:.875rem;font-weight:500}
-input[type=date]{font-family:var(--font-mono);font-size:.8125rem}
+input[type=date]{font-family:var(--font-mono);font-size:.8125rem;min-width:0;max-width:100%}
 textarea{min-height:76px;resize:vertical;line-height:1.5}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--ring);outline-offset:0;border-color:transparent}
 .stepper{display:flex;align-items:center;gap:10px}
@@ -278,7 +279,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--ring);outline-of
 .strip-stop:hover .stop-tools,.strip-stop:focus-within .stop-tools,.strip-stop.open .stop-tools{opacity:1}
 .tool.drag{cursor:grab;touch-action:none}
 .stop-note{margin:6px 0 0;font-size:.8125rem;color:var(--ink-2);line-height:1.45;padding-left:10px;border-left:2px solid var(--line-strong);white-space:pre-line}
-.stop-editor{margin:10px 0 6px;padding:12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);animation:fold .2s ease-out}
+.stop-editor{margin:10px 0 6px;padding:12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);animation:fold .2s ease-out;container-type:inline-size}
+/* Too narrow for two date fields side by side: stack them, label on the left */
+@container (width < 300px){.stop-editor .field-pair{grid-template-columns:1fr;gap:8px}.stop-editor .field-pair label{grid-template-columns:52px minmax(0,1fr);align-items:center}}
 .stop-editor .field-pair{margin-top:0}
 .stop-editor textarea{margin-top:10px;min-height:64px}
 .editor-actions{display:flex;align-items:center;gap:4px;margin-top:10px}
@@ -552,6 +555,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--ring);outline-of
 .is-mobile .search-pill img{width:30px;height:auto;border-radius:8px}
 .is-mobile .search-pill span{font-weight:600;color:var(--ink-2)}
 .is-mobile .ctl{width:48px;height:48px;border-radius:14px}
+.is-mobile .ctl-label{width:auto;padding:0 16px 0 14px;gap:8px}
 .is-mobile .map-controls{right:12px;bottom:calc(var(--sheet-h) + 38px)}
 @media (max-width:899px){
  .app-dialog{top:auto;bottom:0;left:0;right:0;translate:0 0;width:100%;max-height:90dvh;border-radius:22px 22px 0 0;padding:22px 18px max(22px,env(safe-area-inset-bottom))}
