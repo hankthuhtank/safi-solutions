@@ -4,7 +4,7 @@ import {Toaster,toast} from "sonner";
 import {Search as SearchIcon,Share2,Bookmark,Settings2,Menu,PanelLeftOpen} from "lucide-react";
 import type {Place,Trip,Route,Coordinate,Weather,LayerState,PlaceKind,Hazard,Alert} from "@/lib/trippr/types";
 import {REFERENCE_PLACES,INITIAL_LAYERS,LOCAL_KINDS,createDemoTrip,createEmptyTrip,isUntouchedDemo,federalCampgrounds} from "@/lib/trippr/data";
-import {newId,validCoordinate,distanceToRoute,sampleLine,milesBetween,snapBox,midpoint,splitLine} from "@/lib/trippr/geo";
+import {newId,validCoordinate,distanceToRoute,sampleLine,milesBetween,snapBox,midpoint,splitLine,routeIndex} from "@/lib/trippr/geo";
 import {providers,ProviderError,api,type Capabilities,type PlaceResult} from "@/lib/trippr/adapters";
 import {localTripRepository,readUI,writeUI} from "@/lib/trippr/storage";
 import {decodeTrip} from "@/lib/trippr/share";
@@ -26,6 +26,7 @@ function useMedia(query:string){const[match,setMatch]=useState(()=>typeof window
 type Snap="peek"|"half"|"full";
 const CONDITION_RADIUS=30;
 const USA:Coordinate[]=[[-124,25],[-67,49]];
+const NO_HAZARDS:Hazard[]=[],NO_ALERTS:Alert[]=[],NO_WEATHER:{coordinates:Coordinate;weather:Weather;name:string;date?:string}[]=[];
 export default function Trippr(){
  const[trip,setTrip]=useState<Trip|null>(null),[saved,setSaved]=useState<Trip[]>([]),[route,setRoute]=useState<Route|null>(null),[routeLoading,setRouteLoading]=useState(false),[routeError,setRouteError]=useState("");
  const[tab,setTab]=useState<PanelTab>("route"),[collapsed,setCollapsed]=useState(false),[selected,setSelected]=useState<Place|null>(null),[searchOpen,setSearchOpen]=useState(false),[addMode,setAddMode]=useState(false),[dialog,setDialog]=useState<DialogName>(null);
@@ -62,10 +63,16 @@ export default function Trippr(){
  const allPlaces=useMemo(()=>{const official=[...REFERENCE_PLACES.filter(p=>p.kind==="camp"),...federal],grid=new Map<string,Place[]>(),key=(x:number,y:number)=>`${Math.round(x*50)}:${Math.round(y*50)}`;for(const c of official){const k=key(c.coordinates[0],c.coordinates[1]);grid.set(k,[...(grid.get(k)||[]),c]);}const word=(n:string)=>n.toLowerCase().replace(/[^a-z ]/g,"").split(" ")[0];const dupe=(p:Place)=>{if(p.kind!=="camp"||!p.id.startsWith("osm-"))return false;const gx=Math.round(p.coordinates[0]*50),gy=Math.round(p.coordinates[1]*50);for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)for(const c of grid.get(`${gx+dx}:${gy+dy}`)||[])if(milesBetween(c.coordinates,p.coordinates)<.5&&word(c.name)===word(p.name))return true;return false;};return uniquePlaces([...REFERENCE_PLACES,...federal,...discovered.filter(p=>!dupe(p))]);},[discovered,federal]);
  const connector=trip?.preferences.connector||"all";
  
- const results=useMemo(()=>{if(!filters.length)return[];let places=allPlaces.filter(p=>filters.includes(p.kind)&&campMatches(p,campFilters)&&compatibleCharger(p,connector));if(discoveryMode==="route"&&route)places=places.map(p=>({...p,distanceFromRoute:distanceToRoute(p.coordinates,route.coordinates)})).filter(p=>p.distanceFromRoute<=corridor).sort((a,b)=>a.distanceFromRoute-b.distanceFromRoute);else places=places.filter(p=>p.coordinates[0]>=viewport[0]&&p.coordinates[0]<=viewport[2]&&p.coordinates[1]>=viewport[1]&&p.coordinates[1]<=viewport[3]);return places;},[allPlaces,filters,campFilters,connector,discoveryMode,route,corridor,viewport]);
+ // Distances to the route are measured once per route (grid-indexed), not on every pan.
+ const routeIdx=useMemo(()=>route?routeIndex(route.coordinates):null,[route]);
+ const nearRoute=useMemo(()=>routeIdx?allPlaces.flatMap(p=>{const d=routeIdx.distance(p.coordinates,50);return d<=50?[{...p,distanceFromRoute:d}]:[];}):[],[routeIdx,allPlaces]);
+ const matches=useCallback((p:Place)=>filters.includes(p.kind)&&campMatches(p,campFilters)&&compatibleCharger(p,connector),[filters,campFilters,connector]);
+ const routeResults=useMemo(()=>discoveryMode==="route"&&route&&filters.length?nearRoute.filter(p=>p.distanceFromRoute<=corridor&&matches(p)).sort((a,b)=>a.distanceFromRoute-b.distanceFromRoute):[],[nearRoute,matches,discoveryMode,!!route,corridor,filters.length]);
+ const viewResults=useMemo(()=>discoveryMode==="route"&&route||!filters.length?[]:allPlaces.filter(p=>matches(p)&&p.coordinates[0]>=viewport[0]&&p.coordinates[0]<=viewport[2]&&p.coordinates[1]>=viewport[1]&&p.coordinates[1]<=viewport[3]),[allPlaces,matches,discoveryMode,!!route,filters.length,discoveryMode==="route"&&route?"":viewport.join()]);
+ const results=discoveryMode==="route"&&route?routeResults:viewResults;
  // Picks from lists fly to the place; picks on the map stay put and only nudge it into view.
  // Federal campgrounds stay off the national overview; they appear once zoomed in or as detour results.
- const resultIds=useMemo(()=>new Set(tab==="detours"?results.map(p=>p.id):[]),[results,tab]);
+ const resultIds=useMemo(()=>new Set(tab==="detours"?routeResults.map(p=>p.id):[]),[routeResults,tab]);
  const visiblePlaces=useMemo(()=>allPlaces.filter(p=>activeKinds.includes(p.kind)&&campMatches(p,campFilters)&&compatibleCharger(p,connector)&&(!p.id.startsWith("ridb-")||zoom>=6.5||resultIds.has(p.id))),[allPlaces,activeKinds.join(","),campFilters,connector,zoom>=6.5,resultIds]);
  const selectPlace=useCallback((p:Place,onMap=false)=>{setPeek(null);setSelected(p);if(latest.current.mobile)setSnap(s=>s==="peek"?"half":s);if(onMap)setTimeout(()=>map.current?.reveal(p.coordinates),80);else map.current?.flyTo(p.coordinates,["park","land","recreation","monument"].includes(p.kind)?8.5:11);},[]);
  // A click on open map proposes a spot; if anything is already open, the click just closes it.
@@ -119,9 +126,13 @@ export default function Trippr(){
  function sheetDown(e:React.PointerEvent){const target=e.target as HTMLElement;if(!target.closest(".grip-bar")&&target.closest("button,input,textarea,select,a,[role=slider]"))return;drag.current={y:e.clientY,h:sheetHeight,t:performance.now(),moved:false,grip:!!target.closest(".sheet-grip")};(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);}
  function sheetMove(e:React.PointerEvent){const d=drag.current;if(!d)return;const dy=d.y-e.clientY;if(Math.abs(dy)>4)d.moved=true;if(d.moved)setSheetDrag(Math.max(120,Math.min(vh-56,d.h+dy)));}
  function sheetUp(e:React.PointerEvent){const d=drag.current;drag.current=null;if(!d)return;if(!d.moved){setSnap(snap==="peek"?"half":d.grip?(snap==="half"?"full":"half"):snap);return;}const h=d.h+(d.y-e.clientY),v=(d.y-e.clientY)/Math.max(1,performance.now()-d.t),target=h+v*220;const order:Snap[]=["peek","half","full"];setSnap(order.reduce((best,s)=>Math.abs(snapHeights[s]-target)<Math.abs(snapHeights[best]-target)?s:best,"peek" as Snap));setSheetDrag(null);}
+ // Overlay lists keep their identity between renders so map markers aren't rebuilt on every pan.
+ const showConditions=tab==="conditions"&&(!collapsed||mobile);
+ const hazards=useMemo(()=>showConditions?[...(overlays.fire?conditions.hazards.fire:[]),...(overlays.river?conditions.hazards.river:[]),...(overlays.roads?conditions.hazards.roads:[])]:NO_HAZARDS,[showConditions,overlays,conditions.hazards]);
+ const mapAlerts=useMemo(()=>showConditions&&overlays.alerts?conditions.alerts:NO_ALERTS,[showConditions,overlays.alerts,conditions.alerts]);
+ const weatherPoints=useMemo(()=>showConditions&&overlays.weather&&trip?uniquePlaces(trip.stops).filter(s=>weather[s.id]).map(s=>({coordinates:s.coordinates,weather:weather[s.id],name:s.name,date:trip.stops.find(x=>x.id===s.id)?.date})):NO_WEATHER,[showConditions,overlays.weather,trip?.stops,weather]);
  if(!trip)return <main className="trippr-app"><div className="map-loading"><span>Unfolding the atlas…</span></div></main>;
- const showConditions=tab==="conditions"&&(!collapsed||mobile),hazards=showConditions?[...(overlays.fire?conditions.hazards.fire:[]),...(overlays.river?conditions.hazards.river:[]),...(overlays.roads?conditions.hazards.roads:[])]:[],alertCount=conditions.alerts.length+conditions.hazards.fire.length+conditions.hazards.river.length+conditions.hazards.roads.length;
- const weatherPoints=showConditions&&overlays.weather?uniquePlaces(trip.stops).filter(s=>weather[s.id]).map(s=>({coordinates:s.coordinates,weather:weather[s.id],name:s.name,date:trip.stops.find(x=>x.id===s.id)?.date})):[];
+ const alertCount=conditions.alerts.length+conditions.hazards.fire.length+conditions.hazards.river.length+conditions.hazards.roads.length;
  const insets:Insets=mobile?{top:72,right:12,bottom:Math.min(sheetHeight,vh*.6)+8,left:12}:{top:84,right:selected?420:76,bottom:28,left:collapsed?24:440};
  const panelProps={trip,route,routeLoading,routeError,tab,setTab:(t:PanelTab)=>{setTab(t);setSelected(null);if(mobile&&snap==="peek")setSnap("half");},onChange:update,onFit:()=>map.current?.fit(),onSave:()=>saveCurrent(),onSettings:()=>setDialog("settings"),onClear:clearTrip,draftStatus,alertCount};
  const section=tab==="route"?<RouteStrip trip={trip} route={route} routeLoading={routeLoading} weather={weather} onChange={update} onSelect={selectPlace} onReorder={reorder} onAdd={()=>openSearch(true)} onBreak={findBreak} onSample={()=>newTrip(true)} onLocate={()=>locate(true)}/>
@@ -132,7 +143,7 @@ export default function Trippr(){
  const peekNear=peek&&!route&&trip.stops.length?trip.stops.reduce((best,s)=>{const d=milesBetween(s.coordinates,peek.coordinates);return d<best.d?{d,name:s.name.replace(/ National Park( & Preserve)?$/,"")}:best;},{d:Infinity,name:""}):undefined;
  const peekCard=peek&&<PinPeek peek={{...peek,distance:route?distanceToRoute(peek.coordinates,route.coordinates):peekNear?.d,near:peekNear?.name}} full={trip.stops.length>=20} onAdd={()=>{const p=peekPlace();if(p)addPlace(p);}} onDetails={()=>{const p=peekPlace();if(p)selectPlace(p,true);}} onClose={()=>setPeek(null)}/>;
  return <main className={`trippr-app ${mobile?"is-mobile":"is-desktop"} ${collapsed&&!mobile?"panel-hidden":""}`} style={mobile?{["--sheet-h" as string]:`${sheetHeight}px`}:undefined}>
- <TripprMap ref={map} places={visiblePlaces} stops={trip.stops} route={route} weatherPoints={weatherPoints} hazards={hazards} alerts={showConditions&&overlays.alerts?conditions.alerts:[]} theme={mapTheme} insets={insets} selected={selected} peekAt={peek?.coordinates||null} peekContent={peekCard} onPlace={p=>selectPlace(p,true)} onPoint={onPoint} onViewport={onViewport} onWeather={()=>{setTab("conditions");setCollapsed(false);}} onHazard={h=>{toast(h.title,{description:`${h.detail} Source: ${h.source}`,duration:9000});}} onRotate={setRotated} onReady={()=>{}}/>
+ <TripprMap ref={map} places={visiblePlaces} stops={trip.stops} route={route} weatherPoints={weatherPoints} hazards={hazards} alerts={mapAlerts} theme={mapTheme} insets={insets} selected={selected} peekAt={peek?.coordinates||null} peekContent={peekCard} onPlace={p=>selectPlace(p,true)} onPoint={onPoint} onViewport={onViewport} onWeather={()=>{setTab("conditions");setCollapsed(false);}} onHazard={h=>{toast(h.title,{description:`${h.detail} Source: ${h.source}`,duration:9000});}} onRotate={setRotated} onReady={()=>{}}/>
  <header className="topbar">
   {mobile?<button className="search-pill" onClick={()=>openSearch(false)} aria-label="Search for a place"><img src="/trippr/trippr-mark.webp" alt="" width={30} height={29}/><span>Where to?</span><SearchIcon/></button>
   :<><a className="logo-plate" href="/trippr/" onClick={e=>{e.preventDefault();map.current?.fit();}} aria-label="Trippr — fit the whole trip on the map" title="Fit the whole trip"><img src="/trippr/trippr-logo.webp" alt="Trippr" width={123} height={32}/></a>

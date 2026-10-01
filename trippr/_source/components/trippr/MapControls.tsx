@@ -5,6 +5,7 @@ import {Layers as LayersIcon,Plus,Minus,LocateFixed,Mountain,Navigation2,LoaderC
 import type {Layer,LayerState,PlaceKind} from "@/lib/trippr/types";
 import type {MapTheme} from "@/lib/trippr/map-style";
 import {SignChip} from "./icons";
+import {GROUP_STYLE} from "@/lib/trippr/map-icons";
 interface Props{mapTheme:MapTheme;setSatellite(v:boolean):void;terrain:boolean;onTerrain():void;layers:Layer[];onToggle(id:string):void;status:Record<string,LayerState>;campFilters:string[];onCampFilters(f:string[]):void;zoom:number;onZoom(d:number):void;onLocate():void;rotated:boolean;onNorth():void;compact:boolean;}
 // One "Map" button holds everything about how the map looks; the rest are direct manipulation.
 export default function MapControls(p:Props){const loading=Object.values(p.status).some(s=>s.status==="loading"),groups=[...new Set(p.layers.map(l=>l.group))],camp=p.layers.find(l=>l.kind==="camp")?.enabled;
@@ -15,7 +16,7 @@ export default function MapControls(p:Props){const loading=Object.values(p.statu
   <div className="opt-head"><strong>Map</strong><span className="muted small">Style, terrain and what’s marked</span></div>
   <div className="style-pick" role="group" aria-label="Base map"><button aria-pressed={p.mapTheme!=="satellite"} onClick={()=>p.setSatellite(false)}><span className={`swatch swatch-atlas ${p.mapTheme==="light"?"day":""}`}/>Road atlas</button><button aria-pressed={p.mapTheme==="satellite"} onClick={()=>p.setSatellite(true)}><span className="swatch swatch-sat"/>Satellite</button></div>
   <label className="toggle-row" htmlFor="terrain-toggle"><span><Mountain size={15}/>3D terrain<small>Tilts the map to show mountains</small></span><Switch id="terrain-toggle" checked={p.terrain} onCheckedChange={p.onTerrain}/></label>
-  <div className="opt-legend"><span><i className="dot sign-recreation"/>Parks & recreation</span><span><i className="dot sign-service"/>Fuel, EV & food</span><span><i className="dot sign-guide"/>Towns & pins</span></div>
+  <div className="opt-legend">{([["park","parks"],["camp","camp"],["scenic","sights"],["fuel","services"]] as const).map(([kind,g])=><span key={g}><SignChip kind={kind} size="sm"/>{GROUP_STYLE[g].label}</span>)}</div>
   {groups.map(g=><div className="opt-group" key={g}><span className="eyebrow">{g}</span><div className="chip-row">{p.layers.filter(l=>l.group===g).map(l=>{const s=p.status[l.id];return <button key={l.id} className={`chip ${l.enabled?"active":""}`} aria-pressed={l.enabled} onClick={()=>p.onToggle(l.id)} title={s?.status==="unavailable"?s.message:s?.status==="ready"&&s.count!==undefined?`${s.count} in view ⋅ ${s.source}`:undefined}><SignChip kind={l.kind as PlaceKind} size="sm"/>{l.label}{s?.status==="loading"&&<LoaderCircle className="spin"/>}</button>;})}</div>
    {g==="Camping"&&camp&&<div className="chip-row sub" role="group" aria-label="Camping filters">{[["tents","Tent sites"],["rv","RV sites"],["primitive","Primitive"]].map(([id,label])=><button key={id} className={`chip small ${p.campFilters.includes(id)?"active":""}`} aria-pressed={p.campFilters.includes(id)} onClick={()=>p.onCampFilters(p.campFilters.includes(id)?p.campFilters.filter(x=>x!==id):[...p.campFilters,id])}>{label}</button>)}</div>}
   </div>)}
