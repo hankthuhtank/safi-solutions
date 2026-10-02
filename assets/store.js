@@ -24,7 +24,11 @@
   }
 
   async function startCheckout(product,trigger){
-    if(!control.salesEnabled||!checkoutWorker)return;
+    if(!control.salesEnabled)return;
+    const fallback=window.SAFI_STORE?.products?.[product];
+    const fallbackUrl=launchMode?fallback?.launchUrl:fallback?.regularUrl;
+    if(fallbackUrl){ location.href=fallbackUrl; return; }
+    if(!checkoutWorker)return;
     const original=trigger.textContent;
     try{
       trigger.setAttribute('aria-busy','true');trigger.textContent='Opening checkout…';
