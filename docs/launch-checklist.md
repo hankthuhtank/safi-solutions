@@ -5,9 +5,9 @@
 - [x] Six desktop products presented on the site
 - [x] Padeff, Piktoor, Brandur and DoqDesk moved to the free tier
 - [x] Kwezeen and DoqCorp retained as the only paid desktop products
-- [x] Paid launch/regular pricing centralized ($29 / $39)
+- [x] Paid launch/regular pricing centralized ($19 / $29)
 - [x] Existing Stripe fallback links retained only for Kwezeen and DoqCorp
-- [x] Bundle checkout removed from the storefront
+- [x] Bundle pricing enabled at $30 launch / $50 regular
 - [x] Dedicated capability page created for every desktop product
 - [x] TheTradingDesk elevated in navigation and homepage hierarchy
 - [x] Terms, refunds, support and update copy aligned with the new model
