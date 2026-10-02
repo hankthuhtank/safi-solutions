@@ -5,9 +5,8 @@
 - [x] Six desktop products presented on the site
 - [x] Padeff, Piktoor, Brandur and DoqDesk moved to the free tier
 - [x] Kwezeen and DoqCorp retained as the only paid desktop products
-- [x] Paid launch/regular pricing centralized ($19 / $29)
-- [x] Existing Stripe fallback links retained only for Kwezeen and DoqCorp
-- [x] Bundle pricing enabled at $30 launch / $50 regular
+- [x] Permanent paid pricing centralized at $19 one-time per app
+- [x] Permanent $19 Stripe Payment Links configured for Kwezeen and DoqCorp
 - [x] Dedicated capability page created for every desktop product
 - [x] TheTradingDesk elevated in navigation and homepage hierarchy
 - [x] Terms, refunds, support and update copy aligned with the new model
@@ -45,3 +44,4 @@
 - Never replace a file with different bytes while leaving the same version number.
 - Keep prior major-version installers when practical.
 - Treat recurring support issues as candidates for the next maintenance release.
+

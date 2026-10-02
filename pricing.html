@@ -79,7 +79,6 @@ body{background:#181b1f}
 }
 .primary-nav .nav-rule{display:block;height:1px;margin:10px 0;background:var(--line)}.primary-nav a.nav-ttd{color:#d9f8f3}.primary-nav a.nav-ttd span{color:#5dd9cc;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;opacity:1}.rail-contact{margin-top:16px}.rail-contact .button{width:100%}.primary-nav a{font-size:14.5px}
 </style>
-<script defer="" src="LAUNCH_SWITCH.js"></script>
 </head>
 <body>
 <aside class="cabinet-rail">
@@ -140,11 +139,10 @@ body{background:#181b1f}
 <article class="price-card wide featured">
 <span class="price-kicker">PAID DESKTOP APPS</span>
 <h3>Kwezeen · DoqCorp</h3>
-<div class="price"><strong>$19</strong> <del>$29</del> <small>each app</small></div>
-<p>$19 launch price / $29 regular price. One-time purchase with no subscription. Use code <strong>SAFI10</strong> at checkout for the current pricing.</p>
-<p><strong>Bundle:</strong> Kwezeen + DoqCorp for $30 launch / $50 regular. Bundle code: <strong>SAFIBUNDLE30</strong>. <a class="underlined" href="https://buy.stripe.com/7sY28saUO9cQ1Rveh8dAk0A">Buy both ↗</a></p>
+<div class="price"><strong>$19</strong> <small>one-time per app</small></div>
+<p>One-time purchase with no subscription.</p>
 <div class="includes"><span>Restaurant menu builder</span><span>Business document kit</span></div>
-<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:18px"><a class="underlined" href="products/kwezeen.html">See Kwezeen ↗</a><a class="underlined" href="products/doqcorp.html">See DoqCorp ↗</a></div>
+<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:18px"><a class="underlined" href="https://buy.stripe.com/00wcN6aUOfBe9jX4GydAk0C">Buy Kwezeen ↗</a><a class="underlined" href="https://buy.stripe.com/14AeVe6EyexadAd3CudAk0D">Buy DoqCorp ↗</a></div>
 </article>
 <article class="price-card wide">
 <span class="price-kicker">FREE / NO CHECKOUT</span>
@@ -256,21 +254,6 @@ document.getElementById('menu-toggle')?.addEventListener('click',function(){
   nav?.classList.toggle('open',!open);
 });
 
-window.addEventListener('DOMContentLoaded',()=>{
-  const store=window.SAFI_STORE_CONTROL;
-  if(!store)return;
-  const mode=store.pricingMode==='regular'?'regular':'launch';
-  const money=n=>'$'+Number(n||0).toFixed(0);
-  const priceFor=o=>mode==='launch'?o?.launchPrice:o?.regularPrice;
-  const regular=o=>o?.regularPrice;
-
-  const configs={kwezeen:store.products?.kwezeen,doqcorp:store.products?.doqcorp};
-  Object.entries(configs).forEach(([key,item])=>{
-    const box=document.querySelector('[data-live-price="'+key+'"]');
-    if(!box||!item)return;
-    const value=priceFor(item);box.innerHTML='<strong>'+money(value)+'</strong>'+(mode==='launch'&&regular(item)!==value?' <del>'+money(regular(item))+'</del>':'');
-  });
-});
 </script>
 <script src="/assets/ambient-particles.js?v=7" defer></script>
 </body>
