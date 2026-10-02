@@ -227,7 +227,7 @@ write('projects/index.html', page('projects', '/projects/', 'Projects | Safi Sol
 
 # ---------------------------------------------------------------- products
 def shelf(p):
-    if p['paid']: buy = f'<div class="price"><del>$39</del><strong>$29</strong><small>one-time</small></div><a class="button" href="/products/{p["id"]}.html">Explore features {ARROW}</a>'
+    if p['paid']: buy = f'<div class="price"><del>$29</del><strong>$19</strong><small>one-time</small></div><a class="button" href="/products/{p["id"]}.html">Explore features {ARROW}</a>'
     else: buy = f'<div class="price"><strong>Free</strong><small>no checkout</small></div><a class="button" href="/products/{p["id"]}.html">Explore &amp; download {ARROW}</a>'
     shots = ''.join(f'<figure><button type="button" data-zoom style="all:unset;display:block;cursor:zoom-in;width:100%"><img src="/assets/products/{f}.webp" alt="{e(p["name"])}: {e(c)}" loading="lazy" width="1280" height="800"></button><figcaption>{e(c)}</figcaption></figure>' for f, c in p['shots'])
     tags = ''.join(f'<span>{t}</span>' for t in p['tags'])
@@ -239,6 +239,7 @@ def shelf(p):
 products_body = f'''<div class="page">
   <header class="page-head"><div><p class="micro">Desktop software</p><h1>Products.</h1></div><p class="lead">Software like this already exists. I simplify the hard parts. Built for everyday users: <strong>{FREE} tools are free</strong>, and two focused business apps are one-time purchases with no subscription.</p></header>
   <div class="shelves">{''.join(shelf(p) for p in PRODUCTS)}</div>
+  <div class="note-bar rv"><span><strong>Paid app bundle:</strong> Kwezeen + DoqCorp · $30 launch / $50 regular.</span><span>Individual launch price: $19 each.</span></div>
   <div class="note-bar rv"><span><strong>Every app:</strong> Windows desktop · offline-first · no account · version 1.0</span><a class="underlined" href="/terms.html">Open/shareable licensing {ARROW}</a><a class="underlined" href="/support.html">Support &amp; updates {ARROW}</a><a class="underlined" href="/pricing.html">Pricing {ARROW}</a></div>
 </div>'''
 zoom_dialog = f'''<dialog class="sheet-dialog" id="zoom-dialog" style="width:min(1280px,calc(100% - 24px))"><div class="sd-head"><p class="micro zoom-title">Product preview</p><button class="sd-close" type="button" aria-label="Close">×</button></div><div class="sd-body"><img src="" alt="" style="width:100%;border:1px solid var(--line);border-radius:6px"></div></dialog>
