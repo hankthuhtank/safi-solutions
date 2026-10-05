@@ -685,3 +685,8 @@ html.seam-in body { animation: seam-open .62s cubic-bezier(.76, 0, .24, 1) .12s 
 .door.pulling::after { animation: door-pull .4s cubic-bezier(.3, .7, .2, 1) forwards; }
 .door.pulling::before { background: #fff; box-shadow: 0 0 0 1.5px var(--accent), 0 0 22px 6px rgba(184, 216, 250, .75); }
 @keyframes door-pull { from { transform: scaleX(0); opacity: 1; } to { transform: scaleX(1); opacity: 1; } }
+
+/* Shorecrest joins the main navigation; keep the rail reachable on short screens. */
+.cabinet-rail { overflow-y: auto; }
+.primary-nav a.nav-shorecrest { color: #b4d1c6; }
+.primary-nav a.nav-shorecrest[aria-current] { color: var(--ink); }
