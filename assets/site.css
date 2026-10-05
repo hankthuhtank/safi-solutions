@@ -207,6 +207,9 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .door-ttd .door-body b { color: #d9f8f3; }
 .door-ttd .door-count, .door-ttd .door-no { color: #5dd9cc; }
 .door-ttd::before { --lane-c: #4b8d84; }
+.door[href="/shorecrest/"] { background: linear-gradient(90deg, rgba(79, 143, 214, .1), transparent 70%); }
+.door[href="/shorecrest/"] .door-body b, .door[href="/shorecrest/"] .door-count { color: var(--blue); }
+.door[href="/shorecrest/"]::before { --lane-c: var(--blue); }
 .door .arrow { color: var(--muted); }
 .door:hover .arrow, .door.lit .arrow { color: var(--accent); transform: translateX(3px); }
 
@@ -688,5 +691,5 @@ html.seam-in body { animation: seam-open .62s cubic-bezier(.76, 0, .24, 1) .12s 
 
 /* Shorecrest joins the main navigation; keep the rail reachable on short screens. */
 .cabinet-rail { overflow-y: auto; }
-.primary-nav a.nav-shorecrest { color: #b4d1c6; }
+.primary-nav a.nav-shorecrest, #mobile-nav a.nav-shorecrest { color: var(--blue); }
 .primary-nav a.nav-shorecrest[aria-current] { color: var(--ink); }
