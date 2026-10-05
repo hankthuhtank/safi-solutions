@@ -7,7 +7,7 @@
   'use strict';
   const KEY = 'safi-seam', root = document.documentElement;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const TITLED = ['/products/', '/projects/', '/websites/', '/studio/']; // door label matches that page's h1
+  const TITLED = ['/products/', '/projects/', '/websites/', '/studio/', '/shorecrest/']; // door label matches that page's h1
   const store = v => { try { v ? sessionStorage.setItem(KEY, JSON.stringify(v)) : sessionStorage.removeItem(KEY); } catch (e) {} };
   const clearNames = () => document.querySelectorAll('[data-vt]').forEach(n => { n.style.viewTransitionName = ''; n.removeAttribute('data-vt'); });
   const name = (n, v) => { if (n) { n.style.viewTransitionName = v; n.setAttribute('data-vt', ''); } };

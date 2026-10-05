@@ -13,6 +13,9 @@
 .sc-photo figcaption { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 16px; padding: 13px 16px; font-size: 13px; border-top: 1px solid #3b5053; }
 .sc-photo figcaption > span:last-child { color: var(--sc-sage); font: 11px/1.5 var(--mono); }
 .sc-hero-photo { box-shadow: 0 18px 45px #0a15184d; }
+.sc-hero-photo .sc-zoom { aspect-ratio: 1; }
+.sc-hero-photo img { height: 100%; object-fit: contain; transition: opacity .3s; }
+.sc-hero-photo img.sc-photo-fading { opacity: 0; }
 .sc-story { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); gap: clamp(30px, 6vw, 90px); padding: clamp(48px, 6vw, 80px) 0; margin: 0 0 48px; border-bottom: 1px solid var(--line); }
 .sc-story h2 { margin-top: 18px; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.1; }
 .sc-name { color: var(--sc-sage); margin-top: 26px; font: 12px var(--mono); }
