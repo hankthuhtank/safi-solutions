@@ -208,7 +208,7 @@ main { position: relative; z-index: 2; margin-left: var(--rail-w); min-height: 1
 .door-ttd .door-count, .door-ttd .door-no { color: #5dd9cc; }
 .door-ttd::before { --lane-c: #4b8d84; }
 .door[href="/shorecrest/"] { background: linear-gradient(90deg, rgba(79, 143, 214, .1), transparent 70%); }
-.door[href="/shorecrest/"] .door-body b, .door[href="/shorecrest/"] .door-count { color: var(--blue); }
+.door[href="/shorecrest/"] .door-body b, .door[href="/shorecrest/"] .door-count { color: #b8d8fa; }
 .door[href="/shorecrest/"]::before { --lane-c: var(--blue); }
 .door .arrow { color: var(--muted); }
 .door:hover .arrow, .door.lit .arrow { color: var(--accent); transform: translateX(3px); }
