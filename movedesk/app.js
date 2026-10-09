@@ -173,7 +173,7 @@ const STATE_PORTALS={'Alabama':'https://www.alabama.gov','Alaska':'https://www.a
 function renderOfficialLinks(differentState){const to=state.to,links=[['USPS change of address','https://moversguide.usps.com/'],['USA.gov moving guide','https://www.usa.gov/moving']];if(to.country_code==='US'&&to.admin1&&STATE_PORTALS[to.admin1])links.unshift([`${to.admin1} official portal`,STATE_PORTALS[to.admin1]]);if(differentState)links.push(['State motor vehicle services','https://www.usa.gov/state-motor-vehicle-services']);$('#officialLinks').innerHTML=links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(t)} ↗</a>`).join('')}
 // Shared interface for the independently loaded decision and saved-plan modules.
 window.MoveDeskBridge={
- get:()=>({from:state.from,to:state.to,route:state.route}),
+ get:()=>({from:state.from,to:state.to,route:state.route,fromWeather:state.fromWeather,toWeather:state.toWeather}),
  restore:async(from,to)=>{
   if(!from||!to||![from.latitude,from.longitude,to.latitude,to.longitude].every(Number.isFinite))return false;
   chooseLocation('from',from);chooseLocation('to',to);
