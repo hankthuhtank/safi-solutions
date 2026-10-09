@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="styles.css?v=20260907">
 <link rel="stylesheet" href="interstate.css?v=2">
-<link rel="stylesheet" href="workbench.css?v=20261008">
+<link rel="stylesheet" href="workbench.css?v=20261009">
 </head>
 <body>
 <div id="boot" aria-hidden="true"><div class="boot-card"><img src="/assets/project-logos/movedesk.svg?v=3" alt="" class="boot-logo"><div class="boot-route"><i></i></div><div class="boot-foot"><span>Building relocation workspace</span><b>ROUTE · COST · TASKS</b></div></div></div>
@@ -33,8 +33,28 @@
 <header class="topbar">
   <a href="#top" class="brand"><img src="/assets/project-logos/movedesk.svg?v=3" alt="MoveDesk"></a>
   <nav><a href="#compare">Overview</a><a href="#route">Route</a><a href="#budget">Move math</a><a href="#decision">Life math</a><a href="#services">Services</a><a href="#plan">Action plan</a><a href="#workspaces">Saved</a></nav>
-  <div class="api-chip"><i></i>LIVE ROUTES + WEATHER</div>
+  <div class="api-chip"><i></i>LIVE ROUTES + WEATHER</div><button type="button" id="mobileNavTrigger" class="mobile-nav-trigger" aria-controls="sideNav" aria-expanded="false" aria-label="Open navigation">☰ <span>MENU</span></button>
 </header>
+
+
+<div class="side-nav-shade" id="sideNavShade" hidden></div>
+<aside class="side-nav" id="sideNav" aria-label="MoveDesk sections">
+  <div class="side-nav-caption">YOUR RELOCATION</div>
+  <nav aria-label="Workspace navigation">
+    <a href="#top" data-section="top"><b>⌂</b> Start a move</a>
+    <a href="#workspaces" data-section="workspaces"><b>▦</b> Saved destinations</a>
+    <div class="side-nav-divider">MOVE WORKSPACE</div>
+    <a href="#compare" data-section="compare" class="needs-route"><b>01</b> Overview</a>
+    <a href="#route" data-section="route" class="needs-route"><b>02</b> Route map</a>
+    <a href="#climate" data-section="climate" class="needs-route"><b>03</b> Weather + climate</a>
+    <a href="#budget" data-section="budget" class="needs-route"><b>04</b> Moving costs</a>
+    <a href="#decision" data-section="decision" class="needs-route"><b>05</b> Life math</a>
+    <a href="#plan" data-section="plan" class="needs-route"><b>06</b> Action plan</a>
+    <a href="#services" data-section="services" class="needs-route"><b>07</b> Local services</a>
+    <a href="#save" data-section="save" class="needs-route"><b>08</b> Save + report</a>
+  </nav>
+  <div class="side-nav-foot"><i></i><span>ROUTE · RESEARCH · RELOCATE</span></div>
+</aside>
 
 <main id="top">
 <section class="hero">
@@ -115,8 +135,22 @@
     <div class="map-shell"><div class="map-top"><span id="mapRouteLabel">A → B</span><div><b>ROAD ROUTE</b><small>INTERACTIVE MAP</small></div></div><div id="map"></div></div>
   </section>
 
+  <section class="climate-drawer weather-expanded section-pad" id="climate">
+    <div class="section-head weather-section-head"><div><span class="section-num">03 / WEATHER + CLIMATE</span><h2>Know the weather.<br><em>Before you go.</em></h2></div><p>Compare current conditions, the next seven forecast days, and three years of historical climate patterns. Forecasts cover only the next seven days, not a distant move date.</p></div>
+    <div class="climate-content">
+      <div class="weather-now-grid" aria-label="Live current conditions">
+        <article class="weather-now-card" id="weatherNowFrom"><span>DEPARTURE WEATHER</span><p>Build a route to load live conditions.</p></article>
+        <article class="weather-now-card destination" id="weatherNowTo"><span>DESTINATION WEATHER</span><p>Build a route to load live conditions.</p></article>
+      </div>
+
+      <section class="weather-section"><div class="section-head small"><div><h2>Next 7 days.</h2></div><p>Seven-day forecasts at both ends of your trip, with temperatures and precipitation displayed across the full page.</p></div><div class="forecast-split"><article><div class="forecast-head"><span id="fromForecastName">FROM</span><b id="fromWeatherSummary">–</b></div><div class="forecast-row" id="fromForecast"></div></article><article><div class="forecast-head"><span id="toForecastName">TO</span><b id="toWeatherSummary">–</b></div><div class="forecast-row" id="toForecast"></div></article></div></section>
+      <section class="climate-section"><div class="section-head small"><div><h2>Recent climate pattern.</h2></div><p>Recent weather context from the last three complete calendar years of Open-Meteo archive data. These modeled values are not station observations or 30-year climate normals. <a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">About NOAA climate normals ↗</a></p></div><div class="climate-board"><div class="climate-loading" id="climateLoading">Building 36 months of climate context…</div><div class="climate-side" id="fromClimate"></div><div class="climate-center"><span>MONTH</span><div id="monthAxis"></div></div><div class="climate-side" id="toClimate"></div></div><div class="climate-takeaways" id="climateTakeaways"></div></section>
+    </div>
+
+  </section>
+
   <section class="budget-section section-pad" id="budget">
-    <div class="section-head"><div><span class="section-num">03 / MOVE MATH</span><h2>Make the cost<br><em>visible.</em></h2></div><p>The starting amounts are examples. Replace them with your quotes. The total covers one vehicle’s driving fuel, movers/truck, lodging and other one-time costs; housing is shown separately.</p></div>
+    <div class="section-head"><div><span class="section-num">04 / MOVE MATH</span><h2>Make the cost<br><em>visible.</em></h2></div><p>The starting amounts are examples. Replace them with your quotes. The total covers one vehicle’s driving fuel, movers/truck, lodging and other one-time costs; housing is shown separately.</p></div>
     <div class="budget-console">
       <div class="budget-inputs">
         <label>CURRENT HOUSING / MO<input id="currentHousing" type="number" min="0" value="1200"></label><label>NEW HOUSING / MO<input id="newHousing" type="number" min="0" value="1500"></label>
@@ -130,7 +164,7 @@
 
 
 <section class="decision-section section-pad" id="decision">
- <div class="section-head"><div><span class="section-num">04 / LIFE AFTER THE MOVE</span><h2>Compare the life.<br><em>Not just the rent.</em></h2></div><p>Use your own monthly estimates to model cash left over in each location. These are personal scenarios, not automatically sourced city averages.</p></div>
+ <div class="section-head"><div><span class="section-num">05 / LIFE AFTER THE MOVE</span><h2>Compare the life.<br><em>Not just the rent.</em></h2></div><p>Use your own monthly estimates to model cash left over in each location. These are personal scenarios, not automatically sourced city averages.</p></div>
  <div class="decision-shell">
  <div class="decision-entry">
  <div class="decision-columns"><span>MONTHLY MONEY</span><b>CURRENT</b><b>DESTINATION</b></div>
@@ -156,37 +190,31 @@
 </section>
 
   <section class="plan-section section-pad" id="plan">
-    <div class="section-head"><div><span class="section-num">04 / ACTION PLAN</span><h2>What changes<br><em>because you moved.</em></h2></div><p>Choose what applies to your household. The checklist changes around state lines, distance, pets, kids, renting and remote work.</p></div>
+    <div class="section-head"><div><span class="section-num">06 / ACTION PLAN</span><h2>What changes<br><em>because you moved.</em></h2></div><p>Choose what applies to your household. The checklist changes around state lines, distance, pets, kids, renting and remote work.</p></div>
     <div class="plan-compass" aria-live="polite"><div><span>YOUR NEXT ACTION</span><h3 id="nextMoveTask">Build your route to begin.</h3><p id="planCompletion">Progress is based on the tasks you check off.</p></div><button id="jumpNextTask" type="button">Go to task →</button></div><div class="profile-controls"><label><input type="checkbox" id="hasVehicle" checked><span>VEHICLE</span></label><label><input type="checkbox" id="hasPets"><span>PETS</span></label><label><input type="checkbox" id="hasKids"><span>SCHOOL-AGE KIDS</span></label><label><input type="checkbox" id="isRenter" checked><span>RENTER</span></label><label><input type="checkbox" id="remoteWork"><span>REMOTE WORK</span></label></div>
     <div class="plan-grid"><article><div class="plan-head"><span>01</span><b>BEFORE YOU LEAVE</b></div><div class="checklist" id="beforeList"></div></article><article><div class="plan-head"><span>02</span><b>ARRIVAL WEEK</b></div><div class="checklist" id="arrivalList"></div></article><article><div class="plan-head"><span>03</span><b>FIRST 30 DAYS</b></div><div class="checklist" id="monthList"></div></article></div>
     <div class="official-links" id="officialLinks"></div>
   </section>
 <section class="services-section section-pad" id="services">
- <div class="section-head"><div><span class="section-num">05 / SET UP YOUR NEW HOME</span><h2>Know who to call<br><em>before you arrive.</em></h2></div><p>Local mapped offices and searches for electric, internet, natural gas, water, and waste service. Exact service territories and availability must be verified at your street address.</p></div>
+ <div class="section-head"><div><span class="section-num">07 / SET UP YOUR NEW HOME</span><h2>Know who to call<br><em>before you arrive.</em></h2></div><p>Local mapped offices and searches for electric, internet, natural gas, water, and waste service. Exact service territories and availability must be verified at your street address.</p></div>
  <div class="service-banner"><div><span>DESTINATION SERVICES DIRECTORY</span><b id="serviceLocation">Select your destination</b></div><p id="serviceStatus" role="status">Build a move to search for nearby provider offices.</p></div>
  <div id="servicesGrid" class="services-grid"></div>
  <p class="service-disclaimer">Listings are from contributed OpenStreetMap data and can be incomplete, outdated, or outside your service area. Provider searches open external maps; they are not confirmed service availability.</p>
 </section>
 <section class="save-section section-pad" id="save">
- <div class="section-head"><div><span class="section-num">06 / YOUR PERSONAL WORKSPACE</span><h2>Keep the plan.<br><em>Take it with you.</em></h2></div><p>Your selected locations, budgets, and household options can be saved on this device. Export a backup before switching browsers or clearing data.</p></div>
+ <div class="section-head"><div><span class="section-num">08 / YOUR PERSONAL WORKSPACE</span><h2>Keep the plan.<br><em>Take it with you.</em></h2></div><p>Your selected locations, budgets, and household options can be saved on this device. Export a backup before switching browsers or clearing data.</p></div>
  <div class="save-card"><div class="save-copy"><span id="currentPlanLabel">UNSAVED WORKSPACE</span><label for="planName">NAME THIS MOVE</label><input id="planName" placeholder="A fresh start in Tennessee" maxlength="70"><label for="planNote">NOTES</label><textarea id="planNote" rows="3" maxlength="250" placeholder="Neighborhoods to check, priorities, questions…"></textarea></div><div class="save-buttons"><button type="button" id="savePlan" class="save-primary">Save move plan →</button><button type="button" id="newPlan">New workspace</button><button type="button" id="printPlan">Print / Save PDF report</button><a href="#workspaces">View saved destinations ↑</a><p id="workspaceNotice" role="status" aria-live="polite"></p></div></div>
 </section>
 
-  <details class="climate-drawer" id="climate">
-    <summary><div><span>05 / WEATHER + CLIMATE CONTEXT</span><b>Open secondary climate view</b></div><i>+</i></summary>
-    <div class="climate-content">
-      <section class="weather-section"><div class="section-head small"><div><h2>Next 7 days.</h2></div><p>A quick check for both ends of the move. It stays secondary to the actual relocation planning.</p></div><div class="forecast-split"><article><div class="forecast-head"><span id="fromForecastName">FROM</span><b id="fromWeatherSummary">–</b></div><div class="forecast-row" id="fromForecast"></div></article><article><div class="forecast-head"><span id="toForecastName">TO</span><b id="toWeatherSummary">–</b></div><div class="forecast-row" id="toForecast"></div></article></div></section>
-      <section class="climate-section"><div class="section-head small"><div><h2>Recent climate pattern.</h2></div><p>Recent weather context from the last three complete calendar years of Open-Meteo archive data. These modeled values are not station observations or 30-year climate normals. <a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">About NOAA climate normals ↗</a></p></div><div class="climate-board"><div class="climate-loading" id="climateLoading">Building 36 months of climate context…</div><div class="climate-side" id="fromClimate"></div><div class="climate-center"><span>MONTH</span><div id="monthAxis"></div></div><div class="climate-side" id="toClimate"></div></div><div class="climate-takeaways" id="climateTakeaways"></div></section>
-    </div>
-  </details>
+
 
   <footer><div><b>MoveDesk</b><span>A Safi Solutions utility.</span></div><div><a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo ↗</a><a href="https://project-osrm.org/" target="_blank" rel="noopener">OSRM / OSM ↗</a><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap ↗</a></div></footer>
 </section>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/assets/vendor/leaflet/leaflet.js"></script>
-<script src="app.js?v=20260927"></script>
+<script src="app.js?v=20261009"></script>
 <script src="extras.js?v=20260907"></script>
-<script src="workbench.js?v=20261008"></script>
+<script src="workbench.js?v=20261009"></script>
 </body>
 </html>
