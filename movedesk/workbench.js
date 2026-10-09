@@ -124,4 +124,54 @@ let draft={};try{draft=safeParse(localStorage.getItem(DRAFT)||'{}',{})}catch{}
 extra.forEach(id=>{if(typeof draft[id]==='string'&&$('#'+id))$('#'+id).value=draft[id]});
 window.addEventListener('movedesk:ready',e=>{ready=true;if(!restoring){activeId='';$('#planName').value='';$('#planNote').value='';$('#currentPlanLabel').textContent='UNSAVED WORKSPACE'}renderDecision();loadServices(e.detail.to)});
 renderSaved();renderDecision();renderServices();
+
+// Responsive sidebar and live expanded weather summary.
+const sidebar=$('#sideNav'),mobileNav=$('#mobileNavTrigger'),navShade=$('#sideNavShade');
+const sidebarLinks=[...sidebar.querySelectorAll('a[href^="#"]')];
+function hideSidebar(){
+ document.body.classList.remove('nav-open');
+ navShade.hidden=true;
+ mobileNav.setAttribute('aria-expanded','false');
+}
+mobileNav.addEventListener('click',()=>{
+ const opened=document.body.classList.toggle('nav-open');
+ navShade.hidden=!opened;
+ mobileNav.setAttribute('aria-expanded',String(opened));
+});
+navShade.addEventListener('click',hideSidebar);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('nav-open')){hideSidebar();mobileNav.focus()}});
+sidebarLinks.forEach(link=>link.addEventListener('click',e=>{
+ if(link.classList.contains('needs-route')&&!document.body.classList.contains('has-plan')){e.preventDefault();return}
+ hideSidebar();
+}));
+if('IntersectionObserver' in window){
+ const sections=sidebarLinks.map(a=>document.getElementById(a.dataset.section)).filter(Boolean);
+ const observer=new IntersectionObserver(entries=>{
+  const candidates=entries.filter(x=>x.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
+  if(!candidates.length)return;
+  const id=candidates[0].target.id;
+  sidebarLinks.forEach(link=>{
+   const active=link.dataset.section===id;link.classList.toggle('active',active);
+   if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');
+  });
+ },{rootMargin:'-95px 0px -52% 0px',threshold:[0,.15,.4]});
+ sections.forEach(section=>observer.observe(section));
+}
+function showWeatherNow(id,place,response){
+ const target=$('#'+id);if(!target)return;
+ const current=response?.current||{},fmt=(num,suffix='')=>Number.isFinite(num)?Math.round(num)+suffix:'–';
+ const codes={0:'Clear',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Rime fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',66:'Freezing rain',67:'Freezing rain',71:'Light snow',73:'Snow',75:'Heavy snow',77:'Snow grains',80:'Rain showers',81:'Rain showers',82:'Heavy showers',85:'Snow showers',86:'Heavy snow showers',95:'Thunderstorms',96:'Thunderstorm with hail',99:'Severe thunderstorm with hail'};
+ const placeName=[place.name,place.admin1].filter(Boolean).join(', ');
+ target.innerHTML='<span>'+(id==='weatherNowFrom'?'CURRENT LOCATION / WEATHER':'DESTINATION / WEATHER')+'</span>'+
+ '<div class="weather-current-main"><div><h3>'+esc(placeName)+'</h3><p>'+esc(codes[current.weather_code]||'Conditions unavailable')+'</p></div><strong>'+fmt(current.temperature_2m,'°')+'</strong></div>'+
+ '<div class="weather-current-details"><div><small>FEELS LIKE</small><b>'+fmt(current.apparent_temperature,'°')+'</b></div><div><small>WIND</small><b>'+fmt(current.wind_speed_10m,' mph')+'</b></div><div><small>PRECIPITATION</small><b>'+(Number.isFinite(current.precipitation)?current.precipitation.toFixed(2)+' in':'–')+'</b></div></div>';
+}
+window.addEventListener('movedesk:ready',()=>{
+ const data=window.MoveDeskBridge?.get?.();
+ if(!data?.from||!data?.to)return;
+ document.body.classList.add('has-plan');
+ showWeatherNow('weatherNowFrom',data.from,data.fromWeather);
+ showWeatherNow('weatherNowTo',data.to,data.toWeather);
+});
+
 })();
