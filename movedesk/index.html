@@ -25,14 +25,15 @@
 <link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="styles.css?v=20260907">
 <link rel="stylesheet" href="interstate.css?v=2">
+<link rel="stylesheet" href="workbench.css?v=20261008">
 </head>
 <body>
 <div id="boot" aria-hidden="true"><div class="boot-card"><img src="/assets/project-logos/movedesk.svg?v=3" alt="" class="boot-logo"><div class="boot-route"><i></i></div><div class="boot-foot"><span>Building relocation workspace</span><b>ROUTE · COST · TASKS</b></div></div></div>
 
 <header class="topbar">
   <a href="#top" class="brand"><img src="/assets/project-logos/movedesk.svg?v=3" alt="MoveDesk"></a>
-  <nav><a href="#compare">Overview</a><a href="#route">Route</a><a href="#budget">Move math</a><a href="#plan">Action plan</a></nav>
-  <div class="api-chip"><i></i>LIVE DATA</div>
+  <nav><a href="#compare">Overview</a><a href="#route">Route</a><a href="#budget">Move math</a><a href="#decision">Life math</a><a href="#services">Services</a><a href="#plan">Action plan</a><a href="#workspaces">Saved</a></nav>
+  <div class="api-chip"><i></i>LIVE ROUTES + WEATHER</div>
 </header>
 
 <main id="top">
@@ -42,7 +43,7 @@
       <div class="kicker">RELOCATION COMMAND CENTER</div>
       <h1>Plan the move.<br><em>Not just the map.</em></h1>
       <p>Put the route, destination research, move costs, timing, official changeover tasks and climate context in one place before the boxes start moving.</p>
-      <div class="hero-points"><span>Route + trip cost</span><span>Destination essentials</span><span>Move timeline</span><span>Official next steps</span></div>
+      <div class="hero-points"><span>Route + trip cost</span><span>Destination essentials</span><span>Move timeline</span><span>Local services</span><span>Saved plans</span></div>
     </div>
     <form class="route-form" id="routeForm">
       <div class="route-form-top"><span>BUILD A MOVE</span><small>City or ZIP code</small></div>
@@ -85,6 +86,13 @@
   </div>
 </section>
 
+
+<section class="workspaces-intro" id="workspaces">
+ <div class="workspaces-heading"><div><span class="section-num">THE JOURNEY DOESN'T END HERE</span><h2>Your next chapter,<br><em>with the numbers to match.</em></h2><p>Compare your financial future, find move-in services, and keep every possible destination organized in one workspace.</p></div><div class="workspaces-actions"><button type="button" id="themeToggle">Light mode</button><button type="button" id="exportPlans">Export backup ↓</button><label class="import-button" for="importPlans">Import backup ↑</label><input type="file" id="importPlans" accept=".json,application/json" hidden></div></div>
+ <div class="workspaces-tiles"><div><span>01 / DECIDE</span><b>Can you afford it?</b><p>Model what monthly life looks like before you go.</p></div><div><span>02 / CONNECT</span><b>Get your services.</b><p>Find utility and internet contacts near your destination.</p></div><div><span>03 / ARRIVE</span><b>Stay organized.</b><p>Save plans, track tasks and print a moving report.</p></div></div>
+ <div class="saved-heading"><h3>Saved destinations</h3><span>Private to this browser · up to 20 plans</span></div>
+ <div id="savedRoutes" class="saved-routes" aria-live="polite"></div>
+</section>
 <section class="brief hidden" id="brief">
   <section class="compare-band" id="compare">
     <div class="compare-side from-side"><div class="place-label">CURRENT</div><h2 id="fromName">–</h2><p id="fromMeta">–</p><div class="weather-chip"><b id="fromTemp">–</b><span id="fromCondition">CURRENT WEATHER</span></div></div>
@@ -120,12 +128,49 @@
     </div>
   </section>
 
+
+<section class="decision-section section-pad" id="decision">
+ <div class="section-head"><div><span class="section-num">04 / LIFE AFTER THE MOVE</span><h2>Compare the life.<br><em>Not just the rent.</em></h2></div><p>Use your own monthly estimates to model cash left over in each location. These are personal scenarios, not automatically sourced city averages.</p></div>
+ <div class="decision-shell">
+ <div class="decision-entry">
+ <div class="decision-columns"><span>MONTHLY MONEY</span><b>CURRENT</b><b>DESTINATION</b></div>
+ <div class="decision-inputs">
+ <div class="decision-field"><label>Take-home income <small>After tax / month</small></label><input id="incomeNow" type="number" min="0" step="1" value="4000" aria-label="Current monthly take-home income"><input id="incomeNext" type="number" min="0" step="1" value="4000" aria-label="Destination monthly take-home income"></div>
+ <div class="decision-field locked"><label>Housing <small>Linked to Move Math above</small></label><output id="housingHint">Edit in Move Math ↑</output><a href="#budget">Edit housing ↗</a></div>
+ <div class="decision-field"><label>Utilities <small>Power, water, internet</small></label><input id="utilitiesNow" type="number" min="0" value="275" aria-label="Current monthly utilities"><input id="utilitiesNext" type="number" min="0" value="300" aria-label="Destination monthly utilities"></div>
+ <div class="decision-field"><label>Food + groceries</label><input id="foodNow" type="number" min="0" value="500" aria-label="Current monthly food"><input id="foodNext" type="number" min="0" value="500" aria-label="Destination monthly food"></div>
+ <div class="decision-field"><label>Transportation <small>Commute, insurance, fuel</small></label><input id="transportNow" type="number" min="0" value="350" aria-label="Current monthly transportation"><input id="transportNext" type="number" min="0" value="350" aria-label="Destination monthly transportation"></div>
+ <div class="decision-field"><label>Other recurring <small>Loans, phones, subscriptions</small></label><input id="otherNow" type="number" min="0" value="450" aria-label="Current other monthly costs"><input id="otherNext" type="number" min="0" value="450" aria-label="Destination other monthly costs"></div>
+ </div>
+ <div class="decision-breakdown"><div class="decision-row decision-row-head"><span>CATEGORY</span><b>NOW</b><b>THERE</b></div><div id="decisionBreakdown"></div></div>
+ </div>
+ <div class="decision-results">
+ <div class="result-kicker">MONTHLY CASH REMAINING</div><div class="result-pair"><div><small>CURRENT</small><b id="decisionNow">–</b></div><div><small>DESTINATION</small><b id="decisionThere">–</b></div></div>
+ <div class="result-hero"><span>THE DIFFERENCE / MONTH</span><strong id="decisionShift">–</strong><small>Positive means more money left over after expenses.</small></div>
+ <div class="cash-heading">GETTING THERE</div>
+ <div class="cash-fields"><label>Deposits + new setup<input id="deposits" type="number" min="0" value="1500"></label><label>Available moving savings<input id="savings" type="number" min="0" value="8000"></label><label>Emergency reserve / months<input id="reserveMonths" type="number" min="0" max="24" step="1" value="2"></label></div>
+ <div class="cash-stats"><div><span>UPFRONT MOVE + DEPOSITS</span><b id="upfrontCost">–</b><small id="upfrontDetails"></small></div><div><span>DESIRED EMERGENCY RESERVE</span><b id="reserveCost">–</b><small id="reserveDetails"></small></div><div><span>AFTER COSTS + RESERVE</span><b id="fundingGap">–</b><small>Shortfall or remaining savings</small></div></div>
+ <p class="decision-footnote" id="affordabilityInsight"></p>
+ </div>
+ </div>
+</section>
+
   <section class="plan-section section-pad" id="plan">
     <div class="section-head"><div><span class="section-num">04 / ACTION PLAN</span><h2>What changes<br><em>because you moved.</em></h2></div><p>Choose what applies to your household. The checklist changes around state lines, distance, pets, kids, renting and remote work.</p></div>
     <div class="plan-compass" aria-live="polite"><div><span>YOUR NEXT ACTION</span><h3 id="nextMoveTask">Build your route to begin.</h3><p id="planCompletion">Progress is based on the tasks you check off.</p></div><button id="jumpNextTask" type="button">Go to task →</button></div><div class="profile-controls"><label><input type="checkbox" id="hasVehicle" checked><span>VEHICLE</span></label><label><input type="checkbox" id="hasPets"><span>PETS</span></label><label><input type="checkbox" id="hasKids"><span>SCHOOL-AGE KIDS</span></label><label><input type="checkbox" id="isRenter" checked><span>RENTER</span></label><label><input type="checkbox" id="remoteWork"><span>REMOTE WORK</span></label></div>
     <div class="plan-grid"><article><div class="plan-head"><span>01</span><b>BEFORE YOU LEAVE</b></div><div class="checklist" id="beforeList"></div></article><article><div class="plan-head"><span>02</span><b>ARRIVAL WEEK</b></div><div class="checklist" id="arrivalList"></div></article><article><div class="plan-head"><span>03</span><b>FIRST 30 DAYS</b></div><div class="checklist" id="monthList"></div></article></div>
     <div class="official-links" id="officialLinks"></div>
   </section>
+<section class="services-section section-pad" id="services">
+ <div class="section-head"><div><span class="section-num">05 / SET UP YOUR NEW HOME</span><h2>Know who to call<br><em>before you arrive.</em></h2></div><p>Local mapped offices and searches for electric, internet, natural gas, water, and waste service. Exact service territories and availability must be verified at your street address.</p></div>
+ <div class="service-banner"><div><span>DESTINATION SERVICES DIRECTORY</span><b id="serviceLocation">Select your destination</b></div><p id="serviceStatus" role="status">Build a move to search for nearby provider offices.</p></div>
+ <div id="servicesGrid" class="services-grid"></div>
+ <p class="service-disclaimer">Listings are from contributed OpenStreetMap data and can be incomplete, outdated, or outside your service area. Provider searches open external maps; they are not confirmed service availability.</p>
+</section>
+<section class="save-section section-pad" id="save">
+ <div class="section-head"><div><span class="section-num">06 / YOUR PERSONAL WORKSPACE</span><h2>Keep the plan.<br><em>Take it with you.</em></h2></div><p>Your selected locations, budgets, and household options can be saved on this device. Export a backup before switching browsers or clearing data.</p></div>
+ <div class="save-card"><div class="save-copy"><span id="currentPlanLabel">UNSAVED WORKSPACE</span><label for="planName">NAME THIS MOVE</label><input id="planName" placeholder="A fresh start in Tennessee" maxlength="70"><label for="planNote">NOTES</label><textarea id="planNote" rows="3" maxlength="250" placeholder="Neighborhoods to check, priorities, questions…"></textarea></div><div class="save-buttons"><button type="button" id="savePlan" class="save-primary">Save move plan →</button><button type="button" id="newPlan">New workspace</button><button type="button" id="printPlan">Print / Save PDF report</button><a href="#workspaces">View saved destinations ↑</a><p id="workspaceNotice" role="status" aria-live="polite"></p></div></div>
+</section>
 
   <details class="climate-drawer" id="climate">
     <summary><div><span>05 / WEATHER + CLIMATE CONTEXT</span><b>Open secondary climate view</b></div><i>+</i></summary>
@@ -142,5 +187,6 @@
 <script src="/assets/vendor/leaflet/leaflet.js"></script>
 <script src="app.js?v=20260927"></script>
 <script src="extras.js?v=20260907"></script>
+<script src="workbench.js?v=20261008"></script>
 </body>
 </html>
