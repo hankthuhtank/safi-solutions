@@ -65,3 +65,28 @@ html[data-mode="light"] .workspaces-intro p,html[data-mode="light"] .workspaces-
 html[data-mode="light"] .decision-field input,html[data-mode="light"] .cash-fields input,html[data-mode="light"] .save-copy input,html[data-mode="light"] .save-copy textarea,html[data-mode="light"] .result-pair>div{background:#ecf5ef;color:#163325}
 html[data-mode="light"] .decision-row span,html[data-mode="light"] .cash-stats span,html[data-mode="light"] .service-list small,html[data-mode="light"] .decision-footnote{color:#355748}
 @media print{.topbar,.hero,.workspaces-intro,.workspaces-actions,.save-buttons,.service-actions,.service-list a,.climate-drawer summary,.toast{display:none!important}.brief.hidden{display:block!important}.brief>section,.decision-section,.services-section,.save-section,.plan-section{break-inside:avoid;padding:20px!important;background:#fff!important;color:#111!important}.decision-shell,.services-grid{display:block}.decision-entry,.decision-results,.service-card{background:#fff!important;color:#111!important;box-shadow:none!important;break-inside:avoid;border:1px solid #ccc}.service-card{margin-bottom:12px}.decision-entry input{border:0;border-bottom:1px solid #aaa;color:#111!important}.result-hero{background:#fff!important;color:#111!important}.result-hero strong,.decision-results b,.decision-entry b,.service-title{color:#111!important}}
+
+/* Full-page daylight treatment, retaining the green highway / yellow lane accents. */
+html[data-mode="light"]{--bg:#edf3ed;--bg2:#e8f1ea;--panel:#ffffff;--panel2:#f2f7f3;--panel3:#e4efe6;--text:#162e22;--muted:#426454;--faint:#537663;--line:rgba(24,79,45,.2);--line2:rgba(24,79,45,.12);background:#edf3ed}
+html[data-mode="light"] .topbar{background:rgba(245,250,244,.94);border-color:#b5cebb}
+html[data-mode="light"] .topbar nav a{color:#315744}
+html[data-mode="light"] .hero{background:radial-gradient(circle at 80% 10%,#cbe2cf,transparent 46%),#eef5ee;color:#163325}
+html[data-mode="light"] .hero-copy>p,html[data-mode="light"] .section-head>p{color:#496958}
+html[data-mode="light"] .hero-points span{background:#d9eadf;border-color:#9eb9a9;color:#2f6349}
+html[data-mode="light"] .route-form{background:linear-gradient(145deg,#fff,#e9f2eb);border-color:#91b8a0;box-shadow:0 18px 45px rgba(47,87,62,.1)}
+html[data-mode="light"] .location-field{background:#eef6f0;border-color:#b3c7b8}
+html[data-mode="light"] .location-field label,html[data-mode="light"] .route-form-top span,html[data-mode="light"] .search-box input{color:#163c29}
+html[data-mode="light"] .route-switch span,html[data-mode="light"] .suggestions{background:#fff;color:#1c3a27}
+html[data-mode="light"] .brief,html[data-mode="light"] .command-section,html[data-mode="light"] .route-section,html[data-mode="light"] .budget-section,html[data-mode="light"] .plan-section,html[data-mode="light"] .climate-drawer,html[data-mode="light"] .brief>footer{background:#edf4ee!important;color:#1a3527}
+html[data-mode="light"] .compare-band{background:#e5eee7;color:#193925}
+html[data-mode="light"] .compare-side h2,html[data-mode="light"] .compare-side p{color:#204330}
+html[data-mode="light"] .command-card,html[data-mode="light"] .map-shell,html[data-mode="light"] .budget-console,html[data-mode="light"] .budget-output,html[data-mode="light"] .plan-grid article,html[data-mode="light"] .climate-content,html[data-mode="light"] .forecast-split article{background:#fff!important;color:#163326;border-color:#b6d1be}
+html[data-mode="light"] .command-card h3,html[data-mode="light"] .command-card b,html[data-mode="light"] .budget-ticket b,html[data-mode="light"] .section-head h2{color:#193928}
+html[data-mode="light"] .command-card p,html[data-mode="light"] .command-card small,html[data-mode="light"] .plan-grid p,html[data-mode="light"] .budget-ticket small{color:#486653}
+html[data-mode="light"] .budget-inputs input,html[data-mode="light"] .move-date-card input{background:#f5f9f5;color:#153b25;border-color:#a0bfab}
+html[data-mode="light"] .workspaces-actions button,html[data-mode="light"] .import-button{background:#e1eee5;color:#234b36;border-color:#9fbeaa}
+html[data-mode="light"] .workspaces-tiles p,html[data-mode="light"] .saved-route p,html[data-mode="light"] .save-copy label,html[data-mode="light"] .decision-field label small,html[data-mode="light"] .service-list small{color:#426b52}
+html[data-mode="light"] .provider-empty,html[data-mode="light"] .service-disclaimer,html[data-mode="light"] .decision-footnote{color:#3c614b}
+html[data-mode="light"] .saved-numbers b,html[data-mode="light"] .save-copy input,html[data-mode="light"] .save-copy textarea{color:#153b29}
+html[data-mode="light"] .service-actions a{background:#e1f0e4;color:#1a5233}
+html[data-mode="light"] .result-hero{color:#fff}
