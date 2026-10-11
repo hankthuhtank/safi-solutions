@@ -1,0 +1,8 @@
+name = "moneywise-rates"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+# The FRED key is a secret, never a var:  npx wrangler secret put FRED_API_KEY
+# Set ALLOW_LOCALHOST = "true" only while testing the site on your own machine.
+[vars]
+ALLOW_LOCALHOST = "false"
