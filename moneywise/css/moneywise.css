@@ -458,8 +458,8 @@ table caption.micro { caption-side: top; text-align: left; padding: 0 0 8px; }
 .tests b { font-weight: 600; color: var(--navy); }
 .checks-h { margin: 30px 0 12px; font: 700 21px/1.2 var(--display); color: var(--navy); }
 .check-groups { columns: 3 300px; column-gap: 34px; }
-.check-groups h4 { margin: 0 0 4px; padding-top: 14px; font: 700 12px/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--navy); break-after: avoid; }
-.check-groups h4 span { font: 400 11px/1 var(--mono); letter-spacing: 0; color: var(--muted); }
+.check-groups h3 { margin: 0 0 4px; padding-top: 14px; font: 700 12px/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--navy); break-after: avoid; }
+.check-groups h3 span { font: 400 11px/1 var(--mono); letter-spacing: 0; color: var(--muted); }
 .fine-run { margin-top: 18px; font-size: 14px; color: var(--ink-2); }
 .fine-run code { font: 400 13.5px var(--mono); background: var(--sheet); padding: 2px 6px; border: 1px solid var(--rule-2); }
 .method { max-width: 75ch; }

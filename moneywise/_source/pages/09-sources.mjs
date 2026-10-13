@@ -81,7 +81,7 @@ export default (k, { TESTS, TESTED_ON }) => {
   <thead><tr><th>Checked against</th><th>What has to match</th><th>Document</th></tr></thead>
   <tbody>${against.map(([n, d, s]) => `<tr><td><b>${n}</b></td><td>${d}</td><td>${s.map(cite).join('<br>')}</td></tr>`).join('')}</tbody>
 </table></div>
-${k.fold(`All ${TESTS.length} checks`, `<div class="check-groups">${groups.filter(g => g.items.length).map(g => `<section><h4>${esc(g.g)} <span>${g.items.length}</span></h4><ul class="tests">${g.items.map(x => `<li${x.ok ? '' : ' class="fail"'}><span>${x.head ? `<b>${esc(x.head)}</b> ` : ''}${esc(x.d)}</span></li>`).join('')}</ul></section>`).join('')}</div>`)}
+${k.fold(`All ${TESTS.length} checks`, `<div class="check-groups">${groups.filter(g => g.items.length).map(g => `<section><h3>${esc(g.g)} <span>${g.items.length}</span></h3><ul class="tests">${g.items.map(x => `<li${x.ok ? '' : ' class="fail"'}><span>${x.head ? `<b>${esc(x.head)}</b> ` : ''}${esc(x.d)}</span></li>`).join('')}</ul></section>`).join('')}</div>`)}
 <p class="fine-run">Run them yourself from a copy of the site: <code>node --test moneywise/tests/calc.test.mjs</code></p>`;
 
   /* ---------------- Part IV: every source */
