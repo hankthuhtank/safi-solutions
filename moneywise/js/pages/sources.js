@@ -1,4 +1,4 @@
-/* Schedule S, Sources & checks: the page is static; boot() adds the live strip, glossary cards and the Parts bar. */
+/* Sources & checks: a static page; boot() adds the glossary cards and the live numbers. */
 import { boot } from '../ui.js';
 
 boot();

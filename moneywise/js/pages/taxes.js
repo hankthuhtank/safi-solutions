@@ -1,6 +1,5 @@
-/* Form MW-6, Taxes: bracket buckets, marginal vs effective, and three calculators. */
+/* Taxes: the paycheck calculator, plus federal tax and refund check on demand. */
 import { boot, registerTool, startTools, bindBoxes, figs, verdict, draw, $ } from '../ui.js';
-import { makeChart } from '../charts.js';
 import { createTape } from '../tape.js';
 import * as c from '../calc.js';
 import { money, moneyShort, pct, num } from '../format.js';
@@ -24,27 +23,6 @@ const bucketSpec = (taxable, brackets, title) => {
 
 let TAX = null;
 const ready = fetch('/moneywise/data/tax-2026.json').then(r => r.json()).then(j => (TAX = j));
-
-/* ------------------------------------------------ Part II charts */
-ready.then(() => {
-  const bh = $('[data-chart="buckets"]');
-  if (bh) {
-    const taxable = +bh.dataset.taxable;
-    makeChart(bh, bucketSpec(taxable, TAX.brackets.single, `${money(taxable)} of taxable income, single, 2026`));
-  }
-  const rh = $('[data-chart="rates"]');
-  if (rh) {
-    const xs = Array.from({ length: 61 }, (_, i) => i * 5000);
-    makeChart(rh, {
-      type: 'line', title: 'Single filer, 2026: rate on the next dollar vs on all dollars', height: 260, desc: 'Marginal and effective federal income tax rates across taxable incomes',
-      x: { values: xs, format: v => moneyShort(v), label: 'Taxable income' }, y: { format: v => v + '%', min: 0 }, tableEvery: 4, tableLabel: 'Taxable income',
-      series: [
-        { key: 'm', label: 'Marginal rate', color: C.red, step: true, values: xs.map(x => c.bracketTax(x, TAX.brackets.single).marginal * 100), format: v => v.toFixed(0) + '%' },
-        { key: 'e', label: 'Effective rate', color: C.blue, values: xs.map(x => (x ? c.bracketTax(x, TAX.brackets.single).tax / x * 100 : 0)), format: v => v.toFixed(1) + '%' },
-      ],
-    });
-  }
-});
 
 /* ------------------------------------------------ your federal tax */
 const ctc = (kids, magi, status, T) => {
@@ -71,7 +49,7 @@ registerTool('tool-tax', panel => {
       { label: 'Taxable income', value: money(it.taxable), note: `${it.itemizing ? 'itemized' : 'standard'} deduction ${money(it.deduction)}` },
       { label: 'Schedule 1-A deductions', value: money(it.schedule1A.total), note: it.schedule1A.total ? 'tips, overtime, car loan, seniors' : 'none entered' },
     ]);
-    verdict($('[data-verdict]', panel), it.taxable < 100000 ? `If you use the IRS Tax Table (taxable income under $100,000), it figures tax at the middle of each $50 band, so your return would show **${money(table)}** before credits, a few dollars from the exact ${money(it.taxBeforeCredits)}.` : 'Above $100,000 of taxable income the IRS worksheet uses the exact bracket math shown here.', 'info');
+    verdict($('[data-verdict]', panel), it.taxable < 100000 ? `Under $100,000 the IRS Tax Table uses the middle of each $50 band, so your return shows **${money(table)}** before credits.` : 'Above $100,000 the IRS uses the exact bracket math shown here.', 'info');
     $('[data-verdict]', panel).hidden = false;
     draw(panel, 'b', bucketSpec(it.taxable, TAX.brackets[v.status], 'Your taxable income, bucket by bucket'));
     const rows = it.rows.filter(r => r.amount > 0);
@@ -110,7 +88,7 @@ registerTool('tool-pay', panel => {
       { label: 'Taxes per paycheck', value: money(taxes / periods), tone: 'bad', note: `${pct(taxes / v.salary, 1)} of gross pay` },
       { label: 'Saved for you', value: money(saved / periods), tone: 'good', note: '401(k) and HSA, still your money' },
     ]);
-    verdict($('[data-verdict]', panel), `Out of every $100 you earn, about **${money((pc.net / v.salary) * 100)}** reaches your bank account, **${money((saved / v.salary) * 100)}** goes to your own savings and **${money((taxes / v.salary) * 100)}** goes to taxes.`, 'info');
+    verdict($('[data-verdict]', panel), `Of every $100 you earn, **${money((pc.net / v.salary) * 100)}** reaches your bank, **${money((saved / v.salary) * 100)}** goes to your savings and **${money((taxes / v.salary) * 100)}** to taxes.`, 'info');
     $('[data-verdict]', panel).hidden = false;
     const kind = { k401: C.green, roth: C.green, hsa: C.green, health: C.teal, federal: C.red, ss: C.red, medicare: C.red, state: C.red, other: C.gold };
     const steps = [{ label: 'Gross pay', value: pc.salary / periods, kind: 'start', color: C.blue },
@@ -144,8 +122,8 @@ registerTool('tool-refund', panel => {
       { label: gap >= 0 ? 'Per paycheck, over-withheld' : 'Per paycheck, short', value: money(Math.abs(gap) / periods) },
     ]);
     verdict($('[data-verdict]', panel), gap > 500
-      ? `That refund is **${money(gap / periods)} a paycheck** you could have had all year. Lower your withholding on Form W-4 if you would rather have it now.`
-      : gap < -1000 ? `You may owe **${money(-gap)}** in April, and possibly an underpayment penalty. Raise your withholding on Form W-4 (step 4(c) adds a fixed extra amount).` : 'Close to even: your withholding is about right.', gap > 500 || gap < -1000 ? 'warn' : '');
+      ? `That's **${money(gap / periods)} a paycheck** you could have had all year. Lower your withholding on your W-4.`
+      : gap < -1000 ? `You may owe **${money(-gap)}** in April, maybe with a penalty. Raise your withholding on your W-4.` : 'Close to even: your withholding is about right.', gap > 500 || gap < -1000 ? 'warn' : '');
     $('[data-verdict]', panel).hidden = false;
     draw(panel, 'r', {
       type: 'hbars', title: 'Paid in versus owed', rowHeight: 40, desc: 'Federal income tax withheld for the year compared with the estimated tax',

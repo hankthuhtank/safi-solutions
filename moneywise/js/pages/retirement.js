@@ -1,6 +1,5 @@
-/* Form MW-7, Savings & retirement: start early vs late, fee drag, and three calculators. */
+/* Savings & retirement: the 401(k) projection, plus fee drag and inflation on demand. */
 import { boot, registerTool, startTools, bindBoxes, figs, verdict, draw, $ } from '../ui.js';
-import { makeChart } from '../charts.js';
 import { createTape } from '../tape.js';
 import * as c from '../calc.js';
 import { money, moneyShort, pct } from '../format.js';
@@ -12,32 +11,6 @@ const SWR = 0.039; // Morningstar's 2025 safe starting withdrawal rate
 
 let LIM = null;
 const ready = fetch('/moneywise/data/limits-2026.json').then(r => r.json()).then(j => (LIM = j.retirement));
-
-/* ------------------------------------------------ Part II charts */
-const early = $('[data-chart="early"]');
-if (early) {
-  const a = c.growth({ monthly: 300, annualRate: 0.07, years: 40 }), b = c.growth({ monthly: 300, annualRate: 0.07, years: 30 });
-  const ages = a.map(r => 25 + r.year);
-  makeChart(early, {
-    type: 'line', title: '$300 a month at 7%, until 65', height: 280, desc: 'Balance by age for a saver who starts at 25 and one who starts at 35', endLabels: true,
-    x: { values: ages, format: v => String(v), label: 'Age' }, y: { format: moneyShort }, tableEvery: 5, tableLabel: 'Age',
-    annotations: [{ x: 35, label: 'Second saver starts' }],
-    series: [
-      { key: 'a', label: 'Starts at 25', color: C.green, values: a.map(r => r.balance), format: v => money(v) },
-      { key: 'b', label: 'Starts at 35', color: C.blue, values: ages.map(age => (age < 35 ? null : b[age - 35].balance)), format: v => money(v) },
-    ],
-  });
-}
-const fees = $('[data-chart="fees"]');
-if (fees) {
-  const yrs = Array.from({ length: 21 }, (_, i) => i);
-  const line = (fee, color, key) => ({ key, label: `${pct(fee, 2, true)} a year in fees`, color, values: yrs.map(y => c.afterFees(100000, 0.04, fee, y)), format: v => money(v) });
-  makeChart(fees, {
-    type: 'line', title: 'The SEC\'s example: $100,000 earning 4% a year', height: 260, desc: 'Balance over 20 years at three yearly fee levels', endLabels: true,
-    x: { values: yrs, format: v => `Yr ${v}`, label: 'Year' }, y: { format: moneyShort, min: 100000 }, tableEvery: 5, tableLabel: 'Year',
-    series: [line(0.0025, C.green, 'a'), line(0.005, C.blue, 'b'), line(0.01, C.red, 'c')],
-  });
-}
 
 /* ------------------------------------------------ your 401(k) */
 registerTool('tool-proj', panel => {
@@ -58,19 +31,19 @@ registerTool('tool-proj', panel => {
     const cappedYears = p.rows.filter(r => r.capped).length;
     figs($('[data-figs]', panel), [
       { label: `Balance at ${v.retire}`, value: money(f.balance), hero: true, note: `${money(f.real)} in today's dollars` },
-      { label: 'You put in', value: money(f.contributed), note: v.balance ? `plus the ${money(v.balance)} saved today` : `over ${years} years` },
-      { label: 'Employer added', value: money(f.matched), tone: f.matched ? 'good' : '', note: tiers.length ? 'free money from the match' : 'no match entered' },
-      { label: 'Growth', value: money(f.growth), tone: f.growth >= 0 ? 'good' : 'bad', note: `${pct(p.netReturn, 2, true)} a year after fees` },
       { label: 'Monthly income at 3.9%', value: money(income), note: 'today\'s dollars, before Social Security' },
+      { label: 'Employer added', value: money(f.matched), tone: f.matched ? 'good' : '', note: tiers.length ? 'free money from the match' : 'no match entered' },
+      { label: 'You put in', value: money(f.contributed), note: v.balance ? `plus the ${money(v.balance)} saved today` : `over ${years} years` },
+      { label: 'Growth', value: money(f.growth), tone: f.growth >= 0 ? 'good' : 'bad', note: `${pct(p.netReturn, 2, true)} a year after fees` },
     ]);
     if (v.contrib < m1.maxPct && m1.missed > 0.5) {
       const full = c.retirementProjection({ ...base, contribPct: Math.max(v.contrib, m1.maxPct) }).final;
-      verdict($('[data-verdict]', panel), `You are leaving **${money(m1.missed)} a year** of employer match unclaimed. Contributing ${pct(m1.maxPct, 1)} instead of ${pct(v.contrib, 1)} would mean about **${money(full.balance - f.balance)} more** at ${v.retire}.`, 'warn');
+      verdict($('[data-verdict]', panel), `You're leaving **${money(m1.missed)} a year** of free match unclaimed. Putting in ${pct(m1.maxPct, 1)} means about **${money(full.balance - f.balance)} more** at ${v.retire}.`, 'warn');
     } else if (cappedYears) {
-      verdict($('[data-verdict]', panel), `Your contribution reaches the IRS limit in **${cappedYears} of ${years} years**, so the tape caps it there. An IRA (${money(LIM.ira)} in 2026) or an HSA can take more.`, 'info');
+      verdict($('[data-verdict]', panel), `You hit the IRS limit in **${cappedYears} of ${years} years**. An IRA (${money(LIM.ira)} in 2026) or an HSA can take more.`, 'info');
     } else {
       const more = c.retirementProjection({ ...base, contribPct: v.contrib + 0.01 }).final;
-      verdict($('[data-verdict]', panel), `Each extra 1% of pay you contribute adds about **${money(more.balance - f.balance)}** by ${v.retire}, or **${money(more.real - f.real)}** in today's dollars.`, 'info');
+      verdict($('[data-verdict]', panel), `Each extra 1% of pay adds about **${money(more.balance - f.balance)}** by ${v.retire} (${money(more.real - f.real)} in today's dollars).`, 'info');
     }
     $('[data-verdict]', panel).hidden = false;
     const rows = p.rows.slice(1);
@@ -116,7 +89,7 @@ registerTool('tool-fees', panel => {
       { label: `At ${pct(v.feeA, 2, true)}`, value: money(a), tone: 'good', note: `fees and their lost growth: ${money(none - a)}` },
       { label: `At ${pct(v.feeB, 2, true)}`, value: money(b), note: `fees and their lost growth: ${money(none - b)}` },
     ]);
-    verdict($('[data-verdict]', panel), `A gap of **${pct(Math.abs(v.feeB - v.feeA), 2, true)} a year** sounds tiny, but fees come out every year and the money they take stops growing. Over ${years} years it adds up to **${money(Math.abs(gap))}**.`, gap > 0 ? 'warn' : 'info');
+    verdict($('[data-verdict]', panel), `**${pct(Math.abs(v.feeB - v.feeA), 2, true)} a year** sounds tiny. Over ${years} years it costs **${money(Math.abs(gap))}**, because fees stop that money growing.`, gap > 0 ? 'warn' : 'info');
     $('[data-verdict]', panel).hidden = false;
     const yrs = Array.from({ length: years + 1 }, (_, i) => i);
     draw(panel, 'f', {
@@ -161,8 +134,8 @@ registerTool('tool-infl', panel => {
       { label: 'Real yield', value: pct(realYield, 2, true), tone: realYield >= 0 ? 'good' : 'bad', note: 'what your savings earn after inflation' },
     ]);
     verdict($('[data-verdict]', panel), realYield < 0
-      ? `Your savings rate is below inflation, so the money **loses about ${pct(-realYield, 2, true)} of its buying power each year** even as the balance grows.`
-      : `Your savings outpace inflation by about **${pct(realYield, 2, true)} a year**: the balance grows faster than prices.`, realYield < 0 ? 'warn' : 'info');
+      ? `Your savings rate is below inflation: the money **loses ${pct(-realYield, 2, true)} of buying power a year**.`
+      : `Your savings beat inflation by **${pct(realYield, 2, true)} a year**.`, realYield < 0 ? 'warn' : 'info');
     $('[data-verdict]', panel).hidden = false;
     const yrs = Array.from({ length: years + 1 }, (_, i) => i);
     draw(panel, 'i', {

@@ -1,6 +1,5 @@
-/* Form MW-3, Interest rates: the rate ladder, ten years of FRED history, and three calculators. */
+/* Interest rates: the rate-shock calculator and two more on demand. */
 import { boot, registerTool, startTools, bindBoxes, figs, verdict, getRates, draw, $ } from '../ui.js';
-import { makeChart } from '../charts.js';
 import { createTape } from '../tape.js';
 import * as c from '../calc.js';
 import { money, moneyShort, pct, num, duration } from '../format.js';
@@ -8,56 +7,6 @@ import { money, moneyShort, pct, num, duration } from '../format.js';
 boot();
 
 const C = { green: 'var(--series-1)', red: 'var(--series-2)', blue: 'var(--series-3)', gold: 'var(--series-4)', teal: 'var(--series-5)' };
-const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const ym = s => { const [y, m] = s.split('-').map(Number); return `${MON[m - 1]} ${y}`; };
-
-/* ------------------------------------------------ live charts from the FRED document */
-getRates().then(doc => {
-  const S = doc.series, L = id => (S[id] ? (id === 'CPIAUCSL' ? S[id].yoy.latest.value : S[id].latest.value) : null);
-  const ladderHost = $('[data-chart="ladder"]');
-  if (ladderHost) {
-    const rows = [
-      ['Average savings account', L('SNDR'), 'earn'],
-      ['3-month Treasury bill', L('DTB3'), 'earn'],
-      ['Fed target (top)', S.FEDTARGET ? S.FEDTARGET.latest.upper : null, 'bench'],
-      ['10-year Treasury', L('DGS10'), 'bench'],
-      ['Prime rate', L('DPRIME'), 'bench'],
-      ['30-year mortgage', L('MORTGAGE30US'), 'borrow'],
-      ['New-car loan, 48 mo (banks)', L('TERMCBAUTO48NS'), 'borrow'],
-      ['Personal loan, 24 mo (banks)', L('TERMCBPER24NS'), 'borrow'],
-      ['Credit card (all accounts)', L('TERMCBCCALLNS'), 'borrow'],
-    ].filter(r => r[1] != null);
-    const f = v => (v ? v.toFixed(2) + '%' : '');
-    makeChart(ladderHost, {
-      type: 'hbars', stacked: true, title: 'What money earns and costs today', rowHeight: 30,
-      desc: 'Current average rates from savings accounts to credit cards',
-      x: { values: rows.map(r => r[0]) }, y: { format: v => v + '%' }, labelFormat: v => v.toFixed(2) + '%',
-      series: [
-        { key: 'e', label: 'You earn', color: C.green, values: rows.map(r => (r[2] === 'earn' ? r[1] : 0)), format: f },
-        { key: 'b', label: 'Benchmark', color: C.blue, values: rows.map(r => (r[2] === 'bench' ? r[1] : 0)), format: f },
-        { key: 'p', label: 'You pay', color: C.red, values: rows.map(r => (r[2] === 'borrow' ? r[1] : 0)), format: f },
-      ],
-    });
-  }
-  const histHost = $('[data-chart="history"]');
-  if (histHost) {
-    const months = S.MORTGAGE30US.history.map(p => p[0]);
-    const pick = id => { const m = new Map(S[id].history); return months.map(k => (m.has(k) ? m.get(k) : null)); };
-    const idx = k => months.indexOf(k);
-    makeChart(histHost, {
-      type: 'line', title: 'Ten years of three rates (monthly averages)', height: 300,
-      desc: 'Effective federal funds rate, 10-year Treasury yield and 30-year mortgage rate by month',
-      x: { values: months.map((_, i) => i), format: i => ym(months[i]), ticks: months.map((k, i) => (k.endsWith('-01') && +k.slice(0, 4) % 2 === 0 ? i : null)).filter(i => i != null) },
-      y: { format: v => v + '%', min: 0 }, tableEvery: 3, tableLabel: 'Month',
-      series: [
-        { key: 'f', label: 'Fed funds (effective)', color: C.gold, values: pick('FEDFUNDS'), format: v => v.toFixed(2) + '%' },
-        { key: 't', label: '10-year Treasury', color: C.blue, values: pick('DGS10'), format: v => v.toFixed(2) + '%' },
-        { key: 'm', label: '30-year mortgage', color: C.red, values: pick('MORTGAGE30US'), format: v => v.toFixed(2) + '%' },
-      ],
-      annotations: [{ x: idx('2022-03'), label: 'Hikes begin' }, { x: idx('2024-09'), label: 'Cuts begin' }, { x: idx('2026-09'), label: 'Hike' }].filter(a => a.x >= 0),
-    });
-  }
-}).catch(() => {});
 
 /* ------------------------------------------------ APR to APY */
 registerTool('tool-apy', panel => {
@@ -70,7 +19,7 @@ registerTool('tool-apy', panel => {
       { label: 'Interest in one year', value: money(v.amount * apy, { cents: true }), note: `on ${money(v.amount)}` },
       { label: 'Extra from compounding', value: money(v.amount * (apy - v.apr), { cents: true }), note: 'versus simple interest' },
     ]);
-    verdict($('[data-verdict]', panel), `On a savings account, compare **APY to APY**. On a loan, remember the lender's APR understates what daily compounding costs: ${pct(v.apr, 2, true)} added daily is really ${pct(c.aprToApy(v.apr, 365), 2, true)} a year.`, 'info');
+    verdict($('[data-verdict]', panel), `Compare **APY with APY**. On a loan, ${pct(v.apr, 2, true)} added daily really costs ${pct(c.aprToApy(v.apr, 365), 2, true)} a year.`, 'info');
     $('[data-verdict]', panel).hidden = false;
     const freqs = [[1, 'Yearly'], [4, 'Quarterly'], [12, 'Monthly'], [365, 'Daily'], [Infinity, 'Continuous']];
     draw(panel, 'apy', {
@@ -135,8 +84,8 @@ registerTool('tool-grow', panel => {
 });
 
 /* ------------------------------------------------ rate shock */
-// today's 30-year rate, as printed in the rate strip (the live feed updates it through 'mw:rates')
-let base30 = (parseFloat(($('#rate-strip li[data-id="MORTGAGE30US"] .rs-value') || {}).textContent) || 7) / 100;
+// today's 30-year rate, from the same document as every other number (the live feed updates it through 'mw:rates')
+let base30 = 0.07;
 registerTool('tool-shock', panel => {
   const tape = createTape($('[data-tape]', panel));
   const update = v => {
@@ -147,12 +96,12 @@ registerTool('tool-shock', panel => {
     const net = cardCost + helocCost + mortCost - savGain;
     figs($('[data-figs]', panel), [
       { label: 'Net change per year', value: (net >= 0 ? '+' : '−') + money(Math.abs(net)), hero: true, tone: net > 0 ? 'bad' : 'good', note: net >= 0 ? 'more out of your pocket' : 'less out of your pocket' },
-      { label: 'Card interest', value: (cardCost >= 0 ? '+' : '−') + money(Math.abs(cardCost)), note: `now ${pct(v.cardApr + d, 2, true)}` },
-      { label: 'HELOC interest', value: (helocCost >= 0 ? '+' : '−') + money(Math.abs(helocCost)), note: `now ${pct(v.helocRate + d, 2, true)}` },
+      { label: 'Card interest', value: (cardCost >= 0 ? '+' : '−') + money(Math.abs(cardCost)), tone: cardCost > 0 ? 'bad' : cardCost < 0 ? 'good' : '', note: `now ${pct(v.cardApr + d, 2, true)}` },
       { label: 'Savings interest', value: (savGain >= 0 ? '+' : '−') + money(Math.abs(savGain)), tone: savGain > 0 ? 'good' : savGain < 0 ? 'bad' : '', note: `now ${pct(Math.max(0, v.savRate + d), 2, true)}` },
-      { label: 'New mortgage payments', value: (mortCost >= 0 ? '+' : '−') + money(Math.abs(mortCost)), note: `rate ${pct(base + dm, 2, true)}` },
+      { label: 'Home equity line', value: (helocCost >= 0 ? '+' : '−') + money(Math.abs(helocCost)), note: `now ${pct(v.helocRate + d, 2, true)}` },
+      { label: 'New mortgage, a year', value: (mortCost >= 0 ? '+' : '−') + money(Math.abs(mortCost)), note: `rate ${pct(base + dm, 2, true)}` },
     ]);
-    verdict($('[data-verdict]', panel), 'Variable debt reprices within a statement or two; savings rates follow more slowly and often not all the way. A **new** mortgage only moves if the bond market does, which is why its move is set separately.', 'info');
+    verdict($('[data-verdict]', panel), 'Card and home equity rates follow the Fed within weeks. Savings follow slower. **New mortgages** follow the bond market instead.', 'info');
     $('[data-verdict]', panel).hidden = false;
     const items = [['Credit card', cardCost], ['Home equity line', helocCost], ['New mortgage, a year', mortCost], ['Savings (earned)', -savGain]];
     draw(panel, 'shock', {
@@ -170,7 +119,9 @@ registerTool('tool-shock', panel => {
     ]);
   };
   const b = bindBoxes(panel, update);
-  document.addEventListener('mw:rates', e => { const s30 = e.detail.series.MORTGAGE30US; if (s30) { base30 = s30.latest.value / 100; b.fire(); } });
+  const take = doc => { const s30 = doc && doc.series && doc.series.MORTGAGE30US; if (s30) { base30 = s30.latest.value / 100; b.fire(); } };
+  getRates().then(take).catch(() => {});
+  document.addEventListener('mw:rates', e => take(e.detail));
   update(b.values());
 });
 

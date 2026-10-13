@@ -1,6 +1,6 @@
-// Schedule G: every term on Moneywise, filed like index cards, A to Z.
-export default (k, { TESTED_ON }) => {
-  const { GLOSSARY, MODULES, esc, asOf } = k;
+// Glossary: every term on Moneywise, filed like index cards, A to Z.
+export default (k) => {
+  const { GLOSSARY, MODULES, esc } = k;
   const sortKey = s => s.toLowerCase().replace(/[^a-z0-9 ]/g, '');
   const letterOf = term => (/^[a-z]/i.test(term) ? term[0].toUpperCase() : '#');
   const keys = Object.keys(GLOSSARY).sort((a, b) => sortKey(GLOSSARY[a].term).localeCompare(sortKey(GLOSSARY[b].term), 'en'));
@@ -22,7 +22,7 @@ export default (k, { TESTED_ON }) => {
   <p>${esc(g.short)}</p>
   ${g.seen ? `<p class="seen"><b>Seen on</b>${esc(g.seen)}</p>` : ''}
   ${g.ex ? `<p class="ex"><b>Example</b>${esc(g.ex)}</p>` : ''}
-  <a class="more" href="/moneywise/${g.module}/">Form MW-${MODULES.find(m => m.slug === g.module)?.no}, ${esc(modName(g.module))} →</a>
+  <a class="more" href="/moneywise/${g.module}/">${esc(modName(g.module))} →</a>
 </article>`;
   };
 
@@ -31,12 +31,7 @@ export default (k, { TESTED_ON }) => {
 
   const body = `
 <div class="wrap">
-  <header class="form-head">
-    <div class="form-id"><span>Schedule</span><b>G</b><small>${keys.length} terms<br>Rev. ${asOf(TESTED_ON, 'monthly')}</small></div>
-    <div class="form-title"><p class="dept">Moneywise · Department of Plain English</p><h1>Glossary</h1><p class="lede">Every word Moneywise uses, on one card each: what it means in plain English, where it shows up on real paperwork, and a worked number when one helps. The dotted words on every form open these same cards.</p></div>
-    <aside class="form-today" aria-labelledby="gl-count-h"><h2 id="gl-count-h">Cards on file</h2><dl>${counts.map(({ m, n }) => `<div><dt><a href="/moneywise/${m.slug}/">${m.name}</a></dt><dd>${n}</dd></div>`).join('')}</dl></aside>
-  </header>
-
+  ${k.head({ title: 'Glossary', sub: 'Every money word on this site, in plain English. Tap a dotted word on any page to see its card.' })}
   <section class="gl" aria-label="All terms">
     <div class="gl-tools">
       <label class="gl-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><span class="vh">Search the glossary</span><input id="gl-q" type="search" placeholder="Search, e.g. escrow or APR" autocomplete="off" spellcheck="false"></label>

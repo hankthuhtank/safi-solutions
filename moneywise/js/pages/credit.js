@@ -1,6 +1,5 @@
-/* Form MW-4, Credit: the avalanche-vs-snowball race, utilization, and the minimum payment warning box. */
+/* Credit & debt: the payoff race, plus utilization and the minimum payment box on demand. */
 import { boot, registerTool, startTools, bindBoxes, figs, verdict, draw, $ } from '../ui.js';
-import { makeChart } from '../charts.js';
 import { createTape } from '../tape.js';
 import * as c from '../calc.js';
 import { money, moneyShort, pct, num, duration } from '../format.js';
@@ -16,7 +15,7 @@ registerTool('tool-race', panel => {
   // the race runs full width under the calculator
   const race = document.createElement('div');
   race.className = 'race';
-  race.innerHTML = `<div class="race-head"><div><p class="micro">The race</p><p class="race-note">Each bar grows until that debt is paid off. Same budget, same debts, two orders.</p></div><div class="race-ctl"><span class="race-clock" data-clock aria-live="off"></span><button class="btn small" type="button" data-run>Run the race <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div><div class="lanes"></div><div class="race-axis" aria-hidden="true"></div>`;
+  race.innerHTML = `<div class="race-head"><div><p class="micro">The race</p><p class="race-note">Each bar fills until that debt is paid off.</p></div><div class="race-ctl"><span class="race-clock" data-clock aria-live="off"></span><button class="btn small" type="button" data-run>Run the race <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div><div class="lanes"></div><div class="race-axis" aria-hidden="true"></div>`;
   panel.querySelector('.tool-grid').after(race);
   let plans = null, debts = [], maxM = 1, timer = 0;
 
@@ -59,7 +58,7 @@ registerTool('tool-race', panel => {
     const sb = c.payoffPlan({ debts, budget: v.budget, strategy: 'snowball' });
     if (!av.feasible || !sb.feasible) {
       figs($('[data-figs]', panel), [{ label: 'Budget too small', value: money(minTotal), note: 'the minimums alone add up to this', hero: true, tone: 'bad' }]);
-      verdict($('[data-verdict]', panel), 'Raise the monthly budget to at least the sum of the minimums, or the balances never reach zero.', 'warn');
+      verdict($('[data-verdict]', panel), 'Raise the budget to at least the total of the minimums, or the debts never clear.', 'warn');
       $('[data-verdict]', panel).hidden = false;
       race.hidden = true;
       return;
@@ -75,8 +74,8 @@ registerTool('tool-race', panel => {
       { label: 'Snowball: first debt gone', value: `month ${sb.firstWinMonth}`, note: `${money(sb.totalInterest)} of interest in all` },
     ]);
     verdict($('[data-verdict]', panel), extra < 1
-      ? 'Here both orders cost the same: your smallest debt is also your most expensive one. Start there.'
-      : `The avalanche is cheaper by **${money(extra)}**. The snowball clears its first debt ${sb.firstWinMonth < av.firstWinMonth ? `**${av.firstWinMonth - sb.firstWinMonth} months sooner**` : 'just as fast'}. If early wins keep you going, that can be worth the difference.`, 'info');
+      ? 'Both orders cost the same here: your smallest debt is also your priciest. Start there.'
+      : `The avalanche saves **${money(extra)}**. The snowball clears a debt ${sb.firstWinMonth < av.firstWinMonth ? `**${av.firstWinMonth - sb.firstWinMonth} months sooner**` : 'just as fast'}, a quick win that keeps many people going.`, 'info');
     $('[data-verdict]', panel).hidden = false;
     tape.print([
       ...debts.map(d => ({ label: `${d.name} ${pct(d.apr, 2, true)}`, v: d.balance, op: 'add' })),
@@ -107,7 +106,7 @@ registerTool('tool-util', panel => {
       { label: 'Highest single card', value: pct(u.highest, 1, true), tone: u.highest >= 0.5 ? 'bad' : '' },
       { label: 'To report under 10%', value: toTen > 0 ? `pay ${money(toTen)}` : 'already there', note: 'before the statement closing date' },
     ]);
-    verdict($('[data-verdict]', panel), u.highest >= 0.5 && u.overall < 0.3 ? 'Your overall ratio is fine, but **one card is more than half used**. Scoring models notice individual cards too.' : 'There is no magic number, but people with the highest scores tend to report under 10%. Utilization has no memory: next month\'s statement can fix it.', u.highest >= 0.5 ? 'warn' : 'info');
+    verdict($('[data-verdict]', panel), u.highest >= 0.5 && u.overall < 0.3 ? 'Overall you\'re fine, but **one card is over half used**. Scores look at each card too.' : 'Top scorers tend to report under 10%. It has no memory: next month\'s statement can fix it.', u.highest >= 0.5 ? 'warn' : 'info');
     $('[data-verdict]', panel).hidden = false;
     draw(panel, 'util', {
       type: 'hbars', title: 'Each card, as the bureaus see it', rowHeight: 34, desc: 'Statement balance as a share of each card\'s limit',
@@ -131,8 +130,6 @@ registerTool('tool-util', panel => {
 /* ------------------------------------------------ minimum payment warning */
 registerTool('tool-min', panel => {
   const tape = createTape($('[data-tape]', panel));
-  const box = document.createElement('div');
-  $('[data-charts]', panel).appendChild(box);
   const update = v => {
     const m = c.minimumPayoff({ balance: v.balance, apr: v.apr, percent: v.pct, plusInterest: v.plusInt, floor: v.floor });
     const p36 = c.payment(v.balance, v.apr, 36), t36 = p36 * 36;
@@ -143,11 +140,6 @@ registerTool('tool-min', panel => {
       { label: 'Pay it off in 3 years', value: `${money(p36)}/mo`, tone: 'good', note: `${money(t36 - v.balance)} of interest` },
     ]);
     $('[data-verdict]', panel).hidden = true;
-    const yrs = never ? 'never' : m.months < 24 ? `${m.months} months` : `${Math.round(m.months / 12)} years`;
-    box.innerHTML = `<div class="warnbox" role="group" aria-label="Minimum payment warning"><h5>Minimum Payment Warning: If you make only the minimum payment each period, you will pay more in interest and it will take you longer to pay off your balance.</h5>
-      <table><thead><tr><th>If you make no additional charges using this card and each month you pay…</th><th>You will pay off the balance shown on this statement in about…</th><th>And you will end up paying an estimated total of…</th></tr></thead>
-      <tbody><tr><td>Only the minimum payment</td><td>${yrs}</td><td class="n">${never ? '–' : money(v.balance + m.totalInterest)}</td></tr>
-      <tr><td class="n">${money(p36)}</td><td>3 years</td><td class="n">${money(t36)}${never ? '' : ` (Savings = ${money(v.balance + m.totalInterest - t36)})`}</td></tr></tbody></table></div>`;
     const n = Math.min(never ? 360 : m.months, 600), xs = Array.from({ length: n + 1 }, (_, i) => i);
     draw(panel, 'bal', {
       type: 'line', title: 'Balance left', height: 210, desc: 'Card balance paying only the minimum versus a fixed three-year payment',

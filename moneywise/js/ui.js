@@ -1,4 +1,5 @@
-/* Moneywise page shell: glossary index cards, the Parts rail, tool tabs and the W-2 style input boxes. */
+/* Moneywise page shell: glossary index cards, flashcards, calculators (opened on demand, tape folded until asked for)
+   and the input boxes. */
 import { startLive, getRates } from './live.js';
 import { latest } from './ratesview.js';
 import { makeChart } from './charts.js';
@@ -74,59 +75,42 @@ function glossary() {
   addEventListener('resize', () => current && place(current));
 }
 
-/* ------------------------------------------------ Parts rail follows the reader */
-function partsRail() {
-  const links = $$('.parts-rail a[href^="#"]');
-  if (!links.length) return;
-  const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
-  const seen = new Map();
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) seen.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0);
-    let best = null, ratio = 0;
-    for (const [id, r] of seen) if (r > ratio) { ratio = r; best = id; }
-    if (!best) return;
-    links.forEach(a => a.removeAttribute('aria-current'));
-    const a = byId.get(best);
-    if (a) { a.setAttribute('aria-current', 'true'); if (a.scrollIntoView && getComputedStyle(a.closest('ol')).display === 'flex') a.parentElement.parentElement.scrollTo({ left: a.offsetLeft - 20, behavior: 'smooth' }); }
-  }, { rootMargin: '-120px 0px -55% 0px', threshold: [0, .1, .3, .6] });
-  byId.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
-}
-
-/* ------------------------------------------------ tool tabs: panels initialise the first time they are shown */
+/* ------------------------------------------------ calculators: the main one starts at once; the others open from chips */
 const tools = new Map();
 export function registerTool(id, init) { tools.set(id, { init, done: false }); }
-function openTool(tab) {
-  const list = tab.closest('[role="tablist"]');
-  $$('[role="tab"]', list).forEach(t => {
-    const on = t === tab;
-    t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
-    const panel = document.getElementById(t.getAttribute('aria-controls'));
+const initTool = panel => { const t = tools.get(panel.id); if (t && !t.done) { t.done = true; t.init(panel); } };
+function openChip(chip, { scroll = false } = {}) {
+  const group = chip.closest('.t-sec') || document;
+  const open = chip.getAttribute('aria-expanded') !== 'true';
+  $$('.chip', group).forEach(c => {
+    const on = open && c === chip;
+    c.setAttribute('aria-expanded', on);
+    const panel = document.getElementById(c.getAttribute('aria-controls'));
     if (panel) panel.hidden = !on;
   });
-  const id = tab.getAttribute('aria-controls'), t = tools.get(id);
-  if (t && !t.done) { t.done = true; t.init(document.getElementById(id)); }
+  const panel = document.getElementById(chip.getAttribute('aria-controls'));
+  if (open && panel) { initTool(panel); if (scroll) panel.scrollIntoView({ block: 'start', behavior: 'smooth' }); }
 }
 export function startTools() {
-  $$('[role="tablist"]').forEach(list => {
-    const tabs = $$('[role="tab"]', list);
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => { openTool(tab); history.replaceState(null, '', '#' + tab.getAttribute('aria-controls')); });
-      tab.addEventListener('keydown', e => {
-        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-        if (!k) return;
-        e.preventDefault();
-        const next = tabs[(i + k + tabs.length) % tabs.length]; next.focus(); openTool(next);
-      });
-    });
-    const wanted = tabs.find(t => location.hash === '#' + t.getAttribute('aria-controls'));
-    openTool(wanted || tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]);
-    if (wanted) setTimeout(() => list.scrollIntoView({ block: 'start' }), 50);
-  });
-  // a single tool without tabs
-  $$('.tool[data-solo]').forEach(p => { const t = tools.get(p.id); if (t && !t.done) { t.done = true; t.init(p); } });
+  $$('.tool[data-solo]').forEach(initTool);
+  $$('.chip[aria-controls]').forEach(chip => chip.addEventListener('click', () => {
+    openChip(chip);
+    history.replaceState(null, '', chip.getAttribute('aria-expanded') === 'true' ? '#' + chip.getAttribute('aria-controls') : location.pathname);
+  }));
+  const wanted = location.hash && $(`.chip[aria-controls="${CSS.escape(location.hash.slice(1))}"]`);
+  if (wanted) openChip(wanted, { scroll: true });
+  // "Show the math": the calculator tape stays folded until someone asks for it, then prints line by line
+  $$('.math-btn').forEach(btn => btn.addEventListener('click', () => {
+    const slot = document.getElementById(btn.getAttribute('aria-controls')), tool = btn.closest('.tool');
+    const on = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', on);
+    $('span', btn).textContent = on ? 'Hide the math' : 'Show the math';
+    slot.hidden = !on; tool.classList.toggle('math-on', on);
+    if (on && !matchMedia('(prefers-reduced-motion: reduce)').matches) $$('.t-line', slot).forEach((li, k) => { li.style.animation = 'none'; void li.offsetWidth; li.style.animation = `print .3s ${k * 28}ms ease-out both`; });
+  }));
 }
 
-/* ------------------------------------------------ W-2 style boxes */
+/* ------------------------------------------------ input boxes */
 const parse = (raw, type) => {
   const v = Number(String(raw).replace(/[$,%\s]/g, ''));
   if (!Number.isFinite(v)) return null;
@@ -217,18 +201,30 @@ export function draw(panel, key, spec, { wide = false } = {}) {
 
 /* ------------------------------------------------ small helpers for page scripts */
 export function figs(el, items) {
-  // the lead figure goes first across the full width; an odd one out at the end also takes the full width
+  // the lead number across the full width, then two more; anything beyond that waits under "More numbers"
   const sorted = [...items.filter(i => i.hero), ...items.filter(i => !i.hero)];
-  const odd = sorted.filter(i => !i.hero).length % 2 === 1;
-  el.replaceChildren(...sorted.map((it, n) => {
+  const hasHero = sorted[0] && sorted[0].hero;
+  const shown = sorted.slice(0, hasHero ? 3 : 2), extra = sorted.slice(shown.length);
+  const fig = (it, n, list) => {
     const d = document.createElement('div');
-    d.className = 'fig' + (it.tone ? ' ' + it.tone : '') + (it.hero ? ' big' : '') + ((it.wide || (odd && n === sorted.length - 1 && !it.hero)) ? ' span' : '');
+    const odd = list.filter(i => !i.hero).length % 2 === 1 && n === list.length - 1 && !it.hero;
+    d.className = 'fig' + (it.tone ? ' ' + it.tone : '') + (it.hero ? ' big' : '') + ((it.wide || odd) ? ' span' : '');
     const m = document.createElement('span'); m.className = 'micro'; m.textContent = it.label;
     const b = document.createElement('b'); b.textContent = it.value;
     d.append(m, b);
     if (it.note) { const s = document.createElement('small'); s.textContent = it.note; d.appendChild(s); }
     return d;
-  }));
+  };
+  const nodes = shown.map((it, n) => fig(it, n, shown));
+  if (extra.length) {
+    const was = el.querySelector('.fig-more');
+    const det = document.createElement('details'); det.className = 'fig-more'; det.open = !!(was && was.open);
+    const sum = document.createElement('summary'); sum.textContent = `${extra.length} more number${extra.length > 1 ? 's' : ''}`;
+    const box = document.createElement('div'); box.className = 'figs-extra';
+    box.append(...extra.map((it, n) => fig({ ...it, hero: false }, n, extra)));
+    det.append(sum, box); nodes.push(det);
+  }
+  el.replaceChildren(...nodes);
 }
 // verdict lines accept a tiny bit of markup: **bold** only
 export function verdict(el, text, tone = '') {
@@ -241,18 +237,18 @@ export function verdict(el, text, tone = '') {
 
 export { getRates };
 
-/* ------------------------------------------------ the Parts bar sticks just under the header, whatever its height */
-function stickyTop() {
-  const top = $('.mw-top');
-  if (!top) return;
-  const set = () => document.documentElement.style.setProperty('--sticky-top', (getComputedStyle(top).position === 'sticky' ? top.offsetHeight : 0) + 'px');
-  set();
-  new ResizeObserver(set).observe(top);
+/* ------------------------------------------------ flashcards: tap to turn over */
+function flashcards() {
+  $$('.fc').forEach(card => card.addEventListener('click', () => {
+    const on = card.getAttribute('aria-pressed') !== 'true';
+    card.setAttribute('aria-pressed', on);
+    $('.fc-front', card).setAttribute('aria-hidden', on);
+    $('.fc-back', card).setAttribute('aria-hidden', !on);
+  }));
 }
 
 export function boot() {
-  stickyTop();
   glossary();
-  partsRail();
+  flashcards();
   startLive();
 }

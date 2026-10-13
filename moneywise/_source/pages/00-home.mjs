@@ -1,73 +1,70 @@
-// Moneywise home: hero, today's numbers, the index of forms, the fine print, and how the math is checked.
+// Moneywise home: one line of promise, the seven decisions (each with today's number), and four things people miss.
 import * as calc from '../../js/calc.js';
-import { money, pct, duration } from '../../js/format.js';
+import { money, pct } from '../../js/format.js';
 
-export default (k, { TESTS, boardHTML }) => {
-  const { t, rates, MODULES, ARROW, val, asOf } = k;
-  const r30 = val('MORTGAGE30US') / 100, card = (val('TERMCBCCALLNS') ?? 21) / 100, sav = val('SNDR') / 100, bill = val('DTB3') / 100;
-  const price = val('MSPUS'), loan = Math.round(price * 0.9);
-  const pmi = calc.pmiMilestones({ principal: loan, annualRate: r30, months: 360, originalValue: price });
-  const pay = calc.payment(loan, r30, 360), payLess = calc.payment(loan, r30 - 0.01, 360);
-  const minp = calc.minimumPayoff({ balance: 5000, apr: card, percent: 0.01, plusInterest: true, floor: 35 });
+export default (k, { TESTS }) => {
+  const { rates, MODULES, ARROW, val, rate, asof, LIMITS, TAX, GLOSSARY } = k;
+  const S = rates.series, fed = S.FEDTARGET.latest;
+  // the numbers behind the four cards, from this week's data
+  const price = val('MSPUS'), r30 = val('MORTGAGE30US') / 100, loan = price * 0.9;
+  const pmiFull = calc.amortize({ principal: loan, annualRate: r30, months: 360, pmi: { annualRate: 0.005, originalValue: price } });
+  const pmiAsk = calc.amortize({ principal: loan, annualRate: r30, months: 360, pmi: { annualRate: 0.005, originalValue: price, removeAt: 'request' } });
+  const cardInt = val('TERMCBCCINTNS') / 100;
+  const minp = calc.minimumPayoff({ balance: 5000, apr: cardInt, percent: 0.01, plusInterest: true, floor: 35 });
+  const p36 = calc.payment(5000, cardInt, 36);
+  const P = TAX.payroll, keep = 1000 * (1 - 0.22 - P.socialSecurityRate - P.medicareRate);
   const feeGap = calc.afterFees(100000, 0.04, 0.0025, 20) - calc.afterFees(100000, 0.04, 0.01, 20);
 
-  const fine = [
-    { m: 'mortgage', b: 'PMI ends on its own at 78%, but you can ask at 80%.', p: `On a median-priced home (${money(price)}) with 10% down at today's ${pct(r30, 2, true)}, you can request removal in month ${pmi.requestMonth}, about ${duration(pmi.automaticMonth - pmi.requestMonth)} before it would drop automatically. Servicers don't remind you.` },
-    { m: 'mortgage', b: 'One point of rate is a lot of house.', p: `On that same ${money(loan)} loan, ${pct(r30, 2, true)} instead of ${pct(r30 - 0.01, 2, true)} costs ${money(pay - payLess)} more a month, ${money((pay - payLess) * 360)} over thirty years.` },
-    { m: 'rates', b: 'Your card follows the Fed. Your mortgage follows the bond market.', p: `Card APRs are priced off the ${t('prime-rate')}, which moves the day the Fed moves. New mortgage rates track the ${t('treasury-yield', '10-year Treasury yield')}, which can rise even when the Fed cuts.` },
-    { m: 'rates', b: `The average savings account pays ${pct(sav, 2, true)}.`, p: `A 3-month Treasury bill pays ${pct(bill, 2, true)}. On $10,000 that is ${money(10000 * sav)} a year versus about ${money(10000 * bill)}. FDIC-insured ${t('hysa', 'high-yield savings')} accounts pay close to the T-bill rate.` },
-    { m: 'credit', b: 'Your score sees your statement balance, not your payment.', p: `Most issuers report the balance on the ${t('statement-closing-date', 'statement closing date')}, so a card you pay in full can still show high ${t('utilization')}. Paying before the statement closes fixes it.` },
-    { m: 'credit', b: 'The minimum payment is designed to last.', p: `Paying only a typical minimum (1% of the balance plus interest, at least $35) on $5,000 at ${pct(card, 2, true)} takes ${duration(minp.months)} and costs ${money(minp.totalInterest)} in interest.` },
-    { m: 'insurance', b: 'The out-of-pocket maximum leaves out your premiums.', p: `For 2027 plans the legal ceiling is $12,000 for one person and $24,000 for a family, before a year of premiums. Out-of-network bills may not count toward it at all.` },
-    { m: 'taxes', b: 'A raise never lowers your take-home pay.', p: `Only the dollars above a bracket line are taxed at the higher rate. A $1,000 raise that crosses into 22% still leaves you with more than $700 of it after federal and payroll taxes.` },
-    { m: 'taxes', b: 'Your 401(k) cuts income tax, not Social Security and Medicare.', p: `Traditional contributions come off your taxable wages, but the 7.65% ${t('fica')} tax is still taken from every dollar you earn up to the ${t('wage-base', 'wage base')}.` },
-    { m: 'retirement', b: 'Fees compound too.', p: `The SEC's own example: $100,000 growing 4% a year for 20 years ends about ${money(Math.round(feeGap / 1000) * 1000)} lower with a 1% fee than with a 0.25% fee. Check the ${t('expense-ratio')} on every fund you hold.` },
-  ];
+  const stat = {
+    mortgage: [rate('MORTGAGE30US'), `30-year average, ${asof('MORTGAGE30US')}`],
+    car: [rate('TERMCBAUTO48NS'), `new-car loan rate at banks, ${asof('TERMCBAUTO48NS')}`],
+    rates: [`${fed.lower.toFixed(2)}–${fed.upper.toFixed(2)}%`, `Fed target since ${k.asOf(S.FEDTARGET.changed)}`],
+    credit: [rate('TERMCBCCALLNS'), `average card rate, ${asof('TERMCBCCALLNS')}`],
+    insurance: [money(LIMITS.acaOutOfPocketMax['2027'].self), 'most a 2027 plan can charge you'],
+    taxes: [money(TAX.standardDeduction.single), 'standard deduction, 2026'],
+    retirement: [money(LIMITS.retirement.employeeDeferral), '401(k) limit, 2026'],
+  };
+  const topics = MODULES.map(m => `<li><a class="topic-card" href="/moneywise/${m.slug}/"><h3>${m.name}</h3><p>${m.q}</p><span class="tc-stat"><b>${stat[m.slug][0]}</b><small>${stat[m.slug][1]}</small></span></a></li>`).join('')
+    + `<li><a class="topic-card alt" href="/moneywise/glossary/"><h3>Glossary</h3><p>Any money word, in plain English.</p><span class="tc-stat"><b>${Object.keys(GLOSSARY).length}</b><small>terms on index cards</small></span></a></li>`;
 
-  const forms = MODULES.map(m => `<li><a href="/moneywise/${m.slug}/"><span class="fi-no">Form<b>MW-${m.no}</b></span><span class="fi-name">${m.name}<small>${m.q}</small></span><span class="fi-q"><b>What people miss</b>${m.miss}</span><span class="fi-go">${ARROW}</span></a></li>`).join('');
+  const cards = [
+    { tag: 'Mortgage', big: '80%', line: 'of the original price: when to ask your lender to drop PMI.',
+      back: `Servicers must stop PMI at 78% but don't have to remind you at 80%. On a median home with 10% down, asking saves about ${money(pmiFull.pmiTotal - pmiAsk.pmiTotal)}.` },
+    { tag: 'Credit', big: `${Math.round(minp.months / 12)} years`, line: 'to clear $5,000 of card debt paying only the minimum.',
+      back: `It costs ${money(minp.totalInterest)} in interest. Paying ${money(p36)} a month clears it in three years instead.` },
+    { tag: 'Taxes', big: money(keep), line: 'kept from a $1,000 raise, even in the 22% bracket.',
+      back: 'Only the dollars above a bracket line pay the higher rate, so a raise never shrinks your take-home pay.' },
+    { tag: 'Retirement', big: money(feeGap), line: 'lost to a 1% fee instead of 0.25%, on $100,000.',
+      back: 'Over 20 years at 4%, the SEC\'s own example. Fees come out every year, and the money they take stops growing.' },
+  ];
 
   const body = `
 <div class="wrap">
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="eyebrow">A plain-English guide to how money works</p>
       <h1 id="hero-title">Money decisions,<em>with the math shown.</em></h1>
-      <p class="lede">Mortgages, car loans, credit, insurance, taxes and retirement, taken apart into plain words, today's real numbers and a calculator tape that prints every step. No account, no sales pitch, nothing to buy.</p>
-      <div class="hero-cta"><a class="btn" href="#forms">Pick a decision ${ARROW}</a><a class="btn ghost" href="/moneywise/glossary/">Look up a word</a></div>
+      <p class="lede">Pick a decision. Move a slider. See what it really costs, in dollars.</p>
+      <div class="hero-cta"><a class="btn" href="#topics">Start here ${ARROW}</a></div>
     </div>
     <div class="hero-art" aria-hidden="true"><svg class="guilloche" id="guilloche" viewBox="0 0 500 500"></svg><div class="coin"></div></div>
   </section>
 
-  <section class="board" aria-labelledby="board-title">
-    <div class="board-head"><h2 id="board-title">Today's numbers</h2><p><span class="rs-dot rs-${rates.mode === 'live' ? 'live' : 'snapshot'}"></span><span data-mode>${rates.mode === 'live' ? 'Live from FRED' : 'Snapshot'}</span> · Federal Reserve Bank of St. Louis (FRED) · each number shows its own date</p></div>
-    <div class="tiles" id="rate-tiles">${boardHTML(rates)}</div>
+  <section class="t-sec home-topics" id="topics" aria-labelledby="topics-h">
+    <h2 class="sec-title" id="topics-h">Pick a decision</h2>
+    <ul class="topics">${topics}</ul>
   </section>
 
-  <section class="sec" id="forms" aria-labelledby="forms-title">
-    <div class="sec-head"><h2 id="forms-title">Pick a decision.</h2><p>Every form follows the same five parts: what it is, how it works, a calculator, a worked example with every number shown, and the mistakes people make.</p></div>
-    <ol class="forms-index">${forms}</ol>
-  </section>
-
-  <section class="sec" aria-labelledby="fine-title">
-    <div class="sec-head"><h2 id="fine-title">The fine print, enlarged.</h2><p>Ten things that cost people real money because nobody points them out. Figures use today's published rates.</p></div>
-    <ol class="fine">${fine.map(f => `<li><b>${f.b}</b><p>${f.p} <a href="/moneywise/${f.m}/">${MODULES.find(m => m.slug === f.m).name} →</a></p></li>`).join('')}</ol>
-  </section>
-
-  <section class="sec" aria-labelledby="proof-title">
-    <div class="sec-head"><h2 id="proof-title">Checked against the source.</h2><p>The formulas are tested against worked examples published by the agencies that write the rules. All ${TESTS.length} checks pass.</p></div>
-    <div class="proof">
-      <div><span class="pass">CFPB sample Loan Estimate</span><b>$761.78</b><p>$162,000 at 3.875% for 30 years. The amortization here reproduces the payment, the $15,773 of principal repaid in five years and the 69.46% ${t('tip', 'total interest percentage')}.</p></div>
-      <div><span class="pass">Regulation DD, Appendix A</span><b>6.17%</b><p>The Truth in Savings examples for ${t('apy')}, including the stepped-rate certificate that earns $26.68 for a 5.39% yield.</p></div>
-      <div><span class="pass">IRS Rev. Proc. 2025-32</span><b>$192,979.25</b><p>Every base amount in the 2026 tax rate tables, for all four filing statuses, plus the line-by-line rules of the new Schedule 1-A.</p></div>
-    </div>
-    <p style="margin-top:16px"><a href="/moneywise/sources/">See every check and source →</a></p>
+  <section class="t-sec" aria-labelledby="miss-h">
+    <h2 class="sec-title" id="miss-h">4 things most people miss</h2>
+    ${k.cards(cards)}
+    <p class="proof-line">Every formula is checked against worked examples from the IRS, CFPB and SEC. All ${TESTS.length} checks pass. <a href="/moneywise/sources/">How we check</a></p>
   </section>
 </div>`;
 
   return {
     slug: 'home', script: 'home',
     title: 'Moneywise | Money decisions, with the math shown',
-    description: 'Mortgages, car loans, interest rates, credit, health insurance, taxes and retirement explained visually, with live FRED rates, calculators that show every step, and sources for every number.',
+    description: 'Mortgages, car loans, interest rates, credit, health insurance, taxes and retirement, explained with live rates and calculators that show every step in dollars.',
     body,
   };
 };

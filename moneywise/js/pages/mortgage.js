@@ -1,6 +1,5 @@
-/* Form MW-1, Mortgage: the Part II chart and the four calculators. */
+/* Mortgage: the payment calculator and three more on demand. */
 import { boot, registerTool, startTools, bindBoxes, figs, verdict, draw, $ } from '../ui.js';
-import { makeChart } from '../charts.js';
 import { createTape } from '../tape.js';
 import * as c from '../calc.js';
 import { money, moneyShort, pct, num, duration } from '../format.js';
@@ -30,14 +29,6 @@ const splitSpec = (ys, title) => ({
   ],
 });
 
-/* ------------------------------------------------ Part II: the worked example's 30 years */
-const split = $('[data-chart="split"]');
-if (split) {
-  const loan = +split.dataset.loan, r = +split.dataset.rate;
-  const am = c.amortize({ principal: loan, annualRate: r, months: 360 });
-  makeChart(split, { ...splitSpec(yearly(am.rows), `Where each year's payments go: ${money(loan)} at ${pct(r, 2, true)} for 30 years`), annotations: [] });
-}
-
 /* ------------------------------------------------ payment & schedule */
 registerTool('tool-pay', panel => {
   const tape = createTape($('[data-tape]', panel));
@@ -56,18 +47,10 @@ registerTool('tool-pay', panel => {
     ]);
     if (needsPmi) {
       const ms = c.pmiMilestones({ principal: loan, annualRate: v.rate, months, originalValue: v.price });
-      verdict($('[data-verdict]', panel), `You can ask to cancel PMI at payment **${ms.requestMonth}** (year ${yr(ms.requestMonth)}), when the balance reaches 80% of ${money(v.price)}. If you don't, it stops on its own at payment ${ms.automaticMonth}.${v.request ? '' : ' You are paying the extra months in this view.'}`, 'info');
-    } else verdict($('[data-verdict]', panel), `With **${pct(v.downPct, 1)} down** there is no PMI on a conventional loan.`);
+      verdict($('[data-verdict]', panel), `Ask to cancel PMI at **payment ${ms.requestMonth}** (year ${yr(ms.requestMonth)}). If you don't, it runs to payment ${ms.automaticMonth}.`, 'info');
+    } else verdict($('[data-verdict]', panel), `With **${pct(v.downPct, 1)} down**, there is no PMI.`);
     $('[data-verdict]', panel).hidden = false;
-    const ys = yearly(am.rows);
-    draw(panel, 'split', splitSpec(ys, 'Where each year\'s payments go'), { wide: true });
-    const bal = [loan, ...ys.map(y => y.balance)];
-    draw(panel, 'bal', {
-      type: 'line', title: 'What you still owe', height: 200, desc: 'Loan balance at the end of each year',
-      x: { values: bal.map((_, i) => i), format: v => (v ? `Year ${v}` : 'Start') }, y: { format: moneyShort }, tableEvery: 1,
-      series: [{ key: 'b', label: 'Balance', color: C.blue, values: bal, area: true, format: v => money(v) }],
-      annotations: needsPmi ? [{ x: am.pmiEndMonth / 12, label: 'PMI ends' }] : [],
-    });
+    draw(panel, 'split', splitSpec(yearly(am.rows), 'Where each year of payments goes'));
     tape.print([
       { label: 'Home price', v: v.price, op: 'add' },
       { label: `Down payment ${pct(v.downPct, 1)}`, v: down, op: 'sub' },
@@ -152,7 +135,7 @@ registerTool('tool-points', panel => {
       { label: 'Break-even', value: Number.isFinite(p.simpleBreakEven) ? duration(Math.ceil(p.simpleBreakEven)) : 'never', note: `cost ÷ monthly savings; ${Number.isFinite(p.trueBreakEven) ? duration(p.trueBreakEven) : 'never'} counting the smaller balance you would owe`, hero: true },
       { label: `After ${v.years} years you are`, value: (net >= 0 ? 'ahead ' : 'behind ') + money(Math.abs(net)), tone: net >= 0 ? 'good' : 'bad' },
     ]);
-    verdict($('[data-verdict]', panel), net >= 0 ? `Worth it **if you keep this loan at least ${duration(p.trueBreakEven)}**. Sell or refinance sooner and the points are money lost.` : `Not worth it over ${v.years} years: you would need to keep the loan about **${duration(p.trueBreakEven)}** to come out ahead.`, net >= 0 ? '' : 'warn');
+    verdict($('[data-verdict]', panel), net >= 0 ? `Worth it **if you keep the loan ${duration(p.trueBreakEven)} or more**. Sell sooner and the points are lost.` : `Not worth it over ${v.years} years. You would need to keep the loan **${duration(p.trueBreakEven)}**.`, net >= 0 ? '' : 'warn');
     $('[data-verdict]', panel).hidden = false;
     const xs = Array.from({ length: Math.ceil(months / 12) + 1 }, (_, i) => i);
     draw(panel, 'net', {
@@ -195,10 +178,10 @@ registerTool('tool-refi', panel => {
     ]);
     const restart = nm > rem;
     verdict($('[data-verdict]', panel), !lowers
-      ? 'The new loan does not lower your payment. A refinance only makes sense here for another reason, such as a shorter term or removing mortgage insurance.'
+      ? 'This does not lower your payment. Refinance only for another reason, like a shorter term.'
       : rf.lifetimeChange > 0 && restart
-        ? `The payment drops ${money(rf.monthlySavings)}, but stretching ${duration(rem)} into ${duration(nm)} means **${money(rf.lifetimeChange)} more** over the life of the loan. Keep paying your old amount to the new loan and you get the lower rate without the longer clock.`
-        : `Lower payment and lower lifetime cost. You come out ahead once you keep the new loan **${duration(rf.trueBreakEven)}**.`, !lowers || rf.lifetimeChange > 0 ? 'warn' : '');
+        ? `The payment drops ${money(rf.monthlySavings)}, but the longer loan costs **${money(rf.lifetimeChange)} more** in total. Keep paying your old amount to fix that.`
+        : `Lower payment and lower total cost. You come out ahead after **${duration(rf.trueBreakEven)}**.`, !lowers || rf.lifetimeChange > 0 ? 'warn' : '');
     $('[data-verdict]', panel).hidden = false;
     const ys = Array.from({ length: Math.ceil(Math.max(rem, nm) / 12) + 1 }, (_, i) => i);
     draw(panel, 'net', {

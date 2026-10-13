@@ -1,6 +1,5 @@
-/* Form MW-5, Health insurance: the cost-sharing staircase, a two-plan comparison and a single-bill explorer. */
+/* Health insurance: the who-pays staircase, and a two-plan comparison on demand. */
 import { boot, registerTool, startTools, bindBoxes, figs, verdict, draw, $ } from '../ui.js';
-import { makeChart } from '../charts.js';
 import { createTape } from '../tape.js';
 import * as c from '../calc.js';
 import { money, moneyShort, pct } from '../format.js';
@@ -26,10 +25,6 @@ function stairsSpec(plan, maxBill, title, mark) {
   };
 }
 
-/* ------------------------------------------------ Part II */
-const st = $('[data-chart="stairs"]');
-if (st) makeChart(st, stairsSpec({ deductible: +st.dataset.ded, coinsurance: +st.dataset.coins, oopMax: +st.dataset.max }, 60000, 'Who pays as the bill grows (example plan)'));
-
 /* ------------------------------------------------ compare two plans */
 const SCEN = {
   light: { name: 'Light year', use: { visits: 2, visitCost: 180, rx: 4, rxCost: 40, other: 0 } },
@@ -45,14 +40,15 @@ registerTool('tool-plans', panel => {
     const rows = Object.entries(SCEN).map(([key, s]) => ({ key, name: s.name, a: c.planYear(A, s.use), b: c.planYear(B, s.use) }));
     const worstA = A.premiumMonthly * 12 + A.oopMax - A.employerHsa, worstB = B.premiumMonthly * 12 + B.oopMax - B.employerHsa;
     const win = r => (r.a.total <= r.b.total ? 'A' : 'B');
+    const fig = (r, hero) => ({ label: r.name, value: `Plan ${win(r)}${hero ? ` saves ${money(Math.abs(r.a.total - r.b.total))}` : ''}`, hero, note: hero ? `A ${money(r.a.total)} vs B ${money(r.b.total)} for the year` : `saves ${money(Math.abs(r.a.total - r.b.total))}` });
     figs($('[data-figs]', panel), [
-      ...rows.map(r => ({ label: r.name, value: `Plan ${win(r)}`, note: `saves ${money(Math.abs(r.a.total - r.b.total))} (A ${money(r.a.total)} vs B ${money(r.b.total)})` })),
+      fig(rows[1], true), fig(rows[0]), fig(rows[2]),
       { label: 'Worst case, A vs B', value: `${money(worstA)} vs ${money(worstB)}`, wide: true, note: 'premiums + out-of-pocket max − employer HSA' },
     ]);
     const wins = rows.map(win);
     verdict($('[data-verdict]', panel), wins.every(w => w === wins[0])
       ? `**Plan ${wins[0]}** costs less in every kind of year here.`
-      : `It depends on your year: **Plan ${wins[0]}** wins a light year, **Plan ${wins[2]}** wins a major one. If you cannot predict your year, compare the worst cases: ${money(worstA)} for A and ${money(worstB)} for B.`, wins.every(w => w === wins[0]) ? '' : 'info');
+      : `**Plan ${wins[0]}** wins a light year, **Plan ${wins[2]}** a major one. Can't predict? Compare worst cases: ${money(worstA)} vs ${money(worstB)}.`, wins.every(w => w === wins[0]) ? '' : 'info');
     $('[data-verdict]', panel).hidden = false;
     draw(panel, 'cmp', {
       type: 'bars', title: 'What each plan costs you for the year', height: 240, desc: 'Premiums plus out-of-pocket costs minus the employer HSA deposit, for three kinds of year',
@@ -89,7 +85,7 @@ registerTool('tool-stairs', panel => {
   const update = v => {
     const plan = { deductible: v.ded, coinsurance: v.coins, oopMax: v.max };
     const youPay = c.youPayOnBill(plan, v.bill), planPays = v.bill - youPay;
-    const phase = v.bill <= v.ded ? 'Paying the deductible: you pay 100% of each bill' : youPay >= v.max ? 'Past the maximum: the plan pays 100% for the rest of the year' : `In coinsurance: you pay ${pct(v.coins, 0)} of each bill`;
+    const phase = v.bill <= v.ded ? 'Still in the deductible: you pay 100%' : youPay >= v.max ? 'Past the maximum: the plan pays 100% now' : `Past the deductible: you pay ${pct(v.coins, 0)} of each bill`;
     figs($('[data-figs]', panel), [
       { label: 'You pay for care', value: money(youPay), hero: true, tone: 'bad', note: `plus ${money(v.prem * 12)} of premiums` },
       { label: 'The plan pays', value: money(planPays), tone: 'good' },

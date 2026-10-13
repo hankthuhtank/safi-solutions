@@ -1,8 +1,8 @@
-// Schedule S: where every number comes from, the checks the math must pass, and the assumptions behind it.
+// Sources & checks: where every number comes from, the checks the math must pass, and the assumptions behind it.
 import { money } from '../../js/format.js';
 
 export default (k, { TESTS, TESTED_ON }) => {
-  const { rates, TAX, LIMITS, MODULES, esc, asOf, rate, asof, part } = k;
+  const { rates, TAX, LIMITS, MODULES, esc, asOf, rate, asof } = k;
   const SOURCES = k.SOURCES;
   const S = rates.series;
   const modLink = s => { const m = MODULES.find(x => x.slug === s); return m ? `<a href="/moneywise/${m.slug}/">${m.tab}</a>` : s === 'tests' ? '<a href="#checks">Checks</a>' : ''; };
@@ -18,18 +18,18 @@ export default (k, { TESTS, TESTED_ON }) => {
   const what = id => (id === 'CPIAUCSL' ? 'Inflation: the change in the Consumer Price Index over the last 12 months' : esc(S[id].label));
   const live = `
 <div class="prose">
-  <p class="lead">Every rate on Moneywise comes from <a href="https://fred.stlouisfed.org/" rel="noopener" target="_blank">FRED</a>, the free economic database of the Federal Reserve Bank of St. Louis, which republishes the original figures from Freddie Mac, the Federal Reserve Board, the Bureau of Labor Statistics, the FDIC and the Census Bureau. Each number on the site carries its own date, because the series update on different schedules.</p>
+  <p class="lead">Every rate comes from <a href="https://fred.stlouisfed.org/" rel="noopener" target="_blank">FRED</a>, the free database of the Federal Reserve Bank of St. Louis. Each number shows its own date, because the series update on different schedules.</p>
 </div>
 <div class="pipes" role="list" aria-label="How live numbers reach this page">
   <div class="pipe" role="listitem">${node('Source', 'FRED', 'Federal Reserve Bank of St. Louis, 16 series', 'src')}${arrow('once a day at most')}${node('Moneywise Worker', 'Cloudflare', 'holds the FRED key on the server and keeps a copy for 24 hours')}${arrow('JSON, with dates')}${node('This page', 'Your browser', 'shows each number with its as-of date', 'out')}</div>
-  <div class="pipe" role="listitem">${node('If the feed is down', 'Snapshot', `a saved copy of the same data, made ${asOf(rates.generated.slice(0, 10))}`, 'src')}${arrow('built into every page')}${node('Fallback', 'Printed numbers', 'pages read correctly before any script runs')}${arrow('labeled Snapshot')}${node('This page', 'Your browser', 'the strip at the top says which you are seeing', 'out')}</div>
+  <div class="pipe" role="listitem">${node('If the feed is down', 'Snapshot', `a saved copy of the same data, made ${asOf(rates.generated.slice(0, 10))}`, 'src')}${arrow('built into every page')}${node('Fallback', 'Printed numbers', 'pages read correctly before any script runs')}${arrow('labeled Snapshot')}${node('This page', 'Your browser', 'every number keeps its own date', 'out')}</div>
 </div>
 <p class="micro" style="margin:0 0 10px">Now showing: <b data-mode>${rates.mode === 'live' ? 'Live from FRED' : 'Snapshot'}</b></p>
 <div class="table-scroll"><table class="src-table">
   <thead><tr><th>Series</th><th>What it measures</th><th class="n">Latest</th><th>As of</th><th>Updated</th><th>Published by</th></tr></thead>
   <tbody>${ids.map(id => `<tr><td><a href="${S[id].url}" rel="noopener" target="_blank"><code>${id}</code></a></td><td>${what(id)}</td><td class="n">${value(id)}</td><td class="d">${asof(id)}</td><td>${S[id].freq}</td><td>${esc(S[id].publisher)}</td></tr>`).join('')}</tbody>
 </table></div>
-${k.note('Averages, not offers', '<p>Survey rates are national averages. Freddie Mac\'s mortgage rate assumes a borrower with strong credit and 20% down; the Fed\'s G.19 card and loan rates are averages across commercial banks. Your own quote depends on your credit, down payment, loan type and lender.</p>')}`;
+<p class="s-note"><b>Averages, not offers.</b> Freddie Mac's mortgage rate assumes strong credit and 20% down; the Fed's card and loan rates average across banks. Your own quote depends on you and the lender.</p>`;
 
   /* ---------------- Part II: tables */
   const table = (file, j, year) => `<tr><td><a href="/moneywise/data/${file}"><code>${file}</code></a></td><td>${esc(j.table)}<small>${esc(j.effective)}</small></td><td class="n">${year}</td><td class="d">${asOf(j.checked)}</td><td><ul class="cites">${Object.values(j.sources).map(s => `<li><a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a>${s.published ? ` <span>(${asOf(s.published)})</span>` : ''}</li>`).join('')}</ul></td></tr>`;
@@ -81,8 +81,7 @@ ${k.note('Averages, not offers', '<p>Survey rates are national averages. Freddie
   <thead><tr><th>Checked against</th><th>What has to match</th><th>Document</th></tr></thead>
   <tbody>${against.map(([n, d, s]) => `<tr><td><b>${n}</b></td><td>${d}</td><td>${s.map(cite).join('<br>')}</td></tr>`).join('')}</tbody>
 </table></div>
-<h3 class="checks-h">All ${TESTS.length} checks</h3>
-<div class="check-groups">${groups.filter(g => g.items.length).map(g => `<section><h4>${esc(g.g)} <span>${g.items.length}</span></h4><ul class="tests">${g.items.map(x => `<li${x.ok ? '' : ' class="fail"'}><span>${x.head ? `<b>${esc(x.head)}</b> ` : ''}${esc(x.d)}</span></li>`).join('')}</ul></section>`).join('')}</div>
+${k.fold(`All ${TESTS.length} checks`, `<div class="check-groups">${groups.filter(g => g.items.length).map(g => `<section><h4>${esc(g.g)} <span>${g.items.length}</span></h4><ul class="tests">${g.items.map(x => `<li${x.ok ? '' : ' class="fail"'}><span>${x.head ? `<b>${esc(x.head)}</b> ` : ''}${esc(x.d)}</span></li>`).join('')}</ul></section>`).join('')}</div>`)}
 <p class="fine-run">Run them yourself from a copy of the site: <code>node --test moneywise/tests/calc.test.mjs</code></p>`;
 
   /* ---------------- Part IV: every source */
@@ -119,30 +118,20 @@ ${k.note('Averages, not offers', '<p>Survey rates are national averages. Freddie
   </ul>
 </div>`;
 
-  const parts = [
-    ['live', 'Live numbers', 'Live numbers', live],
-    ['tables', 'Tax & limit tables', 'Tax and limit tables', tables],
-    ['checks', 'The checks', 'The checks', checks],
-    ['every', 'Every source', 'Every source', all],
-    ['method', 'Method', 'Method and assumptions', method],
+  const sections = [
+    ['live', 'Live numbers', live],
+    ['tables', 'Tax and limit tables', tables],
+    ['checks', 'The checks', checks],
   ];
-  const roman = i => ['I', 'II', 'III', 'IV', 'V'][i];
   const body = `
 <div class="wrap">
-  <header class="form-head">
-    <div class="form-id"><span>Schedule</span><b>S</b><small>${SOURCES.length} sources<br>${TESTS.length} checks</small></div>
-    <div class="form-title"><p class="dept">Moneywise · Department of Plain English</p><h1>Sources &amp; checks</h1><p class="lede">Where every number on Moneywise comes from, how the live rates reach this page, the tests the math must pass before the site is rebuilt, and the assumptions behind each calculator.</p></div>
-    <aside class="form-today" aria-labelledby="today-h"><h2 id="today-h">On file</h2><dl>
-      <div><dt>Live series</dt><dd>${ids.length}<small>from FRED</small></dd></div>
-      <div><dt>Tax year</dt><dd>${TAX.taxYear}<small>Rev. Proc. 2025-32</small></dd></div>
-      <div><dt>Checks passed</dt><dd>${TESTS.filter(t => t.ok).length} of ${TESTS.length}<small>${asOf(TESTED_ON)}</small></dd></div>
-      <div><dt>Documents cited</dt><dd>${SOURCES.length}</dd></div>
-    </dl></aside>
-  </header>
-  <div class="module-grid">
-    <nav class="parts-rail" aria-label="Parts of this schedule"><ol>${parts.map(([id, short], i) => `<li><a href="#${id}"><span>Part ${roman(i)}</span>${short}</a></li>`).join('')}</ol></nav>
-    <div class="module-body">${parts.map(([id, , title, html], i) => part(i + 1, id, title, html)).join('')}</div>
-  </div>
+  ${k.head({ title: 'Sources &amp; checks', sub: 'Where every number comes from, and how the math is checked.' })}
+  <nav class="jump" aria-label="On this page">${[...sections, ['every'], ['method']].map(([id, title]) => `<a href="#${id}">${title || (id === 'every' ? 'Every source' : 'Method')}</a>`).join('')}</nav>
+  ${sections.map(([id, title, html]) => `<section class="s-sec" id="${id}" aria-labelledby="${id}-h"><h2 class="sec-title" id="${id}-h">${title}</h2>${html}</section>`).join('')}
+  <section class="t-folds" aria-label="More detail">
+    <div id="every">${k.fold(`Every source (${SOURCES.length})`, all)}</div>
+    <div id="method">${k.fold('Method and assumptions', method)}</div>
+  </section>
 </div>`;
 
   return {
