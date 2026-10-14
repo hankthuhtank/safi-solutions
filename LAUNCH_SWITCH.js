@@ -1,14 +1,12 @@
-/* SafiSolutions storefront control — 4 free tools + 2 paid apps. */
+/* SafiSolutions storefront control — 6 free desktop apps. */
 window.SAFI_STORE_CONTROL = {
-  salesEnabled: true,
-  checkoutWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
   freeDownloadsEnabled: true,
   freeDownloadWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
   products: {
     padeff:  { label:"Padeff",  free:true,  version:"1.0", filePath:"padeff/Padeff.exe" },
     piktoor: { label:"Piktoor", free:true,  version:"1.0", filePath:"piktoor/Piktoor.exe" },
-    kwezeen: { label:"Kwezeen", free:false, price:19, version:"1.0", filePath:"kwezeen/Kwezeen.exe" },
-    doqcorp: { label:"DoqCorp", free:false, price:19, version:"1.0", filePath:"doqcorp/DoqCorp.exe" },
+    kwezeen: { label:"Kwezeen", free:true, downloadEnabled:false, version:"1.0", filePath:"kwezeen/Kwezeen.exe" },
+    doqcorp: { label:"DoqCorp", free:true, downloadEnabled:false, version:"1.0", filePath:"doqcorp/DoqCorp.exe" },
     brandur: { label:"Brandur", free:true,  version:"1.0", filePath:"brandur/Brandur.exe" },
     doqdesk: { label:"DoqDesk", free:true,  version:"1.0", filePath:"doqdesk/DoqDesk.exe" }
   }

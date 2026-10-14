@@ -1,19 +1,11 @@
-# SafiSolutions storefront model
+# SafiSolutions Free Products
 
-## Free tools
-- Padeff
-- Piktoor
-- Brandur
-- DoqDesk
+All six desktop apps are free: Kwezeen, DoqCorp, Padeff, Piktoor, Brandur and DoqDesk.
 
-These do not use Stripe. Their product pages call `/api/free-download?product=...` only after `freeDownloadsEnabled` is set to true in `LAUNCH_SWITCH.js`. Keep the R2 files private and return short-lived Worker URLs.
+Product pages use `LAUNCH_SWITCH.js` and `assets/store.js` to request `/api/free-download?product=...` from the existing download Worker. The website no longer uses payment links, checkout or purchase verification.
 
-## Paid apps
-- Kwezeen — $19 one-time
-- DoqCorp — $19 one-time
+## Pending server change
 
-Paid checkout uses the permanent $19 Stripe Payment Links. The checkout Worker also uses only these permanent prices; historical Price IDs remain valid for secure fulfillment and update access. Successful payment redirects to `download.html?session_id={CHECKOUT_SESSION_ID}` for verified private delivery.
+As of October 14, 2026, the deployed `safisolutions-downloads` Worker still lists Kwezeen and DoqCorp as paid and rejects them at the free-download endpoint. Its source is not in this repository. Add both products to the free endpoint using their existing R2 installer objects, then remove `downloadEnabled:false` for both entries in `LAUNCH_SWITCH.js` after verifying the downloads.
 
-## Product pages
-Every desktop app has a dedicated page in `/products/` with a feature tour and the existing product screenshots.
-
+Remove the Worker checkout, payment verification and payment webhook routes and their payment secrets once no longer needed. Disable the two former product payment links and the SafiSolutions webhook in the payment dashboard. These external changes have not been made by this website commit.

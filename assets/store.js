@@ -1,9 +1,7 @@
 (function(){
   const control=window.SAFI_STORE_CONTROL;
   if(!control||!control.products)return;
-  const checkoutWorker=String(control.checkoutWorker||"").replace(/\/+$/,'');
   const freeWorker=String(control.freeDownloadWorker||"").replace(/\/+$/,'');
-  const money=v=>'$'+Number(v).toFixed(Number(v)%1?2:0);
 
   function showInstallNotice(onContinue){
     let dialog=document.getElementById('install-notice');
@@ -22,44 +20,10 @@
     dialog.showModal();
   }
 
-  async function startCheckout(product,trigger){
-    if(!control.salesEnabled)return;
-    const fallback=window.SAFI_STORE?.products?.[product];
-    const fallbackUrl=fallback?.url;
-    if(fallbackUrl){ location.href=fallbackUrl; return; }
-    if(!checkoutWorker)return;
-    const original=trigger.textContent;
-    try{
-      trigger.setAttribute('aria-busy','true');trigger.textContent='Opening checkout…';
-      const res=await fetch(checkoutWorker+'/api/checkout',{method:'POST',credentials:'omit',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({product})});
-      let data=null;try{data=await res.json()}catch(_){ }
-      if(!res.ok||!data||!data.url)throw new Error(data&&data.error?data.error:'Checkout is not available right now.');
-      location.href=data.url;
-    }catch(err){
-      const fallback=window.SAFI_STORE?.products?.[product];
-      const fallbackUrl=fallback?.url;
-      if(fallbackUrl){ location.href=fallbackUrl; return; }
-      alert(err&&err.message?err.message:'Checkout is not available right now.');
-      trigger.removeAttribute('aria-busy');trigger.textContent=original;
-    }
-  }
-
-  document.querySelectorAll('[data-stripe-product]').forEach(link=>{
-    const key=link.dataset.stripeProduct,item=control.products[key];
-    if(!item||item.free)return;
-    const current=item.price;
-    const shelf=link.closest('.product-shelf');
-    if(shelf){
-      const price=shelf.querySelector('.product-price');
-      if(price){const strong=price.querySelector('strong'),small=price.querySelector('small');if(strong)strong.textContent=money(current);if(small)small.textContent='one-time';}
-    }
-    if(control.salesEnabled){link.href=window.SAFI_STORE?.products?.[key]?.url||'#';link.addEventListener('click',e=>{e.preventDefault();startCheckout(key,link)});}else{link.href='#';link.setAttribute('aria-disabled','true');link.textContent='Sales opening soon';link.addEventListener('click',e=>e.preventDefault());}
-  });
-
   document.querySelectorAll('[data-free-product]').forEach(link=>{
     const key=link.dataset.freeProduct,item=control.products[key];
     if(!item||!item.free)return;
-    if(!control.freeDownloadsEnabled||!freeWorker){
+    if(!control.freeDownloadsEnabled||!freeWorker||item.downloadEnabled===false){
       link.href='#';link.setAttribute('aria-disabled','true');link.classList.add('is-disabled');link.textContent='Free download setup pending';link.addEventListener('click',e=>e.preventDefault());return;
     }
     link.href='#';link.addEventListener('click',e=>{
