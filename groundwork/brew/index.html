@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5eee2">
+<title>Brew guide | Groundwork</title>
+<meta name="description" content="Brew coffee without an espresso machine: pour-over, Chemex, AeroPress, French press, moka pot, Turkish cezve, Vietnamese phin, siphon and cold brew, with a grind-size ruler, a ratio calculator and a guided brew timer.">
+<link rel="canonical" href="https://www.safisolutions.org/groundwork/brew/">
+<meta property="og:title" content="Brew guide | Groundwork">
+<meta property="og:description" content="Brew coffee without an espresso machine: pour-over, Chemex, AeroPress, French press, moka pot, Turkish cezve, Vietnamese phin, siphon and cold brew, with a grind-size ruler, a ratio calculator and a guided brew timer.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.safisolutions.org/groundwork/brew/">
+<meta property="og:site_name" content="Safi Solutions">
+<meta property="og:image" content="https://www.safisolutions.org/groundwork/media/og.jpg">
+<meta property="og:image:alt" content="Groundwork logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brew guide | Groundwork">
+<meta name="twitter:description" content="Brew coffee without an espresso machine: pour-over, Chemex, AeroPress, French press, moka pot, Turkish cezve, Vietnamese phin, siphon and cold brew, with a grind-size ruler, a ratio calculator and a guided brew timer.">
+<meta name="twitter:image" content="https://www.safisolutions.org/groundwork/media/og.jpg">
+<link rel="icon" href="/groundwork/media/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="/groundwork/media/apple-touch-icon.png">
+<link rel="manifest" href="/groundwork/manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Martian+Mono:wght@300..650&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/groundwork/css/groundwork.css?v=e1fcbc26">
+</head>
+<body class="gw page-brew">
+<a class="skip" href="#main">Skip to content</a>
+<header class="gw-top">
+  <a class="gw-brand" href="/groundwork/" aria-label="Groundwork home"><img src="/groundwork/media/logo.webp" alt="Groundwork" width="1199" height="221"></a>
+  <nav class="gw-nav" aria-label="Groundwork"><a href="/groundwork/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h12v2.5a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M15 9.8h6"/><path d="M7.5 15v3.5M10.5 15v3.5"/><path d="M5 5.5h8"/></svg>Bar</a><a href="/groundwork/menu/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h13v3.5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8.5 3c-1 1.5 1 2.5 0 4M12.5 3c-1 1.5 1 2.5 0 4"/></svg>Menu</a><a href="/groundwork/beans/"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6.2" ry="8.8" transform="rotate(35 12 12)"/><path d="M8.3 17.2c3.2-2.2 1.2-6.8 7.4-10.4"/></svg>Beans</a><a href="/groundwork/brew/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5h15l-5.2 9h-4.6z"/><path d="M10 14.5v2.2h4v-2.2"/><path d="M5 20h14"/><path d="M8 5.5 7 3.5M16 5.5l1-2"/></svg>Brew</a><a href="/groundwork/recipes/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 3h13v18l-2.2-1.4-2.1 1.4-2.2-1.4-2.2 1.4-2.1-1.4-2.2 1.4z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/></svg>Recipes</a></nav>
+  <button class="gw-sound" type="button" aria-pressed="true" aria-label="Sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span>Sound</span></button>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+  <section class="intro" aria-labelledby="brew-h">
+    <p class="eyebrow">Brew · The slow bar</p>
+    <h1 class="h-xl" id="brew-h">No machine?<br>No problem.</h1>
+    <p class="lede">Every brewer is the same three dials: how fine, how much, how long. Pick one and brew along with the timer.</p>
+  </section>
+
+  <section aria-labelledby="grind-h">
+    <div class="sec-head"><div><p class="eyebrow">01 · Grind size</p><h2 class="h-lg" id="grind-h">Finer means slower.</h2><p class="lede" style="margin-top:12px">Particles drawn to scale. Short contact needs fine grounds; long steeps need coarse ones.</p></div><span class="sec-num" aria-hidden="true">01</span></div>
+    <div class="grind-ruler rv">
+<div class="gr-in">
+      <div class="gr-track"><canvas id="grCanvas" aria-hidden="true"></canvas></div>
+      <div class="gr-axis" id="grAxis" aria-hidden="true"></div>
+      <div class="gr-methods" id="grMethods" role="group" aria-label="Brew methods by grind size"></div>
+      <div class="gr-like" aria-hidden="true"><span>flour</span><span>fine salt</span><span>table salt</span><span>sand</span><span>sea salt</span><span>peppercorns</span></div>
+      </div>
+      <p class="muted" style="font-size:12.5px;margin-top:10px">Micron ranges are starting points from grinder charts (Honest Coffee Guide, The Coffee Locator). Every grinder labels them differently: taste and brew time are the real test.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="meth-h">
+    <div class="sec-head"><div><p class="eyebrow">02 · Methods</p><h2 class="h-lg" id="meth-h">Pick a brewer.</h2></div><span class="sec-num" aria-hidden="true">02</span></div>
+    <div class="methods" id="methods" role="group" aria-label="Brewers"></div>
+    <div class="brewer" id="brewer">
+      <div class="brewer-card">
+        <h3 id="bName">Pour-over</h3>
+        <p class="say" id="bLine"></p>
+        <div class="spec-grid" id="bSpec"></div>
+        <div class="calc">
+          <div class="seg" role="group" aria-label="Strength" id="bStrength"><button type="button" data-k="1.12" aria-pressed="false">Lighter</button><button type="button" data-k="1" aria-pressed="true">Standard</button><button type="button" data-k=".9" aria-pressed="false">Stronger</button></div>
+          <div><label class="range-ends" for="bWater"><span>Less</span><span>Water <b class="num" id="bWaterV">250 g</b></span><span>More</span></label><input class="dial" id="bWater" type="range" min="100" max="1000" step="10" value="250"></div>
+          <div class="calc-out"><b id="bCoffee">15 g</b><span id="bOut">coffee · 250 g water · ≈ 220 ml in the cup</span></div>
+        </div>
+        <p style="margin-top:14px"><a class="btn ghost small" id="bRecipe" href="/groundwork/recipes/">Recipe card →</a></p>
+      </div>
+      <div class="ticket timer" id="timer" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="water-h">
+    <div class="sec-head"><div><p class="eyebrow">03 · Water</p><h2 class="h-lg" id="water-h">Coffee is 98% water.</h2></div><span class="sec-num" aria-hidden="true">03</span></div>
+    <div class="facts">
+      <div class="fact rv"><b>1:16</b><p>A good starting ratio for filter coffee. The SCA “golden cup” is about 55 g per litre.</p></div>
+      <div class="fact rv"><b>92–96<sup>°C</sup></b><p>Just off the boil. Hotter for light roasts, a little cooler for dark.</p></div>
+      <div class="fact rv"><b>1.15–1.45<sup>%</sup></b><p>Dissolved coffee in a good filter cup. Espresso is around 8–12%.</p></div>
+      <div class="fact rv"><b>2–4<sup>wks</sup></b><p>After roasting, beans are at their best. Let them rest a few days first.</p></div>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="gw-foot">
+  <div class="gw-foot-in">
+    <p class="big">Coffee, from<br>the ground up.</p>
+    <nav aria-label="Groundwork footer"><a href="/groundwork/">Bar</a><a href="/groundwork/menu/">Menu</a><a href="/groundwork/beans/">Beans</a><a href="/groundwork/brew/">Brew</a><a href="/groundwork/recipes/">Recipes</a><a href="/groundwork/sources/">Sources</a><a href="/projects/#groundwork">About</a><a href="/">Safi Solutions</a></nav>
+    <small>Groundwork is a Safi Solutions project. Numbers checked October 2026 against USDA, NCA, SCA and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every machine is a little different: use these as starting points, then trust your taste.</small>
+  </div>
+</footer>
+<script type="module" src="/groundwork/js/brew.js?v=f1ca7dc9"></script>
+</body>
+</html>

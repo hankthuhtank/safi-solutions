@@ -1,0 +1,14 @@
+{
+  "name": "Groundwork",
+  "short_name": "Groundwork",
+  "description": "Coffee, from the ground up: an espresso bar you can operate, every kind of coffee and 80+ recipes.",
+  "start_url": "/groundwork/",
+  "scope": "/groundwork/",
+  "display": "standalone",
+  "background_color": "#f5eee2",
+  "theme_color": "#f5eee2",
+  "icons": [
+    { "src": "/groundwork/media/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/groundwork/media/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
