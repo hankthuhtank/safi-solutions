@@ -1,77 +1,730 @@
 "use client";
 import type * as GeoJSON from "geojson";
-import {useEffect,useRef,useState,useImperativeHandle,forwardRef,type ReactNode} from "react";
-import {createPortal} from "react-dom";
-import type {Map as GLMap,Marker,GeoJSONSource} from "maplibre-gl";
-import type {Place,Stop,Route,Coordinate,Weather,Hazard,Alert} from "@/lib/trippr/types";
-import {buildMapStyle,addRouteLayers,drawRoute,loadMapLibre,type MapTheme} from "@/lib/trippr/map-style";
-import {boundsOf} from "@/lib/trippr/geo";
-import {weatherDescription,weatherTone} from "@/lib/trippr/adapters";
-import {signFamily} from "@/lib/trippr/data";
-import {MAP_GROUPS,mapGroup,addMapIcons,CLUSTER_OFFSET,GROUP_STYLE,type MapGroup} from "@/lib/trippr/map-icons";
-import {LoaderCircle,RefreshCw} from "lucide-react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+  type ReactNode,
+} from "react";
+import { createPortal } from "react-dom";
+import type { Map as GLMap, Marker, GeoJSONSource } from "maplibre-gl";
+import type { Place, Stop, Route, Coordinate, Weather, Hazard, Alert } from "@/lib/trippr/types";
+import {
+  buildMapStyle,
+  addRouteLayers,
+  drawRoute,
+  loadMapLibre,
+  type MapTheme,
+} from "@/lib/trippr/map-style";
+import { boundsOf } from "@/lib/trippr/geo";
+import { weatherDescription, weatherTone } from "@/lib/trippr/adapters";
+import { signFamily } from "@/lib/trippr/data";
+import {
+  MAP_GROUPS,
+  mapGroup,
+  addMapIcons,
+  CLUSTER_OFFSET,
+  GROUP_STYLE,
+  type MapGroup,
+} from "@/lib/trippr/map-icons";
+import { LoaderCircle, RefreshCw } from "lucide-react";
 import RasterMap from "./RasterMap";
-export interface Insets{top:number;right:number;bottom:number;left:number;}
-export interface MapHandle{flyTo(p:Coordinate,zoom?:number):void;reveal(p:Coordinate):void;fit(points?:Coordinate[]):void;zoom(delta:number):void;north():void;terrain(active:boolean):boolean;getMap():GLMap|null;}
-export interface MapProps{places:Place[];stops:Stop[];route:Route|null;weatherPoints:{coordinates:Coordinate;weather:Weather;name:string;date?:string}[];hazards:Hazard[];alerts:Alert[];theme:MapTheme;insets:Insets;selected:Place|null;peekAt:Coordinate|null;peekContent:ReactNode;onPlace(p:Place):void;onPoint(p:Coordinate):void;onViewport(bbox:number[],zoom:number):void;onWeather(name:string):void;onHazard(h:Hazard):void;onRotate(rotated:boolean):void;onReady():void;}
-export const GROUP_COLORS=Object.fromEntries(MAP_GROUPS.map(g=>[g,GROUP_STYLE[g].color])) as Record<MapGroup,string>;
-export function stopMarker(s:Stop,i:number,count:number,onClick:()=>void){const el=document.createElement("button");el.type="button";el.className=`stop-marker ${i===0?"first":i===count-1?"last":""}`;el.innerHTML=`<span>${i+1}</span>`;el.setAttribute("aria-label",`Stop ${i+1}: ${s.name}`);el.title=s.name;el.addEventListener("click",e=>{e.stopPropagation();onClick();});return el;}
-export function hazardMarker(h:Hazard,onClick:()=>void){const el=document.createElement("button");el.type="button";el.className=`hazard-marker hz-${h.kind}`;el.innerHTML=`<span>${h.kind==="fire"?"<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.6 1.2 2.5 2 2.5-.8-2.4-.4-5.4 1-8z' fill='currentColor'/></svg>":h.kind==="river"?"<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M3 9c3-2 6 2 9 0s6 2 9 0M3 15c3-2 6 2 9 0s6 2 9 0' fill='none' stroke='currentColor' stroke-width='2.4' stroke-linecap='round'/></svg>":"<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 5v9M12 18v.5' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round'/></svg>"}</span>`;el.setAttribute("aria-label",`${h.title}. ${h.detail}`);el.title=h.title;el.addEventListener("click",e=>{e.stopPropagation();onClick();});return el;}
-export function weatherChip(p:{weather:Weather;name:string;date?:string},onClick:()=>void){const day=p.date?p.weather.days.find(d=>d.date===p.date):undefined,code=day?.code??p.weather.code,temp=day?.high??p.weather.temperature;const el=document.createElement("button");el.type="button";el.className="weather-chip";el.dataset.tone=weatherTone(code,temp);el.textContent=`${Math.round(temp)}°`;el.title=`${p.name}: ${weatherDescription(code)}${day?` ⋅ forecast high for ${p.date}`:" ⋅ now"}`;el.setAttribute("aria-label",el.title);el.addEventListener("click",e=>{e.stopPropagation();onClick();});return el;}
-const TripprMap=forwardRef<MapHandle,MapProps>(function TripprMap(props,ref){
- const rasterRef=useRef<MapHandle>(null);
- const container=useRef<HTMLDivElement>(null),mapRef=useRef<GLMap|null>(null),glRef=useRef<typeof import("maplibre-gl")|null>(null),latest=useRef(props),markers=useRef<Marker[]>([]),weatherMarkers=useRef<Marker[]>([]),hazardMarkers=useRef<Marker[]>([]),selectedMarker=useRef<Marker|null>(null),stopDraw=useRef<()=>void>(()=>{});latest.current=props;
- const [ready,setReady]=useState(false),[error,setError]=useState(""),[retry,setRetry]=useState(0),[version,setVersion]=useState(0),[fallback,setFallback]=useState(false);const terrainRef=useRef(false),firstFit=useRef(false),drawnRoute=useRef<Route|null>(null);
- // isStyleLoaded() is also false while tiles stream in, which silently skipped layer updates.
- // Track the style itself instead: layers can be added as soon as it has parsed.
- const styleReady=useRef(false);
- const reduced=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
- const pad=()=>{const i=latest.current.insets;return{top:i.top+30,right:i.right+40,bottom:i.bottom+40,left:i.left+40};};
- function fit(points?:Coordinate[]){if(rasterRef.current){rasterRef.current.fit(points);return;}const map=mapRef.current,line=points||latest.current.route?.coordinates||latest.current.stops.map(s=>s.coordinates);if(!map||!line.length)return;const b=boundsOf(line);try{map.fitBounds([[b[0],b[1]],[b[2],b[3]]],{padding:pad(),maxZoom:line.length===1?10:11,duration:reduced()?0:1000});}catch{map.jumpTo({center:line[0],zoom:6});}}
- function setTerrain(active:boolean){const map=mapRef.current;if(!map||!styleReady.current)return false;terrainRef.current=active;if(active){if(!map.getSource("terrain-dem"))map.addSource("terrain-dem",{type:"raster-dem",tiles:["https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png"],encoding:"terrarium",tileSize:256,maxzoom:14,attribution:"Terrain © Mapzen / AWS Open Data"});map.setTerrain({source:"terrain-dem",exaggeration:1.4});map.easeTo({pitch:58,duration:reduced()?0:700});}else{map.setTerrain(null);map.easeTo({pitch:0,duration:reduced()?0:700});}return true;}
- useImperativeHandle(ref,()=>({reveal(p){if(rasterRef.current){rasterRef.current.reveal(p);return;}const m=mapRef.current;if(!m)return;const pt=m.project(p),i=latest.current.insets,box=m.getContainer();if(pt.x<i.left+24||pt.x>box.clientWidth-i.right-24||pt.y<i.top+24||pt.y>box.clientHeight-i.bottom-24)m.easeTo({center:p,padding:pad(),duration:reduced()?0:650});},flyTo(p,zoom=10){if(rasterRef.current){rasterRef.current.flyTo(p,zoom);return;}const m=mapRef.current;if(!m)return;m.flyTo({center:p,zoom:Math.max(zoom,Math.min(m.getZoom(),zoom+2)),duration:reduced()?0:1200,padding:pad()});},fit,zoom(d){if(rasterRef.current){rasterRef.current.zoom(d);return;}const m=mapRef.current;if(m)m.easeTo({zoom:m.getZoom()+d,duration:reduced()?0:300});},north(){if(rasterRef.current){rasterRef.current.north();return;}const m=mapRef.current;m?.easeTo({bearing:0,pitch:terrainRef.current?m.getPitch():0,duration:reduced()?0:450});},terrain:setTerrain,getMap:()=>mapRef.current}),[]);
- useEffect(()=>{if(fallback)return;let disposed=false,m:GLMap|undefined,deadline:ReturnType<typeof setTimeout>|undefined;setError("");setReady(false);(async()=>{try{const probe=document.createElement("canvas");if(!probe.getContext("webgl2")){setFallback(true);return;}const gl=await loadMapLibre(),style=await buildMapStyle(latest.current.theme);if(disposed||!container.current)return;glRef.current=gl;m=new gl.Map({container:container.current,style,center:[-104,38.6],zoom:3.6,minZoom:2,maxZoom:18,attributionControl:{compact:true},canvasContextAttributes:{antialias:true,preserveDrawingBuffer:true},maxPitch:70});mapRef.current=m;deadline=setTimeout(()=>{if(!disposed&&!m?.loaded())setFallback(true);},18000);m.addControl(new gl.ScaleControl({unit:"imperial",maxWidth:90}),"bottom-left");
- m.on("load",()=>{clearTimeout(deadline);if(disposed)return;styleReady.current=true;setReady(true);setVersion(v=>v+1);latest.current.onReady();});
- m.on("style.load",()=>{if(disposed)return;styleReady.current=true;drawnRoute.current=null;setVersion(v=>v+1);if(terrainRef.current)setTerrain(true);});
- m.on("rotateend",()=>latest.current.onRotate(Math.abs(m!.getBearing())>1));m.on("pitchend",()=>latest.current.onRotate(Math.abs(m!.getBearing())>1||(!terrainRef.current&&m!.getPitch()>5)));
- let timer:ReturnType<typeof setTimeout>;m.on("moveend",()=>{clearTimeout(timer);timer=setTimeout(()=>{if(disposed||!m)return;const b=m.getBounds();latest.current.onViewport([b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],m.getZoom());},450);});
- // A double-click zooms; waiting a beat keeps it from also dropping a spot.
- let clickTimer:ReturnType<typeof setTimeout>|undefined;m.on("dblclick",()=>clearTimeout(clickTimer));m.on("movestart",()=>clearTimeout(clickTimer));
- // Clicks on markers and the spot preview are UI, not map clicks. React may already have removed
- // the clicked button by the time this runs, so a detached target counts as UI too.
- const poiLayers=MAP_GROUPS.flatMap(g=>[`trippr-pois-${g}`,`trippr-clusters-${g}`]);
- m.on("click",e=>{const target=e.originalEvent?.target as HTMLElement|null;if(target&&(!target.isConnected||target.closest?.(".maplibregl-marker")))return;const layers=poiLayers.filter(id=>m!.getLayer(id));const hits=layers.length?m!.queryRenderedFeatures([[e.point.x-8,e.point.y-8],[e.point.x+8,e.point.y+8]],{layers}):[];if(hits.length){const f=hits[0];if(f.properties?.cluster){const source=m!.getSource(f.source) as GeoJSONSource;void source.getClusterExpansionZoom(f.properties.cluster_id).then(z=>m!.easeTo({center:(f.geometry as GeoJSON.Point).coordinates as Coordinate,zoom:z+.3}));}else{const p=latest.current.places.find(x=>x.id===f.properties?.id);if(p)latest.current.onPlace(p);}return;}clearTimeout(clickTimer);const at:Coordinate=[e.lngLat.lng,e.lngLat.lat];clickTimer=setTimeout(()=>latest.current.onPoint(at),280);});
- for(const id of poiLayers){m.on("mouseenter",id,()=>{m!.getCanvas().style.cursor="pointer";});m.on("mouseleave",id,()=>{m!.getCanvas().style.cursor="";});}
- m.on("error",e=>{if((e.error?.message||"").includes("WebGL"))setError("Your browser couldn’t start the interactive map. Turn on hardware acceleration and reload.");});
- const canvas=m.getCanvas();canvas.setAttribute("aria-label","Interactive road-trip map. Use search and the trip panel for keyboard access to places.");canvas.tabIndex=0;
- }catch(error){console.warn("Trippr map could not initialize",error);if(!disposed)setFallback(true);}})();return()=>{disposed=true;clearTimeout(deadline);stopDraw.current();m?.remove();mapRef.current=null;markers.current=[];weatherMarkers.current=[];hazardMarkers.current=[];};},[retry,fallback]);
- useEffect(()=>{let cancelled=false;const m=mapRef.current;if(!ready||!m)return;(async()=>{const s=await buildMapStyle(props.theme);if(!cancelled&&mapRef.current===m){styleReady.current=false;m.setStyle(s);}})();return()=>{cancelled=true;};},[props.theme]);
- useEffect(()=>{const m=mapRef.current;if(!ready||!m||!styleReady.current)return;const approximate=!props.route;addRouteLayers(m,props.route?.coordinates||props.stops.map(s=>s.coordinates),approximate,props.theme);
-  if(props.route&&drawnRoute.current!==props.route){const fresh=drawnRoute.current!==null||!firstFit.current;drawnRoute.current=props.route;stopDraw.current();if(fresh&&!reduced())stopDraw.current=drawRoute(m,props.theme,Math.min(2200,900+props.route.distance/1609.344/2));}
-  if(!firstFit.current&&props.stops.length>1){firstFit.current=true;fit();}},[ready,version,props.route,props.stops]);
- // One clustered source per family, so camping, parks, sights and services cluster separately.
- // Sources only get new data when their set of places actually changed: re-clustering thousands
- // of points on every pan was the main cause of sluggish navigation.
- const placeKeys=useRef<Record<string,string>>({});
- useEffect(()=>{const m=mapRef.current;if(!ready||!m||!styleReady.current)return;const day=props.theme==="light",byGroup=new Map<MapGroup,Place[]>(MAP_GROUPS.map(g=>[g,[]]));for(const p of props.places)byGroup.get(mapGroup(p.kind))!.push(p);addMapIcons(m);
-  for(const g of MAP_GROUPS){const list=byGroup.get(g)!,key=list.map(p=>p.id).join("|"),id=`trippr-places-${g}`,source=m.getSource(id) as GeoJSONSource|undefined;if(source&&placeKeys.current[id]===key)continue;placeKeys.current[id]=key;
-   const data:GeoJSON.FeatureCollection={type:"FeatureCollection",features:list.map(p=>({type:"Feature",properties:{id:p.id,name:p.name,nps:p.parkCode?1:0},geometry:{type:"Point",coordinates:p.coordinates}}))};
-   if(source){source.setData(data);continue;}
-   m.addSource(id,{type:"geojson",data,cluster:true,clusterMaxZoom:8,clusterRadius:58});
-   // Plates that would overlap give way to the bigger count, like atlas labels; zooming in brings them back.
-   m.addLayer({id:`trippr-clusters-${g}`,type:"symbol",source:id,filter:["has","point_count"],layout:{"icon-image":`cl-${g}`,"icon-text-fit":"width","icon-text-fit-padding":[0,3,0,3],"text-field":["get","point_count_abbreviated"],"text-font":["Noto Sans Bold"],"text-size":12,"text-offset":[CLUSTER_OFFSET[g][0]/12,CLUSTER_OFFSET[g][1]/12],"text-anchor":"center","icon-allow-overlap":false,"text-allow-overlap":false,"icon-padding":1,"symbol-sort-key":["-",["get","point_count"]]},paint:{"text-color":"#ffffff"}});
-   m.addLayer({id:`trippr-pois-${g}`,type:"symbol",source:id,filter:["!",["has","point_count"]],layout:{"icon-image":`poi-${g}`,"icon-size":["interpolate",["linear"],["zoom"],4,["case",["==",["get","nps"],1],.95,.8],10,["case",["==",["get","nps"],1],1.2,1]],"icon-allow-overlap":true,"icon-ignore-placement":true}});
-   m.addLayer({id:`trippr-poi-label-${g}`,type:"symbol",source:id,minzoom:8.5,filter:["!",["has","point_count"]],layout:{"text-field":["get","name"],"text-font":["Noto Sans Regular"],"text-size":12,"text-anchor":"top","text-offset":[0,1.05],"text-max-width":11,"text-optional":true},paint:{"text-color":day?"#3b2c1d":"#e9e1cf","text-halo-color":day?"#f6f1e3":"#111814","text-halo-width":1.6}});}
- },[ready,version,props.places,props.theme]);
- useEffect(()=>{const m=mapRef.current,gl=glRef.current;if(!ready||!m||!gl)return;markers.current.forEach(x=>x.remove());markers.current=props.stops.map((s,i)=>new gl.Marker({element:stopMarker(s,i,props.stops.length,()=>latest.current.onPlace(s)),anchor:"bottom",offset:[0,6]}).setLngLat(s.coordinates).addTo(m));return()=>{markers.current.forEach(x=>x.remove());};},[ready,props.stops]);
- useEffect(()=>{const m=mapRef.current,gl=glRef.current;if(!ready||!m||!gl)return;selectedMarker.current?.remove();selectedMarker.current=null;const s=props.selected;if(s&&!props.stops.some(x=>x.id===s.id)){const el=document.createElement("div");el.className=`selected-pin fam-${signFamily(s.kind)}`;el.setAttribute("aria-hidden","true");selectedMarker.current=new gl.Marker({element:el,anchor:"bottom"}).setLngLat(s.coordinates).addTo(m);}return()=>{selectedMarker.current?.remove();};},[ready,props.selected,props.stops]);
- const peekEl=useRef<HTMLDivElement|null>(null);if(!peekEl.current&&typeof document!=="undefined"){peekEl.current=document.createElement("div");peekEl.current.className="peek-anchor";}
- const peekKey=props.peekAt?props.peekAt.join(","):"";
- useEffect(()=>{const m=mapRef.current,gl=glRef.current,el=peekEl.current;if(!ready||!m||!gl||!el||!props.peekAt)return;const marker=new gl.Marker({element:el,anchor:"bottom"}).setLngLat(props.peekAt).addTo(m);return()=>{marker.remove();};},[ready,peekKey]);
- useEffect(()=>{const m=mapRef.current,gl=glRef.current;if(!ready||!m||!gl)return;weatherMarkers.current.forEach(x=>x.remove());weatherMarkers.current=props.weatherPoints.map(p=>new gl.Marker({element:weatherChip(p,()=>latest.current.onWeather(p.name)),anchor:"bottom",offset:[22,-34]}).setLngLat(p.coordinates).addTo(m));return()=>{weatherMarkers.current.forEach(x=>x.remove());};},[ready,props.weatherPoints]);
- useEffect(()=>{const m=mapRef.current,gl=glRef.current;if(!ready||!m||!gl)return;hazardMarkers.current.forEach(x=>x.remove());hazardMarkers.current=props.hazards.map(h=>new gl.Marker({element:hazardMarker(h,()=>latest.current.onHazard(h))}).setLngLat(h.coordinates).addTo(m));return()=>{hazardMarkers.current.forEach(x=>x.remove());};},[ready,props.hazards]);
- useEffect(()=>{const m=mapRef.current;if(!ready||!m||!styleReady.current)return;const data:GeoJSON.FeatureCollection={type:"FeatureCollection",features:props.alerts.filter(a=>a.geometry).map(a=>({type:"Feature",properties:{severe:["Severe","Extreme"].includes(a.severity)?1:0},geometry:a.geometry!}))};if(m.getSource("trippr-alerts"))(m.getSource("trippr-alerts") as GeoJSONSource).setData(data);else{const before=m.getLayer("trip-route-glow")?"trip-route-glow":undefined;m.addSource("trippr-alerts",{type:"geojson",data});m.addLayer({id:"trippr-alert-fill",type:"fill",source:"trippr-alerts",paint:{"fill-color":["case",["==",["get","severe"],1],"#d9412b","#f4c430"],"fill-opacity":.14}},before);m.addLayer({id:"trippr-alert-outline",type:"line",source:"trippr-alerts",paint:{"line-color":["case",["==",["get","severe"],1],"#e2563f","#f4c430"],"line-width":1.4,"line-dasharray":[3,2]}},before);}},[ready,version,props.alerts]);
- useEffect(()=>{const m=mapRef.current;if(!ready||!m||!styleReady.current)return;const data:GeoJSON.FeatureCollection={type:"FeatureCollection",features:props.places.filter(p=>p.geometry).map(p=>({type:"Feature",properties:{id:p.id},geometry:p.geometry!}))};if(m.getSource("trippr-lands"))(m.getSource("trippr-lands") as GeoJSONSource).setData(data);else{m.addSource("trippr-lands",{type:"geojson",data});const before=m.getLayer("trip-route-glow")?"trip-route-glow":undefined;m.addLayer({id:"trippr-land-fill",type:"fill",source:"trippr-lands",paint:{"fill-color":"#8a4a24","fill-opacity":.1}},before);m.addLayer({id:"trippr-land-edge",type:"line",source:"trippr-lands",paint:{"line-color":"#b07a4f","line-width":1,"line-opacity":.6}},before);}},[ready,version,props.places]);
- if(fallback)return <RasterMap {...props} ref={rasterRef}/>;
- return <><div className="map-surface" ref={container}/>{props.peekAt&&ready&&peekEl.current&&createPortal(props.peekContent,peekEl.current)}{!ready&&!error&&<div className="map-loading"><span><LoaderCircle className="spin" size={18}/>Unfolding the atlas…</span></div>}{error&&<div role="alert" className="map-error">{error}<button className="btn btn-quiet" onClick={()=>setRetry(r=>r+1)}><RefreshCw/>Retry map</button></div>}</>;
-});export default TripprMap;
+export interface Insets {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+export interface MapHandle {
+  flyTo(p: Coordinate, zoom?: number): void;
+  reveal(p: Coordinate): void;
+  fit(points?: Coordinate[]): void;
+  zoom(delta: number): void;
+  north(): void;
+  terrain(active: boolean): boolean;
+  getMap(): GLMap | null;
+}
+export interface MapProps {
+  places: Place[];
+  stops: Stop[];
+  route: Route | null;
+  weatherPoints: { coordinates: Coordinate; weather: Weather; name: string; date?: string }[];
+  hazards: Hazard[];
+  alerts: Alert[];
+  theme: MapTheme;
+  insets: Insets;
+  selected: Place | null;
+  peekAt: Coordinate | null;
+  peekContent: ReactNode;
+  onPlace(p: Place): void;
+  onPoint(p: Coordinate): void;
+  onViewport(bbox: number[], zoom: number): void;
+  onWeather(name: string): void;
+  onHazard(h: Hazard): void;
+  onRotate(rotated: boolean): void;
+  onReady(): void;
+}
+export const GROUP_COLORS = Object.fromEntries(
+  MAP_GROUPS.map((g) => [g, GROUP_STYLE[g].color]),
+) as Record<MapGroup, string>;
+export function stopMarker(s: Stop, i: number, count: number, onClick: () => void) {
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = `stop-marker ${i === 0 ? "first" : i === count - 1 ? "last" : ""}`;
+  el.innerHTML = `<span>${i + 1}</span>`;
+  el.setAttribute("aria-label", `Stop ${i + 1}: ${s.name}`);
+  el.title = s.name;
+  el.addEventListener("click", (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return el;
+}
+export function hazardMarker(h: Hazard, onClick: () => void) {
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = `hazard-marker hz-${h.kind}`;
+  el.innerHTML = `<span>${h.kind === "fire" ? "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.6 1.2 2.5 2 2.5-.8-2.4-.4-5.4 1-8z' fill='currentColor'/></svg>" : h.kind === "river" ? "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M3 9c3-2 6 2 9 0s6 2 9 0M3 15c3-2 6 2 9 0s6 2 9 0' fill='none' stroke='currentColor' stroke-width='2.4' stroke-linecap='round'/></svg>" : "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 5v9M12 18v.5' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round'/></svg>"}</span>`;
+  el.setAttribute("aria-label", `${h.title}. ${h.detail}`);
+  el.title = h.title;
+  el.addEventListener("click", (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return el;
+}
+export function weatherChip(
+  p: { weather: Weather; name: string; date?: string },
+  onClick: () => void,
+) {
+  const day = p.date ? p.weather.days.find((d) => d.date === p.date) : undefined,
+    code = day?.code ?? p.weather.code,
+    temp = day?.high ?? p.weather.temperature;
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = "weather-chip";
+  el.dataset.tone = weatherTone(code, temp);
+  el.textContent = `${Math.round(temp)}°`;
+  el.title = `${p.name}: ${weatherDescription(code)}${day ? ` ⋅ forecast high for ${p.date}` : " ⋅ now"}`;
+  el.setAttribute("aria-label", el.title);
+  el.addEventListener("click", (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return el;
+}
+const TripprMap = forwardRef<MapHandle, MapProps>(function TripprMap(props, ref) {
+  const rasterRef = useRef<MapHandle>(null);
+  const container = useRef<HTMLDivElement>(null),
+    mapRef = useRef<GLMap | null>(null),
+    glRef = useRef<typeof import("maplibre-gl") | null>(null),
+    latest = useRef(props),
+    markers = useRef<Marker[]>([]),
+    weatherMarkers = useRef<Marker[]>([]),
+    hazardMarkers = useRef<Marker[]>([]),
+    selectedMarker = useRef<Marker | null>(null),
+    stopDraw = useRef<() => void>(() => {});
+  latest.current = props;
+  const [ready, setReady] = useState(false),
+    [error, setError] = useState(""),
+    [retry, setRetry] = useState(0),
+    [version, setVersion] = useState(0),
+    [fallback, setFallback] = useState(false);
+  const terrainRef = useRef(false),
+    firstFit = useRef(false),
+    drawnRoute = useRef<Route | null>(null);
+  // isStyleLoaded() is also false while tiles stream in, which silently skipped layer updates.
+  // Track the style itself instead: layers can be added as soon as it has parsed.
+  const styleReady = useRef(false);
+  const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const pad = () => {
+    const i = latest.current.insets;
+    return { top: i.top + 30, right: i.right + 40, bottom: i.bottom + 40, left: i.left + 40 };
+  };
+  function fit(points?: Coordinate[]) {
+    if (rasterRef.current) {
+      rasterRef.current.fit(points);
+      return;
+    }
+    const map = mapRef.current,
+      line =
+        points ||
+        latest.current.route?.coordinates ||
+        latest.current.stops.map((s) => s.coordinates);
+    if (!map || !line.length) return;
+    const b = boundsOf(line);
+    try {
+      map.fitBounds(
+        [
+          [b[0], b[1]],
+          [b[2], b[3]],
+        ],
+        { padding: pad(), maxZoom: line.length === 1 ? 10 : 11, duration: reduced() ? 0 : 1000 },
+      );
+    } catch {
+      map.jumpTo({ center: line[0], zoom: 6 });
+    }
+  }
+  function setTerrain(active: boolean) {
+    const map = mapRef.current;
+    if (!map || !styleReady.current) return false;
+    terrainRef.current = active;
+    if (active) {
+      if (!map.getSource("terrain-dem"))
+        map.addSource("terrain-dem", {
+          type: "raster-dem",
+          tiles: ["https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png"],
+          encoding: "terrarium",
+          tileSize: 256,
+          maxzoom: 14,
+          attribution: "Terrain © Mapzen / AWS Open Data",
+        });
+      map.setTerrain({ source: "terrain-dem", exaggeration: 1.4 });
+      map.easeTo({ pitch: 58, duration: reduced() ? 0 : 700 });
+    } else {
+      map.setTerrain(null);
+      map.easeTo({ pitch: 0, duration: reduced() ? 0 : 700 });
+    }
+    return true;
+  }
+  useImperativeHandle(
+    ref,
+    () => ({
+      reveal(p) {
+        if (rasterRef.current) {
+          rasterRef.current.reveal(p);
+          return;
+        }
+        const m = mapRef.current;
+        if (!m) return;
+        const pt = m.project(p),
+          i = latest.current.insets,
+          box = m.getContainer();
+        if (
+          pt.x < i.left + 24 ||
+          pt.x > box.clientWidth - i.right - 24 ||
+          pt.y < i.top + 24 ||
+          pt.y > box.clientHeight - i.bottom - 24
+        )
+          m.easeTo({ center: p, padding: pad(), duration: reduced() ? 0 : 650 });
+      },
+      flyTo(p, zoom = 10) {
+        if (rasterRef.current) {
+          rasterRef.current.flyTo(p, zoom);
+          return;
+        }
+        const m = mapRef.current;
+        if (!m) return;
+        m.flyTo({
+          center: p,
+          zoom: Math.max(zoom, Math.min(m.getZoom(), zoom + 2)),
+          duration: reduced() ? 0 : 1200,
+          padding: pad(),
+        });
+      },
+      fit,
+      zoom(d) {
+        if (rasterRef.current) {
+          rasterRef.current.zoom(d);
+          return;
+        }
+        const m = mapRef.current;
+        if (m) m.easeTo({ zoom: m.getZoom() + d, duration: reduced() ? 0 : 300 });
+      },
+      north() {
+        if (rasterRef.current) {
+          rasterRef.current.north();
+          return;
+        }
+        const m = mapRef.current;
+        m?.easeTo({
+          bearing: 0,
+          pitch: terrainRef.current ? m.getPitch() : 0,
+          duration: reduced() ? 0 : 450,
+        });
+      },
+      terrain: setTerrain,
+      getMap: () => mapRef.current,
+    }),
+    [],
+  );
+  useEffect(() => {
+    if (fallback) return;
+    let disposed = false,
+      m: GLMap | undefined,
+      deadline: ReturnType<typeof setTimeout> | undefined;
+    setError("");
+    setReady(false);
+    (async () => {
+      try {
+        const probe = document.createElement("canvas");
+        if (!probe.getContext("webgl2")) {
+          setFallback(true);
+          return;
+        }
+        const gl = await loadMapLibre(),
+          style = await buildMapStyle(latest.current.theme);
+        if (disposed || !container.current) return;
+        glRef.current = gl;
+        m = new gl.Map({
+          container: container.current,
+          style,
+          center: [-104, 38.6],
+          zoom: 3.6,
+          minZoom: 2,
+          maxZoom: 18,
+          attributionControl: { compact: true },
+          canvasContextAttributes: { antialias: true, preserveDrawingBuffer: true },
+          maxPitch: 70,
+        });
+        mapRef.current = m;
+        deadline = setTimeout(() => {
+          if (!disposed && !m?.loaded()) setFallback(true);
+        }, 18000);
+        m.addControl(new gl.ScaleControl({ unit: "imperial", maxWidth: 90 }), "bottom-left");
+        m.on("load", () => {
+          clearTimeout(deadline);
+          if (disposed) return;
+          styleReady.current = true;
+          setReady(true);
+          setVersion((v) => v + 1);
+          latest.current.onReady();
+        });
+        m.on("style.load", () => {
+          if (disposed) return;
+          styleReady.current = true;
+          drawnRoute.current = null;
+          setVersion((v) => v + 1);
+          if (terrainRef.current) setTerrain(true);
+        });
+        m.on("rotateend", () => latest.current.onRotate(Math.abs(m!.getBearing()) > 1));
+        m.on("pitchend", () =>
+          latest.current.onRotate(
+            Math.abs(m!.getBearing()) > 1 || (!terrainRef.current && m!.getPitch() > 5),
+          ),
+        );
+        let timer: ReturnType<typeof setTimeout>;
+        m.on("moveend", () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            if (disposed || !m) return;
+            const b = m.getBounds();
+            latest.current.onViewport(
+              [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()],
+              m.getZoom(),
+            );
+          }, 450);
+        });
+        // A double-click zooms; waiting a beat keeps it from also dropping a spot.
+        let clickTimer: ReturnType<typeof setTimeout> | undefined;
+        m.on("dblclick", () => clearTimeout(clickTimer));
+        m.on("movestart", () => clearTimeout(clickTimer));
+        // Clicks on markers and the spot preview are UI, not map clicks. React may already have removed
+        // the clicked button by the time this runs, so a detached target counts as UI too.
+        const poiLayers = MAP_GROUPS.flatMap((g) => [`trippr-pois-${g}`, `trippr-clusters-${g}`]);
+        m.on("click", (e) => {
+          const target = e.originalEvent?.target as HTMLElement | null;
+          if (target && (!target.isConnected || target.closest?.(".maplibregl-marker"))) return;
+          const layers = poiLayers.filter((id) => m!.getLayer(id));
+          const hits = layers.length
+            ? m!.queryRenderedFeatures(
+                [
+                  [e.point.x - 8, e.point.y - 8],
+                  [e.point.x + 8, e.point.y + 8],
+                ],
+                { layers },
+              )
+            : [];
+          if (hits.length) {
+            const f = hits[0];
+            if (f.properties?.cluster) {
+              const source = m!.getSource(f.source) as GeoJSONSource;
+              void source
+                .getClusterExpansionZoom(f.properties.cluster_id)
+                .then((z) =>
+                  m!.easeTo({
+                    center: (f.geometry as GeoJSON.Point).coordinates as Coordinate,
+                    zoom: z + 0.3,
+                  }),
+                );
+            } else {
+              const p = latest.current.places.find((x) => x.id === f.properties?.id);
+              if (p) latest.current.onPlace(p);
+            }
+            return;
+          }
+          clearTimeout(clickTimer);
+          const at: Coordinate = [e.lngLat.lng, e.lngLat.lat];
+          clickTimer = setTimeout(() => latest.current.onPoint(at), 280);
+        });
+        for (const id of poiLayers) {
+          m.on("mouseenter", id, () => {
+            m!.getCanvas().style.cursor = "pointer";
+          });
+          m.on("mouseleave", id, () => {
+            m!.getCanvas().style.cursor = "";
+          });
+        }
+        m.on("error", (e) => {
+          if ((e.error?.message || "").includes("WebGL"))
+            setError(
+              "Your browser couldn’t start the interactive map. Turn on hardware acceleration and reload.",
+            );
+        });
+        const canvas = m.getCanvas();
+        canvas.setAttribute(
+          "aria-label",
+          "Interactive road-trip map. Use search and the trip panel for keyboard access to places.",
+        );
+        canvas.tabIndex = 0;
+      } catch (error) {
+        console.warn("Trippr map could not initialize", error);
+        if (!disposed) setFallback(true);
+      }
+    })();
+    return () => {
+      disposed = true;
+      clearTimeout(deadline);
+      stopDraw.current();
+      m?.remove();
+      mapRef.current = null;
+      markers.current = [];
+      weatherMarkers.current = [];
+      hazardMarkers.current = [];
+    };
+  }, [retry, fallback]);
+  useEffect(() => {
+    let cancelled = false;
+    const m = mapRef.current;
+    if (!ready || !m) return;
+    (async () => {
+      const s = await buildMapStyle(props.theme);
+      if (!cancelled && mapRef.current === m) {
+        styleReady.current = false;
+        m.setStyle(s);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [props.theme]);
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!ready || !m || !styleReady.current) return;
+    const approximate = !props.route;
+    addRouteLayers(
+      m,
+      props.route?.coordinates || props.stops.map((s) => s.coordinates),
+      approximate,
+      props.theme,
+    );
+    if (props.route && drawnRoute.current !== props.route) {
+      const fresh = drawnRoute.current !== null || !firstFit.current;
+      drawnRoute.current = props.route;
+      stopDraw.current();
+      if (fresh && !reduced())
+        stopDraw.current = drawRoute(
+          m,
+          props.theme,
+          Math.min(2200, 900 + props.route.distance / 1609.344 / 2),
+        );
+    }
+    if (!firstFit.current && props.stops.length > 1) {
+      firstFit.current = true;
+      fit();
+    }
+  }, [ready, version, props.route, props.stops]);
+  // One clustered source per family, so camping, parks, sights and services cluster separately.
+  // Sources only get new data when their set of places actually changed: re-clustering thousands
+  // of points on every pan was the main cause of sluggish navigation.
+  const placeKeys = useRef<Record<string, string>>({});
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!ready || !m || !styleReady.current) return;
+    const day = props.theme === "light",
+      byGroup = new Map<MapGroup, Place[]>(MAP_GROUPS.map((g) => [g, []]));
+    for (const p of props.places) byGroup.get(mapGroup(p.kind))!.push(p);
+    addMapIcons(m);
+    for (const g of MAP_GROUPS) {
+      const list = byGroup.get(g)!,
+        key = list.map((p) => p.id).join("|"),
+        id = `trippr-places-${g}`,
+        source = m.getSource(id) as GeoJSONSource | undefined;
+      if (source && placeKeys.current[id] === key) continue;
+      placeKeys.current[id] = key;
+      const data: GeoJSON.FeatureCollection = {
+        type: "FeatureCollection",
+        features: list.map((p) => ({
+          type: "Feature",
+          properties: { id: p.id, name: p.name, nps: p.parkCode ? 1 : 0 },
+          geometry: { type: "Point", coordinates: p.coordinates },
+        })),
+      };
+      if (source) {
+        source.setData(data);
+        continue;
+      }
+      m.addSource(id, {
+        type: "geojson",
+        data,
+        cluster: true,
+        clusterMaxZoom: 8,
+        clusterRadius: 58,
+      });
+      // Plates that would overlap give way to the bigger count, like atlas labels; zooming in brings them back.
+      m.addLayer({
+        id: `trippr-clusters-${g}`,
+        type: "symbol",
+        source: id,
+        filter: ["has", "point_count"],
+        layout: {
+          "icon-image": `cl-${g}`,
+          "icon-text-fit": "width",
+          "icon-text-fit-padding": [0, 3, 0, 3],
+          "text-field": ["get", "point_count_abbreviated"],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 12,
+          "text-offset": [CLUSTER_OFFSET[g][0] / 12, CLUSTER_OFFSET[g][1] / 12],
+          "text-anchor": "center",
+          "icon-allow-overlap": false,
+          "text-allow-overlap": false,
+          "icon-padding": 1,
+          "symbol-sort-key": ["-", ["get", "point_count"]],
+        },
+        paint: { "text-color": "#ffffff" },
+      });
+      m.addLayer({
+        id: `trippr-pois-${g}`,
+        type: "symbol",
+        source: id,
+        filter: ["!", ["has", "point_count"]],
+        layout: {
+          "icon-image": `poi-${g}`,
+          "icon-size": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            4,
+            ["case", ["==", ["get", "nps"], 1], 0.95, 0.8],
+            10,
+            ["case", ["==", ["get", "nps"], 1], 1.2, 1],
+          ],
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true,
+        },
+      });
+      m.addLayer({
+        id: `trippr-poi-label-${g}`,
+        type: "symbol",
+        source: id,
+        minzoom: 8.5,
+        filter: ["!", ["has", "point_count"]],
+        layout: {
+          "text-field": ["get", "name"],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": 12,
+          "text-anchor": "top",
+          "text-offset": [0, 1.05],
+          "text-max-width": 11,
+          "text-optional": true,
+        },
+        paint: {
+          "text-color": day ? "#3b2c1d" : "#e9e1cf",
+          "text-halo-color": day ? "#f6f1e3" : "#111814",
+          "text-halo-width": 1.6,
+        },
+      });
+    }
+  }, [ready, version, props.places, props.theme]);
+  useEffect(() => {
+    const m = mapRef.current,
+      gl = glRef.current;
+    if (!ready || !m || !gl) return;
+    markers.current.forEach((x) => x.remove());
+    markers.current = props.stops.map((s, i) =>
+      new gl.Marker({
+        element: stopMarker(s, i, props.stops.length, () => latest.current.onPlace(s)),
+        anchor: "bottom",
+        offset: [0, 6],
+      })
+        .setLngLat(s.coordinates)
+        .addTo(m),
+    );
+    return () => {
+      markers.current.forEach((x) => x.remove());
+    };
+  }, [ready, props.stops]);
+  useEffect(() => {
+    const m = mapRef.current,
+      gl = glRef.current;
+    if (!ready || !m || !gl) return;
+    selectedMarker.current?.remove();
+    selectedMarker.current = null;
+    const s = props.selected;
+    if (s && !props.stops.some((x) => x.id === s.id)) {
+      const el = document.createElement("div");
+      el.className = `selected-pin fam-${signFamily(s.kind)}`;
+      el.setAttribute("aria-hidden", "true");
+      selectedMarker.current = new gl.Marker({ element: el, anchor: "bottom" })
+        .setLngLat(s.coordinates)
+        .addTo(m);
+    }
+    return () => {
+      selectedMarker.current?.remove();
+    };
+  }, [ready, props.selected, props.stops]);
+  const peekEl = useRef<HTMLDivElement | null>(null);
+  if (!peekEl.current && typeof document !== "undefined") {
+    peekEl.current = document.createElement("div");
+    peekEl.current.className = "peek-anchor";
+  }
+  const peekKey = props.peekAt ? props.peekAt.join(",") : "";
+  useEffect(() => {
+    const m = mapRef.current,
+      gl = glRef.current,
+      el = peekEl.current;
+    if (!ready || !m || !gl || !el || !props.peekAt) return;
+    const marker = new gl.Marker({ element: el, anchor: "bottom" })
+      .setLngLat(props.peekAt)
+      .addTo(m);
+    return () => {
+      marker.remove();
+    };
+  }, [ready, peekKey]);
+  useEffect(() => {
+    const m = mapRef.current,
+      gl = glRef.current;
+    if (!ready || !m || !gl) return;
+    weatherMarkers.current.forEach((x) => x.remove());
+    weatherMarkers.current = props.weatherPoints.map((p) =>
+      new gl.Marker({
+        element: weatherChip(p, () => latest.current.onWeather(p.name)),
+        anchor: "bottom",
+        offset: [22, -34],
+      })
+        .setLngLat(p.coordinates)
+        .addTo(m),
+    );
+    return () => {
+      weatherMarkers.current.forEach((x) => x.remove());
+    };
+  }, [ready, props.weatherPoints]);
+  useEffect(() => {
+    const m = mapRef.current,
+      gl = glRef.current;
+    if (!ready || !m || !gl) return;
+    hazardMarkers.current.forEach((x) => x.remove());
+    hazardMarkers.current = props.hazards.map((h) =>
+      new gl.Marker({ element: hazardMarker(h, () => latest.current.onHazard(h)) })
+        .setLngLat(h.coordinates)
+        .addTo(m),
+    );
+    return () => {
+      hazardMarkers.current.forEach((x) => x.remove());
+    };
+  }, [ready, props.hazards]);
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!ready || !m || !styleReady.current) return;
+    const data: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: props.alerts
+        .filter((a) => a.geometry)
+        .map((a) => ({
+          type: "Feature",
+          properties: { severe: ["Severe", "Extreme"].includes(a.severity) ? 1 : 0 },
+          geometry: a.geometry!,
+        })),
+    };
+    if (m.getSource("trippr-alerts")) (m.getSource("trippr-alerts") as GeoJSONSource).setData(data);
+    else {
+      const before = m.getLayer("trip-route-glow") ? "trip-route-glow" : undefined;
+      m.addSource("trippr-alerts", { type: "geojson", data });
+      m.addLayer(
+        {
+          id: "trippr-alert-fill",
+          type: "fill",
+          source: "trippr-alerts",
+          paint: {
+            "fill-color": ["case", ["==", ["get", "severe"], 1], "#d9412b", "#f4c430"],
+            "fill-opacity": 0.14,
+          },
+        },
+        before,
+      );
+      m.addLayer(
+        {
+          id: "trippr-alert-outline",
+          type: "line",
+          source: "trippr-alerts",
+          paint: {
+            "line-color": ["case", ["==", ["get", "severe"], 1], "#e2563f", "#f4c430"],
+            "line-width": 1.4,
+            "line-dasharray": [3, 2],
+          },
+        },
+        before,
+      );
+    }
+  }, [ready, version, props.alerts]);
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!ready || !m || !styleReady.current) return;
+    const data: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: props.places
+        .filter((p) => p.geometry)
+        .map((p) => ({ type: "Feature", properties: { id: p.id }, geometry: p.geometry! })),
+    };
+    if (m.getSource("trippr-lands")) (m.getSource("trippr-lands") as GeoJSONSource).setData(data);
+    else {
+      m.addSource("trippr-lands", { type: "geojson", data });
+      const before = m.getLayer("trip-route-glow") ? "trip-route-glow" : undefined;
+      m.addLayer(
+        {
+          id: "trippr-land-fill",
+          type: "fill",
+          source: "trippr-lands",
+          paint: { "fill-color": "#8a4a24", "fill-opacity": 0.1 },
+        },
+        before,
+      );
+      m.addLayer(
+        {
+          id: "trippr-land-edge",
+          type: "line",
+          source: "trippr-lands",
+          paint: { "line-color": "#b07a4f", "line-width": 1, "line-opacity": 0.6 },
+        },
+        before,
+      );
+    }
+  }, [ready, version, props.places]);
+  if (fallback) return <RasterMap {...props} ref={rasterRef} />;
+  return (
+    <>
+      <div className="map-surface" ref={container} />
+      {props.peekAt && ready && peekEl.current && createPortal(props.peekContent, peekEl.current)}
+      {!ready && !error && (
+        <div className="map-loading">
+          <span>
+            <LoaderCircle className="spin" size={18} />
+            Unfolding the atlas…
+          </span>
+        </div>
+      )}
+      {error && (
+        <div role="alert" className="map-error">
+          {error}
+          <button className="btn btn-quiet" onClick={() => setRetry((r) => r + 1)}>
+            <RefreshCw />
+            Retry map
+          </button>
+        </div>
+      )}
+    </>
+  );
+});
+export default TripprMap;

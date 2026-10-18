@@ -12,7 +12,13 @@ function Library() {
   const shelves = useMemo(() => {
     const list = cat === "all" ? drinks : drinks.filter((d) => d.cat === cat);
     if (cat !== "all") {
-      return [{ id: cat, label: CATEGORIES.find((c) => c.id === cat)?.label ?? cat, items: drinksByHue(list) }];
+      return [
+        {
+          id: cat,
+          label: CATEGORIES.find((c) => c.id === cat)?.label ?? cat,
+          items: drinksByHue(list),
+        },
+      ];
     }
     return CATEGORIES.map((c) => ({
       id: c.id,

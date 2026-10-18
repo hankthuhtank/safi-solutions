@@ -71,7 +71,8 @@ const SHAPES: Record<GlassId, Shape> = {
   },
   flute: {
     clip: "M42 12 l8 0 c6 0 10 8 10 22 L58 70 h-16 L40 34 C40 20 36 12 42 12 Z",
-    outline: "M40 10 h20 c8 0 12 10 12 24 L68 72 v2 H32 v-2 L36 34 C36 18 32 10 40 10 Z M50 74 v32 M36 114 q14 6 28 0",
+    outline:
+      "M40 10 h20 c8 0 12 10 12 24 L68 72 v2 H32 v-2 L36 34 C36 18 32 10 40 10 Z M50 74 v32 M36 114 q14 6 28 0",
     shine: "M44 18 h3 v40 h-3 z",
     box: { y: 12, h: 58 },
   },
@@ -138,8 +139,7 @@ const SHAPES: Record<GlassId, Shape> = {
   },
   margarita: {
     clip: "M18 30 L50 62 L82 30 L74 30 C70 42 58 48 50 48 C42 48 30 42 26 30 Z",
-    outline:
-      "M16 28 L50 64 L84 28 M50 64 v40 M34 112 q16 7 32 0",
+    outline: "M16 28 L50 64 L84 28 M50 64 v40 M34 112 q16 7 32 0",
     shine: "M28 32 l8 10 h3 l-9 -12 z",
     box: { y: 30, h: 32 },
   },
@@ -156,8 +156,24 @@ function Garnish({ drink, color }: { drink: Drink; color: string }) {
   if (g.includes("mint")) {
     return (
       <g>
-        <ellipse cx="58" cy="28" rx="7" ry="12" fill="#3d8c5c" opacity="0.9" transform="rotate(-18 58 28)" />
-        <ellipse cx="64" cy="24" rx="6" ry="11" fill="#4ea06c" opacity="0.95" transform="rotate(16 64 24)" />
+        <ellipse
+          cx="58"
+          cy="28"
+          rx="7"
+          ry="12"
+          fill="#3d8c5c"
+          opacity="0.9"
+          transform="rotate(-18 58 28)"
+        />
+        <ellipse
+          cx="64"
+          cy="24"
+          rx="6"
+          ry="11"
+          fill="#4ea06c"
+          opacity="0.95"
+          transform="rotate(16 64 24)"
+        />
         <ellipse cx="54" cy="22" rx="5" ry="10" fill="#2f7048" transform="rotate(-32 54 22)" />
       </g>
     );
@@ -176,9 +192,23 @@ function Garnish({ drink, color }: { drink: Drink; color: string }) {
   if (g.includes("salt")) {
     return <path d="M22 40 q28 -8 56 0" stroke={color} strokeWidth="2" fill="none" opacity="0.5" />;
   }
-  if (g.includes("twist") || g.includes("peel") || g.includes("lemon") || g.includes("orange") || g.includes("lime")) {
+  if (
+    g.includes("twist") ||
+    g.includes("peel") ||
+    g.includes("lemon") ||
+    g.includes("orange") ||
+    g.includes("lime")
+  ) {
     const peel = g.includes("orange") ? "#f08a20" : g.includes("lime") ? "#7cb342" : "#e8d44d";
-    return <path d="M62 30 q14 8 6 20" stroke={peel} strokeWidth="2.2" fill="none" strokeLinecap="round" />;
+    return (
+      <path
+        d="M62 30 q14 8 6 20"
+        stroke={peel}
+        strokeWidth="2.2"
+        fill="none"
+        strokeLinecap="round"
+      />
+    );
   }
   return null;
 }
@@ -257,7 +287,13 @@ export function DrinkGlass({
         ))}
         <rect x="0" y="0" width="18" height="130" fill={`url(#${clipId}-shine)`} />
       </g>
-      <path d={shape.outline} fill="none" stroke={stroke} strokeWidth="1.6" strokeLinejoin="round" />
+      <path
+        d={shape.outline}
+        fill="none"
+        stroke={stroke}
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
       <path d={shape.shine} fill="#fff" opacity="0.16" />
       {size !== "sm" ? <Garnish drink={drink} color={glow} /> : null}
     </svg>
@@ -282,7 +318,14 @@ export function BottleMark({
         strokeWidth="1.6"
         opacity={active ? 1 : 0.7}
       />
-      <rect x="16" y="2" width="8" height="8" rx="1" fill={active ? color : "rgba(240,235,227,0.2)"} />
+      <rect
+        x="16"
+        y="2"
+        width="8"
+        height="8"
+        rx="1"
+        fill={active ? color : "rgba(240,235,227,0.2)"}
+      />
       {active ? <rect x="17" y="22" width="3" height="36" fill="#fff" opacity="0.22" /> : null}
     </svg>
   );

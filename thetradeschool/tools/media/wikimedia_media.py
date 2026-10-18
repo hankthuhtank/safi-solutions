@@ -4,6 +4,7 @@
 No third-party packages required. This is intentionally not called by the website at
 runtime: media selection should be reviewed for relevance and license before commit.
 """
+
 from __future__ import annotations
 import argparse
 import html
@@ -56,24 +57,27 @@ def rows_from(data: dict):
             "artist": clean(md.get("Artist", {}).get("value")),
             "license": clean(md.get("LicenseShortName", {}).get("value")),
             "license_url": clean(md.get("LicenseUrl", {}).get("value")),
-            "source_page": "https://commons.wikimedia.org/wiki/" + urllib.parse.quote(page.get("title", "").replace(" ", "_")),
+            "source_page": "https://commons.wikimedia.org/wiki/"
+            + urllib.parse.quote(page.get("title", "").replace(" ", "_")),
             "url": info.get("url", ""),
             "thumburl": info.get("thumburl", info.get("url", "")),
         }
 
 
 def search(query: str, limit: int):
-    data = api({
-        "action": "query",
-        "generator": "search",
-        "gsrsearch": query,
-        "gsrnamespace": 6,
-        "gsrlimit": max(1, min(limit, 20)),
-        "prop": "imageinfo",
-        "iiprop": "url|extmetadata",
-        "iiurlwidth": 1200,
-        "iiextmetadatafilter": "ImageDescription|Artist|LicenseShortName|LicenseUrl",
-    })
+    data = api(
+        {
+            "action": "query",
+            "generator": "search",
+            "gsrsearch": query,
+            "gsrnamespace": 6,
+            "gsrlimit": max(1, min(limit, 20)),
+            "prop": "imageinfo",
+            "iiprop": "url|extmetadata",
+            "iiurlwidth": 1200,
+            "iiextmetadatafilter": "ImageDescription|Artist|LicenseShortName|LicenseUrl",
+        }
+    )
     rows = list(rows_from(data))
     if not rows:
         print("No Commons files found.")
@@ -83,7 +87,7 @@ def search(query: str, limit: int):
         print(f"    {row['description'][:240]}")
         print(f"    creator: {row['artist'] or 'not supplied'}")
         print(f"    license: {row['license'] or 'REVIEW SOURCE PAGE'}")
-        if row['license_url']:
+        if row["license_url"]:
             print(f"    license URL: {row['license_url']}")
         print(f"    source: {row['source_page']}")
         print(f"    preview: {row['thumburl']}")
@@ -92,14 +96,16 @@ def search(query: str, limit: int):
 def exact_file(title: str) -> dict:
     if not title.lower().startswith("file:"):
         title = "File:" + title
-    data = api({
-        "action": "query",
-        "titles": title,
-        "prop": "imageinfo",
-        "iiprop": "url|extmetadata",
-        "iiurlwidth": 1800,
-        "iiextmetadatafilter": "ImageDescription|Artist|LicenseShortName|LicenseUrl",
-    })
+    data = api(
+        {
+            "action": "query",
+            "titles": title,
+            "prop": "imageinfo",
+            "iiprop": "url|extmetadata",
+            "iiurlwidth": 1800,
+            "iiextmetadatafilter": "ImageDescription|Artist|LicenseShortName|LicenseUrl",
+        }
+    )
     rows = list(rows_from(data))
     if not rows or not rows[0]["url"]:
         raise SystemExit(f"Could not resolve {title!r}")
@@ -108,7 +114,15 @@ def exact_file(title: str) -> dict:
 
 def download(title: str, output: str):
     row = exact_file(title)
-    print(json.dumps({k: row[k] for k in ("title", "description", "artist", "license", "license_url", "source_page")}, indent=2))
+    print(
+        json.dumps(
+            {
+                k: row[k]
+                for k in ("title", "description", "artist", "license", "license_url", "source_page")
+            },
+            indent=2,
+        )
+    )
     print("\nReview the metadata above and the source page before committing the file.")
     target = Path(output)
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -119,7 +133,9 @@ def download(title: str, output: str):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Search/download reviewed Wikimedia Commons media for TradeSchool")
+    parser = argparse.ArgumentParser(
+        description="Search/download reviewed Wikimedia Commons media for TradeSchool"
+    )
     sub = parser.add_subparsers(dest="command", required=True)
     s = sub.add_parser("search")
     s.add_argument("query")

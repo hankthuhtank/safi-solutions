@@ -1,31 +1,269 @@
-import type {Trip,Route,Coordinate} from "./types";
-import {buildMapStyle,addRouteLayers,loadMapLibre,type MapTheme} from "./map-style";
-import {boundsOf,formatMiles,formatDrive} from "./geo";
-import {renderRaster} from "./raster";
-export type ExportLayout="landscape"|"portrait"|"map";
-const DISPLAY="'National Park', 'Overpass', Georgia, serif",SANS="'Overpass', Arial, sans-serif",MONO="'Overpass Mono', 'Overpass', monospace";
-function wrap(ctx:CanvasRenderingContext2D,text:string,x:number,y:number,width:number,lineHeight:number,maxLines=3){const words=text.split(/\s+/);let line="",lines=0;for(const word of words){const test=line?line+" "+word:word;if(ctx.measureText(test).width>width&&line){ctx.fillText(line,x,y);y+=lineHeight;lines++;if(lines>=maxLines)return y;line=word;}else line=test;}if(line)ctx.fillText(line,x,y);return y+lineHeight;}
-function roundRect(ctx:CanvasRenderingContext2D,x:number,y:number,w:number,h:number,r:number){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+import type { Trip, Route, Coordinate } from "./types";
+import { buildMapStyle, addRouteLayers, loadMapLibre, type MapTheme } from "./map-style";
+import { boundsOf, formatMiles, formatDrive } from "./geo";
+import { renderRaster } from "./raster";
+export type ExportLayout = "landscape" | "portrait" | "map";
+const DISPLAY = "'National Park', 'Overpass', Georgia, serif",
+  SANS = "'Overpass', Arial, sans-serif",
+  MONO = "'Overpass Mono', 'Overpass', monospace";
+function wrap(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  width: number,
+  lineHeight: number,
+  maxLines = 3,
+) {
+  const words = text.split(/\s+/);
+  let line = "",
+    lines = 0;
+  for (const word of words) {
+    const test = line ? line + " " + word : word;
+    if (ctx.measureText(test).width > width && line) {
+      ctx.fillText(line, x, y);
+      y += lineHeight;
+      lines++;
+      if (lines >= maxLines) return y;
+      line = word;
+    } else line = test;
+  }
+  if (line) ctx.fillText(line, x, y);
+  return y + lineHeight;
+}
+function roundRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
 // Stops are drawn as green mile-marker plates, the way they appear on the live map.
-function marker(ctx:CanvasRenderingContext2D,x:number,y:number,n:number,scale:number){const w=34*scale,h=44*scale;ctx.save();ctx.shadowColor="#00000066";ctx.shadowBlur=10*scale;ctx.shadowOffsetY=3*scale;roundRect(ctx,x-w/2,y-h/2,w,h,7*scale);ctx.fillStyle="#0e6b47";ctx.fill();ctx.restore();roundRect(ctx,x-w/2+3*scale,y-h/2+3*scale,w-6*scale,h-6*scale,5*scale);ctx.strokeStyle="#ffffff";ctx.lineWidth=2*scale;ctx.stroke();ctx.fillStyle="#ffffff";ctx.font=`700 ${(n>9?17:21)*scale}px ${SANS}`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(String(n),x,y+1.5*scale);ctx.textAlign="left";ctx.textBaseline="alphabetic";}
-export async function exportTrip(trip:Trip,route:Route|null,layout:ExportLayout,theme:MapTheme="atlas"):Promise<void>{if(!route)throw Error("Create a driving route before exporting your trip.");const width=layout==="portrait"?1080:1920,height=layout==="portrait"?1920:1080,day=theme==="light";const gl=await loadMapLibre(),style=await buildMapStyle(theme);const host=document.createElement("div");host.style.cssText=`position:fixed;left:-10000px;top:0;width:${width}px;height:${height}px;pointer-events:none;`;document.body.appendChild(host);let map:import("maplibre-gl").Map|undefined;
- try{await document.fonts.ready;await Promise.allSettled([document.fonts.load(`700 80px 'National Park'`),document.fonts.load(`600 30px 'Overpass'`)]);
- const canvas=document.createElement("canvas");canvas.width=width;canvas.height=height;const ctx=canvas.getContext("2d")!;
- const pad=layout==="portrait"?{top:380,bottom:520,left:110,right:110}:layout==="map"?{top:120,bottom:170,left:160,right:160}:{top:250,bottom:300,left:140,right:140};
- let attribution="© OpenStreetMap contributors";
- let project:(p:Coordinate)=>{x:number;y:number};
- if(document.createElement("canvas").getContext("webgl2")){
-  try{map=new gl.Map({container:host,style,center:trip.stops[0].coordinates,zoom:4,interactive:false,attributionControl:false,pixelRatio:1,canvasContextAttributes:{preserveDrawingBuffer:true,antialias:true}});await new Promise<void>((resolve,reject)=>{const timer=setTimeout(()=>reject(Error("Map loading timed out.")),16000);map!.once("load",()=>{clearTimeout(timer);resolve();});});addRouteLayers(map,route.coordinates,false,theme);map.setPaintProperty("trip-route-main","line-width",day?3.4:6);map.setPaintProperty("trip-route-edge","line-width",day?7:11);map.setPaintProperty("trip-route-glow","line-width",day?20:26);const bounds=boundsOf(route.coordinates);map.fitBounds([[bounds[0],bounds[1]],[bounds[2],bounds[3]]],{padding:pad,duration:0,maxZoom:12});await new Promise<void>((resolve,reject)=>{const timer=setTimeout(()=>reject(Error("Map tiles timed out.")),16000);map!.once("idle",()=>{clearTimeout(timer);resolve();});map!.triggerRepaint();});ctx.drawImage(map.getCanvas(),0,0,width,height);attribution=style.sources.base?"© OpenStreetMap contributors":"© OpenStreetMap contributors ⋅ OpenFreeMap ⋅ Terrain: Mapzen / AWS";project=p=>map!.project(p);
-  }catch{map?.remove();map=undefined;project=await renderRaster(canvas,route.coordinates,pad);}
- }else project=await renderRaster(canvas,route.coordinates,pad);
- const ink=day?"#17201b":"#eef1e6",dim=day?"#4a5649":"#b9c3b3",shade=day?"242,236,220":"13,20,17";
- const gradient=ctx.createLinearGradient(0,0,0,height);gradient.addColorStop(0,`rgba(${shade},.94)`);gradient.addColorStop(.24,`rgba(${shade},.1)`);gradient.addColorStop(.62,`rgba(${shade},0)`);gradient.addColorStop(1,`rgba(${shade},.97)`);ctx.fillStyle=gradient;ctx.fillRect(0,0,width,height);
- const scale=layout==="portrait"?1.15:1;trip.stops.forEach((s,i)=>{const p=project(s.coordinates);marker(ctx,p.x,p.y,i+1,scale);});
- const margin=layout==="portrait"?76:90;ctx.fillStyle=day?"#0e6b47":"#d4f53c";ctx.font=`800 30px ${SANS}`;ctx.fillText("Trippr",margin,layout==="map"?72:80);ctx.fillStyle=dim;ctx.font=`600 16px ${SANS}`;ctx.textAlign="right";ctx.fillText("A SAFI SOLUTIONS PROJECT",width-margin,78);ctx.textAlign="left";
- if(layout!=="map"){ctx.fillStyle=ink;ctx.font=`700 ${layout==="portrait"?84:88}px ${DISPLAY}`;wrap(ctx,trip.name||"An open road",margin,layout==="portrait"?196:192,width-margin*2,96,2);}
- const bottom=layout==="portrait"?height-390:height-250;ctx.fillStyle=ink;ctx.font=`600 46px ${MONO}`;ctx.fillText(`${formatMiles(route.distance)} mi`,margin,bottom);ctx.fillStyle=dim;ctx.font=`500 25px ${SANS}`;ctx.fillText(`${formatDrive(route.duration)} of driving  ⋅  ${trip.stops.length} stops`,margin,bottom+46);if(trip.startDate){ctx.font=`500 21px ${SANS}`;const f=(d:string)=>new Date(`${d}T12:00:00`).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});ctx.fillText(`${f(trip.startDate)}${trip.endDate?` – ${f(trip.endDate)}`:""}`,margin,bottom+84);}
- ctx.font=`500 22px ${SANS}`;ctx.fillStyle=ink;const names=trip.stops.map((s,i)=>`${i+1}  ${s.name.replace(/ National Park( & Preserve)?$/g,"")}`).join("   ⋅   ");wrap(ctx,names,margin,bottom+(trip.startDate?128:100),width-2*margin,34,layout==="portrait"?6:3);
- ctx.fillStyle=dim;ctx.font=`500 15px ${SANS}`;ctx.fillText("Map "+attribution+" ⋅ Route: "+route.source,margin,height-36);ctx.textAlign="right";ctx.fillText("Driving estimates exclude live traffic and closures.",width-margin,height-36);ctx.textAlign="left";
- const blob=await new Promise<Blob>((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error("The image could not be created.")),"image/png"));const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`${(trip.name||"Trippr").replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"")}-${layout}.png`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
- }finally{map?.remove();host.remove();}
+function marker(ctx: CanvasRenderingContext2D, x: number, y: number, n: number, scale: number) {
+  const w = 34 * scale,
+    h = 44 * scale;
+  ctx.save();
+  ctx.shadowColor = "#00000066";
+  ctx.shadowBlur = 10 * scale;
+  ctx.shadowOffsetY = 3 * scale;
+  roundRect(ctx, x - w / 2, y - h / 2, w, h, 7 * scale);
+  ctx.fillStyle = "#0e6b47";
+  ctx.fill();
+  ctx.restore();
+  roundRect(
+    ctx,
+    x - w / 2 + 3 * scale,
+    y - h / 2 + 3 * scale,
+    w - 6 * scale,
+    h - 6 * scale,
+    5 * scale,
+  );
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 2 * scale;
+  ctx.stroke();
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `700 ${(n > 9 ? 17 : 21) * scale}px ${SANS}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(String(n), x, y + 1.5 * scale);
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+}
+export async function exportTrip(
+  trip: Trip,
+  route: Route | null,
+  layout: ExportLayout,
+  theme: MapTheme = "atlas",
+): Promise<void> {
+  if (!route) throw Error("Create a driving route before exporting your trip.");
+  const width = layout === "portrait" ? 1080 : 1920,
+    height = layout === "portrait" ? 1920 : 1080,
+    day = theme === "light";
+  const gl = await loadMapLibre(),
+    style = await buildMapStyle(theme);
+  const host = document.createElement("div");
+  host.style.cssText = `position:fixed;left:-10000px;top:0;width:${width}px;height:${height}px;pointer-events:none;`;
+  document.body.appendChild(host);
+  let map: import("maplibre-gl").Map | undefined;
+  try {
+    await document.fonts.ready;
+    await Promise.allSettled([
+      document.fonts.load(`700 80px 'National Park'`),
+      document.fonts.load(`600 30px 'Overpass'`),
+    ]);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d")!;
+    const pad =
+      layout === "portrait"
+        ? { top: 380, bottom: 520, left: 110, right: 110 }
+        : layout === "map"
+          ? { top: 120, bottom: 170, left: 160, right: 160 }
+          : { top: 250, bottom: 300, left: 140, right: 140 };
+    let attribution = "© OpenStreetMap contributors";
+    let project: (p: Coordinate) => { x: number; y: number };
+    if (document.createElement("canvas").getContext("webgl2")) {
+      try {
+        map = new gl.Map({
+          container: host,
+          style,
+          center: trip.stops[0].coordinates,
+          zoom: 4,
+          interactive: false,
+          attributionControl: false,
+          pixelRatio: 1,
+          canvasContextAttributes: { preserveDrawingBuffer: true, antialias: true },
+        });
+        await new Promise<void>((resolve, reject) => {
+          const timer = setTimeout(() => reject(Error("Map loading timed out.")), 16000);
+          map!.once("load", () => {
+            clearTimeout(timer);
+            resolve();
+          });
+        });
+        addRouteLayers(map, route.coordinates, false, theme);
+        map.setPaintProperty("trip-route-main", "line-width", day ? 3.4 : 6);
+        map.setPaintProperty("trip-route-edge", "line-width", day ? 7 : 11);
+        map.setPaintProperty("trip-route-glow", "line-width", day ? 20 : 26);
+        const bounds = boundsOf(route.coordinates);
+        map.fitBounds(
+          [
+            [bounds[0], bounds[1]],
+            [bounds[2], bounds[3]],
+          ],
+          { padding: pad, duration: 0, maxZoom: 12 },
+        );
+        await new Promise<void>((resolve, reject) => {
+          const timer = setTimeout(() => reject(Error("Map tiles timed out.")), 16000);
+          map!.once("idle", () => {
+            clearTimeout(timer);
+            resolve();
+          });
+          map!.triggerRepaint();
+        });
+        ctx.drawImage(map.getCanvas(), 0, 0, width, height);
+        attribution = style.sources.base
+          ? "© OpenStreetMap contributors"
+          : "© OpenStreetMap contributors ⋅ OpenFreeMap ⋅ Terrain: Mapzen / AWS";
+        project = (p) => map!.project(p);
+      } catch {
+        map?.remove();
+        map = undefined;
+        project = await renderRaster(canvas, route.coordinates, pad);
+      }
+    } else project = await renderRaster(canvas, route.coordinates, pad);
+    const ink = day ? "#17201b" : "#eef1e6",
+      dim = day ? "#4a5649" : "#b9c3b3",
+      shade = day ? "242,236,220" : "13,20,17";
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, `rgba(${shade},.94)`);
+    gradient.addColorStop(0.24, `rgba(${shade},.1)`);
+    gradient.addColorStop(0.62, `rgba(${shade},0)`);
+    gradient.addColorStop(1, `rgba(${shade},.97)`);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+    const scale = layout === "portrait" ? 1.15 : 1;
+    trip.stops.forEach((s, i) => {
+      const p = project(s.coordinates);
+      marker(ctx, p.x, p.y, i + 1, scale);
+    });
+    const margin = layout === "portrait" ? 76 : 90;
+    ctx.fillStyle = day ? "#0e6b47" : "#d4f53c";
+    ctx.font = `800 30px ${SANS}`;
+    ctx.fillText("Trippr", margin, layout === "map" ? 72 : 80);
+    ctx.fillStyle = dim;
+    ctx.font = `600 16px ${SANS}`;
+    ctx.textAlign = "right";
+    ctx.fillText("A SAFI SOLUTIONS PROJECT", width - margin, 78);
+    ctx.textAlign = "left";
+    if (layout !== "map") {
+      ctx.fillStyle = ink;
+      ctx.font = `700 ${layout === "portrait" ? 84 : 88}px ${DISPLAY}`;
+      wrap(
+        ctx,
+        trip.name || "An open road",
+        margin,
+        layout === "portrait" ? 196 : 192,
+        width - margin * 2,
+        96,
+        2,
+      );
+    }
+    const bottom = layout === "portrait" ? height - 390 : height - 250;
+    ctx.fillStyle = ink;
+    ctx.font = `600 46px ${MONO}`;
+    ctx.fillText(`${formatMiles(route.distance)} mi`, margin, bottom);
+    ctx.fillStyle = dim;
+    ctx.font = `500 25px ${SANS}`;
+    ctx.fillText(
+      `${formatDrive(route.duration)} of driving  ⋅  ${trip.stops.length} stops`,
+      margin,
+      bottom + 46,
+    );
+    if (trip.startDate) {
+      ctx.font = `500 21px ${SANS}`;
+      const f = (d: string) =>
+        new Date(`${d}T12:00:00`).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+      ctx.fillText(
+        `${f(trip.startDate)}${trip.endDate ? ` – ${f(trip.endDate)}` : ""}`,
+        margin,
+        bottom + 84,
+      );
+    }
+    ctx.font = `500 22px ${SANS}`;
+    ctx.fillStyle = ink;
+    const names = trip.stops
+      .map((s, i) => `${i + 1}  ${s.name.replace(/ National Park( & Preserve)?$/g, "")}`)
+      .join("   ⋅   ");
+    wrap(
+      ctx,
+      names,
+      margin,
+      bottom + (trip.startDate ? 128 : 100),
+      width - 2 * margin,
+      34,
+      layout === "portrait" ? 6 : 3,
+    );
+    ctx.fillStyle = dim;
+    ctx.font = `500 15px ${SANS}`;
+    ctx.fillText("Map " + attribution + " ⋅ Route: " + route.source, margin, height - 36);
+    ctx.textAlign = "right";
+    ctx.fillText(
+      "Driving estimates exclude live traffic and closures.",
+      width - margin,
+      height - 36,
+    );
+    ctx.textAlign = "left";
+    const blob = await new Promise<Blob>((resolve, reject) =>
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(Error("The image could not be created."))),
+        "image/png",
+      ),
+    );
+    const url = URL.createObjectURL(blob),
+      a = document.createElement("a");
+    a.href = url;
+    a.download = `${(trip.name || "Trippr").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}-${layout}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+  } finally {
+    map?.remove();
+    host.remove();
+  }
 }

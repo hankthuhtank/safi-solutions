@@ -71,7 +71,11 @@ function ServicePage() {
       <DrinkTicket drink={drink} service />
       <p className="mt-10 text-xs text-subtle">
         J / K or arrows to move.{" "}
-        <Link to="/d/$slug" params={{ slug: drink.id }} className="underline-offset-2 hover:underline">
+        <Link
+          to="/d/$slug"
+          params={{ slug: drink.id }}
+          className="underline-offset-2 hover:underline"
+        >
           Open the full ticket
         </Link>
         {shake ? " · Space starts a shake count." : ""}

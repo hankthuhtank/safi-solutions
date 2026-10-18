@@ -1,9 +1,9 @@
 export default {
-  id: 'menu',
-  url: '/groundwork/menu/',
-  title: 'Kinds of coffee',
-  desc: 'Every kind of coffee drink explained in one cup: slide from espresso to latte, or from ristretto to americano, and read the café menu board with the ratio behind each drink.',
-  script: 'menu.js',
+  id: "menu",
+  url: "/groundwork/menu/",
+  title: "Kinds of coffee",
+  desc: "Every kind of coffee drink explained in one cup: slide from espresso to latte, or from ristretto to americano, and read the café menu board with the ratio behind each drink.",
+  script: "menu.js",
   body: `
 <div class="wrap">
   <section class="intro" aria-labelledby="menu-h">

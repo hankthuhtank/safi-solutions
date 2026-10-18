@@ -1,45 +1,74 @@
 // Sources & checks: where every number comes from, the checks the math must pass, and the assumptions behind it.
-import { money } from '../../js/format.js';
+import { money } from "../../js/format.js";
 
 export default (k, { TESTS, TESTED_ON }) => {
   const { rates, TAX, LIMITS, MODULES, esc, asOf, rate, asof } = k;
   const SOURCES = k.SOURCES;
   const S = rates.series;
-  const modLink = s => { const m = MODULES.find(x => x.slug === s); return m ? `<a href="/moneywise/${m.slug}/">${m.tab}</a>` : s === 'tests' ? '<a href="#checks">Checks</a>' : ''; };
-  const date = d => (d && /^\d{4}/.test(d) ? (d.length === 7 ? asOf(d + '-01', 'monthly') : d.length === 4 ? d : asOf(d)) : '');
-  const src = id => SOURCES.find(s => s.id === id);
-  const cite = id => { const s = src(id); return s ? `<a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a>` : ''; };
+  const modLink = (s) => {
+    const m = MODULES.find((x) => x.slug === s);
+    return m
+      ? `<a href="/moneywise/${m.slug}/">${m.tab}</a>`
+      : s === "tests"
+        ? '<a href="#checks">Checks</a>'
+        : "";
+  };
+  const date = (d) =>
+    d && /^\d{4}/.test(d)
+      ? d.length === 7
+        ? asOf(d + "-01", "monthly")
+        : d.length === 4
+          ? d
+          : asOf(d)
+      : "";
+  const src = (id) => SOURCES.find((s) => s.id === id);
+  const cite = (id) => {
+    const s = src(id);
+    return s ? `<a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a>` : "";
+  };
 
   /* ---------------- Part I: live numbers */
-  const node = (small, big, span, cls = '') => `<div class="pnode ${cls}"><small>${small}</small><b>${big}</b><span>${span}</span></div>`;
-  const arrow = label => `<div class="parrow" aria-hidden="true"><span>${label}</span></div>`;
-  const ids = Object.keys(S).filter(id => id !== 'FEDTARGET');
-  const value = id => (S[id].units === '$' ? money(S[id].latest?.value) : rate(id));
-  const what = id => (id === 'CPIAUCSL' ? 'Inflation: the change in the Consumer Price Index over the last 12 months' : esc(S[id].label));
+  const node = (small, big, span, cls = "") =>
+    `<div class="pnode ${cls}"><small>${small}</small><b>${big}</b><span>${span}</span></div>`;
+  const arrow = (label) => `<div class="parrow" aria-hidden="true"><span>${label}</span></div>`;
+  const ids = Object.keys(S).filter((id) => id !== "FEDTARGET");
+  const value = (id) => (S[id].units === "$" ? money(S[id].latest?.value) : rate(id));
+  const what = (id) =>
+    id === "CPIAUCSL"
+      ? "Inflation: the change in the Consumer Price Index over the last 12 months"
+      : esc(S[id].label);
   const live = `
 <div class="prose">
   <p class="lead">Every rate comes from <a href="https://fred.stlouisfed.org/" rel="noopener" target="_blank">FRED</a>, the free database of the Federal Reserve Bank of St. Louis. Each number shows its own date, because the series update on different schedules.</p>
 </div>
 <div class="pipes" role="list" aria-label="How live numbers reach this page">
-  <div class="pipe" role="listitem">${node('Source', 'FRED', 'Federal Reserve Bank of St. Louis, 16 series', 'src')}${arrow('once a day at most')}${node('Moneywise Worker', 'Cloudflare', 'holds the FRED key on the server and keeps a copy for 24 hours')}${arrow('JSON, with dates')}${node('This page', 'Your browser', 'shows each number with its as-of date', 'out')}</div>
-  <div class="pipe" role="listitem">${node('If the feed is down', 'Snapshot', `a saved copy of the same data, made ${asOf(rates.generated.slice(0, 10))}`, 'src')}${arrow('built into every page')}${node('Fallback', 'Printed numbers', 'pages read correctly before any script runs')}${arrow('labeled Snapshot')}${node('This page', 'Your browser', 'every number keeps its own date', 'out')}</div>
+  <div class="pipe" role="listitem">${node("Source", "FRED", "Federal Reserve Bank of St. Louis, 16 series", "src")}${arrow("once a day at most")}${node("Moneywise Worker", "Cloudflare", "holds the FRED key on the server and keeps a copy for 24 hours")}${arrow("JSON, with dates")}${node("This page", "Your browser", "shows each number with its as-of date", "out")}</div>
+  <div class="pipe" role="listitem">${node("If the feed is down", "Snapshot", `a saved copy of the same data, made ${asOf(rates.generated.slice(0, 10))}`, "src")}${arrow("built into every page")}${node("Fallback", "Printed numbers", "pages read correctly before any script runs")}${arrow("labeled Snapshot")}${node("This page", "Your browser", "every number keeps its own date", "out")}</div>
 </div>
-<p class="micro" style="margin:0 0 10px">Now showing: <b data-mode>${rates.mode === 'live' ? 'Live from FRED' : 'Snapshot'}</b></p>
+<p class="micro" style="margin:0 0 10px">Now showing: <b data-mode>${rates.mode === "live" ? "Live from FRED" : "Snapshot"}</b></p>
 <div class="table-scroll"><table class="src-table">
   <thead><tr><th>Series</th><th>What it measures</th><th class="n">Latest</th><th>As of</th><th>Updated</th><th>Published by</th></tr></thead>
-  <tbody>${ids.map(id => `<tr><td><a href="${S[id].url}" rel="noopener" target="_blank"><code>${id}</code></a></td><td>${what(id)}</td><td class="n">${value(id)}</td><td class="d">${asof(id)}</td><td>${S[id].freq}</td><td>${esc(S[id].publisher)}</td></tr>`).join('')}</tbody>
+  <tbody>${ids.map((id) => `<tr><td><a href="${S[id].url}" rel="noopener" target="_blank"><code>${id}</code></a></td><td>${what(id)}</td><td class="n">${value(id)}</td><td class="d">${asof(id)}</td><td>${S[id].freq}</td><td>${esc(S[id].publisher)}</td></tr>`).join("")}</tbody>
 </table></div>
 <p class="s-note"><b>Averages, not offers.</b> Freddie Mac's mortgage rate assumes strong credit and 20% down; the Fed's card and loan rates average across banks. Your own quote depends on you and the lender.</p>`;
 
   /* ---------------- Part II: tables */
-  const table = (file, j, year) => `<tr><td><a href="/moneywise/data/${file}"><code>${file}</code></a></td><td>${esc(j.table)}<small>${esc(j.effective)}</small></td><td class="n">${year}</td><td class="d">${asOf(j.checked)}</td><td><ul class="cites">${Object.values(j.sources).map(s => `<li><a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a>${s.published ? ` <span>(${asOf(s.published)})</span>` : ''}</li>`).join('')}</ul></td></tr>`;
+  const table = (file, j, year) =>
+    `<tr><td><a href="/moneywise/data/${file}"><code>${file}</code></a></td><td>${esc(j.table)}<small>${esc(j.effective)}</small></td><td class="n">${year}</td><td class="d">${asOf(j.checked)}</td><td><ul class="cites">${Object.values(
+      j.sources,
+    )
+      .map(
+        (s) =>
+          `<li><a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a>${s.published ? ` <span>(${asOf(s.published)})</span>` : ""}</li>`,
+      )
+      .join("")}</ul></td></tr>`;
   const tables = `
 <div class="prose">
   <p>Tax brackets, deductions and contribution limits change every year, so they live in two small data files instead of inside the code. Each file names the tax year it applies to, the date it was checked, the official documents it was copied from, and when the next update is due. The calculators read these files directly.</p>
 </div>
 <div class="table-scroll"><table class="src-table tables">
   <thead><tr><th>File</th><th>What it holds</th><th class="n">Year</th><th>Checked</th><th>Copied from</th></tr></thead>
-  <tbody>${table('tax-2026.json', TAX, TAX.taxYear)}${table('limits-2026.json', LIMITS, LIMITS.year)}</tbody>
+  <tbody>${table("tax-2026.json", TAX, TAX.taxYear)}${table("limits-2026.json", LIMITS, LIMITS.year)}</tbody>
 </table></div>
 <dl class="defs">
   <div><dt>Next tax update</dt><dd>${esc(TAX.nextUpdate)}</dd></div>
@@ -49,29 +78,58 @@ export default (k, { TESTS, TESTED_ON }) => {
   /* ---------------- Part III: the checks */
   // each check is filed under the form it protects; the text before the colon names the exact calculation
   const FILE = [
-    ['Mortgage', /^(amortization|APR from payments|PMI|points|refinance)/],
-    ['Interest and savings', /^(APY|APR to APY|growth)/],
-    ['Credit', /^(debt payoff|minimum payments)/],
-    ['Car loans', /^cars/],
-    ['Health insurance', /^insurance/],
-    ['Taxes', /^(brackets|income tax|IRS Tax Table|Schedule 1-A|payroll|paycheck)/],
-    ['Savings and retirement', /^(fees|retirement)/],
+    ["Mortgage", /^(amortization|APR from payments|PMI|points|refinance)/],
+    ["Interest and savings", /^(APY|APR to APY|growth)/],
+    ["Credit", /^(debt payoff|minimum payments)/],
+    ["Car loans", /^cars/],
+    ["Health insurance", /^insurance/],
+    ["Taxes", /^(brackets|income tax|IRS Tax Table|Schedule 1-A|payroll|paycheck)/],
+    ["Savings and retirement", /^(fees|retirement)/],
   ];
   const groups = FILE.map(([g]) => ({ g, items: [] }));
   for (const t of TESTS) {
-    const i = t.name.indexOf(': ');
-    const head = i > 0 ? t.name.slice(0, i) : '', d = i > 0 ? t.name.slice(i + 2) : t.name;
+    const i = t.name.indexOf(": ");
+    const head = i > 0 ? t.name.slice(0, i) : "",
+      d = i > 0 ? t.name.slice(i + 2) : t.name;
     const at = FILE.findIndex(([, re]) => re.test(t.name));
-    (groups[at < 0 ? 1 : at]).items.push({ ok: t.ok, head, d });
+    groups[at < 0 ? 1 : at].items.push({ ok: t.ok, head, d });
   }
   const against = [
-    ['Amortization', 'CFPB sample Loan Estimate and Closing Disclosure: $162,000 at 3.875% for 30 years. Payment $761.78, $15,773 of principal in five years, Total Interest Percentage 69.46%.', ['cfpb-le', 'cfpb-cd']],
-    ['APY', 'Regulation DD, Appendix A: the worked yields of 6.17%, 6.18% and the stepped-rate certificate at 5.39%.', ['regdd']],
-    ['Tax brackets', 'Revenue Procedure 2025-32: every published base amount for all four filing statuses.', ['irs-rp2532']],
-    ['IRS Tax Table', 'The 2025 Tax Table in the Form 1040 instructions: seven rows per filing status, to the dollar.', ['irs-i1040', 'irs-rp2440']],
-    ['Schedule 1-A', 'The new deductions for tips, overtime, car loan interest and seniors, with each phase-out rule.', ['irs-sch1a']],
-    ['Payroll tax', 'The 2026 Social Security wage base of $184,500 and the Additional Medicare Tax threshold.', ['ssa-cbb']],
-    ['Fees', 'The SEC\'s investor bulletin example: $100,000 at 4% for 20 years with 0.25%, 0.50% and 1% fees.', ['sec-fees']],
+    [
+      "Amortization",
+      "CFPB sample Loan Estimate and Closing Disclosure: $162,000 at 3.875% for 30 years. Payment $761.78, $15,773 of principal in five years, Total Interest Percentage 69.46%.",
+      ["cfpb-le", "cfpb-cd"],
+    ],
+    [
+      "APY",
+      "Regulation DD, Appendix A: the worked yields of 6.17%, 6.18% and the stepped-rate certificate at 5.39%.",
+      ["regdd"],
+    ],
+    [
+      "Tax brackets",
+      "Revenue Procedure 2025-32: every published base amount for all four filing statuses.",
+      ["irs-rp2532"],
+    ],
+    [
+      "IRS Tax Table",
+      "The 2025 Tax Table in the Form 1040 instructions: seven rows per filing status, to the dollar.",
+      ["irs-i1040", "irs-rp2440"],
+    ],
+    [
+      "Schedule 1-A",
+      "The new deductions for tips, overtime, car loan interest and seniors, with each phase-out rule.",
+      ["irs-sch1a"],
+    ],
+    [
+      "Payroll tax",
+      "The 2026 Social Security wage base of $184,500 and the Additional Medicare Tax threshold.",
+      ["ssa-cbb"],
+    ],
+    [
+      "Fees",
+      "The SEC's investor bulletin example: $100,000 at 4% for 20 years with 0.25%, 0.50% and 1% fees.",
+      ["sec-fees"],
+    ],
   ];
   const checks = `
 <div class="prose">
@@ -79,18 +137,31 @@ export default (k, { TESTS, TESTED_ON }) => {
 </div>
 <div class="table-scroll"><table class="src-table">
   <thead><tr><th>Checked against</th><th>What has to match</th><th>Document</th></tr></thead>
-  <tbody>${against.map(([n, d, s]) => `<tr><td><b>${n}</b></td><td>${d}</td><td>${s.map(cite).join('<br>')}</td></tr>`).join('')}</tbody>
+  <tbody>${against.map(([n, d, s]) => `<tr><td><b>${n}</b></td><td>${d}</td><td>${s.map(cite).join("<br>")}</td></tr>`).join("")}</tbody>
 </table></div>
-${k.fold(`All ${TESTS.length} checks`, `<div class="check-groups">${groups.filter(g => g.items.length).map(g => `<section><h3>${esc(g.g)} <span>${g.items.length}</span></h3><ul class="tests">${g.items.map(x => `<li${x.ok ? '' : ' class="fail"'}><span>${x.head ? `<b>${esc(x.head)}</b> ` : ''}${esc(x.d)}</span></li>`).join('')}</ul></section>`).join('')}</div>`)}
+${k.fold(
+  `All ${TESTS.length} checks`,
+  `<div class="check-groups">${groups
+    .filter((g) => g.items.length)
+    .map(
+      (g) =>
+        `<section><h3>${esc(g.g)} <span>${g.items.length}</span></h3><ul class="tests">${g.items.map((x) => `<li${x.ok ? "" : ' class="fail"'}><span>${x.head ? `<b>${esc(x.head)}</b> ` : ""}${esc(x.d)}</span></li>`).join("")}</ul></section>`,
+    )
+    .join("")}</div>`,
+)}
 <p class="fine-run">Run them yourself from a copy of the site: <code>node --test moneywise/tests/calc.test.mjs</code></p>`;
 
   /* ---------------- Part IV: every source */
-  const order = ['rates', 'mortgage', 'car', 'credit', 'insurance', 'taxes', 'retirement', 'tests'];
-  const sorted = [...SOURCES].sort((a, b) => Math.min(...a.for.map(f => order.indexOf(f))) - Math.min(...b.for.map(f => order.indexOf(f))));
+  const order = ["rates", "mortgage", "car", "credit", "insurance", "taxes", "retirement", "tests"];
+  const sorted = [...SOURCES].sort(
+    (a, b) =>
+      Math.min(...a.for.map((f) => order.indexOf(f))) -
+      Math.min(...b.for.map((f) => order.indexOf(f))),
+  );
   const all = `
 <div class="table-scroll"><table class="src-table every">
   <thead><tr><th>Publisher</th><th>Document</th><th>Date</th><th>Used on</th></tr></thead>
-  <tbody>${sorted.map(s => `<tr><td>${esc(s.publisher)}</td><td><a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a></td><td class="d">${date(s.date) || (s.date ? esc(s.date) : '')}</td><td>${s.for.map(modLink).filter(Boolean).join(', ')}</td></tr>`).join('')}</tbody>
+  <tbody>${sorted.map((s) => `<tr><td>${esc(s.publisher)}</td><td><a href="${s.url}" rel="noopener" target="_blank">${esc(s.title)}</a></td><td class="d">${date(s.date) || (s.date ? esc(s.date) : "")}</td><td>${s.for.map(modLink).filter(Boolean).join(", ")}</td></tr>`).join("")}</tbody>
 </table></div>`;
 
   /* ---------------- Part V: method */
@@ -119,24 +190,24 @@ ${k.fold(`All ${TESTS.length} checks`, `<div class="check-groups">${groups.filte
 </div>`;
 
   const sections = [
-    ['live', 'Live numbers', live],
-    ['tables', 'Tax and limit tables', tables],
-    ['checks', 'The checks', checks],
+    ["live", "Live numbers", live],
+    ["tables", "Tax and limit tables", tables],
+    ["checks", "The checks", checks],
   ];
   const body = `
 <div class="wrap">
-  ${k.head({ title: 'Sources &amp; checks', sub: 'Where every number comes from, and how the math is checked.' })}
-  <nav class="jump" aria-label="On this page">${[...sections, ['every'], ['method']].map(([id, title]) => `<a href="#${id}">${title || (id === 'every' ? 'Every source' : 'Method')}</a>`).join('')}</nav>
-  ${sections.map(([id, title, html]) => `<section class="s-sec" id="${id}" aria-labelledby="${id}-h"><h2 class="sec-title" id="${id}-h">${title}</h2>${html}</section>`).join('')}
+  ${k.head({ title: "Sources &amp; checks", sub: "Where every number comes from, and how the math is checked." })}
+  <nav class="jump" aria-label="On this page">${[...sections, ["every"], ["method"]].map(([id, title]) => `<a href="#${id}">${title || (id === "every" ? "Every source" : "Method")}</a>`).join("")}</nav>
+  ${sections.map(([id, title, html]) => `<section class="s-sec" id="${id}" aria-labelledby="${id}-h"><h2 class="sec-title" id="${id}-h">${title}</h2>${html}</section>`).join("")}
   <section class="t-folds" aria-label="More detail">
     <div id="every">${k.fold(`Every source (${SOURCES.length})`, all)}</div>
-    <div id="method">${k.fold('Method and assumptions', method)}</div>
+    <div id="method">${k.fold("Method and assumptions", method)}</div>
   </section>
 </div>`;
 
   return {
-    slug: 'sources',
-    title: 'Sources and checks: where every number comes from | Moneywise',
+    slug: "sources",
+    title: "Sources and checks: where every number comes from | Moneywise",
     description: `Every source behind Moneywise: ${ids.length} live FRED series with dates, the ${TAX.taxYear} IRS tax and limit tables, ${TESTS.length} math checks against CFPB, IRS, Regulation DD and SEC examples, and the assumptions behind each calculator.`,
     body,
   };

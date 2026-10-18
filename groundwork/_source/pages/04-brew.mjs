@@ -1,9 +1,9 @@
 export default {
-  id: 'brew',
-  url: '/groundwork/brew/',
-  title: 'Brew guide',
-  desc: 'Brew coffee without an espresso machine: pour-over, Chemex, AeroPress, French press, moka pot, Turkish cezve, Vietnamese phin, siphon and cold brew, with a grind-size ruler, a ratio calculator and a guided brew timer.',
-  script: 'brew.js',
+  id: "brew",
+  url: "/groundwork/brew/",
+  title: "Brew guide",
+  desc: "Brew coffee without an espresso machine: pour-over, Chemex, AeroPress, French press, moka pot, Turkish cezve, Vietnamese phin, siphon and cold brew, with a grind-size ruler, a ratio calculator and a guided brew timer.",
+  script: "brew.js",
   body: `
 <div class="wrap">
   <section class="intro" aria-labelledby="brew-h">

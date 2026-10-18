@@ -1,25 +1,200 @@
 import type * as GeoJSON from "geojson";
-import type {Coordinate} from "./types";
-const R=3958.7613,rad=(n:number)=>n*Math.PI/180;
-export function validCoordinate(v:unknown):v is Coordinate{return Array.isArray(v)&&v.length===2&&v.every(n=>typeof n==="number"&&Number.isFinite(n))&&Math.abs(v[0])<=180&&Math.abs(v[1])<=85;}
-export function milesBetween(a:Coordinate,b:Coordinate){const t=Math.sin(rad(b[1]-a[1])/2)**2+Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(rad(b[0]-a[0])/2)**2;return R*2*Math.atan2(Math.sqrt(t),Math.sqrt(1-t));}
-export function distanceToRoute(p:Coordinate,line:Coordinate[]){if(!line.length)return Infinity;if(line.length===1)return milesBetween(p,line[0]);let min=Infinity;const sx=Math.cos(rad(p[1]))*69.172,sy=69;for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i],ax=(a[0]-p[0])*sx,ay=(a[1]-p[1])*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,t=Math.max(0,Math.min(1,-(ax*dx+ay*dy)/(dx*dx+dy*dy||1)));min=Math.min(min,Math.hypot(ax+t*dx,ay+t*dy));}return min;}
-export function sampleLine(line:Coordinate[],count=6):Coordinate[]{if(!line.length)return[];if(line.length<=count)return line;let total=0;const lengths=[0];for(let i=1;i<line.length;i++){total+=milesBetween(line[i-1],line[i]);lengths.push(total);}return Array.from({length:count},(_,j)=>{const target=total*j/(count-1);let i=lengths.findIndex(n=>n>=target);if(i<1)i=1;const t=(target-lengths[i-1])/(lengths[i]-lengths[i-1]||1);return[line[i-1][0]+(line[i][0]-line[i-1][0])*t,line[i-1][1]+(line[i][1]-line[i-1][1])*t];});}
-export function boundsOf(points:Coordinate[]){return points.reduce((b,p)=>[Math.min(b[0],p[0]),Math.min(b[1],p[1]),Math.max(b[2],p[0]),Math.max(b[3],p[1])],[180,90,-180,-90]);}
-export const formatMiles=(meters:number)=>Math.round(meters/1609.344).toLocaleString();
-export const formatDrive=(s:number)=>{const h=Math.floor(s/3600),m=Math.round((s%3600)/60);return `${h+Math.floor(m/60)}h ${m%60}m`;};
-export function safeUrl(url?:string){if(!url)return undefined;try{const u=new URL(url);return ["https:","http:"].includes(u.protocol)?u.href:undefined;}catch{return undefined;}}
-export function pointInGeometry(p:Coordinate,g:GeoJSON.Geometry|null|undefined):boolean{if(!g)return false;const ring=(r:number[][])=>{let inside=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))inside=!inside;}return inside;};const poly=(r:number[][][])=>ring(r[0])&&!r.slice(1).some(ring);return g.type==="Polygon"?poly(g.coordinates):g.type==="MultiPolygon"?g.coordinates.some(poly):false;}
+import type { Coordinate } from "./types";
+const R = 3958.7613,
+  rad = (n: number) => (n * Math.PI) / 180;
+export function validCoordinate(v: unknown): v is Coordinate {
+  return (
+    Array.isArray(v) &&
+    v.length === 2 &&
+    v.every((n) => typeof n === "number" && Number.isFinite(n)) &&
+    Math.abs(v[0]) <= 180 &&
+    Math.abs(v[1]) <= 85
+  );
+}
+export function milesBetween(a: Coordinate, b: Coordinate) {
+  const t =
+    Math.sin(rad(b[1] - a[1]) / 2) ** 2 +
+    Math.cos(rad(a[1])) * Math.cos(rad(b[1])) * Math.sin(rad(b[0] - a[0]) / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(t), Math.sqrt(1 - t));
+}
+export function distanceToRoute(p: Coordinate, line: Coordinate[]) {
+  if (!line.length) return Infinity;
+  if (line.length === 1) return milesBetween(p, line[0]);
+  let min = Infinity;
+  const sx = Math.cos(rad(p[1])) * 69.172,
+    sy = 69;
+  for (let i = 1; i < line.length; i++) {
+    const a = line[i - 1],
+      b = line[i],
+      ax = (a[0] - p[0]) * sx,
+      ay = (a[1] - p[1]) * sy,
+      dx = (b[0] - a[0]) * sx,
+      dy = (b[1] - a[1]) * sy,
+      t = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / (dx * dx + dy * dy || 1)));
+    min = Math.min(min, Math.hypot(ax + t * dx, ay + t * dy));
+  }
+  return min;
+}
+export function sampleLine(line: Coordinate[], count = 6): Coordinate[] {
+  if (!line.length) return [];
+  if (line.length <= count) return line;
+  let total = 0;
+  const lengths = [0];
+  for (let i = 1; i < line.length; i++) {
+    total += milesBetween(line[i - 1], line[i]);
+    lengths.push(total);
+  }
+  return Array.from({ length: count }, (_, j) => {
+    const target = (total * j) / (count - 1);
+    let i = lengths.findIndex((n) => n >= target);
+    if (i < 1) i = 1;
+    const t = (target - lengths[i - 1]) / (lengths[i] - lengths[i - 1] || 1);
+    return [
+      line[i - 1][0] + (line[i][0] - line[i - 1][0]) * t,
+      line[i - 1][1] + (line[i][1] - line[i - 1][1]) * t,
+    ];
+  });
+}
+export function boundsOf(points: Coordinate[]) {
+  return points.reduce(
+    (b, p) => [
+      Math.min(b[0], p[0]),
+      Math.min(b[1], p[1]),
+      Math.max(b[2], p[0]),
+      Math.max(b[3], p[1]),
+    ],
+    [180, 90, -180, -90],
+  );
+}
+export const formatMiles = (meters: number) => Math.round(meters / 1609.344).toLocaleString();
+export const formatDrive = (s: number) => {
+  const h = Math.floor(s / 3600),
+    m = Math.round((s % 3600) / 60);
+  return `${h + Math.floor(m / 60)}h ${m % 60}m`;
+};
+export function safeUrl(url?: string) {
+  if (!url) return undefined;
+  try {
+    const u = new URL(url);
+    return ["https:", "http:"].includes(u.protocol) ? u.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
+export function pointInGeometry(p: Coordinate, g: GeoJSON.Geometry | null | undefined): boolean {
+  if (!g) return false;
+  const ring = (r: number[][]) => {
+    let inside = false;
+    for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
+      const a = r[i],
+        b = r[j];
+      if (
+        a[1] > p[1] !== b[1] > p[1] &&
+        p[0] < ((b[0] - a[0]) * (p[1] - a[1])) / (b[1] - a[1]) + a[0]
+      )
+        inside = !inside;
+    }
+    return inside;
+  };
+  const poly = (r: number[][][]) => ring(r[0]) && !r.slice(1).some(ring);
+  return g.type === "Polygon"
+    ? poly(g.coordinates)
+    : g.type === "MultiPolygon"
+      ? g.coordinates.some(poly)
+      : false;
+}
 
-export function newId():string{if(typeof crypto.randomUUID==="function")return crypto.randomUUID();const b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;const h=Array.from(b,n=>n.toString(16).padStart(2,"0")).join("");return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;}
+export function newId(): string {
+  if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+  const b = crypto.getRandomValues(new Uint8Array(16));
+  b[6] = (b[6] & 15) | 64;
+  b[8] = (b[8] & 63) | 128;
+  const h = Array.from(b, (n) => n.toString(16).padStart(2, "0")).join("");
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
 // Snapping map areas to a grid lets nearby pans reuse the same cached place search.
-export function snapBox(b:number[],step=.25){const down=(n:number)=>Math.floor(n/step)*step,up=(n:number)=>Math.ceil(n/step)*step;return[down(b[0]),down(b[1]),up(b[2]),up(b[3])].map(n=>Number(n.toFixed(4)));}
-export const midpoint=(a:Coordinate,b:Coordinate):Coordinate=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+export function snapBox(b: number[], step = 0.25) {
+  const down = (n: number) => Math.floor(n / step) * step,
+    up = (n: number) => Math.ceil(n / step) * step;
+  return [down(b[0]), down(b[1]), up(b[2]), up(b[3])].map((n) => Number(n.toFixed(4)));
+}
+export const midpoint = (a: Coordinate, b: Coordinate): Coordinate => [
+  (a[0] + b[0]) / 2,
+  (a[1] + b[1]) / 2,
+];
 // Splits a long route into pieces of roughly `miles` each, sharing their end points.
-export function splitLine(line:Coordinate[],miles:number):Coordinate[][]{if(line.length<2)return[line];let total=0;const at=[0];for(let i=1;i<line.length;i++){total+=milesBetween(line[i-1],line[i]);at.push(total);}const count=Math.max(1,Math.ceil(total/miles)),parts:Coordinate[][]=Array.from({length:count},()=>[]);line.forEach((p,i)=>{const k=Math.min(count-1,Math.floor(at[i]/total*count));parts[k].push(p);if(k>0&&parts[k].length===1)parts[k-1].push(p);});return parts.filter(p=>p.length>1);}
-function segmentMiles(p:Coordinate,a:Coordinate,b:Coordinate){const sx=Math.cos(rad(p[1]))*69.172,sy=69,ax=(a[0]-p[0])*sx,ay=(a[1]-p[1])*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,t=Math.max(0,Math.min(1,-(ax*dx+ay*dy)/(dx*dx+dy*dy||1)));return Math.hypot(ax+t*dx,ay+t*dy);}
+export function splitLine(line: Coordinate[], miles: number): Coordinate[][] {
+  if (line.length < 2) return [line];
+  let total = 0;
+  const at = [0];
+  for (let i = 1; i < line.length; i++) {
+    total += milesBetween(line[i - 1], line[i]);
+    at.push(total);
+  }
+  const count = Math.max(1, Math.ceil(total / miles)),
+    parts: Coordinate[][] = Array.from({ length: count }, () => []);
+  line.forEach((p, i) => {
+    const k = Math.min(count - 1, Math.floor((at[i] / total) * count));
+    parts[k].push(p);
+    if (k > 0 && parts[k].length === 1) parts[k - 1].push(p);
+  });
+  return parts.filter((p) => p.length > 1);
+}
+function segmentMiles(p: Coordinate, a: Coordinate, b: Coordinate) {
+  const sx = Math.cos(rad(p[1])) * 69.172,
+    sy = 69,
+    ax = (a[0] - p[0]) * sx,
+    ay = (a[1] - p[1]) * sy,
+    dx = (b[0] - a[0]) * sx,
+    dy = (b[1] - a[1]) * sy,
+    t = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / (dx * dx + dy * dy || 1)));
+  return Math.hypot(ax + t * dx, ay + t * dy);
+}
 // Distance-to-route for thousands of places: route segments are bucketed into a grid once, so each
 // lookup only checks the few segments near the place instead of every point of the route.
-export function routeIndex(line:Coordinate[],cell=.25){const pts:Coordinate[]=[];for(const p of line)if(!pts.length||milesBetween(pts[pts.length-1],p)>=.3)pts.push(p);if(line.length>1&&pts[pts.length-1]!==line[line.length-1])pts.push(line[line.length-1]);
- const grid=new Map<string,number[]>();for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];for(let x=Math.floor(Math.min(a[0],b[0])/cell);x<=Math.floor(Math.max(a[0],b[0])/cell);x++)for(let y=Math.floor(Math.min(a[1],b[1])/cell);y<=Math.floor(Math.max(a[1],b[1])/cell);y++){const k=`${x}:${y}`,list=grid.get(k);if(list)list.push(i);else grid.set(k,[i]);}}
- return{distance(p:Coordinate,max:number){if(pts.length<2)return pts.length?milesBetween(p,pts[0]):Infinity;const ry=Math.ceil(max/69/cell),rx=Math.ceil(max/(69*Math.max(.2,Math.cos(rad(p[1]))))/cell),cx=Math.floor(p[0]/cell),cy=Math.floor(p[1]/cell),seen=new Set<number>();let min=Infinity;for(let x=cx-rx;x<=cx+rx;x++)for(let y=cy-ry;y<=cy+ry;y++)for(const i of grid.get(`${x}:${y}`)||[]){if(seen.has(i))continue;seen.add(i);const d=segmentMiles(p,pts[i-1],pts[i]);if(d<min)min=d;}return min;}};}
+export function routeIndex(line: Coordinate[], cell = 0.25) {
+  const pts: Coordinate[] = [];
+  for (const p of line) if (!pts.length || milesBetween(pts[pts.length - 1], p) >= 0.3) pts.push(p);
+  if (line.length > 1 && pts[pts.length - 1] !== line[line.length - 1])
+    pts.push(line[line.length - 1]);
+  const grid = new Map<string, number[]>();
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1],
+      b = pts[i];
+    for (
+      let x = Math.floor(Math.min(a[0], b[0]) / cell);
+      x <= Math.floor(Math.max(a[0], b[0]) / cell);
+      x++
+    )
+      for (
+        let y = Math.floor(Math.min(a[1], b[1]) / cell);
+        y <= Math.floor(Math.max(a[1], b[1]) / cell);
+        y++
+      ) {
+        const k = `${x}:${y}`,
+          list = grid.get(k);
+        if (list) list.push(i);
+        else grid.set(k, [i]);
+      }
+  }
+  return {
+    distance(p: Coordinate, max: number) {
+      if (pts.length < 2) return pts.length ? milesBetween(p, pts[0]) : Infinity;
+      const ry = Math.ceil(max / 69 / cell),
+        rx = Math.ceil(max / (69 * Math.max(0.2, Math.cos(rad(p[1])))) / cell),
+        cx = Math.floor(p[0] / cell),
+        cy = Math.floor(p[1] / cell),
+        seen = new Set<number>();
+      let min = Infinity;
+      for (let x = cx - rx; x <= cx + rx; x++)
+        for (let y = cy - ry; y <= cy + ry; y++)
+          for (const i of grid.get(`${x}:${y}`) || []) {
+            if (seen.has(i)) continue;
+            seen.add(i);
+            const d = segmentMiles(p, pts[i - 1], pts[i]);
+            if (d < min) min = d;
+          }
+      return min;
+    },
+  };
+}

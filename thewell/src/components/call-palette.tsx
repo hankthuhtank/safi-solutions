@@ -120,14 +120,9 @@ export function CallPalette({
                   hits.length + idx === i ? "bg-elevated" : "hover:bg-elevated/60",
                 )}
               >
-                <span
-                  className="size-2.5 rounded-full"
-                  style={{ background: b.color }}
-                />
+                <span className="size-2.5 rounded-full" style={{ background: b.color }} />
                 <span className="font-display text-lg">{b.name}</span>
-                <span className="text-xs tracking-[0.14em] text-subtle uppercase">
-                  bottle
-                </span>
+                <span className="text-xs tracking-[0.14em] text-subtle uppercase">bottle</span>
               </button>
             </li>
           ))}

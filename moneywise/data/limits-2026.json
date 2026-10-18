@@ -5,14 +5,45 @@
   "checked": "2026-10-11",
   "nextUpdate": "The IRS normally announces 2027 401(k) and IRA limits in late October or November 2026.",
   "sources": {
-    "n-25-67": { "title": "IRS Notice 2025-67 (2026 retirement plan limits)", "published": "2025-11-13", "url": "https://www.irs.gov/pub/irs-drop/n-25-67.pdf" },
-    "rp-25-19": { "title": "IRS Revenue Procedure 2025-19 (2026 HSA and HDHP limits)", "published": "2025-05-01", "url": "https://www.irs.gov/pub/irs-drop/rp-25-19.pdf" },
-    "rp-26-24": { "title": "IRS Revenue Procedure 2026-24 (2027 HSA and HDHP limits)", "published": "2026-05-29", "url": "https://www.irs.gov/pub/irs-drop/rp-26-24.pdf" },
-    "rp-25-32": { "title": "IRS Revenue Procedure 2025-32 (2026 health FSA limit)", "published": "2025-10-09", "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" },
-    "cms-2027": { "title": "CMS: 2027 premium adjustment percentage and maximum annual limitation on cost sharing", "published": "2026-01-29", "url": "https://www.cms.gov/files/document/2027-papi-parameters-guidance-2026-01-29.pdf" },
-    "fhfa-2026": { "title": "FHFA announces conforming loan limit values for 2026", "published": "2025-11-25", "url": "https://www.fhfa.gov/news/news-release/fhfa-announces-conforming-loan-limit-values-for-2026" },
-    "hud-ml-2023-05": { "title": "HUD Mortgagee Letter 2023-05 (FHA annual MIP reduced to 0.55% for most borrowers)", "published": "2023-02-22", "url": "https://www.hud.gov/sites/dfiles/OCHCO/documents/2023-05hsgml.pdf" },
-    "cfpb-pmi": { "title": "CFPB: When can I remove private mortgage insurance (PMI) from my loan?", "url": "https://www.consumerfinance.gov/ask-cfpb/when-can-i-remove-private-mortgage-insurance-pmi-from-my-loan-en-202/" }
+    "n-25-67": {
+      "title": "IRS Notice 2025-67 (2026 retirement plan limits)",
+      "published": "2025-11-13",
+      "url": "https://www.irs.gov/pub/irs-drop/n-25-67.pdf"
+    },
+    "rp-25-19": {
+      "title": "IRS Revenue Procedure 2025-19 (2026 HSA and HDHP limits)",
+      "published": "2025-05-01",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-19.pdf"
+    },
+    "rp-26-24": {
+      "title": "IRS Revenue Procedure 2026-24 (2027 HSA and HDHP limits)",
+      "published": "2026-05-29",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-26-24.pdf"
+    },
+    "rp-25-32": {
+      "title": "IRS Revenue Procedure 2025-32 (2026 health FSA limit)",
+      "published": "2025-10-09",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf"
+    },
+    "cms-2027": {
+      "title": "CMS: 2027 premium adjustment percentage and maximum annual limitation on cost sharing",
+      "published": "2026-01-29",
+      "url": "https://www.cms.gov/files/document/2027-papi-parameters-guidance-2026-01-29.pdf"
+    },
+    "fhfa-2026": {
+      "title": "FHFA announces conforming loan limit values for 2026",
+      "published": "2025-11-25",
+      "url": "https://www.fhfa.gov/news/news-release/fhfa-announces-conforming-loan-limit-values-for-2026"
+    },
+    "hud-ml-2023-05": {
+      "title": "HUD Mortgagee Letter 2023-05 (FHA annual MIP reduced to 0.55% for most borrowers)",
+      "published": "2023-02-22",
+      "url": "https://www.hud.gov/sites/dfiles/OCHCO/documents/2023-05hsgml.pdf"
+    },
+    "cfpb-pmi": {
+      "title": "CFPB: When can I remove private mortgage insurance (PMI) from my loan?",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/when-can-i-remove-private-mortgage-insurance-pmi-from-my-loan-en-202/"
+    }
   },
   "retirement": {
     "source": "n-25-67",
@@ -25,13 +56,37 @@
     "simple": 17000,
     "ira": 7500,
     "iraCatchUp50": 1100,
-    "rothIraPhaseout": { "single": [153000, 168000], "hoh": [153000, 168000], "mfj": [242000, 252000], "mfs": [0, 10000] },
-    "traditionalIraDeductionPhaseoutCovered": { "single": [81000, 91000], "hoh": [81000, 91000], "mfj": [129000, 149000], "mfs": [0, 10000] },
+    "rothIraPhaseout": {
+      "single": [153000, 168000],
+      "hoh": [153000, 168000],
+      "mfj": [242000, 252000],
+      "mfs": [0, 10000]
+    },
+    "traditionalIraDeductionPhaseoutCovered": {
+      "single": [81000, 91000],
+      "hoh": [81000, 91000],
+      "mfj": [129000, 149000],
+      "mfs": [0, 10000]
+    },
     "saversCreditAgiLimit": { "single": 40250, "hoh": 60375, "mfj": 80500 }
   },
   "hsa": {
-    "2026": { "source": "rp-25-19", "self": 4400, "family": 8750, "catchUp55": 1000, "hdhpMinDeductible": { "self": 1700, "family": 3400 }, "hdhpOutOfPocketMax": { "self": 8500, "family": 17000 } },
-    "2027": { "source": "rp-26-24", "self": 4500, "family": 9000, "catchUp55": 1000, "hdhpMinDeductible": { "self": 1750, "family": 3500 }, "hdhpOutOfPocketMax": { "self": 8700, "family": 17400 } }
+    "2026": {
+      "source": "rp-25-19",
+      "self": 4400,
+      "family": 8750,
+      "catchUp55": 1000,
+      "hdhpMinDeductible": { "self": 1700, "family": 3400 },
+      "hdhpOutOfPocketMax": { "self": 8500, "family": 17000 }
+    },
+    "2027": {
+      "source": "rp-26-24",
+      "self": 4500,
+      "family": 9000,
+      "catchUp55": 1000,
+      "hdhpMinDeductible": { "self": 1750, "family": 3500 },
+      "hdhpOutOfPocketMax": { "self": 8700, "family": 17400 }
+    }
   },
   "acaOutOfPocketMax": {
     "source": "cms-2027",
@@ -43,7 +98,16 @@
   "healthFsa": { "source": "rp-25-32", "limit": 3400, "carryover": 680 },
   "housing": {
     "conformingLimit": { "source": "fhfa-2026", "baseline": 832750, "highCostCeiling": 1249125 },
-    "fhaMortgageInsurance": { "source": "hud-ml-2023-05", "upfront": 0.0175, "annualMostBorrowers": 0.0055 },
-    "pmiRules": { "source": "cfpb-pmi", "requestAtLtv": 0.80, "automaticAtLtv": 0.78, "finalAtMidpoint": true }
+    "fhaMortgageInsurance": {
+      "source": "hud-ml-2023-05",
+      "upfront": 0.0175,
+      "annualMostBorrowers": 0.0055
+    },
+    "pmiRules": {
+      "source": "cfpb-pmi",
+      "requestAtLtv": 0.8,
+      "automaticAtLtv": 0.78,
+      "finalAtMidpoint": true
+    }
   }
 }

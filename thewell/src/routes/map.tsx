@@ -85,25 +85,25 @@ function MapPage() {
             const left = Math.min(96, Math.max(4, p.x + jx));
             const top = Math.min(96, Math.max(4, 100 - p.y + jy));
             return (
-            <button
-              key={p.d.id}
-              type="button"
-              onMouseEnter={() => setHover(p.d.id)}
-              onFocus={() => setHover(p.d.id)}
-              onClick={() => void navigate({ to: "/d/$slug", params: { slug: p.d.id } })}
-              className="absolute size-7 -translate-x-1/2 -translate-y-1/2 rounded-full"
-              style={{ left: `${left}%`, top: `${top}%` }}
-              aria-label={p.d.name}
-            >
-              <span
-                className="block size-2.5 rounded-full transition-transform duration-150 hover:scale-150"
-                style={{
-                  background: p.color,
-                  boxShadow: hover === p.d.id ? `0 0 16px ${p.color}` : undefined,
-                  transform: hover === p.d.id ? "scale(1.8)" : undefined,
-                }}
-              />
-            </button>
+              <button
+                key={p.d.id}
+                type="button"
+                onMouseEnter={() => setHover(p.d.id)}
+                onFocus={() => setHover(p.d.id)}
+                onClick={() => void navigate({ to: "/d/$slug", params: { slug: p.d.id } })}
+                className="absolute size-7 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{ left: `${left}%`, top: `${top}%` }}
+                aria-label={p.d.name}
+              >
+                <span
+                  className="block size-2.5 rounded-full transition-transform duration-150 hover:scale-150"
+                  style={{
+                    background: p.color,
+                    boxShadow: hover === p.d.id ? `0 0 16px ${p.color}` : undefined,
+                    transform: hover === p.d.id ? "scale(1.8)" : undefined,
+                  }}
+                />
+              </button>
             );
           })}
         </div>

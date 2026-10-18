@@ -10,10 +10,7 @@ function NotFound() {
     <main className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
       <p className="font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">86'd</p>
       <h1 className="mt-3 font-display text-3xl">That isn't on the rail</h1>
-      <Link
-        to="/"
-        className="mt-6 text-sm text-muted transition-colors duration-150 hover:text-fg"
-      >
+      <Link to="/" className="mt-6 text-sm text-muted transition-colors duration-150 hover:text-fg">
         Back to the well
       </Link>
     </main>

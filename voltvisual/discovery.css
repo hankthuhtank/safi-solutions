@@ -1,1 +1,181 @@
-.loop-lesson{padding-top:70px;padding-bottom:70px;border-top:1px solid var(--line);scroll-margin-top:90px}.loop-lesson header{max-width:760px}.loop-lesson header>span{font-size:12px;letter-spacing:.14em;color:var(--cyan)}.loop-lesson h2{font-size:clamp(32px,4vw,48px);line-height:1.05;letter-spacing:-.04em;margin:20px 0}.loop-lesson h2 em{font-style:normal;color:var(--cyan)}.loop-lesson p{font-size:16px;line-height:1.75;color:#acbbc3}.loop-bench{display:grid;grid-template-columns:.8fr 1.2fr;border:1px solid #344650;margin:32px 0;background:#0c1419}.loop-process,.loop-signal{padding:30px}.loop-process{border-right:1px solid #344650}.loop-tank{position:relative;width:150px;height:180px;border:2px solid #6c8b98;border-top-style:dashed;overflow:hidden;margin:0 auto 28px}.loop-tank i{position:absolute;bottom:0;width:100%;background:linear-gradient(#42a8b9,#183d51);transition:height .15s}.loop-tank b{position:absolute;inset:0;display:grid;place-items:center;font-size:32px;color:white;text-shadow:0 2px 5px #000}.loop-lesson label{font-size:15px;display:block;margin-bottom:12px}.loop-process input{width:100%;min-height:36px;accent-color:var(--cyan)}.loop-process output{display:block;text-align:right;color:var(--cyan)}.loop-signal select{width:100%;font:inherit;font-size:15px;padding:14px;background:#15232a;color:white;border:1px solid #47606d}.loop-readouts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:30px 0}.loop-readouts span{display:block;font-size:12px;color:#91a8b5}.loop-readouts b{display:block;font-size:clamp(24px,3vw,40px);color:var(--cyan);margin-top:8px}.loop-lesson[data-fault=open] #loopDisplay{color:#ffaaa4}.loop-signal code{display:block;padding:16px;background:#080e12;white-space:normal;font-size:14px;line-height:1.6;color:#a9e1df}.loop-check{border-left:3px solid var(--cyan);padding-left:24px}.loop-check h3{font-size:23px;line-height:1.4}.loop-check>div{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}.loop-check button{font:inherit;font-size:14px;padding:14px;border:1px solid #425b67;background:#142028;color:#e3f0f6;border-radius:0;cursor:pointer}.loop-check button:hover{border-color:var(--cyan)}.loop-lesson details{margin-top:24px}.loop-lesson summary{font-size:15px;cursor:pointer;padding:16px 0}.loop-lesson a{color:var(--cyan)}.loop-lesson :focus-visible{outline:2px solid var(--cyan);outline-offset:4px}@media(max-width:700px){.loop-bench{grid-template-columns:1fr}.loop-process{border-right:0;border-bottom:1px solid #344650}.loop-process,.loop-signal{padding:24px}}@media(prefers-reduced-motion:reduce){.loop-tank i{transition:none}}
+.loop-lesson {
+  padding-top: 70px;
+  padding-bottom: 70px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 90px;
+}
+.loop-lesson header {
+  max-width: 760px;
+}
+.loop-lesson header > span {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+}
+.loop-lesson h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 20px 0;
+}
+.loop-lesson h2 em {
+  font-style: normal;
+  color: var(--cyan);
+}
+.loop-lesson p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #acbbc3;
+}
+.loop-bench {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  border: 1px solid #344650;
+  margin: 32px 0;
+  background: #0c1419;
+}
+.loop-process,
+.loop-signal {
+  padding: 30px;
+}
+.loop-process {
+  border-right: 1px solid #344650;
+}
+.loop-tank {
+  position: relative;
+  width: 150px;
+  height: 180px;
+  border: 2px solid #6c8b98;
+  border-top-style: dashed;
+  overflow: hidden;
+  margin: 0 auto 28px;
+}
+.loop-tank i {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(#42a8b9, #183d51);
+  transition: height 0.15s;
+}
+.loop-tank b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  color: white;
+  text-shadow: 0 2px 5px #000;
+}
+.loop-lesson label {
+  font-size: 15px;
+  display: block;
+  margin-bottom: 12px;
+}
+.loop-process input {
+  width: 100%;
+  min-height: 36px;
+  accent-color: var(--cyan);
+}
+.loop-process output {
+  display: block;
+  text-align: right;
+  color: var(--cyan);
+}
+.loop-signal select {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 14px;
+  background: #15232a;
+  color: white;
+  border: 1px solid #47606d;
+}
+.loop-readouts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 30px 0;
+}
+.loop-readouts span {
+  display: block;
+  font-size: 12px;
+  color: #91a8b5;
+}
+.loop-readouts b {
+  display: block;
+  font-size: clamp(24px, 3vw, 40px);
+  color: var(--cyan);
+  margin-top: 8px;
+}
+.loop-lesson[data-fault="open"] #loopDisplay {
+  color: #ffaaa4;
+}
+.loop-signal code {
+  display: block;
+  padding: 16px;
+  background: #080e12;
+  white-space: normal;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a9e1df;
+}
+.loop-check {
+  border-left: 3px solid var(--cyan);
+  padding-left: 24px;
+}
+.loop-check h3 {
+  font-size: 23px;
+  line-height: 1.4;
+}
+.loop-check > div {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.loop-check button {
+  font: inherit;
+  font-size: 14px;
+  padding: 14px;
+  border: 1px solid #425b67;
+  background: #142028;
+  color: #e3f0f6;
+  border-radius: 0;
+  cursor: pointer;
+}
+.loop-check button:hover {
+  border-color: var(--cyan);
+}
+.loop-lesson details {
+  margin-top: 24px;
+}
+.loop-lesson summary {
+  font-size: 15px;
+  cursor: pointer;
+  padding: 16px 0;
+}
+.loop-lesson a {
+  color: var(--cyan);
+}
+.loop-lesson :focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .loop-bench {
+    grid-template-columns: 1fr;
+  }
+  .loop-process {
+    border-right: 0;
+    border-bottom: 1px solid #344650;
+  }
+  .loop-process,
+  .loop-signal {
+    padding: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loop-tank i {
+    transition: none;
+  }
+}

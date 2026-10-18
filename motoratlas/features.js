@@ -1,38 +1,324 @@
-(()=>{
-'use strict';
-const DATA=window.MOTOR_ATLAS,B=window.MOTOR_BEGINNER;if(!DATA||!B)return;
-const $=(s,c=document)=>c.querySelector(s),$$=(s,c=document)=>[...c.querySelectorAll(s)];
-const esc=s=>String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));
-function plain(s){s=String(s||'').trim();[[/reciprocating/gi,'back-and-forth'],[/rotational/gi,'spinning'],[/deceleration/gi,'slowing down'],[/propulsion/gi,'moving the vehicle'],[/longitudinal/gi,'front-to-back'],[/transverse/gi,'side-to-side'],[/modulates?/gi,'adjusts'],[/actuator/gi,'device that converts energy into motion'],[/pressurized/gi,'under pressure'],[/kinetic energy/gi,'energy of motion'],[/torsional/gi,'twisting'],[/friction material/gi,'brake-pad material'],[/final-drive/gi,'last gear stage before the wheels'],[/final drive/gi,'last gear stage before the wheels'],[/gear reduction/gi,'gearing that trades speed for more turning force'],[/dissipates/gi,'gets rid of'],[/lubricates/gi,'reduces friction on'],[/oscillation/gi,'repeated movement']].forEach(x=>s=s.replace(x[0],x[1]));return s}
-function current(){const sn=$('#systemTitle')?.textContent.trim(),pn=$('#partTitle')?.textContent.trim();const system=DATA.systems.find(s=>s.name===sn)||DATA.systems.find(s=>s.parts.some(p=>p.name===pn));return{system,part:system?.parts.find(p=>p.name===pn)}}
-function intro(p){return B.special[p.name]||plain(p.purpose)}
-function words(p,i){const blob=(' '+[p.name,i,p.location,p.connects,p.learn].join(' ')+' ').toLowerCase(),hits=[];Object.keys(B.glossary).sort((a,b)=>b.length-a.length).forEach(term=>{if(hits.length>=5||term.toLowerCase()===p.name.toLowerCase())return;const re=new RegExp('(^|[^a-z0-9])'+term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'([^a-z0-9]|$)','i');if(re.test(blob)&&!hits.some(x=>x.term.includes(term)||term.includes(x.term)))hits.push({term,definition:B.glossary[term]})});return hits}
-function shortProblem(p){let s=plain(p.failure);if(s.length>240)s=s.slice(0,237).replace(/\s+\S*$/,'')+'…';return s}
-function renderBeginner(){const{system,part}=current();if(!system||!part)return;const view=$('#detailView');if(!view)return;const i=intro(part),ws=words(part,i);view.innerHTML=`<div class="beginner-sheet"><div class="plain-label">PLAIN ENGLISH</div><h4>What it is</h4><p class="beginner-lead">${esc(i)}</p><div class="beginner-basics"><div><span>WHERE IT LIVES</span><p>${esc(plain(part.location))}</p></div>${part.connects?`<div><span>WORKS WITH</span><p>${esc(plain(part.connects))}</p></div>`:''}</div>${ws.length?`<div class="word-helper"><span class="word-helper-title">NEW WORDS ON THIS PAGE</span><div class="word-chips">${ws.map((w,n)=>`<button type="button" data-word="${n}">${esc(w.term)}</button>`).join('')}</div><div class="word-answer"><b>${esc(ws[0].term)}</b><span>${esc(ws[0].definition)}</span></div></div>`:''}<div class="problem-peek"><span>IF SOMETHING GOES WRONG</span><p>${esc(shortProblem(part))}</p></div><details class="deeper-drawer"><summary><span>GO DEEPER</span><b>More detail when you want it</b></summary><div class="drawer-body"><div><span>HOW IT WORKS</span><p>${esc(plain(part.learn))}</p></div><div><span>HOW A TECHNICIAN CHECKS IT</span><p>${esc(plain(part.inspect))}</p></div><div class="drawer-safety"><span>SAFETY / SERVICE NOTE</span><p>Use model-specific service information for measurements, limits, torque values and repair procedures. A symptom can have more than one cause.</p></div></div></details></div>`;
-$$('.word-chips button',view).forEach(btn=>btn.addEventListener('click',()=>{const w=ws[+btn.dataset.word];if(!w)return;$$('.word-chips button',view).forEach(x=>x.classList.toggle('active',x===btn));$('.word-answer',view).innerHTML=`<b>${esc(w.term)}</b><span>${esc(w.definition)}</span>`}));$('.word-chips button',view)?.classList.add('active');const related=$('.related-row > span');if(related)related.textContent='LEARN NEXT';renderDifferential(system,part)}
-function renderPrimer(){const{system}=current();if(system&&$('#systemSummary'))$('#systemSummary').textContent=B.primers[system.id]||plain(system.summary)}
-function lessonNode(){let n=$('#differentialLesson');if(n)return n;n=document.createElement('section');n.id='differentialLesson';n.className='diff-lesson';const flow=$('#flowBench');flow?.parentNode?.insertBefore(n,flow);return n}
-function renderDifferential(system,part){const n=lessonNode();if(!n)return;const show=system.id==='drivetrain'&&/differential/i.test(part.name);n.hidden=!show;if(!show){n.innerHTML='';return}n.innerHTML=`<div class="diff-head"><div><span>VISUAL LESSON / DIFFERENTIAL + STEERING</span><h3>Why the wheels need different speeds in a turn.</h3></div><p>When a vehicle turns, the outside wheel travels farther than the inside wheel. The differential lets that outside wheel rotate faster instead of forcing a tire to scrub across the road.</p></div><div class="diff-grid"><div class="diff-simulator"><div class="sim-top"><span>TRY THE TURN</span><b id="diffModeLabel">OPEN DIFFERENTIAL</b></div><div class="turn-map"><svg viewBox="0 0 620 330" role="img" aria-label="Inner and outer wheel paths in a turn"><path class="road-edge" d="M40 290 C180 290 230 250 270 190 C315 122 382 70 580 70"/><path class="road-edge" d="M40 220 C150 220 180 195 215 145 C262 79 342 20 580 20"/><path class="road-mid" d="M40 255 C165 255 205 222 243 168 C289 101 362 45 580 45"/><g class="car-symbol"><rect x="260" y="139" width="108" height="56" rx="14"/><rect class="glass" x="283" y="147" width="53" height="40" rx="9"/><line x1="274" y1="132" x2="274" y2="144"/><line x1="354" y1="132" x2="354" y2="144"/><line x1="274" y1="190" x2="274" y2="202"/><line x1="354" y1="190" x2="354" y2="202"/></g><text x="430" y="112">OUTSIDE PATH = FARTHER</text><text x="300" y="248">INSIDE PATH = SHORTER</text></svg></div><label class="turn-control"><span>STRAIGHT</span><input id="turnSlider" type="range" min="0" max="100" value="72"><span>TIGHT TURN</span></label><div class="wheel-speed-row"><div class="wheel-readout outer"><span>OUTSIDE WHEEL</span><b id="outerSpeed">112</b><small>relative RPM</small><i></i></div><div class="diff-center"><span>DIFFERENTIAL</span><div class="diff-gear">✣</div><small>average wheel speed stays at 100</small></div><div class="wheel-readout inner"><span>INSIDE WHEEL</span><b id="innerSpeed">88</b><small>relative RPM</small><i></i></div></div><div class="diff-modes"><button class="active" data-diff-mode="open" type="button">OPEN DIFFERENTIAL</button><button data-diff-mode="locked" type="button">LOCKED AXLE</button></div><div class="diff-explain" id="diffExplain"><b>Open differential:</b> the gearset lets the two axle shafts turn at different speeds while still carrying power.</div></div><div class="diff-reference"><div class="ref-label"><span>REAL MECHANISM</span><a href="https://commons.wikimedia.org/wiki/File:Differential_(mechanical_device).webm" target="_blank" rel="noopener">SOURCE ↗</a></div><video muted loop playsinline controls preload="none" poster="https://commons.wikimedia.org/wiki/Special:FilePath/Differential%20Gear%20Box%20Model.jpg?width=720"><source src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Differential%20%28mechanical%20device%29.webm" type="video/webm"></video><p><b>What you're watching:</b> the carrier turns with the ring gear. In a turn, the small spider gears rotate and allow one side gear to speed up while the other slows down.</p><a class="history-link" href="https://commons.wikimedia.org/wiki/File:Around_the_Corner_(1937)_24fps_selection.webm" target="_blank" rel="noopener">WATCH CHEVROLET'S 1937 “AROUND THE CORNER” FILM ↗</a></div></div><div class="diff-bottom"><div><span>OPEN DIFFERENTIAL</span><p>Allows normal left/right speed difference while turning.</p></div><div><span>LIMITED-SLIP</span><p>Allows turning but resists a large speed difference when one tire loses grip.</p></div><div><span>LOCKER / LOCKED AXLE</span><p>Can force both axle shafts to the same speed for low-traction situations.</p></div></div>`;wireDiff()}
-function wireDiff(){const slider=$('#turnSlider'),outer=$('#outerSpeed'),inner=$('#innerSpeed'),explain=$('#diffExplain'),label=$('#diffModeLabel');if(!slider)return;let mode='open';const draw=()=>{const v=+slider.value,r=v===0?Infinity:40-34*v/100,w=.8;let o=100,i=100;if(Number.isFinite(r)){o=100*(r+w)/r;i=100*(r-w)/r}if(mode==='locked'){o=i=100;label.textContent='LOCKED AXLE';explain.innerHTML='<b>Locked axle:</b> both shafts are forced to the same speed, so a tight turn makes a tire scrub or slip.'}else{label.textContent='OPEN DIFFERENTIAL';explain.innerHTML='<b>Open differential:</b> the gearset lets the two axle shafts turn at different speeds while still carrying power.'}outer.textContent=Math.round(o);inner.textContent=Math.round(i)};slider.addEventListener('input',draw);$$('.diff-modes button').forEach(btn=>btn.addEventListener('click',()=>{mode=btn.dataset.diffMode;$$('.diff-modes button').forEach(x=>x.classList.toggle('active',x===btn));draw()}));draw()}
-function enhance(){renderBeginner();renderPrimer()}
-const pt=$('#partTitle'),st=$('#systemTitle');if(pt)new MutationObserver(()=>queueMicrotask(renderBeginner)).observe(pt,{childList:true,subtree:true,characterData:true});if(st)new MutationObserver(()=>queueMicrotask(renderPrimer)).observe(st,{childList:true,subtree:true,characterData:true});enhance();
+(() => {
+  "use strict";
+  const DATA = window.MOTOR_ATLAS,
+    B = window.MOTOR_BEGINNER;
+  if (!DATA || !B) return;
+  const $ = (s, c = document) => c.querySelector(s),
+    $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const esc = (s) =>
+    String(s ?? "").replace(
+      /[&<>'"]/g,
+      (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[m],
+    );
+  function plain(s) {
+    s = String(s || "").trim();
+    [
+      [/reciprocating/gi, "back-and-forth"],
+      [/rotational/gi, "spinning"],
+      [/deceleration/gi, "slowing down"],
+      [/propulsion/gi, "moving the vehicle"],
+      [/longitudinal/gi, "front-to-back"],
+      [/transverse/gi, "side-to-side"],
+      [/modulates?/gi, "adjusts"],
+      [/actuator/gi, "device that converts energy into motion"],
+      [/pressurized/gi, "under pressure"],
+      [/kinetic energy/gi, "energy of motion"],
+      [/torsional/gi, "twisting"],
+      [/friction material/gi, "brake-pad material"],
+      [/final-drive/gi, "last gear stage before the wheels"],
+      [/final drive/gi, "last gear stage before the wheels"],
+      [/gear reduction/gi, "gearing that trades speed for more turning force"],
+      [/dissipates/gi, "gets rid of"],
+      [/lubricates/gi, "reduces friction on"],
+      [/oscillation/gi, "repeated movement"],
+    ].forEach((x) => (s = s.replace(x[0], x[1])));
+    return s;
+  }
+  function current() {
+    const sn = $("#systemTitle")?.textContent.trim(),
+      pn = $("#partTitle")?.textContent.trim();
+    const system =
+      DATA.systems.find((s) => s.name === sn) ||
+      DATA.systems.find((s) => s.parts.some((p) => p.name === pn));
+    return { system, part: system?.parts.find((p) => p.name === pn) };
+  }
+  function intro(p) {
+    return B.special[p.name] || plain(p.purpose);
+  }
+  function words(p, i) {
+    const blob = (" " + [p.name, i, p.location, p.connects, p.learn].join(" ") + " ").toLowerCase(),
+      hits = [];
+    Object.keys(B.glossary)
+      .sort((a, b) => b.length - a.length)
+      .forEach((term) => {
+        if (hits.length >= 5 || term.toLowerCase() === p.name.toLowerCase()) return;
+        const re = new RegExp(
+          "(^|[^a-z0-9])" + term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^a-z0-9]|$)",
+          "i",
+        );
+        if (re.test(blob) && !hits.some((x) => x.term.includes(term) || term.includes(x.term)))
+          hits.push({ term, definition: B.glossary[term] });
+      });
+    return hits;
+  }
+  function shortProblem(p) {
+    let s = plain(p.failure);
+    if (s.length > 240) s = s.slice(0, 237).replace(/\s+\S*$/, "") + "…";
+    return s;
+  }
+  function renderBeginner() {
+    const { system, part } = current();
+    if (!system || !part) return;
+    const view = $("#detailView");
+    if (!view) return;
+    const i = intro(part),
+      ws = words(part, i);
+    view.innerHTML = `<div class="beginner-sheet"><div class="plain-label">PLAIN ENGLISH</div><h4>What it is</h4><p class="beginner-lead">${esc(i)}</p><div class="beginner-basics"><div><span>WHERE IT LIVES</span><p>${esc(plain(part.location))}</p></div>${part.connects ? `<div><span>WORKS WITH</span><p>${esc(plain(part.connects))}</p></div>` : ""}</div>${ws.length ? `<div class="word-helper"><span class="word-helper-title">NEW WORDS ON THIS PAGE</span><div class="word-chips">${ws.map((w, n) => `<button type="button" data-word="${n}">${esc(w.term)}</button>`).join("")}</div><div class="word-answer"><b>${esc(ws[0].term)}</b><span>${esc(ws[0].definition)}</span></div></div>` : ""}<div class="problem-peek"><span>IF SOMETHING GOES WRONG</span><p>${esc(shortProblem(part))}</p></div><details class="deeper-drawer"><summary><span>GO DEEPER</span><b>More detail when you want it</b></summary><div class="drawer-body"><div><span>HOW IT WORKS</span><p>${esc(plain(part.learn))}</p></div><div><span>HOW A TECHNICIAN CHECKS IT</span><p>${esc(plain(part.inspect))}</p></div><div class="drawer-safety"><span>SAFETY / SERVICE NOTE</span><p>Use model-specific service information for measurements, limits, torque values and repair procedures. A symptom can have more than one cause.</p></div></div></details></div>`;
+    $$(".word-chips button", view).forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const w = ws[+btn.dataset.word];
+        if (!w) return;
+        $$(".word-chips button", view).forEach((x) => x.classList.toggle("active", x === btn));
+        $(".word-answer", view).innerHTML =
+          `<b>${esc(w.term)}</b><span>${esc(w.definition)}</span>`;
+      }),
+    );
+    $(".word-chips button", view)?.classList.add("active");
+    const related = $(".related-row > span");
+    if (related) related.textContent = "LEARN NEXT";
+    renderDifferential(system, part);
+  }
+  function renderPrimer() {
+    const { system } = current();
+    if (system && $("#systemSummary"))
+      $("#systemSummary").textContent = B.primers[system.id] || plain(system.summary);
+  }
+  function lessonNode() {
+    let n = $("#differentialLesson");
+    if (n) return n;
+    n = document.createElement("section");
+    n.id = "differentialLesson";
+    n.className = "diff-lesson";
+    const flow = $("#flowBench");
+    flow?.parentNode?.insertBefore(n, flow);
+    return n;
+  }
+  function renderDifferential(system, part) {
+    const n = lessonNode();
+    if (!n) return;
+    const show = system.id === "drivetrain" && /differential/i.test(part.name);
+    n.hidden = !show;
+    if (!show) {
+      n.innerHTML = "";
+      return;
+    }
+    n.innerHTML = `<div class="diff-head"><div><span>VISUAL LESSON / DIFFERENTIAL + STEERING</span><h3>Why the wheels need different speeds in a turn.</h3></div><p>When a vehicle turns, the outside wheel travels farther than the inside wheel. The differential lets that outside wheel rotate faster instead of forcing a tire to scrub across the road.</p></div><div class="diff-grid"><div class="diff-simulator"><div class="sim-top"><span>TRY THE TURN</span><b id="diffModeLabel">OPEN DIFFERENTIAL</b></div><div class="turn-map"><svg viewBox="0 0 620 330" role="img" aria-label="Inner and outer wheel paths in a turn"><path class="road-edge" d="M40 290 C180 290 230 250 270 190 C315 122 382 70 580 70"/><path class="road-edge" d="M40 220 C150 220 180 195 215 145 C262 79 342 20 580 20"/><path class="road-mid" d="M40 255 C165 255 205 222 243 168 C289 101 362 45 580 45"/><g class="car-symbol"><rect x="260" y="139" width="108" height="56" rx="14"/><rect class="glass" x="283" y="147" width="53" height="40" rx="9"/><line x1="274" y1="132" x2="274" y2="144"/><line x1="354" y1="132" x2="354" y2="144"/><line x1="274" y1="190" x2="274" y2="202"/><line x1="354" y1="190" x2="354" y2="202"/></g><text x="430" y="112">OUTSIDE PATH = FARTHER</text><text x="300" y="248">INSIDE PATH = SHORTER</text></svg></div><label class="turn-control"><span>STRAIGHT</span><input id="turnSlider" type="range" min="0" max="100" value="72"><span>TIGHT TURN</span></label><div class="wheel-speed-row"><div class="wheel-readout outer"><span>OUTSIDE WHEEL</span><b id="outerSpeed">112</b><small>relative RPM</small><i></i></div><div class="diff-center"><span>DIFFERENTIAL</span><div class="diff-gear">✣</div><small>average wheel speed stays at 100</small></div><div class="wheel-readout inner"><span>INSIDE WHEEL</span><b id="innerSpeed">88</b><small>relative RPM</small><i></i></div></div><div class="diff-modes"><button class="active" data-diff-mode="open" type="button">OPEN DIFFERENTIAL</button><button data-diff-mode="locked" type="button">LOCKED AXLE</button></div><div class="diff-explain" id="diffExplain"><b>Open differential:</b> the gearset lets the two axle shafts turn at different speeds while still carrying power.</div></div><div class="diff-reference"><div class="ref-label"><span>REAL MECHANISM</span><a href="https://commons.wikimedia.org/wiki/File:Differential_(mechanical_device).webm" target="_blank" rel="noopener">SOURCE ↗</a></div><video muted loop playsinline controls preload="none" poster="https://commons.wikimedia.org/wiki/Special:FilePath/Differential%20Gear%20Box%20Model.jpg?width=720"><source src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Differential%20%28mechanical%20device%29.webm" type="video/webm"></video><p><b>What you're watching:</b> the carrier turns with the ring gear. In a turn, the small spider gears rotate and allow one side gear to speed up while the other slows down.</p><a class="history-link" href="https://commons.wikimedia.org/wiki/File:Around_the_Corner_(1937)_24fps_selection.webm" target="_blank" rel="noopener">WATCH CHEVROLET'S 1937 “AROUND THE CORNER” FILM ↗</a></div></div><div class="diff-bottom"><div><span>OPEN DIFFERENTIAL</span><p>Allows normal left/right speed difference while turning.</p></div><div><span>LIMITED-SLIP</span><p>Allows turning but resists a large speed difference when one tire loses grip.</p></div><div><span>LOCKER / LOCKED AXLE</span><p>Can force both axle shafts to the same speed for low-traction situations.</p></div></div>`;
+    wireDiff();
+  }
+  function wireDiff() {
+    const slider = $("#turnSlider"),
+      outer = $("#outerSpeed"),
+      inner = $("#innerSpeed"),
+      explain = $("#diffExplain"),
+      label = $("#diffModeLabel");
+    if (!slider) return;
+    let mode = "open";
+    const draw = () => {
+      const v = +slider.value,
+        r = v === 0 ? Infinity : 40 - (34 * v) / 100,
+        w = 0.8;
+      let o = 100,
+        i = 100;
+      if (Number.isFinite(r)) {
+        o = (100 * (r + w)) / r;
+        i = (100 * (r - w)) / r;
+      }
+      if (mode === "locked") {
+        o = i = 100;
+        label.textContent = "LOCKED AXLE";
+        explain.innerHTML =
+          "<b>Locked axle:</b> both shafts are forced to the same speed, so a tight turn makes a tire scrub or slip.";
+      } else {
+        label.textContent = "OPEN DIFFERENTIAL";
+        explain.innerHTML =
+          "<b>Open differential:</b> the gearset lets the two axle shafts turn at different speeds while still carrying power.";
+      }
+      outer.textContent = Math.round(o);
+      inner.textContent = Math.round(i);
+    };
+    slider.addEventListener("input", draw);
+    $$(".diff-modes button").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        mode = btn.dataset.diffMode;
+        $$(".diff-modes button").forEach((x) => x.classList.toggle("active", x === btn));
+        draw();
+      }),
+    );
+    draw();
+  }
+  function enhance() {
+    renderBeginner();
+    renderPrimer();
+  }
+  const pt = $("#partTitle"),
+    st = $("#systemTitle");
+  if (pt)
+    new MutationObserver(() => queueMicrotask(renderBeginner)).observe(pt, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+  if (st)
+    new MutationObserver(() => queueMicrotask(renderPrimer)).observe(st, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+  enhance();
 })();
 
-(()=>{
-'use strict';
-const D=window.MOTOR_ATLAS;if(!D?.diagnostics?.length)return;
-const $=(s,c=document)=>c.querySelector(s),$$=(s,c=document)=>[...c.querySelectorAll(s)];
-const esc=s=>String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));
-const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-const section=$('#diagnostics'),shell=$('.diag-shell',section);if(!section||!shell)return;let active=D.diagnostics[0],category='All',query='';
-const heading=$('.section-heading',section);if(heading){$('.index',heading).textContent='03 / COMMON DIAGNOSTICS';$('.eyebrow-text',heading).textContent='20 PROBLEMS PEOPLE ACTUALLY RUN INTO';$('h2',heading).innerHTML='Something feels wrong.<br>Start with the symptom.';$('p',heading).textContent='Search what the vehicle is doing, then work through likely causes, checks and fixes in a sensible order.'}
-const toolbar=document.createElement('div');toolbar.className='dx-toolbar';toolbar.innerHTML='<label class="dx-search"><span>SEARCH A SYMPTOM</span><input id="dxSearch" type="search" autocomplete="off" placeholder="Try: clicking, shakes when braking, warm A/C, losing coolant…"></label><div class="dx-count" id="dxCount"></div>';shell.parentNode.insertBefore(toolbar,shell);
-const filters=document.createElement('div');filters.className='dx-filters';filters.id='dxFilters';shell.parentNode.insertBefore(filters,shell);shell.className='diag-shell dx-shell';shell.innerHTML='<aside class="dx-list" id="dxList"></aside><section class="dx-detail" id="dxDetail"></section>';
-const grouped=x=>['Starting','Electrical','Engine','Cooling','Brakes','Tires','Transmission','Climate','Steering','Leaks','Noise'].includes(x)?x:'Other',categories=['All',...new Set(D.diagnostics.map(x=>grouped(x.category)))];
-function filtered(){const q=norm(query);return D.diagnostics.filter(x=>(category==='All'||grouped(x.category)===category)&&(!q||norm([x.title,x.complaint,x.category,x.causes?.join(' '),x.firstMove,x.fixes?.flat().join(' ')].join(' ')).includes(q)))}
-function urgency(u){return u==='critical'?'STOP / SAFETY':u==='high'?'ATTENTION':u==='low'?'COMFORT / CONVENIENCE':'CHECK SOON'}
-function renderFilters(){filters.innerHTML=categories.map(x=>`<button type="button" class="dx-filter${x===category?' active':''}" data-cat="${esc(x)}">${esc(x)}</button>`).join('');$$('.dx-filter',filters).forEach(b=>b.addEventListener('click',()=>{category=b.dataset.cat;renderAll()}))}
-function renderList(){const arr=filtered();$('#dxCount').textContent=`${arr.length} OF ${D.diagnostics.length} GUIDES`;$('#dxList').innerHTML=`<div class="dx-list-head">COMMON PROBLEM INDEX</div>`+(arr.length?arr.map(x=>`<button class="dx-case${x.id===active.id?' active':''}" data-id="${esc(x.id)}" data-urgency="${esc(x.urgency)}" type="button"><span class="rank">${String(D.diagnostics.indexOf(x)+1).padStart(2,'0')}</span><span><span class="cat"><i class="dot"></i>${esc(grouped(x.category))}</span><b>${esc(x.title)}</b><small>${esc(x.complaint)}</small></span></button>`).join(''):'<div class="dx-empty">NO GUIDE MATCHES THIS SEARCH.</div>');$$('.dx-case').forEach(b=>b.addEventListener('click',()=>{active=D.diagnostics.find(x=>x.id===b.dataset.id)||active;renderList();renderDetail()}))}
-function renderDetail(){const x=active,tools=x.tools?.length?`<div class="dx-tools">${x.tools.map(t=>`<span>${esc(t)}</span>`).join('')}</div>`:'';$('#dxDetail').innerHTML=`<div class="dx-top"><span class="dx-code">${esc(x.code)}</span><span class="dx-urgency ${esc(x.urgency)}">${urgency(x.urgency)}</span></div><h3>${esc(x.title)}</h3><p class="dx-complaint">${esc(x.complaint)}</p><div class="dx-first"><b>Start here</b><span>${esc(x.firstMove)}</span></div><div class="dx-section"><div class="dx-section-title"><span>01</span> Most likely causes</div><div class="dx-causes">${x.causes.map(v=>`<div class="dx-cause">${esc(v)}</div>`).join('')}</div></div><div class="dx-section"><div class="dx-section-title"><span>02</span> Check in this order</div><div class="dx-checks">${x.tests.map((t,i)=>`<div class="dx-check"><span class="n">${String(i+1).padStart(2,'0')}</span><div class="what">${esc(t[0])}</div><div class="meaning"><b>${esc(t[1])}</b>${esc(t[2])}</div></div>`).join('')}</div></div><div class="dx-section"><div class="dx-section-title"><span>03</span> Common fixes, after confirmation</div><div class="dx-fixes">${x.fixes.map(f=>`<div class="dx-fix"><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('')}</div></div><div class="dx-bottomline"><span>Bottom line</span><p>${esc(x.conclusion)}</p></div>${x.stop?`<div class="dx-stop"><b>Stop driving / safety:</b>${esc(x.stop)}</div>`:''}${tools}<div class="dx-source-note"><span>Use model-specific service specifications for actual repair work.</span></div>`}
-function renderAll(){const arr=filtered();if(!arr.includes(active)&&arr.length)active=arr[0];renderFilters();renderList();if(arr.length)renderDetail();else $('#dxDetail').innerHTML='<div class="dx-empty"><h3>No matching guide</h3><p>Try a shorter symptom, or choose All categories.</p></div>'}$('#dxSearch').addEventListener('input',e=>{query=e.target.value;renderAll()});renderAll();
+(() => {
+  "use strict";
+  const D = window.MOTOR_ATLAS;
+  if (!D?.diagnostics?.length) return;
+  const $ = (s, c = document) => c.querySelector(s),
+    $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const esc = (s) =>
+    String(s ?? "").replace(
+      /[&<>'"]/g,
+      (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[m],
+    );
+  const norm = (s) =>
+    String(s || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  const section = $("#diagnostics"),
+    shell = $(".diag-shell", section);
+  if (!section || !shell) return;
+  let active = D.diagnostics[0],
+    category = "All",
+    query = "";
+  const heading = $(".section-heading", section);
+  if (heading) {
+    $(".index", heading).textContent = "03 / COMMON DIAGNOSTICS";
+    $(".eyebrow-text", heading).textContent = "20 PROBLEMS PEOPLE ACTUALLY RUN INTO";
+    $("h2", heading).innerHTML = "Something feels wrong.<br>Start with the symptom.";
+    $("p", heading).textContent =
+      "Search what the vehicle is doing, then work through likely causes, checks and fixes in a sensible order.";
+  }
+  const toolbar = document.createElement("div");
+  toolbar.className = "dx-toolbar";
+  toolbar.innerHTML =
+    '<label class="dx-search"><span>SEARCH A SYMPTOM</span><input id="dxSearch" type="search" autocomplete="off" placeholder="Try: clicking, shakes when braking, warm A/C, losing coolant…"></label><div class="dx-count" id="dxCount"></div>';
+  shell.parentNode.insertBefore(toolbar, shell);
+  const filters = document.createElement("div");
+  filters.className = "dx-filters";
+  filters.id = "dxFilters";
+  shell.parentNode.insertBefore(filters, shell);
+  shell.className = "diag-shell dx-shell";
+  shell.innerHTML =
+    '<aside class="dx-list" id="dxList"></aside><section class="dx-detail" id="dxDetail"></section>';
+  const grouped = (x) =>
+      [
+        "Starting",
+        "Electrical",
+        "Engine",
+        "Cooling",
+        "Brakes",
+        "Tires",
+        "Transmission",
+        "Climate",
+        "Steering",
+        "Leaks",
+        "Noise",
+      ].includes(x)
+        ? x
+        : "Other",
+    categories = ["All", ...new Set(D.diagnostics.map((x) => grouped(x.category)))];
+  function filtered() {
+    const q = norm(query);
+    return D.diagnostics.filter(
+      (x) =>
+        (category === "All" || grouped(x.category) === category) &&
+        (!q ||
+          norm(
+            [
+              x.title,
+              x.complaint,
+              x.category,
+              x.causes?.join(" "),
+              x.firstMove,
+              x.fixes?.flat().join(" "),
+            ].join(" "),
+          ).includes(q)),
+    );
+  }
+  function urgency(u) {
+    return u === "critical"
+      ? "STOP / SAFETY"
+      : u === "high"
+        ? "ATTENTION"
+        : u === "low"
+          ? "COMFORT / CONVENIENCE"
+          : "CHECK SOON";
+  }
+  function renderFilters() {
+    filters.innerHTML = categories
+      .map(
+        (x) =>
+          `<button type="button" class="dx-filter${x === category ? " active" : ""}" data-cat="${esc(x)}">${esc(x)}</button>`,
+      )
+      .join("");
+    $$(".dx-filter", filters).forEach((b) =>
+      b.addEventListener("click", () => {
+        category = b.dataset.cat;
+        renderAll();
+      }),
+    );
+  }
+  function renderList() {
+    const arr = filtered();
+    $("#dxCount").textContent = `${arr.length} OF ${D.diagnostics.length} GUIDES`;
+    $("#dxList").innerHTML =
+      `<div class="dx-list-head">COMMON PROBLEM INDEX</div>` +
+      (arr.length
+        ? arr
+            .map(
+              (x) =>
+                `<button class="dx-case${x.id === active.id ? " active" : ""}" data-id="${esc(x.id)}" data-urgency="${esc(x.urgency)}" type="button"><span class="rank">${String(D.diagnostics.indexOf(x) + 1).padStart(2, "0")}</span><span><span class="cat"><i class="dot"></i>${esc(grouped(x.category))}</span><b>${esc(x.title)}</b><small>${esc(x.complaint)}</small></span></button>`,
+            )
+            .join("")
+        : '<div class="dx-empty">NO GUIDE MATCHES THIS SEARCH.</div>');
+    $$(".dx-case").forEach((b) =>
+      b.addEventListener("click", () => {
+        active = D.diagnostics.find((x) => x.id === b.dataset.id) || active;
+        renderList();
+        renderDetail();
+      }),
+    );
+  }
+  function renderDetail() {
+    const x = active,
+      tools = x.tools?.length
+        ? `<div class="dx-tools">${x.tools.map((t) => `<span>${esc(t)}</span>`).join("")}</div>`
+        : "";
+    $("#dxDetail").innerHTML =
+      `<div class="dx-top"><span class="dx-code">${esc(x.code)}</span><span class="dx-urgency ${esc(x.urgency)}">${urgency(x.urgency)}</span></div><h3>${esc(x.title)}</h3><p class="dx-complaint">${esc(x.complaint)}</p><div class="dx-first"><b>Start here</b><span>${esc(x.firstMove)}</span></div><div class="dx-section"><div class="dx-section-title"><span>01</span> Most likely causes</div><div class="dx-causes">${x.causes.map((v) => `<div class="dx-cause">${esc(v)}</div>`).join("")}</div></div><div class="dx-section"><div class="dx-section-title"><span>02</span> Check in this order</div><div class="dx-checks">${x.tests.map((t, i) => `<div class="dx-check"><span class="n">${String(i + 1).padStart(2, "0")}</span><div class="what">${esc(t[0])}</div><div class="meaning"><b>${esc(t[1])}</b>${esc(t[2])}</div></div>`).join("")}</div></div><div class="dx-section"><div class="dx-section-title"><span>03</span> Common fixes, after confirmation</div><div class="dx-fixes">${x.fixes.map((f) => `<div class="dx-fix"><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join("")}</div></div><div class="dx-bottomline"><span>Bottom line</span><p>${esc(x.conclusion)}</p></div>${x.stop ? `<div class="dx-stop"><b>Stop driving / safety:</b>${esc(x.stop)}</div>` : ""}${tools}<div class="dx-source-note"><span>Use model-specific service specifications for actual repair work.</span></div>`;
+  }
+  function renderAll() {
+    const arr = filtered();
+    if (!arr.includes(active) && arr.length) active = arr[0];
+    renderFilters();
+    renderList();
+    if (arr.length) renderDetail();
+    else
+      $("#dxDetail").innerHTML =
+        '<div class="dx-empty"><h3>No matching guide</h3><p>Try a shorter symptom, or choose All categories.</p></div>';
+  }
+  $("#dxSearch").addEventListener("input", (e) => {
+    query = e.target.value;
+    renderAll();
+  });
+  renderAll();
 })();

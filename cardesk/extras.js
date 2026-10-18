@@ -1,9 +1,10 @@
-(()=>{
-'use strict';
-const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s),
+    $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-const css=document.createElement('style');
-css.textContent=`
+  const css = document.createElement("style");
+  css.textContent = `
 /* CarDesk v4: zero fake car drawings */
 .vehicle-stage{min-height:590px;overflow:hidden;background:radial-gradient(circle at 50% 46%,rgba(22,133,255,.10),transparent 34%),linear-gradient(180deg,rgba(12,25,40,.98),rgba(6,16,28,.98))!important}
 .vehicle-stage:before{content:"";position:absolute;inset:44px 0 48px;background-image:linear-gradient(rgba(110,155,198,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(110,155,198,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at 50% 50%,#000 0 45%,transparent 78%);pointer-events:none}
@@ -41,20 +42,35 @@ css.textContent=`
 @media(max-width:900px){.intel-core{height:520px}.core-node{width:135px}.node-power,.node-diag{left:2%}.node-safety,.node-cost{right:2%}.intel-core .r3{width:390px;height:390px}}
 @media(max-width:650px){.intel-core{height:550px}.intel-core .ring.r3{width:300px;height:300px}.intel-core .ring.r2{width:250px;height:250px}.core-center{width:136px;height:136px}.core-node{width:126px;min-height:60px;padding:9px}.node-vin{top:2%}.node-service{bottom:2%}.node-power,.node-safety{top:23%}.node-diag,.node-cost{bottom:20%}.core-node small{display:none}.intel-hint{display:none}.system-topology{min-height:350px}.topo-node{min-width:92px}.topo-power,.topo-trans{left:2%}.topo-safety,.topo-build{right:2%}}
 `;
-document.head.appendChild(css);
+  document.head.appendChild(css);
 
-/* Hero: a representative 3D vehicle (garage3d.js) replaces the old drawing; the three system buttons become a mode bar. */
-const stage=$('.vehicle-stage');
-if(stage){
-  $('.car-hero',stage)?.replaceWith(Object.assign(document.createElement('div'),{className:'cd-machine',id:'cdMachine'}));
-  const bar=document.createElement('div');bar.className='cd-modes';bar.setAttribute('role','group');bar.setAttribute('aria-label','Highlight a vehicle layer');
-  $$('.hero-system',stage).forEach(b=>{b.setAttribute('aria-pressed','false');bar.append(b)});
-  const readout=$('.bay-readout',stage);stage.insertBefore(bar,readout||null);
-  const note=document.createElement('p');note.className='cd-note';note.id='cdNote';note.textContent='Representative model · configured from the VIN once decoded';stage.insertBefore(note,bar);
-}
+  /* Hero: a representative 3D vehicle (garage3d.js) replaces the old drawing; the three system buttons become a mode bar. */
+  const stage = $(".vehicle-stage");
+  if (stage) {
+    $(".car-hero", stage)?.replaceWith(
+      Object.assign(document.createElement("div"), { className: "cd-machine", id: "cdMachine" }),
+    );
+    const bar = document.createElement("div");
+    bar.className = "cd-modes";
+    bar.setAttribute("role", "group");
+    bar.setAttribute("aria-label", "Highlight a vehicle layer");
+    $$(".hero-system", stage).forEach((b) => {
+      b.setAttribute("aria-pressed", "false");
+      bar.append(b);
+    });
+    const readout = $(".bay-readout", stage);
+    stage.insertBefore(bar, readout || null);
+    const note = document.createElement("p");
+    note.className = "cd-note";
+    note.id = "cdNote";
+    note.textContent = "Representative model · configured from the VIN once decoded";
+    stage.insertBefore(note, bar);
+  }
 
-/* Lower architecture: the same representative 3D vehicle, driven by the scan tabs. */
-const scanVisual=$('.scan-visual');
-if(scanVisual){scanVisual.innerHTML='<div class="cd-machine cd-scan" id="cdScan"></div><p class="cd-note cd-scan-note">Representative model. The VIN identifies the architecture, not exact component placement.</p>'}
-
+  /* Lower architecture: the same representative 3D vehicle, driven by the scan tabs. */
+  const scanVisual = $(".scan-visual");
+  if (scanVisual) {
+    scanVisual.innerHTML =
+      '<div class="cd-machine cd-scan" id="cdScan"></div><p class="cd-note cd-scan-note">Representative model. The VIN identifies the architecture, not exact component placement.</p>';
+  }
 })();

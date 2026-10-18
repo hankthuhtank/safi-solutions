@@ -430,15 +430,9 @@
         "bullets": [],
         "note": null,
         "table": {
-          "headers": [
-            "If the defense does this",
-            "Why the run can work"
-          ],
+          "headers": ["If the defense does this", "Why the run can work"],
           "rows": [
-            [
-              "Light box",
-              "Offense may have enough blockers for every immediate run defender."
-            ],
+            ["Light box", "Offense may have enough blockers for every immediate run defender."],
             [
               "Wide defensive ends",
               "Inside runs can exploit the space created between edge and tackle."
@@ -447,10 +441,7 @@
               "Aggressive linebackers",
               "Counter, play-action, and RPOs can punish fast downhill reactions."
             ],
-            [
-              "Corners playing soft",
-              "Perimeter RPOs/screens may steal easy yards."
-            ]
+            ["Corners playing soft", "Perimeter RPOs/screens may steal easy yards."]
           ]
         }
       },
@@ -785,32 +776,20 @@
         "bullets": [],
         "note": null,
         "table": {
-          "headers": [
-            "Coverage",
-            "Common clue",
-            "Typical offensive answers"
-          ],
+          "headers": ["Coverage", "Common clue", "Typical offensive answers"],
           "rows": [
             [
               "Cover 0",
               "No deep safety",
               "Quick throws, rubs, crossers, max-protect shot if protected"
             ],
-            [
-              "Cover 1",
-              "One high + man leverage",
-              "Crossers, option routes, bunch, picks/rubs"
-            ],
+            ["Cover 1", "One high + man leverage", "Crossers, option routes, bunch, picks/rubs"],
             [
               "Cover 2",
               "Two high + corners squat",
               "Seams, smash, hole shots, run if box is light"
             ],
-            [
-              "Cover 3",
-              "One high + corners bail",
-              "Flood, curls, seams, underneath spacing"
-            ],
+            ["Cover 3", "One high + corners bail", "Flood, curls, seams, underneath spacing"],
             [
               "Cover 4",
               "Two high + four deep rules",
@@ -1381,10 +1360,7 @@
       }
     ],
     "sources": [
-      [
-        "NFL 2026 Rulebook",
-        "https://operations.nfl.com/rules-officiating/2026-nfl-rulebook"
-      ],
+      ["NFL 2026 Rulebook", "https://operations.nfl.com/rules-officiating/2026-nfl-rulebook"],
       [
         "NFL Football Terms",
         "https://operations.nfl.com/rules-officiating/nfl-football-basics/football-terms"
@@ -2336,18 +2312,9 @@
       }
     ],
     "sources": [
-      [
-        "MLB Baseball Basics",
-        "https://www.mlb.com/official-information/basics"
-      ],
-      [
-        "MLB Rules Glossary",
-        "https://www.mlb.com/glossary/rules"
-      ],
-      [
-        "MLB Glossary",
-        "https://www.mlb.com/glossary"
-      ]
+      ["MLB Baseball Basics", "https://www.mlb.com/official-information/basics"],
+      ["MLB Rules Glossary", "https://www.mlb.com/glossary/rules"],
+      ["MLB Glossary", "https://www.mlb.com/glossary"]
     ]
   },
   "basketball": {
@@ -3339,18 +3306,9 @@
       }
     ],
     "sources": [
-      [
-        "NBA Official Rulebook",
-        "https://official.nba.com/rulebook/"
-      ],
-      [
-        "NBA Rule 5: Scoring and Timing",
-        "https://official.nba.com/rule-no-5-scoring-and-timing/"
-      ],
-      [
-        "NBA Rule 12: Fouls",
-        "https://official.nba.com/rule-no-12-fouls-and-penalties/"
-      ]
+      ["NBA Official Rulebook", "https://official.nba.com/rulebook/"],
+      ["NBA Rule 5: Scoring and Timing", "https://official.nba.com/rule-no-5-scoring-and-timing/"],
+      ["NBA Rule 12: Fouls", "https://official.nba.com/rule-no-12-fouls-and-penalties/"]
     ]
   },
   "soccer": {
@@ -4011,10 +3969,7 @@
         "bullets": [],
         "note": null,
         "table": {
-          "headers": [
-            "If opponent does this",
-            "Possible response"
-          ],
+          "headers": ["If opponent does this", "Possible response"],
           "rows": [
             [
               "High press",
@@ -4028,18 +3983,12 @@
               "Narrow midfield",
               "Create width through wingers/fullbacks and circulate quickly side-to-side."
             ],
-            [
-              "Wide fullbacks advance",
-              "Counter into spaces behind them after regain."
-            ],
+            ["Wide fullbacks advance", "Counter into spaces behind them after regain."],
             [
               "Man marking",
               "Rotations, dropping striker, third-man runs, and dragging markers out of position."
             ],
-            [
-              "Back line very high",
-              "Threaten runs in behind and timed through balls."
-            ],
+            ["Back line very high", "Threaten runs in behind and timed through balls."],
             [
               "Back line very deep",
               "Receive between lines, shoot from zone 14, create cutbacks rather than only crosses."
@@ -4341,14 +4290,8 @@
       }
     ],
     "sources": [
-      [
-        "IFAB Laws of the Game 2026/27",
-        "https://www.theifab.com/laws-of-the-game-documents/"
-      ],
-      [
-        "IFAB Law 11: Offside",
-        "https://www.theifab.com/laws/latest/offside/"
-      ]
+      ["IFAB Laws of the Game 2026/27", "https://www.theifab.com/laws-of-the-game-documents/"],
+      ["IFAB Law 11: Offside", "https://www.theifab.com/laws/latest/offside/"]
     ]
   },
   "volleyball": {
@@ -4945,19 +4888,10 @@
         "bullets": [],
         "note": null,
         "table": {
-          "headers": [
-            "Situation",
-            "What teams try to do"
-          ],
+          "headers": ["Situation", "What teams try to do"],
           "rows": [
-            [
-              "Good first pass",
-              "Run fast middle + pin options to stress blockers."
-            ],
-            [
-              "Bad pass",
-              "Set high outside or safe back-row ball; prioritize keeping point alive."
-            ],
+            ["Good first pass", "Run fast middle + pin options to stress blockers."],
+            ["Bad pass", "Set high outside or safe back-row ball; prioritize keeping point alive."],
             [
               "Weak passer identified",
               "Serve repeatedly at that passer to reduce offense quality."
@@ -4966,14 +4900,8 @@
               "Dominant outside hitter",
               "Form disciplined double block and set floor defense around likely lanes."
             ],
-            [
-              "Middle blocker commits early",
-              "Setter can exploit opposite pin / back set."
-            ],
-            [
-              "Block late to close",
-              "Attacker tools hands or hits seam before block forms."
-            ],
+            ["Middle blocker commits early", "Setter can exploit opposite pin / back set."],
+            ["Block late to close", "Attacker tools hands or hits seam before block forms."],
             [
               "Opponent tips often",
               "Defenders creep into tip coverage while still respecting hard swing."
@@ -5164,10 +5092,7 @@
       }
     ],
     "sources": [
-      [
-        "FIVB Basic Rules",
-        "https://www.fivb.com/volleyball/the-game/basic-rules/"
-      ],
+      ["FIVB Basic Rules", "https://www.fivb.com/volleyball/the-game/basic-rules/"],
       [
         "FIVB Official Volleyball Rules 2025–2028",
         "https://www.fivb.com/wp-content/uploads/2025/01/FIVB-Volleyball_Rules2025_2028-EN-v05.pdf"

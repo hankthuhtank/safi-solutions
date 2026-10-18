@@ -1,42 +1,501 @@
 "use client";
-import {useEffect,useState} from "react";
-import {Dialog,DialogContent,DialogTitle,DialogDescription} from "@/components/ui/dialog";
-import {AlertDialog,AlertDialogContent,AlertDialogTitle,AlertDialogDescription,AlertDialogCancel,AlertDialogAction,AlertDialogFooter} from "@/components/ui/alert-dialog";
-import {Switch} from "@/components/ui/switch";
-import {Download,RectangleHorizontal,RectangleVertical,Map,Trash2,Plus,Route as RouteIcon,LoaderCircle,Sun,Moon,Zap,Fuel,Link2,Check,Navigation,Share2,Bookmark,Settings2,ArrowUpRight,Minus} from "lucide-react";
-import type {Trip,Route,Preferences} from "@/lib/trippr/types";
-import {formatMiles,formatDrive} from "@/lib/trippr/geo";
-import {exportTrip,type ExportLayout} from "@/lib/trippr/export";
-import {shareUrl,directionsUrl} from "@/lib/trippr/share";
-import {shortName} from "./RouteStrip";
-export type DialogName="trips"|"settings"|"share"|"menu"|null;
-interface Props{dialog:DialogName;open(d:DialogName):void;onClose():void;trip:Trip;route:Route|null;saved:Trip[];onLoad(t:Trip):void;onNew(demo?:boolean):void;onDelete(id:string):void;onPreferences(p:Preferences):void;theme:string;onTheme(t:"dark"|"light"):void;fontSize:number;onFont(n:number):void;}
-const num=(v:string,min:number,max:number,fallback:number)=>{const n=Number(v);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback;};
-export default function TripDialogs(p:Props){const[shown,setShown]=useState<DialogName>(p.dialog);useEffect(()=>{if(p.dialog)setShown(p.dialog);},[p.dialog]);const view=p.dialog||shown;
- const[layout,setLayout]=useState<ExportLayout>("landscape"),[exporting,setExporting]=useState(false),[exportError,setExportError]=useState(""),[deleteId,setDeleteId]=useState<string|null>(null),[copied,setCopied]=useState(false),[link,setLink]=useState("");
- const pref=p.trip.preferences,change=(part:Partial<Preferences>)=>p.onPreferences({...pref,...part}),gmaps=directionsUrl(p.trip.stops.map(s=>s.coordinates));
- useEffect(()=>{setCopied(false);if(p.dialog==="share")void shareUrl(p.trip).then(setLink).catch(()=>setLink(""));},[p.dialog,p.trip]);
- async function copy(){try{if(navigator.share&&matchMedia("(pointer:coarse)").matches){await navigator.share({title:p.trip.name,text:`${p.trip.name} — a road trip on Trippr`,url:link});return;}await navigator.clipboard.writeText(link);setCopied(true);setTimeout(()=>setCopied(false),2400);}catch{/* The person closed the share sheet. */}}
- return <><Dialog open={!!p.dialog} onOpenChange={v=>{if(!v)p.onClose();}}><DialogContent className={`app-dialog ${view==="menu"?"menu-dialog":""}`}>
- {view==="menu"&&<><DialogTitle className="dialog-title display">Trippr</DialogTitle><DialogDescription className="sr-only">Trips, sharing and settings.</DialogDescription><nav className="menu-list"><button onClick={()=>p.open("trips")}><Bookmark/><span><strong>Saved trips</strong><small>{p.saved.length?`${p.saved.length} on this device`:"Start a new trip or open a saved one"}</small></span></button><button onClick={()=>p.open("share")}><Share2/><span><strong>Share this trip</strong><small>Link, Google Maps or a map image</small></span></button><button onClick={()=>p.open("settings")}><Settings2/><span><strong>Settings</strong><small>Vehicle, road preferences, appearance</small></span></button><a href="/projects/"><ArrowUpRight/><span><strong>Safi Solutions projects</strong><small>See what else is being built</small></span></a></nav></>}
- {view==="trips"&&<><DialogTitle className="dialog-title display">Roads to come</DialogTitle><DialogDescription className="dialog-description">Trips save on this device — no account needed. Opening another trip keeps the current one in this list.</DialogDescription><ul className="trip-list">{p.saved.map(t=><li key={t.id} className={t.id===p.trip.id?"current":""}><button onClick={()=>p.onLoad(t)}><strong>{t.name||"Untitled trip"}</strong><small>{t.stops.length} stop{t.stops.length===1?"":"s"}{t.stops[0]?` ⋅ ${shortName(t.stops[0].name)}`:""}{t.stops.length>1?` → ${shortName(t.stops[t.stops.length-1].name)}`:""}{t.id===p.trip.id?" ⋅ open now":""}</small></button><button className="tool danger" aria-label={`Delete ${t.name}`} title="Delete" onClick={()=>setDeleteId(t.id)}><Trash2/></button></li>)}</ul>{!p.saved.length&&<p className="muted">Nothing saved yet. Use “Save trip” at the bottom of the trip panel to keep a copy here.</p>}<div className="dialog-actions"><button className="btn btn-primary" onClick={()=>p.onNew()}><Plus/>New road trip</button><button className="btn btn-quiet" onClick={()=>p.onNew(true)}><RouteIcon/>Load the sample trip</button></div></>}
- {view==="settings"&&<><DialogTitle className="dialog-title display">Your rig, your rules</DialogTitle><DialogDescription className="dialog-description">These shape the route, the cost estimate and how Trippr looks.</DialogDescription>
-  <section className="set-group"><span className="eyebrow">Vehicle</span><div className="segmented" role="group" aria-label="Vehicle type"><button aria-pressed={!pref.evMode} onClick={()=>change({evMode:false})}><Fuel/>Gas</button><button aria-pressed={pref.evMode} onClick={()=>change({evMode:true})}><Zap/>Electric</button></div>
-   {!pref.evMode?<div className="field-pair"><label>Miles per gallon<input type="number" inputMode="decimal" min={5} max={150} step={1} value={pref.mpg} onChange={e=>change({mpg:num(e.target.value,5,150,28)})}/></label><label>Gas price ($/gal)<input type="number" inputMode="decimal" min={1} max={15} step={.05} value={pref.fuelPrice} onChange={e=>change({fuelPrice:num(e.target.value,1,15,4.25)})}/></label></div>
-   :<><div className="field-pair"><label>Miles per kWh<input type="number" inputMode="decimal" min={1} max={8} step={.1} value={pref.milesPerKwh} onChange={e=>change({milesPerKwh:num(e.target.value,1,8,3.3)})}/></label><label>Charging ($/kWh)<input type="number" inputMode="decimal" min={0} max={2} step={.01} value={pref.kwhPrice} onChange={e=>change({kwhPrice:num(e.target.value,0,2,.5)})}/></label></div><div className="field-pair"><label>Range (mi)<input type="number" min={30} max={600} value={pref.range} onChange={e=>change({range:num(e.target.value,30,600,250)})}/></label><label>Connector<select value={pref.connector} onChange={e=>change({connector:e.target.value})}><option value="all">Any connector</option><option value="J1772">J1772 / Type 1</option><option value="CCS">CCS</option><option value="NACS">NACS / Tesla</option><option value="CHADEMO">CHAdeMO</option><option value="TYPE2">Type 2</option></select></label></div></>}
-   <p className="fine-print">{pref.evMode?"Defaults reflect typical 2026 public fast-charging prices (about $0.50/kWh). Charger listings don’t guarantee a working plug — verify each stop.":"Default gas price reflects the September 2026 U.S. average (about $4.25). Adjust it for where you’re driving."}</p></section>
-  <section className="set-group"><span className="eyebrow">Road preferences</span>{([["avoidTolls","Avoid toll roads"],["avoidHighways","Avoid highways"],["avoidFerries","Avoid ferries"]] as const).map(([key,label])=><label className="toggle-row" htmlFor={key} key={key}><span>{label}</span><Switch id={key} checked={pref[key]} onCheckedChange={v=>change({[key]:v})}/></label>)}<p className="fine-print">With any of these on, routes come from the Valhalla routing service, which weighs your preferences instead of the fastest path. Times are estimates without live traffic.</p></section>
-  <section className="set-group"><span className="eyebrow">Appearance</span><div className="segmented" role="group" aria-label="Theme"><button aria-pressed={p.theme!=="light"} onClick={()=>p.onTheme("dark")}><Moon/>Night drive</button><button aria-pressed={p.theme==="light"} onClick={()=>p.onTheme("light")}><Sun/>Day atlas</button></div><div className="toggle-row"><span>Text size</span><div className="stepper"><button className="tool boxed" aria-label="Smaller text" onClick={()=>p.onFont(Math.max(90,p.fontSize-10))} disabled={p.fontSize<=90}><Minus/></button><output>{p.fontSize}%</output><button className="tool boxed" aria-label="Larger text" onClick={()=>p.onFont(Math.min(150,p.fontSize+10))} disabled={p.fontSize>=150}><Plus/></button></div></div></section>
-  <p className="fine-print">Trippr is <a className="link" href="/projects/">a Safi Solutions project</a>. Trips stay on this device; nothing is synced to an account.</p>
- </>}
- {view==="share"&&<><DialogTitle className="dialog-title display">Pass it to the passenger seat</DialogTitle><DialogDescription className="dialog-description">Everything travels in the link — stops, order and dates. Nothing is uploaded.</DialogDescription>
-  <div className="share-actions"><button className="btn btn-primary" onClick={copy} disabled={!link||!p.trip.stops.length}>{copied?<Check/>:<Link2/>}{copied?"Link copied":"Copy trip link"}</button>{gmaps?<a className="btn btn-quiet" href={gmaps} target="_blank" rel="noopener noreferrer"><Navigation/>Open in Google Maps</a>:<button className="btn btn-quiet" disabled><Navigation/>Open in Google Maps</button>}</div>
-  {p.trip.stops.length>11&&<p className="fine-print">Google Maps takes up to 11 points, so the link covers your first 11 stops.</p>}
-  <span className="eyebrow">Map image</span>
-  <div className="export-layouts">{([["landscape","Landscape",RectangleHorizontal,"1920 × 1080"],["portrait","Story",RectangleVertical,"1080 × 1920"],["map","Clean map",Map,"1920 × 1080"]] as const).map(([id,label,Icon,size])=><button key={id} aria-pressed={layout===id} onClick={()=>setLayout(id)}><Icon size={22}/>{label}<small>{size}</small></button>)}</div>
-  <div className={`export-preview ${layout}`}><span className="export-brand">TRIPPR</span><strong className="display">{p.trip.name}</strong><span className="export-stats">{p.route?`${formatMiles(p.route.distance)} miles ⋅ ${formatDrive(p.route.duration)} ⋅ ${p.trip.stops.length} stops`:"Add two stops to draw a route"}</span></div>
-  {exportError&&<p className="note-warn" role="alert">{exportError}</p>}
-  <button className="btn btn-quiet btn-wide" disabled={!p.route||exporting} onClick={async()=>{setExporting(true);setExportError("");try{await exportTrip(p.trip,p.route,layout,p.theme==="light"?"light":"atlas");}catch(e){setExportError(e instanceof Error?e.message:"The image could not be exported.");}finally{setExporting(false);}}}>{exporting?<LoaderCircle className="spin"/>:<Download/>}{exporting?"Rendering your map…":"Download PNG"}</button>
- </>}
- </DialogContent></Dialog><AlertDialog open={!!deleteId} onOpenChange={v=>{if(!v)setDeleteId(null);}}><AlertDialogContent className="app-dialog"><AlertDialogTitle>Delete this saved trip?</AlertDialogTitle><AlertDialogDescription>This removes the saved copy from this device. The trip you have open stays put.</AlertDialogDescription><AlertDialogFooter><AlertDialogCancel>Keep it</AlertDialogCancel><AlertDialogAction onClick={()=>{if(deleteId)p.onDelete(deleteId);setDeleteId(null);}}>Delete</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog></>;
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
+import { Switch } from "@/components/ui/switch";
+import {
+  Download,
+  RectangleHorizontal,
+  RectangleVertical,
+  Map,
+  Trash2,
+  Plus,
+  Route as RouteIcon,
+  LoaderCircle,
+  Sun,
+  Moon,
+  Zap,
+  Fuel,
+  Link2,
+  Check,
+  Navigation,
+  Share2,
+  Bookmark,
+  Settings2,
+  ArrowUpRight,
+  Minus,
+} from "lucide-react";
+import type { Trip, Route, Preferences } from "@/lib/trippr/types";
+import { formatMiles, formatDrive } from "@/lib/trippr/geo";
+import { exportTrip, type ExportLayout } from "@/lib/trippr/export";
+import { shareUrl, directionsUrl } from "@/lib/trippr/share";
+import { shortName } from "./RouteStrip";
+export type DialogName = "trips" | "settings" | "share" | "menu" | null;
+interface Props {
+  dialog: DialogName;
+  open(d: DialogName): void;
+  onClose(): void;
+  trip: Trip;
+  route: Route | null;
+  saved: Trip[];
+  onLoad(t: Trip): void;
+  onNew(demo?: boolean): void;
+  onDelete(id: string): void;
+  onPreferences(p: Preferences): void;
+  theme: string;
+  onTheme(t: "dark" | "light"): void;
+  fontSize: number;
+  onFont(n: number): void;
+}
+const num = (v: string, min: number, max: number, fallback: number) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : fallback;
+};
+export default function TripDialogs(p: Props) {
+  const [shown, setShown] = useState<DialogName>(p.dialog);
+  useEffect(() => {
+    if (p.dialog) setShown(p.dialog);
+  }, [p.dialog]);
+  const view = p.dialog || shown;
+  const [layout, setLayout] = useState<ExportLayout>("landscape"),
+    [exporting, setExporting] = useState(false),
+    [exportError, setExportError] = useState(""),
+    [deleteId, setDeleteId] = useState<string | null>(null),
+    [copied, setCopied] = useState(false),
+    [link, setLink] = useState("");
+  const pref = p.trip.preferences,
+    change = (part: Partial<Preferences>) => p.onPreferences({ ...pref, ...part }),
+    gmaps = directionsUrl(p.trip.stops.map((s) => s.coordinates));
+  useEffect(() => {
+    setCopied(false);
+    if (p.dialog === "share")
+      void shareUrl(p.trip)
+        .then(setLink)
+        .catch(() => setLink(""));
+  }, [p.dialog, p.trip]);
+  async function copy() {
+    try {
+      if (navigator.share && matchMedia("(pointer:coarse)").matches) {
+        await navigator.share({
+          title: p.trip.name,
+          text: `${p.trip.name} — a road trip on Trippr`,
+          url: link,
+        });
+        return;
+      }
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    } catch {
+      /* The person closed the share sheet. */
+    }
+  }
+  return (
+    <>
+      <Dialog
+        open={!!p.dialog}
+        onOpenChange={(v) => {
+          if (!v) p.onClose();
+        }}
+      >
+        <DialogContent className={`app-dialog ${view === "menu" ? "menu-dialog" : ""}`}>
+          {view === "menu" && (
+            <>
+              <DialogTitle className="dialog-title display">Trippr</DialogTitle>
+              <DialogDescription className="sr-only">
+                Trips, sharing and settings.
+              </DialogDescription>
+              <nav className="menu-list">
+                <button onClick={() => p.open("trips")}>
+                  <Bookmark />
+                  <span>
+                    <strong>Saved trips</strong>
+                    <small>
+                      {p.saved.length
+                        ? `${p.saved.length} on this device`
+                        : "Start a new trip or open a saved one"}
+                    </small>
+                  </span>
+                </button>
+                <button onClick={() => p.open("share")}>
+                  <Share2 />
+                  <span>
+                    <strong>Share this trip</strong>
+                    <small>Link, Google Maps or a map image</small>
+                  </span>
+                </button>
+                <button onClick={() => p.open("settings")}>
+                  <Settings2 />
+                  <span>
+                    <strong>Settings</strong>
+                    <small>Vehicle, road preferences, appearance</small>
+                  </span>
+                </button>
+                <a href="/projects/">
+                  <ArrowUpRight />
+                  <span>
+                    <strong>Safi Solutions projects</strong>
+                    <small>See what else is being built</small>
+                  </span>
+                </a>
+              </nav>
+            </>
+          )}
+          {view === "trips" && (
+            <>
+              <DialogTitle className="dialog-title display">Roads to come</DialogTitle>
+              <DialogDescription className="dialog-description">
+                Trips save on this device — no account needed. Opening another trip keeps the
+                current one in this list.
+              </DialogDescription>
+              <ul className="trip-list">
+                {p.saved.map((t) => (
+                  <li key={t.id} className={t.id === p.trip.id ? "current" : ""}>
+                    <button onClick={() => p.onLoad(t)}>
+                      <strong>{t.name || "Untitled trip"}</strong>
+                      <small>
+                        {t.stops.length} stop{t.stops.length === 1 ? "" : "s"}
+                        {t.stops[0] ? ` ⋅ ${shortName(t.stops[0].name)}` : ""}
+                        {t.stops.length > 1
+                          ? ` → ${shortName(t.stops[t.stops.length - 1].name)}`
+                          : ""}
+                        {t.id === p.trip.id ? " ⋅ open now" : ""}
+                      </small>
+                    </button>
+                    <button
+                      className="tool danger"
+                      aria-label={`Delete ${t.name}`}
+                      title="Delete"
+                      onClick={() => setDeleteId(t.id)}
+                    >
+                      <Trash2 />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {!p.saved.length && (
+                <p className="muted">
+                  Nothing saved yet. Use “Save trip” at the bottom of the trip panel to keep a copy
+                  here.
+                </p>
+              )}
+              <div className="dialog-actions">
+                <button className="btn btn-primary" onClick={() => p.onNew()}>
+                  <Plus />
+                  New road trip
+                </button>
+                <button className="btn btn-quiet" onClick={() => p.onNew(true)}>
+                  <RouteIcon />
+                  Load the sample trip
+                </button>
+              </div>
+            </>
+          )}
+          {view === "settings" && (
+            <>
+              <DialogTitle className="dialog-title display">Your rig, your rules</DialogTitle>
+              <DialogDescription className="dialog-description">
+                These shape the route, the cost estimate and how Trippr looks.
+              </DialogDescription>
+              <section className="set-group">
+                <span className="eyebrow">Vehicle</span>
+                <div className="segmented" role="group" aria-label="Vehicle type">
+                  <button aria-pressed={!pref.evMode} onClick={() => change({ evMode: false })}>
+                    <Fuel />
+                    Gas
+                  </button>
+                  <button aria-pressed={pref.evMode} onClick={() => change({ evMode: true })}>
+                    <Zap />
+                    Electric
+                  </button>
+                </div>
+                {!pref.evMode ? (
+                  <div className="field-pair">
+                    <label>
+                      Miles per gallon
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        min={5}
+                        max={150}
+                        step={1}
+                        value={pref.mpg}
+                        onChange={(e) => change({ mpg: num(e.target.value, 5, 150, 28) })}
+                      />
+                    </label>
+                    <label>
+                      Gas price ($/gal)
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        min={1}
+                        max={15}
+                        step={0.05}
+                        value={pref.fuelPrice}
+                        onChange={(e) => change({ fuelPrice: num(e.target.value, 1, 15, 4.25) })}
+                      />
+                    </label>
+                  </div>
+                ) : (
+                  <>
+                    <div className="field-pair">
+                      <label>
+                        Miles per kWh
+                        <input
+                          type="number"
+                          inputMode="decimal"
+                          min={1}
+                          max={8}
+                          step={0.1}
+                          value={pref.milesPerKwh}
+                          onChange={(e) => change({ milesPerKwh: num(e.target.value, 1, 8, 3.3) })}
+                        />
+                      </label>
+                      <label>
+                        Charging ($/kWh)
+                        <input
+                          type="number"
+                          inputMode="decimal"
+                          min={0}
+                          max={2}
+                          step={0.01}
+                          value={pref.kwhPrice}
+                          onChange={(e) => change({ kwhPrice: num(e.target.value, 0, 2, 0.5) })}
+                        />
+                      </label>
+                    </div>
+                    <div className="field-pair">
+                      <label>
+                        Range (mi)
+                        <input
+                          type="number"
+                          min={30}
+                          max={600}
+                          value={pref.range}
+                          onChange={(e) => change({ range: num(e.target.value, 30, 600, 250) })}
+                        />
+                      </label>
+                      <label>
+                        Connector
+                        <select
+                          value={pref.connector}
+                          onChange={(e) => change({ connector: e.target.value })}
+                        >
+                          <option value="all">Any connector</option>
+                          <option value="J1772">J1772 / Type 1</option>
+                          <option value="CCS">CCS</option>
+                          <option value="NACS">NACS / Tesla</option>
+                          <option value="CHADEMO">CHAdeMO</option>
+                          <option value="TYPE2">Type 2</option>
+                        </select>
+                      </label>
+                    </div>
+                  </>
+                )}
+                <p className="fine-print">
+                  {pref.evMode
+                    ? "Defaults reflect typical 2026 public fast-charging prices (about $0.50/kWh). Charger listings don’t guarantee a working plug — verify each stop."
+                    : "Default gas price reflects the September 2026 U.S. average (about $4.25). Adjust it for where you’re driving."}
+                </p>
+              </section>
+              <section className="set-group">
+                <span className="eyebrow">Road preferences</span>
+                {(
+                  [
+                    ["avoidTolls", "Avoid toll roads"],
+                    ["avoidHighways", "Avoid highways"],
+                    ["avoidFerries", "Avoid ferries"],
+                  ] as const
+                ).map(([key, label]) => (
+                  <label className="toggle-row" htmlFor={key} key={key}>
+                    <span>{label}</span>
+                    <Switch
+                      id={key}
+                      checked={pref[key]}
+                      onCheckedChange={(v) => change({ [key]: v })}
+                    />
+                  </label>
+                ))}
+                <p className="fine-print">
+                  With any of these on, routes come from the Valhalla routing service, which weighs
+                  your preferences instead of the fastest path. Times are estimates without live
+                  traffic.
+                </p>
+              </section>
+              <section className="set-group">
+                <span className="eyebrow">Appearance</span>
+                <div className="segmented" role="group" aria-label="Theme">
+                  <button aria-pressed={p.theme !== "light"} onClick={() => p.onTheme("dark")}>
+                    <Moon />
+                    Night drive
+                  </button>
+                  <button aria-pressed={p.theme === "light"} onClick={() => p.onTheme("light")}>
+                    <Sun />
+                    Day atlas
+                  </button>
+                </div>
+                <div className="toggle-row">
+                  <span>Text size</span>
+                  <div className="stepper">
+                    <button
+                      className="tool boxed"
+                      aria-label="Smaller text"
+                      onClick={() => p.onFont(Math.max(90, p.fontSize - 10))}
+                      disabled={p.fontSize <= 90}
+                    >
+                      <Minus />
+                    </button>
+                    <output>{p.fontSize}%</output>
+                    <button
+                      className="tool boxed"
+                      aria-label="Larger text"
+                      onClick={() => p.onFont(Math.min(150, p.fontSize + 10))}
+                      disabled={p.fontSize >= 150}
+                    >
+                      <Plus />
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <p className="fine-print">
+                Trippr is{" "}
+                <a className="link" href="/projects/">
+                  a Safi Solutions project
+                </a>
+                . Trips stay on this device; nothing is synced to an account.
+              </p>
+            </>
+          )}
+          {view === "share" && (
+            <>
+              <DialogTitle className="dialog-title display">
+                Pass it to the passenger seat
+              </DialogTitle>
+              <DialogDescription className="dialog-description">
+                Everything travels in the link — stops, order and dates. Nothing is uploaded.
+              </DialogDescription>
+              <div className="share-actions">
+                <button
+                  className="btn btn-primary"
+                  onClick={copy}
+                  disabled={!link || !p.trip.stops.length}
+                >
+                  {copied ? <Check /> : <Link2 />}
+                  {copied ? "Link copied" : "Copy trip link"}
+                </button>
+                {gmaps ? (
+                  <a
+                    className="btn btn-quiet"
+                    href={gmaps}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Navigation />
+                    Open in Google Maps
+                  </a>
+                ) : (
+                  <button className="btn btn-quiet" disabled>
+                    <Navigation />
+                    Open in Google Maps
+                  </button>
+                )}
+              </div>
+              {p.trip.stops.length > 11 && (
+                <p className="fine-print">
+                  Google Maps takes up to 11 points, so the link covers your first 11 stops.
+                </p>
+              )}
+              <span className="eyebrow">Map image</span>
+              <div className="export-layouts">
+                {(
+                  [
+                    ["landscape", "Landscape", RectangleHorizontal, "1920 × 1080"],
+                    ["portrait", "Story", RectangleVertical, "1080 × 1920"],
+                    ["map", "Clean map", Map, "1920 × 1080"],
+                  ] as const
+                ).map(([id, label, Icon, size]) => (
+                  <button key={id} aria-pressed={layout === id} onClick={() => setLayout(id)}>
+                    <Icon size={22} />
+                    {label}
+                    <small>{size}</small>
+                  </button>
+                ))}
+              </div>
+              <div className={`export-preview ${layout}`}>
+                <span className="export-brand">TRIPPR</span>
+                <strong className="display">{p.trip.name}</strong>
+                <span className="export-stats">
+                  {p.route
+                    ? `${formatMiles(p.route.distance)} miles ⋅ ${formatDrive(p.route.duration)} ⋅ ${p.trip.stops.length} stops`
+                    : "Add two stops to draw a route"}
+                </span>
+              </div>
+              {exportError && (
+                <p className="note-warn" role="alert">
+                  {exportError}
+                </p>
+              )}
+              <button
+                className="btn btn-quiet btn-wide"
+                disabled={!p.route || exporting}
+                onClick={async () => {
+                  setExporting(true);
+                  setExportError("");
+                  try {
+                    await exportTrip(
+                      p.trip,
+                      p.route,
+                      layout,
+                      p.theme === "light" ? "light" : "atlas",
+                    );
+                  } catch (e) {
+                    setExportError(
+                      e instanceof Error ? e.message : "The image could not be exported.",
+                    );
+                  } finally {
+                    setExporting(false);
+                  }
+                }}
+              >
+                {exporting ? <LoaderCircle className="spin" /> : <Download />}
+                {exporting ? "Rendering your map…" : "Download PNG"}
+              </button>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      <AlertDialog
+        open={!!deleteId}
+        onOpenChange={(v) => {
+          if (!v) setDeleteId(null);
+        }}
+      >
+        <AlertDialogContent className="app-dialog">
+          <AlertDialogTitle>Delete this saved trip?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This removes the saved copy from this device. The trip you have open stays put.
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep it</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (deleteId) p.onDelete(deleteId);
+                setDeleteId(null);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
 }

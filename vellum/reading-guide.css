@@ -1,1 +1,123 @@
-.reading-invitation{padding-top:34px;padding-bottom:40px;border-top:1px solid var(--rule-hard)}.reading-invitation>span{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.14em;color:var(--gall-soft)}.reading-invitation h2{font:400 clamp(30px,4vw,46px)/1.2 Cardo,serif;margin:18px 0}.reading-invitation p{font:19px/1.7 Cardo,serif;max-width:68ch;color:var(--gall-soft);margin-bottom:22px}.reading-invitation>a{display:inline-block;margin:18px;font-size:14px;color:var(--lapis)}.reading-guide{margin:0 0 22px;border:1px solid var(--rule-hard);background:var(--vellum-lit);scroll-margin-top:24px}.reading-guide>summary{padding:18px 20px;cursor:pointer;font:20px Cardo,serif}.reading-guide>summary span{font:11px "IBM Plex Mono",monospace;display:block;margin:6px 0 0;color:var(--gall-soft)}.reading-guide-body{padding:0 22px 22px}.reading-guide p{font:17px/1.65 Cardo,serif;margin:12px 0}.reading-guide label{display:block;font:12px "IBM Plex Mono",monospace;margin:16px 0 8px}.reading-guide input,.reading-guide textarea{width:100%;box-sizing:border-box;font:18px/1.6 Cardo,serif;background:var(--vellum);color:var(--gall);border:1px solid var(--rule-hard);padding:12px;resize:vertical}.reading-guide nav,.reading-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.reading-guide button{padding:12px;font:13px "IBM Plex Mono",monospace;background:transparent;color:var(--gall);border:1px solid var(--rule-hard);cursor:pointer}.reading-guide button[aria-pressed=true]{border-color:var(--lapis);color:var(--lapis);box-shadow:inset 0 -2px var(--lapis)}.reading-guide h3{font:25px Cardo,serif;margin:24px 0 10px}.reading-guide .reading-save{font-size:13px;color:var(--gall-soft)}.reading-guide details>summary{font-size:16px;cursor:pointer;padding:16px 0}.reading-guide :focus-visible{outline:2px solid var(--lapis);outline-offset:4px}
+.reading-invitation {
+  padding-top: 34px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--rule-hard);
+}
+.reading-invitation > span {
+  font:
+    500 11px "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.14em;
+  color: var(--gall-soft);
+}
+.reading-invitation h2 {
+  font:
+    400 clamp(30px, 4vw, 46px)/1.2 Cardo,
+    serif;
+  margin: 18px 0;
+}
+.reading-invitation p {
+  font:
+    19px/1.7 Cardo,
+    serif;
+  max-width: 68ch;
+  color: var(--gall-soft);
+  margin-bottom: 22px;
+}
+.reading-invitation > a {
+  display: inline-block;
+  margin: 18px;
+  font-size: 14px;
+  color: var(--lapis);
+}
+.reading-guide {
+  margin: 0 0 22px;
+  border: 1px solid var(--rule-hard);
+  background: var(--vellum-lit);
+  scroll-margin-top: 24px;
+}
+.reading-guide > summary {
+  padding: 18px 20px;
+  cursor: pointer;
+  font:
+    20px Cardo,
+    serif;
+}
+.reading-guide > summary span {
+  font:
+    11px "IBM Plex Mono",
+    monospace;
+  display: block;
+  margin: 6px 0 0;
+  color: var(--gall-soft);
+}
+.reading-guide-body {
+  padding: 0 22px 22px;
+}
+.reading-guide p {
+  font:
+    17px/1.65 Cardo,
+    serif;
+  margin: 12px 0;
+}
+.reading-guide label {
+  display: block;
+  font:
+    12px "IBM Plex Mono",
+    monospace;
+  margin: 16px 0 8px;
+}
+.reading-guide input,
+.reading-guide textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font:
+    18px/1.6 Cardo,
+    serif;
+  background: var(--vellum);
+  color: var(--gall);
+  border: 1px solid var(--rule-hard);
+  padding: 12px;
+  resize: vertical;
+}
+.reading-guide nav,
+.reading-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.reading-guide button {
+  padding: 12px;
+  font:
+    13px "IBM Plex Mono",
+    monospace;
+  background: transparent;
+  color: var(--gall);
+  border: 1px solid var(--rule-hard);
+  cursor: pointer;
+}
+.reading-guide button[aria-pressed="true"] {
+  border-color: var(--lapis);
+  color: var(--lapis);
+  box-shadow: inset 0 -2px var(--lapis);
+}
+.reading-guide h3 {
+  font:
+    25px Cardo,
+    serif;
+  margin: 24px 0 10px;
+}
+.reading-guide .reading-save {
+  font-size: 13px;
+  color: var(--gall-soft);
+}
+.reading-guide details > summary {
+  font-size: 16px;
+  cursor: pointer;
+  padding: 16px 0;
+}
+.reading-guide :focus-visible {
+  outline: 2px solid var(--lapis);
+  outline-offset: 4px;
+}

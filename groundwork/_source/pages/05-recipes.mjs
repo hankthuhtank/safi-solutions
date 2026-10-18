@@ -1,9 +1,9 @@
 export default {
-  id: 'recipes',
-  url: '/groundwork/recipes/',
-  title: 'Recipes',
-  desc: '84 coffee recipes drawn as cups: espresso drinks, iced coffee, pour-over, world classics from Hanoi egg coffee to Turkish coffee, 2026 favourites and coffee cocktails. Filter by what is in your kitchen.',
-  script: 'recipes.js',
+  id: "recipes",
+  url: "/groundwork/recipes/",
+  title: "Recipes",
+  desc: "84 coffee recipes drawn as cups: espresso drinks, iced coffee, pour-over, world classics from Hanoi egg coffee to Turkish coffee, 2026 favourites and coffee cocktails. Filter by what is in your kitchen.",
+  script: "recipes.js",
   body: `
 <div class="wrap">
   <section class="intro" aria-labelledby="rx-h">

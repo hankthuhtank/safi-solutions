@@ -1,7 +1,7 @@
 /* =============================================================================
-   TradeSchool V15 — boilerplate stripper
+   TradeSchool boilerplate stripper
    -----------------------------------------------------------------------------
-   The V7-V10 content passes filled every concept's schema to 100%, which looks
+   The content passes filled every concept's schema to 100%, which looks
    complete in a validator and reads as filler on the page. Measured across the
    428 concepts before this pass:
 
@@ -17,7 +17,7 @@
    across more concepts than THRESHOLD. New boilerplate introduced later gets
    caught automatically.
 
-   Concepts touched by v15-currency.js keep their specific lines, because those
+   Concepts touched by currency.js keep their specific lines, because those
    were written for one concept each and will never cross the threshold.
    ========================================================================== */
 (() => {
@@ -35,9 +35,9 @@
     tally[k] = (tally[k] || 0) + 1;
   };
 
-  D.concepts.forEach(c => {
-    LIST_FIELDS.forEach(f => (c[f] || []).forEach(v => bump(f, v)));
-    TEXT_FIELDS.forEach(f => bump(f, c[f]));
+  D.concepts.forEach((c) => {
+    LIST_FIELDS.forEach((f) => (c[f] || []).forEach((v) => bump(f, v)));
+    TEXT_FIELDS.forEach((f) => bump(f, c[f]));
   });
 
   /* Short entries are allowed to repeat. `where` legitimately lists the same
@@ -47,21 +47,25 @@
   const MIN_LENGTH = 45;
 
   const isBoilerplate = (field, value) =>
-    String(value).length >= MIN_LENGTH &&
-    (tally[field + "\u0000" + value] || 0) > THRESHOLD;
+    String(value).length >= MIN_LENGTH && (tally[field + "\u0000" + value] || 0) > THRESHOLD;
 
   const report = {};
-  const count = (field, n) => { report[field] = (report[field] || 0) + n; };
+  const count = (field, n) => {
+    report[field] = (report[field] || 0) + n;
+  };
 
-  D.concepts.forEach(c => {
-    LIST_FIELDS.forEach(f => {
+  D.concepts.forEach((c) => {
+    LIST_FIELDS.forEach((f) => {
       if (!Array.isArray(c[f])) return;
       const before = c[f].length;
-      c[f] = c[f].filter(v => !isBoilerplate(f, v));
+      c[f] = c[f].filter((v) => !isBoilerplate(f, v));
       if (c[f].length !== before) count(f, before - c[f].length);
     });
-    TEXT_FIELDS.forEach(f => {
-      if (c[f] && isBoilerplate(f, c[f])) { delete c[f]; count(f, 1); }
+    TEXT_FIELDS.forEach((f) => {
+      if (c[f] && isBoilerplate(f, c[f])) {
+        delete c[f];
+        count(f, 1);
+      }
     });
   });
 
@@ -87,23 +91,28 @@
      the small number of checks that were actually written about their concept.
      ------------------------------------------------------------------------ */
   const checkTally = {};
-  D.concepts.forEach(c => {
+  D.concepts.forEach((c) => {
     if (!c.check || !Array.isArray(c.check.options)) return;
     const k = JSON.stringify(c.check.options);
     checkTally[k] = (checkTally[k] || 0) + 1;
   });
   let checksRemoved = 0;
-  D.concepts.forEach(c => {
+  D.concepts.forEach((c) => {
     if (!c.check || !Array.isArray(c.check.options)) return;
-    if (checkTally[JSON.stringify(c.check.options)] > THRESHOLD) { delete c.check; checksRemoved++; }
+    if (checkTally[JSON.stringify(c.check.options)] > THRESHOLD) {
+      delete c.check;
+      checksRemoved++;
+    }
   });
   D.genericChecksRemoved = checksRemoved;
-  D.realChecks = D.concepts.filter(c => c.check).length;
+  D.realChecks = D.concepts.filter((c) => c.check).length;
 
   console.log(
     "V15 de-boilerplate: removed " +
-    Object.entries(report).map(([f, n]) => `${n} ${f}`).join(", ") +
-    ` across ${D.boilerplateRemoved.length} repeated string(s); ` +
-    `removed ${checksRemoved} generic knowledge check(s), ${D.realChecks} concept-specific check(s) kept.`
+      Object.entries(report)
+        .map(([f, n]) => `${n} ${f}`)
+        .join(", ") +
+      ` across ${D.boilerplateRemoved.length} repeated string(s); ` +
+      `removed ${checksRemoved} generic knowledge check(s), ${D.realChecks} concept-specific check(s) kept.`,
   );
 })();

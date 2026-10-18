@@ -36,8 +36,8 @@ function WellPage() {
         Stock the well
       </h1>
       <p className="mt-3 max-w-lg text-sm leading-6 text-muted">
-        Tap every bottle you actually own. The rail lights up with what you can pour tonight —
-        and what's one bottle away.
+        Tap every bottle you actually own. The rail lights up with what you can pour tonight — and
+        what's one bottle away.
       </p>
       <p className="mt-4 font-display text-2xl italic text-fg">
         {counts.yes} you can make
@@ -95,7 +95,9 @@ function WellPage() {
               <li key={d.id}>
                 <Link to="/d/$slug" params={{ slug: d.id }} className="flex flex-col items-center">
                   <DrinkGlass drink={d} size="sm" />
-                  <span className="mt-1 max-w-[4.5rem] text-center font-display text-xs">{d.name}</span>
+                  <span className="mt-1 max-w-[4.5rem] text-center font-display text-xs">
+                    {d.name}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -115,7 +117,9 @@ function WellPage() {
                   className="flex flex-col items-center opacity-70 hover:opacity-100"
                 >
                   <DrinkGlass drink={d} size="sm" />
-                  <span className="mt-1 max-w-[4.5rem] text-center font-display text-xs">{d.name}</span>
+                  <span className="mt-1 max-w-[4.5rem] text-center font-display text-xs">
+                    {d.name}
+                  </span>
                 </Link>
               </li>
             ))}

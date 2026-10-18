@@ -1,146 +1,559 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071019">
-<title>CarDesk | Vehicle Intelligence</title>
-<meta name="description" content="Decode a VIN into vehicle specs, recalls, complaint signals, ownership math, diagnostics and a private service history.">
-<link rel="canonical" href="https://www.safisolutions.org/cardesk/">
-<meta property="og:title" content="CarDesk">
-<meta property="og:description" content="Decode a VIN into vehicle specs, recalls, complaint signals, ownership math, diagnostics and a private service history.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.safisolutions.org/cardesk/">
-<meta property="og:site_name" content="Safi Solutions">
-<meta property="og:image" content="https://www.safisolutions.org/assets/project-logos/cardesk.webp">
-<meta property="og:image:alt" content="CarDesk logo">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CarDesk">
-<meta name="twitter:description" content="Decode a VIN into vehicle specs, recalls, complaint signals, ownership math, diagnostics and a private service history.">
-<meta name="twitter:image" content="https://www.safisolutions.org/assets/project-logos/cardesk.webp">
-<meta name="twitter:image:alt" content="CarDesk logo">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260907">
-<link rel="stylesheet" href="garage3d.css?v=1">
-</head>
-<body>
-<div id="boot" aria-hidden="true"><div class="boot-wrap"><img src="/assets/project-logos/cardesk.svg" alt=""><div class="boot-track"><i></i></div><p>Connecting vehicle systems</p></div></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#071019" />
+    <title>CarDesk | Vehicle Intelligence</title>
+    <meta
+      name="description"
+      content="Decode a VIN into vehicle specs, recalls, complaint signals, ownership math, diagnostics and a private service history."
+    />
+    <link rel="canonical" href="https://www.safisolutions.org/cardesk/" />
+    <meta property="og:title" content="CarDesk" />
+    <meta
+      property="og:description"
+      content="Decode a VIN into vehicle specs, recalls, complaint signals, ownership math, diagnostics and a private service history."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.safisolutions.org/cardesk/" />
+    <meta property="og:site_name" content="Safi Solutions" />
+    <meta
+      property="og:image"
+      content="https://www.safisolutions.org/assets/project-logos/cardesk.webp"
+    />
+    <meta property="og:image:alt" content="CarDesk logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CarDesk" />
+    <meta
+      name="twitter:description"
+      content="Decode a VIN into vehicle specs, recalls, complaint signals, ownership math, diagnostics and a private service history."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.safisolutions.org/assets/project-logos/cardesk.webp"
+    />
+    <meta name="twitter:image:alt" content="CarDesk logo" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=20260907" />
+    <link rel="stylesheet" href="garage3d.css?v=1" />
+  </head>
+  <body>
+    <div id="boot" aria-hidden="true"
+      ><div class="boot-wrap"
+        ><img src="/assets/project-logos/cardesk.svg" alt="" /><div class="boot-track"><i></i></div
+        ><p>Connecting vehicle systems</p></div
+      ></div
+    >
 
-<header class="topbar">
-  <a class="brand" href="#top"><img src="/assets/project-logos/cardesk.svg" alt="CarDesk"></a>
-  <nav><a href="#vehicle">Vehicle</a><a href="#safety">Safety</a><a href="#cost">Ownership</a><a href="#diagnostics">Diagnostics</a><a href="#service">History</a></nav>
-  <button class="garage-btn" id="garageBtn" type="button">Garage <b id="garageCount">0</b></button>
-</header>
+    <header class="topbar">
+      <a class="brand" href="#top"><img src="/assets/project-logos/cardesk.svg" alt="CarDesk" /></a>
+      <nav
+        ><a href="#vehicle">Vehicle</a><a href="#safety">Safety</a><a href="#cost">Ownership</a
+        ><a href="#diagnostics">Diagnostics</a><a href="#service">History</a></nav
+      >
+      <button class="garage-btn" id="garageBtn" type="button"
+        >Garage <b id="garageCount">0</b></button
+      >
+    </header>
 
-<main id="top">
-<section class="hero">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="shell hero-grid">
-    <div class="hero-copy">
-      <div class="eyebrow"><span></span>NHTSA-POWERED VEHICLE WORKSPACE</div>
-      <h1>Your car,<br><em>finally organized.</em></h1>
-      <p>One VIN opens a complete vehicle workspace: factory identity, safety signals, ownership costs, diagnostics and your own service history.</p>
-      <form id="vinForm" class="vin-box">
-        <label for="vinInput">ENTER VIN</label>
-        <div><input id="vinInput" maxlength="17" autocomplete="off" spellcheck="false" placeholder="1HGCM82633A004352"><button type="submit">Decode <span>→</span></button></div>
-        <footer><span id="vinHint">17 characters · no account required</span><button id="sampleVin" type="button">Try sample VIN</button></footer>
-      </form>
-      <div class="hero-proof"><span><b>VIN</b> factory decode</span><span><b>LIVE</b> recall search</span><span><b>LOCAL</b> private history</span></div>
-    </div>
+    <main id="top">
+      <section class="hero">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span></span>NHTSA-POWERED VEHICLE WORKSPACE</div>
+            <h1>Your car,<br /><em>finally organized.</em></h1>
+            <p
+              >One VIN opens a complete vehicle workspace: factory identity, safety signals,
+              ownership costs, diagnostics and your own service history.</p
+            >
+            <form id="vinForm" class="vin-box">
+              <label for="vinInput">ENTER VIN</label>
+              <div
+                ><input
+                  id="vinInput"
+                  maxlength="17"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="1HGCM82633A004352"
+                /><button type="submit">Decode <span>→</span></button></div
+              >
+              <footer
+                ><span id="vinHint">17 characters · no account required</span
+                ><button id="sampleVin" type="button">Try sample VIN</button></footer
+              >
+            </form>
+            <div class="hero-proof"
+              ><span><b>VIN</b> factory decode</span><span><b>LIVE</b> recall search</span
+              ><span><b>LOCAL</b> private history</span></div
+            >
+          </div>
 
-    <div class="vehicle-stage" aria-label="Interactive vehicle systems overview">
-      <div class="stage-top"><span>VEHICLE SYSTEM VIEW</span><b id="heroBayStatus">AWAITING VIN</b></div>
-      <svg class="car-hero" viewBox="0 0 900 470" role="img" aria-label="Recognizable side profile sedan with highlighted vehicle systems">
-        <defs>
-          <linearGradient id="bodyPaint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1b3144"/><stop offset=".45" stop-color="#0b1723"/><stop offset="1" stop-color="#111f2d"/></linearGradient>
-          <linearGradient id="glassPaint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#223f58"/><stop offset="1" stop-color="#0a1621"/></linearGradient>
-          <linearGradient id="powerGlow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ff9b3f"/><stop offset="1" stop-color="#ffca72"/></linearGradient>
-          <filter id="softGlow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <ellipse cx="455" cy="397" rx="350" ry="26" fill="#000" opacity=".4"/>
-        <path class="body-main" d="M107 293c10-41 42-70 92-79l92-55c35-21 79-32 126-32h139c52 0 95 19 128 57l65 72 62 12c28 6 48 27 51 53l3 30h-69c-10 43-48 73-94 73-47 0-84-30-95-73H292c-11 43-48 73-95 73-46 0-84-30-94-73H57v-21c0-20 14-37 34-41Z" fill="url(#bodyPaint)" stroke="#6c8498" stroke-width="3"/>
-        <path class="roofline" d="M291 159c34-21 79-32 126-32h139c45 0 82 15 113 46l55 64H226l65-78Z" fill="url(#glassPaint)" stroke="#86a4ba" stroke-width="2.5"/>
-        <path d="M397 142v95M557 141l70 96M258 237h468" fill="none" stroke="#547084" stroke-width="2" opacity=".7"/>
-        <path d="M111 293c30-15 67-24 111-27h506c46 1 84 12 117 33" fill="none" stroke="#2bd7ff" stroke-width="2.5" opacity=".65"/>
-        <path d="M302 351h303" fill="none" stroke="#36566f" stroke-width="3"/>
-        <circle cx="197" cy="351" r="66" fill="#071019" stroke="#243b4e" stroke-width="8"/><circle cx="197" cy="351" r="42" fill="#101d29" stroke="#71879a" stroke-width="4"/><circle cx="197" cy="351" r="17" fill="#0b141d" stroke="#ff9b3f" stroke-width="4"/>
-        <circle cx="702" cy="351" r="66" fill="#071019" stroke="#243b4e" stroke-width="8"/><circle cx="702" cy="351" r="42" fill="#101d29" stroke="#71879a" stroke-width="4"/><circle cx="702" cy="351" r="17" fill="#0b141d" stroke="#2bd7ff" stroke-width="4"/>
-        <path d="M122 274h74l31-42h74" fill="none" stroke="#dce7ef" stroke-width="5" stroke-linecap="round"/><path d="M757 272h55" stroke="#ff6a67" stroke-width="7" stroke-linecap="round"/>
+          <div class="vehicle-stage" aria-label="Interactive vehicle systems overview">
+            <div class="stage-top"
+              ><span>VEHICLE SYSTEM VIEW</span><b id="heroBayStatus">AWAITING VIN</b></div
+            >
+            <svg
+              class="car-hero"
+              viewBox="0 0 900 470"
+              role="img"
+              aria-label="Recognizable side profile sedan with highlighted vehicle systems"
+            >
+              <defs>
+                <linearGradient id="bodyPaint" x1="0" y1="0" x2="1" y2="1">
+                  <stop stop-color="#1b3144" />
+                  <stop offset=".45" stop-color="#0b1723" />
+                  <stop offset="1" stop-color="#111f2d" />
+                </linearGradient>
+                <linearGradient id="glassPaint" x1="0" y1="0" x2="1" y2="1">
+                  <stop stop-color="#223f58" />
+                  <stop offset="1" stop-color="#0a1621" />
+                </linearGradient>
+                <linearGradient id="powerGlow" x1="0" y1="0" x2="1" y2="0">
+                  <stop stop-color="#ff9b3f" />
+                  <stop offset="1" stop-color="#ffca72" />
+                </linearGradient>
+                <filter id="softGlow">
+                  <feGaussianBlur stdDeviation="7" result="b" />
+                  <feMerge>
+                    <feMergeNode in="b" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <ellipse cx="455" cy="397" rx="350" ry="26" fill="#000" opacity=".4" />
+              <path
+                class="body-main"
+                d="M107 293c10-41 42-70 92-79l92-55c35-21 79-32 126-32h139c52 0 95 19 128 57l65 72 62 12c28 6 48 27 51 53l3 30h-69c-10 43-48 73-94 73-47 0-84-30-95-73H292c-11 43-48 73-95 73-46 0-84-30-94-73H57v-21c0-20 14-37 34-41Z"
+                fill="url(#bodyPaint)"
+                stroke="#6c8498"
+                stroke-width="3"
+              />
+              <path
+                class="roofline"
+                d="M291 159c34-21 79-32 126-32h139c45 0 82 15 113 46l55 64H226l65-78Z"
+                fill="url(#glassPaint)"
+                stroke="#86a4ba"
+                stroke-width="2.5"
+              />
+              <path
+                d="M397 142v95M557 141l70 96M258 237h468"
+                fill="none"
+                stroke="#547084"
+                stroke-width="2"
+                opacity=".7"
+              />
+              <path
+                d="M111 293c30-15 67-24 111-27h506c46 1 84 12 117 33"
+                fill="none"
+                stroke="#2bd7ff"
+                stroke-width="2.5"
+                opacity=".65"
+              />
+              <path d="M302 351h303" fill="none" stroke="#36566f" stroke-width="3" />
+              <circle cx="197" cy="351" r="66" fill="#071019" stroke="#243b4e" stroke-width="8" />
+              <circle cx="197" cy="351" r="42" fill="#101d29" stroke="#71879a" stroke-width="4" />
+              <circle cx="197" cy="351" r="17" fill="#0b141d" stroke="#ff9b3f" stroke-width="4" />
+              <circle cx="702" cy="351" r="66" fill="#071019" stroke="#243b4e" stroke-width="8" />
+              <circle cx="702" cy="351" r="42" fill="#101d29" stroke="#71879a" stroke-width="4" />
+              <circle cx="702" cy="351" r="17" fill="#0b141d" stroke="#2bd7ff" stroke-width="4" />
+              <path
+                d="M122 274h74l31-42h74"
+                fill="none"
+                stroke="#dce7ef"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+              <path d="M757 272h55" stroke="#ff6a67" stroke-width="7" stroke-linecap="round" />
 
-        <g class="system-core power-core" filter="url(#softGlow)"><rect x="218" y="245" width="104" height="62" rx="18" fill="#ff9b3f" opacity=".16" stroke="#ff9b3f" stroke-width="2"/><path d="M235 276h70M246 259h48M246 293h48" stroke="#ffb35d" stroke-width="4" stroke-linecap="round"/><circle cx="271" cy="276" r="8" fill="#ff9b3f"/></g>
-        <g class="system-core ecu-core" filter="url(#softGlow)"><rect x="443" y="250" width="58" height="48" rx="11" fill="#2bd7ff" opacity=".16" stroke="#2bd7ff" stroke-width="2"/><path d="M456 263h31v22h-31zM465 257v-8M478 257v-8M465 299v8M478 299v8" fill="none" stroke="#54e2ff" stroke-width="3"/></g>
-        <g class="system-core battery-core" filter="url(#softGlow)"><rect x="514" y="322" width="118" height="37" rx="10" fill="#2bd7ff" opacity=".12" stroke="#2bd7ff" stroke-width="2"/><path d="M564 330l-13 17h12l-5 12 21-22h-12l6-7" fill="#57e5ff"/></g>
-        <path class="energy-line" d="M322 277h121M501 275h74v47M632 340h54" fill="none" stroke="#ff9b3f" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8"/>
-        <path class="data-line" d="M472 250v-48h158M472 298v42h42" fill="none" stroke="#2bd7ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 7"/>
-        <circle class="pulse orange" cx="271" cy="276" r="13"/><circle class="pulse cyan" cx="472" cy="274" r="13"/><circle class="pulse cyan" cx="573" cy="340" r="13"/><circle class="pulse orange" cx="702" cy="351" r="13"/>
-      </svg>
+              <g class="system-core power-core" filter="url(#softGlow)">
+                <rect
+                  x="218"
+                  y="245"
+                  width="104"
+                  height="62"
+                  rx="18"
+                  fill="#ff9b3f"
+                  opacity=".16"
+                  stroke="#ff9b3f"
+                  stroke-width="2"
+                />
+                <path
+                  d="M235 276h70M246 259h48M246 293h48"
+                  stroke="#ffb35d"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+                <circle cx="271" cy="276" r="8" fill="#ff9b3f" />
+              </g>
+              <g class="system-core ecu-core" filter="url(#softGlow)">
+                <rect
+                  x="443"
+                  y="250"
+                  width="58"
+                  height="48"
+                  rx="11"
+                  fill="#2bd7ff"
+                  opacity=".16"
+                  stroke="#2bd7ff"
+                  stroke-width="2"
+                />
+                <path
+                  d="M456 263h31v22h-31zM465 257v-8M478 257v-8M465 299v8M478 299v8"
+                  fill="none"
+                  stroke="#54e2ff"
+                  stroke-width="3"
+                />
+              </g>
+              <g class="system-core battery-core" filter="url(#softGlow)">
+                <rect
+                  x="514"
+                  y="322"
+                  width="118"
+                  height="37"
+                  rx="10"
+                  fill="#2bd7ff"
+                  opacity=".12"
+                  stroke="#2bd7ff"
+                  stroke-width="2"
+                />
+                <path d="M564 330l-13 17h12l-5 12 21-22h-12l6-7" fill="#57e5ff" />
+              </g>
+              <path
+                class="energy-line"
+                d="M322 277h121M501 275h74v47M632 340h54"
+                fill="none"
+                stroke="#ff9b3f"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-dasharray="8 8"
+              />
+              <path
+                class="data-line"
+                d="M472 250v-48h158M472 298v42h42"
+                fill="none"
+                stroke="#2bd7ff"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-dasharray="7 7"
+              />
+              <circle class="pulse orange" cx="271" cy="276" r="13" />
+              <circle class="pulse cyan" cx="472" cy="274" r="13" />
+              <circle class="pulse cyan" cx="573" cy="340" r="13" />
+              <circle class="pulse orange" cx="702" cy="351" r="13" />
+            </svg>
 
-      <button class="hero-system power" data-mode="power" type="button"><span>01</span><b>Powertrain</b><small>Engine · transmission · drive</small></button>
-      <button class="hero-system safety" data-mode="safety" type="button"><span>02</span><b>Safety</b><small>ABS · airbags · driver assist</small></button>
-      <button class="hero-system identity" data-mode="identity" type="button"><span>03</span><b>Build DNA</b><small>Plant · body · equipment</small></button>
-      <div class="bay-readout"><span id="bayMake">MAKE –</span><span id="bayEngine">POWER –</span><span id="bayDrive">DRIVE –</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="workspace shell hidden" id="workspace">
-  <section class="vehicle-card" id="vehicle">
-    <div><span class="section-kicker">VEHICLE PROFILE</span><div class="vehicle-title"><span id="vehicleYear">–</span><h2 id="vehicleName">Vehicle</h2></div><p id="vehicleTrim">Decoded vehicle profile</p><div class="vin-line"><small>VIN</small><b id="vehicleVin">–</b><button id="copyVin" type="button">Copy</button></div></div>
-    <aside><span>DATA SOURCE</span><b>NHTSA vPIC</b><i></i><span>STATUS</span><strong id="decodeStatus">DECODED</strong><button id="saveVehicle" class="save-vehicle" type="button">+ Save to garage</button></aside>
-  </section>
-
-  <section class="section-block dna-section">
-    <div class="section-heading"><div><span class="section-kicker">01 / VEHICLE DNA</span><h2>The useful specs,<br><em>not the VIN soup.</em></h2></div><p>Factory fields are grouped into plain vehicle systems. Missing data stays missing instead of being guessed.</p></div>
-    <div class="dna-layout">
-      <div class="dna-grid" id="dnaGrid"></div>
-      <article class="system-scan">
-        <header><span>INTERACTIVE ARCHITECTURE</span><b id="scanMode">POWER</b></header>
-        <div class="scan-visual">
-          <svg viewBox="0 0 720 350" aria-label="Vehicle architecture diagram">
-            <path class="scan-car" d="M78 230c8-29 31-49 67-56l74-45c27-17 61-25 97-25h107c40 0 72 14 98 43l50 58 49 9c21 4 36 20 39 39l2 19h-50c-8 33-37 56-72 56-36 0-64-23-73-56H251c-8 33-37 56-72 56-35 0-64-23-72-56H46v-13c0-14 10-26 24-29Z"/>
-            <path class="scan-glass" d="M219 129c26-17 61-25 97-25h107c34 0 63 11 87 35l42 49H169l50-59Z"/>
-            <circle class="scan-wheel" cx="179" cy="272" r="46"/><circle class="scan-wheel" cx="539" cy="272" r="46"/>
-            <path class="sys-line power" d="M207 224h111l74 48h105"/><path class="sys-line signal" d="M327 176h121M378 176v70M443 176l51 70"/>
-            <g class="sys-node"><circle cx="208" cy="224" r="9"/><circle cx="327" cy="224" r="9"/><circle cx="392" cy="272" r="9"/><circle cx="539" cy="272" r="9"/><circle cx="378" cy="176" r="9"/></g>
-          </svg>
+            <button class="hero-system power" data-mode="power" type="button"
+              ><span>01</span><b>Powertrain</b><small>Engine · transmission · drive</small></button
+            >
+            <button class="hero-system safety" data-mode="safety" type="button"
+              ><span>02</span><b>Safety</b><small>ABS · airbags · driver assist</small></button
+            >
+            <button class="hero-system identity" data-mode="identity" type="button"
+              ><span>03</span><b>Build DNA</b><small>Plant · body · equipment</small></button
+            >
+            <div class="bay-readout"
+              ><span id="bayMake">MAKE –</span><span id="bayEngine">POWER –</span
+              ><span id="bayDrive">DRIVE –</span></div
+            >
+          </div>
         </div>
-        <div class="scan-tabs" id="scanTabs"><button class="active" data-mode="power">POWERTRAIN</button><button data-mode="safety">SAFETY</button><button data-mode="identity">BUILD DNA</button></div>
-        <div class="scan-copy" id="scanCopy"></div>
-      </article>
-    </div>
-  </section>
+      </section>
 
-  <section class="section-block" id="safety">
-    <div class="section-heading"><div><span class="section-kicker">02 / SAFETY SIGNALS</span><h2>What deserves<br><em>your attention.</em></h2></div><p>Live recall results and owner complaint patterns for the decoded year, make and model.</p></div>
-    <div class="recall-priority"><div><b>Check your specific vehicle first.</b><p>The model results below cannot tell you which recalls are still open on your VIN.</p></div><a href="https://www.nhtsa.gov/recalls" target="_blank" rel="noopener">Check VIN recall status ↗</a></div><div class="signal-grid"><article class="signal-card"><header><span>RECALLS</span><b id="recallCount">–</b></header><div id="recallList" class="signal-list loading-block">Waiting for vehicle…</div></article><article class="signal-card"><header><span>OWNER COMPLAINT SIGNAL</span><b id="complaintCount">–</b></header><div id="complaintChart" class="complaint-chart loading-block">Waiting for vehicle…</div></article></div>
-    <div class="tech-strip" id="techStrip"></div>
-  </section>
+      <section class="workspace shell hidden" id="workspace">
+        <section class="vehicle-card" id="vehicle">
+          <div
+            ><span class="section-kicker">VEHICLE PROFILE</span
+            ><div class="vehicle-title"
+              ><span id="vehicleYear">–</span><h2 id="vehicleName">Vehicle</h2></div
+            ><p id="vehicleTrim">Decoded vehicle profile</p
+            ><div class="vin-line"
+              ><small>VIN</small><b id="vehicleVin">–</b
+              ><button id="copyVin" type="button">Copy</button></div
+            ></div
+          >
+          <aside
+            ><span>DATA SOURCE</span><b>NHTSA vPIC</b><i></i><span>STATUS</span
+            ><strong id="decodeStatus">DECODED</strong
+            ><button id="saveVehicle" class="save-vehicle" type="button"
+              >+ Save to garage</button
+            ></aside
+          >
+        </section>
 
-  <section class="section-block" id="cost">
-    <div class="section-heading"><div><span class="section-kicker">03 / OWNERSHIP MATH</span><h2>What does it cost<br><em>to keep?</em></h2></div><p>Build a cash budget from your own numbers. The starting values are examples, not estimates for the decoded vehicle. Choose fuel or electricity below.</p></div>
-    <p class="budget-context">Includes energy, insurance, payments and maintenance. Excludes depreciation, purchase/down payment, taxes, registration, parking and tolls. Add those separately for a complete decision.</p><div class="cost-console"><div class="cost-inputs"><label>ENERGY MODEL<select id="energyModel"><option value="fuel">Gas / diesel / non-plug-in hybrid</option><option value="ev">Battery electric</option></select></label><label>ANNUAL MILES<input id="milesYear" type="number" min="0" value="12000"></label><label id="mpgLabel">AVERAGE MPG<input id="mpg" type="number" min="1" step="0.1" value="25"></label><label id="gasLabel">FUEL PRICE / GAL<input id="fuelPrice" type="number" min="0" step="0.01" value="3.25"></label><label id="kwhLabel" hidden>KWH / 100 MILES<input id="kwhUse" type="number" min="0.1" step="0.1" value="30"></label><label id="electricLabel" hidden>ELECTRICITY / KWH<input id="electricPrice" type="number" min="0" step="0.01" value="0.16"></label><label>INSURANCE / MONTH<input id="insurance" type="number" min="0" value="165"></label><label>PAYMENT / MONTH<input id="payment" type="number" min="0" value="0"></label><label>MAINTENANCE / YEAR<input id="maintenance" type="number" min="0" value="900"></label></div><div class="cost-output"><div class="cost-orbit"><svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="88"/><circle id="costRing" cx="110" cy="110" r="88"/></svg><div><span>ANNUAL CASH BUDGET</span><b id="annualCost">$0</b></div></div><div class="cost-metrics"><div><span>MONTHLY</span><b id="monthlyCost">$0</b></div><div><span>COST / MILE</span><b id="mileCost">$0.00</b></div><div><span>ENERGY / YEAR</span><b id="fuelCost">$0</b></div></div><div id="costBreakdown" class="cash-breakdown"></div><p id="costExplanation" class="budget-context" aria-live="polite"></p></div></div><details class="budget-context"><summary>Where the energy math comes from</summary><p>Fuel: miles ÷ MPG × price per gallon. Electric: miles ÷ 100 × kWh per 100 miles × price per kWh. Use wall-energy consumption (including charging losses) and your actual blended charging price. Plug-in hybrids need separate fuel and electric mileage budgets.</p><a href="https://www.epa.gov/greenvehicles/fuel-economy-and-ev-range-testing" target="_blank" rel="noopener">EPA: energy use and MPGe</a></details>
-  </section>
+        <section class="section-block dna-section">
+          <div class="section-heading"
+            ><div
+              ><span class="section-kicker">01 / VEHICLE DNA</span
+              ><h2>The useful specs,<br /><em>not the VIN soup.</em></h2></div
+            ><p
+              >Factory fields are grouped into plain vehicle systems. Missing data stays missing
+              instead of being guessed.</p
+            ></div
+          >
+          <div class="dna-layout">
+            <div class="dna-grid" id="dnaGrid"></div>
+            <article class="system-scan">
+              <header><span>INTERACTIVE ARCHITECTURE</span><b id="scanMode">POWER</b></header>
+              <div class="scan-visual">
+                <svg viewBox="0 0 720 350" aria-label="Vehicle architecture diagram">
+                  <path
+                    class="scan-car"
+                    d="M78 230c8-29 31-49 67-56l74-45c27-17 61-25 97-25h107c40 0 72 14 98 43l50 58 49 9c21 4 36 20 39 39l2 19h-50c-8 33-37 56-72 56-36 0-64-23-73-56H251c-8 33-37 56-72 56-35 0-64-23-72-56H46v-13c0-14 10-26 24-29Z"
+                  />
+                  <path
+                    class="scan-glass"
+                    d="M219 129c26-17 61-25 97-25h107c34 0 63 11 87 35l42 49H169l50-59Z"
+                  />
+                  <circle class="scan-wheel" cx="179" cy="272" r="46" />
+                  <circle class="scan-wheel" cx="539" cy="272" r="46" />
+                  <path class="sys-line power" d="M207 224h111l74 48h105" />
+                  <path class="sys-line signal" d="M327 176h121M378 176v70M443 176l51 70" />
+                  <g class="sys-node">
+                    <circle cx="208" cy="224" r="9" />
+                    <circle cx="327" cy="224" r="9" />
+                    <circle cx="392" cy="272" r="9" />
+                    <circle cx="539" cy="272" r="9" />
+                    <circle cx="378" cy="176" r="9" />
+                  </g>
+                </svg>
+              </div>
+              <div class="scan-tabs" id="scanTabs"
+                ><button class="active" data-mode="power">POWERTRAIN</button
+                ><button data-mode="safety">SAFETY</button
+                ><button data-mode="identity">BUILD DNA</button></div
+              >
+              <div class="scan-copy" id="scanCopy"></div>
+            </article>
+          </div>
+        </section>
 
-  <section class="section-block" id="diagnostics">
-    <div class="section-heading"><div><span class="section-kicker">04 / DIAGNOSTIC DESK</span><h2>Code first.<br><em>Parts later.</em></h2></div><p>Translate common OBD-II codes into what the computer actually detected and where a sensible diagnostic path begins.</p></div>
-    <div class="diag-console"><div class="diag-input"><label for="obdCode">ENTER OBD-II CODE</label><div><input id="obdCode" maxlength="5" placeholder="P0420"><button id="decodeObd" type="button">Decode</button></div><div class="quick-codes"><button>P0300</button><button>P0420</button><button>P0171</button><button>P0455</button><button>P0128</button></div></div><div class="diag-result" id="obdResult"><span>DIAGNOSTIC DESK</span><h3>Enter a code.</h3><p>CarDesk explains the system, what the code says and a reasonable first check.</p></div></div>
-  </section>
+        <section class="section-block" id="safety">
+          <div class="section-heading"
+            ><div
+              ><span class="section-kicker">02 / SAFETY SIGNALS</span
+              ><h2>What deserves<br /><em>your attention.</em></h2></div
+            ><p
+              >Live recall results and owner complaint patterns for the decoded year, make and
+              model.</p
+            ></div
+          >
+          <div class="recall-priority"
+            ><div
+              ><b>Check your specific vehicle first.</b
+              ><p
+                >The model results below cannot tell you which recalls are still open on your
+                VIN.</p
+              ></div
+            ><a href="https://www.nhtsa.gov/recalls" target="_blank" rel="noopener"
+              >Check VIN recall status ↗</a
+            ></div
+          ><div class="signal-grid"
+            ><article class="signal-card"
+              ><header><span>RECALLS</span><b id="recallCount">–</b></header
+              ><div id="recallList" class="signal-list loading-block"
+                >Waiting for vehicle…</div
+              ></article
+            ><article class="signal-card"
+              ><header><span>OWNER COMPLAINT SIGNAL</span><b id="complaintCount">–</b></header
+              ><div id="complaintChart" class="complaint-chart loading-block"
+                >Waiting for vehicle…</div
+              ></article
+            ></div
+          >
+          <div class="tech-strip" id="techStrip"></div>
+        </section>
 
-  <section class="section-block" id="service">
-    <div class="section-heading"><div><span class="section-kicker">05 / SERVICE HISTORY</span><h2>Your car's<br><em>memory.</em></h2></div><p>Build a maintenance timeline by VIN. It stays in this browser and follows the vehicle inside your local Garage.</p></div>
-    <div class="service-layout"><form class="service-form" id="serviceForm"><div class="service-form-head"><span>ADD SERVICE EVENT</span><b id="serviceVehicle">CURRENT VEHICLE</b></div><label>DATE<input id="serviceDate" type="date" required></label><label>MILEAGE<input id="serviceMiles" type="number" min="0" placeholder="82500"></label><label>SERVICE / REPAIR<input id="serviceType" required placeholder="Oil change, tires, brake pads…"></label><label>COST<input id="serviceCost" type="number" min="0" step="0.01" placeholder="89.00"></label><label>NOTES<textarea id="serviceNotes" rows="3" placeholder="Optional details"></textarea></label><button type="submit">Add to history</button></form><div class="service-timeline"><div class="timeline-head"><span>VEHICLE HISTORY</span><div><b id="serviceTotal">$0</b><small>LOGGED COST</small></div></div><div id="serviceList" class="timeline-list"></div></div></div>
-  </section>
+        <section class="section-block" id="cost">
+          <div class="section-heading"
+            ><div
+              ><span class="section-kicker">03 / OWNERSHIP MATH</span
+              ><h2>What does it cost<br /><em>to keep?</em></h2></div
+            ><p
+              >Build a cash budget from your own numbers. The starting values are examples, not
+              estimates for the decoded vehicle. Choose fuel or electricity below.</p
+            ></div
+          >
+          <p class="budget-context"
+            >Includes energy, insurance, payments and maintenance. Excludes depreciation,
+            purchase/down payment, taxes, registration, parking and tolls. Add those separately for
+            a complete decision.</p
+          ><div class="cost-console"
+            ><div class="cost-inputs"
+              ><label
+                >ENERGY MODEL<select id="energyModel"
+                  ><option value="fuel">Gas / diesel / non-plug-in hybrid</option
+                  ><option value="ev">Battery electric</option></select
+                ></label
+              ><label
+                >ANNUAL MILES<input id="milesYear" type="number" min="0" value="12000" /></label
+              ><label id="mpgLabel"
+                >AVERAGE MPG<input id="mpg" type="number" min="1" step="0.1" value="25" /></label
+              ><label id="gasLabel"
+                >FUEL PRICE / GAL<input
+                  id="fuelPrice"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value="3.25" /></label
+              ><label id="kwhLabel" hidden
+                >KWH / 100 MILES<input
+                  id="kwhUse"
+                  type="number"
+                  min="0.1"
+                  step="0.1"
+                  value="30" /></label
+              ><label id="electricLabel" hidden
+                >ELECTRICITY / KWH<input
+                  id="electricPrice"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value="0.16" /></label
+              ><label
+                >INSURANCE / MONTH<input id="insurance" type="number" min="0" value="165" /></label
+              ><label>PAYMENT / MONTH<input id="payment" type="number" min="0" value="0" /></label
+              ><label
+                >MAINTENANCE / YEAR<input
+                  id="maintenance"
+                  type="number"
+                  min="0"
+                  value="900" /></label></div
+            ><div class="cost-output"
+              ><div class="cost-orbit"
+                ><svg viewBox="0 0 220 220">
+                  <circle cx="110" cy="110" r="88" />
+                  <circle id="costRing" cx="110" cy="110" r="88" /></svg
+                ><div><span>ANNUAL CASH BUDGET</span><b id="annualCost">$0</b></div></div
+              ><div class="cost-metrics"
+                ><div><span>MONTHLY</span><b id="monthlyCost">$0</b></div
+                ><div><span>COST / MILE</span><b id="mileCost">$0.00</b></div
+                ><div><span>ENERGY / YEAR</span><b id="fuelCost">$0</b></div></div
+              ><div id="costBreakdown" class="cash-breakdown"></div
+              ><p id="costExplanation" class="budget-context" aria-live="polite"></p></div></div
+          ><details class="budget-context"
+            ><summary>Where the energy math comes from</summary
+            ><p
+              >Fuel: miles ÷ MPG × price per gallon. Electric: miles ÷ 100 × kWh per 100 miles ×
+              price per kWh. Use wall-energy consumption (including charging losses) and your actual
+              blended charging price. Plug-in hybrids need separate fuel and electric mileage
+              budgets.</p
+            ><a
+              href="https://www.epa.gov/greenvehicles/fuel-economy-and-ev-range-testing"
+              target="_blank"
+              rel="noopener"
+              >EPA: energy use and MPGe</a
+            ></details
+          >
+        </section>
 
-  <footer class="source-desk"><div><img src="/assets/project-logos/cardesk.svg" alt="CarDesk"><span>Built by Safi Solutions.</span></div><div><a href="https://vpic.nhtsa.dot.gov/api/" target="_blank" rel="noopener">NHTSA vPIC ↗</a><a href="https://www.nhtsa.gov/nhtsa-datasets-and-apis" target="_blank" rel="noopener">NHTSA safety data ↗</a></div></footer>
-</section>
-</main>
+        <section class="section-block" id="diagnostics">
+          <div class="section-heading"
+            ><div
+              ><span class="section-kicker">04 / DIAGNOSTIC DESK</span
+              ><h2>Code first.<br /><em>Parts later.</em></h2></div
+            ><p
+              >Translate common OBD-II codes into what the computer actually detected and where a
+              sensible diagnostic path begins.</p
+            ></div
+          >
+          <div class="diag-console"
+            ><div class="diag-input"
+              ><label for="obdCode">ENTER OBD-II CODE</label
+              ><div
+                ><input id="obdCode" maxlength="5" placeholder="P0420" /><button
+                  id="decodeObd"
+                  type="button"
+                  >Decode</button
+                ></div
+              ><div class="quick-codes"
+                ><button>P0300</button><button>P0420</button><button>P0171</button
+                ><button>P0455</button><button>P0128</button></div
+              ></div
+            ><div class="diag-result" id="obdResult"
+              ><span>DIAGNOSTIC DESK</span><h3>Enter a code.</h3
+              ><p
+                >CarDesk explains the system, what the code says and a reasonable first check.</p
+              ></div
+            ></div
+          >
+        </section>
 
-<div class="drawer" id="garageDrawer" aria-hidden="true"><div class="drawer-head"><div><span>MY GARAGE</span><b>Saved vehicles</b></div><button id="closeGarage" type="button">Close</button></div><div id="garageList" class="garage-list"></div></div><div class="scrim" id="scrim"></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="app.js?v=20260907"></script>
-<script src="extras.js?v=1"></script>
-<script type="module" src="garage3d.js?v=1"></script>
-</body>
+        <section class="section-block" id="service">
+          <div class="section-heading"
+            ><div
+              ><span class="section-kicker">05 / SERVICE HISTORY</span
+              ><h2>Your car's<br /><em>memory.</em></h2></div
+            ><p
+              >Build a maintenance timeline by VIN. It stays in this browser and follows the vehicle
+              inside your local Garage.</p
+            ></div
+          >
+          <div class="service-layout"
+            ><form class="service-form" id="serviceForm"
+              ><div class="service-form-head"
+                ><span>ADD SERVICE EVENT</span><b id="serviceVehicle">CURRENT VEHICLE</b></div
+              ><label>DATE<input id="serviceDate" type="date" required /></label
+              ><label
+                >MILEAGE<input id="serviceMiles" type="number" min="0" placeholder="82500" /></label
+              ><label
+                >SERVICE / REPAIR<input
+                  id="serviceType"
+                  required
+                  placeholder="Oil change, tires, brake pads…" /></label
+              ><label
+                >COST<input
+                  id="serviceCost"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="89.00" /></label
+              ><label
+                >NOTES<textarea
+                  id="serviceNotes"
+                  rows="3"
+                  placeholder="Optional details"
+                ></textarea></label
+              ><button type="submit">Add to history</button></form
+            ><div class="service-timeline"
+              ><div class="timeline-head"
+                ><span>VEHICLE HISTORY</span
+                ><div><b id="serviceTotal">$0</b><small>LOGGED COST</small></div></div
+              ><div id="serviceList" class="timeline-list"></div></div
+          ></div>
+        </section>
+
+        <footer class="source-desk"
+          ><div
+            ><img src="/assets/project-logos/cardesk.svg" alt="CarDesk" /><span
+              >Built by Safi Solutions.</span
+            ></div
+          ><div
+            ><a href="https://vpic.nhtsa.dot.gov/api/" target="_blank" rel="noopener"
+              >NHTSA vPIC ↗</a
+            ><a href="https://www.nhtsa.gov/nhtsa-datasets-and-apis" target="_blank" rel="noopener"
+              >NHTSA safety data ↗</a
+            ></div
+          ></footer
+        >
+      </section>
+    </main>
+
+    <div class="drawer" id="garageDrawer" aria-hidden="true"
+      ><div class="drawer-head"
+        ><div><span>MY GARAGE</span><b>Saved vehicles</b></div
+        ><button id="closeGarage" type="button">Close</button></div
+      ><div id="garageList" class="garage-list"></div></div
+    ><div class="scrim" id="scrim"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js?v=20260907"></script>
+    <script src="extras.js?v=1"></script>
+    <script type="module" src="garage3d.js?v=1"></script>
+  </body>
 </html>

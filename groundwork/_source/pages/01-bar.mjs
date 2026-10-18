@@ -275,11 +275,11 @@ const cuptop = `
 </svg>`;
 
 export default {
-  id: 'bar',
-  url: '/groundwork/',
-  title: 'The bar',
-  desc: 'Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 80+ recipes.',
-  script: 'bar.js',
+  id: "bar",
+  url: "/groundwork/",
+  title: "The bar",
+  desc: "Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 80+ recipes.",
+  script: "bar.js",
   body: `
 <div class="wrap">
   <section class="intro bar-intro" aria-labelledby="bar-h">

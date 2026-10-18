@@ -41,7 +41,12 @@ export function DrinkTicket({ drink, service = false }: { drink: Drink; service?
           >
             {drink.name}
           </h1>
-          <p className={cn("mt-4 max-w-xl font-display italic text-muted", service ? "text-2xl" : "text-lg")}>
+          <p
+            className={cn(
+              "mt-4 max-w-xl font-display italic text-muted",
+              service ? "text-2xl" : "text-lg",
+            )}
+          >
             {drink.why}
           </p>
 
@@ -115,16 +120,18 @@ export function DrinkTicket({ drink, service = false }: { drink: Drink; service?
                     Next to it
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {drink.related.filter((id) => drinkById.has(id)).map((id) => (
-                      <Link
-                        key={id}
-                        to="/d/$slug"
-                        params={{ slug: id }}
-                        className="rounded-full border border-border px-3 py-2 text-sm text-muted transition-colors duration-150 hover:text-fg"
-                      >
-                        {drinkById.get(id)?.name ?? id}
-                      </Link>
-                    ))}
+                    {drink.related
+                      .filter((id) => drinkById.has(id))
+                      .map((id) => (
+                        <Link
+                          key={id}
+                          to="/d/$slug"
+                          params={{ slug: id }}
+                          className="rounded-full border border-border px-3 py-2 text-sm text-muted transition-colors duration-150 hover:text-fg"
+                        >
+                          {drinkById.get(id)?.name ?? id}
+                        </Link>
+                      ))}
                   </div>
                 </div>
               ) : null}

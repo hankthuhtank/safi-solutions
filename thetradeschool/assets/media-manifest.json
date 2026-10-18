@@ -14,9 +14,21 @@
       "license": "Public domain",
       "note": "Cropped/resized local copy for the TradeSchool sector hero."
     },
-    "plumbing": {"file": "assets/reference/plumbing/water_heater.jpg", "credit": "See docs/CREDITS.md"},
-    "industrial": {"file": "assets/reference/industrial/centrifugal_pump.png", "credit": "See docs/CREDITS.md"},
-    "welding": {"file": "assets/reference/welding/tig_welding.jpg", "credit": "See docs/CREDITS.md"},
-    "construction": {"file": "assets/reference/construction/light_framing.jpg", "credit": "See docs/CREDITS.md"}
+    "plumbing": {
+      "file": "assets/reference/plumbing/water_heater.jpg",
+      "credit": "See docs/CREDITS.md"
+    },
+    "industrial": {
+      "file": "assets/reference/industrial/centrifugal_pump.png",
+      "credit": "See docs/CREDITS.md"
+    },
+    "welding": {
+      "file": "assets/reference/welding/tig_welding.jpg",
+      "credit": "See docs/CREDITS.md"
+    },
+    "construction": {
+      "file": "assets/reference/construction/light_framing.jpg",
+      "credit": "See docs/CREDITS.md"
+    }
   }
 }

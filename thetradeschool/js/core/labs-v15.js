@@ -1,7 +1,7 @@
 /* =============================================================================
-   TradeSchool V15 — rebuilt practice labs
+   TradeSchool rebuilt practice labs
    -----------------------------------------------------------------------------
-   The V10 pass deleted most labs from the catalog because they "looked like
+   The pass deleted most labs from the catalog because they "looked like
    toys". That was the right diagnosis and the wrong fix: it left Industrial
    Maintenance with zero labs and an empty Practice tab, and the surviving labs
    still had geometry that could not exist.
@@ -43,7 +43,10 @@
   const { shell, footer, toolIntro, labGuide, esc, id } = TS.host;
 
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-  const on = (elId, ev, fn) => { const e = id(elId); if (e) e.addEventListener(ev, fn); };
+  const on = (elId, ev, fn) => {
+    const e = id(elId);
+    if (e) e.addEventListener(ev, fn);
+  };
 
   /* Shared chrome so the rebuilt labs match the originals. */
   function frame(barLeft, barRight, controls, stage) {
@@ -56,26 +59,38 @@
   const range = (i, label, min, max, val, step, unit) =>
     `<div class="range-row"><div class="range-head"><span>${label}</span><b id="${i}L">${val}${unit}</b></div>
      <input id="${i}" type="range" min="${min}" max="${max}" value="${val}" step="${step}"></div>`;
-  const metrics = rows =>
+  const metrics = (rows) =>
     `<div class="metric-row">${rows.map(([i, v, s]) => `<div class="metric"><b id="${i}">${v}</b><small>${s}</small></div>`).join("")}</div>`;
-  const explain = (i, t, s) => `<div class="lab-live-explain big" id="${i}"><b>${t}</b><span>${s}</span></div>`;
+  const explain = (i, t, s) =>
+    `<div class="lab-live-explain big" id="${i}"><b>${t}</b><span>${s}</span></div>`;
 
   /* ==========================================================================
      1. DRAIN + VENT  —  a branch you could actually pipe
      ========================================================================== */
   TS.labs["drain-vent"] = function () {
-    shell(`${toolIntro("Trap + Vent Lab",
+    shell(`${toolIntro(
+      "Trap + Vent Lab",
       "A drain moves water and air at the same time. Drain the fixture with the vent open, then block it and watch what the pressure imbalance does to the trap seal.",
-      "plumbing")}
-      ${labGuide('drain-vent')}
-      ${frame("DWV TRAINER · LAVATORY BRANCH", "READY",
+      "plumbing",
+    )}
+      ${labGuide("drain-vent")}
+      ${frame(
+        "DWV TRAINER · LAVATORY BRANCH",
+        "READY",
         range("dvFill", "Fixture water", 10, 100, 80, 1, "%") +
-        `<button class="push on" id="dvVent">VENT OPEN</button>
+          `<button class="push on" id="dvVent">VENT OPEN</button>
          <button class="solid-btn" style="width:100%;margin-top:8px" id="dvDrain">PULL PLUG</button>` +
-        metrics([["dvTrap", "2.0\u2033", "Trap seal depth"], ["dvAir", "BALANCED", "Branch pressure"], ["dvFlow", "READY", "Drain"]]) +
-        explain("dvExplain", "Trap seal is full.",
-          "Drain once with the vent open. Then block the vent and drain again, and compare what is left in the trap.") +
-        `<p class="sim-note">Seal depth is drawn to scale against a nominal 2\u2033 trap. Codes generally require a seal between 2\u2033 and 4\u2033; a seal drawn down below that lets sewer gas through.</p>`,
+          metrics([
+            ["dvTrap", "2.0\u2033", "Trap seal depth"],
+            ["dvAir", "BALANCED", "Branch pressure"],
+            ["dvFlow", "READY", "Drain"],
+          ]) +
+          explain(
+            "dvExplain",
+            "Trap seal is full.",
+            "Drain once with the vent open. Then block the vent and drain again, and compare what is left in the trap.",
+          ) +
+          `<p class="sim-note">Seal depth is drawn to scale against a nominal 2\u2033 trap. Codes generally require a seal between 2\u2033 and 4\u2033; a seal drawn down below that lets sewer gas through.</p>`,
         `<svg id="dvSvg" viewBox="0 0 640 480" class="lab15-svg" aria-label="Fixture trap and vent">
           <defs>
             <linearGradient id="dvWater" x1="0" y1="0" x2="0" y2="1">
@@ -115,7 +130,8 @@
           <text x="150" y="196" fill="#97A1AD" font-family="ui-monospace,monospace" font-size="12">TAILPIECE</text>
           <text x="150" y="300" fill="#97A1AD" font-family="ui-monospace,monospace" font-size="12">P-TRAP</text>
           <text x="330" y="222" fill="#97A1AD" font-family="ui-monospace,monospace" font-size="12">TRAP ARM</text>
-        </svg>`)}
+        </svg>`,
+      )}
       ${footer()}`);
     initDrainVent15();
   };
@@ -125,12 +141,20 @@
 
     function paint() {
       const basin = id("dvBasinWater");
-      if (basin) { const h = 70 * (st.fill / 100); basin.setAttribute("y", 140 - h); basin.setAttribute("height", h); }
+      if (basin) {
+        const h = 70 * (st.fill / 100);
+        basin.setAttribute("y", 140 - h);
+        basin.setAttribute("height", h);
+      }
 
       const tw = id("dvTrapWater");
-      if (tw) { const h = 70 * (st.seal / 100); tw.setAttribute("y", 310 - h); tw.setAttribute("height", h); }
+      if (tw) {
+        const h = 70 * (st.seal / 100);
+        tw.setAttribute("y", 310 - h);
+        tw.setAttribute("height", h);
+      }
 
-      const depth = (2 * st.seal / 100);
+      const depth = (2 * st.seal) / 100;
       const dt = id("dvTrap");
       if (dt) {
         dt.textContent = depth.toFixed(1) + "\u2033";
@@ -138,10 +162,13 @@
       }
       id("dvAir") && (id("dvAir").textContent = st.vent ? "BALANCED" : "NEGATIVE");
       id("dvVentAir") && (id("dvVentAir").style.opacity = st.vent ? 1 : 0.12);
-      id("dvBlockMark") && (id("dvBlockMark").setAttribute("opacity", st.vent ? 0 : 1));
+      id("dvBlockMark") && id("dvBlockMark").setAttribute("opacity", st.vent ? 0 : 1);
 
       const b = id("dvVent");
-      if (b) { b.textContent = st.vent ? "VENT OPEN" : "VENT BLOCKED"; b.classList.toggle("on", st.vent); }
+      if (b) {
+        b.textContent = st.vent ? "VENT OPEN" : "VENT BLOCKED";
+        b.classList.toggle("on", st.vent);
+      }
 
       const ex = id("dvExplain");
       if (ex) {
@@ -163,7 +190,9 @@
       id("dvFlow") && (id("dvFlow").textContent = "FLOWING");
       id("labState") && (id("labState").textContent = "DRAINING");
       id("dvDrops") && id("dvDrops").setAttribute("opacity", 1);
-      const start = st.fill, t0 = performance.now(), dur = 1700;
+      const start = st.fill,
+        t0 = performance.now(),
+        dur = 1700;
       (function step(now) {
         const p = clamp((now - t0) / dur, 0, 1);
         st.fill = start * (1 - p);
@@ -176,15 +205,23 @@
         else {
           st.draining = false;
           id("dvFlow") && (id("dvFlow").textContent = "EMPTY");
-          id("labState") && (id("labState").textContent = st.vent ? "SEAL INTACT" : "SEAL SIPHONED");
+          id("labState") &&
+            (id("labState").textContent = st.vent ? "SEAL INTACT" : "SEAL SIPHONED");
           id("dvDrops") && id("dvDrops").setAttribute("opacity", 0);
           paint();
         }
       })(performance.now());
     }
 
-    on("dvFill", "input", e => { st.fill = +e.target.value; id("dvFillL").textContent = st.fill + "%"; paint(); });
-    on("dvVent", "click", () => { st.vent = !st.vent; paint(); });
+    on("dvFill", "input", (e) => {
+      st.fill = +e.target.value;
+      id("dvFillL").textContent = st.fill + "%";
+      paint();
+    });
+    on("dvVent", "click", () => {
+      st.vent = !st.vent;
+      paint();
+    });
     on("dvDrain", "click", drain);
     paint();
   }
@@ -193,20 +230,31 @@
      2. LADDER LOGIC  —  three-wire start/stop with a real seal-in
      ========================================================================== */
   TS.labs["ladder"] = function () {
-    shell(`${toolIntro("Ladder Logic Lab",
+    shell(`${toolIntro(
+      "Ladder Logic Lab",
       "Build the circuit every motor control panel starts with: a momentary start button that stays started, and a stop button that always wins.",
-      "electrical")}
-      ${labGuide('ladder')}
-      ${frame("PROJECT · THREE_WIRE_CONTROL", "SCANNING",
+      "electrical",
+    )}
+      ${labGuide("ladder")}
+      ${frame(
+        "PROJECT · THREE_WIRE_CONTROL",
+        "SCANNING",
         `<div class="lab15-inputs">
           <div class="lab15-io"><span>START</span><button class="push" id="ldStart">MOMENTARY</button></div>
           <div class="lab15-io"><span>STOP</span><button class="push on" id="ldStop">CLOSED (NC)</button></div>
           <div class="lab15-io"><span>OVERLOAD</span><button class="push on" id="ldOl">CLOSED (NC)</button></div>
          </div>
          <button class="ghost-btn" style="width:100%;margin-top:10px" id="ldSeal">SEAL-IN CONTACT: IN</button>` +
-        metrics([["ldMotor", "OFF", "Motor output"], ["ldPath", "OPEN", "Rung continuity"]]) +
-        explain("ldExplain", "Rung is false.", "Press and release START. Watch whether the motor stays running once the button opens again.") +
-        `<p class="sim-note">START is momentary: it closes only while held. That is exactly why the seal-in contact exists, and removing it is the fastest way to see what it does.</p>`,
+          metrics([
+            ["ldMotor", "OFF", "Motor output"],
+            ["ldPath", "OPEN", "Rung continuity"],
+          ]) +
+          explain(
+            "ldExplain",
+            "Rung is false.",
+            "Press and release START. Watch whether the motor stays running once the button opens again.",
+          ) +
+          `<p class="sim-note">START is momentary: it closes only while held. That is exactly why the seal-in contact exists, and removing it is the fastest way to see what it does.</p>`,
         `<svg id="ldSvg" viewBox="0 0 640 380" class="lab15-svg" aria-label="Three-wire control rung">
           <!-- rails -->
           <line x1="60" y1="40" x2="60" y2="340" stroke="#455060" stroke-width="4"/>
@@ -247,13 +295,15 @@
             <text x="510" y="146" fill="#e9e5dc" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">M</text>
             <text x="510" y="186" fill="#97A1AD" font-family="ui-monospace,monospace" font-size="11" text-anchor="middle">COIL</text></g>
           <text x="320" y="322" id="ldCaption" fill="#6c7684" font-family="ui-monospace,monospace" font-size="12" text-anchor="middle">Hold START to close the NO contact</text>
-        </svg>`)}
+        </svg>`,
+      )}
       ${footer()}`);
     initLadder15();
   };
 
   function initLadder15() {
-    const LIVE = "#F0B429", DEAD = "#3a4450";
+    const LIVE = "#F0B429",
+      DEAD = "#3a4450";
     const st = { start: false, stop: true, ol: true, sealFitted: true, motor: false };
 
     function solve() {
@@ -268,15 +318,19 @@
       const energized = st.motor;
 
       const setG = (gid, live) => {
-        const g = id(gid); if (!g) return;
-        g.querySelectorAll("line").forEach(l => l.setAttribute("stroke", live ? LIVE : "#8b97a5"));
+        const g = id(gid);
+        if (!g) return;
+        g.querySelectorAll("line").forEach((l) =>
+          l.setAttribute("stroke", live ? LIVE : "#8b97a5"),
+        );
       };
       setG("ldCStart", st.start);
       setG("ldCStop", st.stop);
       setG("ldCOl", st.ol);
       setG("ldCSeal", st.sealFitted && st.motor);
 
-      id("ldWireMain") && id("ldWireMain").setAttribute("stroke", holdPath && st.stop && st.ol ? LIVE : DEAD);
+      id("ldWireMain") &&
+        id("ldWireMain").setAttribute("stroke", holdPath && st.stop && st.ol ? LIVE : DEAD);
       const sw = id("ldWireSeal");
       if (sw) {
         sw.setAttribute("stroke", st.sealFitted && st.motor ? LIVE : DEAD);
@@ -296,29 +350,65 @@
 
       const ex = id("ldExplain");
       if (!ex) return;
-      if (!st.stop) ex.innerHTML = `<b>STOP is pressed.</b><span>An NC stop opens the rung no matter what else is true. That is why stop buttons are wired normally closed: a broken wire stops the motor instead of hiding the fault.</span>`;
-      else if (!st.ol) ex.innerHTML = `<b>Overload contact is open.</b><span>The overload relay drops the coil, so the starter releases. Reset the overload before looking anywhere else.</span>`;
-      else if (energized && !st.start && st.sealFitted) ex.innerHTML = `<b>Sealed in.</b><span>START is released, but the M auxiliary contact is now carrying the circuit around it. This is the whole point of three-wire control.</span>`;
-      else if (energized && st.start) ex.innerHTML = `<b>Coil energized while START is held.</b><span>Release START and watch whether the seal-in takes over.</span>`;
-      else if (!st.sealFitted) ex.innerHTML = `<b>No seal-in path.</b><span>Without the auxiliary contact the motor runs only while your finger is on the button. That is two-wire jog behaviour, not a starter.</span>`;
-      else ex.innerHTML = `<b>Rung is false.</b><span>Nothing is holding the coil. Press START to close the NO contact.</span>`;
+      if (!st.stop)
+        ex.innerHTML = `<b>STOP is pressed.</b><span>An NC stop opens the rung no matter what else is true. That is why stop buttons are wired normally closed: a broken wire stops the motor instead of hiding the fault.</span>`;
+      else if (!st.ol)
+        ex.innerHTML = `<b>Overload contact is open.</b><span>The overload relay drops the coil, so the starter releases. Reset the overload before looking anywhere else.</span>`;
+      else if (energized && !st.start && st.sealFitted)
+        ex.innerHTML = `<b>Sealed in.</b><span>START is released, but the M auxiliary contact is now carrying the circuit around it. This is the whole point of three-wire control.</span>`;
+      else if (energized && st.start)
+        ex.innerHTML = `<b>Coil energized while START is held.</b><span>Release START and watch whether the seal-in takes over.</span>`;
+      else if (!st.sealFitted)
+        ex.innerHTML = `<b>No seal-in path.</b><span>Without the auxiliary contact the motor runs only while your finger is on the button. That is two-wire jog behaviour, not a starter.</span>`;
+      else
+        ex.innerHTML = `<b>Rung is false.</b><span>Nothing is holding the coil. Press START to close the NO contact.</span>`;
     }
 
     const press = (key, downVal) => (elId, isNC) => {
-      const btn = id(elId); if (!btn) return;
-      const down = () => { st[key] = downVal; paint(); };
-      const up = () => { st[key] = !downVal; paint(); };
-      if (isNC) { btn.addEventListener("mousedown", () => { st[key] = false; paint(); });
-                  btn.addEventListener("mouseup", () => { st[key] = true; paint(); });
-                  btn.addEventListener("mouseleave", () => { if (!st[key]) { st[key] = true; paint(); } }); }
-      else { btn.addEventListener("mousedown", down); btn.addEventListener("mouseup", up);
-             btn.addEventListener("mouseleave", () => { if (st[key]) { st[key] = false; paint(); } }); }
-      btn.addEventListener("click", e => e.preventDefault());
+      const btn = id(elId);
+      if (!btn) return;
+      const down = () => {
+        st[key] = downVal;
+        paint();
+      };
+      const up = () => {
+        st[key] = !downVal;
+        paint();
+      };
+      if (isNC) {
+        btn.addEventListener("mousedown", () => {
+          st[key] = false;
+          paint();
+        });
+        btn.addEventListener("mouseup", () => {
+          st[key] = true;
+          paint();
+        });
+        btn.addEventListener("mouseleave", () => {
+          if (!st[key]) {
+            st[key] = true;
+            paint();
+          }
+        });
+      } else {
+        btn.addEventListener("mousedown", down);
+        btn.addEventListener("mouseup", up);
+        btn.addEventListener("mouseleave", () => {
+          if (st[key]) {
+            st[key] = false;
+            paint();
+          }
+        });
+      }
+      btn.addEventListener("click", (e) => e.preventDefault());
     };
     press("start", true)("ldStart", false);
     press("stop", false)("ldStop", true);
     press("ol", false)("ldOl", true);
-    on("ldSeal", "click", () => { st.sealFitted = !st.sealFitted; paint(); });
+    on("ldSeal", "click", () => {
+      st.sealFitted = !st.sealFitted;
+      paint();
+    });
     paint();
   }
 
@@ -326,24 +416,35 @@
      3. HYDRAULIC POWER  —  restored to the Industrial catalog, properly piped
      ========================================================================== */
   TS.labs["hydraulic-lab"] = function () {
-    shell(`${toolIntro("Hydraulic Force + Motion Lab",
+    shell(`${toolIntro(
+      "Hydraulic Force + Motion Lab",
       "Pressure is what the load demands. Flow is what the pump supplies. One sets force, the other sets speed, and the relief valve decides what happens when the load asks for more than the system has.",
-      "industrial")}
-      ${labGuide('hydraulic-lab')}
-      ${frame("HYDRAULIC TRAINER · PUMP / RELIEF / CYLINDER", "HOLDING",
+      "industrial",
+    )}
+      ${labGuide("hydraulic-lab")}
+      ${frame(
+        "HYDRAULIC TRAINER · PUMP / RELIEF / CYLINDER",
+        "HOLDING",
         range("hyFlow", "Pump flow", 1, 15, 8, 0.5, " gpm") +
-        range("hyRelief", "Relief setting", 500, 3000, 1800, 50, " psi") +
-        range("hyLoad", "Load on the rod", 0, 12000, 4000, 250, " lb") +
-        range("hyBore", "Cylinder bore", 1.5, 5, 3, 0.5, "\u2033") +
-        `<div class="lab15-dirs">
+          range("hyRelief", "Relief setting", 500, 3000, 1800, 50, " psi") +
+          range("hyLoad", "Load on the rod", 0, 12000, 4000, 250, " lb") +
+          range("hyBore", "Cylinder bore", 1.5, 5, 3, 0.5, "\u2033") +
+          `<div class="lab15-dirs">
            <button class="push" id="hyRet">\u2190 RETRACT</button>
            <button class="push on" id="hyHold">HOLD</button>
            <button class="push" id="hyExt">EXTEND \u2192</button>
          </div>` +
-        metrics([["hyPsi", "0 psi", "System pressure"], ["hySpeed", "0.0 in/s", "Rod speed"], ["hyCap", "0 lb", "Force available"]]) +
-        explain("hyExplain", "System is holding.",
-          "Pick a direction. Then raise the load until the pressure the load demands reaches the relief setting.") +
-        `<p class="sim-note">Force = pressure \u00d7 effective area. Speed = flow \u00f7 effective area. Rod diameter is taken as 40% of bore, so retract sees less area than extend and behaves differently at the same settings.</p>`,
+          metrics([
+            ["hyPsi", "0 psi", "System pressure"],
+            ["hySpeed", "0.0 in/s", "Rod speed"],
+            ["hyCap", "0 lb", "Force available"],
+          ]) +
+          explain(
+            "hyExplain",
+            "System is holding.",
+            "Pick a direction. Then raise the load until the pressure the load demands reaches the relief setting.",
+          ) +
+          `<p class="sim-note">Force = pressure \u00d7 effective area. Speed = flow \u00f7 effective area. Rod diameter is taken as 40% of bore, so retract sees less area than extend and behaves differently at the same settings.</p>`,
         `<svg id="hySvg" viewBox="0 0 740 470" class="lab15-svg" aria-label="Hydraulic circuit">
           <!-- reservoir -->
           <path d="M40 340 L40 420 L150 420 L150 340" fill="none" stroke="#5b6a7a" stroke-width="4"/>
@@ -379,7 +480,8 @@
           <rect id="hyRod" x="474" y="110" width="150" height="14" fill="#5b6a7a"/>
           <rect id="hyLoadBox" x="626" y="84" width="40" height="66" fill="#171b21" stroke="#5b6a7a" stroke-width="3"/>
           <text id="hyLoadTxt" x="646" y="170" fill="#97A1AD" font-family="ui-monospace,monospace" font-size="11" text-anchor="middle">LOAD</text>
-        </svg>`)}
+        </svg>`,
+      )}
       ${footer()}`);
     initHydraulic15();
   };
@@ -389,16 +491,17 @@
     let raf = null;
 
     function calc() {
-      const bore = st.bore, rod = bore * 0.4;
-      const capArea = Math.PI * bore * bore / 4;
-      const rodArea = capArea - Math.PI * rod * rod / 4;
+      const bore = st.bore,
+        rod = bore * 0.4;
+      const capArea = (Math.PI * bore * bore) / 4;
+      const rodArea = capArea - (Math.PI * rod * rod) / 4;
       const area = st.dir >= 0 ? capArea : rodArea;
       /* Pressure is set by the load, capped by the relief. */
       const demand = st.dir === 0 ? 0 : st.load / area;
       const relieving = demand > st.relief;
       const psi = st.dir === 0 ? 0 : Math.min(demand, st.relief);
       /* 1 gpm = 231 in^3/min. Speed only happens if the pump can beat the load. */
-      const speed = (st.dir === 0 || relieving) ? 0 : (st.flow * 231 / 60) / area;
+      const speed = st.dir === 0 || relieving ? 0 : (st.flow * 231) / 60 / area;
       return { capArea, rodArea, area, demand, psi, relieving, speed, capacity: st.relief * area };
     }
 
@@ -407,25 +510,36 @@
       id("hyPsi") && (id("hyPsi").textContent = Math.round(c.psi) + " psi");
       id("hySpeed") && (id("hySpeed").textContent = c.speed.toFixed(1) + " in/s");
       id("hyCap") && (id("hyCap").textContent = Math.round(c.capacity).toLocaleString() + " lb");
-      const cap = id("hyCap"); if (cap) cap.style.color = c.relieving ? "var(--sig-danger)" : "";
+      const cap = id("hyCap");
+      if (cap) cap.style.color = c.relieving ? "var(--sig-danger)" : "";
 
-      id("hyValvePos") && (id("hyValvePos").textContent = st.dir === 0 ? "HOLD" : st.dir > 0 ? "EXTEND" : "RETRACT");
-      id("hyReliefFlow") && (id("hyReliefFlow").setAttribute("opacity", c.relieving ? 1 : 0));
-      id("hyPLine") && (id("hyPLine").setAttribute("stroke", st.dir ? "#E4712F" : "#5b6a7a"));
-      id("hyLineA") && (id("hyLineA").setAttribute("stroke", st.dir > 0 ? "#E4712F" : "#5b6a7a"));
-      id("hyLineB") && (id("hyLineB").setAttribute("stroke", st.dir < 0 ? "#E4712F" : "#5b6a7a"));
+      id("hyValvePos") &&
+        (id("hyValvePos").textContent = st.dir === 0 ? "HOLD" : st.dir > 0 ? "EXTEND" : "RETRACT");
+      id("hyReliefFlow") && id("hyReliefFlow").setAttribute("opacity", c.relieving ? 1 : 0);
+      id("hyPLine") && id("hyPLine").setAttribute("stroke", st.dir ? "#E4712F" : "#5b6a7a");
+      id("hyLineA") && id("hyLineA").setAttribute("stroke", st.dir > 0 ? "#E4712F" : "#5b6a7a");
+      id("hyLineB") && id("hyLineB").setAttribute("stroke", st.dir < 0 ? "#E4712F" : "#5b6a7a");
       ["hyExt", "hyRet", "hyHold"].forEach((b, i) => {
         const want = [1, -1, 0][i];
         id(b) && id(b).classList.toggle("on", st.dir === want);
       });
-      id("labState") && (id("labState").textContent = c.relieving ? "OVER RELIEF · NO MOTION" : st.dir ? "MOVING" : "HOLDING");
+      id("labState") &&
+        (id("labState").textContent = c.relieving
+          ? "OVER RELIEF · NO MOTION"
+          : st.dir
+            ? "MOVING"
+            : "HOLDING");
 
       /* geometry */
-      const travel = 128, x0 = 460;
+      const travel = 128,
+        x0 = 460;
       const px = x0 + travel * st.pos;
       id("hyPiston") && id("hyPiston").setAttribute("x", px);
       const rodEl = id("hyRod");
-      if (rodEl) { rodEl.setAttribute("x", px + 14); rodEl.setAttribute("width", Math.max(12, 626 - (px + 14))); }
+      if (rodEl) {
+        rodEl.setAttribute("x", px + 14);
+        rodEl.setAttribute("width", Math.max(12, 626 - (px + 14)));
+      }
       id("hyLoadBox") && id("hyLoadBox").setAttribute("x", 626);
       id("hyLoadTxt") && id("hyLoadTxt").setAttribute("x", 646);
 
@@ -451,15 +565,32 @@
       raf = requestAnimationFrame(tick);
     }
 
-    [["hyFlow", "flow", v => v + " gpm"], ["hyRelief", "relief", v => v + " psi"],
-     ["hyLoad", "load", v => (+v).toLocaleString() + " lb"], ["hyBore", "bore", v => v + "\u2033"]]
-      .forEach(([elId, key, fmt]) => on(elId, "input", e => {
-        st[key] = +e.target.value; id(elId + "L").textContent = fmt(e.target.value); paint();
-      }));
-    on("hyExt", "click", () => { st.dir = 1; paint(); });
-    on("hyRet", "click", () => { st.dir = -1; paint(); });
-    on("hyHold", "click", () => { st.dir = 0; paint(); });
-    paint(); tick();
+    [
+      ["hyFlow", "flow", (v) => v + " gpm"],
+      ["hyRelief", "relief", (v) => v + " psi"],
+      ["hyLoad", "load", (v) => (+v).toLocaleString() + " lb"],
+      ["hyBore", "bore", (v) => v + "\u2033"],
+    ].forEach(([elId, key, fmt]) =>
+      on(elId, "input", (e) => {
+        st[key] = +e.target.value;
+        id(elId + "L").textContent = fmt(e.target.value);
+        paint();
+      }),
+    );
+    on("hyExt", "click", () => {
+      st.dir = 1;
+      paint();
+    });
+    on("hyRet", "click", () => {
+      st.dir = -1;
+      paint();
+    });
+    on("hyHold", "click", () => {
+      st.dir = 0;
+      paint();
+    });
+    paint();
+    tick();
     window.addEventListener("hashchange", () => raf && cancelAnimationFrame(raf), { once: true });
   }
 
@@ -467,18 +598,29 @@
      4. WELD PARAMETER WINDOW  —  bead fused to the plate, real heat input
      ========================================================================== */
   TS.labs["weld-puddle"] = function () {
-    shell(`${toolIntro("Weld Parameter Window",
+    shell(`${toolIntro(
+      "Weld Parameter Window",
       "Not a weld-quality predictor. A parameter map that shows which direction heat input, bead width and penetration move when you change one setting at a time.",
-      "welding")}
-      ${labGuide('weld-puddle')}
-      ${frame("PROCESS MAP · RELATIVE RESPONSE", "BASELINE",
+      "welding",
+    )}
+      ${labGuide("weld-puddle")}
+      ${frame(
+        "PROCESS MAP · RELATIVE RESPONSE",
+        "BASELINE",
         range("wpAmps", "Current", 60, 300, 140, 5, " A") +
-        range("wpVolts", "Arc voltage", 14, 34, 22, 0.5, " V") +
-        range("wpSpeed", "Travel speed", 4, 24, 10, 0.5, " ipm") +
-        metrics([["wpHeat", "18.5", "kJ/in heat input"], ["wpPen", "MED", "Penetration"], ["wpWidth", "MED", "Bead width"]]) +
-        explain("wpExplain", "Baseline settings.",
-          "Change one variable and watch the section respond. Heat input is computed, not estimated.") +
-        `<p class="sim-note">Heat input = (volts \u00d7 amps \u00d7 60) \u00f7 travel speed in ipm, reported in kJ/in. Bead geometry here is a relative model: real fusion depends on process, polarity, electrode, shielding, joint design, position and the qualified procedure.</p>`,
+          range("wpVolts", "Arc voltage", 14, 34, 22, 0.5, " V") +
+          range("wpSpeed", "Travel speed", 4, 24, 10, 0.5, " ipm") +
+          metrics([
+            ["wpHeat", "18.5", "kJ/in heat input"],
+            ["wpPen", "MED", "Penetration"],
+            ["wpWidth", "MED", "Bead width"],
+          ]) +
+          explain(
+            "wpExplain",
+            "Baseline settings.",
+            "Change one variable and watch the section respond. Heat input is computed, not estimated.",
+          ) +
+          `<p class="sim-note">Heat input = (volts \u00d7 amps \u00d7 60) \u00f7 travel speed in ipm, reported in kJ/in. Bead geometry here is a relative model: real fusion depends on process, polarity, electrode, shielding, joint design, position and the qualified procedure.</p>`,
         `<svg id="wpSvg" viewBox="0 0 640 400" class="lab15-svg" aria-label="Weld cross section">
           <defs>
             <linearGradient id="wpHot" x1="0" y1="0" x2="0" y2="1">
@@ -515,7 +657,8 @@
           <line id="wpScale" x1="70" y1="366" x2="240" y2="366" stroke="#C4472F" stroke-width="6"/>
           <text x="70" y="390" fill="#6c7684" font-family="ui-monospace,monospace" font-size="11">LOW HEAT INPUT</text>
           <text x="570" y="390" fill="#6c7684" font-family="ui-monospace,monospace" font-size="11" text-anchor="end">HIGH HEAT INPUT</text>
-        </svg>`)}
+        </svg>`,
+      )}
       ${footer()}`);
     initWeld15();
   };
@@ -532,34 +675,56 @@
       const penN = clamp((st.amps / 140) * Math.pow(10 / st.speed, 0.5), 0.35, 2.2);
       const widN = clamp((st.volts / 22) * Math.pow(10 / st.speed, 0.5), 0.4, 2.2);
 
-      const rx = 70 * widN, ry = 42 * penN;
-      const f = id("wpFusion"); if (f) { f.setAttribute("rx", rx); f.setAttribute("ry", ry); }
-      const h = id("wpHaz"); if (h) { h.setAttribute("rx", rx * 1.4); h.setAttribute("ry", ry * 1.45); }
+      const rx = 70 * widN,
+        ry = 42 * penN;
+      const f = id("wpFusion");
+      if (f) {
+        f.setAttribute("rx", rx);
+        f.setAttribute("ry", ry);
+      }
+      const h = id("wpHaz");
+      if (h) {
+        h.setAttribute("rx", rx * 1.4);
+        h.setAttribute("ry", ry * 1.45);
+      }
 
-      const capW = 70 * widN, capH = 15 * Math.min(1.6, widN);
+      const capW = 70 * widN,
+        capH = 15 * Math.min(1.6, widN);
       const cap = id("wpCap");
       if (cap) cap.setAttribute("d", `M${320 - capW} 180 Q320 ${180 - capH} ${320 + capW} 180 Z`);
 
-      id("wpWL") && (id("wpWL").setAttribute("x1", 320 - capW), id("wpWL").setAttribute("x2", 320 + capW));
-      id("wpWL1") && (id("wpWL1").setAttribute("x1", 320 - capW), id("wpWL1").setAttribute("x2", 320 - capW));
-      id("wpWL2") && (id("wpWL2").setAttribute("x1", 320 + capW), id("wpWL2").setAttribute("x2", 320 + capW));
+      id("wpWL") &&
+        (id("wpWL").setAttribute("x1", 320 - capW), id("wpWL").setAttribute("x2", 320 + capW));
+      id("wpWL1") &&
+        (id("wpWL1").setAttribute("x1", 320 - capW), id("wpWL1").setAttribute("x2", 320 - capW));
+      id("wpWL2") &&
+        (id("wpWL2").setAttribute("x1", 320 + capW), id("wpWL2").setAttribute("x2", 320 + capW));
       id("wpDL") && id("wpDL").setAttribute("y2", 180 + ry);
-      id("wpDL2") && (id("wpDL2").setAttribute("y1", 180 + ry), id("wpDL2").setAttribute("y2", 180 + ry));
+      id("wpDL2") &&
+        (id("wpDL2").setAttribute("y1", 180 + ry), id("wpDL2").setAttribute("y2", 180 + ry));
 
-      const band = v => v < 0.75 ? "LOW" : v > 1.35 ? "HIGH" : "MED";
+      const band = (v) => (v < 0.75 ? "LOW" : v > 1.35 ? "HIGH" : "MED");
       id("wpPen") && (id("wpPen").textContent = band(penN));
       id("wpWidth") && (id("wpWidth").textContent = band(widN));
       id("wpScale") && id("wpScale").setAttribute("x2", 70 + clamp(kj / 60, 0.02, 1) * 500);
       id("labState") && (id("labState").textContent = kj.toFixed(1) + " kJ/in");
 
       const ex = id("wpExplain");
-      if (ex) ex.innerHTML = `<b>${kj.toFixed(1)} kJ/in.</b><span>${st.volts} V \u00d7 ${st.amps} A \u00d7 60 \u00f7 ${st.speed} ipm. Raising travel speed cuts heat input and shrinks both width and penetration at once, which is why speed is not a comfort setting. High heat input on a quench-and-tempered steel is a metallurgy problem, not just a wide bead.</span>`;
+      if (ex)
+        ex.innerHTML = `<b>${kj.toFixed(1)} kJ/in.</b><span>${st.volts} V \u00d7 ${st.amps} A \u00d7 60 \u00f7 ${st.speed} ipm. Raising travel speed cuts heat input and shrinks both width and penetration at once, which is why speed is not a comfort setting. High heat input on a quench-and-tempered steel is a metallurgy problem, not just a wide bead.</span>`;
     }
 
-    [["wpAmps", "amps", " A"], ["wpVolts", "volts", " V"], ["wpSpeed", "speed", " ipm"]]
-      .forEach(([elId, key, unit]) => on(elId, "input", e => {
-        st[key] = +e.target.value; id(elId + "L").textContent = e.target.value + unit; paint();
-      }));
+    [
+      ["wpAmps", "amps", " A"],
+      ["wpVolts", "volts", " V"],
+      ["wpSpeed", "speed", " ipm"],
+    ].forEach(([elId, key, unit]) =>
+      on(elId, "input", (e) => {
+        st[key] = +e.target.value;
+        id(elId + "L").textContent = e.target.value + unit;
+        paint();
+      }),
+    );
     paint();
   }
 
@@ -567,20 +732,31 @@
      5. ENVELOPE WATER  —  a named wall assembly, water follows the layers
      ========================================================================== */
   TS.labs["envelope-lab"] = function () {
-    shell(`${toolIntro("Water Management Lab",
+    shell(`${toolIntro(
+      "Water Management Lab",
       "Cladding is not the waterproofing. Watch where wind-driven rain goes when the drainage plane and the head flashing are continuous, and where it goes when they are not.",
-      "construction")}
-      ${labGuide('envelope-lab')}
-      ${frame("WALL SECTION · WATER CONTROL", "DRAINING OUT",
+      "construction",
+    )}
+      ${labGuide("envelope-lab")}
+      ${frame(
+        "WALL SECTION · WATER CONTROL",
+        "DRAINING OUT",
         range("enRain", "Rain intensity", 10, 100, 60, 1, "%") +
-        range("enWind", "Wind pressure", 0, 100, 40, 1, "%") +
-        `<label class="lab15-toggle"><input type="checkbox" id="enFlash" checked><span>Head flashing over the window</span></label>
+          range("enWind", "Wind pressure", 0, 100, 40, 1, "%") +
+          `<label class="lab15-toggle"><input type="checkbox" id="enFlash" checked><span>Head flashing over the window</span></label>
          <label class="lab15-toggle"><input type="checkbox" id="enWrb" checked><span>Drainage plane lapped and continuous</span></label>
          <label class="lab15-toggle"><input type="checkbox" id="enGap" checked><span>Drainage gap behind the cladding</span></label>` +
-        metrics([["enDrain", "GOOD", "Drainage"], ["enWet", "DRY", "Sheathing"], ["enInt", "DRY", "Interior"]]) +
-        explain("enExplain", "Assembly is draining.",
-          "Break one layer at a time and follow the water. Most leaks are a lap running the wrong way, not a hole.") +
-        `<p class="sim-note">Water is shown following the layers it is given. Real assemblies also depend on the drying direction, the climate zone and the specific products, which is why detail drawings exist.</p>`,
+          metrics([
+            ["enDrain", "GOOD", "Drainage"],
+            ["enWet", "DRY", "Sheathing"],
+            ["enInt", "DRY", "Interior"],
+          ]) +
+          explain(
+            "enExplain",
+            "Assembly is draining.",
+            "Break one layer at a time and follow the water. Most leaks are a lap running the wrong way, not a hole.",
+          ) +
+          `<p class="sim-note">Water is shown following the layers it is given. Real assemblies also depend on the drying direction, the climate zone and the specific products, which is why detail drawings exist.</p>`,
         `<svg id="enSvg" viewBox="0 0 640 460" class="lab15-svg" aria-label="Wall section water path">
           <!-- assembly layers, exterior on the left -->
           <rect x="90"  y="50" width="46" height="360" fill="#3a4450"/>
@@ -610,7 +786,8 @@
           <path id="enPathSheath" d="M162 60 L162 178 L200 200 L200 400" stroke="#C4472F" stroke-width="4" fill="none" opacity="0"/>
           <path id="enPathInterior" d="M162 60 L162 178 L300 210 L300 400" stroke="#C4472F" stroke-width="4" fill="none" opacity="0"/>
           <text x="120" y="436" fill="#4A87C7" font-family="ui-monospace,monospace" font-size="11" text-anchor="middle">DRAINS OUT</text>
-        </svg>`)}
+        </svg>`,
+      )}
       ${footer()}`);
     initEnvelope15();
   };
@@ -622,9 +799,9 @@
       const drops = id("enRainG");
       if (drops) {
         const n = Math.round(st.rain / 9);
-        const skew = st.wind / 100 * 26;
+        const skew = (st.wind / 100) * 26;
         drops.innerHTML = Array.from({ length: n }, (_, i) => {
-          const y = 40 + (i * 37) % 360;
+          const y = 40 + ((i * 37) % 360);
           return `<line x1="${20 + skew}" y1="${y}" x2="${86}" y2="${y + 14}" stroke="#4A87C7" stroke-width="2" opacity="0.5"/>`;
         }).join("");
       }
@@ -640,36 +817,70 @@
       const reachesInterior = behindCladding && !st.flash && !st.wrb;
 
       id("enPathGood") && id("enPathGood").setAttribute("opacity", reachesSheathing ? 0.2 : 0.9);
-      id("enPathSheath") && id("enPathSheath").setAttribute("opacity", reachesSheathing && !reachesInterior ? 0.95 : 0);
-      id("enPathInterior") && id("enPathInterior").setAttribute("opacity", reachesInterior ? 0.95 : 0);
+      id("enPathSheath") &&
+        id("enPathSheath").setAttribute("opacity", reachesSheathing && !reachesInterior ? 0.95 : 0);
+      id("enPathInterior") &&
+        id("enPathInterior").setAttribute("opacity", reachesInterior ? 0.95 : 0);
 
-      const set = (i, v, bad) => { const e = id(i); if (e) { e.textContent = v; e.style.color = bad ? "var(--sig-danger)" : ""; } };
+      const set = (i, v, bad) => {
+        const e = id(i);
+        if (e) {
+          e.textContent = v;
+          e.style.color = bad ? "var(--sig-danger)" : "";
+        }
+      };
       set("enDrain", reachesSheathing ? "BLOCKED" : "GOOD", reachesSheathing);
       set("enWet", reachesSheathing ? "WETTING" : "DRY", reachesSheathing);
       set("enInt", reachesInterior ? "LEAKING" : "DRY", reachesInterior);
-      id("labState") && (id("labState").textContent = reachesInterior ? "WATER REACHING INTERIOR" : reachesSheathing ? "WATER ON SHEATHING" : "DRAINING OUT");
+      id("labState") &&
+        (id("labState").textContent = reachesInterior
+          ? "WATER REACHING INTERIOR"
+          : reachesSheathing
+            ? "WATER ON SHEATHING"
+            : "DRAINING OUT");
 
       const ex = id("enExplain");
       if (!ex) return;
-      if (reachesInterior) ex.innerHTML = `<b>Water is reaching the interior.</b><span>With no head flashing and a discontinuous drainage plane, there is nothing directing water back out above the opening. The window head is where most wall leaks actually start.</span>`;
-      else if (!st.gap && st.wrb && st.flash) ex.innerHTML = `<b>No drainage gap.</b><span>The layers are continuous, but water held tight against the sheathing has no way to drain or dry. A drained and vented cavity is what turns a water-resistive barrier into a working assembly.</span>`;
-      else if (reachesSheathing) ex.innerHTML = `<b>Water is sitting on the sheathing.</b><span>${!st.flash ? "Without head flashing, water running down the face gets behind the assembly at the opening." : "A break in the drainage plane gives water somewhere to go sideways instead of down and out."}</span>`;
-      else ex.innerHTML = `<b>Assembly is draining.</b><span>Some water always gets past cladding under wind-driven rain. Because the flashing sheds it onto a lapped drainage plane with a gap behind, it runs down and back out instead of soaking in.</span>`;
+      if (reachesInterior)
+        ex.innerHTML = `<b>Water is reaching the interior.</b><span>With no head flashing and a discontinuous drainage plane, there is nothing directing water back out above the opening. The window head is where most wall leaks actually start.</span>`;
+      else if (!st.gap && st.wrb && st.flash)
+        ex.innerHTML = `<b>No drainage gap.</b><span>The layers are continuous, but water held tight against the sheathing has no way to drain or dry. A drained and vented cavity is what turns a water-resistive barrier into a working assembly.</span>`;
+      else if (reachesSheathing)
+        ex.innerHTML = `<b>Water is sitting on the sheathing.</b><span>${!st.flash ? "Without head flashing, water running down the face gets behind the assembly at the opening." : "A break in the drainage plane gives water somewhere to go sideways instead of down and out."}</span>`;
+      else
+        ex.innerHTML = `<b>Assembly is draining.</b><span>Some water always gets past cladding under wind-driven rain. Because the flashing sheds it onto a lapped drainage plane with a gap behind, it runs down and back out instead of soaking in.</span>`;
     }
 
-    on("enRain", "input", e => { st.rain = +e.target.value; id("enRainL").textContent = st.rain + "%"; paint(); });
-    on("enWind", "input", e => { st.wind = +e.target.value; id("enWindL").textContent = st.wind + "%"; paint(); });
-    ["enFlash", "enWrb", "enGap"].forEach((elId, i) => on(elId, "change", e => {
-      st[["flash", "wrb", "gap"][i]] = e.target.checked; paint();
-    }));
+    on("enRain", "input", (e) => {
+      st.rain = +e.target.value;
+      id("enRainL").textContent = st.rain + "%";
+      paint();
+    });
+    on("enWind", "input", (e) => {
+      st.wind = +e.target.value;
+      id("enWindL").textContent = st.wind + "%";
+      paint();
+    });
+    ["enFlash", "enWrb", "enGap"].forEach((elId, i) =>
+      on(elId, "change", (e) => {
+        st[["flash", "wrb", "gap"][i]] = e.target.checked;
+        paint();
+      }),
+    );
     paint();
   }
 
   /* app.js runs its first route() before this file has executed, so a deep link
      straight to a rebuilt lab would render the old one. Re-route once the
      registry is populated if the current hash points at a lab we replaced. */
-  const current = (location.hash.replace(/^#\/?/, "").split("?")[0].split("/"));
+  const current = location.hash.replace(/^#\/?/, "").split("?")[0].split("/");
   if (current[0] === "tool" && TS.labs[current[1]] && TS.host.rerender) TS.host.rerender();
 
-  console.log("V15 labs: " + Object.keys(TS.labs).length + " rebuilt (" + Object.keys(TS.labs).join(", ") + ")");
+  console.log(
+    "V15 labs: " +
+      Object.keys(TS.labs).length +
+      " rebuilt (" +
+      Object.keys(TS.labs).join(", ") +
+      ")",
+  );
 })();

@@ -113,7 +113,9 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Refined malt, sandalwood, quiet fruit. Precision over punch.",
     made: "Scottish methods, Japanese patience.",
     examples: ["Suntory Toki", "Nikka Coffey Grain", "Hibiki Harmony"],
-    substitutes: [{ id: "scotch-blended", note: "Closest structural match for a Japanese Highball." }],
+    substitutes: [
+      { id: "scotch-blended", note: "Closest structural match for a Japanese Highball." },
+    ],
     notes: "Built for the highball: tall glass, hard ice, cold soda, long stir.",
     stock: true,
     shelf: "whiskey",
@@ -239,7 +241,9 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Banana, overripe fruit, hogo. The funk that makes tiki sing.",
     made: "Pot still, long fermentation, high ester.",
     examples: ["Appleton Estate", "Smith & Cross", "Wray & Nephew"],
-    substitutes: [{ id: "dark-rum", note: "Color without the ester. A Mai Tai will taste polite." }],
+    substitutes: [
+      { id: "dark-rum", note: "Color without the ester. A Mai Tai will taste polite." },
+    ],
     stock: true,
     shelf: "rum",
   }),
@@ -267,7 +271,12 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Fresh cane, grass, olive, earth. Not molasses.",
     made: "Fresh sugarcane juice, AOC Martinique.",
     examples: ["Clément VSOP", "Neisson", "Rhum J.M"],
-    substitutes: [{ id: "white-rum", note: "Loses the grass. Ti' Punch without agricole is just rum and lime." }],
+    substitutes: [
+      {
+        id: "white-rum",
+        note: "Loses the grass. Ti' Punch without agricole is just rum and lime.",
+      },
+    ],
     stock: true,
     shelf: "rum",
   }),
@@ -349,7 +358,9 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Neutral by design. Texture and proof matter more than flavor.",
     made: "Grain or potato, distilled to neutrality, filtered.",
     examples: ["Tito's", "Ketel One", "Polish potato vodkas"],
-    substitutes: [{ id: "gin", note: "Adds botanicals. A Moscow Mule becomes a gin mule — actually good." }],
+    substitutes: [
+      { id: "gin", note: "Adds botanicals. A Moscow Mule becomes a gin mule — actually good." },
+    ],
     notes: "A carrier. The drink is whatever you put next to it.",
     stock: true,
     shelf: "clear",
@@ -364,7 +375,9 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Dried fruit, oak, floral heat. The Sidecar's reason to exist.",
     made: "Ugni blanc grapes, double distilled in Charente, aged in oak.",
     examples: ["Pierre Ferrand 1840", "Hine", "Martell VS"],
-    substitutes: [{ id: "brandy", note: "American brandy is cheaper and often better in mixed drinks." }],
+    substitutes: [
+      { id: "brandy", note: "American brandy is cheaper and often better in mixed drinks." },
+    ],
     notes: "VS is for mixing. VSOP and above is for the glass.",
     stock: true,
     shelf: "brandy",
@@ -538,7 +551,12 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Orange, honey, quinine. The Vesper's third gear.",
     made: "Bordeaux wine aperitif.",
     examples: ["Lillet Blanc"],
-    substitutes: [{ id: "blanc-vermouth", note: "Close. Cocchi Americano is the historically truer Vesper call." }],
+    substitutes: [
+      {
+        id: "blanc-vermouth",
+        note: "Close. Cocchi Americano is the historically truer Vesper call.",
+      },
+    ],
     stock: true,
     shelf: "aperitif",
   }),
@@ -674,7 +692,9 @@ export const INGREDIENTS: Ingredient[] = [
     taste: "Dried orange, spice. The Mai Tai's orange, not triple sec.",
     made: "Laraha orange peels in spirit.",
     examples: ["Pierre Ferrand Dry Curaçao"],
-    substitutes: [{ id: "cointreau", note: "Drier and cleaner. Acceptable if it's what you have." }],
+    substitutes: [
+      { id: "cointreau", note: "Drier and cleaner. Acceptable if it's what you have." },
+    ],
     stock: true,
     shelf: "liqueur",
   }),
@@ -1089,7 +1109,9 @@ export const INGREDIENTS: Ingredient[] = [
     color: "#f0e6b8",
     abv: 12,
     taste: "Toast, citrus, fine bubbles.",
-    substitutes: [{ id: "prosecco", note: "Coarser bubbles. Fine in a Spritz, less fine in a 75." }],
+    substitutes: [
+      { id: "prosecco", note: "Coarser bubbles. Fine in a Spritz, less fine in a 75." },
+    ],
     stock: true,
     shelf: "aperitif",
   }),

@@ -74,12 +74,12 @@ html {
 
 .spot-field {
   background:
+    radial-gradient(720px 480px at var(--spot-x) var(--spot-y), var(--color-spot), transparent 62%),
     radial-gradient(
-      720px 480px at var(--spot-x) var(--spot-y),
-      var(--color-spot),
-      transparent 62%
-    ),
-    radial-gradient(1200px 700px at 50% -10%, color-mix(in oklab, var(--color-fg) 4%, transparent), transparent 55%);
+      1200px 700px at 50% -10%,
+      color-mix(in oklab, var(--color-fg) 4%, transparent),
+      transparent 55%
+    );
 }
 
 .grain::after {

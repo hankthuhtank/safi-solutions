@@ -1,71 +1,92 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark light">
-<title>The Bench: learn to code by watching it run</title>
-<meta name="description" content="An interactive field manual for C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping. Every example runs in the browser and can be stepped through one line at a time.">
-<link rel="canonical" href="https://www.safisolutions.org/thebench/">
-<meta property="og:title" content="The Bench">
-<meta property="og:description" content="An interactive field manual for C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping. Every example runs in the browser and can be stepped through one line at a time.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.safisolutions.org/thebench/">
-<meta property="og:site_name" content="Safi Solutions">
-<meta property="og:image" content="https://www.safisolutions.org/assets/project-logos/thebench.webp">
-<meta property="og:image:alt" content="The Bench logo">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Bench">
-<meta name="twitter:description" content="An interactive field manual for C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping. Every example runs in the browser and can be stepped through one line at a time.">
-<meta name="twitter:image" content="https://www.safisolutions.org/assets/project-logos/thebench.webp">
-<meta name="twitter:image:alt" content="The Bench logo">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="styles.css?v=3">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23e3ac3f' stroke-width='4'/></svg>">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>The Bench: learn to code by watching it run</title>
+    <meta
+      name="description"
+      content="An interactive field manual for C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping. Every example runs in the browser and can be stepped through one line at a time."
+    />
+    <link rel="canonical" href="https://www.safisolutions.org/thebench/" />
+    <meta property="og:title" content="The Bench" />
+    <meta
+      property="og:description"
+      content="An interactive field manual for C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping. Every example runs in the browser and can be stepped through one line at a time."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.safisolutions.org/thebench/" />
+    <meta property="og:site_name" content="Safi Solutions" />
+    <meta
+      property="og:image"
+      content="https://www.safisolutions.org/assets/project-logos/thebench.webp"
+    />
+    <meta property="og:image:alt" content="The Bench logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The Bench" />
+    <meta
+      name="twitter:description"
+      content="An interactive field manual for C++, Java, JavaScript, HTML, CSS, SQL, servers and shipping. Every example runs in the browser and can be stepped through one line at a time."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.safisolutions.org/assets/project-logos/thebench.webp"
+    />
+    <meta name="twitter:image:alt" content="The Bench logo" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css?v=3" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23e3ac3f' stroke-width='4'/></svg>"
+    />
+  </head>
+  <body>
+    <div id="boot"><pre></pre></div>
 
-<div id="boot"><pre></pre></div>
+    <header class="masthead">
+      <button class="icon-btn" id="railToggle" aria-label="Open the course index">☰</button>
 
-<header class="masthead">
-  <button class="icon-btn" id="railToggle" aria-label="Open the course index">☰</button>
+      <a class="mark" href="#" id="mark" aria-label="The Bench: Field Manual">
+        <img
+          src="/assets/project-logos/thebench.svg"
+          alt="The Bench: Field Manual"
+          style="display:block;height:30px;width:auto;max-width:152px;object-fit:contain;object-position:left center;"
+        />
+      </a>
 
-  <a class="mark" href="#" id="mark" aria-label="The Bench: Field Manual">
-    <img src="/assets/project-logos/thebench.svg" alt="The Bench: Field Manual" style="display:block;height:30px;width:auto;max-width:152px;object-fit:contain;object-position:left center;">
-  </a>
+      <nav class="tabs" aria-label="Sections">
+        <button data-view="home">Overview</button>
+        <button data-view="lesson">Course</button>
+        <button data-view="pad">Bench</button>
+        <button data-view="glossary">Glossary</button>
+      </nav>
 
-  <nav class="tabs" aria-label="Sections">
-    <button data-view="home">Overview</button>
-    <button data-view="lesson">Course</button>
-    <button data-view="pad">Bench</button>
-    <button data-view="glossary">Glossary</button>
-  </nav>
+      <div class="head-tools">
+        <button class="icon-btn" id="themeBtn" aria-label="Switch between dark and light">◐</button>
+      </div>
+    </header>
 
-  <div class="head-tools">
-    <button class="icon-btn" id="themeBtn" aria-label="Switch between dark and light">◐</button>
-  </div>
-</header>
+    <div class="shell">
+      <aside class="rail" id="rail" aria-label="Course index"></aside>
+      <main class="stage" id="stage" tabindex="-1"></main>
+    </div>
 
-<div class="shell">
-  <aside class="rail" id="rail" aria-label="Course index"></aside>
-  <main class="stage" id="stage" tabindex="-1"></main>
-</div>
+    <div class="scrim" id="scrim"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="scrim" id="scrim"></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal-back" id="modal">
+      <div class="modal"><div class="modal-body" id="modalBody"></div></div>
+    </div>
 
-<div class="modal-back" id="modal">
-  <div class="modal"><div class="modal-body" id="modalBody"></div></div>
-</div>
-
-<script src="engine.js"></script>
-<script src="interp.js"></script>
-<script src="sql.js"></script>
-<script src="glossary.js"></script>
-<script src="curriculum-1.js?v=3"></script>
-<script src="curriculum-2.js?v=3"></script>
-<script src="curriculum-3.js?v=3"></script>
-<script src="app.js?v=3"></script>
-</body>
+    <script src="engine.js"></script>
+    <script src="interp.js"></script>
+    <script src="sql.js"></script>
+    <script src="glossary.js"></script>
+    <script src="curriculum-1.js?v=3"></script>
+    <script src="curriculum-2.js?v=3"></script>
+    <script src="curriculum-3.js?v=3"></script>
+    <script src="app.js?v=3"></script>
+  </body>
 </html>

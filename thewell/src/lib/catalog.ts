@@ -262,8 +262,7 @@ export function searchDrinks(q: string): Drink[] {
     if (d.name.toLowerCase().includes(s)) return true;
     if (d.aka?.some((a) => a.toLowerCase().includes(s))) return true;
     if (d.why.toLowerCase().includes(s)) return true;
-    if (d.spec.some((l) => nameOf(l.i).toLowerCase().includes(s) || l.i.includes(s)))
-      return true;
+    if (d.spec.some((l) => nameOf(l.i).toLowerCase().includes(s) || l.i.includes(s))) return true;
     return false;
   });
 }

@@ -48,23 +48,9 @@ export type GlassId =
   | "mug";
 
 export type Method =
-  | "stir"
-  | "shake"
-  | "build"
-  | "blend"
-  | "throw"
-  | "layer"
-  | "swizzle"
-  | "muddle";
+  "stir" | "shake" | "build" | "blend" | "throw" | "layer" | "swizzle" | "muddle";
 
-export type Ice =
-  | "none"
-  | "cubed"
-  | "crushed"
-  | "large-cube"
-  | "pebble"
-  | "cracked"
-  | "blend";
+export type Ice = "none" | "cubed" | "crushed" | "large-cube" | "pebble" | "cracked" | "blend";
 
 export type Unit =
   | "oz"

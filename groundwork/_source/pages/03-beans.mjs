@@ -1,11 +1,12 @@
-const bean = (fill, crease = '#1a0d07') => `<svg class="bean-ill" viewBox="0 0 80 80" aria-hidden="true"><ellipse cx="40" cy="40" rx="22" ry="30" transform="rotate(30 40 40)" fill="${fill}" stroke="#2a1a12" stroke-width="2.4"/><path d="M28 60c10-8 4-24 24-40" fill="none" stroke="${crease}" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+const bean = (fill, crease = "#1a0d07") =>
+  `<svg class="bean-ill" viewBox="0 0 80 80" aria-hidden="true"><ellipse cx="40" cy="40" rx="22" ry="30" transform="rotate(30 40 40)" fill="${fill}" stroke="#2a1a12" stroke-width="2.4"/><path d="M28 60c10-8 4-24 24-40" fill="none" stroke="${crease}" stroke-width="2.6" stroke-linecap="round"/></svg>`;
 
 export default {
-  id: 'beans',
-  url: '/groundwork/beans/',
-  title: 'Coffee beans',
-  desc: 'Kinds of coffee beans: arabica, robusta, liberica and excelsa; what roasting does from green to dark; washed, honey, natural and anaerobic processing; and where coffee grows, with USDA 2026/27 production.',
-  script: 'beans.js',
+  id: "beans",
+  url: "/groundwork/beans/",
+  title: "Coffee beans",
+  desc: "Kinds of coffee beans: arabica, robusta, liberica and excelsa; what roasting does from green to dark; washed, honey, natural and anaerobic processing; and where coffee grows, with USDA 2026/27 production.",
+  script: "beans.js",
   body: `
 <div class="wrap">
   <section class="intro" aria-labelledby="beans-h">
@@ -17,13 +18,13 @@ export default {
   <section class="sec" aria-labelledby="sp-h" style="padding-top:20px">
     <div class="sec-head"><div><p class="eyebrow">01 · Species</p><h2 class="h-lg" id="sp-h">Two species make<br>nearly all of it.</h2></div><span class="sec-num" aria-hidden="true">01</span></div>
     <div class="species">
-      <article class="label sp rv">${bean('#6a4128')}<h3>${'Arabica'}</h3><p class="latin">Coffea arabica</p>
+      <article class="label sp rv">${bean("#6a4128")}<h3>${"Arabica"}</h3><p class="latin">Coffea arabica</p>
         <dl><dt>Share</dt><dd>~56% of the world crop</dd><dt>Grows</dt><dd>High: ~1,000–2,000 m</dd><dt>Caffeine</dt><dd>~1.2–1.5% of the bean</dd><dt>Tastes</dt><dd>Sweet, fruity, bright</dd></dl></article>
-      <article class="label sp rv">${bean('#4a2c1d')}<h3>Robusta</h3><p class="latin">Coffea canephora</p>
+      <article class="label sp rv">${bean("#4a2c1d")}<h3>Robusta</h3><p class="latin">Coffea canephora</p>
         <dl><dt>Share</dt><dd>~44%; Vietnam grows the most</dd><dt>Grows</dt><dd>Low &amp; hot: 0–800 m</dd><dt>Caffeine</dt><dd>~2.2–2.7%, about double</dd><dt>Tastes</dt><dd>Bitter, chocolate, nutty; thick crema</dd></dl></article>
-      <article class="label sp rv">${bean('#7a5636')}<h3>Liberica</h3><p class="latin">Coffea liberica</p>
+      <article class="label sp rv">${bean("#7a5636")}<h3>Liberica</h3><p class="latin">Coffea liberica</p>
         <dl><dt>Share</dt><dd>Well under 2%</dd><dt>Grows</dt><dd>Lowland heat; big, lopsided beans</dd><dt>Caffeine</dt><dd>Lower than robusta</dd><dt>Tastes</dt><dd>Smoky, woody, jackfruit</dd></dl></article>
-      <article class="label sp rv">${bean('#5d3a22')}<h3>Excelsa</h3><p class="latin">Coffea dewevrei</p>
+      <article class="label sp rv">${bean("#5d3a22")}<h3>Excelsa</h3><p class="latin">Coffea dewevrei</p>
         <dl><dt>Share</dt><dd>Tiny, growing in Uganda &amp; SE Asia</dd><dt>Grows</dt><dd>Handles heat and drought</dd><dt>Status</dt><dd>Its own species since 2025</dd><dt>Tastes</dt><dd>Tart, dark-fruity</dd></dl></article>
     </div>
     <div class="share rv">

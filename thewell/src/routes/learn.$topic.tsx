@@ -22,7 +22,9 @@ function Chapter() {
       >
         All chapters
       </Link>
-      <p className="mt-8 font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">{ch.kicker}</p>
+      <p className="mt-8 font-mono text-[10px] tracking-[0.22em] text-subtle uppercase">
+        {ch.kicker}
+      </p>
       <h1 className="mt-2 font-display text-4xl leading-none tracking-[-0.03em] sm:text-5xl">
         {ch.title}
       </h1>
@@ -69,8 +71,8 @@ function ShakeStir() {
         <p className="font-mono text-[10px] tracking-[0.2em] text-subtle uppercase">Stir</p>
         <p className="mt-2 font-display text-2xl">Spirits only</p>
         <p className="mt-2 text-sm leading-6 text-muted">
-          Mixing glass, a spoon around the ice, 20–30 seconds. Silk, not foam. You should still
-          see through it.
+          Mixing glass, a spoon around the ice, 20–30 seconds. Silk, not foam. You should still see
+          through it.
         </p>
       </div>
     </div>

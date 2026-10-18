@@ -1,116 +1,288 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#101317" />
-  <meta name="description" content="TradeSchool: skilled-trade education built on interactive 3D models. Six trades, 425 topics placed on real parts, explained in plain English, then proven with field evidence." />
-<link rel="canonical" href="https://www.safisolutions.org/thetradeschool/">
-<meta property="og:title" content="The TradeSchool">
-<meta property="og:description" content="TradeSchool: skilled-trade education built on interactive 3D models. Six trades, 425 topics placed on real parts, explained in plain English, then proven with field evidence.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.safisolutions.org/thetradeschool/">
-<meta property="og:site_name" content="Safi Solutions">
-<meta property="og:image" content="https://www.safisolutions.org/assets/project-logos/tradeschool.svg">
-<meta property="og:image:alt" content="The TradeSchool logo">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The TradeSchool">
-<meta name="twitter:description" content="TradeSchool: skilled-trade education built on interactive 3D models. Six trades, 425 topics placed on real parts, explained in plain English, then proven with field evidence.">
-<meta name="twitter:image" content="https://www.safisolutions.org/assets/project-logos/tradeschool.svg">
-<meta name="twitter:image:alt" content="The TradeSchool logo">
-  <title>TradeSchool | Visual Skilled Trade Education</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Saira:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css?v=20260905" />
-  <link rel="stylesheet" href="css/v15.css" />
-  <link rel="stylesheet" href="css/rig.css?v=1" />
-  <link rel="stylesheet" href="css/v18.css?v=3" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101317" />
+    <meta
+      name="description"
+      content="TradeSchool: skilled-trade education built on interactive 3D models. Six trades, 425 topics placed on real parts, explained in plain English, then proven with field evidence."
+    />
+    <link rel="canonical" href="https://www.safisolutions.org/thetradeschool/" />
+    <meta property="og:title" content="The TradeSchool" />
+    <meta
+      property="og:description"
+      content="TradeSchool: skilled-trade education built on interactive 3D models. Six trades, 425 topics placed on real parts, explained in plain English, then proven with field evidence."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.safisolutions.org/thetradeschool/" />
+    <meta property="og:site_name" content="Safi Solutions" />
+    <meta
+      property="og:image"
+      content="https://www.safisolutions.org/assets/project-logos/tradeschool.svg"
+    />
+    <meta property="og:image:alt" content="The TradeSchool logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The TradeSchool" />
+    <meta
+      name="twitter:description"
+      content="TradeSchool: skilled-trade education built on interactive 3D models. Six trades, 425 topics placed on real parts, explained in plain English, then proven with field evidence."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.safisolutions.org/assets/project-logos/tradeschool.svg"
+    />
+    <meta name="twitter:image:alt" content="The TradeSchool logo" />
+    <title>TradeSchool | Visual Skilled Trade Education</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Saira:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css?v=20260905" />
+    <link rel="stylesheet" href="css/v15.css" />
+    <link rel="stylesheet" href="css/rig.css?v=1" />
+    <link rel="stylesheet" href="css/v18.css?v=3" />
 
-<style id="ss-loader-style">
-#ss-themed-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#07100d;color:#f2f7f1;overflow:hidden;transition:opacity .45s ease,visibility .45s ease}
-#ss-themed-loader.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
-#ss-themed-loader::before{content:"";position:absolute;inset:-20%;background-image:linear-gradient(rgba(215,255,100,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(215,255,100,.045) 1px,transparent 1px);background-size:38px 38px;transform:perspective(500px) rotateX(58deg) translateY(22%);transform-origin:center bottom;opacity:.75}
-.ss-trade-loader{position:relative;width:min(470px,86vw);font-family:"Saira",system-ui,sans-serif}
-.ss-trade-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(223,255,230,.13);padding-bottom:12px;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#91a198}
-.ss-trade-top b{color:#d7ff64;font-weight:500}
-.ss-trade-name{font-family:"Saira Condensed",sans-serif;font-size:clamp(50px,13vw,82px);font-weight:700;line-height:.78;letter-spacing:-.045em;text-transform:uppercase;margin:30px 0 28px}.ss-trade-name span{color:#d7ff64}
-.ss-trade-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.ss-trade-node{height:46px;border:1px solid rgba(223,255,230,.14);background:#0f1c17;display:grid;place-items:center;position:relative;overflow:hidden}
-.ss-trade-node::after{content:"";width:7px;height:7px;border-radius:50%;background:#31453a;box-shadow:0 0 0 transparent;animation:ss-trade-live 1.2s infinite}
-.ss-trade-node:nth-child(2)::after{animation-delay:.14s}.ss-trade-node:nth-child(3)::after{animation-delay:.28s}.ss-trade-node:nth-child(4)::after{animation-delay:.42s}.ss-trade-node:nth-child(5)::after{animation-delay:.56s}.ss-trade-node:nth-child(6)::after{animation-delay:.7s}
-.ss-trade-labels{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:7px;letter-spacing:.08em;color:#708279;text-align:center;text-transform:uppercase}
-.ss-trade-status{margin-top:24px;display:flex;align-items:center;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#91a198}.ss-trade-status i{display:block;height:1px;flex:1;background:rgba(223,255,230,.12);overflow:hidden;position:relative}.ss-trade-status i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#d7ff64,transparent);animation:ss-trade-scan 1s linear infinite}
-@keyframes ss-trade-live{0%,100%{background:#31453a;box-shadow:none}45%{background:#d7ff64;box-shadow:0 0 16px rgba(215,255,100,.65)}}
-@keyframes ss-trade-scan{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-@media(prefers-reduced-motion:reduce){.ss-trade-node::after,.ss-trade-status i::after{animation:none}}
-</style>
+    <style id="ss-loader-style">
+      #ss-themed-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483000;
+        display: grid;
+        place-items: center;
+        background: #07100d;
+        color: #f2f7f1;
+        overflow: hidden;
+        transition:
+          opacity 0.45s ease,
+          visibility 0.45s ease;
+      }
+      #ss-themed-loader.is-leaving {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #ss-themed-loader::before {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background-image:
+          linear-gradient(rgba(215, 255, 100, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(215, 255, 100, 0.045) 1px, transparent 1px);
+        background-size: 38px 38px;
+        transform: perspective(500px) rotateX(58deg) translateY(22%);
+        transform-origin: center bottom;
+        opacity: 0.75;
+      }
+      .ss-trade-loader {
+        position: relative;
+        width: min(470px, 86vw);
+        font-family: "Saira", system-ui, sans-serif;
+      }
+      .ss-trade-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(223, 255, 230, 0.13);
+        padding-bottom: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #91a198;
+      }
+      .ss-trade-top b {
+        color: #d7ff64;
+        font-weight: 500;
+      }
+      .ss-trade-name {
+        font-family: "Saira Condensed", sans-serif;
+        font-size: clamp(50px, 13vw, 82px);
+        font-weight: 700;
+        line-height: 0.78;
+        letter-spacing: -0.045em;
+        text-transform: uppercase;
+        margin: 30px 0 28px;
+      }
+      .ss-trade-name span {
+        color: #d7ff64;
+      }
+      .ss-trade-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+      }
+      .ss-trade-node {
+        height: 46px;
+        border: 1px solid rgba(223, 255, 230, 0.14);
+        background: #0f1c17;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .ss-trade-node::after {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #31453a;
+        box-shadow: 0 0 0 transparent;
+        animation: ss-trade-live 1.2s infinite;
+      }
+      .ss-trade-node:nth-child(2)::after {
+        animation-delay: 0.14s;
+      }
+      .ss-trade-node:nth-child(3)::after {
+        animation-delay: 0.28s;
+      }
+      .ss-trade-node:nth-child(4)::after {
+        animation-delay: 0.42s;
+      }
+      .ss-trade-node:nth-child(5)::after {
+        animation-delay: 0.56s;
+      }
+      .ss-trade-node:nth-child(6)::after {
+        animation-delay: 0.7s;
+      }
+      .ss-trade-labels {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        margin-top: 7px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 7px;
+        letter-spacing: 0.08em;
+        color: #708279;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      .ss-trade-status {
+        margin-top: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: #91a198;
+      }
+      .ss-trade-status i {
+        display: block;
+        height: 1px;
+        flex: 1;
+        background: rgba(223, 255, 230, 0.12);
+        overflow: hidden;
+        position: relative;
+      }
+      .ss-trade-status i::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, #d7ff64, transparent);
+        animation: ss-trade-scan 1s linear infinite;
+      }
+      @keyframes ss-trade-live {
+        0%,
+        100% {
+          background: #31453a;
+          box-shadow: none;
+        }
+        45% {
+          background: #d7ff64;
+          box-shadow: 0 0 16px rgba(215, 255, 100, 0.65);
+        }
+      }
+      @keyframes ss-trade-scan {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(100%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ss-trade-node::after,
+        .ss-trade-status i::after {
+          animation: none;
+        }
+      }
+    </style>
 
-<link rel="stylesheet" href="css/fieldcheck.css?v=2">
-</head>
-<body>
+    <link rel="stylesheet" href="css/fieldcheck.css?v=2" />
+  </head>
+  <body>
+    <div id="ss-themed-loader" aria-hidden="true">
+      <div class="ss-trade-loader">
+        <div class="ss-trade-top"><span>FIELD SYSTEM / STARTUP</span><b>SHOP ONLINE</b></div>
+        <div class="ss-trade-name">TRADE<span>SCHOOL</span></div>
+        <div class="ss-trade-grid"
+          ><div class="ss-trade-node"></div><div class="ss-trade-node"></div
+          ><div class="ss-trade-node"></div><div class="ss-trade-node"></div
+          ><div class="ss-trade-node"></div><div class="ss-trade-node"></div
+        ></div>
+        <div class="ss-trade-labels"
+          ><span>Power</span><span>Air</span><span>Water</span><span>Metal</span><span>Machine</span
+          ><span>Build</span></div
+        >
+        <div class="ss-trade-status"><span>Bringing the shop online</span><i></i></div>
+      </div>
+    </div>
 
-<div id="ss-themed-loader" aria-hidden="true">
-  <div class="ss-trade-loader">
-    <div class="ss-trade-top"><span>FIELD SYSTEM / STARTUP</span><b>SHOP ONLINE</b></div>
-    <div class="ss-trade-name">TRADE<span>SCHOOL</span></div>
-    <div class="ss-trade-grid"><div class="ss-trade-node"></div><div class="ss-trade-node"></div><div class="ss-trade-node"></div><div class="ss-trade-node"></div><div class="ss-trade-node"></div><div class="ss-trade-node"></div></div>
-    <div class="ss-trade-labels"><span>Power</span><span>Air</span><span>Water</span><span>Metal</span><span>Machine</span><span>Build</span></div>
-    <div class="ss-trade-status"><span>Bringing the shop online</span><i></i></div>
-  </div>
-</div>
+    <div id="app"></div>
 
-  <div id="app"></div>
+    <!-- Base curriculum -->
+    <script src="js/content/base-data.js"></script>
+    <script src="js/content/electrical.js"></script>
+    <script src="js/content/hvac-plumbing.js"></script>
+    <script src="js/content/industrial-welding-construction.js"></script>
 
-  <!-- Base curriculum -->
-  <script src="js/content/base-data.js"></script>
-  <script src="js/content/electrical.js"></script>
-  <script src="js/content/hvac-plumbing.js"></script>
-  <script src="js/content/industrial-welding-construction.js"></script>
+    <!-- Earlier editorial passes -->
+    <script src="js/content/v8-overrides.js"></script>
+    <script src="js/content/v10-visuals.js"></script>
+    <script src="js/content/v14-media-fill.js"></script>
 
-  <!-- Earlier editorial passes -->
-  <script src="js/content/v8-overrides.js"></script>
-  <script src="js/content/v10-visuals.js"></script>
-  <script src="js/content/v14-media-fill.js"></script>
+    <!-- Order matters: media integrity, then currency, then boilerplate strip. -->
+    <script src="js/content/v15-media.js"></script>
+    <script src="js/content/v15-currency.js"></script>
+    <script src="js/content/v15-deboilerplate.js"></script>
 
-  <!-- V15. Order matters: media integrity, then currency, then boilerplate strip. -->
-  <script src="js/content/v15-media.js"></script>
-  <script src="js/content/v15-currency.js"></script>
-  <script src="js/content/v15-deboilerplate.js"></script>
+    <!-- Beginner-first presentation: explain the idea and vocabulary before field depth. -->
+    <script src="js/content/v16-beginner.js?v=1"></script>
+    <script src="js/content/v16-context.js?v=1"></script>
 
-  <!-- V16. Beginner-first presentation: explain the idea and vocabulary before field depth. -->
-  <script src="js/content/v16-beginner.js?v=1"></script>
-  <script src="js/content/v16-context.js?v=1"></script>
+    <!-- 3D models: every trade is a procedural model; topics are placed on real parts. -->
+    <script src="js/content/v18-media.js?v=1"></script>
+    <script src="js/3d/rig-index.js?v=1"></script>
 
-  <!-- V18. 3D models: every trade is a procedural model; topics are placed on real parts. -->
-  <script src="js/content/v18-media.js?v=1"></script>
-  <script src="js/3d/rig-index.js?v=1"></script>
+    <script src="js/core/app.js?v=3"></script>
+    <script src="js/core/labs-v15.js"></script>
+    <script src="js/core/rig-ui.js?v=1"></script>
 
-  <script src="js/core/app.js?v=3"></script>
-  <script src="js/core/labs-v15.js"></script>
-  <script src="js/core/rig-ui.js?v=1"></script>
+    <script id="ss-loader-script">
+      (() => {
+        const el = document.getElementById("ss-themed-loader");
+        if (!el) return;
+        const started = performance.now();
+        let leaving = false;
+        const leave = () => {
+          if (leaving) return;
+          leaving = true;
+          const wait = Math.max(0, 1100 - (performance.now() - started));
+          setTimeout(() => {
+            el.classList.add("is-leaving");
+            setTimeout(() => el.remove(), 520);
+          }, wait);
+        };
+        if (document.readyState === "complete") leave();
+        else window.addEventListener("load", leave, { once: true });
+        setTimeout(leave, 2200);
+      })();
+    </script>
 
-<script id="ss-loader-script">
-(()=>{
-  const el=document.getElementById('ss-themed-loader');
-  if(!el) return;
-  const started=performance.now();
-  let leaving=false;
-  const leave=()=>{
-    if(leaving) return;
-    leaving=true;
-    const wait=Math.max(0,1100-(performance.now()-started));
-    setTimeout(()=>{
-      el.classList.add('is-leaving');
-      setTimeout(()=>el.remove(),520);
-    },wait);
-  };
-  if(document.readyState==='complete') leave();
-  else window.addEventListener('load',leave,{once:true});
-  setTimeout(leave,2200);
-})();
-</script>
-
-<script src="js/core/fieldcheck.js?v=20260907"></script>
-</body>
+    <script src="js/core/fieldcheck.js?v=20260907"></script>
+  </body>
 </html>

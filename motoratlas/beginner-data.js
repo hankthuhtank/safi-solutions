@@ -1,112 +1,192 @@
-window.MOTOR_BEGINNER={
-primers:{
-engine:'The engine turns fuel into motion. Air and fuel burn inside small spaces in the engine. That pressure pushes pistons up and down, and the engine turns that movement into spinning motion that can eventually reach the wheels.',
-airfuel:'An engine needs the right amount of clean air and fuel. This system brings both in, measures them, and controls how much enters so the engine can start, idle, accelerate, and run efficiently.',
-cooling:'Engines make a huge amount of heat. The cooling system moves coolant through the engine, carries that heat to the radiator, and releases it into outside air so the engine stays in a safe temperature range.',
-lubrication:'Many engine parts slide or spin against each other thousands of times per minute. The lubrication system circulates oil between those surfaces to reduce friction, carry away heat, clean debris, and prevent metal-to-metal contact.',
-transmission:'The engine only works well across a certain speed range. The transmission changes gear ratios so the vehicle can pull away from a stop, accelerate, cruise efficiently, and reverse without forcing the engine to do everything at one speed.',
-drivetrain:'The drivetrain carries spinning force from the transmission to the driven wheels. Its shafts, joints, axles, and differential also have to keep working while the suspension moves and the vehicle turns.',
-suspension:'The suspension lets the wheels move up and down over bumps while the body stays controlled. It also keeps the tires pressed against the road so the vehicle can steer, brake, and grip predictably.',
-steering:'The steering system turns your steering-wheel movement into a change in the direction of the front wheels. It has to move easily while still holding the wheels accurately enough for the vehicle to track straight.',
-brakes:'Brakes slow the vehicle by turning motion into heat. Your foot creates force at the pedal, the hydraulic system carries that force to the wheels, and friction at the brakes slows each wheel.',
-electrical:'The electrical system starts the vehicle, powers lights and accessories, charges the battery, and lets computers and sensors communicate. Think of it as both the vehicle’s power network and its information network.',
-electronics:'Modern vehicles use sensors to measure what is happening and control modules to make decisions. Those computers operate things like fuel delivery, ignition, emissions, stability control, transmission behavior, and driver-assistance systems.',
-hvac:'Heating and air conditioning control cabin temperature and remove moisture from the air. The A/C side moves refrigerant through a closed loop; the heater side usually uses heat carried by engine coolant.',
-exhaust:'After combustion, exhaust gas has to leave the engine safely and with fewer harmful pollutants. This system routes the gas, quiets it, measures it, and uses emissions hardware to chemically treat it.',
-wheels:'The wheels and tires are the vehicle’s actual contact with the road. They carry the vehicle, transmit acceleration and braking forces, absorb small bumps, and create the grip needed to turn.',
-structure:'The body and structure hold the vehicle together. They support passengers and cargo, locate major mechanical systems, manage crash forces, and provide strong mounting points for suspension, seats, belts, and other hardware.',
-hybridev:'Hybrid and electric vehicles replace or supplement the engine with high-voltage batteries, electric motors, and power electronics. The basic goal is still the same: turn stored energy into controlled motion at the wheels.'
-},
-glossary:{
-'cylinder':'A round space inside an engine where a piston moves up and down.',
-'piston':'A metal part that moves up and down inside a cylinder when pressure from burning fuel pushes on it.',
-'crankshaft':'A strong shaft at the bottom of the engine that turns the pistons’ up-and-down movement into spinning motion.',
-'camshaft':'A shaft with shaped lobes that opens and closes the engine’s valves at the right time.',
-'valve':'A small door inside the cylinder head that opens to let air in or exhaust gas out.',
-'combustion':'The controlled burning of air and fuel inside the engine.',
-'torque':'Twisting force. Engines and motors create torque to turn shafts and wheels.',
-'rpm':'Revolutions per minute: how many complete turns something makes in one minute.',
-'intake':'The path that fresh air follows into the engine.',
-'exhaust':'The gases left after combustion, and the system that carries those gases out of the vehicle.',
-'manifold':'A passage that splits one flow into several paths, or combines several paths into one.',
-'bearing':'A precision surface or rolling part that supports a moving shaft while reducing friction.',
-'coolant':'A liquid mixture that carries heat away from the engine and helps prevent freezing and corrosion.',
-'radiator':'A heat exchanger at the front of the vehicle that transfers heat from hot coolant into outside air.',
-'thermostat':'A temperature-controlled valve that helps the engine warm up, then opens to send more coolant through the radiator.',
-'hydraulic':'Using liquid under pressure to carry force from one place to another.',
-'brake fluid':'The special liquid that carries pedal pressure through the brake system.',
-'master cylinder':'The brake component that turns pedal movement into hydraulic pressure.',
-'caliper':'The brake part that squeezes the pads against a disc-shaped rotor.',
-'rotor':'A metal brake disc that spins with the wheel and is squeezed by the brake pads.',
-'abs':'Anti-lock braking system. It rapidly adjusts brake pressure when a wheel is about to lock during hard braking.',
-'transmission':'The gearbox that changes the relationship between engine speed and wheel speed.',
-'gear ratio':'The relationship between the speed of two connected gears. It can trade speed for more turning force, or the opposite.',
-'clutch':'A device that can connect or disconnect rotating parts so power can be transferred smoothly.',
-'torque converter':'The fluid-filled coupling used by many automatic transmissions to connect the engine to the transmission.',
-'drivetrain':'The group of parts that carries power from the engine or motor to the driven wheels.',
-'driveshaft':'A long rotating shaft that carries power between drivetrain components.',
-'differential':'A gearset that sends power to two wheels while allowing them to rotate at different speeds in a turn.',
-'axle':'A shaft or assembly that supports a wheel and, on a driven wheel, may also carry power to it.',
-'cv joint':'A constant-velocity joint. It transfers spinning power through an angle while keeping the output speed smooth.',
-'transfer case':'A gearbox on many AWD and 4WD vehicles that sends power toward both the front and rear axles.',
-'suspension':'The springs, dampers, links, and joints that let the wheels move over bumps while controlling the body.',
-'strut':'A suspension unit that combines a shock absorber with part of the wheel-locating structure.',
-'shock absorber':'A damper that slows suspension movement so the vehicle does not keep bouncing after a bump.',
-'control arm':'A suspension link that helps hold a wheel in the correct position while allowing it to move up and down.',
-'tie rod':'A steering link that carries movement from the steering rack or linkage to the wheel.',
-'steering rack':'The steering mechanism that moves left and right to push or pull the tie rods.',
-'alternator':'An engine-driven generator that supplies electrical power and recharges the 12-volt battery while the engine runs.',
-'starter':'A powerful electric motor that spins the engine fast enough for it to begin running on its own.',
-'battery':'A device that stores electrical energy. In most vehicles, the 12-volt battery powers electronics and provides energy for starting.',
-'fuse':'A small safety device that melts and opens a circuit if too much electrical current flows.',
-'relay':'An electrically controlled switch that lets a small control signal turn a larger electrical load on or off.',
-'sensor':'A device that measures something (such as temperature, pressure, position, or speed) and sends that information to a computer.',
-'ecu':'Electronic control unit, a computer that reads sensors and controls parts of the vehicle.',
-'pcm':'Powertrain control module, a computer that manages major engine and often transmission functions.',
-'ground':'The return path of a vehicle electrical circuit, usually connected to the body, chassis, or battery negative terminal.',
-'refrigerant':'The fluid used by the A/C system. It changes pressure and state as it absorbs and releases heat.',
-'compressor':'The A/C component that pumps refrigerant and raises its pressure.',
-'condenser':'The A/C heat exchanger at the front of the vehicle that releases heat from refrigerant.',
-'evaporator':'The cold A/C heat exchanger inside the HVAC housing that absorbs heat from cabin air.',
-'catalytic converter':'An exhaust component that uses chemical reactions to turn several harmful pollutants into less harmful gases.',
-'oxygen sensor':'An exhaust sensor that helps the engine computer judge the amount of oxygen in the exhaust gas.',
-'wheel bearing':'A bearing assembly that lets the wheel and hub rotate smoothly while supporting vehicle load.',
-'hub':'The center part the wheel mounts to. It rotates on a wheel bearing and may connect to an axle.',
-'unibody':'A vehicle structure where the body shell itself provides most of the structural strength instead of sitting on a separate frame.',
-'frame':'A strong structural foundation that supports the body and major vehicle systems.',
-'traction':'The grip between a tire and the road.',
-'traction battery':'The large high-voltage battery that stores the energy used to drive (propel) an electric or hybrid vehicle. “Traction” here means propulsion, not tire grip.',
-'traction motor':'An electric motor that turns the wheels to move the vehicle. “Traction” here means propulsion, not tire grip.',
-'compression':'How tightly the air or air-fuel mixture is squeezed inside an engine cylinder before combustion.',
-'fuel injector':'An electronically controlled valve that sprays a measured amount of fuel into the engine.',
-'throttle body':'The air-control valve that regulates how much air enters a gasoline engine.',
-'oil pressure':'The pressure created as the oil pump pushes engine oil through small passages to moving parts.'
-},
-special:{
-'Engine block':'The engine block is the main body of the engine. It is the large metal structure that holds the cylinders, where the pistons move up and down, and supports the crankshaft, which turns that movement into spinning motion.',
-'Cylinder head':'The cylinder head is the top section of the engine. It seals the top of the cylinders and contains the valves that let fresh air in and exhaust gas out.',
-'Head gasket':'The head gasket is a thin but important seal between the engine block and cylinder head. It keeps combustion pressure, coolant, and engine oil from leaking into the wrong places.',
-'Piston':'A piston is a metal part that slides up and down inside an engine cylinder. Pressure from burning fuel pushes it downward, starting the chain of movement that eventually turns the wheels.',
-'Piston rings':'Piston rings are thin metal rings around each piston. They help keep combustion pressure above the piston while controlling the thin layer of oil on the cylinder wall.',
-'Connecting rod':'The connecting rod links a piston to the crankshaft. It takes the piston’s up-and-down movement and pushes on the crankshaft so it can spin.',
-'Crankshaft':'The crankshaft is the main spinning shaft at the bottom of the engine. The connecting rods push on it, turning the pistons’ up-and-down movement into rotation.',
-'Camshaft':'The camshaft is the engine’s valve-timing shaft. Its shaped lobes push the valves open at precise moments so air can enter and exhaust can leave.',
-'Timing chain / belt':'The timing chain or belt keeps the crankshaft and camshaft synchronized. In simple terms, it makes sure the valves open at the correct moment while the pistons are moving.',
-'Radiator':'The radiator is the cooling system’s main heat exchanger. Hot coolant flows through it while outside air carries that heat away.',
-'Thermostat':'The thermostat is a temperature-controlled valve in the cooling system. It stays mostly closed while the engine warms up, then opens to send more hot coolant through the radiator.',
-'Water pump':'The water pump keeps coolant moving through the engine and radiator. Without circulation, heat would build up quickly in the engine.',
-'Oil pump':'The oil pump circulates engine oil. It pushes oil through small passages so bearings, shafts, and other moving parts receive a protective film of lubrication.',
-'Oil filter':'The oil filter removes many small particles from engine oil before that oil keeps circulating through the engine.',
-'Transmission':'The transmission changes gear ratios between the engine and the wheels. That lets the vehicle pull away from a stop, accelerate, cruise, and reverse without forcing the engine to stay at one speed.',
-'Differential':'The differential is a set of gears that sends power to the left and right driven wheels. Its special job is letting those two wheels rotate at different speeds when the vehicle turns.',
-'Ring and pinion':'The ring and pinion are two large gears inside many differentials. They provide the final gear reduction before the axle shafts and often turn the direction of power by about 90 degrees.',
-'CV axle':'A CV axle is a driven shaft that carries power from the transmission or differential to a wheel while still allowing the wheel to steer and move with the suspension.',
-'Transfer case':'A transfer case is a gearbox used on many AWD and 4WD vehicles. It divides power so it can travel toward both the front and rear wheels.',
-'Limited-slip / locking differential':'A limited-slip or locking differential reduces the speed difference between two driven wheels when one tire has much less grip. That can help more useful driving force reach the tire that still has traction.',
-'Shock absorber':'A shock absorber slows suspension movement. Springs hold the vehicle up; shocks keep those springs from bouncing over and over after every bump.',
-'Brake rotor':'A brake rotor is a metal disc that spins with the wheel. The brake pads squeeze it, using friction to turn vehicle motion into heat.',
-'Alternator':'The alternator is an engine-driven generator. Once the engine is running, it supplies much of the vehicle’s electrical power and recharges the 12-volt battery.',
-'Catalytic converter':'The catalytic converter is part of the exhaust. It uses chemical reactions to change several harmful exhaust pollutants into less harmful gases.',
-'Wheel bearing':'A wheel bearing lets the wheel and hub spin smoothly while supporting the weight and cornering forces placed on that wheel.'
-}
+window.MOTOR_BEGINNER = {
+  primers: {
+    engine:
+      "The engine turns fuel into motion. Air and fuel burn inside small spaces in the engine. That pressure pushes pistons up and down, and the engine turns that movement into spinning motion that can eventually reach the wheels.",
+    airfuel:
+      "An engine needs the right amount of clean air and fuel. This system brings both in, measures them, and controls how much enters so the engine can start, idle, accelerate, and run efficiently.",
+    cooling:
+      "Engines make a huge amount of heat. The cooling system moves coolant through the engine, carries that heat to the radiator, and releases it into outside air so the engine stays in a safe temperature range.",
+    lubrication:
+      "Many engine parts slide or spin against each other thousands of times per minute. The lubrication system circulates oil between those surfaces to reduce friction, carry away heat, clean debris, and prevent metal-to-metal contact.",
+    transmission:
+      "The engine only works well across a certain speed range. The transmission changes gear ratios so the vehicle can pull away from a stop, accelerate, cruise efficiently, and reverse without forcing the engine to do everything at one speed.",
+    drivetrain:
+      "The drivetrain carries spinning force from the transmission to the driven wheels. Its shafts, joints, axles, and differential also have to keep working while the suspension moves and the vehicle turns.",
+    suspension:
+      "The suspension lets the wheels move up and down over bumps while the body stays controlled. It also keeps the tires pressed against the road so the vehicle can steer, brake, and grip predictably.",
+    steering:
+      "The steering system turns your steering-wheel movement into a change in the direction of the front wheels. It has to move easily while still holding the wheels accurately enough for the vehicle to track straight.",
+    brakes:
+      "Brakes slow the vehicle by turning motion into heat. Your foot creates force at the pedal, the hydraulic system carries that force to the wheels, and friction at the brakes slows each wheel.",
+    electrical:
+      "The electrical system starts the vehicle, powers lights and accessories, charges the battery, and lets computers and sensors communicate. Think of it as both the vehicle’s power network and its information network.",
+    electronics:
+      "Modern vehicles use sensors to measure what is happening and control modules to make decisions. Those computers operate things like fuel delivery, ignition, emissions, stability control, transmission behavior, and driver-assistance systems.",
+    hvac: "Heating and air conditioning control cabin temperature and remove moisture from the air. The A/C side moves refrigerant through a closed loop; the heater side usually uses heat carried by engine coolant.",
+    exhaust:
+      "After combustion, exhaust gas has to leave the engine safely and with fewer harmful pollutants. This system routes the gas, quiets it, measures it, and uses emissions hardware to chemically treat it.",
+    wheels:
+      "The wheels and tires are the vehicle’s actual contact with the road. They carry the vehicle, transmit acceleration and braking forces, absorb small bumps, and create the grip needed to turn.",
+    structure:
+      "The body and structure hold the vehicle together. They support passengers and cargo, locate major mechanical systems, manage crash forces, and provide strong mounting points for suspension, seats, belts, and other hardware.",
+    hybridev:
+      "Hybrid and electric vehicles replace or supplement the engine with high-voltage batteries, electric motors, and power electronics. The basic goal is still the same: turn stored energy into controlled motion at the wheels.",
+  },
+  glossary: {
+    cylinder: "A round space inside an engine where a piston moves up and down.",
+    piston:
+      "A metal part that moves up and down inside a cylinder when pressure from burning fuel pushes on it.",
+    crankshaft:
+      "A strong shaft at the bottom of the engine that turns the pistons’ up-and-down movement into spinning motion.",
+    camshaft:
+      "A shaft with shaped lobes that opens and closes the engine’s valves at the right time.",
+    valve: "A small door inside the cylinder head that opens to let air in or exhaust gas out.",
+    combustion: "The controlled burning of air and fuel inside the engine.",
+    torque: "Twisting force. Engines and motors create torque to turn shafts and wheels.",
+    rpm: "Revolutions per minute: how many complete turns something makes in one minute.",
+    intake: "The path that fresh air follows into the engine.",
+    exhaust:
+      "The gases left after combustion, and the system that carries those gases out of the vehicle.",
+    manifold:
+      "A passage that splits one flow into several paths, or combines several paths into one.",
+    bearing:
+      "A precision surface or rolling part that supports a moving shaft while reducing friction.",
+    coolant:
+      "A liquid mixture that carries heat away from the engine and helps prevent freezing and corrosion.",
+    radiator:
+      "A heat exchanger at the front of the vehicle that transfers heat from hot coolant into outside air.",
+    thermostat:
+      "A temperature-controlled valve that helps the engine warm up, then opens to send more coolant through the radiator.",
+    hydraulic: "Using liquid under pressure to carry force from one place to another.",
+    "brake fluid": "The special liquid that carries pedal pressure through the brake system.",
+    "master cylinder": "The brake component that turns pedal movement into hydraulic pressure.",
+    caliper: "The brake part that squeezes the pads against a disc-shaped rotor.",
+    rotor: "A metal brake disc that spins with the wheel and is squeezed by the brake pads.",
+    abs: "Anti-lock braking system. It rapidly adjusts brake pressure when a wheel is about to lock during hard braking.",
+    transmission: "The gearbox that changes the relationship between engine speed and wheel speed.",
+    "gear ratio":
+      "The relationship between the speed of two connected gears. It can trade speed for more turning force, or the opposite.",
+    clutch:
+      "A device that can connect or disconnect rotating parts so power can be transferred smoothly.",
+    "torque converter":
+      "The fluid-filled coupling used by many automatic transmissions to connect the engine to the transmission.",
+    drivetrain:
+      "The group of parts that carries power from the engine or motor to the driven wheels.",
+    driveshaft: "A long rotating shaft that carries power between drivetrain components.",
+    differential:
+      "A gearset that sends power to two wheels while allowing them to rotate at different speeds in a turn.",
+    axle: "A shaft or assembly that supports a wheel and, on a driven wheel, may also carry power to it.",
+    "cv joint":
+      "A constant-velocity joint. It transfers spinning power through an angle while keeping the output speed smooth.",
+    "transfer case":
+      "A gearbox on many AWD and 4WD vehicles that sends power toward both the front and rear axles.",
+    suspension:
+      "The springs, dampers, links, and joints that let the wheels move over bumps while controlling the body.",
+    strut:
+      "A suspension unit that combines a shock absorber with part of the wheel-locating structure.",
+    "shock absorber":
+      "A damper that slows suspension movement so the vehicle does not keep bouncing after a bump.",
+    "control arm":
+      "A suspension link that helps hold a wheel in the correct position while allowing it to move up and down.",
+    "tie rod":
+      "A steering link that carries movement from the steering rack or linkage to the wheel.",
+    "steering rack":
+      "The steering mechanism that moves left and right to push or pull the tie rods.",
+    alternator:
+      "An engine-driven generator that supplies electrical power and recharges the 12-volt battery while the engine runs.",
+    starter:
+      "A powerful electric motor that spins the engine fast enough for it to begin running on its own.",
+    battery:
+      "A device that stores electrical energy. In most vehicles, the 12-volt battery powers electronics and provides energy for starting.",
+    fuse: "A small safety device that melts and opens a circuit if too much electrical current flows.",
+    relay:
+      "An electrically controlled switch that lets a small control signal turn a larger electrical load on or off.",
+    sensor:
+      "A device that measures something (such as temperature, pressure, position, or speed) and sends that information to a computer.",
+    ecu: "Electronic control unit, a computer that reads sensors and controls parts of the vehicle.",
+    pcm: "Powertrain control module, a computer that manages major engine and often transmission functions.",
+    ground:
+      "The return path of a vehicle electrical circuit, usually connected to the body, chassis, or battery negative terminal.",
+    refrigerant:
+      "The fluid used by the A/C system. It changes pressure and state as it absorbs and releases heat.",
+    compressor: "The A/C component that pumps refrigerant and raises its pressure.",
+    condenser:
+      "The A/C heat exchanger at the front of the vehicle that releases heat from refrigerant.",
+    evaporator:
+      "The cold A/C heat exchanger inside the HVAC housing that absorbs heat from cabin air.",
+    "catalytic converter":
+      "An exhaust component that uses chemical reactions to turn several harmful pollutants into less harmful gases.",
+    "oxygen sensor":
+      "An exhaust sensor that helps the engine computer judge the amount of oxygen in the exhaust gas.",
+    "wheel bearing":
+      "A bearing assembly that lets the wheel and hub rotate smoothly while supporting vehicle load.",
+    hub: "The center part the wheel mounts to. It rotates on a wheel bearing and may connect to an axle.",
+    unibody:
+      "A vehicle structure where the body shell itself provides most of the structural strength instead of sitting on a separate frame.",
+    frame: "A strong structural foundation that supports the body and major vehicle systems.",
+    traction: "The grip between a tire and the road.",
+    "traction battery":
+      "The large high-voltage battery that stores the energy used to drive (propel) an electric or hybrid vehicle. “Traction” here means propulsion, not tire grip.",
+    "traction motor":
+      "An electric motor that turns the wheels to move the vehicle. “Traction” here means propulsion, not tire grip.",
+    compression:
+      "How tightly the air or air-fuel mixture is squeezed inside an engine cylinder before combustion.",
+    "fuel injector":
+      "An electronically controlled valve that sprays a measured amount of fuel into the engine.",
+    "throttle body": "The air-control valve that regulates how much air enters a gasoline engine.",
+    "oil pressure":
+      "The pressure created as the oil pump pushes engine oil through small passages to moving parts.",
+  },
+  special: {
+    "Engine block":
+      "The engine block is the main body of the engine. It is the large metal structure that holds the cylinders, where the pistons move up and down, and supports the crankshaft, which turns that movement into spinning motion.",
+    "Cylinder head":
+      "The cylinder head is the top section of the engine. It seals the top of the cylinders and contains the valves that let fresh air in and exhaust gas out.",
+    "Head gasket":
+      "The head gasket is a thin but important seal between the engine block and cylinder head. It keeps combustion pressure, coolant, and engine oil from leaking into the wrong places.",
+    Piston:
+      "A piston is a metal part that slides up and down inside an engine cylinder. Pressure from burning fuel pushes it downward, starting the chain of movement that eventually turns the wheels.",
+    "Piston rings":
+      "Piston rings are thin metal rings around each piston. They help keep combustion pressure above the piston while controlling the thin layer of oil on the cylinder wall.",
+    "Connecting rod":
+      "The connecting rod links a piston to the crankshaft. It takes the piston’s up-and-down movement and pushes on the crankshaft so it can spin.",
+    Crankshaft:
+      "The crankshaft is the main spinning shaft at the bottom of the engine. The connecting rods push on it, turning the pistons’ up-and-down movement into rotation.",
+    Camshaft:
+      "The camshaft is the engine’s valve-timing shaft. Its shaped lobes push the valves open at precise moments so air can enter and exhaust can leave.",
+    "Timing chain / belt":
+      "The timing chain or belt keeps the crankshaft and camshaft synchronized. In simple terms, it makes sure the valves open at the correct moment while the pistons are moving.",
+    Radiator:
+      "The radiator is the cooling system’s main heat exchanger. Hot coolant flows through it while outside air carries that heat away.",
+    Thermostat:
+      "The thermostat is a temperature-controlled valve in the cooling system. It stays mostly closed while the engine warms up, then opens to send more hot coolant through the radiator.",
+    "Water pump":
+      "The water pump keeps coolant moving through the engine and radiator. Without circulation, heat would build up quickly in the engine.",
+    "Oil pump":
+      "The oil pump circulates engine oil. It pushes oil through small passages so bearings, shafts, and other moving parts receive a protective film of lubrication.",
+    "Oil filter":
+      "The oil filter removes many small particles from engine oil before that oil keeps circulating through the engine.",
+    Transmission:
+      "The transmission changes gear ratios between the engine and the wheels. That lets the vehicle pull away from a stop, accelerate, cruise, and reverse without forcing the engine to stay at one speed.",
+    Differential:
+      "The differential is a set of gears that sends power to the left and right driven wheels. Its special job is letting those two wheels rotate at different speeds when the vehicle turns.",
+    "Ring and pinion":
+      "The ring and pinion are two large gears inside many differentials. They provide the final gear reduction before the axle shafts and often turn the direction of power by about 90 degrees.",
+    "CV axle":
+      "A CV axle is a driven shaft that carries power from the transmission or differential to a wheel while still allowing the wheel to steer and move with the suspension.",
+    "Transfer case":
+      "A transfer case is a gearbox used on many AWD and 4WD vehicles. It divides power so it can travel toward both the front and rear wheels.",
+    "Limited-slip / locking differential":
+      "A limited-slip or locking differential reduces the speed difference between two driven wheels when one tire has much less grip. That can help more useful driving force reach the tire that still has traction.",
+    "Shock absorber":
+      "A shock absorber slows suspension movement. Springs hold the vehicle up; shocks keep those springs from bouncing over and over after every bump.",
+    "Brake rotor":
+      "A brake rotor is a metal disc that spins with the wheel. The brake pads squeeze it, using friction to turn vehicle motion into heat.",
+    Alternator:
+      "The alternator is an engine-driven generator. Once the engine is running, it supplies much of the vehicle’s electrical power and recharges the 12-volt battery.",
+    "Catalytic converter":
+      "The catalytic converter is part of the exhaust. It uses chemical reactions to change several harmful exhaust pollutants into less harmful gases.",
+    "Wheel bearing":
+      "A wheel bearing lets the wheel and hub spin smoothly while supporting the weight and cornering forces placed on that wheel.",
+  },
 };

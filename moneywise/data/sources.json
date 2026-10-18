@@ -2,47 +2,331 @@
   "_about": "Every outside fact Moneywise uses, with where it came from. Pages cite these by id. checked = the date the figure was confirmed against the source.",
   "checked": "2026-10-11",
   "sources": [
-    {"id": "fred", "publisher": "Federal Reserve Bank of St. Louis", "title": "FRED economic data (all live rates on this site)", "date": "daily", "url": "https://fred.stlouisfed.org/", "for": ["rates"]},
-    {"id": "pmms", "publisher": "Freddie Mac", "title": "Primary Mortgage Market Survey (30- and 15-year averages, via FRED MORTGAGE30US and MORTGAGE15US)", "date": "weekly", "url": "https://www.freddiemac.com/pmms", "for": ["mortgage", "rates"]},
-    {"id": "mspus", "publisher": "U.S. Census Bureau and HUD", "title": "Median sales price of houses sold for the United States (FRED MSPUS), Q2 2026: $410,700", "date": "2026-07", "url": "https://fred.stlouisfed.org/series/MSPUS", "for": ["mortgage"]},
-    {"id": "cfpb-le", "publisher": "Consumer Financial Protection Bureau", "title": "Sample Loan Estimate, form H-24(B)", "date": "2013-11", "url": "https://files.consumerfinance.gov/f/201311_cfpb_kbyo_loan-estimate.pdf", "for": ["mortgage", "tests"]},
-    {"id": "cfpb-cd", "publisher": "Consumer Financial Protection Bureau", "title": "Sample Closing Disclosure, form H-25(B)", "date": "2013-11", "url": "https://files.consumerfinance.gov/f/201311_cfpb_kbyo_closing-disclosure.pdf", "for": ["mortgage", "tests"]},
-    {"id": "cfpb-pmi", "publisher": "Consumer Financial Protection Bureau", "title": "When can I remove private mortgage insurance (PMI) from my loan?", "url": "https://www.consumerfinance.gov/ask-cfpb/when-can-i-remove-private-mortgage-insurance-pmi-from-my-loan-en-202/", "for": ["mortgage"]},
-    {"id": "pmi-cost", "publisher": "Experian, citing the Urban Institute", "title": "How much does private mortgage insurance cost? (0.46% to 1.50% of the loan a year)", "url": "https://www.experian.com/blogs/ask-experian/how-much-does-private-mortgage-insurance-pmi-cost/", "for": ["mortgage"]},
-    {"id": "hud-mip", "publisher": "U.S. Department of Housing and Urban Development", "title": "Mortgagee Letter 2023-05: annual MIP reduced to 0.55% for most FHA borrowers", "date": "2023-02-22", "url": "https://www.hud.gov/sites/dfiles/OCHCO/documents/2023-05hsgml.pdf", "for": ["mortgage"]},
-    {"id": "fhfa-cll", "publisher": "Federal Housing Finance Agency", "title": "Conforming loan limit values for 2026 ($832,750 baseline)", "date": "2025-11-25", "url": "https://www.fhfa.gov/news/news-release/fhfa-announces-conforming-loan-limit-values-for-2026", "for": ["mortgage"]},
-    {"id": "attom-tax", "publisher": "ATTOM", "title": "2025 property tax analysis: 0.90% average effective rate on single-family homes (0.33% Hawaii to 1.84% Illinois)", "date": "2026-04", "url": "https://www.attomdata.com/news/market-trends/home-sales-prices/2025-annual-tax-report", "for": ["mortgage"]},
-    {"id": "insurify-home", "publisher": "Insurify", "title": "Home insurance premiums projected to reach a $3,057 national average in 2026 (after a 12% rise in 2025)", "date": "2026-03", "url": "https://agencychecklists.com/2026/03/23/insurify-projects-home-insurance-premiums-to-reach-3057-in-2026-80649/", "for": ["mortgage"]},
-    {"id": "freddie-quotes", "publisher": "Freddie Mac", "title": "Research note: borrowers who get one more rate quote save about $1,500 over the life of the loan; five quotes, about $3,000", "date": "2018-04", "url": "https://housingwire.com/articles/43130-heres-what-borrowers-could-save-by-getting-additional-mortgage-quotes", "for": ["mortgage"]},
-    {"id": "experian-auto", "publisher": "Experian", "title": "State of the Automotive Finance Market, Q2 2026: new loans average $43,610 at 6.35% for 69.5 months ($765 a month); used $27,852 at 11.19%", "date": "2026-09", "url": "https://www.experian.com/blogs/ask-experian/average-car-payment/", "for": ["car"]},
-    {"id": "edmunds-neg", "publisher": "Edmunds", "title": "Q2 2026: 29.6% of trade-ins toward new vehicles had negative equity, averaging $6,884", "date": "2026-07", "url": "https://www.edmunds.com/press/q2-new-vehicle-purchases-with-negative-equity-trade-ins-hit-record-monthly-payments-and-interest-costs-edmunds-reports.html", "for": ["car"]},
-    {"id": "kbb-atp", "publisher": "Kelley Blue Book (Cox Automotive)", "title": "Average new-vehicle transaction price back above $50,000 in August 2026 ($49,855 in July)", "date": "2026-09-10", "url": "https://digitaldealer.com/news/kelley-blue-book-report-average-new-vehicle-transaction-price-moves-back-above-50000-in-august/173215/", "for": ["car"]},
-    {"id": "depreciation", "publisher": "Experian and Kelley Blue Book, citing Carfax", "title": "New cars lose about 20% of their value in the first year and are worth about 40% of their price after five years", "url": "https://www.experian.com/blogs/ask-experian/what-is-depreciation-on-a-car/", "for": ["car"]},
-    {"id": "irs-sch1a", "publisher": "Internal Revenue Service", "title": "Schedule 1-A (Form 1040), Additional Deductions: tips, overtime, car loan interest, seniors", "date": "2025-11-04", "url": "https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf", "for": ["taxes", "car", "tests"]},
-    {"id": "irs-obbba", "publisher": "Internal Revenue Service", "title": "Tax deductions for working Americans and seniors (2025 to 2028)", "url": "https://www.irs.gov/newsroom/working-families-tax-cuts-tax-deductions-for-working-americans-and-seniors", "for": ["taxes", "car"]},
-    {"id": "regdd", "publisher": "Consumer Financial Protection Bureau (12 CFR 1030)", "title": "Regulation DD (Truth in Savings), Appendix A: Annual Percentage Yield Calculation", "url": "https://www.ecfr.gov/current/title-12/chapter-X/part-1030/appendix-Appendix%20A%20to%20Part%201030", "for": ["rates", "tests"]},
-    {"id": "fdic-rates", "publisher": "Federal Deposit Insurance Corporation", "title": "National rates and rate caps (national savings average, via FRED SNDR)", "date": "monthly", "url": "https://www.fdic.gov/national-rates-and-rate-caps", "for": ["rates"]},
-    {"id": "g19", "publisher": "Federal Reserve Board", "title": "Consumer Credit (G.19): credit card and auto loan interest rates (FRED TERMCBCCALLNS, TERMCBAUTO48NS)", "date": "quarterly", "url": "https://www.federalreserve.gov/releases/g19/current/", "for": ["credit", "car", "rates"]},
-    {"id": "cfpb-margins", "publisher": "Consumer Financial Protection Bureau", "title": "Credit card interest rate margins at all-time high: the average margin over the prime rate rose from 9.6 points in 2013 to 14.3 in 2023", "date": "2024-02-22", "url": "https://www.consumerfinance.gov/about-us/blog/credit-card-interest-rate-margins-at-all-time-high/", "for": ["rates", "credit"]},
-    {"id": "myfico", "publisher": "myFICO (Fair Isaac)", "title": "What's in my FICO Scores? (35 / 30 / 15 / 10 / 10)", "url": "https://www.myfico.com/credit-education/whats-in-your-credit-score", "for": ["credit"]},
-    {"id": "fico-avg", "publisher": "FICO", "title": "FICO Score Credit Insights: average FICO Score 714 (spring 2026)", "date": "2026-03-24", "url": "https://investors.fico.com/news-releases/news-release-details/ficor-score-credit-insights-report-average-fico-score-dips-714", "for": ["credit"]},
-    {"id": "kellogg", "publisher": "Kellogg School of Management, Northwestern University", "title": "Gal and McShane, 'Can Small Victories Help Win the War?' (Journal of Marketing Research, 2012): the snowball approach to debt", "date": "2012", "url": "https://www.kellogg.northwestern.edu/news_articles/2012/snowball-approach.aspx", "for": ["credit"]},
-    {"id": "card-act", "publisher": "Consumer Financial Protection Bureau (12 CFR 1026.7(b)(12))", "title": "Regulation Z: repayment disclosures on credit card statements (minimum payment warning, 36-month comparison)", "url": "https://www.consumerfinance.gov/rules-policy/regulations/1026/7/", "for": ["credit"]},
-    {"id": "acr", "publisher": "Equifax, Experian and TransUnion", "title": "AnnualCreditReport.com: free weekly credit reports", "url": "https://www.annualcreditreport.com/", "for": ["credit"]},
-    {"id": "kff-ehbs", "publisher": "KFF", "title": "2025 Employer Health Benefits Survey: average premiums $9,325 single, $26,993 family; average single deductible $1,886", "date": "2025-10", "url": "https://www.kff.org/health-costs/2025-employer-health-benefits-survey/", "for": ["insurance"]},
-    {"id": "cms-oop", "publisher": "Centers for Medicare & Medicaid Services", "title": "2027 maximum annual limitation on cost sharing ($12,000 / $24,000; 2026: $10,600 / $21,200)", "date": "2026-01-29", "url": "https://www.cms.gov/files/document/2027-papi-parameters-guidance-2026-01-29.pdf", "for": ["insurance"]},
-    {"id": "irs-hsa26", "publisher": "Internal Revenue Service", "title": "Revenue Procedure 2025-19: 2026 HSA and HDHP limits", "date": "2025-05-01", "url": "https://www.irs.gov/pub/irs-drop/rp-25-19.pdf", "for": ["insurance"]},
-    {"id": "irs-hsa27", "publisher": "Internal Revenue Service", "title": "Revenue Procedure 2026-24: 2027 HSA and HDHP limits", "date": "2026-05-29", "url": "https://www.irs.gov/pub/irs-drop/rp-26-24.pdf", "for": ["insurance"]},
-    {"id": "irs-rp2532", "publisher": "Internal Revenue Service", "title": "Revenue Procedure 2025-32: 2026 tax brackets, standard deduction and other inflation adjustments", "date": "2025-10-09", "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf", "for": ["taxes", "tests"]},
-    {"id": "irs-rp2440", "publisher": "Internal Revenue Service", "title": "Revenue Procedure 2024-40: 2025 tax brackets (used to check the 2025 Tax Table)", "date": "2024-10-22", "url": "https://www.irs.gov/pub/irs-drop/rp-24-40.pdf", "for": ["tests"]},
-    {"id": "irs-i1040", "publisher": "Internal Revenue Service", "title": "2025 Form 1040 instructions, including the 2025 Tax Table and Tax Computation Worksheet", "date": "2026-02", "url": "https://www.irs.gov/pub/irs-pdf/i1040gi.pdf", "for": ["taxes", "tests"]},
-    {"id": "irs-f1040", "publisher": "Internal Revenue Service", "title": "Form 1040 (2025): line numbers referenced on this site", "url": "https://www.irs.gov/pub/irs-pdf/f1040.pdf", "for": ["taxes"]},
-    {"id": "ssa-cbb", "publisher": "Social Security Administration", "title": "Contribution and benefit base: $184,500 for 2026", "date": "2025-10-24", "url": "https://www.ssa.gov/oact/cola/cbb.html", "for": ["taxes"]},
-    {"id": "irs-refunds", "publisher": "Internal Revenue Service", "title": "2026 filing season statistics: average refund $3,276 through May 8, 2026", "date": "2026-05", "url": "https://www.irs.gov/newsroom/filing-season-statistics-for-week-ending-may-8-2026", "for": ["taxes"]},
-    {"id": "irs-n2567", "publisher": "Internal Revenue Service", "title": "Notice 2025-67: 2026 limits for 401(k), IRA and other retirement plans", "date": "2025-11-13", "url": "https://www.irs.gov/pub/irs-drop/n-25-67.pdf", "for": ["retirement"]},
-    {"id": "vanguard-has", "publisher": "Vanguard", "title": "How America Saves 2026: 86% participation, 7.6% average deferral, 4.7% average employer match", "date": "2026-06", "url": "https://workplace.vanguard.com/insights-and-research/report/previewing-how-america-saves-2026.html", "for": ["retirement"]},
-    {"id": "sec-fees", "publisher": "U.S. Securities and Exchange Commission", "title": "Investor Bulletin: How fees and expenses affect your investment portfolio", "url": "https://www.investor.gov/additional-resources/news-alerts/alerts-bulletins/investor-bulletin-how-fees-expenses-affect-your", "for": ["retirement", "tests"]},
-    {"id": "morningstar-swr", "publisher": "Morningstar", "title": "The State of Retirement Income 2025: 3.9% starting safe withdrawal rate", "date": "2025-12", "url": "https://www.morningstar.com/retirement/whats-safe-retirement-spending-rate-2025", "for": ["retirement"]},
-    {"id": "bls-cpi", "publisher": "U.S. Bureau of Labor Statistics", "title": "Consumer Price Index (via FRED CPIAUCSL); October 2025 was not collected during the federal shutdown", "date": "monthly", "url": "https://www.bls.gov/cpi/", "for": ["rates", "retirement"]}
+    {
+      "id": "fred",
+      "publisher": "Federal Reserve Bank of St. Louis",
+      "title": "FRED economic data (all live rates on this site)",
+      "date": "daily",
+      "url": "https://fred.stlouisfed.org/",
+      "for": ["rates"]
+    },
+    {
+      "id": "pmms",
+      "publisher": "Freddie Mac",
+      "title": "Primary Mortgage Market Survey (30- and 15-year averages, via FRED MORTGAGE30US and MORTGAGE15US)",
+      "date": "weekly",
+      "url": "https://www.freddiemac.com/pmms",
+      "for": ["mortgage", "rates"]
+    },
+    {
+      "id": "mspus",
+      "publisher": "U.S. Census Bureau and HUD",
+      "title": "Median sales price of houses sold for the United States (FRED MSPUS), Q2 2026: $410,700",
+      "date": "2026-07",
+      "url": "https://fred.stlouisfed.org/series/MSPUS",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "cfpb-le",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "Sample Loan Estimate, form H-24(B)",
+      "date": "2013-11",
+      "url": "https://files.consumerfinance.gov/f/201311_cfpb_kbyo_loan-estimate.pdf",
+      "for": ["mortgage", "tests"]
+    },
+    {
+      "id": "cfpb-cd",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "Sample Closing Disclosure, form H-25(B)",
+      "date": "2013-11",
+      "url": "https://files.consumerfinance.gov/f/201311_cfpb_kbyo_closing-disclosure.pdf",
+      "for": ["mortgage", "tests"]
+    },
+    {
+      "id": "cfpb-pmi",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "When can I remove private mortgage insurance (PMI) from my loan?",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/when-can-i-remove-private-mortgage-insurance-pmi-from-my-loan-en-202/",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "pmi-cost",
+      "publisher": "Experian, citing the Urban Institute",
+      "title": "How much does private mortgage insurance cost? (0.46% to 1.50% of the loan a year)",
+      "url": "https://www.experian.com/blogs/ask-experian/how-much-does-private-mortgage-insurance-pmi-cost/",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "hud-mip",
+      "publisher": "U.S. Department of Housing and Urban Development",
+      "title": "Mortgagee Letter 2023-05: annual MIP reduced to 0.55% for most FHA borrowers",
+      "date": "2023-02-22",
+      "url": "https://www.hud.gov/sites/dfiles/OCHCO/documents/2023-05hsgml.pdf",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "fhfa-cll",
+      "publisher": "Federal Housing Finance Agency",
+      "title": "Conforming loan limit values for 2026 ($832,750 baseline)",
+      "date": "2025-11-25",
+      "url": "https://www.fhfa.gov/news/news-release/fhfa-announces-conforming-loan-limit-values-for-2026",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "attom-tax",
+      "publisher": "ATTOM",
+      "title": "2025 property tax analysis: 0.90% average effective rate on single-family homes (0.33% Hawaii to 1.84% Illinois)",
+      "date": "2026-04",
+      "url": "https://www.attomdata.com/news/market-trends/home-sales-prices/2025-annual-tax-report",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "insurify-home",
+      "publisher": "Insurify",
+      "title": "Home insurance premiums projected to reach a $3,057 national average in 2026 (after a 12% rise in 2025)",
+      "date": "2026-03",
+      "url": "https://agencychecklists.com/2026/03/23/insurify-projects-home-insurance-premiums-to-reach-3057-in-2026-80649/",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "freddie-quotes",
+      "publisher": "Freddie Mac",
+      "title": "Research note: borrowers who get one more rate quote save about $1,500 over the life of the loan; five quotes, about $3,000",
+      "date": "2018-04",
+      "url": "https://housingwire.com/articles/43130-heres-what-borrowers-could-save-by-getting-additional-mortgage-quotes",
+      "for": ["mortgage"]
+    },
+    {
+      "id": "experian-auto",
+      "publisher": "Experian",
+      "title": "State of the Automotive Finance Market, Q2 2026: new loans average $43,610 at 6.35% for 69.5 months ($765 a month); used $27,852 at 11.19%",
+      "date": "2026-09",
+      "url": "https://www.experian.com/blogs/ask-experian/average-car-payment/",
+      "for": ["car"]
+    },
+    {
+      "id": "edmunds-neg",
+      "publisher": "Edmunds",
+      "title": "Q2 2026: 29.6% of trade-ins toward new vehicles had negative equity, averaging $6,884",
+      "date": "2026-07",
+      "url": "https://www.edmunds.com/press/q2-new-vehicle-purchases-with-negative-equity-trade-ins-hit-record-monthly-payments-and-interest-costs-edmunds-reports.html",
+      "for": ["car"]
+    },
+    {
+      "id": "kbb-atp",
+      "publisher": "Kelley Blue Book (Cox Automotive)",
+      "title": "Average new-vehicle transaction price back above $50,000 in August 2026 ($49,855 in July)",
+      "date": "2026-09-10",
+      "url": "https://digitaldealer.com/news/kelley-blue-book-report-average-new-vehicle-transaction-price-moves-back-above-50000-in-august/173215/",
+      "for": ["car"]
+    },
+    {
+      "id": "depreciation",
+      "publisher": "Experian and Kelley Blue Book, citing Carfax",
+      "title": "New cars lose about 20% of their value in the first year and are worth about 40% of their price after five years",
+      "url": "https://www.experian.com/blogs/ask-experian/what-is-depreciation-on-a-car/",
+      "for": ["car"]
+    },
+    {
+      "id": "irs-sch1a",
+      "publisher": "Internal Revenue Service",
+      "title": "Schedule 1-A (Form 1040), Additional Deductions: tips, overtime, car loan interest, seniors",
+      "date": "2025-11-04",
+      "url": "https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf",
+      "for": ["taxes", "car", "tests"]
+    },
+    {
+      "id": "irs-obbba",
+      "publisher": "Internal Revenue Service",
+      "title": "Tax deductions for working Americans and seniors (2025 to 2028)",
+      "url": "https://www.irs.gov/newsroom/working-families-tax-cuts-tax-deductions-for-working-americans-and-seniors",
+      "for": ["taxes", "car"]
+    },
+    {
+      "id": "regdd",
+      "publisher": "Consumer Financial Protection Bureau (12 CFR 1030)",
+      "title": "Regulation DD (Truth in Savings), Appendix A: Annual Percentage Yield Calculation",
+      "url": "https://www.ecfr.gov/current/title-12/chapter-X/part-1030/appendix-Appendix%20A%20to%20Part%201030",
+      "for": ["rates", "tests"]
+    },
+    {
+      "id": "fdic-rates",
+      "publisher": "Federal Deposit Insurance Corporation",
+      "title": "National rates and rate caps (national savings average, via FRED SNDR)",
+      "date": "monthly",
+      "url": "https://www.fdic.gov/national-rates-and-rate-caps",
+      "for": ["rates"]
+    },
+    {
+      "id": "g19",
+      "publisher": "Federal Reserve Board",
+      "title": "Consumer Credit (G.19): credit card and auto loan interest rates (FRED TERMCBCCALLNS, TERMCBAUTO48NS)",
+      "date": "quarterly",
+      "url": "https://www.federalreserve.gov/releases/g19/current/",
+      "for": ["credit", "car", "rates"]
+    },
+    {
+      "id": "cfpb-margins",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "Credit card interest rate margins at all-time high: the average margin over the prime rate rose from 9.6 points in 2013 to 14.3 in 2023",
+      "date": "2024-02-22",
+      "url": "https://www.consumerfinance.gov/about-us/blog/credit-card-interest-rate-margins-at-all-time-high/",
+      "for": ["rates", "credit"]
+    },
+    {
+      "id": "myfico",
+      "publisher": "myFICO (Fair Isaac)",
+      "title": "What's in my FICO Scores? (35 / 30 / 15 / 10 / 10)",
+      "url": "https://www.myfico.com/credit-education/whats-in-your-credit-score",
+      "for": ["credit"]
+    },
+    {
+      "id": "fico-avg",
+      "publisher": "FICO",
+      "title": "FICO Score Credit Insights: average FICO Score 714 (spring 2026)",
+      "date": "2026-03-24",
+      "url": "https://investors.fico.com/news-releases/news-release-details/ficor-score-credit-insights-report-average-fico-score-dips-714",
+      "for": ["credit"]
+    },
+    {
+      "id": "kellogg",
+      "publisher": "Kellogg School of Management, Northwestern University",
+      "title": "Gal and McShane, 'Can Small Victories Help Win the War?' (Journal of Marketing Research, 2012): the snowball approach to debt",
+      "date": "2012",
+      "url": "https://www.kellogg.northwestern.edu/news_articles/2012/snowball-approach.aspx",
+      "for": ["credit"]
+    },
+    {
+      "id": "card-act",
+      "publisher": "Consumer Financial Protection Bureau (12 CFR 1026.7(b)(12))",
+      "title": "Regulation Z: repayment disclosures on credit card statements (minimum payment warning, 36-month comparison)",
+      "url": "https://www.consumerfinance.gov/rules-policy/regulations/1026/7/",
+      "for": ["credit"]
+    },
+    {
+      "id": "acr",
+      "publisher": "Equifax, Experian and TransUnion",
+      "title": "AnnualCreditReport.com: free weekly credit reports",
+      "url": "https://www.annualcreditreport.com/",
+      "for": ["credit"]
+    },
+    {
+      "id": "kff-ehbs",
+      "publisher": "KFF",
+      "title": "2025 Employer Health Benefits Survey: average premiums $9,325 single, $26,993 family; average single deductible $1,886",
+      "date": "2025-10",
+      "url": "https://www.kff.org/health-costs/2025-employer-health-benefits-survey/",
+      "for": ["insurance"]
+    },
+    {
+      "id": "cms-oop",
+      "publisher": "Centers for Medicare & Medicaid Services",
+      "title": "2027 maximum annual limitation on cost sharing ($12,000 / $24,000; 2026: $10,600 / $21,200)",
+      "date": "2026-01-29",
+      "url": "https://www.cms.gov/files/document/2027-papi-parameters-guidance-2026-01-29.pdf",
+      "for": ["insurance"]
+    },
+    {
+      "id": "irs-hsa26",
+      "publisher": "Internal Revenue Service",
+      "title": "Revenue Procedure 2025-19: 2026 HSA and HDHP limits",
+      "date": "2025-05-01",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-19.pdf",
+      "for": ["insurance"]
+    },
+    {
+      "id": "irs-hsa27",
+      "publisher": "Internal Revenue Service",
+      "title": "Revenue Procedure 2026-24: 2027 HSA and HDHP limits",
+      "date": "2026-05-29",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-26-24.pdf",
+      "for": ["insurance"]
+    },
+    {
+      "id": "irs-rp2532",
+      "publisher": "Internal Revenue Service",
+      "title": "Revenue Procedure 2025-32: 2026 tax brackets, standard deduction and other inflation adjustments",
+      "date": "2025-10-09",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+      "for": ["taxes", "tests"]
+    },
+    {
+      "id": "irs-rp2440",
+      "publisher": "Internal Revenue Service",
+      "title": "Revenue Procedure 2024-40: 2025 tax brackets (used to check the 2025 Tax Table)",
+      "date": "2024-10-22",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-24-40.pdf",
+      "for": ["tests"]
+    },
+    {
+      "id": "irs-i1040",
+      "publisher": "Internal Revenue Service",
+      "title": "2025 Form 1040 instructions, including the 2025 Tax Table and Tax Computation Worksheet",
+      "date": "2026-02",
+      "url": "https://www.irs.gov/pub/irs-pdf/i1040gi.pdf",
+      "for": ["taxes", "tests"]
+    },
+    {
+      "id": "irs-f1040",
+      "publisher": "Internal Revenue Service",
+      "title": "Form 1040 (2025): line numbers referenced on this site",
+      "url": "https://www.irs.gov/pub/irs-pdf/f1040.pdf",
+      "for": ["taxes"]
+    },
+    {
+      "id": "ssa-cbb",
+      "publisher": "Social Security Administration",
+      "title": "Contribution and benefit base: $184,500 for 2026",
+      "date": "2025-10-24",
+      "url": "https://www.ssa.gov/oact/cola/cbb.html",
+      "for": ["taxes"]
+    },
+    {
+      "id": "irs-refunds",
+      "publisher": "Internal Revenue Service",
+      "title": "2026 filing season statistics: average refund $3,276 through May 8, 2026",
+      "date": "2026-05",
+      "url": "https://www.irs.gov/newsroom/filing-season-statistics-for-week-ending-may-8-2026",
+      "for": ["taxes"]
+    },
+    {
+      "id": "irs-n2567",
+      "publisher": "Internal Revenue Service",
+      "title": "Notice 2025-67: 2026 limits for 401(k), IRA and other retirement plans",
+      "date": "2025-11-13",
+      "url": "https://www.irs.gov/pub/irs-drop/n-25-67.pdf",
+      "for": ["retirement"]
+    },
+    {
+      "id": "vanguard-has",
+      "publisher": "Vanguard",
+      "title": "How America Saves 2026: 86% participation, 7.6% average deferral, 4.7% average employer match",
+      "date": "2026-06",
+      "url": "https://workplace.vanguard.com/insights-and-research/report/previewing-how-america-saves-2026.html",
+      "for": ["retirement"]
+    },
+    {
+      "id": "sec-fees",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "title": "Investor Bulletin: How fees and expenses affect your investment portfolio",
+      "url": "https://www.investor.gov/additional-resources/news-alerts/alerts-bulletins/investor-bulletin-how-fees-expenses-affect-your",
+      "for": ["retirement", "tests"]
+    },
+    {
+      "id": "morningstar-swr",
+      "publisher": "Morningstar",
+      "title": "The State of Retirement Income 2025: 3.9% starting safe withdrawal rate",
+      "date": "2025-12",
+      "url": "https://www.morningstar.com/retirement/whats-safe-retirement-spending-rate-2025",
+      "for": ["retirement"]
+    },
+    {
+      "id": "bls-cpi",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "title": "Consumer Price Index (via FRED CPIAUCSL); October 2025 was not collected during the federal shutdown",
+      "date": "monthly",
+      "url": "https://www.bls.gov/cpi/",
+      "for": ["rates", "retirement"]
+    }
   ]
 }

@@ -1,239 +1,691 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Pricing for websites, business software, redesigns, digital assets and custom development." name="description"/>
-<title>Pricing | Safi Solutions</title>
-<link href="assets/images/logo-mark.png" rel="icon"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="assets/studio.css?v=pricing-20260920" rel="stylesheet"/>
-<style>
-:root{--price-accent:#b8d8fa;--warm:#e8b247}
-body{background:#181b1f}
-.pricing-shell{margin-left:230px;min-height:100vh}
-.pricing-top{height:59px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);font:9px var(--mono);letter-spacing:.08em;color:var(--muted)}
-.pricing-top a{color:var(--text)}
-.pricing-page{max-width:1440px;margin:0 auto;padding:48px 38px 72px}
-.pricing-hero{max-width:980px;padding-bottom:30px;border-bottom:1px solid var(--line)}
-.pricing-hero .micro{display:block;margin-bottom:14px}
-.pricing-hero h1{font-size:clamp(44px,6vw,76px);line-height:.94;letter-spacing:-.055em;margin:0 0 18px;font-weight:500}
-.pricing-hero p{font-size:17px;line-height:1.65;color:#aeb6bf;max-width:860px}
-.pricing-index{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 50px}
-.pricing-index a{border:1px solid var(--line);padding:10px 12px;font:10px var(--mono);letter-spacing:.05em;color:#c9d1d8}
-.pricing-index a:hover{border-color:#6f7d89;color:#fff}
-.price-section{scroll-margin-top:24px;margin-top:54px}
-.section-head{padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
-.section-head h2{font-size:clamp(32px,4vw,54px);line-height:1;letter-spacing:-.045em}
-.section-head p{margin-top:11px;color:var(--muted);max-width:760px;font-size:14px}
-.price-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
-.price-card{grid-column:span 4;border:1px solid var(--line);background:#1c2025;padding:22px;min-height:230px;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.price-card.wide{grid-column:span 6}
-.price-card.full{grid-column:1/-1}
-.price-card:before{content:'';position:absolute;inset:0 auto 0 0;width:2px;background:transparent}
-.price-card:hover:before{background:var(--price-accent)}
-.price-kicker{font:9px var(--mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
-.price-card h3{font-size:24px;line-height:1.1;margin:14px 0 6px}
-.price{font-size:36px;line-height:1;letter-spacing:-.045em;margin:6px 0 18px}
-.price .from{font:9px var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px}
-.price small{font-size:14px;letter-spacing:0;color:var(--muted)}
-.price-card p{color:#aeb6bf;font-size:13px;margin-bottom:14px}
-.includes{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
-.includes span{border:1px solid #3d444c;padding:6px 8px;font:9px var(--mono);color:#b9c2cb}
-.price-card.featured{background:linear-gradient(180deg,#202a33,#1b2025);border-color:#50606e}
-.price-card.featured .price{color:#fff}
-.apps-strip{display:grid;grid-template-columns:1.1fr repeat(3,1fr);border:1px solid var(--line);background:#15191d}
-.apps-strip>div{padding:19px 20px;border-right:1px solid var(--line)}
-.apps-strip>div:last-child{border-right:0}
-.apps-strip .label{font:9px var(--mono);letter-spacing:.1em;color:var(--price-accent);text-transform:uppercase}
-.apps-strip strong{display:block;font-size:30px;margin-top:6px}
-.apps-strip del{font-size:12px;color:#7f8992;margin-left:6px}
-.apps-strip a{display:inline-block;margin-top:8px;font:10px var(--mono);border-bottom:1px solid currentColor;padding-bottom:3px}
-.payment-terms{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
-.payment-terms>div{padding:22px;border-right:1px solid var(--line)}
-.payment-terms>div:last-child{border-right:0}
-.payment-terms strong{display:block;font-size:22px;margin-bottom:8px}
-.payment-terms span{font-size:13px;color:var(--muted);line-height:1.6}
-.approach{margin-top:56px;padding:34px;border:1px solid #43515d;background:linear-gradient(135deg,#1e2830,#181d22);display:grid;grid-template-columns:180px 1fr;gap:28px}
-.approach h2{font-size:32px;line-height:1.05}
-.approach p{font-size:18px;line-height:1.7;color:#c9d0d7;max-width:850px}
-.approach strong{color:#fff}
-.disclaimer{margin-top:24px;color:#7f8992;font:10px/1.7 var(--mono)}
-.pricing-footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:48px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--muted)}
-.pricing-footer a{color:#d3dae0}
-@media(max-width:1050px){
-  .price-card,.price-card.wide{grid-column:span 6}
-}
-@media(max-width:800px){
-  .pricing-shell{margin-left:0;padding-top:64px}.pricing-page{padding:30px 20px 60px}.pricing-top{display:none}
-  .price-card,.price-card.wide{grid-column:1/-1}
-  .apps-strip{grid-template-columns:1fr 1fr}.apps-strip>div:nth-child(2){border-right:0}.apps-strip>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
-  .payment-terms{grid-template-columns:1fr}.payment-terms>div{border-right:0;border-bottom:1px solid var(--line)}.payment-terms>div:last-child{border-bottom:0}
-  .approach{grid-template-columns:1fr}
-}
-@media(max-width:520px){
-  .pricing-hero h1{font-size:52px}.apps-strip{grid-template-columns:1fr}.apps-strip>div{border-right:0;border-bottom:1px solid var(--line)}.apps-strip>div:last-child{border-bottom:0}
-}
-.primary-nav .nav-rule{display:block;height:1px;margin:10px 0;background:var(--line)}.primary-nav a.nav-ttd{color:#d9f8f3}.primary-nav a.nav-ttd span{color:#5dd9cc;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;opacity:1}.rail-contact{margin-top:16px}.rail-contact .button{width:100%}.primary-nav a{font-size:14.5px}
-</style>
-</head>
-<body>
-<aside class="cabinet-rail">
-<a aria-label="Safi Solutions home" class="brand" href="/"><img alt="Safi Solutions" src="assets/images/logo-lockup.png"/></a>
-<p class="rail-intro">Independent software<br/>&amp; website design.</p>
-<nav aria-label="Main navigation" class="primary-nav">
-<a href="/">Home</a>
-<a href="/projects/">Projects <span>14</span></a>
-<a href="/products/">Products <span>06</span></a>
-<a href="/websites/">Websites <span>05</span></a>
-<a href="/studio/">SafiStudios</a><a class="nav-ttd" href="/tradingdesk/">TheTradingDesk <span>Featured</span></a>
-<a href="/shorecrest/" class="nav-shorecrest">Shorecrest <span>Featured</span></a>
-<span class="nav-rule" aria-hidden="true"></span>
-<a href="/about/">About</a>
-<a aria-current="page" href="/pricing.html">Pricing</a>
-<a href="/support.html">Support</a>
-</nav>
-<div class="rail-contact"><a class="button" href="/contact/">Get in touch <svg class="pro-arrow" viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;margin-left:7px;vertical-align:-2px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-<div class="rail-footer"><span>HELAL SAFI<br/>PARIS, TEXAS</span></div>
-</aside>
-<header class="mobile-header">
-<a href="/"><img alt="Safi Solutions" src="assets/images/logo-lockup.png"/></a>
-<button aria-controls="mobile-nav" aria-expanded="false" id="menu-toggle">Menu</button>
-<nav aria-label="Mobile navigation" id="mobile-nav">
-<a href="/">Home</a>
-<a href="/projects/">Projects</a>
-<a href="/products/">Products</a>
-<a href="/websites/">Websites</a>
-<a href="/studio/">SafiStudios</a><a href="/tradingdesk/">TheTradingDesk</a>
-<a href="/shorecrest/" class="nav-shorecrest">Shorecrest <span>Featured</span></a>
-<a href="/about/">About</a>
-<a aria-current="page" href="/pricing.html">Pricing</a>
-<a href="/support.html">Support</a>
-<a href="/contact/">Get in touch</a>
-</nav>
-</header>
-<div class="pricing-shell">
-<div class="pricing-top"><span>PRICING / SERVICES</span><span>SAFI SOLUTIONS <b>/ 2026</b></span><a href="mailto:safihelal@gmail.com">Let’s talk ↗</a></div>
-<main class="pricing-page">
-<section class="pricing-hero">
-<span class="micro">PRICING</span>
-<h1>Reasonably priced.<br/>Built around you.</h1>
-<p>I try to keep pricing practical compared with typical industry rates, while making the final product as simple and customizable as possible for you. You should be paying for what you actually need, not extra complexity, features, or overhead that do not help your project.</p>
-</section>
-<nav aria-label="Pricing sections" class="pricing-index">
-<a href="#websites">Websites</a>
-<a href="#ecommerce">E-Commerce</a>
-<a href="#existing">Existing Sites</a>
-<a href="#assets">Digital Assets</a>
-<a href="#business-software">Business Software</a>
-<a href="#custom-software">Custom Software</a>
-<a href="#payments">Payment Terms</a>
-</nav>
-<section class="price-section" id="websites">
-<header class="section-head">
-<div><h2>Websites.</h2><p>Responsive builds for desktop and mobile, from focused landing pages to larger custom platforms.</p></div>
-</header>
-<div class="price-grid">
-<article class="price-card featured">
-<span class="price-kicker">Landing page / basic website</span>
-<h3>Focused and complete.</h3>
-<div class="price">$349</div>
-<p>Best for smaller sites that need a polished web presence without unnecessary complexity.</p>
-<div class="includes"><span>Landing pages</span><span>Personal sites</span><span>Small business</span><span>Portfolio</span><span>Service business</span></div>
-</article>
-<article class="price-card">
-<span class="price-kicker">Expanded website</span>
-<h3>More pages. More function.</h3>
-<div class="price">$499–$999</div>
-<p>For larger websites requiring additional pages, functionality, data, or backend features.</p>
-<div class="includes"><span>Forms</span><span>Databases</span><span>Admin tools</span><span>User accounts</span><span>Scheduling</span><span>Custom features</span></div>
-</article>
-<article class="price-card">
-<span class="price-kicker">Large website / web platform</span>
-<h3>Multiple systems.</h3>
-<div class="price">$1,249–$1,499+</div>
-<p>For significantly larger projects requiring substantial custom development or multiple connected systems.</p>
-<div class="includes"><span>Portals</span><span>Membership</span><span>Dashboards</span><span>Content systems</span><span>Complex backend</span></div>
-</article>
-</div>
-</section>
-<section class="price-section" id="ecommerce">
-<header class="section-head">
-<div><h2>Online stores.</h2><p>Pricing depends mostly on catalog size, variations, payment setup, shipping, accounts, order management, and required integrations.</p></div>
-</header>
-<div class="price-grid">
-<article class="price-card full featured">
-<span class="price-kicker">E-Commerce website</span>
-<h3>Storefront + checkout + operations.</h3>
-<div class="price">$999–$1,999</div>
-<p>Smaller stores generally fall toward the lower end. Larger catalogs and more advanced operational requirements move toward the higher end.</p>
-<div class="includes"><span>Products</span><span>Inventory</span><span>Variations</span><span>Payments</span><span>Shipping</span><span>Accounts</span><span>Orders</span><span>Integrations</span></div>
-</article>
-</div>
-</section>
-<section class="price-section" id="existing">
-<header class="section-head">
-<div><h2>Fixes &amp; redesigns.</h2><p>For improving, repairing, modernizing, or reorganizing an existing website without automatically turning it into a full rebuild.</p></div>
-</header>
-<div class="price-grid">
-<article class="price-card wide">
-<span class="price-kicker">Website fixes / redesign</span>
-<h3>Repair what is already there.</h3>
-<div class="price">$199–$499</div>
-<p>Extensive rebuilds may be priced as a new website project.</p>
-<div class="includes"><span>Visual redesign</span><span>Mobile responsiveness</span><span>Broken functionality</span><span>Navigation</span><span>Performance</span><span>UI/UX</span><span>Modernization</span></div>
-</article>
-</div>
-</section>
-<section class="price-section" id="assets">
-<header class="section-head">
-<div><h2>Asset preparation.</h2><p>Preparation and organization of digital assets for websites, software, branding, or online use.</p></div>
-</header>
-<div class="price-grid">
-<article class="price-card wide">
-<span class="price-kicker">Asset preparation</span>
-<h3>Clean, usable, organized.</h3>
-<div class="price">$99–$299</div>
-<p>Final price depends on the quantity and complexity of the assets.</p>
-<div class="includes"><span>Logo cleanup</span><span>Transparent assets</span><span>SVG/vector</span><span>Image resizing</span><span>Optimization</span><span>Favicons</span><span>App icons</span><span>Social sizes</span><span>File conversion</span></div>
-</article>
-</div>
-</section>
-<section class="price-section" id="business-software"><header class="section-head"><div><h2>SafiStudios.</h2><p>Custom business software is priced around the size of the workflow, number of users, data needs and integrations.</p></div></header><div class="price-grid"><article class="price-card wide featured"><span class="price-kicker">FOCUSED INTERNAL TOOL</span><h3>One operational problem, built around the business.</h3><div class="price">$799–$999</div><p>Desktop workflows, forms, scheduling, inventory, reporting or other focused internal tools.</p><div class="includes"><span>Workflow design</span><span>Windows desktop</span><span>Data</span><span>Forms</span><span>Reporting</span></div></article><article class="price-card wide"><span class="price-kicker">CONNECTED BUSINESS SYSTEM</span><h3>Shared data, multiple locations or field workflows.</h3><div class="price">$1,299–$1,999</div><p>For systems involving cloud data, multiple users, remote access, dashboards, permissions, integrations or mobile/field workflows.</p><div class="includes"><span>Backend</span><span>Sync</span><span>User roles</span><span>Dashboards</span><span>Integrations</span></div></article></div></section>
-<section class="price-section" id="custom-software"><header class="section-head"><div><h2>Custom software.</h2><p>Standalone custom tools are also quoted by scope. A narrow utility and a connected application should not be forced into the same preset price.</p></div></header><div class="price-grid"><article class="price-card full featured"><span class="price-kicker">CUSTOM BUILD</span><h3>Define the problem first.</h3><div class="price"><span class="from">PRICED BY SCOPE</span>Custom quote</div><p>Business utilities, internal tools, calculators, automation, data processing, specialized workflows and larger applications are scoped individually.</p></article></div></section>
-<section class="price-section" id="payments">
-<header class="section-head">
-<div><h2>Payment structure.</h2><p>Final scope and pricing are agreed upon before development begins.</p></div>
-</header>
-<div class="payment-terms">
-<div><strong>Under $500</strong><span>Payment in full to begin.</span></div>
-<div><strong>$500–$1,499</strong><span>50% to begin.<br/>50% upon completion.</span></div>
-<div><strong>$1,500+</strong><span>Milestone payments based on the project.</span></div>
-</div>
-</section>
-<section class="approach">
-<span class="micro">THE SAFISOLUTIONS APPROACH</span>
-<div><h2>You shouldn't need an enterprise budget to get good software.</h2><p>SafiSolutions focuses on practical websites, software, and business tools without unnecessary complexity or inflated agency pricing. <strong>Build what you actually need, make it easy to use, and charge a reasonable price for it.</strong></p></div>
-</section>
-<p class="disclaimer">Pricing is a guide. Final pricing depends on project scope, complexity, integrations, content, data volume, and requested functionality. Projects substantially beyond the ranges shown are quoted individually.</p>
-<footer class="pricing-footer">
-<span>SAFI SOLUTIONS / PRICING</span>
-<div><a href="/products/">Products</a>  ·  <a href="support.html">Support</a>  ·  <a href="mailto:safihelal@gmail.com">Start a project ↗</a></div>
-</footer>
-</main>
-</div>
-<script>
-document.getElementById('menu-toggle')?.addEventListener('click',function(){
-  const nav=document.getElementById('mobile-nav');
-  const open=this.getAttribute('aria-expanded')==='true';
-  this.setAttribute('aria-expanded',String(!open));
-  nav?.classList.toggle('open',!open);
-});
-
-</script>
-<script src="/assets/ambient-particles.js?v=7" defer></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <meta
+      content="Pricing for websites, business software, redesigns, digital assets and custom development."
+      name="description"
+    />
+    <title>Pricing | Safi Solutions</title>
+    <link href="assets/images/logo-mark.png" rel="icon" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="assets/studio.css?v=pricing-20260920" rel="stylesheet" />
+    <style>
+      :root {
+        --price-accent: #b8d8fa;
+        --warm: #e8b247;
+      }
+      body {
+        background: #181b1f;
+      }
+      .pricing-shell {
+        margin-left: 230px;
+        min-height: 100vh;
+      }
+      .pricing-top {
+        height: 59px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 34px;
+        border-bottom: 1px solid var(--line);
+        font: 9px var(--mono);
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .pricing-top a {
+        color: var(--text);
+      }
+      .pricing-page {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 48px 38px 72px;
+      }
+      .pricing-hero {
+        max-width: 980px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--line);
+      }
+      .pricing-hero .micro {
+        display: block;
+        margin-bottom: 14px;
+      }
+      .pricing-hero h1 {
+        font-size: clamp(44px, 6vw, 76px);
+        line-height: 0.94;
+        letter-spacing: -0.055em;
+        margin: 0 0 18px;
+        font-weight: 500;
+      }
+      .pricing-hero p {
+        font-size: 17px;
+        line-height: 1.65;
+        color: #aeb6bf;
+        max-width: 860px;
+      }
+      .pricing-index {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 28px 0 50px;
+      }
+      .pricing-index a {
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        font: 10px var(--mono);
+        letter-spacing: 0.05em;
+        color: #c9d1d8;
+      }
+      .pricing-index a:hover {
+        border-color: #6f7d89;
+        color: #fff;
+      }
+      .price-section {
+        scroll-margin-top: 24px;
+        margin-top: 54px;
+      }
+      .section-head {
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 18px;
+      }
+      .section-head h2 {
+        font-size: clamp(32px, 4vw, 54px);
+        line-height: 1;
+        letter-spacing: -0.045em;
+      }
+      .section-head p {
+        margin-top: 11px;
+        color: var(--muted);
+        max-width: 760px;
+        font-size: 14px;
+      }
+      .price-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .price-card {
+        grid-column: span 4;
+        border: 1px solid var(--line);
+        background: #1c2025;
+        padding: 22px;
+        min-height: 230px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+      .price-card.wide {
+        grid-column: span 6;
+      }
+      .price-card.full {
+        grid-column: 1/-1;
+      }
+      .price-card:before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 2px;
+        background: transparent;
+      }
+      .price-card:hover:before {
+        background: var(--price-accent);
+      }
+      .price-kicker {
+        font: 9px var(--mono);
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .price-card h3 {
+        font-size: 24px;
+        line-height: 1.1;
+        margin: 14px 0 6px;
+      }
+      .price {
+        font-size: 36px;
+        line-height: 1;
+        letter-spacing: -0.045em;
+        margin: 6px 0 18px;
+      }
+      .price .from {
+        font: 9px var(--mono);
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 5px;
+      }
+      .price small {
+        font-size: 14px;
+        letter-spacing: 0;
+        color: var(--muted);
+      }
+      .price-card p {
+        color: #aeb6bf;
+        font-size: 13px;
+        margin-bottom: 14px;
+      }
+      .includes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: auto;
+      }
+      .includes span {
+        border: 1px solid #3d444c;
+        padding: 6px 8px;
+        font: 9px var(--mono);
+        color: #b9c2cb;
+      }
+      .price-card.featured {
+        background: linear-gradient(180deg, #202a33, #1b2025);
+        border-color: #50606e;
+      }
+      .price-card.featured .price {
+        color: #fff;
+      }
+      .apps-strip {
+        display: grid;
+        grid-template-columns: 1.1fr repeat(3, 1fr);
+        border: 1px solid var(--line);
+        background: #15191d;
+      }
+      .apps-strip > div {
+        padding: 19px 20px;
+        border-right: 1px solid var(--line);
+      }
+      .apps-strip > div:last-child {
+        border-right: 0;
+      }
+      .apps-strip .label {
+        font: 9px var(--mono);
+        letter-spacing: 0.1em;
+        color: var(--price-accent);
+        text-transform: uppercase;
+      }
+      .apps-strip strong {
+        display: block;
+        font-size: 30px;
+        margin-top: 6px;
+      }
+      .apps-strip del {
+        font-size: 12px;
+        color: #7f8992;
+        margin-left: 6px;
+      }
+      .apps-strip a {
+        display: inline-block;
+        margin-top: 8px;
+        font: 10px var(--mono);
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 3px;
+      }
+      .payment-terms {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--line);
+      }
+      .payment-terms > div {
+        padding: 22px;
+        border-right: 1px solid var(--line);
+      }
+      .payment-terms > div:last-child {
+        border-right: 0;
+      }
+      .payment-terms strong {
+        display: block;
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .payment-terms span {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .approach {
+        margin-top: 56px;
+        padding: 34px;
+        border: 1px solid #43515d;
+        background: linear-gradient(135deg, #1e2830, #181d22);
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 28px;
+      }
+      .approach h2 {
+        font-size: 32px;
+        line-height: 1.05;
+      }
+      .approach p {
+        font-size: 18px;
+        line-height: 1.7;
+        color: #c9d0d7;
+        max-width: 850px;
+      }
+      .approach strong {
+        color: #fff;
+      }
+      .disclaimer {
+        margin-top: 24px;
+        color: #7f8992;
+        font: 10px/1.7 var(--mono);
+      }
+      .pricing-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 48px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        font: 10px var(--mono);
+        color: var(--muted);
+      }
+      .pricing-footer a {
+        color: #d3dae0;
+      }
+      @media (max-width: 1050px) {
+        .price-card,
+        .price-card.wide {
+          grid-column: span 6;
+        }
+      }
+      @media (max-width: 800px) {
+        .pricing-shell {
+          margin-left: 0;
+          padding-top: 64px;
+        }
+        .pricing-page {
+          padding: 30px 20px 60px;
+        }
+        .pricing-top {
+          display: none;
+        }
+        .price-card,
+        .price-card.wide {
+          grid-column: 1/-1;
+        }
+        .apps-strip {
+          grid-template-columns: 1fr 1fr;
+        }
+        .apps-strip > div:nth-child(2) {
+          border-right: 0;
+        }
+        .apps-strip > div:nth-child(-n + 2) {
+          border-bottom: 1px solid var(--line);
+        }
+        .payment-terms {
+          grid-template-columns: 1fr;
+        }
+        .payment-terms > div {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .payment-terms > div:last-child {
+          border-bottom: 0;
+        }
+        .approach {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 520px) {
+        .pricing-hero h1 {
+          font-size: 52px;
+        }
+        .apps-strip {
+          grid-template-columns: 1fr;
+        }
+        .apps-strip > div {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .apps-strip > div:last-child {
+          border-bottom: 0;
+        }
+      }
+      .primary-nav .nav-rule {
+        display: block;
+        height: 1px;
+        margin: 10px 0;
+        background: var(--line);
+      }
+      .primary-nav a.nav-ttd {
+        color: #d9f8f3;
+      }
+      .primary-nav a.nav-ttd span {
+        color: #5dd9cc;
+        font-size: 8.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 1;
+      }
+      .rail-contact {
+        margin-top: 16px;
+      }
+      .rail-contact .button {
+        width: 100%;
+      }
+      .primary-nav a {
+        font-size: 14.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="cabinet-rail">
+      <a aria-label="Safi Solutions home" class="brand" href="/"
+        ><img alt="Safi Solutions" src="assets/images/logo-lockup.png"
+      /></a>
+      <p class="rail-intro">Independent software<br />&amp; website design.</p>
+      <nav aria-label="Main navigation" class="primary-nav">
+        <a href="/">Home</a>
+        <a href="/projects/">Projects <span>14</span></a>
+        <a href="/products/">Products <span>06</span></a>
+        <a href="/websites/">Websites <span>05</span></a>
+        <a href="/studio/">SafiStudios</a
+        ><a class="nav-ttd" href="/tradingdesk/">TheTradingDesk <span>Featured</span></a>
+        <a href="/shorecrest/" class="nav-shorecrest">Shorecrest <span>Featured</span></a>
+        <span class="nav-rule" aria-hidden="true"></span>
+        <a href="/about/">About</a>
+        <a aria-current="page" href="/pricing.html">Pricing</a>
+        <a href="/support.html">Support</a>
+      </nav>
+      <div class="rail-contact"
+        ><a class="button" href="/contact/"
+          >Get in touch
+          <svg
+            class="pro-arrow"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;margin-left:7px;vertical-align:-2px"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+      ></div>
+      <div class="rail-footer"
+        ><span>HELAL SAFI<br />PARIS, TEXAS</span></div
+      >
+    </aside>
+    <header class="mobile-header">
+      <a href="/"><img alt="Safi Solutions" src="assets/images/logo-lockup.png" /></a>
+      <button aria-controls="mobile-nav" aria-expanded="false" id="menu-toggle">Menu</button>
+      <nav aria-label="Mobile navigation" id="mobile-nav">
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/products/">Products</a>
+        <a href="/websites/">Websites</a>
+        <a href="/studio/">SafiStudios</a><a href="/tradingdesk/">TheTradingDesk</a>
+        <a href="/shorecrest/" class="nav-shorecrest">Shorecrest <span>Featured</span></a>
+        <a href="/about/">About</a>
+        <a aria-current="page" href="/pricing.html">Pricing</a>
+        <a href="/support.html">Support</a>
+        <a href="/contact/">Get in touch</a>
+      </nav>
+    </header>
+    <div class="pricing-shell">
+      <div class="pricing-top"
+        ><span>PRICING / SERVICES</span><span>SAFI SOLUTIONS <b>/ 2026</b></span
+        ><a href="mailto:safihelal@gmail.com">Let’s talk ↗</a></div
+      >
+      <main class="pricing-page">
+        <section class="pricing-hero">
+          <span class="micro">PRICING</span>
+          <h1>Reasonably priced.<br />Built around you.</h1>
+          <p
+            >I try to keep pricing practical compared with typical industry rates, while making the
+            final product as simple and customizable as possible for you. You should be paying for
+            what you actually need, not extra complexity, features, or overhead that do not help
+            your project.</p
+          >
+        </section>
+        <nav aria-label="Pricing sections" class="pricing-index">
+          <a href="#websites">Websites</a>
+          <a href="#ecommerce">E-Commerce</a>
+          <a href="#existing">Existing Sites</a>
+          <a href="#assets">Digital Assets</a>
+          <a href="#business-software">Business Software</a>
+          <a href="#custom-software">Custom Software</a>
+          <a href="#payments">Payment Terms</a>
+        </nav>
+        <section class="price-section" id="websites">
+          <header class="section-head">
+            <div
+              ><h2>Websites.</h2
+              ><p
+                >Responsive builds for desktop and mobile, from focused landing pages to larger
+                custom platforms.</p
+              ></div
+            >
+          </header>
+          <div class="price-grid">
+            <article class="price-card featured">
+              <span class="price-kicker">Landing page / basic website</span>
+              <h3>Focused and complete.</h3>
+              <div class="price">$349</div>
+              <p
+                >Best for smaller sites that need a polished web presence without unnecessary
+                complexity.</p
+              >
+              <div class="includes"
+                ><span>Landing pages</span><span>Personal sites</span><span>Small business</span
+                ><span>Portfolio</span><span>Service business</span></div
+              >
+            </article>
+            <article class="price-card">
+              <span class="price-kicker">Expanded website</span>
+              <h3>More pages. More function.</h3>
+              <div class="price">$499–$999</div>
+              <p
+                >For larger websites requiring additional pages, functionality, data, or backend
+                features.</p
+              >
+              <div class="includes"
+                ><span>Forms</span><span>Databases</span><span>Admin tools</span
+                ><span>User accounts</span><span>Scheduling</span><span>Custom features</span></div
+              >
+            </article>
+            <article class="price-card">
+              <span class="price-kicker">Large website / web platform</span>
+              <h3>Multiple systems.</h3>
+              <div class="price">$1,249–$1,499+</div>
+              <p
+                >For significantly larger projects requiring substantial custom development or
+                multiple connected systems.</p
+              >
+              <div class="includes"
+                ><span>Portals</span><span>Membership</span><span>Dashboards</span
+                ><span>Content systems</span><span>Complex backend</span></div
+              >
+            </article>
+          </div>
+        </section>
+        <section class="price-section" id="ecommerce">
+          <header class="section-head">
+            <div
+              ><h2>Online stores.</h2
+              ><p
+                >Pricing depends mostly on catalog size, variations, payment setup, shipping,
+                accounts, order management, and required integrations.</p
+              ></div
+            >
+          </header>
+          <div class="price-grid">
+            <article class="price-card full featured">
+              <span class="price-kicker">E-Commerce website</span>
+              <h3>Storefront + checkout + operations.</h3>
+              <div class="price">$999–$1,999</div>
+              <p
+                >Smaller stores generally fall toward the lower end. Larger catalogs and more
+                advanced operational requirements move toward the higher end.</p
+              >
+              <div class="includes"
+                ><span>Products</span><span>Inventory</span><span>Variations</span
+                ><span>Payments</span><span>Shipping</span><span>Accounts</span><span>Orders</span
+                ><span>Integrations</span></div
+              >
+            </article>
+          </div>
+        </section>
+        <section class="price-section" id="existing">
+          <header class="section-head">
+            <div
+              ><h2>Fixes &amp; redesigns.</h2
+              ><p
+                >For improving, repairing, modernizing, or reorganizing an existing website without
+                automatically turning it into a full rebuild.</p
+              ></div
+            >
+          </header>
+          <div class="price-grid">
+            <article class="price-card wide">
+              <span class="price-kicker">Website fixes / redesign</span>
+              <h3>Repair what is already there.</h3>
+              <div class="price">$199–$499</div>
+              <p>Extensive rebuilds may be priced as a new website project.</p>
+              <div class="includes"
+                ><span>Visual redesign</span><span>Mobile responsiveness</span
+                ><span>Broken functionality</span><span>Navigation</span><span>Performance</span
+                ><span>UI/UX</span><span>Modernization</span></div
+              >
+            </article>
+          </div>
+        </section>
+        <section class="price-section" id="assets">
+          <header class="section-head">
+            <div
+              ><h2>Asset preparation.</h2
+              ><p
+                >Preparation and organization of digital assets for websites, software, branding, or
+                online use.</p
+              ></div
+            >
+          </header>
+          <div class="price-grid">
+            <article class="price-card wide">
+              <span class="price-kicker">Asset preparation</span>
+              <h3>Clean, usable, organized.</h3>
+              <div class="price">$99–$299</div>
+              <p>Final price depends on the quantity and complexity of the assets.</p>
+              <div class="includes"
+                ><span>Logo cleanup</span><span>Transparent assets</span><span>SVG/vector</span
+                ><span>Image resizing</span><span>Optimization</span><span>Favicons</span
+                ><span>App icons</span><span>Social sizes</span><span>File conversion</span></div
+              >
+            </article>
+          </div>
+        </section>
+        <section class="price-section" id="business-software"
+          ><header class="section-head"
+            ><div
+              ><h2>SafiStudios.</h2
+              ><p
+                >Custom business software is priced around the size of the workflow, number of
+                users, data needs and integrations.</p
+              ></div
+            ></header
+          ><div class="price-grid"
+            ><article class="price-card wide featured"
+              ><span class="price-kicker">FOCUSED INTERNAL TOOL</span
+              ><h3>One operational problem, built around the business.</h3
+              ><div class="price">$799–$999</div
+              ><p
+                >Desktop workflows, forms, scheduling, inventory, reporting or other focused
+                internal tools.</p
+              ><div class="includes"
+                ><span>Workflow design</span><span>Windows desktop</span><span>Data</span
+                ><span>Forms</span><span>Reporting</span></div
+              ></article
+            ><article class="price-card wide"
+              ><span class="price-kicker">CONNECTED BUSINESS SYSTEM</span
+              ><h3>Shared data, multiple locations or field workflows.</h3
+              ><div class="price">$1,299–$1,999</div
+              ><p
+                >For systems involving cloud data, multiple users, remote access, dashboards,
+                permissions, integrations or mobile/field workflows.</p
+              ><div class="includes"
+                ><span>Backend</span><span>Sync</span><span>User roles</span><span>Dashboards</span
+                ><span>Integrations</span></div
+              ></article
+            ></div
+          ></section
+        >
+        <section class="price-section" id="custom-software"
+          ><header class="section-head"
+            ><div
+              ><h2>Custom software.</h2
+              ><p
+                >Standalone custom tools are also quoted by scope. A narrow utility and a connected
+                application should not be forced into the same preset price.</p
+              ></div
+            ></header
+          ><div class="price-grid"
+            ><article class="price-card full featured"
+              ><span class="price-kicker">CUSTOM BUILD</span><h3>Define the problem first.</h3
+              ><div class="price"><span class="from">PRICED BY SCOPE</span>Custom quote</div
+              ><p
+                >Business utilities, internal tools, calculators, automation, data processing,
+                specialized workflows and larger applications are scoped individually.</p
+              ></article
+            ></div
+          ></section
+        >
+        <section class="price-section" id="payments">
+          <header class="section-head">
+            <div
+              ><h2>Payment structure.</h2
+              ><p>Final scope and pricing are agreed upon before development begins.</p></div
+            >
+          </header>
+          <div class="payment-terms">
+            <div><strong>Under $500</strong><span>Payment in full to begin.</span></div>
+            <div
+              ><strong>$500–$1,499</strong><span>50% to begin.<br />50% upon completion.</span></div
+            >
+            <div><strong>$1,500+</strong><span>Milestone payments based on the project.</span></div>
+          </div>
+        </section>
+        <section class="approach">
+          <span class="micro">THE SAFISOLUTIONS APPROACH</span>
+          <div
+            ><h2>You shouldn't need an enterprise budget to get good software.</h2
+            ><p
+              >SafiSolutions focuses on practical websites, software, and business tools without
+              unnecessary complexity or inflated agency pricing.
+              <strong
+                >Build what you actually need, make it easy to use, and charge a reasonable price
+                for it.</strong
+              ></p
+            ></div
+          >
+        </section>
+        <p class="disclaimer"
+          >Pricing is a guide. Final pricing depends on project scope, complexity, integrations,
+          content, data volume, and requested functionality. Projects substantially beyond the
+          ranges shown are quoted individually.</p
+        >
+        <footer class="pricing-footer">
+          <span>SAFI SOLUTIONS / PRICING</span>
+          <div
+            ><a href="/products/">Products</a>  ·  <a href="support.html">Support</a>  · 
+            <a href="mailto:safihelal@gmail.com">Start a project ↗</a></div
+          >
+        </footer>
+      </main>
+    </div>
+    <script>
+      document.getElementById("menu-toggle")?.addEventListener("click", function () {
+        const nav = document.getElementById("mobile-nav");
+        const open = this.getAttribute("aria-expanded") === "true";
+        this.setAttribute("aria-expanded", String(!open));
+        nav?.classList.toggle("open", !open);
+      });
+    </script>
+    <script src="/assets/ambient-particles.js?v=7" defer></script>
+  </body>
 </html>
