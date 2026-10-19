@@ -188,6 +188,7 @@ export function App() {
     >
       <Stage />
       <div className="ui">
+        {!started || powering ? <img className="title-logo" src="/vibey/media/logo.webp" alt="Vibey" width={1200} height={352} decoding="async" /> : null}
         <Slate />
         {Active ? (
           <div className="panel-dock">
