@@ -4,7 +4,7 @@ import { randomAtmosphere, toggleFavoritePlace, tune, useStore } from "../../sta
 import type { Category } from "../../types";
 import { Panel } from "../controls";
 import { Dice, Star } from "../icons";
-import { thumbOf } from "../Stage";
+import { thumbOf, thumbClass } from "../Stage";
 
 type Filter = "all" | "favorites" | Category;
 
@@ -53,7 +53,7 @@ export function PlacesPanel() {
                 <div className="variations" role="group" aria-label={`${s.name} variations`}>
                   {s.variations.map((v) => (
                     <button key={v.id} className={`variation${v.id === variationId ? " on" : ""}`} onClick={() => tune(s.id, v.id)} aria-pressed={v.id === variationId}>
-                      <img src={thumbOf(v)} alt="" loading="lazy" decoding="async" width={96} height={54} />
+                      <img src={thumbOf(v)} className={thumbClass(v)} alt="" loading="lazy" decoding="async" width={96} height={54} />
                       <span>{v.label}</span>
                     </button>
                   ))}

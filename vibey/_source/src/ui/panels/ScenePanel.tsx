@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { getState, currentFx, resetScene, sceneOf, setFx, tune, useStore } from "../../state/store";
 import type { ControlId, Fx } from "../../types";
 import { Fader, Panel, Seg } from "../controls";
-import { thumbOf, useReducedMotion } from "../Stage";
+import { thumbOf, thumbClass, useReducedMotion } from "../Stage";
 
 const LABELS: Record<Exclude<ControlId, "light" | "glassFocus">, { label: string; key: keyof Fx }> = {
   rain: { label: "Rain", key: "rain" },
@@ -18,6 +18,9 @@ const LABELS: Record<Exclude<ControlId, "light" | "glassFocus">, { label: string
   aurora: { label: "Aurora", key: "aurora" },
   caustics: { label: "Sunlight ripples", key: "caustics" },
   fire: { label: "Fire", key: "fire" },
+  night: { label: "After dark", key: "night" },
+  glow: { label: "Firelight", key: "glow" },
+  twinkle: { label: "Twinkling lights", key: "twinkle" },
   embers: { label: "Embers", key: "embers" },
   dust: { label: "Dust in the light", key: "dust" },
   petals: { label: "Falling leaves", key: "petals" },
@@ -42,7 +45,7 @@ export function ScenePanel() {
         <div className="variations wide" role="group" aria-label="Variations">
           {scene.variations.map((v) => (
             <button key={v.id} className={`variation${v.id === variation.id ? " on" : ""}`} onClick={() => tune(scene.id, v.id)} aria-pressed={v.id === variation.id}>
-              <img src={thumbOf(v)} alt="" width={96} height={54} />
+              <img src={thumbOf(v)} className={thumbClass(v)} alt="" width={96} height={54} />
               <span>{v.label}</span>
             </button>
           ))}

@@ -10,7 +10,8 @@ Live at <https://www.safisolutions.org/vibey/>.
 
 Everything is built around one object: a late-70s hi-fi receiver. The stations on the dial are
 places (88.1 Rainy Tokyo Café … 107.1 Galactic Observatory), laid out like a real band — rooms at
-the bottom, outdoors, water, the city, then the night sky. Drag the needle and you hear the hiss
+the bottom, outdoors, water, the city, then the night sky. Seasonal stations sit on the half-steps:
+92.6 Alpine Christmas, 94.6 Autumn Mountains and 96.6 Hallowe'en. Drag the needle and you hear the hiss
 between stations and see grain over the picture; rest on a station and it locks with a click and the
 amber lamp. Push-keys along the faceplate open the drawers: Places, Music, Mix, Scene, Memory,
 Sleep, TV and Setup. When you stop touching anything the receiver fades away and only the place is
@@ -18,7 +19,7 @@ left.
 
 ## What's in it
 
-**Twenty places, forty-five variations.** Every picture is a real photograph or film (no generated
+**Twenty-three places, seventy-two views.** Every picture is a real photograph or film (no generated
 imagery), cropped to 16:9 and served as 4K AVIF (WebP fallback) or as an AV1/HEVC loop for moving
 water. Depth and semantic maps made for each photograph let the engine move only what should move:
 
@@ -33,18 +34,27 @@ water. Depth and semantic maps made for each photograph let the engine move only
 - the fire in the hearth is real fire footage composited into the fireplace; lamps and neon flicker;
 - star fields twinkle, meteors cross the desert sky, the photograph's own aurora ripples and pulses,
   sunlight caustics play over the reef;
-- the camera drifts very slowly and leans toward the pointer (parallax from depth).
+- the camera drifts very slowly and leans toward the pointer (parallax from depth);
+- wind moves the trees: gust fronts roll across the foliage downwind, branches sway, leaves flutter;
+- falling leaves are photo-scanned leaves (ambientCG, CC0) that flutter and tumble in 3D, show their
+  paler backs, glow when back-lit and blur near the lens; snow has a shared gust field, spiralling
+  flakes, irregular crystals and out-of-focus flakes drifting past the lens;
+- "After dark" grades any place day-for-night, the way film crews do: outdoors falls to moonlight,
+  the sky to deep blue with a few stars, while lamps, lit windows and flames keep their glow, and a
+  flickering firelight pool can light a room from a hearth in or just out of frame;
+- Christmas lights twinkle (points brighter than their surroundings, found in the photo itself).
 
-**Sound.** Forty-one layers in a Web Audio mixer: thirty-one seamless loops cut from the steadiest
-stretch of each field recording, seven event layers (thunder, owls and loons, gulls, glasses, page
-turns, shishi-odoshi, the Zenkō-ji temple bell) fired at irregular intervals with small changes in
+**Sound.** Forty-five layers in a Web Audio mixer: thirty-two seamless loops cut from the steadiest
+stretch of each field recording, ten event layers (thunder, owls and loons, an owl, crows, gulls,
+glasses, page turns, shishi-odoshi, the Zenkō-ji temple bell, the bells of Bern Minster) fired at
+irregular intervals with small changes in
 pitch, level and position, and three generated ones (a deep-space drone, brown noise and vinyl
 crackle). Every loop is levelled to the same loudness; the pendulum clock is cut on its beats so the
 tick and tock carry straight across the loop. Each layer has a level, mute and a second control —
 distance for loops, how often for events. With "Sound follows the picture" on, turning up rain on
 screen turns up the rain you hear.
 
-**Music.** 372 tracks in sixteen bands from the Free Music Archive and the Internet Archive, each
+**Music.** 423 tracks in eighteen bands from the Free Music Archive and the Internet Archive, each
 licence checked (CC0, CC BY, CC BY-SA, US public domain), plus optional live finds from Openverse
 (Jamendo, ccMixter, Wikimedia; CC0/BY/BY-SA only). Two decks with equal-power crossfades,
 loudness-matched tracks, shuffle, repeat, starred and recent lists, playlist changes that fade, media
@@ -54,13 +64,16 @@ gracefully and resumes.
 - *Kissa Jazz* is jazz for a Tokyo listening café: modern Creative Commons recordings chosen in that
   spirit. They are **not** Japanese releases and the app says so.
 - *Vintage 78s* are genuine 1920–1925 recordings, public domain in the United States.
+- *Christmas* and *Hallowe'en* mix Kevin MacLeod's carols and darker pieces (CC BY 4.0) with genuine
+  1905–1925 records (Great 78 Project), public domain in the United States.
 
 **Timers.** Sleep (fades music and room out over a chosen time, then dims the picture), focus
 (Pomodoro rounds with a synthesized bell), place cycling (along the dial or shuffled; everywhere,
 starred, or one category), music band cycling, memory (preset) rotation, and "a random atmosphere".
 
 **Memory.** Save the place, its weather, the sound mix and the band as a memory; recall with 1–9.
-Four come built in: Rainy Jazz Café, Alpine Morning, Ocean Meditation and Late Night Cyberpunk.
+Seven come built in: Rainy Jazz Café, Alpine Morning, Ocean Meditation, Late Night Cyberpunk,
+Christmas Eve, Snowed In and Hallowe'en Night.
 Everything is stored in the browser (localStorage). There are no accounts and nothing is sent
 anywhere.
 

@@ -37,5 +37,9 @@
   "glasses": {"mode": "events", "fs": [497945, 560299], "gap": 0.12, "max": 2.5, "n": 3, "hp": 300},
   "pages": {"mode": "events", "fs": [521114], "gap": 0.35, "max": 3, "n": 4, "hp": 150},
   "shishi": {"mode": "events", "fs": [58569], "gap": 0.6, "max": 4, "n": 3, "hp": 80},
-  "bell": {"mode": "events", "ia": ["aporee_35163_40403"], "gap": 6, "max": 16, "n": 4, "stereo": true, "hp": 60, "minlen": 3}
+  "bell": {"mode": "events", "ia": ["aporee_35163_40403"], "gap": 6, "max": 16, "n": 4, "stereo": true, "hp": 60, "minlen": 3},
+  "church-bells": {"mode": "slices", "ia": ["aporee_42950_48963"], "max": 22, "n": 5, "stereo": true, "hp": 60},
+  "crows": {"mode": "events", "ia": ["aporee_39890_45578", "aporee_16489_19109"], "gap": 0.8, "max": 6, "n": 8, "hp": 250, "minlen": 0.6},
+  "owl": {"mode": "events", "ia": ["aporee_7549_9294"], "gap": 1.2, "max": 5, "n": 4, "hp": 200, "minlen": 0.5},
+  "graveyard": {"mode": "loop", "ia": ["aporee_21353_24788"], "len": 80}
 }

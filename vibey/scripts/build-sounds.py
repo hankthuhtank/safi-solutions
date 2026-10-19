@@ -342,6 +342,11 @@ def build_one(sid, s, recs, raw_dir, work, manifest, man_path):
             x = decode(path)
             if s["mode"] == "whole":
                 pieces = [trim_quiet(x, s["max"])]
+            elif s["mode"] == "slices":
+                # continuous sounds (a peal of bells): even windows across the recording, faded long
+                w = int(SR * s["max"])
+                starts = np.linspace(SR * 2, max(SR * 2, len(x) - w - SR * 2), s["n"]).astype(int)
+                pieces = [fade(x[a : a + w].copy(), 1.5, 4.0) for a in starts]
             else:
                 pieces = [x[a:b] for a, b in events(x, s["gap"], s["max"], s["n"])]
             for p in pieces:

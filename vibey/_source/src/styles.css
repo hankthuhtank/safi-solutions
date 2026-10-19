@@ -2274,3 +2274,8 @@ input[type="checkbox"] {
     border: 1px solid CanvasText;
   }
 }
+
+/* night versions of a place reuse its photograph; the thumbnail is graded like the picture */
+img.thumb-night {
+  filter: brightness(0.42) saturate(0.55) contrast(1.15) hue-rotate(8deg);
+}

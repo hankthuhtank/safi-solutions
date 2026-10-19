@@ -41,6 +41,9 @@ export interface Fx {
   exposure: number; // -1..1 ambient light
   warmth: number; // -1..1
   reflection: number; // warm interior reflection on the glass
+  twinkle: number; // small bright lights (fairy lights, distant windows) sparkle
+  night: number; // 0..1 after dark: day-for-night grade, lights and lit windows keep their glow
+  glow: number; // firelight pool from glowAt (a hearth in or just out of frame)
 }
 
 export interface Rect {
@@ -77,6 +80,12 @@ export interface Variation {
   road?: [number, number];
   steamAt?: [number, number];
   emberAt?: Rect;
+  /** where firelight comes from, in image UV (may lie outside 0..1 for a fire just out of frame) */
+  glowAt?: [number, number];
+  /** an interior: after dark the room goes warm and dim, the view outside goes to moonlight */
+  interior?: boolean;
+  /** seen from outside: after dark the windowpanes the segmenter found glow warm */
+  litWindows?: boolean;
   /** ambience overrides for this variation (e.g. night insects instead of birds) */
   sounds?: Record<string, number>;
   timeZone?: string;
@@ -98,6 +107,9 @@ export type ControlId =
   | "meteors"
   | "aurora"
   | "caustics"
+  | "night"
+  | "twinkle"
+  | "glow"
   | "fire"
   | "embers"
   | "dust"

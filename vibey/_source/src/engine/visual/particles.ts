@@ -551,6 +551,8 @@ export interface ParticleUniforms {
   cam: [number, number];
   hasMaps: boolean;
   occlusion: number;
+  /** scales the colour of lit (non-glowing) particles */
+  light?: number;
   base: WebGLTexture;
   mapsA: WebGLTexture;
   mapsC: WebGLTexture;
@@ -612,7 +614,12 @@ export class Particles {
     extra?.(p);
     gl.enable(gl.BLEND);
     if (def.additive) gl.blendFunc(gl.ONE, gl.ONE);
-    else gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    else {
+      // premultiplied colour scaled by the scene light; coverage untouched
+      const l = u.light ?? 1;
+      gl.blendColor(l, l, l, 1);
+      gl.blendFunc(gl.CONSTANT_COLOR, gl.ONE_MINUS_SRC_ALPHA);
+    }
     gl.bindVertexArray(this.vao);
     gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
     gl.bindVertexArray(null);

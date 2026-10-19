@@ -4,7 +4,7 @@ import { playlistName } from "../../state/controllers";
 import { deletePreset, recallPreset, renamePreset, setState, storePreset, useStore } from "../../state/store";
 import { Panel, Section, Seg, Toggle } from "../controls";
 import { Plus, Trash } from "../icons";
-import { thumbOf } from "../Stage";
+import { thumbOf, thumbClass } from "../Stage";
 
 export function MemoryPanel() {
   const presets = useStore((s) => s.presets);
@@ -24,7 +24,7 @@ export function MemoryPanel() {
             <li key={p.id} className={`memory${last === p.id ? " on" : ""}`}>
               <button className="memory-main" onClick={() => recallPreset(p.id)} disabled={!scene}>
                 <span className="memory-num tnum">M{i + 1}</span>
-                {v ? <img src={thumbOf(v)} alt="" width={96} height={54} loading="lazy" /> : null}
+                {v ? <img src={thumbOf(v)} className={thumbClass(v)} alt="" width={96} height={54} loading="lazy" /> : null}
                 <span className="memory-text">
                   {editing === p.id ? null : <span className="memory-name">{p.name}</span>}
                   <span className="memory-meta">

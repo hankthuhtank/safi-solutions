@@ -461,7 +461,7 @@ export class Renderer {
       maps,
       clouds: maps && (fx.clouds > 0 || fx.mist > 0),
       water: maps && (fx.water > 0 || fx.wet > 0),
-      sway: maps && fx.sway > 0,
+      sway: maps && (fx.sway > 0 || fx.wind > 0.02),
       fog: fx.fog > 0,
       flash: fx.lightning > 0,
       stars: fx.stars > 0,
@@ -470,6 +470,8 @@ export class Renderer {
       lamps: maps && fx.lamps > 0,
       neon: maps && fx.neon > 0,
       fire: !!inst.req.variation.hearth && fx.fire > 0,
+      night: fx.night > 0.01 || fx.glow > 0.01,
+      twinkle: fx.twinkle > 0.01,
     };
   }
 
@@ -720,7 +722,7 @@ export class Renderer {
       .f("uClouds", fx.clouds)
       .f("uWater", Math.max(fx.water, fx.wet))
       .f("uWet", fx.wet)
-      .f("uSway", fx.sway * (0.4 + fx.wind))
+      .f("uSway", Math.min(1.4, fx.sway * 0.45 + fx.wind * 1.1))
       .f("uFog", fx.fog)
       .f("uFogLow", fx.fogLow)
       .f("uFogColor", ...fx.fogColor)
@@ -737,6 +739,12 @@ export class Renderer {
       .f("uFlash", inst.flash * Math.min(1, fx.lightning * 2 + 0.3))
       .f("uFlashX", inst.flashX)
       .f("uFlashColor", 0.78, 0.84, 1.0)
+      .f("uNight", fx.night)
+      .f("uTwinkle", fx.twinkle)
+      .f("uGlow", fx.glow)
+      .f("uInterior", inst.req.variation.interior ? 1 : 0)
+      .f("uWindows", inst.req.variation.litWindows ? 1 : 0)
+      .f("uGlowAt", ...(inst.req.variation.glowAt ?? [0.5, 1.15]))
       .f("uExposure", fx.exposure)
       .f("uWarmth", fx.warmth);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -753,6 +761,8 @@ export class Renderer {
       cam,
       hasMaps: inst.req.media.maps,
       occlusion: 0.06,
+      // after dark, falling things are lit by the night, not by the daytime photograph
+      light: 1 - 0.68 * fx.night,
       base: baseTex,
       mapsA,
       mapsC,

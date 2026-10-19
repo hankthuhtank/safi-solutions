@@ -33,6 +33,8 @@ export function mediaFor(v: Variation): VariationMedia {
 }
 
 export const thumbOf = (v: Variation) => `${MEDIA}${v.dir}/thumb.webp`;
+/** Night versions share their photograph with the day: grade the thumbnail to match. */
+export const thumbClass = (v: Variation) => ((v.fx.night ?? 0) >= 0.5 ? "thumb-night" : undefined);
 
 /** Renderer stats for the settings readout, outside React state so frames do not re-render. */
 export const rendererStats = {

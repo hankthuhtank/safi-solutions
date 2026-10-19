@@ -73,6 +73,9 @@ const ALL: SoundDef[] = [
   s("insects", "Night insects", "nature", 0.9),
   s("frogs", "Frogs", "nature", 0.95),
   s("wildlife", "Distant wildlife", "nature", 1.3, ev(24, 5, { jitterDb: 5, pan: 0.85, rate: 0.03 })),
+  s("owl", "Owl", "nature", 0.95, ev(26, 8, { jitterDb: 4, pan: 0.7, rate: 0.03 })),
+  s("crows", "Crows", "nature", 1.6, ev(18, 4, { jitterDb: 5, pan: 0.8, rate: 0.04 })),
+  s("graveyard", "Night graveyard", "nature", 1.0),
 
   s("fireplace", "Fireplace", "indoors", 1.05, { follows: "fire" }),
   s("vinyl", "Vinyl crackle", "indoors", 1.1, { kind: "synth", synth: "vinyl" }),
@@ -91,6 +94,7 @@ const ALL: SoundDef[] = [
   s("chimes", "Wind chimes", "town", 1.1),
   s("shishi", "Shishi-odoshi", "town", 1.2, ev(22, 8, { jitterDb: 2, pan: 0.3, rate: 0.02 })),
   s("bell", "Temple bell", "town", 1.4, ev(60, 20, { jitterDb: 3, pan: 0.4, rate: 0.015 })),
+  s("church-bells", "Church bells", "town", 0.6, ev(70, 25, { jitterDb: 2, pan: 0.3, rate: 0.01 })),
 
   s("space", "Deep-space drone", "tones", 1.0, { kind: "synth", synth: "space" }),
   s("brown", "Brown noise", "tones", 0.4, { kind: "synth", synth: "brown" }),

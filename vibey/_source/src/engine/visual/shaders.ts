@@ -36,6 +36,8 @@ export type SceneFlags = {
   lamps: boolean;
   neon: boolean;
   fire: boolean;
+  night: boolean;
+  twinkle: boolean;
 };
 
 export function flagKey(f: SceneFlags) {
@@ -73,6 +75,8 @@ uniform float uFlash, uFlashX;
 uniform vec3 uFlashColor;
 uniform vec4 uFireRect;
 uniform float uExposure, uWarmth;
+uniform float uNight, uGlow, uInterior, uWindows, uTwinkle;
+uniform vec2 uGlowAt;
 ${NOISE}
 
 vec3 base(vec2 uv) { return texture(uBase, uv).rgb; }
@@ -107,11 +111,19 @@ vec2 ripple(vec2 iuv, float near) {
 #endif
 
 #ifdef SWAY
+// Wind in foliage: gust fronts roll across the picture downwind and lean the trees over, branches
+// sway under them and leaves flutter on top. Nearer foliage moves more.
 vec2 sway(vec2 iuv, float near) {
-  float gust = 0.55 + 0.45 * vnoise(vec2(uTime * 0.13, 3.0));
-  float s = vnoise(iuv * 5.0 + vec2(uTime * 0.55, 0.0)) - 0.5;
-  float s2 = vnoise(iuv * 16.0 + vec2(uTime * 1.2, 4.0)) - 0.5;
-  return vec2(s + 0.4 * s2, s2 * 0.35) * 0.0014 * uSway * gust * (0.35 + near);
+  float ws = length(uWind);
+  vec2 wdir = ws > 0.001 ? uWind / ws : vec2(1.0, 0.0);
+  float along = dot(iuv, wdir);
+  float front = vnoise(vec2(along * 2.6 - uTime * (0.22 + 0.5 * ws), iuv.y * 1.7 + 11.0));
+  float gust = smoothstep(0.3, 0.85, front);
+  float branch = vnoise(iuv * 6.0 + vec2(uTime * (0.7 + ws), 0.0)) - 0.5;
+  float flutter = vnoise(iuv * 24.0 + vec2(uTime * (2.2 + 2.0 * ws), 4.0)) - 0.5;
+  vec2 lean = wdir * (gust - 0.35) * 0.9;
+  vec2 d = lean + vec2(branch + 0.35 * flutter, 0.45 * flutter) * (0.5 + gust);
+  return d * 0.0019 * uSway * (0.3 + near);
 }
 #endif
 
@@ -203,7 +215,16 @@ void main() {
 #endif
 #ifdef LAMPS
   float fl = vnoise(vec2(uTime * 5.5, floor(iuv.x * 9.0) * 3.7 + floor(iuv.y * 7.0)));
-  col *= 1.0 + B.g * (fl - 0.5) * 0.12 * uLamps;
+  float fl2 = vnoise(vec2(uTime * 13.0, floor(iuv.x * 9.0) * 1.3 + 5.0));
+  col *= 1.0 + B.g * ((fl - 0.5) * 0.2 + (fl2 - 0.5) * 0.08) * uLamps;
+#endif
+#ifdef TWINKLE
+  // points of light brighter than their surroundings: fairy lights, far windows, lanterns
+  float lbT = luma(textureLod(uBase, iuv, 3.0).rgb);
+  float lT = luma(col);
+  float ptT = smoothstep(0.06, 0.28, lT - lbT) * smoothstep(0.45, 0.85, lT);
+  float twk = vnoise(iuv * uRes / 4.0 + vec2(uTime * 2.1, uTime * 0.7));
+  col *= 1.0 + ptT * (twk - 0.42) * 1.5 * uTwinkle;
 #endif
 #ifdef NEON
   vec2 cell = floor(iuv * vec2(14.0, 9.0));
@@ -239,6 +260,43 @@ void main() {
   float drift = fbm(vec2(iuv.x * 2.1 - uTime * 0.011 * (0.4 + length(uWind)), iuv.y * 4.6 + uTime * 0.004));
   float fogA = clamp(uFog * smoothstep(0.15, 0.95, far) * lowBias * (0.4 + 0.95 * drift), 0.0, 0.9);
   col = mix(col, uFogColor, fogA);
+#endif
+#ifdef NIGHT
+  {
+    // Day for night, graded the way film crews do it: outdoors falls to moonlight and the sky to
+    // deep blue, while whatever gives light (lamps, flames, warm lit windows) keeps its glow.
+    vec3 src = col;
+    float lum = luma(col);
+#ifdef MAPS
+    float glass = B.r, lights = B.g, flame = B.b, skyM = A.r;
+#else
+    float glass = 0.0, lights = 0.0, flame = 0.0, skyM = 0.0;
+#endif
+    float inside = uInterior * (1.0 - smoothstep(0.3, 0.7, glass)) * (1.0 - skyM);
+    vec3 moon = mix(vec3(lum), col, 0.3) * vec3(0.5, 0.64, 1.0) * mix(0.1, 0.22, smoothstep(0.45, 0.95, lum));
+    moon = mix(moon, vec3(0.008, 0.014, 0.04) + moon * 0.5, skyM);
+    // a few stars come out where there is open sky
+    vec2 sp = floor(iuv * uRes * 0.55);
+    float star = step(0.9975, hash(sp)) * (0.6 + 0.4 * sin(uTime * (1.0 + 3.0 * hash(sp + 7.0)) + hash(sp + 3.0) * 6.28));
+    moon += vec3(0.75, 0.82, 1.0) * star * skyM * 0.55;
+    // seen from outside, house windows light up one by one
+    float win = uWindows * glass * (0.55 + 0.45 * hash(floor(iuv * vec2(90.0, 60.0))));
+    moon = mix(moon, src * 0.2 + vec3(0.95, 0.62, 0.3) * 0.55 * win, smoothstep(0.0, 0.5, uWindows * glass));
+    vec3 room = col * vec3(0.3, 0.24, 0.19);
+    vec3 dark = mix(moon, room, inside);
+    float warmHi = smoothstep(0.62, 0.92, lum) * smoothstep(0.08, 0.22, col.r - col.b);
+    float emit = clamp(max(max(lights * 0.9, flame), warmHi * 0.85), 0.0, 1.0);
+    col = mix(col, mix(dark, col * 1.04, emit), uNight);
+    if (uGlow > 0.0) {
+      // firelight: a flickering warm pool from the hearth, or from a fire just out of frame
+      float flick = 0.76 + 0.17 * vnoise(vec2(uTime * 6.5, 1.3)) + 0.11 * vnoise(vec2(uTime * 15.0, 7.1));
+      float gd = length((iuv - uGlowAt) * vec2(uImgAspect, 1.0));
+      float pool = exp(-gd * 2.4) * flick;
+      // light lands on what is there; even near-black wood and stone pick up a little of it
+      vec3 albedo = src + vec3(0.07, 0.06, 0.05) * (1.0 - smoothstep(0.0, 0.25, lum));
+      col += albedo * vec3(1.0, 0.55, 0.25) * pool * uGlow * mix(0.35, 1.1, uNight) * (1.0 - skyM) * mix(1.0, 0.2, glass);
+    }
+  }
 #endif
 #ifdef FLASH
   float spot = exp(-pow((suv.x - uFlashX) / 0.42, 2.0));

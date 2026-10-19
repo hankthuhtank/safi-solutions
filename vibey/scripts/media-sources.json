@@ -523,5 +523,262 @@
   "licenseUrl": "https://www.pexels.com/license/",
   "page": "https://www.pexels.com/video/11751758/",
   "place": null
+ },
+ "tokyo-cafe/inside": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/34672606/pexels-photo-34672606.jpeg",
+  "host": "pexels",
+  "author": "Valeria Drozdova",
+  "title": "Cozy Modern Cafe Interior at Night",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/34672606/",
+  "place": ""
+ },
+ "jazz-lounge/lamps": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/5490965/pexels-photo-5490965.jpeg",
+  "host": "pexels",
+  "author": "Rachel Claire",
+  "title": "Stylish interior of bar in restaurant",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/5490965/",
+  "place": ""
+ },
+ "mountain-cabin/hut": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/18813182/pexels-photo-18813182.jpeg",
+  "host": "pexels",
+  "author": "Marius Mann",
+  "title": "Wooden Hut in Snowy Mountains",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/18813182/",
+  "place": ""
+ },
+ "mountain-cabin/twilight": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4641265/pexels-photo-4641265.jpeg",
+  "host": "pexels",
+  "author": "ArtHouse Studio",
+  "title": "Village near Mountains",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4641265/",
+  "place": ""
+ },
+ "mountain-cabin/alps-window": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4035566/pexels-photo-4035566.jpeg",
+  "host": "pexels",
+  "author": "Patrick Doyle",
+  "title": "Snow Covered Mountains Under the Blue Sky",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4035566/",
+  "place": "Grindelwald, Switzerland"
+ },
+ "ocean/sunset": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/3272546/pexels-photo-3272546.jpeg",
+  "host": "pexels",
+  "author": "Sebastian Voortman",
+  "title": "Scenic View Of Beach During Golden Hour",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/3272546/",
+  "place": "Bali, Indonesia"
+ },
+ "storm-sea/lighthouse": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/14777019/pexels-photo-14777019.jpeg",
+  "host": "pexels",
+  "author": "Ray Bilcliff",
+  "title": "Storm in Sea near Lighthouse at Night",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/14777019/",
+  "place": ""
+ },
+ "rainforest/cloud-forest": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/17488441/pexels-photo-17488441.jpeg",
+  "host": "pexels",
+  "author": "Dante Muñoz",
+  "title": "A foggy forest with trees and fog",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/17488441/",
+  "place": "Costa Rica"
+ },
+ "desert/dunes": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/28829635/pexels-photo-28829635.jpeg",
+  "host": "pexels",
+  "author": "NaturEye Conservation",
+  "title": "Golden Sahara Desert Dunes at Sunset",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/28829635/",
+  "place": "Sahara, Morocco"
+ },
+ "christmas/zermatt": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4947573/pexels-photo-4947573.jpeg",
+  "host": "pexels",
+  "author": "Maria Orlova",
+  "title": "Village with residential houses on snowy mounts",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4947573/",
+  "place": "Zermatt, Switzerland"
+ },
+ "christmas/lucerne": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/34009800/pexels-photo-34009800.jpeg",
+  "host": "pexels",
+  "author": "Carlo Giovanni Ghiardelli",
+  "title": "Night View of Jesuit Church in Lucerne, Switzerland",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/34009800/",
+  "place": "Lucerne, Switzerland"
+ },
+ "christmas/appenzell": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/10951256/pexels-photo-10951256.jpeg",
+  "host": "pexels",
+  "author": "Hakan Kiymaz",
+  "title": "Christmas Lights Illuminating the Street",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/10951256/",
+  "place": "Appenzell, Switzerland"
+ },
+ "christmas/chalet": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/28271971/pexels-photo-28271971.jpeg",
+  "host": "pexels",
+  "author": "eberhard grossgasteiger",
+  "title": "Houses by Lake in Winter in Evening",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/28271971/",
+  "place": ""
+ },
+ "christmas/fireside": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/10068655/pexels-photo-10068655.jpeg",
+  "host": "pexels",
+  "author": "Doralin Tunas",
+  "title": "A Living Room with Christmas Decors",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/10068655/",
+  "place": ""
+ },
+ "halloween/pumpkins": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/28996072/pexels-photo-28996072.jpeg",
+  "host": "pexels",
+  "author": "Susanne Jutzeler",
+  "title": "Spooky Halloween Jack-o'-Lanterns in the Fog",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/28996072/",
+  "place": ""
+ },
+ "halloween/attic": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/5435194/pexels-photo-5435194.jpeg",
+  "host": "pexels",
+  "author": "cottonbro studio",
+  "title": "Jack O'Lantern Covered in Spider Web",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/5435194/",
+  "place": ""
+ },
+ "halloween/path": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/1102908/pexels-photo-1102908.jpeg",
+  "host": "pexels",
+  "author": "Johannes Plenio",
+  "title": "Foggy Path",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/1102908/",
+  "place": ""
+ },
+ "halloween/woods": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/30745581/pexels-photo-30745581.jpeg",
+  "host": "pexels",
+  "author": "Niki Clark",
+  "title": "Moody Foggy Forest in Autumn",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/30745581/",
+  "place": ""
+ },
+ "autumn/meadow": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/15334606/pexels-photo-15334606.jpeg",
+  "host": "pexels",
+  "author": "Marek Piwnicki",
+  "title": "Grass Field Near Mountains",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/15334606/",
+  "place": ""
+ },
+ "autumn/kaiser": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/5635025/pexels-photo-5635025.jpeg",
+  "host": "pexels",
+  "author": "Heinz Klier",
+  "title": "View of a Mountain and Trees",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/5635025/",
+  "place": "Wilder Kaiser, Tyrol, Austria"
+ },
+ "autumn/valley": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/10055265/pexels-photo-10055265.jpeg",
+  "host": "pexels",
+  "author": "Michael Kanivetsky",
+  "title": "Valley Between Mountains in Autumn",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/10055265/",
+  "place": ""
+ },
+ "autumn/larches": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/29121326/pexels-photo-29121326.jpeg",
+  "host": "pexels",
+  "author": "Fu Shan Un",
+  "title": "Stunning Autumn Landscape with Mountains and Trees",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/29121326/",
+  "place": ""
+ },
+ "mountain-cabin/lodge-wide": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4572734/pexels-photo-4572734.jpeg",
+  "host": "pexels",
+  "author": "ArtHouse Studio",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4572734/",
+  "place": "Iceland",
+  "crop": {
+   "focusX": 0.6,
+   "focusY": 0.53,
+   "zoom": 1.0
+  }
  }
 }

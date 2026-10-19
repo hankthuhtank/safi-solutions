@@ -37,6 +37,18 @@ export const BANDS: Band[] = [
   { id: "nature", name: "Nature Instrumentals", note: "Music named for, and drawn from, the natural world.", query: "nature instrumental" },
   { id: "sleep", name: "Sleep", note: "Low, soft and slow.", query: "sleep ambient" },
   { id: "relaxing", name: "Relaxing Instrumentals", note: "Calm instrumental music for any time.", query: "relaxing instrumental" },
+  {
+    id: "christmas",
+    name: "Christmas",
+    note: "Carols old and new: Kevin MacLeod's arrangements and genuine records from 1906 to 1925, public domain in the United States. Surface noise included.",
+    query: "christmas carol instrumental",
+  },
+  {
+    id: "halloween",
+    name: "Hallowe'en",
+    note: "Eerie, slow and a little theatrical: Kevin MacLeod's darker pieces and 1920s records of Danse Macabre and the Hall of the Mountain King.",
+    query: "spooky halloween",
+  },
 ];
 
 export const BAND_BY_ID = new Map(BANDS.map((b) => [b.id, b]));

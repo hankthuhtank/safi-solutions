@@ -159,7 +159,7 @@ export function CreditsPanel() {
         </p>
         <ul className="credits">
           {SCENES.flatMap((s) =>
-            s.variations.map((v) => (
+            s.variations.filter((v, i, all) => all.findIndex((o) => o.dir === v.dir) === i).map((v) => (
               <li key={v.dir}>
                 <span className="credit-what">
                   {s.name} — {v.label}

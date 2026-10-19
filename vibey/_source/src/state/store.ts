@@ -149,6 +149,36 @@ export const BUILT_IN_PRESETS: Preset[] = [
     mix: { "rain-heavy": 0.65, tokyo: 0.54, "city-night": 0.5, thunder: 0.55 },
     playlist: "band:synthwave",
   },
+  {
+    id: "p-christmas-eve",
+    name: "Christmas Eve",
+    builtIn: true,
+    scene: "christmas",
+    variation: "zermatt",
+    fx: { snow: 0.65 },
+    mix: { "church-bells": 0.6, wind: 0.4, snowstorm: 0.45, fireplace: 0.4 },
+    playlist: "band:christmas",
+  },
+  {
+    id: "p-snowed-in",
+    name: "Snowed In",
+    builtIn: true,
+    scene: "mountain-cabin",
+    variation: "alps-night",
+    fx: { snow: 0.55 },
+    mix: { fireplace: 0.75, wind: 0.62, snowstorm: 0.45, room: 0.3 },
+    playlist: "band:acoustic",
+  },
+  {
+    id: "p-halloween-night",
+    name: "Hallowe'en Night",
+    builtIn: true,
+    scene: "halloween",
+    variation: "pumpkins",
+    fx: { fog: 0.4 },
+    mix: { graveyard: 0.55, owl: 0.6, crows: 0.5, wind: 0.5, leaves: 0.45 },
+    playlist: "band:halloween",
+  },
 ];
 
 const KEY = "vibey:v1";

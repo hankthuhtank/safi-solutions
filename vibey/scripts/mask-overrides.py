@@ -25,6 +25,17 @@ RULES = {
         ],
         "exclude_near": 0.58,
     },
+    # the same lodge, framed wider
+    "mountain-cabin__lodge-wide": {"glass_from_depth": (0.17, 0.07)},
+    # Grindelwald: three panes cut into a dark timber room
+    "mountain-cabin__alps-window": {"glass_polys": [[(0.183, 0.28), (0.817, 0.28), (0.817, 0.585), (0.183, 0.585)]]},
+    # café after dark: the glass front above the armchairs, either side of the pillar
+    "tokyo-cafe__inside": {
+        "glass_polys": [
+            [(0.0, 0.0), (0.74, 0.0), (0.74, 0.47), (0.0, 0.47)],
+            [(0.80, 0.0), (1.0, 0.0), (1.0, 0.5), (0.80, 0.5)],
+        ],
+    },
 }
 
 

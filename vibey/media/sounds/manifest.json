@@ -86,6 +86,31 @@
    }
   ]
  },
+ "church-bells": {
+  "files": [
+   "church-bells-1.mp3",
+   "church-bells-2.mp3",
+   "church-bells-3.mp3",
+   "church-bells-4.mp3",
+   "church-bells-5.mp3"
+  ],
+  "durations": [
+   22.0,
+   22.0,
+   22.0,
+   22.0,
+   22.0
+  ],
+  "credits": [
+   {
+    "title": "Cathedral, Bern, Switzerland - Church bells at noon from the top of the Cathedral of Bern",
+    "author": "Felix BLUME",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_42950_48963"
+   }
+  ]
+ },
  "city-night": {
   "files": [
    "city-night.mp3"
@@ -134,6 +159,60 @@
     "license": "Public Domain Mark 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
     "page": "https://archive.org/details/aporee_43806_49863"
+   }
+  ]
+ },
+ "crows": {
+  "files": [
+   "crows-1.mp3",
+   "crows-2.mp3",
+   "crows-3.mp3",
+   "crows-4.mp3",
+   "crows-5.mp3",
+   "crows-6.mp3",
+   "crows-7.mp3",
+   "crows-8.mp3",
+   "crows-9.mp3",
+   "crows-10.mp3",
+   "crows-11.mp3",
+   "crows-12.mp3",
+   "crows-13.mp3",
+   "crows-14.mp3",
+   "crows-15.mp3",
+   "crows-16.mp3"
+  ],
+  "durations": [
+   6.03,
+   6.03,
+   2.01,
+   3.05,
+   2.07,
+   1.43,
+   5.55,
+   5.91,
+   2.34,
+   6.03,
+   6.03,
+   6.03,
+   6.03,
+   2.1,
+   6.03,
+   6.03
+  ],
+  "credits": [
+   {
+    "title": "59330 Hautmont, France - Unhappy crows",
+    "author": "Vincent Duseigne",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "page": "https://archive.org/details/aporee_39890_45578"
+   },
+   {
+    "title": "tree crown poems, Piramida - crows on their regular path",
+    "author": "OR poiesis",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_16489_19109"
    }
   ]
  },
@@ -250,6 +329,23 @@
    }
   ]
  },
+ "graveyard": {
+  "files": [
+   "graveyard.mp3"
+  ],
+  "durations": [
+   80.0
+  ],
+  "credits": [
+   {
+    "title": "cemetery, novigrad, croatia - sounds at night with small owl",
+    "author": "OR poiesis",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://archive.org/details/aporee_21353_24788"
+   }
+  ]
+ },
  "insects": {
   "files": [
    "insects.mp3"
@@ -315,6 +411,29 @@
     "license": "CC BY 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
     "page": "https://freesound.org/people/tim.kahn/sounds/757932/"
+   }
+  ]
+ },
+ "owl": {
+  "files": [
+   "owl-1.mp3",
+   "owl-2.mp3",
+   "owl-3.mp3",
+   "owl-4.mp3"
+  ],
+  "durations": [
+   1.3,
+   1.26,
+   1.32,
+   3.29
+  ],
+  "credits": [
+   {
+    "title": "City Owl",
+    "author": "Thijs Geritz",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://archive.org/details/aporee_7549_9294"
    }
   ]
  },
