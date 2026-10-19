@@ -1,4 +1,142 @@
 {
+ "bar": {
+  "files": [
+   "bar.mp3"
+  ],
+  "durations": [
+   150.0
+  ],
+  "credits": [
+   {
+    "title": "'s-Graveland, Noord-Holland, Nederland - Inside medium sized restaurant",
+    "author": "Jillis Molenaar",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_70132_81687"
+   }
+  ]
+ },
+ "bell": {
+  "files": [
+   "bell-1.mp3",
+   "bell-2.mp3"
+  ],
+  "durations": [
+   8.46,
+   16.03
+  ],
+  "credits": [
+   {
+    "title": "Zenk\u014d-ji Temple Bell, Motoyoshich\u014d Nagano, Nagano-shi, Nagano-ken 381-0000, Japan - Zenk\u014d-ji Temple Bell",
+    "author": "Felicity Ford",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://archive.org/details/aporee_35163_40403"
+   }
+  ]
+ },
+ "birds": {
+  "files": [
+   "birds.mp3"
+  ],
+  "durations": [
+   140.0
+  ],
+  "credits": [
+   {
+    "title": "Dawn chorus near the gravel pit chapel, W37G+3Q Doln\u00ed Bene\u0161ov, Czechia - Dawn chorus near the gravel pit chapel",
+    "author": "Peter Cusack",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_64073_73890"
+   }
+  ]
+ },
+ "cafe": {
+  "files": [
+   "cafe.mp3"
+  ],
+  "durations": [
+   150.0
+  ],
+  "credits": [
+   {
+    "title": "Cafe, Malvern, UK",
+    "author": "david.j.pitt",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_61883_71198"
+   }
+  ]
+ },
+ "chimes": {
+  "files": [
+   "chimes.mp3"
+  ],
+  "durations": [
+   120.0
+  ],
+  "credits": [
+   {
+    "title": "neoscenes: wind chimes",
+    "author": "John Hopkins",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://archive.org/details/aporee_7945_9696"
+   }
+  ]
+ },
+ "city-night": {
+  "files": [
+   "city-night.mp3"
+  ],
+  "durations": [
+   120.0
+  ],
+  "credits": [
+   {
+    "title": "ORTF from the 12th floor Porto, Portugal",
+    "author": "john grzinich",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_18137_21067"
+   }
+  ]
+ },
+ "clock": {
+  "files": [
+   "clock.mp3"
+  ],
+  "durations": [
+   60.0
+  ],
+  "credits": [
+   {
+    "title": "57 Meadow Way, Didcot OX11 0AX, UK - pendulum wall clock ...",
+    "author": "david m",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "page": "https://archive.org/details/aporee_53155_60739"
+   }
+  ]
+ },
+ "crickets": {
+  "files": [
+   "crickets.mp3"
+  ],
+  "durations": [
+   100.0
+  ],
+  "credits": [
+   {
+    "title": "Tepoztl\u00e1n, Mexico - Cricket singing during the night",
+    "author": "Felix BLUME",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_43806_49863"
+   }
+  ]
+ },
  "desert-wind": {
   "files": [
    "desert-wind.mp3"
@@ -13,6 +151,74 @@
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
     "page": "https://freesound.org/people/felix.blume/sounds/156414/"
+   }
+  ]
+ },
+ "fan": {
+  "files": [
+   "fan.mp3"
+  ],
+  "durations": [
+   100.0
+  ],
+  "credits": [
+   {
+    "title": "Jaroczynskiego, Poznan, restaurant kitchen - big AC fan",
+    "author": "maciej janasik",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_43684_49736"
+   }
+  ]
+ },
+ "fireplace": {
+  "files": [
+   "fireplace.mp3"
+  ],
+  "durations": [
+   120.0
+  ],
+  "credits": [
+   {
+    "title": "Kolonia Mazurska, Mierki, Poland - (853 AB) Fireplace in the woods",
+    "author": "Piotrek Zyla",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_54707_62564"
+   }
+  ]
+ },
+ "forest": {
+  "files": [
+   "forest.mp3"
+  ],
+  "durations": [
+   120.0
+  ],
+  "credits": [
+   {
+    "title": "Peaceful forest atmosphere, a blackcap moves around while singing, An der Garnison, Vogelsang, Zehdenick, Oberhavel, Brandenburg, 16792, Germany - Peaceful forest atmosphere, a melodic blackcap moves around while singing",
+    "author": "Peter Cusack",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_68236_79004"
+   }
+  ]
+ },
+ "frogs": {
+  "files": [
+   "frogs.mp3"
+  ],
+  "durations": [
+   120.0
+  ],
+  "credits": [
+   {
+    "title": "Roura, French Guiana, France - Night Frogs, Toads and Crickets - Tr\u00e9sor Nature Reserve, French Guiana",
+    "author": "Felix BLUME",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_73343_85702"
    }
   ]
  },
@@ -41,6 +247,57 @@
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
     "page": "https://freesound.org/people/RoyalRose/sounds/560299/"
+   }
+  ]
+ },
+ "insects": {
+  "files": [
+   "insects.mp3"
+  ],
+  "durations": [
+   110.0
+  ],
+  "credits": [
+   {
+    "title": "Italian tree cricket(s) (Oecanthus pellucens) now resident in Tempelhof, Berlin 2, Berlin, Germany - Italian tree cricket(s) (Oecanthus pellucens) now resident in Tempelhof, Berlin",
+    "author": "Peter Cusack",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_73292_85647"
+   }
+  ]
+ },
+ "lake": {
+  "files": [
+   "lake.mp3"
+  ],
+  "durations": [
+   110.0
+  ],
+  "credits": [
+   {
+    "title": "Passeggiata, 38066 Riva del Garda TN, Italy, lake at stones",
+    "author": "alas23/sala",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_67438_78046"
+   }
+  ]
+ },
+ "leaves": {
+  "files": [
+   "leaves.mp3"
+  ],
+  "durations": [
+   90.0
+  ],
+  "credits": [
+   {
+    "title": "CM1152, 7000, Portugal - Poplar leaves in the wind",
+    "author": "evoralocaltours",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_37709_43165"
    }
   ]
  },
@@ -169,6 +426,69 @@
    }
   ]
  },
+ "river": {
+  "files": [
+   "river.mp3"
+  ],
+  "durations": [
+   110.0
+  ],
+  "credits": [
+   {
+    "title": "Rue de Bavi\u00e8re 24, 4960 Malmedy, Belgique - Warche river and funeral bells",
+    "author": "Flavien Gilli\u00e9",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_55389_63289"
+   }
+  ]
+ },
+ "room": {
+  "files": [
+   "room.mp3"
+  ],
+  "durations": [
+   80.0
+  ],
+  "credits": [
+   {
+    "title": "Interior Room at 41 Formby Avenue, Point Chevalier, Auckland 1022, New Zealand - Interior Room",
+    "author": "Ziggy lever",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_47739_54251"
+   }
+  ]
+ },
+ "seagulls": {
+  "files": [
+   "seagulls-1.mp3",
+   "seagulls-2.mp3",
+   "seagulls-3.mp3",
+   "seagulls-4.mp3",
+   "seagulls-5.mp3",
+   "seagulls-6.mp3",
+   "seagulls-7.mp3"
+  ],
+  "durations": [
+   1.28,
+   4.24,
+   6.03,
+   6.03,
+   1.72,
+   2.04,
+   6.03
+  ],
+  "credits": [
+   {
+    "title": "Brighton - Early Morning Seagulls",
+    "author": "Steven Brown/Listen Hear Sound Projects",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://archive.org/details/aporee_9344_11232"
+   }
+  ]
+ },
  "shishi": {
   "files": [
    "shishi-1.mp3",
@@ -272,6 +592,91 @@
     "license": "CC BY 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
     "page": "https://freesound.org/people/bmlake/sounds/251634/"
+   }
+  ]
+ },
+ "tokyo": {
+  "files": [
+   "tokyo.mp3"
+  ],
+  "durations": [
+   140.0
+  ],
+  "credits": [
+   {
+    "title": "3 Chome-34 Nishiikebukuro, Toshima City, Tokyo 171-0021, Japan - Night",
+    "author": "doejohn",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_58031_66531"
+   }
+  ]
+ },
+ "traffic": {
+  "files": [
+   "traffic.mp3"
+  ],
+  "durations": [
+   120.0
+  ],
+  "credits": [
+   {
+    "title": "Ville Nouvelle, Tunis, Tunesien - tunis, hotel roof, city night ambience",
+    "author": "Frank Schulte",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_13544_15798"
+   }
+  ]
+ },
+ "typing": {
+  "files": [
+   "typing.mp3"
+  ],
+  "durations": [
+   60.0
+  ],
+  "credits": [
+   {
+    "title": "106 W Oliver St, Baltimore, MD 21217, USA - Sound of typing",
+    "author": "mzhou",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_62283_71764"
+   }
+  ]
+ },
+ "underwater": {
+  "files": [
+   "underwater.mp3"
+  ],
+  "durations": [
+   100.0
+  ],
+  "credits": [
+   {
+    "title": "Split, Croatia, hydrophone listening",
+    "author": "alas23/sala",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_61207_70402"
+   }
+  ]
+ },
+ "waterfall": {
+  "files": [
+   "waterfall.mp3"
+  ],
+  "durations": [
+   100.0
+  ],
+  "credits": [
+   {
+    "title": "Ventspils, Latvia, Staldzenes waterfall",
+    "author": "alas23/sala",
+    "license": "Public Domain Mark 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://archive.org/details/aporee_72755_84940"
    }
   ]
  },

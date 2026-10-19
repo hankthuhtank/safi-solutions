@@ -67,11 +67,10 @@ class MediaLoop {
   private ramp(i: number, to: number, secs: number) {
     const g = this.gains[i].gain;
     const t = this.ctx.currentTime;
-    g.cancelScheduledValues(t);
-    g.setValueAtTime(g.value, t);
-    // equal-power-ish curve: sine in, cosine out
-    const steps = 24;
     const from = g.value;
+    g.cancelScheduledValues(t);
+    // equal-power-ish curve: sine in, cosine out (it starts from the current value itself)
+    const steps = 24;
     const curve = new Float32Array(steps);
     for (let k = 0; k < steps; k++) {
       const p = k / (steps - 1);
@@ -200,7 +199,7 @@ class EventLayer {
   }
 }
 
-/** Procedural layers: a slow space drone and smooth brown noise. */
+/** Procedural layers: a slow space drone, smooth brown noise and a record's surface noise. */
 class SynthLayer {
   private nodes: AudioNode[] = [];
   private oscs: OscillatorNode[] = [];
@@ -209,13 +208,74 @@ class SynthLayer {
 
   constructor(
     private readonly ctx: AudioContext,
-    private readonly kind: "space" | "brown",
+    private readonly kind: "space" | "brown" | "vinyl",
     private readonly out: AudioNode,
   ) {}
 
   start() {
     if (this.kind === "brown") return this.startBrown();
+    if (this.kind === "vinyl") return this.startVinyl();
     this.startSpace();
+  }
+
+  /** Surface noise of an old record: soft hiss, a low rumble, and crackle that never repeats exactly. */
+  private startVinyl() {
+    const ctx = this.ctx;
+    const secs = 23; // a prime-ish length so the loop point never lines up with anything
+    const len = Math.floor(ctx.sampleRate * secs);
+    const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    const sr = ctx.sampleRate;
+    const l = buf.getChannelData(0);
+    const r = buf.getChannelData(1);
+    let rumble = 0;
+    let hissL = 0;
+    let hissR = 0;
+    for (let i = 0; i < len; i++) {
+      // rumble: very low, slow
+      rumble = rumble * 0.9995 + (Math.random() * 2 - 1) * 0.0005;
+      // hiss: high-passed white noise
+      const wl = Math.random() * 2 - 1;
+      const wr = Math.random() * 2 - 1;
+      const hl = wl - hissL;
+      const hr = wr - hissR;
+      hissL = wl * 0.6 + hissL * 0.4;
+      hissR = wr * 0.6 + hissR * 0.4;
+      l[i] = rumble * 2.2 + hl * 0.012;
+      r[i] = rumble * 2.2 + hr * 0.012;
+    }
+    // crackle: sparse clicks of random size, occasional louder pops, mostly centred
+    const clicks = Math.floor(secs * 26);
+    for (let k = 0; k < clicks; k++) {
+      const at = Math.floor(Math.random() * (len - 200));
+      const pop = Math.random() < 0.05;
+      const amp = (pop ? 0.35 + Math.random() * 0.35 : Math.pow(Math.random(), 3) * 0.22) * (Math.random() < 0.5 ? 1 : -1);
+      const width = pop ? 18 + Math.random() * 30 : 2 + Math.random() * 6;
+      const pan = (Math.random() * 2 - 1) * 0.35;
+      for (let j = 0; j < width * 3; j++) {
+        const e = Math.exp(-j / width) * (j % 2 ? -0.6 : 1);
+        l[at + j] += amp * e * (1 - pan);
+        r[at + j] += amp * e * (1 + pan);
+      }
+    }
+    // the record's rotation: a faint swell every 1.8 s (33⅓ rpm)
+    for (let i = 0; i < len; i++) {
+      const w = 0.92 + 0.08 * Math.sin((2 * Math.PI * i) / (sr * 1.8));
+      l[i] *= w;
+      r[i] *= w;
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const lp = ctx.createBiquadFilter();
+    lp.type = "lowpass";
+    lp.frequency.value = 9000;
+    const hp = ctx.createBiquadFilter();
+    hp.type = "highpass";
+    hp.frequency.value = 30;
+    src.connect(hp).connect(lp).connect(this.out);
+    src.start(0, Math.random() * secs);
+    this.sources.push(src);
+    this.nodes.push(lp, hp);
   }
 
   private noiseBuffer(seconds: number, brown: boolean) {

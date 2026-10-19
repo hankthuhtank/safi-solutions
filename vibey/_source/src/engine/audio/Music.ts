@@ -295,7 +295,12 @@ export class Music {
     const to = 1 - from;
     const next = this.decks[to];
     next.load(t);
-    if (next.gain) next.gain.gain.value = 0;
+    if (next.gain && audio.ctx) {
+      // a fade may still be running on this deck: cancel it rather than setting .value over it
+      const now = audio.ctx.currentTime;
+      next.gain.gain.cancelScheduledValues(now);
+      next.gain.gain.setValueAtTime(0, now);
+    }
     this.active = to;
     this.fading = fade > 0 && !!this.decks[from].track;
     this.set({ track: t, loading: true, upNext: this.list.slice(this.index + 1, this.index + 6) });

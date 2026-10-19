@@ -355,7 +355,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { caustics: 0.7, marine: 0.6, drift: 0.5 },
     controls: ["caustics", "drift", "light"],
-    sounds: { underwater: 0.6, whales: 0.14 },
+    sounds: { underwater: 0.6 },
     bands: ["ambient", "space", "meditation"],
   },
   {

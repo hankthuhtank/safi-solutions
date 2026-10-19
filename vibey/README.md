@@ -18,7 +18,7 @@ left.
 
 ## What's in it
 
-**Twenty places, forty-eight variations.** Every picture is a real photograph or film (no generated
+**Twenty places, forty-five variations.** Every picture is a real photograph or film (no generated
 imagery), cropped to 16:9 and served as 4K AVIF (WebP fallback) or as an AV1/HEVC loop for moving
 water. Depth and semantic maps made for each photograph let the engine move only what should move:
 
@@ -35,11 +35,12 @@ water. Depth and semantic maps made for each photograph let the engine move only
   sunlight caustics play over the reef;
 - the camera drifts very slowly and leans toward the pointer (parallax from depth).
 
-**Sound.** Forty-two layers in a Web Audio mixer: thirty-two seamless loops cut from the steadiest
-stretch of each field recording, eight event layers (thunder, owls and loons, gulls, whale song,
-glasses, page turns, shishi-odoshi, a Kyoto temple bell) fired at irregular intervals with small
-changes in pitch, level and position, and two generated tones (a deep-space drone and brown noise).
-Every loop is levelled to the same loudness. Each layer has a level, mute and a second control —
+**Sound.** Forty-one layers in a Web Audio mixer: thirty-one seamless loops cut from the steadiest
+stretch of each field recording, seven event layers (thunder, owls and loons, gulls, glasses, page
+turns, shishi-odoshi, the Zenkō-ji temple bell) fired at irregular intervals with small changes in
+pitch, level and position, and three generated ones (a deep-space drone, brown noise and vinyl
+crackle). Every loop is levelled to the same loudness; the pendulum clock is cut on its beats so the
+tick and tock carry straight across the loop. Each layer has a level, mute and a second control —
 distance for loops, how often for events. With "Sound follows the picture" on, turning up rain on
 screen turns up the rain you hear.
 
@@ -116,9 +117,9 @@ Run once; the outputs are committed.
 3. `node scripts/build-media.mjs <maps-dir>` encodes AVIF/WebP, thumbnails and the manifest.
 4. `scripts/build-video.sh <work-dir>` cuts seamless loops (the tail cross-fades into the head) and
    encodes AV1 (SVT-AV1) and HEVC (x265).
-5. `python3 scripts/build-sounds.py <work-dir>` downloads the Freesound recordings in
-   `scripts/sound-sources.json`, finds the steadiest stretch, folds it into a seamless loop or
-   splits one-shots, levels and encodes them.
+5. `python3 scripts/build-sounds.py <work-dir>` downloads the recordings in
+   `scripts/sound-sources.json` (Freesound ids and Internet Archive identifiers), finds the steadiest
+   stretch, folds it into a seamless loop or splits one-shots, levels and encodes them.
 
 ## Licences and credits
 
@@ -129,7 +130,10 @@ in `scripts/media-sources.json`, `media/sounds/manifest.json` and `media/music/c
   (ESO, ESA/Webb, ESA/Hubble). Photos under CC BY or CC BY-SA were cropped and resized for Vibey and
   depth and mask maps were derived from them; those derived files carry the same licence as their
   source.
-- Sounds: Freesound recordings under CC0 1.0 and CC BY 3.0/4.0; trimmed, looped and levelled.
+- Sounds: Freesound recordings under CC0 1.0 and CC BY 3.0/4.0, and Internet Archive field
+  recordings (mostly the Radio Aporee archive: Peter Cusack, Felix Blume, Flavien Gillié and others)
+  under the Public Domain Mark, CC BY 3.0 and CC BY-SA 3.0; trimmed, looped and levelled. The edited
+  versions of CC BY-SA recordings are shared under CC BY-SA 3.0.
 - Music: streamed from its source under CC0, CC BY, CC BY-SA or US public domain; credited per track
   in the player.
 - Fonts: Archivo and Newsreader (SIL Open Font License), loaded from Google Fonts.

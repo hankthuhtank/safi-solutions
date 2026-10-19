@@ -19,7 +19,7 @@ export interface SoundDef {
     pan?: number;
     rate?: number; // +- playback-rate spread
   };
-  synth?: "space" | "brown";
+  synth?: "space" | "brown" | "vinyl";
   /** on-screen effect this sound rises and falls with when "sound follows scene" is on */
   follows?: keyof Fx;
   credits: Credit[];
@@ -64,7 +64,6 @@ const ALL: SoundDef[] = [
   s("lake", "Lake shore", "water", 0.85, { follows: "water" }),
   s("waterfall", "Waterfall", "water", 0.85),
   s("underwater", "Underwater", "water", 0.9),
-  s("whales", "Whale song", "water", 0.55, ev(28, 9, { jitterDb: 3, pan: 0.6, rate: 0.05 })),
   s("seagulls", "Gulls", "water", 0.45, ev(16, 4, { jitterDb: 5, pan: 0.85, rate: 0.05 })),
 
   s("birds", "Birdsong", "nature", 0.8),
@@ -76,7 +75,7 @@ const ALL: SoundDef[] = [
   s("wildlife", "Distant wildlife", "nature", 0.5, ev(32, 8, { jitterDb: 5, pan: 0.85, rate: 0.03 })),
 
   s("fireplace", "Fireplace", "indoors", 0.95, { follows: "fire" }),
-  s("vinyl", "Vinyl crackle", "indoors", 0.6),
+  s("vinyl", "Vinyl crackle", "indoors", 1.1, { kind: "synth", synth: "vinyl" }),
   s("cafe", "Café conversation", "indoors", 0.8),
   s("bar", "Lounge murmur", "indoors", 0.8),
   s("glasses", "Glasses", "indoors", 0.3, ev(18, 4, { jitterDb: 5, pan: 0.5, rate: 0.06 })),

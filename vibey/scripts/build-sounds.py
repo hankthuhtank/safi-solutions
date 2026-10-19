@@ -3,14 +3,16 @@
 
     python3 scripts/build-sounds.py <work-dir> [id ...]
 
-Every source is a Freesound recording under CC0 or CC BY (scripts/sound-sources.json). Long field
+Every source is a Freesound recording under CC0 or CC BY, or an Internet Archive field recording
+(mostly the Radio Aporee archive) under the Public Domain Mark, CC BY or CC BY-SA
+(scripts/sound-sources.json: "fs" or "ia" ids). Long field
 recordings become one seamless stereo loop, cut from their steadiest stretch so a cough or a
 bumped microphone never repeats every two minutes; short sounds (thunder, owls, page turns) are
 split into separate one-shots. Loops are levelled to the same loudness so mixer levels mean the
 same thing for every sound, then everything is encoded as MP3, which every browser plays.
 Writes media/sounds/*.mp3 and media/sounds/manifest.json (files, durations and credits).
 """
-import json, os, re, subprocess, sys, time, urllib.request
+import json, os, re, subprocess, sys, time, urllib.parse, urllib.request
 
 import numpy as np
 
@@ -33,6 +35,38 @@ def fetch(url, binary=True):
                 raise
             print(f"  retry {url}: {e}")
             time.sleep(6 * (attempt + 1))
+
+
+def ia_source(work, ident):
+    """Download the original audio of an Internet Archive item; return (path, credit)."""
+    meta_path = os.path.join(work, "sounds", "ia", f"{ident}.json")
+    os.makedirs(os.path.dirname(meta_path), exist_ok=True)
+    if not os.path.exists(meta_path):
+        open(meta_path, "w").write(fetch(f"https://archive.org/metadata/{ident}", binary=False))
+    meta = json.load(open(meta_path))
+    exts = (".flac", ".wav", ".aif", ".aiff", ".mp3", ".ogg", ".m4a")
+    files = [f for f in meta.get("files", []) if f.get("name", "").lower().endswith(exts)]
+    orig = [f for f in files if f.get("source") == "original"] or files
+    best = max(orig, key=lambda f: (f["name"].lower().endswith((".flac", ".wav", ".aif", ".aiff")), int(f.get("size") or 0)))
+    path = os.path.join(work, "sounds", "ia", ident + os.path.splitext(best["name"])[1].lower())
+    if not os.path.exists(path):
+        open(path + ".part", "wb").write(fetch(f"https://archive.org/download/{ident}/{urllib.parse.quote(best['name'])}"))
+        os.replace(path + ".part", path)
+    md = meta.get("metadata", {})
+    lic = str(md.get("licenseurl", ""))
+    m = re.search(r"licenses/(by(?:-sa)?)/(\d\.\d)", lic)
+    if "publicdomain/mark" in lic:
+        name = "Public Domain Mark 1.0"
+    elif "publicdomain/zero" in lic:
+        name = "CC0 1.0"
+    elif m:
+        name = f"CC {m.group(1).upper()} {m.group(2)}"
+    else:
+        raise SystemExit(f"{ident}: licence {lic!r} is not one Vibey can use")
+    creator = md.get("creator")
+    creator = ", ".join(creator) if isinstance(creator, list) else (creator or "Unknown")
+    credit = dict(title=md.get("title", ident), author=creator, license=name, licenseUrl=lic.replace("http://", "https://"), page=f"https://archive.org/details/{ident}")
+    return path, credit
 
 
 def candidates(work):
@@ -107,6 +141,30 @@ def steadiest(x, length, steady=True):
         if score < best_score:
             best, best_score = s, score
     return best * hop
+
+
+def rhythmic_cut(x, length):
+    """For rhythmic sounds (a pendulum clock): find the beats, then cut from just before one beat
+    to just before a later beat an even number of beats on, so tick and tock alternate straight
+    across the join. Returns (start offset in samples, loop length in seconds)."""
+    mono = np.abs(x.mean(axis=1))
+    env = np.convolve(mono, np.ones(220) / 220, mode="same")
+    thr = np.percentile(env, 99.0) * 0.5
+    beats, i = [], 0
+    while i < len(env):
+        if env[i] > thr:
+            j = i + int(np.argmax(env[i : i + 2200]))
+            beats.append(j)
+            i = j + int(SR * 0.2)
+        else:
+            i += 1
+    beats = [b for b in beats if b > SR * 0.3]
+    if len(beats) < 8:
+        return 0, length
+    t0 = beats[0]
+    best = min((k for k in range(2, len(beats), 2)), key=lambda k: abs((beats[k] - t0) / SR - length))
+    pre = int(SR * 0.08)
+    return t0 - pre, (beats[best] - t0) / SR
 
 
 def make_loop(x, length, xfade):
@@ -224,7 +282,11 @@ def main():
 def build_one(sid, s, recs, raw_dir, work, manifest, man_path):
     """Download (if needed), cut, level and encode one sound, then record it in the manifest."""
     credits, srcs = [], []
-    for fs_id in s["fs"]:
+    for ident in s.get("ia", []):
+        path, credit = ia_source(work, ident)
+        credits.append(credit)
+        srcs.append(path)
+    for fs_id in s.get("fs", []):
         rec = recs.get(fs_id)
         if not rec:
             raise SystemExit(f"{sid}: no search record for freesound {fs_id}")
@@ -242,6 +304,9 @@ def build_one(sid, s, recs, raw_dir, work, manifest, man_path):
         length = min(s["len"], len(x) / SR - 3.5)
         xf = s.get("xfade", 3.0)
         st = steadiest(x, length + xf, s.get("steady", True))
+        if s.get("align"):
+            off, length = rhythmic_cut(x[st : st + int((length + 6) * SR)], length)
+            st += off
         loop = make_loop(x[st:], length, xf)
         if s.get("xfade", 3.0) == 0:
             loop = fade(loop, 0.02, 0.02)

@@ -37,7 +37,10 @@ export function MixPanel() {
           </div>
         </Section>
       ))}
-      <p className="fine">Field recordings from Freesound under CC0 and CC BY; every recordist is credited under Setup → Credits.</p>
+      <p className="fine">
+        Field recordings from Freesound and the Internet Archive's Radio Aporee archive, under CC0, CC BY, CC BY-SA and the Public Domain Mark. Every
+        recordist is credited under Setup → Credits.
+      </p>
     </Panel>
   );
 }

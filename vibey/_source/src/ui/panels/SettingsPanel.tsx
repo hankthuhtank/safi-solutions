@@ -176,7 +176,7 @@ export function CreditsPanel() {
             </li>
           ))}
           <li>
-            <span className="credit-what">Deep-space drone, brown noise, dial hiss, focus bell</span>
+            <span className="credit-what">Deep-space drone, brown noise, vinyl crackle, dial hiss, focus bell</span>
             <span className="credit-who">Made live in your browser with the Web Audio API.</span>
           </li>
         </ul>
