@@ -7,7 +7,7 @@
 import os, html, json
 
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-V = "31"
+V = "32"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = (
@@ -18,12 +18,13 @@ LOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14
 e = html.escape
 TTD = "https://thetradingdesk.org"
 
-# Projects are grouped by subject, with their existing tile backgrounds and logos.
+# Projects appear in display order; the first two are featured.
 #   type = the small label under each tile · bg = the tile colour behind the logo · raster = logo drawn as a picture
 #   shot = screenshot shown on the project's detail view (assets/showcase/)
 PROJECTS = [
     dict(
         id="vellum",
+        featured=True,
         name="Vellum",
         type="Bible discovery",
         href="/vellum/",
@@ -34,7 +35,7 @@ PROJECTS = [
     ),
     dict(
         id="thewell",
-        group="atmosphere",
+        featured=True,
         name="The Well",
         type="Bartending guide",
         href="/thewell/",
@@ -46,18 +47,16 @@ PROJECTS = [
     ),
     dict(
         id="vibey",
-        group="atmosphere",
         name="Vibey",
         type="Scenery, sound & music",
         href="/vibey/",
         shot="vibey.webp",
-        logo="vibey.svg",
+        logo="vibey.webp",
         bg="linear-gradient(145deg,#42334f,#271e35)",
         detail="Turn a radio dial to a place: living scenes, field recordings, ambient sound and music for a rainy café, a snowy cabin or a quiet night outdoors.",
     ),
     dict(
         id="groundwork",
-        group="atmosphere",
         name="Groundwork",
         type="Coffee guide",
         href="/groundwork/",
@@ -68,7 +67,6 @@ PROJECTS = [
     ),
     dict(
         id="moneywise",
-        group="life",
         name="Moneywise",
         type="Personal finance",
         href="/moneywise/",
@@ -79,7 +77,6 @@ PROJECTS = [
     ),
     dict(
         id="theblueprint",
-        group="life",
         name="The Blueprint",
         type="Business planning",
         href="/theblueprint/",
@@ -90,7 +87,6 @@ PROJECTS = [
     ),
     dict(
         id="trippr",
-        group="life",
         name="Trippr",
         type="Road-trip planner",
         href="/trippr/",
@@ -141,7 +137,6 @@ PROJECTS = [
     ),
     dict(
         id="cardesk",
-        group="life",
         name="CarDesk",
         type="Vehicle tools",
         href="/cardesk/",
@@ -153,7 +148,6 @@ PROJECTS = [
     ),
     dict(
         id="movedesk",
-        group="life",
         name="MoveDesk",
         type="Relocation tools",
         href="/movedesk/",
@@ -181,7 +175,7 @@ PROJECTS = [
         shot="thebench.webp",
         logo="thebench.webp",
         raster=True,
-        bg="linear-gradient(145deg,#223b59,#122638)",
+        bg="linear-gradient(145deg,#174636,#0e2f25)",
         detail="C++, Java, JavaScript, HTML, CSS and SQL in one course that runs every example and steps through it line by line.",
     ),
     dict(
@@ -482,7 +476,7 @@ write(
 )
 
 
-# ---------------------------------------------------------------- projects: compact collections and detail views
+# ---------------------------------------------------------------- projects: logo tiles and detail views
 def tile(p):
     raster = " raster" if p.get("raster") else ""
     badge = f'<span class="tile-badge">{p["badge"]}</span>' if p.get("badge") else ""
@@ -492,25 +486,8 @@ def tile(p):
 </article>"""
 
 
-PROJECT_GROUPS = [
-    ("life", "Life & work"),
-    ("atmosphere", "Food & atmosphere"),
-    ("learn", "Learn & explore"),
-]
-ordered_projects = [
-    p for group, _ in PROJECT_GROUPS for p in PROJECTS if p.get("group", "learn") == group
-]
-collection_links = "".join(
-    f'<a href="#collection-{group}">{e(label)}<span>{sum(p.get("group", "learn") == group for p in PROJECTS):02d}</span></a>'
-    for group, label in PROJECT_GROUPS
-)
-collections = "".join(
-    f'<section class="project-group" id="collection-{group}" aria-labelledby="collection-{group}-title">'
-    f'<header class="project-group-head"><h2 id="collection-{group}-title">{e(label)}</h2>'
-    f'<span>{sum(p.get("group", "learn") == group for p in PROJECTS):02d} projects</span></header>'
-    f'<div class="tiles collection-grid">{"".join(tile(p) for p in ordered_projects if p.get("group", "learn") == group)}</div></section>'
-    for group, label in PROJECT_GROUPS
-)
+featured = [p for p in PROJECTS if p.get("featured")]
+wall = [p for p in PROJECTS if not p.get("featured")]
 pdata = [
     dict(
         id=p["id"],
@@ -520,14 +497,14 @@ pdata = [
         href=p["href"],
         shot="/assets/showcase/" + p["shot"],
     )
-    for p in ordered_projects
+    for p in PROJECTS
 ]
-noscript = "".join(f'<a href="{p["href"]}">{e(p["name"])}</a>' for p in ordered_projects)
+noscript = "".join(f'<a href="{p["href"]}">{e(p["name"])}</a>' for p in PROJECTS)
 projects_body = f"""<div class="page" id="project-list">
   <header class="page-head"><div><p class="micro">Interactive tools &amp; learning</p><h1>Projects.</h1></div><p class="lead short">Turning complicated ideas<br>into clear visual systems.</p></header>
-  <div class="project-overview"><p class="micro">{N_PROJ:02d} projects / {len(PROJECT_GROUPS):02d} collections</p>
-    <nav class="project-jumps" aria-label="Project collections">{collection_links}</nav></div>
-  <div class="project-collections">{collections}</div>
+  <div class="tiles featured">{''.join(tile(p) for p in featured)}</div>
+  <div class="subhead"><h2>More projects</h2><span>{len(wall):02d} / Explore</span></div>
+  <div class="tiles wall">{''.join(tile(p) for p in wall)}</div>
   <noscript><p class="noscript-links">{noscript}</p></noscript>
   {cta('Have a subject that deserves this treatment?', 'Training material, a product that’s hard to explain, or a field your customers find confusing can all be made visual.', contact('An interactive education / product idea'), 'Talk about it')}
 </div>
