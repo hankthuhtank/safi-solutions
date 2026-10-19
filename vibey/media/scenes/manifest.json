@@ -1,0 +1,1557 @@
+{
+ "alpine/cloudy": {
+  "kind": "photo",
+  "place": "Watzmann, Berchtesgaden Alps, Germany",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGwAAAgEFAAAAAAAAAAAAAAAAAAUGAQIDBAf/xAAoEAACAQMEAQIHAQAAAAAAAAABAgMABBEFBhIhMSJREzJCYXGBkaH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAAP/xAAbEQACAgMBAAAAAAAAAAAAAAAAASIxAhESUf/aAAwDAQACEQMRAD8Akt1q+m2cbPNqMHpOCqEM38FKDvaxE/HhIYsfMPOfx7VGRt6SQgJd2rNjOMsDj+VZNty5j6jlhds+OWP3WkQSJI+8IhdB0CSWzDHHoMD75pvBrWn3aqYryJSfpf0n/a5+22r/AByX4RP3cCqyaRfWUQaVkA8dODU+dWUvDd3ISlqWQlTyHY6rLokjvaOzuzEPjJOaKKzVDdhcSyG4YGRsZbrNKObtaHk7N2PJzRRRyoSP/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.2917,
+    "water": 0.0464,
+    "foliage": 0.4707,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0001,
+    "people": 0
+   },
+   "skyColor": [
+    0.8086,
+    0.8275,
+    0.8493
+   ],
+   "horizonColor": [
+    0.8155,
+    0.8309,
+    0.8443
+   ],
+   "farColor": [
+    0.5305,
+    0.5727,
+    0.6224
+   ],
+   "luma": 0.4781
+  }
+ },
+ "alpine/morning": {
+  "kind": "photo",
+  "place": "Watzmann, Berchtesgaden Alps, Germany",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABQADBAb/xAAoEAABBAEDAwIHAAAAAAAAAAABAAIDBBEFITESMjMTIiNBUmJxocH/xAAXAQEBAQEAAAAAAAAAAAAAAAADAgAE/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAEDAhIxMgQRM3H/2gAMAwEAAhEDEQA/AHw6u4kNnjJH3BY2LdGt5LEZd9LXAleM05ti0GmNkbmjnqcQnGabTLQX1S13zDXkhOn2BYJjU9PMchEvuHYSNnLStqmnzbGX03cYcP6inadTZGSIHZAz3lGzPhj2kqNhce1vWS4/vCOuRUbMtR3YQnQAFCvgY+GF0ZOOVKVrBmZyeN34KAujqsMLt8EcqUuDl+i+DxaM/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.3099,
+    "water": 0.2135,
+    "foliage": 0.3082,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": [
+    0.6346,
+    0.76,
+    0.8177
+   ],
+   "horizonColor": [
+    0.6962,
+    0.7965,
+    0.8209
+   ],
+   "farColor": [
+    0.5125,
+    0.5919,
+    0.6515
+   ],
+   "luma": 0.5552
+  }
+ },
+ "alpine/stormy": {
+  "kind": "photo",
+  "place": "Italian Alps",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwQG/8QAJRAAAgEDAgYDAQAAAAAAAAAAAQIDAAQRIUEFBhITUWEkMZHh/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAECA//EABkRAQEAAwEAAAAAAAAAAAAAAAEAAhETA//aAAwDAQACEQMRAD8AUty1cmMMssbNuCcVaeVeIxwCaPsyeVR8kUgW4vIJc93HrJIFM7TjV+kRSO6iHVoCWOn7TfQDe6TBmFlHdxMBNazYXfp0FMkWW5KvKXMOxA3G1cvO010Pl38r66HrOKzrJJaDEd1IvpSTio7DPk2GMkquSTk1JvvO/wDKKKi1qmdzJgsx081bGSUOSTRRRF//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.4138,
+    "water": 0,
+    "foliage": 0.1168,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0.0001
+   },
+   "skyColor": [
+    0.3628,
+    0.4299,
+    0.4555
+   ],
+   "horizonColor": [
+    0.5254,
+    0.5824,
+    0.5814
+   ],
+   "farColor": [
+    0.3332,
+    0.3844,
+    0.3961
+   ],
+   "luma": 0.323
+  }
+ },
+ "alpine/sunset": {
+  "kind": "photo",
+  "place": "Hochries, Chiemgau Alps, Germany",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACcQAAEEAgECBQUAAAAAAAAAAAEAAgMRBAUhEhMiJDFBUTJScoGC/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDAP/EABwRAAMAAgMBAAAAAAAAAAAAAAABAjEyEVFSgf/aAAwDAQACEQMRAD8AtUmXhQM6nbBrGn76KZj3OtdL2znYzj+wsykw5n15ouPoB0EpbtXk48fcfJFXoRdEKPCeKZX4aw3LwiBc0YHzaQ7Z6qP6s2Jv9rI5XbCJrQ8SGMe4dYChT5z2W3qN17FLMP0FtdFg1vOQ2/kqbsACwAgGzzaEIzqFnJhHiZ+VKBt42CJzgxod3DzXKELRsK8H/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.3739,
+    "water": 0.0004,
+    "foliage": 0.3098,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.053,
+    "people": 0
+   },
+   "skyColor": [
+    0.9224,
+    0.8363,
+    0.7006
+   ],
+   "horizonColor": [
+    0.9707,
+    0.8398,
+    0.5803
+   ],
+   "farColor": [
+    0.6223,
+    0.5595,
+    0.4853
+   ],
+   "luma": 0.4727
+  }
+ },
+ "aurora/lofoten": {
+  "kind": "photo",
+  "place": "Lofoten, Norway",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQYAAf/EACkQAAIBBAEBBgcAAAAAAAAAAAECAwAEESEFMQYSFEFRYRUiMkJicXL/xAAXAQEBAQEAAAAAAAAAAAAAAAABAwIE/8QAHhEAAgEDBQAAAAAAAAAAAAAAAAEDAhFBEiEiMTL/2gAMAwEAAhEDEQA/AJ7s9yTQ3SW7H5HON+tVN3aYmSSPHeOu4fuHtUCbmJQpLRsSdEDdUEHKyeDiEsyTxoAwL5BQ/wBeYrMqRP0rVBfM8d4e8Ux/RPnA9DXOZaJTFZQHKwjDn8qZ5K6gubO2ljRGZWJ04OSfP9a6VPyxszs7bZjkn3NEXKzeCWl33wDedLQMfh/U6AxvpWrU1HQxDkEVbWIqoBIGSBQ8hOTs1q1EfRNH/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.8376,
+    "water": 0.0499,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0021,
+    "people": 0
+   },
+   "skyColor": [
+    0.2505,
+    0.3517,
+    0.2827
+   ],
+   "horizonColor": [
+    0.2241,
+    0.3147,
+    0.2505
+   ],
+   "farColor": [
+    0.2422,
+    0.3402,
+    0.2721
+   ],
+   "luma": 0.294
+  }
+ },
+ "aurora/vik": {
+  "kind": "photo",
+  "place": "Vík í Mýrdal, Iceland",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEBQb/xAAlEAACAgIBAwMFAAAAAAAAAAABAgMRAAQhEiJBBRRRIzFScZH/xAAWAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAZEQEBAQADAAAAAAAAAAAAAAAAARECEmH/2gAMAwEAAhEDEQA/AOWgjDCm4OPi0meZUA5Y1zj4FVAElRJr/CQAr+8ukGvDGyrIUdR2MxB8Zl2FlZ0uv17DOOYwaB+ayDYjJYmqvxnSy+014Nddpp1hN05hP1D5II4zF9QaOi8BBUng3eM5bcM9LldxIaZhx85JN3Kxbk35wwyyg2pH6yvW1LVC/tiA7dQ7j/cMMQ//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.7507,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.1241,
+    "people": 0
+   },
+   "skyColor": [
+    0.2944,
+    0.3313,
+    0.2522
+   ],
+   "horizonColor": [
+    0.3709,
+    0.4253,
+    0.2868
+   ],
+   "farColor": [
+    0.3005,
+    0.331,
+    0.252
+   ],
+   "luma": 0.3064
+  }
+ },
+ "countryside/cottage": {
+  "kind": "photo",
+  "place": "Aarhus, Denmark",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMBAgQG/8QAKBAAAgEEAQEHBQAAAAAAAAAAAQIDAAQRIQUSEyIxQXGBkQYyUWHR/8QAGAEAAgMAAAAAAAAAAAAAAAAAAgQAAQP/xAAcEQADAAEFAAAAAAAAAAAAAAAAAQIDBBEiMVH/2gAMAwEAAhEDEQA/AOUScK/Ujeo/NdTa8xFNYxSz3bxundIXbN/fes0XG8ai4e3GWGyd1LW9vGF7LsuhdAMnh7gg0rGdSyKR9vz/AB0ZK3UVxKc4y5HSfiqch9TOVWOx6YoAMFUQKG/XpWZrC2lYFhEijZVFK5+aTccf0gNZvGo88gHNHWo34plNeGrJI2T4Up/v9qKKWNV0ShPd35VdtS61qiigYDP/2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.1876,
+    "water": 0,
+    "foliage": 0.6819,
+    "glass": 0,
+    "lights": 0.0001,
+    "fire": 0,
+    "ground": 0.0243,
+    "people": 0
+   },
+   "skyColor": [
+    0.6202,
+    0.637,
+    0.715
+   ],
+   "horizonColor": [
+    0.6025,
+    0.615,
+    0.6701
+   ],
+   "farColor": [
+    0.3817,
+    0.4126,
+    0.3495
+   ],
+   "luma": 0.4229
+  }
+ },
+ "countryside/evening": {
+  "kind": "photo",
+  "place": "Belarus",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIDBAYH/8QAJxAAAgECBAQHAAAAAAAAAAAAAQIAESEDEhNhBAVBUQYiJFKh0fD/xAAYAQACAwAAAAAAAAAAAAAAAAAAAwECBP/EABwRAAMAAQUAAAAAAAAAAAAAAAABAhEEEhQxQf/aAAwDAQACEQMRAD8A2ZfByZRINTh1u7hRvOYhscVvh0HYRxicSWNS1u1fuY1qXIy9tLGDoDc95Qun6vDOoCV6VAlbE8RcBkZkew2N5iauUzF67d/mKxtXUA3hy6ZVRC8KSk6Zv+rJPdCESwXQzWUgWGQGI58xHSEIIg//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.4055,
+    "water": 0,
+    "foliage": 0.3609,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.3673,
+    "people": 0
+   },
+   "skyColor": [
+    0.8105,
+    0.787,
+    0.7806
+   ],
+   "horizonColor": [
+    0.8411,
+    0.7051,
+    0.6639
+   ],
+   "farColor": [
+    0.6762,
+    0.6541,
+    0.5666
+   ],
+   "luma": 0.498
+  }
+ },
+ "desert/atacama": {
+  "kind": "photo",
+  "place": "Cerro Armazones, Atacama Desert, Chile",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAIBAwQFBv/EACYQAAEDAwMCBwAAAAAAAAAAAAEAAhEDBAUhMVESExUiI0FhcYH/xAAWAQEBAQAAAAAAAAAAAAAAAAABAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/APHm3dwtVrjKlfqgaNEklOcs0QTaUz+lD8t3Gw2yEe/qEIlayIfi6gYXtAcBvBlZRavmIVzMk6k49u0a3nzkq3xSoWibak2ftO6skc2jqNeCkbshCgkptnNj4QhQf//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0.2909,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0708,
+    "people": 0
+   },
+   "skyColor": [
+    0.3036,
+    0.2707,
+    0.2774
+   ],
+   "horizonColor": null,
+   "farColor": [
+    0.2826,
+    0.2491,
+    0.2501
+   ],
+   "luma": 0.2404
+  }
+ },
+ "desert/hills": {
+  "kind": "photo",
+  "place": "Atacama Desert near Paranal, Chile",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAIBAAAgMAAQUBAQAAAAAAAAAAAQIAAxEEITEyUWEiQv/EABYBAQEBAAAAAAAAAAAAAAAAAAABA//EABcRAQEBAQAAAAAAAAAAAAAAAAABEhH/2gAMAwEAAhEDEQA/AOUqKlxqjPREetbjirpQqsB3Dbsy6OQmjWEbN1JGlgJdU5EWVTpCAD0TsXsrU9dA+Syzk0qPyCx+RS7lLnRTsmzNKV9owPGEJlWsR/oSnkeRhCIV/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.773,
+    "water": 0.0106,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0343,
+    "people": 0
+   },
+   "skyColor": [
+    0.2343,
+    0.244,
+    0.2598
+   ],
+   "horizonColor": [
+    0.2415,
+    0.2388,
+    0.2253
+   ],
+   "farColor": [
+    0.2241,
+    0.2271,
+    0.2367
+   ],
+   "luma": 0.2123
+  }
+ },
+ "fireplace-rain/cabin-night": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEBQb/xAArEAABAwMDAQYHAAAAAAAAAAABAgMEAAUREiExEwYVIkFRYTI0UnGRscH/xAAXAQEBAQEAAAAAAAAAAAAAAAABAwIE/8QAHREAAgIDAAMAAAAAAAAAAAAAAAECAxIhMhFBQv/aAAwDAQACEQMRAD8AgtnbadOkNW+6RIsxl1YQC6MKTk4zkU+VabbIuT3d6nYwYSFyAtYIxo1DQTv7b1y7D7Vrm6kHqFH1teIKHpnitq2XqPNkyVSWA3lo6iTs5nbBHpvxXNZ5W0tF6pem9mohm1R4KXH3ErcUnUnUo7+Y4H9rn0wG5DaZlxfUxGUpSWWmk6iSASeSPzUd1luLWltIAaSBpSBpwOMfbFIhXAlsR30uOoyemgOFIQfMj3ohBpZIZ2JvFj7rvcZRPPWV+6khfNGiiq/BGPZbPAwrYfDWOwSHUEHB18iiiirk1d2f/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.018,
+    "glass": 0.1201,
+    "lights": 0.0051,
+    "fire": 0.0444,
+    "ground": 0.1363,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.4918,
+    0.3725,
+    0.259
+   ],
+   "luma": 0.3005
+  }
+ },
+ "japanese-garden/autumn": {
+  "kind": "photo",
+  "place": "Ninna-ji, Kyoto, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABAACAwX/xAAmEAACAQQBAwMFAAAAAAAAAAABAgMABBESIQUxcRMUQSJRUmGB/8QAGAEAAwEBAAAAAAAAAAAAAAAAAQIEAwX/xAAbEQADAAMBAQAAAAAAAAAAAAAAAQIDITEyE//aAAwDAQACEQMRAD8A5Wt3PoxtkdxGwJH4nz8Uyz6pcpGwkcknjEozr4NBtJbRYJFgxjnOrYOaoJYVhRcuxXjTuD/a5yupejdpPo/398sSGJ8MoGA5U7eaF1G7ubxgk7hWC9l7Z+9HF1IhYojzbNjHA4/VYub1GGpgaKTGFZwSAaH1yN7YGpXEeg0MWxb0kyV5OoobgJPGqAKrHBA4BqqqyvQsmuufTbQFeCSc4+eKG7u3TAS7EkHuaqqkz+hj/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.0678,
+    "water": 0.2712,
+    "foliage": 0.5161,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0397,
+    "people": 0.0001
+   },
+   "skyColor": [
+    0.7342,
+    0.7906,
+    0.8568
+   ],
+   "horizonColor": [
+    0.7871,
+    0.8067,
+    0.8315
+   ],
+   "farColor": [
+    0.5621,
+    0.5352,
+    0.3969
+   ],
+   "luma": 0.4722
+  }
+ },
+ "japanese-garden/maples": {
+  "kind": "photo",
+  "place": "Eikandō, Kyoto, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgH/xAAnEAACAgEDAgUFAAAAAAAAAAABAgMRAAQSIQUxIjJhcbEUQVGBkv/EABcBAQEBAQAAAAAAAAAAAAAAAAMEAgX/xAAbEQACAgMBAAAAAAAAAAAAAAAAAQIRAyExEv/aAAwDAQACEQMRAD8AVoupPG26IhZAKG0/vDVdR6hqpNkuo3Rk3y9D+RkCaaRPKwk3cDdx7nH/AEeomDtFPBUQ3HxXxXzkEZKOos6eVYnV9FSrM8UkakvIpIIUFftfBxbx7IFLiXxDlSpHzkz6vUaedgzFitdrq+9+mdm6rFJayxqqsDZN3f5xE3RP5xXqRYhIFA8Hv65jVEqyhSQK7D2wwwF0KQgeZfUZk8uL5wwxEZZ//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.0177,
+    "water": 0.137,
+    "foliage": 0.8053,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": [
+    0.8287,
+    0.8921,
+    0.9558
+   ],
+   "horizonColor": [
+    0.8237,
+    0.8819,
+    0.9375
+   ],
+   "farColor": [
+    0.4848,
+    0.4091,
+    0.3075
+   ],
+   "luma": 0.3753
+  }
+ },
+ "japanese-garden/sakura-night": {
+  "kind": "photo",
+  "place": "Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGwAAAgIDAQAAAAAAAAAAAAAAAAUCAwEEBgf/xAApEAACAQMCAwgDAAAAAAAAAAABAwIABBEFIRIxUQYTIiNhcYGxFEFC/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAECA//EABsRAAIDAAMAAAAAAAAAAAAAAAABAgMyESEx/9oADAMBAAIRAxEAPwBPpOjaVESlcbmIyeKceEDqc8/im1zYaX3O64SzHOMjB9q8+i5zJea4nfO5z+qdLvmytlKC2sEBjKwT9VLaNFJGLjQlXLD+GQo75XI5Pp8VGfZG+jzaj08XM9KovLi6gQ8JmqI/qUDHJP3U7HV7osAIDBn2oTDrkRR511XZ1k18PdzlDyifCcdKKKmzI6dGjqr3OucOaxgEuU5E1aiMQw4iBt0oopQ8Kno//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.1045,
+    "water": 0.2008,
+    "foliage": 0.6651,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0007,
+    "people": 0
+   },
+   "skyColor": [
+    0.0248,
+    0.0167,
+    0.01
+   ],
+   "horizonColor": [
+    0.0437,
+    0.0291,
+    0.0153
+   ],
+   "farColor": [
+    0.1406,
+    0.1083,
+    0.0995
+   ],
+   "luma": 0.2384
+  }
+ },
+ "jazz-lounge/backbar": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAnEAACAQMCBQQDAAAAAAAAAAABAgMABBESIQUGEzFBFVFhcSJCsf/EABYBAQEBAAAAAAAAAAAAAAAAAAQDAv/EABsRAQACAgMAAAAAAAAAAAAAAAEAEQIhAzJB/9oADAMBAAIRAxEAPwDiPSz0QxkOrWybJqQ4Hhh3pSGBpZGVcZUEnNW7O8gh4Zb288iJIk7uQfAI+qc5ft7eCKS9LxvLIrL02YYx3zjvU3KpoLnOwwRLcKLoyLFg5KAE/Hf5re79N6Ki1EolUAHO4f3b4+qvTcNtLx9ZuVidsnQSNs+2cUpJy06RmQyMyjyFOP5UXlxvbUuYNaJEugNR2/c1m5KuwBwAdsUUUkhmWOFySSW56js24H5HO2+1U+aFWzvlWzUW6sp1CIaAfvFFFCezFeE//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0.0281,
+    "fire": 0,
+    "ground": 0.0049,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.2124,
+    0.1836,
+    0.1441
+   ],
+   "luma": 0.2115
+  }
+ },
+ "jazz-lounge/bar": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAQCAwEFBv/EACYQAAIBBAEDAwUAAAAAAAAAAAECAwAEESEFEhMxFUFhFDNRcYH/xAAVAQEBAAAAAAAAAAAAAAAAAAABA//EABcRAQEBAQAAAAAAAAAAAAAAAAABEQL/2gAMAwEAAhEDEQA/AOT4K5X1CQIuVkQ6EfUFJyPB9t1fx112hJbtJO9qJOuZYGAJxkAjO878fNU8RaRXl/EgdoGwUzFosTnGzTipwkNl9QXHeilEZV2x1IQd9Ixn91K5VdxBLmH0mW1mRpJJXDxN3MqnjZ+cVrZtsVLxdbFssDrdNXHLcQtvH2LFnuFAy2SEznfnOdUhcc1dToqjtxKuenpQZ2c+TTINKM7ohKOyn8g4pbOdmiinkVn2qZ+2f5RRSH//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0.0205,
+    "fire": 0,
+    "ground": 0.0023,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.2663,
+    0.211,
+    0.162
+   ],
+   "luma": 0.2079
+  }
+ },
+ "lakeside/daybreak": {
+  "kind": "photo",
+  "place": "Silver Lake, Eastern Sierra, California",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUDBAYC/8QAJhAAAgICAAcAAQUAAAAAAAAAAQIDEQAEBQYSEyExUeEHI2GBkf/EABQBAQAAAAAAAAAAAAAAAAAAAAP/xAAZEQEBAAMBAAAAAAAAAAAAAAABAAIRMRL/2gAMAwEAAhEDEQA/ALEP6g6roO/w1w9eeiUUT/YyGfnjuMBr6KIPrv1X/lZ0vIulBCX2+KtaqS3bisCvlmzlFuWdU9L6u+kikWBJGUNH0a+YoRuVHv8AMg2mPcpVNftKx6fH5xNtcW2ZYjCrsIC19sE9N/f5xntcF14XIZgaqpFUhfP5xdNpSRIHAcR3SuCaOBkO2T06LRCaV+L7avI7BaoFia85neJyyJwSaRJGV32aZgaJ9+zhhjsRWoppW2YQZHI7QNFj7rGKEvG6ueoFTYPnDDFOMT0v/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.1344,
+    "water": 0.5036,
+    "foliage": 0.0834,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0099,
+    "people": 0
+   },
+   "skyColor": [
+    0.8299,
+    0.8551,
+    0.9067
+   ],
+   "horizonColor": [
+    0.9028,
+    0.9054,
+    0.9228
+   ],
+   "farColor": [
+    0.3512,
+    0.3789,
+    0.3859
+   ],
+   "luma": 0.4225
+  }
+ },
+ "lakeside/golden-hour": {
+  "kind": "photo",
+  "place": "Kvikkjokk, Lapland, Sweden",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAQFBgIDB//EACYQAAIBBAAFBAMAAAAAAAAAAAECAwAEBRESITFhcRMVIkFRUrH/xAAWAQEBAQAAAAAAAAAAAAAAAAADAgH/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQIRQQNh/9oADAMBAAIRAxEAPwCZGawzQNKl2vEqkhDxKx7DdNDI4qQA+4Qk9yKqt2+BitZbaNYkmdDwuQzEH6575VssEwsUKMsQuCx1xO/Q+N0qfW8BqPpZDf4zfLJwb6cjWa3WKI+eQtT5cA1XpcphkufQa0tRJ+NADxunFu8eoIexth29ME/yqueGVHTmrklk3+1TVwqoURFCqF2ABoA660UUbGQqqhld2ALFQSx6k6qQwrs8MnGxb5fZ3RRVxJZ//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.3393,
+    "water": 0.4239,
+    "foliage": 0.0778,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": [
+    0.7136,
+    0.8204,
+    0.9151
+   ],
+   "horizonColor": [
+    0.8192,
+    0.8944,
+    0.9169
+   ],
+   "farColor": [
+    0.6068,
+    0.6781,
+    0.7181
+   ],
+   "luma": 0.5759
+  }
+ },
+ "lakeside/midday": {
+  "kind": "photo",
+  "place": "Canterbury, New Zealand",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMCBAUG/8QAJxAAAgEDAwMDBQAAAAAAAAAAAQIDAAQRBRKRITFBImGxBkJScaH/xAAYAQACAwAAAAAAAAAAAAAAAAAABAECA//EABsRAAIBBQAAAAAAAAAAAAAAAAADAQIREiEx/9oADAMBAAIRAxEAPwBsWsWD4374zjPqHTkVcgu7KZljilVpWBIQ+3v8VyEFtfTY2wtg+W9I/tatrpCLte7eNhglljY7s+KKHOnpFSlRw3nv9LG4GUxOpwyucgH9j5qlca/p8GRETK3jb25qsv0/Cu4z7Yx9qlzux79+tZ97pksALWtuJVHUkS9eK0zZbRTBd9j2ZvyPNR3MOoY80UU0Kkwzd9x5p0bNnueaKKAP/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.2195,
+    "water": 0.4145,
+    "foliage": 0.0045,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": [
+    0.5259,
+    0.6973,
+    0.8425
+   ],
+   "horizonColor": [
+    0.5741,
+    0.7266,
+    0.8455
+   ],
+   "farColor": [
+    0.4897,
+    0.5369,
+    0.5811
+   ],
+   "luma": 0.4967
+  }
+ },
+ "library/reading-hall": {
+  "kind": "photo",
+  "place": "Cuypers Library, Rijksmuseum, Amsterdam",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAQGAwEF/8QAKhAAAgEDAwIDCQAAAAAAAAAAAQIDABExBBIhE0EFIiQjMlFhcZGhsfD/xAAXAQEBAQEAAAAAAAAAAAAAAAAABAEC/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8A8DRy7X9myENbcuO+PlVGswluNLOsG+xkDZFgOR9aioyFJDTRg/AMSa2h1zRzBo5HItap47SnJCxaToN6jUrPErblAI3Mcc/YGprXRibUvJNsAU+VTi1wTb80rJ4k0mo87ybdts4rORlcsVkRmOLsQb/qm2hJSMTPvL/d6YnAEqC3AhxRRXSMZ2AesYdumaVkJD8EiiijB//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0.0043,
+    "fire": 0,
+    "ground": 0.0013,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.4388,
+    0.3285,
+    0.2433
+   ],
+   "luma": 0.2957
+  }
+ },
+ "library/study": {
+  "kind": "photo",
+  "place": "Melrose, Scotland",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAArEAACAQQAAwUJAAAAAAAAAAABAgMABBEhBRIiFDFBYaEzUVJicYGxwfD/xAAYAQACAwAAAAAAAAAAAAAAAAACBAABA//EABoRAAIDAQEAAAAAAAAAAAAAAAACAREhEjH/2gAMAwEAAhEDEQA/AOatLl7eYRS26zIBrmGhTarayAOkUqHm2oGvsaQtpjkkY7vHX7pscRFuMRspZiByY8M7PrS3MWNdTQzdW1uYua1vGKsdoekn61PuUhhBji5W+aqIeKecHtsajOeoYOh7vSpnEXeBnZsFSNMO40K7gb5ojAOhfNDmqNuiHiAyq+zPh5UUUbGS+i8u7UZ/tVrNuwiz8I/AooqQW5//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0.0002,
+    "fire": 0.0485,
+    "ground": 0.0327,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.42,
+    0.2748,
+    0.1839
+   ],
+   "luma": 0.2852
+  }
+ },
+ "mountain-cabin/lodge": {
+  "kind": "photo",
+  "place": "Iceland",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGwAAAgIDAQAAAAAAAAAAAAAAAAUEBwECAwb/xAAnEAABAwMDAwQDAAAAAAAAAAABAgMEABESBSExE0FRBiJhcQcUof/EABUBAQEAAAAAAAAAAAAAAAAAAAMC/8QAGREAAgMBAAAAAAAAAAAAAAAAAAECESEx/9oADAMBAAIRAxEAPwBf+Q0569GS04t0qZTiVWve524pPp6X1ep4apRKXFvIJIFu9Z1DV5E2fDfmIKpLbZCrosFKBJBAH2K0bnBvW4kp/IJacyJKMTiCDxf7o29ESwtSUphBkIVOdyITYFSd/wCVylfrtyHQ7NeF2xa67X3PxXj4vqSTJflKlT8EOISptPStvlwQPA704n6oS8Cy+282tsAlKi35+CDzV2TRXjPvSsq9xHF97c1P0ltCpjZUhJ37iiiikJEldBlWlPPKaQXesRmUjK1vNI9OdcOrMILiseoBjfbmiikXCH0//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.0045,
+    "glass": 0.3196,
+    "lights": 0.0013,
+    "fire": 0.0914,
+    "ground": 0.0387,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.7813,
+    0.7709,
+    0.7666
+   ],
+   "luma": 0.428
+  }
+ },
+ "neon-tokyo/alley": {
+  "kind": "photo",
+  "place": "Tokyo, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIDBgX/xAAmEAACAQQBAwMFAAAAAAAAAAABAgMABBESIQUTQTFRgRQiMmGh/8QAFgEBAQEAAAAAAAAAAAAAAAAAAwEC/8QAHBEAAgICAwAAAAAAAAAAAAAAAAERMQIhA0FR/9oADAMBAAIRAxEAPwDHQG0uLRYZXUMBj9g1C6smTEkaSNGR+bY5IznA9uKXvYhGQDx5ApoLp43WYRZ1zjUGi48Wm/BHDLGDs9Kty6ayvcqcY511qfUJVaZILIMIki1BI+4+pPxVJJw81vcI0ugfIymBknn+V3ksOi3NzNL9elvLIHGs7aEkn1584qZOHL2avSMaxODz7UyMwU4Yj5oopug1Ze2dx2wGYASg4z596p1F3leRpWZ22HLHJooqKzTo/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.0048,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0.0455,
+    "fire": 0,
+    "ground": 0.1911,
+    "people": 0.0004
+   },
+   "skyColor": [
+    0.0587,
+    0.0455,
+    0.0997
+   ],
+   "horizonColor": [
+    0.0703,
+    0.0521,
+    0.1154
+   ],
+   "farColor": [
+    0.2023,
+    0.1493,
+    0.1483
+   ],
+   "luma": 0.1784
+  }
+ },
+ "neon-tokyo/kabukicho": {
+  "kind": "photo",
+  "place": "Tokyo, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwYE/8QAKxAAAgEDAwMBCAMAAAAAAAAAAQIDAAQRBRIhEzFBUQYUFSI0UmFiscHR/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDBP/EACERAAIAAwkAAAAAAAAAAAAAAAABAgMxBBEhMlGBocHw/9oADAMBAAIRAxEAPwDI2E0Y1WOaQONr4ff3HJ71TrnROoyS26SLHKS6hlAAXwAKs0C5t4ropchmSZ13gDJwD49andvbpcwSlHxkkRhcFcH5Rk5GKKqPWG8YR6fDeez+nrNcraxFpHMkgyBjPHHk0ptZhbRzTqwEpAVCwJbb5x9ueOaeSpbi1FmEm6Dr1Ulk5AYjkZA7D8d6W6nJaRslxBKjmeHbJGq7Spz/AIBSw6DzElixXp318I8bxXXq5PVi59f5ooqhKHKzQWzN8NtBk46Mvn9TSTWSTYacSefd/wCzRRUpXuTVa67Lo//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.0001,
+    "glass": 0,
+    "lights": 0.0935,
+    "fire": 0,
+    "ground": 0.1715,
+    "people": 0.038
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.3236,
+    0.2418,
+    0.2577
+   ],
+   "luma": 0.229
+  }
+ },
+ "neon-tokyo/side-street": {
+  "kind": "photo",
+  "place": "Tokyo, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABQADBgL/xAAnEAABAwQBAgYDAAAAAAAAAAABAgMEABESIQUTIgYUMUFxgTJRYf/EABgBAAIDAAAAAAAAAAAAAAAAAAECAAME/8QAIBEAAgEEAQUAAAAAAAAAAAAAAAERAgMSMUEFMnGR8P/aAAwDAQACEQMRAD8A5PgZKWuTalLBSm/cQbWOJ/dZc4GXpi5DDTiEvOKUc1C+7G1h7brXw7Iih1LEtYDTjyc1WJKRv2H1XqX0FOIUFAN3NhYkpAOhaopbguxTWXIlxbDcvwqqKFpZ6kkJzWe1Oxs/yhXIbEbl1sF1h9qMo3cuemu3p6bIvam0eWQwqMJCj5sB5KQMQ2TvEC9r696MnQ0sQo0nFIQlZbWMsrkbNx90KU1I13GpJvUBEDT6CNHIUryX4NfJqqpuAWvvY0hIXxsbMBXcPXdcpOACQAAPiqqltaZo6j3U+Ef/2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.0002,
+    "glass": 0,
+    "lights": 0.1081,
+    "fire": 0,
+    "ground": 0.1087,
+    "people": 0.0121
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.3741,
+    0.2287,
+    0.2529
+   ],
+   "luma": 0.2345
+  }
+ },
+ "observatory/cosmic-cliffs": {
+  "kind": "photo",
+  "place": "NGC 3324, Carina Nebula · 7,600 light-years",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQBAgUG/8QAKhAAAgEDAwIDCQAAAAAAAAAAAQIDAAQRBSFBElETMTMUIiNicYGRobH/xAAXAQEBAQEAAAAAAAAAAAAAAAADAQAC/8QAHREAAwACAgMAAAAAAAAAAAAAAAECAzEEERITIf/aAAwDAQACEQMRAD8A5ebQpBbLcwSB4mGQefpU2+mTMOkRZ7MWC5P386rZX0g+H4jCNQSBnb8VoW10ks7yMDtjONv3VWVxtC+pXplYdMuCVXocKe4pqTR4o4pHuZQADweOKbgvV9nIaMqnmd9qyb/Vo2yi4YHO2Oa1c26+SuiTw5l+Vsw7X1lp2MkSnBI9/iiiisXGMXTuGADMBjvSA9SUfIf6KKK5w7EzaP/Z",
+  "stats": {
+   "coverage": {
+    "sky": 0.2654,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0.0001,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": [
+    0.1682,
+    0.2707,
+    0.4513
+   ],
+   "horizonColor": [
+    0.2339,
+    0.3865,
+    0.5918
+   ],
+   "farColor": [
+    0.1708,
+    0.2708,
+    0.4482
+   ],
+   "luma": 0.3055
+  }
+ },
+ "observatory/westerlund": {
+  "kind": "photo",
+  "place": "Westerlund 2, Carina · 20,000 light-years",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwYB/8QAJxAAAgEDAwMDBQAAAAAAAAAAAQIDAAQRBRIxIUFRBhSBIkJhccH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQMC/8QAGxEAAwACAwAAAAAAAAAAAAAAAAECEjEDIVH/2gAMAwEAAhEDEQA/AE2jaet8VjeNpcp9vTB/dc9RWcmnxwI20k9cZy3Tz8CrfTNz7B5c7y7rgqBkEVpLhLHUZFjuIUlYLhXDZ6Y7/mmsZnsq8q0Ya9tj7Zbko0ayLuG/v2pKx5xxWm13SjasI7SdZIudgJJXHnxSO4tXX6nxjFJXLQuSGmTjd1fKsw54NOpZHF/GQ7AnGcHmiij01OiiElmumJJPk/NQvuunjPk/yiiootemf//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0.0838,
+    "water": 0,
+    "foliage": 0.0015,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0.0004
+   },
+   "skyColor": [
+    0.2257,
+    0.1926,
+    0.2566
+   ],
+   "horizonColor": [
+    0.2263,
+    0.1856,
+    0.2443
+   ],
+   "farColor": [
+    0.476,
+    0.3782,
+    0.4158
+   ],
+   "luma": 0.2877
+  }
+ },
+ "observatory/whirlpool": {
+  "kind": "photo",
+  "place": "M51, Canes Venatici · 31 million light-years",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAUEBgECA//EACQQAAIBBAEEAgMAAAAAAAAAAAECAwAEBRExEhMhMkGBUWFx/8QAFwEBAQEBAAAAAAAAAAAAAAAAAQMAAv/EABoRAQACAwEAAAAAAAAAAAAAAAABAhESQSH/2gAMAwEAAhEDEQA/AKVjrZSvc6A7cAHirLFiuzb91leQj26RpVP4/dJMTNHGCszdC/B1urEMs0Fk0PfR4nO9DkmtbPDTHSfKwwqizQMQHbpKn4qTk8VZwYhZxdRtLoeFXz90ny96rBIkPnZL/wBqM92zwhZHJA4rmYnw7Q7W3lATzW90zBDpiPuiiqJE7kljs1ketFFBf//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0094,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.2511,
+    0.239,
+    0.2258
+   ],
+   "luma": 0.2591
+  }
+ },
+ "ocean/dawn": {
+  "kind": "video",
+  "place": null,
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAMFBgIE/8QAIhAAAgEDBAIDAAAAAAAAAAAAAQIAAxEhBBIxkUJSIlHB/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEDAv/EABcRAQEBAQAAAAAAAAAAAAAAAAABIRH/2gAMAwEAAhEDEQA/ANUmppnyHcYK9P2HczqbCNgAQ/SsRGLToqGUv8lF+SZPimrxrU/YdxL6mkPIdyXZQgKsSDi3P7J+oemVKnYbjjNxCHpVWo+2kN7WKm4vzie6lnTsTkgm0ITVEcNhTaRdQzCkCGNy2c8whFDr/9k=",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 1920,
+   "height": 1080
+  }
+ },
+ "ocean/surf": {
+  "kind": "video",
+  "place": null,
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAIDAQUG/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIABBEDIXExQWGRMlLx/8QAGAEAAwEBAAAAAAAAAAAAAAAAAAIEAQP/xAAYEQEAAwEAAAAAAAAAAAAAAAAAAREhMf/aAAwDAQACEQMRAD8A9Ml9fq3qWW/kfB/UnoaWvqYZbRCHyMyrVtRTk3mJ8/s6WTWG8ud0fPER7qHs8ZKwdmzcYkde0m9WoGObbA8wuBrk9BttxKZOBvCEijixsRoQitf/2Q==",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 2560,
+   "height": 1440
+  }
+ },
+ "ocean/tropical": {
+  "kind": "video",
+  "place": null,
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAIEBQH/xAAiEAABAwMEAwEAAAAAAAAAAAAAAQIEAxVSBRFBklNzoZH/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAwT/xAAYEQEAAwEAAAAAAAAAAAAAAAAAAQIREv/aAAwDAQACEQMRAD8AzLtLxpnbtLxp/S0miTOKbOyEk0aZzRZ2Qn1Bl1O7y8GfRdpmDPwu2aX4W9ybdHromyx2b+wdQZZugAi0gAA//9k=",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 2560,
+   "height": 1440
+  }
+ },
+ "rainforest/stream": {
+  "kind": "photo",
+  "place": "Tasmania, Australia",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAUGBP/EACcQAAIBAwMDAwUAAAAAAAAAAAECAwAEERITIQUiMTJBcRQjUWGR/8QAFwEBAQEBAAAAAAAAAAAAAAAAAwQAAv/EABoRAQEBAQADAAAAAAAAAAAAAAEAMQIRIYH/2gAMAwEAAhEDEQA/AIu2vFYP3BWUDT7An3FaYJ5tt2ij3Y3bBA9SfynFv0fp0lwJFZ529TLt6YuPnmnSzWkS7FnYQszjR9uMDB98UbyWOadlhnwGeF4lYBu7AzWQwszsWbTp5OQaop7VYQ0m0VZvKhtVJ7m8MIbWgjflV1ZJx+vxQL78Fw7bUJFrgHALAGq+/jjg6LaNCixns5QY8g58UUVWbI5RXUJH+oxrbHzSwEyWsm4S3n1c0UVEb9iv/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0.3291,
+    "foliage": 0.6562,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.3135,
+    0.3395,
+    0.25
+   ],
+   "luma": 0.3603
+  }
+ },
+ "rainforest/sunbeams": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUBAgMG/8QAJxAAAQMDAgUFAQAAAAAAAAAAAQIDBAAREgUhIjFBUWETI3GBoTL/xAAWAQEBAQAAAAAAAAAAAAAAAAABAgT/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQIREkFR/9oADAMBAAIRAxEAPwDnG9UkLQlLjBKCbXHP6FMYKIrsu8kYhpISEJNsje9vJ7/NYRXYqGMmnhnvdwD+fAuOfmsmlw3HykuDMjgSjnz6eNqySjrhUUkjaXKEaW3GwGOQcXtzT2/KdR9QZVoXvDFxwKBP3cXpQyG1zfVUpCkqBSpZGW3XerTJGns6ZjFkNYJWeFarEE/FGF4FK7FOlEmEsE7Wv+1EMDN42F0obAPYWoorWQWSSluHiSLqcvbrwGkTSlemeI7260UUCf/Z",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0.1036,
+    "foliage": 0.3887,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0044,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.4306,
+    0.4444,
+    0.251
+   ],
+   "luma": 0.3557
+  }
+ },
+ "rooftop-city/night": {
+  "kind": "photo",
+  "place": "Bangkok, Thailand",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAIDBAUG/8QAKBAAAgEDAwIFBQAAAAAAAAAAAQIDAAQRBRIhEzEiQVFhgRQzcaHB/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgED/8QAGREAAwEBAQAAAAAAAAAAAAAAAAECQTIx/9oADAMBAAIRAxEAPwDzNxbzXRiMdnEnTXkIuAfznvSy6d9QkkvRS3ZFyYgSCffngD2FROqXQhDxzS7CO5fOR8VmOrXe37hdWHbP6rNU8NW1p07bTjHYEzFXV2ysavtLfNINPkmyJVjgRUJUJ4s49amusXElvHFJbwdOMdNfEdynv68+dOupiHhyiqykbSd3f0544o3dLwspaY4gDokrEDO3vTRwxDQFlEadTrAb9ozjJ86KKs6GsJacAZISRk5/prHMM3jZ85DmiijPbE+Uf//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0.4146,
+    "water": 0.0001,
+    "foliage": 0.122,
+    "glass": 0,
+    "lights": 0.0001,
+    "fire": 0,
+    "ground": 0.0049,
+    "people": 0
+   },
+   "skyColor": [
+    0.3054,
+    0.234,
+    0.2282
+   ],
+   "horizonColor": [
+    0.451,
+    0.3491,
+    0.3008
+   ],
+   "farColor": [
+    0.3132,
+    0.2433,
+    0.1989
+   ],
+   "luma": 0.2184
+  }
+ },
+ "rooftop-city/sunset": {
+  "kind": "photo",
+  "place": "Taiwan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAKBAAAgEEAQIEBwAAAAAAAAAAAQIRAAMEEiEFMUFRccEGEyIzYYHw/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAIDAf/EABsRAAMBAAMBAAAAAAAAAAAAAAABMRECEjJC/9oADAMBAAIRAxEAPwDkrFrJvXxbWJcwJPY+tRvY+Srj5yOOdORHiKcxPiBlYnGw7I4A0MmTV2RmNfYs4XadtTMD9VDXpeLRNlvqSpd1C+dQQXVcwzpsO57efvTuOj5ZuG3OirJP4FV5GZjkLoHJXkg3J9qFkN7unN47MgZlJVhEEGDW/cVT0hGgbGSTHNFFM/Qnyhm99PSW14mJjx/prIxvvt6UUUvGsHEf/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.0088,
+    "water": 0,
+    "foliage": 0.0333,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0062,
+    "people": 0
+   },
+   "skyColor": [
+    0.6453,
+    0.2932,
+    0.1584
+   ],
+   "horizonColor": [
+    0.4771,
+    0.2591,
+    0.2036
+   ],
+   "farColor": [
+    0.3459,
+    0.24,
+    0.1777
+   ],
+   "luma": 0.2451
+  }
+ },
+ "snowy-forest/dusk": {
+  "kind": "photo",
+  "place": "Bukovel, Ukraine",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCBQYH/8QAIxAAAQMDAwUBAAAAAAAAAAAAAQACAwQFERIhMRMiQVFhFP/EABYBAQEBAAAAAAAAAAAAAAAAAAIDAf/EABgRAAMBAQAAAAAAAAAAAAAAAAABAhEx/9oADAMBAAIRAxEAPwB623iSmmghllbMyR2Bt6C1clfSvpj24JHhccjZdevG/oVBLODpOytJH3ieMh8NS74QUqevg5xI0FzrGtLn/ojDMZ3kHCoai7Uml4NUNbRkBjCc/MpCS3XGVziaKbfjs4STrXcS55dRTDyMtVZus4TpI2EBOk7puMn2hCswIm8nHJSdUTpO5Qhags//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.3958,
+    "water": 0,
+    "foliage": 0.424,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.1819,
+    "people": 0
+   },
+   "skyColor": [
+    0.6537,
+    0.6408,
+    0.7483
+   ],
+   "horizonColor": [
+    0.6396,
+    0.613,
+    0.7324
+   ],
+   "farColor": [
+    0.4469,
+    0.4196,
+    0.4799
+   ],
+   "luma": 0.4434
+  }
+ },
+ "snowy-forest/pines": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAQFAgMG/8QAJxAAAQQBBAAFBQAAAAAAAAAAAQACAxEEBRIhQRMiMYGhIzJRceH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQD/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AEsp7XZMvhjzUA0/gk2ntKBfqUH0rDOXD7SB2lXYck2VPA1oMjCCHNHH6VHTMWVpe2ZxE4HO0XttCHSmVIDkyc7bb6e6lRG5LaO6s9m/6reZo03i7w/ddgUOBZ7UrH03IGU6EkNeBdVd0WWPn4WmrcdsxrR6AD2WXSEJgFqkY0ncWjcOAa5CEKo//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0.0056,
+    "water": 0,
+    "foliage": 0.7671,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.235,
+    "people": 0
+   },
+   "skyColor": [
+    0.9013,
+    0.8949,
+    0.8889
+   ],
+   "horizonColor": [
+    0.8985,
+    0.8911,
+    0.8809
+   ],
+   "farColor": [
+    0.5473,
+    0.5091,
+    0.4836
+   ],
+   "luma": 0.4859
+  }
+ },
+ "storm-sea/buoy": {
+  "kind": "video",
+  "place": null,
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAIBAwYEB//EACcQAAEEAQEGBwAAAAAAAAAAAAEAAgMRBCEFEhMxUWEUFTJBUmKx/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEDBP/EABYRAQEBAAAAAAAAAAAAAAAAAAASE//aAAwDAQACEQMRAD8AeSXc1dQA5kmgq/MMAst2ZC0k/MWsA/LldoarpSBkNIG9EDXchWtmybyPamCJHDxcWn2XS3aOHI1zWTx6c7Nfq8744qmxiuxScZzfSlZ5KST1UBCFNYwU+yEJh//Z",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 1920,
+   "height": 1080
+  }
+ },
+ "storm-sea/cell": {
+  "kind": "video",
+  "place": null,
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYCBAUB/8QAJhAAAgEDAgUFAQAAAAAAAAAAAQIAAxESBJEFIUFRUiIxMmFxgv/EABYBAQEBAAAAAAAAAAAAAAAAAAECAP/EABYRAQEBAAAAAAAAAAAAAAAAAAARAf/aAAwDAQACEQMRAD8At0deiEZEWPW80qXEaBW5dSF+4i1atRkxybnCjmFHqfeVMTTw/EKVQHKoKa9O8o1dTouZDm/cn3i6lZgbkE/t5MatlFgiD+YNWPk1vkd4F38m3hCC0ST3M5m3kd4Qgz//2Q==",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 2560,
+   "height": 1440
+  }
+ },
+ "tokyo-cafe/dusk": {
+  "kind": "photo",
+  "place": "Taitō, Tokyo, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAmEAACAQMEAQQDAQAAAAAAAAABAgMABBEFEiExcRMigZEGYXLB/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEEA//EAB0RAAICAgMBAAAAAAAAAAAAAAACAQMRMgQxUfD/2gAMAwEAAhEDEQA/AJciae+z0o5LRySDnJUHx3RpM8MGpK0bxm4SRcnrcvR781BW6kLbkT0yzE8Zx8D7+6004TT3ygvhWwXLnGBnmpOPU1bZyV3WK64wdb+UXUV5LFAkzRxxMSXI4Jwef8+ajy3j2l1aTRRCZ4XkcEj2tnaB+8d1vdWcMS3rCaOdFgIQs273bgAfOKQLXUNnBLcDaGB9NkOGxkdeMVRc8zMmNKLCwTLDmfnnvvxT2nAG9YEDG0UUUl2HOo/eALA4UYyOcUah7rCxDcgRHGf6ooos2+8GvR//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.0501,
+    "water": 0,
+    "foliage": 0.0405,
+    "glass": 0,
+    "lights": 0.028,
+    "fire": 0,
+    "ground": 0.2539,
+    "people": 0.0332
+   },
+   "skyColor": [
+    0.6659,
+    0.8063,
+    0.9341
+   ],
+   "horizonColor": [
+    0.6804,
+    0.8013,
+    0.9064
+   ],
+   "farColor": [
+    0.4321,
+    0.4563,
+    0.5183
+   ],
+   "luma": 0.3216
+  }
+ },
+ "tokyo-cafe/night": {
+  "kind": "photo",
+  "place": "Tokyo, Japan",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAArEAACAQMCBAQHAQAAAAAAAAABAgMABBEhMQUGEhMUQWFxIjNCUXKBkbH/xAAVAQEBAAAAAAAAAAAAAAAAAAAEBf/EACARAAIBAwQDAAAAAAAAAAAAAAABAgMRMRIhMkEzccH/2gAMAwEAAhEDEQA/AJXHobaGQNBkEtoCCAv9/X3rCWwuL14ZuISv0spORqQBpj3zjas7zit7dxjvz5BJDKzDBGnlVrhEkvgIAwZEwqhyCPqyRg7+9HpSkktQmpGLbssC9w9uOVo7ZAis7Z+POcjOvpnWudis3XsmRSocjcbiqHMbyJdSEMpVnYAhMEgHf11rK4uiEskkUiNEIyPPWlNK7YbOwzw6KNbNHWNA2NwozVRpZPDWq9x+nO3Ucb0UVNj5Rs+AhzCoVbZQAFw2gGm9J3HybH8G/wBooqhLv0vgJdH/2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.0272,
+    "water": 0,
+    "foliage": 0.0096,
+    "glass": 0,
+    "lights": 0.048,
+    "fire": 0,
+    "ground": 0.2167,
+    "people": 0.029
+   },
+   "skyColor": [
+    0.1229,
+    0.1621,
+    0.2292
+   ],
+   "horizonColor": [
+    0.1401,
+    0.1715,
+    0.2242
+   ],
+   "farColor": [
+    0.4427,
+    0.4092,
+    0.4459
+   ],
+   "luma": 0.3274
+  }
+ },
+ "underwater/cenote": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAUBBgIDBP/EACYQAAEDAwIFBQAAAAAAAAAAAAEAAgMEESEFEhMxMkFxFVFSYZH/xAAXAQADAQAAAAAAAAAAAAAAAAACBAUA/8QAGxEAAwEAAwEAAAAAAAAAAAAAAAECAwQRMSH/2gAMAwEAAhEDEQA/AKXRyuYTa4xf8T6rilrKdkowAMvcbAY91WIZi13UbhMvV6rgOiMl43jbscLhN57dS0yTvjTpVI104ZZEXtJ+IPJK9bo5KeYuIuw8nDul7a+WOoMrXZ7/AGF2alrZrY2t4IbtsAb3JARVsqjpgzx9Y1VL6n6KHcx4WY6meEISiKL8NbupR2KELBI//9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0.3503,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0622,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.0073,
+    0.3956,
+    0.5129
+   ],
+   "luma": 0.231
+  }
+ },
+ "underwater/reef": {
+  "kind": "photo",
+  "place": null,
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAIRAAAQQCAgIDAAAAAAAAAAAAAQACAxEhMQQFEhNBUXH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAgQF/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAEDAgQSMhEhMUL/2gAMAwEAAhEDEQA/AMPjz0RZW3xuxlY3EhOKFnS5dpIpNRzEVlXOPkzVNib8nYuc0jyo/aRkne4kk2kXTk62o+19Z0hU4+g5XX0hcaVjfj8QhO9hPhkJiQzBpKxPeTG0udRJsXvKEKK52L7PQ//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0.9459,
+    "foliage": 0,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.1463,
+    0.4016,
+    0.5275
+   ],
+   "luma": 0.3687
+  }
+ },
+ "waterfall/cascade": {
+  "kind": "video",
+  "place": "Italy",
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAYFBwEDBP/EACYQAAIBAwMDBAMAAAAAAAAAAAECAwAEEQUhUQYSYSIxQfAyM9H/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAbEQACAgMBAAAAAAAAAAAAAAAAAQIREiExQf/aAAwDAQACEQMRAD8ASLC7ukZCh7WU/lkhs/G9Wf07rcp0h5XiMt3EvqVMEuOf7VWhwHyRjg5xUzpmq3FtOjJOV7N8D5P0VmOrolDqnWMJvCbjT5N137SGYefFYk6q0hwCGljzkkMm4PFRl3daXrZS6EZtL1SA3cRhzzmuO4sYcNEsbRyk5aIj0nkqeKOckMUxOf8AWD5FbLcnuO/3FFFU0ScBJhcE52HvTFZEvpSlyWwBjO9FFHxk9P/Z",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 1920,
+   "height": 1080
+  }
+ },
+ "waterfall/pool": {
+  "kind": "video",
+  "place": null,
+  "widths": [],
+  "maps": false,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMEBQYC/8QAJhAAAgIBAwMDBQAAAAAAAAAAAQIDEQAEEiETMTIFBiJBUWFxkf/EABYBAQEBAAAAAAAAAAAAAAAAAAECAP/EABsRAAICAwEAAAAAAAAAAAAAAAABAhIRITFR/9oADAMBAAIRAxEAPwDEiwLGaX25BHroGgcKsqMalVd1WtgEdq4P2zNLuPAJ/uXXpbtpYi0bsrNyaNYxrnZLl4MbXaqPUy6dnQbG20qAA/nOJpOspJ3t9bq8jai5XZ5PkxNknm8RZj8CV/RwdVxGu30jxeJy0jJ6QwwyUQxEnfFP44YYsEf/2Q==",
+  "video": {
+   "av1": "loop-av1.mp4",
+   "hevc": "loop-hevc.mp4",
+   "width": 1920,
+   "height": 1080
+  }
+ }
+}
