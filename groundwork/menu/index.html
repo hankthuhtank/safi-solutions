@@ -19,14 +19,21 @@
     <meta property="og:url" content="https://www.safisolutions.org/groundwork/menu/" />
     <meta property="og:site_name" content="Safi Solutions" />
     <meta property="og:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+    <meta property="og:image:secure_url" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Groundwork logo" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+    <meta name="twitter:image:alt" content="Groundwork logo" />
+
     <meta name="twitter:title" content="Kinds of coffee | Groundwork" />
     <meta
       name="twitter:description"
       content="Every kind of coffee drink explained in one cup: slide from espresso to latte, or from ristretto to americano, and read the café menu board with the ratio behind each drink."
     />
-    <meta name="twitter:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+
     <link rel="icon" href="/groundwork/media/favicon-64.png" type="image/png" />
     <link rel="apple-touch-icon" href="/groundwork/media/apple-touch-icon.png" />
     <link rel="manifest" href="/groundwork/manifest.webmanifest" />
@@ -36,16 +43,16 @@
       href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Martian+Mono:wght@300..650&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/groundwork/css/groundwork.css?v=e1fcbc26" />
-  </head>
+    <link rel="stylesheet" href="/groundwork/css/groundwork.css?v=dccbc396" />
+</head>
   <body class="gw page-menu">
     <a class="skip" href="#main">Skip to content</a>
     <header class="gw-top">
       <a class="gw-brand" href="/groundwork/" aria-label="Groundwork home"
         ><img src="/groundwork/media/logo.webp" alt="Groundwork" width="1199" height="221"
       /></a>
-      <nav class="gw-nav" aria-label="Groundwork"
-        ><a href="/groundwork/"
+      <nav class="gw-nav" aria-label="Groundwork">
+        <a href="/groundwork/"
           ><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 8.5h12v2.5a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z" />
             <path d="M15 9.8h6" />
@@ -75,35 +82,35 @@
             <path d="M5.5 3h13v18l-2.2-1.4-2.1 1.4-2.2-1.4-2.2 1.4-2.1-1.4-2.2 1.4z" />
             <path d="M9 8h6M9 11.5h6M9 15h3.5" /></svg
           >Recipes</a
-        ></nav
-      >
-      <button class="gw-sound" type="button" aria-pressed="true" aria-label="Sound"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
+        >
+      </nav>
+      <button class="gw-sound" type="button" aria-pressed="true" aria-label="Sound">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" />
           <path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
           <path class="x" d="M16 9.5l5 5M21 9.5l-5 5" /></svg
-        ><span>Sound</span></button
-      >
+        ><span>Sound</span>
+      </button>
     </header>
     <main id="main" tabindex="-1">
       <div class="wrap">
         <section class="intro" aria-labelledby="menu-h">
           <p class="eyebrow">The menu · Kinds of coffee</p>
           <h1 class="h-xl" id="menu-h">One shot.<br />A dozen drinks.</h1>
-          <p class="lede"
-            >Most of a café menu is the same espresso with different amounts of milk, foam or water.
-            Slide and watch.</p
-          >
+          <p class="lede">
+            Most of a café menu is the same espresso with different amounts of milk, foam or water.
+            Slide and watch.
+          </p>
         </section>
 
         <section class="milkline" aria-labelledby="ml-name">
           <div class="ml-stage" id="mlStage" aria-hidden="true"></div>
           <div>
-            <div class="seg" role="group" aria-label="Add"
-              ><button type="button" data-line="milk" aria-pressed="true">Add milk</button
-              ><button type="button" data-line="water" aria-pressed="false">Add water</button></div
-            >
-            <h2 class="ml-name" id="ml-name" style="margin-top:22px">Espresso</h2>
+            <div class="seg" role="group" aria-label="Add">
+              <button type="button" data-line="milk" aria-pressed="true">Add milk</button
+              ><button type="button" data-line="water" aria-pressed="false">Add water</button>
+            </div>
+            <h2 class="ml-name" id="ml-name" style="margin-top: 22px">Espresso</h2>
             <div class="ml-ratio" id="mlRatio"></div>
             <p class="ml-line" id="mlLine"></p>
             <div class="ml-bar" id="mlBar" aria-hidden="true"></div>
@@ -121,58 +128,82 @@
               />
               <div class="ml-stops" id="mlStops"></div>
             </div>
-            <p style="margin-top:6px"
-              ><a class="btn ghost small" id="mlLink" href="/groundwork/recipes/"
-                >Full recipe →</a
-              ></p
-            >
+            <p style="margin-top: 6px">
+              <a class="btn ghost small" id="mlLink" href="/groundwork/recipes/">Full recipe →</a>
+            </p>
           </div>
         </section>
 
         <section class="sec" aria-labelledby="board-h">
           <div class="board rv">
-            <div class="board-head"
-              ><h2 id="board-h">On the board</h2><span>ratio · what makes it</span></div
-            >
+            <div class="board-head">
+              <h2 id="board-h">On the board</h2>
+              <span>ratio · what makes it</span>
+            </div>
             <div class="board-cols" id="boardCols"></div>
           </div>
         </section>
 
         <section class="sec" aria-labelledby="caf-h">
-          <div class="sec-head"
-            ><div
-              ><p class="eyebrow">How much caffeine</p
-              ><h2 class="h-lg" id="caf-h">Stronger isn’t always bigger.</h2
-              ><p class="lede" style="margin-top:12px"
-                >Per sip, espresso wins. Per cup, a big cold brew does.</p
-              ></div
-            ><span class="sec-num" aria-hidden="true">02</span></div
-          >
+          <div class="sec-head">
+            <div>
+              <p class="eyebrow">How much caffeine</p>
+              <h2 class="h-lg" id="caf-h">Stronger isn’t always bigger.</h2>
+              <p class="lede" style="margin-top: 12px">
+                Per sip, espresso wins. Per cup, a big cold brew does.
+              </p>
+            </div>
+            <span class="sec-num" aria-hidden="true">02</span>
+          </div>
           <div id="cafLadder" class="rv"></div>
-          <p class="muted" style="font-size:12.5px;margin-top:12px"
-            >Typical values: USDA (≈63 mg per 1 oz espresso, ≈95 mg per 8 oz brewed); cold brew and
+          <p class="muted" style="font-size: 12.5px; margin-top: 12px">
+            Typical values: USDA (≈63 mg per 1 oz espresso, ≈95 mg per 8 oz brewed); cold brew and
             instant vary widely. The FDA puts 400 mg a day as an amount not generally linked to
-            negative effects in healthy adults.</p
-          >
+            negative effects in healthy adults.
+          </p>
         </section>
       </div>
     </main>
+    <aside class="cafe-radio" aria-label="Café music">
+      <div class="radio-row">
+        <span class="radio-name">♫ Café radio</span
+        ><button type="button" id="musicPlay" aria-pressed="false" aria-label="Play café music">
+          Play</button
+        ><button type="button" id="musicNext" aria-label="Next music track">Next →</button>
+        <details class="radio-details">
+          <summary aria-label="Music settings">Settings</summary>
+          <div class="radio-settings">
+            <label
+              >Music style<select id="musicStyle">
+                <option value="jazzcafe">Café jazz</option>
+                <option value="lofi">Lo-fi</option>
+              </select></label
+            ><label
+              >Volume<input id="musicVolume" type="range" min="0" max="100" value="25"
+            /></label>
+            <p id="musicCredit">From Vibey’s licensed music collection.</p>
+          </div>
+        </details>
+      </div>
+      <p class="radio-status" id="musicStatus" role="status">A little coffee-shop atmosphere.</p>
+    </aside>
     <footer class="gw-foot">
       <div class="gw-foot-in">
         <p class="big">Coffee, from<br />the ground up.</p>
-        <nav aria-label="Groundwork footer"
-          ><a href="/groundwork/">Bar</a><a href="/groundwork/menu/">Menu</a
+        <nav aria-label="Groundwork footer">
+          <a href="/groundwork/">Bar</a><a href="/groundwork/menu/">Menu</a
           ><a href="/groundwork/beans/">Beans</a><a href="/groundwork/brew/">Brew</a
           ><a href="/groundwork/recipes/">Recipes</a><a href="/groundwork/sources/">Sources</a
-          ><a href="/projects/#groundwork">About</a><a href="/">Safi Solutions</a></nav
-        >
+          ><a href="/projects/#groundwork">About</a><a href="/">Safi Solutions</a>
+        </nav>
         <small
-          >Groundwork is a Safi Solutions project. Numbers checked October 2026 against USDA, NCA,
-          SCA and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every
-          machine is a little different: use these as starting points, then trust your taste.</small
+          >Groundwork is a Safi Solutions project. Brewing guides and references from USDA, NCA, SCA
+          and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every machine
+          is a little different: use these as starting points, then trust your taste.</small
         >
       </div>
     </footer>
-    <script type="module" src="/groundwork/js/menu.js?v=1338b533"></script>
+    <script type="module" src="/groundwork/js/music.js?v=3ef73be1"></script>
+    <script type="module" src="/groundwork/js/menu.js?v=348c6e30"></script>
   </body>
 </html>

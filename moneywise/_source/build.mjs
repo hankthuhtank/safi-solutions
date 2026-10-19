@@ -253,12 +253,19 @@ function shell({ slug, path: urlPath, title, description, body, used, script, bo
 <meta property="og:type" content="website">
 <meta property="og:url" content="${url}">
 <meta property="og:site_name" content="Safi Solutions">
-<meta property="og:image" content="https://www.safisolutions.org/moneywise/media/og.jpg">
-<meta property="og:image:alt" content="Moneywise logo">
+<meta property="og:image" content="https://www.safisolutions.org/assets/social/moneywise-logo.jpg" />
+<meta property="og:image:secure_url" content="https://www.safisolutions.org/assets/social/moneywise-logo.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Moneywise logo" />
+<meta name="twitter:image" content="https://www.safisolutions.org/assets/social/moneywise-logo.jpg" />
+<meta name="twitter:image:alt" content="Moneywise logo" />
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
-<meta name="twitter:image" content="https://www.safisolutions.org/moneywise/media/og.jpg">
+
 <link rel="icon" href="/moneywise/media/favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="/moneywise/media/apple-touch-icon.png">
 <link rel="manifest" href="/moneywise/manifest.webmanifest">

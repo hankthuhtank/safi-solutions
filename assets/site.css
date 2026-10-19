@@ -1440,7 +1440,7 @@ a:hover > .arrow.back {
   position: relative;
   z-index: 1;
   font:
-    italic 500 clamp(26px, 3vw, 38px)/1.15 Georgia,
+    italic 500 clamp(26px, 3vw, 38px) / 1.15 Georgia,
     "Times New Roman",
     serif;
   letter-spacing: 0.01em;
@@ -1598,6 +1598,18 @@ a:hover > .arrow.back {
   font-family: "Azeret Mono", "IBM Plex Mono", monospace;
   letter-spacing: -0.06em;
   font-size: 38px;
+}
+.shelf.w-fileshift h2 {
+  font-family: "Syne", "DM Sans", sans-serif;
+  letter-spacing: -0.045em;
+}
+.shelf.w-inkform h2 {
+  font-family: "Fraunces", Georgia, serif;
+}
+.shelf.w-shiftcraft h2 {
+  font-family: "Azeret Mono", "IBM Plex Mono", monospace;
+  font-size: 38px;
+  letter-spacing: -0.06em;
 }
 .note-bar {
   display: flex;

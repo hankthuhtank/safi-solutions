@@ -7,26 +7,33 @@
     <title>Groundwork | Coffee, from the ground up</title>
     <meta
       name="description"
-      content="Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 80+ recipes."
+      content="Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 112 recipes, café favourites and a recipe of the day."
     />
     <link rel="canonical" href="https://www.safisolutions.org/groundwork/" />
     <meta property="og:title" content="Groundwork | Coffee, from the ground up" />
     <meta
       property="og:description"
-      content="Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 80+ recipes."
+      content="Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 112 recipes, café favourites and a recipe of the day."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.safisolutions.org/groundwork/" />
     <meta property="og:site_name" content="Safi Solutions" />
     <meta property="og:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+    <meta property="og:image:secure_url" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Groundwork logo" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+    <meta name="twitter:image:alt" content="Groundwork logo" />
+
     <meta name="twitter:title" content="Groundwork | Coffee, from the ground up" />
     <meta
       name="twitter:description"
-      content="Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 80+ recipes."
+      content="Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 112 recipes, café favourites and a recipe of the day."
     />
-    <meta name="twitter:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+
     <link rel="icon" href="/groundwork/media/favicon-64.png" type="image/png" />
     <link rel="apple-touch-icon" href="/groundwork/media/apple-touch-icon.png" />
     <link rel="manifest" href="/groundwork/manifest.webmanifest" />
@@ -36,16 +43,16 @@
       href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Martian+Mono:wght@300..650&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/groundwork/css/groundwork.css?v=e1fcbc26" />
-  </head>
+    <link rel="stylesheet" href="/groundwork/css/groundwork.css?v=dccbc396" />
+</head>
   <body class="gw page-bar">
     <a class="skip" href="#main">Skip to content</a>
     <header class="gw-top">
       <a class="gw-brand" href="/groundwork/" aria-label="Groundwork home"
         ><img src="/groundwork/media/logo.webp" alt="Groundwork" width="1199" height="221"
       /></a>
-      <nav class="gw-nav" aria-label="Groundwork"
-        ><a href="/groundwork/" aria-current="page"
+      <nav class="gw-nav" aria-label="Groundwork">
+        <a href="/groundwork/" aria-current="page"
           ><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 8.5h12v2.5a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z" />
             <path d="M15 9.8h6" />
@@ -75,15 +82,15 @@
             <path d="M5.5 3h13v18l-2.2-1.4-2.1 1.4-2.2-1.4-2.2 1.4-2.1-1.4-2.2 1.4z" />
             <path d="M9 8h6M9 11.5h6M9 15h3.5" /></svg
           >Recipes</a
-        ></nav
-      >
-      <button class="gw-sound" type="button" aria-pressed="true" aria-label="Sound"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
+        >
+      </nav>
+      <button class="gw-sound" type="button" aria-pressed="true" aria-label="Sound">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" />
           <path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
           <path class="x" d="M16 9.5l5 5M21 9.5l-5 5" /></svg
-        ><span>Sound</span></button
-      >
+        ><span>Sound</span>
+      </button>
     </header>
     <main id="main" tabindex="-1">
       <div class="wrap">
@@ -92,12 +99,35 @@
             <p class="eyebrow">The bar · Hands on</p>
             <h1 class="h-xl" id="bar-h">Pull a shot.<br />Pour a coffee.</h1>
           </div>
-          <p class="lede"
-            >Grind, tamp, pull, steam, pour. The machine reacts to every choice, so you can taste
-            the difference.</p
-          >
+          <p class="lede">
+            Grind, tamp, pull, steam, pour. The machine reacts to every choice, so you can see what
+            changes. Pick a recipe below, then try the bar.
+          </p>
         </section>
 
+        <section class="daily" aria-labelledby="daily-h">
+          <div class="daily-top">
+            <p class="eyebrow" id="dailyLabel">Recipe of the day</p>
+            <time id="dailyDate"></time>
+          </div>
+          <div class="daily-in" id="dailyRecipe">
+            <p>
+              Something good is brewing. <a href="/groundwork/recipes/">Browse the recipes →</a>
+            </p>
+          </div>
+          <div class="daily-bottom">
+            <span>A fresh pick every day. No queue required.</span
+            ><button type="button" class="btn ghost small" id="dailyShuffle">Surprise me ↻</button>
+          </div>
+        </section>
+
+        <div class="sec-head machine-heading">
+          <div>
+            <p class="eyebrow">Your turn behind the bar</p>
+            <h2 class="h-lg">Make it from scratch.</h2>
+          </div>
+          <span class="sec-num" aria-hidden="true">01</span>
+        </div>
         <ol class="rail" id="rail" aria-label="Steps"></ol>
 
         <section class="station" aria-label="Espresso machine">
@@ -1245,93 +1275,49 @@
               </g>
             </svg>
             <div class="scene-cap" id="sceneCap" aria-hidden="true"></div>
-            <div class="cam-btns"
-              ><button type="button" id="camWide" aria-label="Zoom out to see the whole bar"
-                ><svg viewBox="0 0 24 24">
-                  <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg></button
-            ></div>
+            <div class="cam-btns">
+              <button type="button" id="camWide" aria-label="Zoom out to see the whole bar">
+                <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg>
+              </button>
+            </div>
           </div>
           <article class="ticket panel" id="panel" aria-live="polite"></article>
         </section>
 
-        <section class="sec" aria-labelledby="num-h">
-          <div class="sec-head"
-            ><div
-              ><p class="eyebrow">Four numbers</p
-              ><h2 class="h-lg" id="num-h">The whole shot, in four numbers.</h2></div
-            ><span class="sec-num" aria-hidden="true">01</span></div
-          >
-          <div class="facts">
-            <div class="fact rv"
-              ><b>18<sup>g</sup></b
-              ><p
-                >Coffee in. A standard double
-                <button type="button" class="term" data-term="dose">dose</button>.</p
-              ></div
-            >
-            <div class="fact rv"
-              ><b>1:2</b
-              ><p
-                >The <button type="button" class="term" data-term="ratio">ratio</button>: 36 g of
-                espresso out of 18 g of coffee.</p
-              ></div
-            >
-            <div class="fact rv"
-              ><b>9<sup>bar</sup></b
-              ><p
-                >Pressure, in <button type="button" class="term" data-term="bar">bar</button>. About
-                nine times the air around you.</p
-              ></div
-            >
-            <div class="fact rv"
-              ><b>25–30<sup>s</sup></b
-              ><p>From pump on to pump off, at 90–96 °C.</p
-              ><cite>SCA espresso definition; Clive Coffee</cite></div
-            >
+        <section class="sec" aria-labelledby="cafe-h">
+          <div class="sec-head">
+            <div>
+              <p class="eyebrow">Skip the queue</p>
+              <h2 class="h-lg" id="cafe-h">Your usual. On the house.</h2>
+            </div>
+            <a class="btn ghost small" href="/groundwork/recipes/?brand=all">All café recipes →</a>
           </div>
-        </section>
-
-        <section class="sec" aria-labelledby="now-h">
-          <div class="sec-head"
-            ><div
-              ><p class="eyebrow">Coffee right now</p
-              ><h2 class="h-lg" id="now-h">2026, by the cup.</h2></div
-            ><span class="sec-num" aria-hidden="true">02</span></div
-          >
-          <div class="facts">
-            <div class="fact rv"
-              ><b>47<sup>%</sup></b
-              ><p>of U.S. adults had an espresso drink in the past week. A record.</p
-              ><cite>NCA National Coffee Data Trends, Fall 2026</cite></div
-            >
-            <div class="fact rv"
-              ><b>189.7<sup>M</sup></b
-              ><p>60-kg bags: the record world crop forecast for 2026/27.</p
-              ><cite>USDA FAS, July 2026</cite></div
-            >
-            <div class="fact rv"
-              ><b>$4.38</b><p>per pound: arabica's all-time high, Oct 2025. It fell 38% by June.</p
-              ><cite>ICE futures via Barchart</cite></div
-            >
-            <div class="fact rv"
-              ><b>21<sup>%</sup></b
-              ><p>of coffee drinkers had it cold yesterday, up from 16% in 2022.</p
-              ><cite>NCA, June 2026 survey</cite></div
-            >
-          </div>
+          <p class="lede">
+            Coffee-shop favourites, with measurements you can actually use at home.
+          </p>
+          <div class="cafe-brands" id="cafeBrands"></div>
+          <ul class="cafe-picks" id="cafePicks" aria-label="Coffee-shop favourites"></ul>
+          <p class="muted cafe-note">
+            Inspired home versions, with Groundwork’s own proportions. Flavours are checked against
+            brand menus; these are not official store formulas.
+          </p>
         </section>
 
         <section class="sec" aria-labelledby="more-h">
-          <div class="sec-head"
-            ><div
-              ><p class="eyebrow">Keep going</p
-              ><h2 class="h-lg" id="more-h">The rest of the shop.</h2></div
-            ><span class="sec-num" aria-hidden="true">03</span></div
-          >
+          <div class="sec-head">
+            <div>
+              <p class="eyebrow">Keep going</p>
+              <h2 class="h-lg" id="more-h">The rest of the shop.</h2>
+            </div>
+            <span class="sec-num" aria-hidden="true">02</span>
+          </div>
           <div class="next-up">
             <a class="door rv" href="/groundwork/menu/"
-              ><div><b>Menu</b><p>Every espresso drink is one cup and a slider.</p></div
-              ><span class="go">Kinds of coffee →</span
+              ><div>
+                <b>Menu</b>
+                <p>Every espresso drink is one cup and a slider.</p>
+              </div>
+              <span class="go">Kinds of coffee →</span
               ><svg viewBox="0 0 120 120" aria-hidden="true">
                 <path
                   d="M30 60h56v14a26 26 0 0 1-26 26h-4a26 26 0 0 1-26-26z"
@@ -1348,8 +1334,11 @@
                 /></svg
             ></a>
             <a class="door rv" href="/groundwork/beans/"
-              ><div><b>Beans</b><p>Species, roast, process and where it grows.</p></div
-              ><span class="go">From the farm →</span
+              ><div>
+                <b>Beans</b>
+                <p>Species, roast, process and where it grows.</p>
+              </div>
+              <span class="go">From the farm →</span
               ><svg viewBox="0 0 120 120" aria-hidden="true">
                 <ellipse
                   cx="68"
@@ -1369,8 +1358,11 @@
                 /></svg
             ></a>
             <a class="door rv" href="/groundwork/brew/"
-              ><div><b>Brew</b><p>Pour-over, press, moka, cold brew. With a timer.</p></div
-              ><span class="go">No machine needed →</span
+              ><div>
+                <b>Brew</b>
+                <p>Pour-over, press, moka, cold brew. With a timer.</p>
+              </div>
+              <span class="go">No machine needed →</span
               ><svg viewBox="0 0 120 120" aria-hidden="true">
                 <path
                   d="M30 46h60L72 82H48z"
@@ -1383,8 +1375,11 @@
                 <path d="M40 52h40" stroke="#b3362b" stroke-width="5" /></svg
             ></a>
             <a class="door rv" href="/groundwork/recipes/"
-              ><div><b>Recipes</b><p>80+ drinks from Hanoi to Vienna to your kitchen.</p></div
-              ><span class="go">The pass →</span
+              ><div>
+                <b>Recipes</b>
+                <p>112 drinks, from coffee-shop favourites to world classics.</p>
+              </div>
+              <span class="go">The pass →</span
               ><svg viewBox="0 0 120 120" aria-hidden="true">
                 <path
                   d="M38 30h48v66l-8-5-8 5-8-5-8 5-8-5-8 5z"
@@ -1399,22 +1394,46 @@
         </section>
       </div>
     </main>
+    <aside class="cafe-radio" aria-label="Café music">
+      <div class="radio-row">
+        <span class="radio-name">♫ Café radio</span
+        ><button type="button" id="musicPlay" aria-pressed="false" aria-label="Play café music">
+          Play</button
+        ><button type="button" id="musicNext" aria-label="Next music track">Next →</button>
+        <details class="radio-details">
+          <summary aria-label="Music settings">Settings</summary>
+          <div class="radio-settings">
+            <label
+              >Music style<select id="musicStyle">
+                <option value="jazzcafe">Café jazz</option>
+                <option value="lofi">Lo-fi</option>
+              </select></label
+            ><label
+              >Volume<input id="musicVolume" type="range" min="0" max="100" value="25"
+            /></label>
+            <p id="musicCredit">From Vibey’s licensed music collection.</p>
+          </div>
+        </details>
+      </div>
+      <p class="radio-status" id="musicStatus" role="status">A little coffee-shop atmosphere.</p>
+    </aside>
     <footer class="gw-foot">
       <div class="gw-foot-in">
         <p class="big">Coffee, from<br />the ground up.</p>
-        <nav aria-label="Groundwork footer"
-          ><a href="/groundwork/">Bar</a><a href="/groundwork/menu/">Menu</a
+        <nav aria-label="Groundwork footer">
+          <a href="/groundwork/">Bar</a><a href="/groundwork/menu/">Menu</a
           ><a href="/groundwork/beans/">Beans</a><a href="/groundwork/brew/">Brew</a
           ><a href="/groundwork/recipes/">Recipes</a><a href="/groundwork/sources/">Sources</a
-          ><a href="/projects/#groundwork">About</a><a href="/">Safi Solutions</a></nav
-        >
+          ><a href="/projects/#groundwork">About</a><a href="/">Safi Solutions</a>
+        </nav>
         <small
-          >Groundwork is a Safi Solutions project. Numbers checked October 2026 against USDA, NCA,
-          SCA and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every
-          machine is a little different: use these as starting points, then trust your taste.</small
+          >Groundwork is a Safi Solutions project. Brewing guides and references from USDA, NCA, SCA
+          and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every machine
+          is a little different: use these as starting points, then trust your taste.</small
         >
       </div>
     </footer>
-    <script type="module" src="/groundwork/js/bar.js?v=2a05ec24"></script>
+    <script type="module" src="/groundwork/js/music.js?v=3ef73be1"></script>
+    <script type="module" src="/groundwork/js/bar.js?v=b8c82184"></script>
   </body>
 </html>

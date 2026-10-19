@@ -302,7 +302,11 @@ export const sound = {
         rg.gain.setTargetAtTime(m === "spin" ? 0.2 : 0, c.currentTime, 0.1);
         hg.gain.setTargetAtTime(m === "spin" ? 0.08 : 0.16, c.currentTime, 0.1);
       };
-      return { nodes: [n, n2, n3], mode: setMode, end: () => clearTimeout(timer) };
+      return {
+        nodes: [n, n2, n3],
+        mode: setMode,
+        end: () => clearTimeout(timer),
+      };
     });
   },
 };
@@ -321,7 +325,7 @@ export const TERMS = {
   ],
   extraction: [
     "Extraction",
-    "How much of the ground coffee dissolved into the cup. Too little tastes sour and thin; too much tastes bitter and dry. Around 18–22% is the sweet spot.",
+    "How much of the ground coffee dissolved into the cup. Too little tastes sour and thin; too much tastes bitter and dry. 18–22% is a common reference range, not a rule; taste is the final guide.",
   ],
   tds: [
     "Strength (TDS)",
@@ -358,11 +362,11 @@ export const TERMS = {
   ],
   bar: [
     "Bar (pressure)",
-    "1 bar is air pressure at sea level. Espresso brews at about 9 bar, the pressure about 90 m under water.",
+    "1 bar is close to atmospheric pressure at sea level. Espresso machines commonly brew near 9 bar above atmospheric pressure; recipes and machines vary.",
   ],
   ristretto: [
     "Ristretto",
-    'A "restricted" shot: same dose, cut short at about 1:1 to 1:1.5. Thicker and sweeter, less bitter.',
+    'A "restricted" shot: same dose, cut short at about 1:1 to 1:1.5. Usually more concentrated; sweetness and bitterness depend on the coffee and extraction.',
   ],
   lungo: [
     "Lungo",
@@ -370,7 +374,7 @@ export const TERMS = {
   ],
   microfoam: [
     "Microfoam",
-    "Milk with bubbles so small you cannot see them. Glossy like wet paint, and the only milk you can pour art with.",
+    "Milk with bubbles so small you cannot see them. Glossy like wet paint, and well suited to pouring latte art.",
   ],
   stretch: [
     "Stretching",

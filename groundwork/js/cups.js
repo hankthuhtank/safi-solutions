@@ -49,6 +49,7 @@ export const INK = {
   sugar: "#f7f2e8",
   icecream: "#f7edd8",
   spice: "#8b4a22",
+  cinnamon: "#8b4a22",
   protein: "#e7d9bf",
   brownsugar: "#9a5a24",
   maple: "#b0661f",

@@ -57,12 +57,19 @@ function shell(p) {
 <meta property="og:type" content="website">
 <meta property="og:url" content="${url}">
 <meta property="og:site_name" content="Safi Solutions">
-<meta property="og:image" content="${SITE}/groundwork/media/og.jpg">
-<meta property="og:image:alt" content="Groundwork logo">
+<meta property="og:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+<meta property="og:image:secure_url" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Groundwork logo" />
+<meta name="twitter:image" content="https://www.safisolutions.org/groundwork/media/og.jpg" />
+<meta name="twitter:image:alt" content="Groundwork logo" />
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${p.desc}">
-<meta name="twitter:image" content="${SITE}/groundwork/media/og.jpg">
+
 <link rel="icon" href="/groundwork/media/favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="/groundwork/media/apple-touch-icon.png">
 <link rel="manifest" href="/groundwork/manifest.webmanifest">
@@ -81,13 +88,18 @@ function shell(p) {
 <main id="main" tabindex="-1">
 ${p.body.trim()}
 </main>
+<aside class="cafe-radio" aria-label="Café music">
+  <div class="radio-row"><span class="radio-name">♫ Café radio</span><button type="button" id="musicPlay" aria-pressed="false" aria-label="Play café music">Play</button><button type="button" id="musicNext" aria-label="Next music track">Next →</button><details class="radio-details"><summary aria-label="Music settings">Settings</summary><div class="radio-settings"><label>Music style<select id="musicStyle"><option value="jazzcafe">Café jazz</option><option value="lofi">Lo-fi</option></select></label><label>Volume<input id="musicVolume" type="range" min="0" max="100" value="25"></label><p id="musicCredit">From Vibey’s licensed music collection.</p></div></details></div>
+  <p class="radio-status" id="musicStatus" role="status">A little coffee-shop atmosphere.</p>
+</aside>
 <footer class="gw-foot">
   <div class="gw-foot-in">
     <p class="big">Coffee, from<br>the ground up.</p>
     <nav aria-label="Groundwork footer"><a href="/groundwork/">Bar</a><a href="/groundwork/menu/">Menu</a><a href="/groundwork/beans/">Beans</a><a href="/groundwork/brew/">Brew</a><a href="/groundwork/recipes/">Recipes</a><a href="/groundwork/sources/">Sources</a><a href="/projects/#groundwork">About</a><a href="/">Safi Solutions</a></nav>
-    <small>Groundwork is a Safi Solutions project. Numbers checked October 2026 against USDA, NCA, SCA and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every machine is a little different: use these as starting points, then trust your taste.</small>
+    <small>Groundwork is a Safi Solutions project. Brewing guides and references from USDA, NCA, SCA and the other <a href="/groundwork/sources/">sources</a>. Every coffee and every machine is a little different: use these as starting points, then trust your taste.</small>
   </div>
 </footer>
+<script type="module" src="/groundwork/js/music.js?v=${hash("js/music.js")}"></script>
 ${p.script ? `<script type="module" src="/groundwork/js/${p.script}?v=${v}"></script>` : '<script type="module">import { initChrome } from "/groundwork/js/core.js"; initChrome();</script>'}
 </body>
 </html>

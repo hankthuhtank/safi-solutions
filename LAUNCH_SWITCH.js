@@ -1,4 +1,4 @@
-/* SafiSolutions storefront control — 6 free desktop apps. */
+/* SafiSolutions storefront control — 9 free desktop apps. */
 window.SAFI_STORE_CONTROL = {
   freeDownloadsEnabled: true,
   freeDownloadWorker: "https://safisolutions-downloads.safisolutions.workers.dev",
@@ -9,5 +9,18 @@ window.SAFI_STORE_CONTROL = {
     doqcorp: { label: "DoqCorp", free: true, version: "1.0", filePath: "doqcorp/DoqCorp.exe" },
     brandur: { label: "Brandur", free: true, version: "1.0", filePath: "brandur/Brandur.exe" },
     doqdesk: { label: "DoqDesk", free: true, version: "1.0", filePath: "doqdesk/DoqDesk.exe" },
+    fileshift: {
+      label: "FileShift",
+      free: true,
+      version: "1.0",
+      filePath: "fileshift/FileShift.exe",
+    },
+    inkform: { label: "Inkform", free: true, version: "1.0", filePath: "inkform/Inkform.exe" },
+    shiftcraft: {
+      label: "ShiftCraft",
+      free: true,
+      version: "1.1",
+      filePath: "shiftcraft/ShiftCraft.exe",
+    },
   },
 };

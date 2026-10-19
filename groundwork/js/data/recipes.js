@@ -1,18 +1,49 @@
+import { CAFE_RECIPES } from "./cafe.js";
+
 // Groundwork recipe library.
 // layers: [ink, ml, flags] bottom→top (see cups.js). spec: [amount, unit, ingredient]. needs: pantry keys ("a|b" = either).
 // caf: rough caffeine in mg (USDA: ~63 mg per 1 oz espresso shot, ~95 mg per 8 oz brewed). milk / sweet: 0–100.
 export const SHELVES = [
-  { id: "espresso", label: "Espresso bar", line: "Shots, and shots with water." },
-  { id: "milk", label: "Milk & espresso", line: "Same shot, more milk, different foam." },
-  { id: "cold", label: "Iced & cold", line: "21% of U.S. coffee drinkers had it cold yesterday." },
-  { id: "brewed", label: "Slow bar", line: "No machine. Hot water, time and a filter." },
+  {
+    id: "espresso",
+    label: "Espresso bar",
+    line: "Shots, and shots with water.",
+  },
+  {
+    id: "milk",
+    label: "Milk & espresso",
+    line: "Same shot, more milk, different foam.",
+  },
+  {
+    id: "cold",
+    label: "Iced & cold",
+    line: "Shaken, chilled and brewed overnight.",
+  },
+  {
+    id: "brewed",
+    label: "Slow bar",
+    line: "No machine. Hot water, time and a filter.",
+  },
   {
     id: "world",
     label: "Around the world",
     line: "How Hanoi, Istanbul, Vienna and Chennai drink it.",
   },
-  { id: "sweet", label: "Sweet & new", line: "Desserts and what 2026 is ordering." },
-  { id: "spirited", label: "After dark", line: "Coffee with a spirit in it. 21+." },
+  {
+    id: "sweet",
+    label: "Sweet & new",
+    line: "Flavoured lattes and coffee for your sweet tooth.",
+  },
+  {
+    id: "cafe",
+    label: "Café favourites",
+    line: "Your coffee-shop order, made in your kitchen.",
+  },
+  {
+    id: "spirited",
+    label: "After dark",
+    line: "Coffee with a spirit in it. 21+.",
+  },
 ];
 
 export const PANTRY = [
@@ -50,6 +81,12 @@ export const PANTRY = [
       ["coconut", "Coconut cream"],
       ["cheese", "Juustoleipä / squeaky cheese"],
       ["protein", "Protein milk"],
+      ["halfhalf", "Half-and-half"],
+      ["chocmilk", "Chocolate milk"],
+      ["readycoffee", "Ready-to-drink cold coffee"],
+      ["whitechoc", "White chocolate / sauce"],
+      ["pumpkin", "Pumpkin purée"],
+      ["cookies", "Chocolate-caramel cookies"],
     ],
   },
   {
@@ -57,7 +94,7 @@ export const PANTRY = [
     items: [
       ["cinnamon", "Cinnamon"],
       ["cardamom", "Cardamom"],
-      ["spices", "Cloves & whole spices"],
+      ["spices", "Baking / whole spices"],
       ["vanilla", "Vanilla"],
       ["honey", "Honey"],
       ["brownsugar", "Brown sugar / piloncillo"],
@@ -67,6 +104,14 @@ export const PANTRY = [
       ["pistachio", "Pistachio cream"],
       ["lavender", "Lavender syrup"],
       ["ube", "Ube"],
+      ["peppermint", "Peppermint coffee syrup"],
+      ["cinnamonsyrup", "Cinnamon dolce syrup"],
+      ["blueberry", "Blueberry coffee syrup"],
+      ["butterpecan", "Butter pecan syrup"],
+      ["macadamia", "Chocolate macadamia syrup"],
+      ["irishsyrup", "Irish cream syrup (no alcohol)"],
+      ["coconutsyrup", "Coconut coffee syrup"],
+      ["hazelnut", "Hazelnut coffee syrup"],
     ],
   },
   {
@@ -665,7 +710,7 @@ export const RECIPES = [
     ],
     ["Pull a double.", "Steam half-and-half (it foams fast).", "Pour like a latte."],
     "A latte made with half-and-half. Dessert-rich.",
-    ["shot", "cream", "foam"],
+    ["shot", "halfhalf", "foam"],
     126,
     75,
     10,
@@ -719,7 +764,7 @@ export const RECIPES = [
     ],
     ["Melt white chocolate into the shot.", "Top with steamed milk."],
     "Sweet, creamy, vanilla-heavy.",
-    ["shot", "milk", "cocoa"],
+    ["shot", "milk", "whitechoc"],
     126,
     75,
     80,
@@ -855,7 +900,7 @@ export const RECIPES = [
       "Strain through paper.",
       "Serve over ice; dilute 1:1 if strong.",
     ],
-    "Steeped cold overnight: smooth, low-acid, quietly strong.",
+    "Steeped cold overnight: smooth-tasting; caffeine depends on the beans, strength and dilution.",
     [],
     200,
     0,
@@ -886,7 +931,7 @@ export const RECIPES = [
       "Spoon the foam on top.",
     ],
     "The flavour carrier of the 2020s: sweet foam on bitter coffee.",
-    ["cream", "frother", "ice"],
+    ["brewed|readycoffee", "cream", "milk", "vanilla", "frother", "ice"],
     190,
     20,
     35,
@@ -1014,9 +1059,9 @@ export const RECIPES = [
       ["foamdark", 60, "f"],
     ],
     [
-      [2, "tbsp", "instant coffee"],
-      [2, "tbsp", "sugar"],
-      [2, "tbsp", "hot water"],
+      [2, "tsp", "instant coffee"],
+      [2, "tsp", "sugar"],
+      [2, "tsp", "hot water"],
       [200, "ml", "milk"],
     ],
     [
@@ -1434,12 +1479,12 @@ export const RECIPES = [
       ["egg", 60, "f"],
     ],
     [
-      [2, "", "egg yolks"],
+      [2, "", "pasteurized egg yolks"],
       [2, "tbsp", "condensed milk"],
       [60, "ml", "strong phin coffee"],
     ],
     [
-      "Whisk yolks with condensed milk until pale and thick.",
+      "Use pasteurized yolks; hot coffee does not reliably cook the egg topping. Whisk with condensed milk until pale and thick.",
       "Brew strong coffee into a cup in hot water.",
       "Spoon the egg cream over the top.",
     ],
@@ -1905,7 +1950,7 @@ export const RECIPES = [
       "Float whisked matcha on top.",
       "Pour the shot last for three layers.",
     ],
-    "Green tea, milk and espresso in stripes. Still growing in 2026.",
+    "Green tea, milk and espresso in stripes. Whisk the matcha smooth before layering.",
     ["shot", "matcha", "milk", "ice"],
     130,
     60,
@@ -1918,7 +1963,7 @@ export const RECIPES = [
     "sweet",
     "latte",
     "hot",
-    "2026 menus",
+    "Coffeehouse menus",
     [
       ["pistachio", 24],
       ["espresso", 36, "b"],
@@ -1931,7 +1976,7 @@ export const RECIPES = [
       [200, "ml", "steamed milk"],
     ],
     ["Stir pistachio cream into the hot shot.", "Add steamed milk.", "Top with crushed pistachio."],
-    "The flavour of 2026, riding the Dubai-chocolate craze.",
+    "Nutty and creamy; start with less pistachio cream if yours is very sweet.",
     ["shot", "milk", "pistachio"],
     126,
     70,
@@ -1961,8 +2006,8 @@ export const RECIPES = [
       "Pour everything into a glass.",
       "Top with oat milk.",
     ],
-    "A shaken, cinnamon-sweet iced shot that went viral.",
-    ["shot", "brownsugar", "ice", "shaker", "milk"],
+    "Starbucks-inspired home version. Mix equal weights of brown sugar and hot water for a simple syrup, then cool.",
+    ["shot", "brownsugar", "ice", "shaker", "oat", "cinnamon"],
     126,
     40,
     50,
@@ -2017,7 +2062,7 @@ export const RECIPES = [
     ["Syrup, milk and ice in a glass.", "Pour the shot on top."],
     "Floral and soft. Usually iced, often under cold foam.",
     ["shot", "lavender", "milk", "ice"],
-    126,
+    63,
     70,
     45,
     { rel: ["honey-latte", "ube-latte"] },
@@ -2043,7 +2088,7 @@ export const RECIPES = [
     ["Swirl ube into the glass.", "Add ice and milk.", "Pour the shot on top."],
     "Purple yam: nutty, vanilla-like and very photogenic.",
     ["shot", "ube", "milk", "ice"],
-    126,
+    63,
     70,
     55,
     { rel: ["lavender-latte"] },
@@ -2078,7 +2123,7 @@ export const RECIPES = [
     "sweet",
     "latte",
     "hot",
-    "2026 menus",
+    "Coffeehouse menus",
     [
       ["maple", 15],
       ["espresso", 36, "b"],
@@ -2092,7 +2137,7 @@ export const RECIPES = [
       [200, "ml", "steamed milk"],
     ],
     ["Stir maple and salt into the shot.", "Add steamed milk.", "A few salt flakes on the foam."],
-    "Sweet-salty is 2026’s flavour mood.",
+    "A small pinch of salt balances the maple sweetness.",
     ["shot", "milk", "maple"],
     126,
     75,
@@ -2118,7 +2163,7 @@ export const RECIPES = [
       [220, "ml", "steamed milk"],
     ],
     ["Syrup in the cup, shot on top.", "Add steamed milk."],
-    "The world's most ordered flavoured latte.",
+    "A familiar flavoured latte, easy to adjust to your taste.",
     ["shot", "milk", "vanilla"],
     126,
     80,
@@ -2152,7 +2197,7 @@ export const RECIPES = [
     ],
     "An upside-down vanilla latte with caramel on the foam.",
     ["shot", "milk", "vanilla", "caramel"],
-    126,
+    63,
     80,
     70,
     { rel: ["latte-macchiato", "vanilla-latte"] },
@@ -2174,7 +2219,7 @@ export const RECIPES = [
     [
       [2, "tbsp", "pumpkin purée"],
       [1, "tsp", "cinnamon, nutmeg, ginger, clove"],
-      [15, "ml", "maple or sugar"],
+      [15, "ml", "maple syrup"],
       [36, "g", "espresso"],
       [200, "ml", "milk"],
     ],
@@ -2184,7 +2229,7 @@ export const RECIPES = [
       "Add the shot; top with cream and spice.",
     ],
     "The 2003 chain drink that turned autumn into a flavour.",
-    ["shot", "milk", "cinnamon"],
+    ["shot", "milk", "pumpkin", "spices", "maple", "cream"],
     126,
     70,
     70,
@@ -2352,5 +2397,22 @@ export const RECIPES = [
     35,
     { rel: ["irish-coffee"] },
   ),
+  ...CAFE_RECIPES,
 ];
+const servingNotes = {
+  "cold-brew": "Makes about 800 ml after straining · dilute to taste",
+  chemex: "Makes 2 cups · caffeine shown per cup",
+  "french-press": "Makes 2 cups · caffeine shown per cup",
+  "cowboy-coffee": "Makes 2 cups · caffeine shown per cup",
+  "iced-pour-over": "Makes 2 cups · caffeine shown per cup",
+  "cafe-de-olla": "Makes 2 cups · caffeine shown per cup",
+  "egg-coffee-scandi": "Makes 4 cups · caffeine shown per cup",
+  qahwa: "Makes 4 small cups · caffeine shown per small cup",
+  buna: "Makes 4 small cups · caffeine shown per small cup",
+};
+for (const recipe of RECIPES) {
+  if (servingNotes[recipe.id]) recipe.serving = servingNotes[recipe.id];
+}
 export const byId = Object.fromEntries(RECIPES.map((x) => [x.id, x]));
+byId["cold-brew"].caffeineNote =
+  "The map estimate is per 240 ml finished drink, not per batch. Cold brew varies widely; dilution changes the amount in your glass.";
