@@ -7,7 +7,7 @@
 import os, html, json
 
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-V = "30"
+V = "31"
 ARROW = '<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 BACK = '<svg class="arrow back" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'
 EXT = (
@@ -41,7 +41,7 @@ PROJECTS = [
         shot="thewell-live.webp",
         logo="thewell.webp",
         raster=True,
-        bg="#071611",
+        bg="linear-gradient(145deg,#4a2d38,#2c1e28)",
         detail="A compact bartending guide with 100 searchable recipes, a drink of the day, ingredient references, a flavor finder, bar lessons and a personal home bar.",
     ),
     dict(
@@ -51,8 +51,8 @@ PROJECTS = [
         type="Scenery, sound & music",
         href="/vibey/",
         shot="vibey.webp",
-        logo="vibey.webp",
-        bg="linear-gradient(145deg,#24433a,#10251f)",
+        logo="vibey.svg",
+        bg="linear-gradient(145deg,#42334f,#271e35)",
         detail="Turn a radio dial to a place: living scenes, field recordings, ambient sound and music for a rainy café, a snowy cabin or a quiet night outdoors.",
     ),
     dict(
@@ -106,7 +106,7 @@ PROJECTS = [
         href="/motoratlas/",
         shot="motoratlas.webp",
         logo="motoratlas.svg",
-        bg="linear-gradient(145deg,#746655,#5f5348)",
+        bg="linear-gradient(145deg,#eee8dc,#cfc6b8)",
         detail="Every system in a car inside a 3D X-ray you can orbit, for gasoline, hybrid and electric vehicles, with plain-English part pages and a path from symptom to diagnosis.",
     ),
     dict(
@@ -136,7 +136,7 @@ PROJECTS = [
         href="/voltvisual/",
         shot="voltvisual.webp",
         logo="voltvisual.svg",
-        bg="linear-gradient(145deg,#2d5f78,#1c4c68)",
+        bg="linear-gradient(145deg,#f2e8d3,#d3e1e8)",
         detail="Power, signals, PLCs, drives, safety and drawings, traced through one machine, with a live ladder logic rung and a real motor starter schematic.",
     ),
     dict(
@@ -159,7 +159,7 @@ PROJECTS = [
         href="/movedesk/",
         shot="movedesk.webp",
         logo="movedesk.svg",
-        bg="linear-gradient(145deg,#3c514b,#263833)",
+        bg="linear-gradient(145deg,#36435a,#222c3e)",
         detail="Turn two places into a move plan: the road route, destination essentials, moving costs, a timeline and the official changeover tasks.",
     ),
     dict(
@@ -170,7 +170,7 @@ PROJECTS = [
         shot="houseedge.webp",
         logo="houseedge.webp",
         raster=True,
-        bg="#071611",
+        bg="linear-gradient(145deg,#363043,#211e2d)",
         detail="The rules and real house edge of seven casino games, with a 3D roulette table, a basic strategy trainer and a calculator for what a night actually costs.",
     ),
     dict(
@@ -181,7 +181,7 @@ PROJECTS = [
         shot="thebench.webp",
         logo="thebench.webp",
         raster=True,
-        bg="linear-gradient(145deg,#174636,#0e2f25)",
+        bg="linear-gradient(145deg,#223b59,#122638)",
         detail="C++, Java, JavaScript, HTML, CSS and SQL in one course that runs every example and steps through it line by line.",
     ),
     dict(
@@ -191,7 +191,7 @@ PROJECTS = [
         href="/playbook/",
         shot="playbook.webp",
         logo="playbook.webp",
-        bg="linear-gradient(145deg,#1c2621,#0e1411)",
+        bg="linear-gradient(145deg,#2d3447,#1a2132)",
         detail="Football, baseball, basketball, soccer, volleyball and golf explained for complete beginners: 3D stadiums, animated plays, 400+ concepts in plain English and every rule change for 2026.",
     ),
 ]

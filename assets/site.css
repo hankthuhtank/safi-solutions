@@ -1233,6 +1233,21 @@ main {
   line-height: 1.5;
   text-align: left;
 }
+@media (min-width: 1280px) {
+  .project-collections .tile {
+    flex-basis: calc((100% - 48px) / 4);
+  }
+  .project-collections .tile-cover {
+    max-height: 184px;
+    padding: 16px;
+  }
+  .project-collections .tile-cap a {
+    font-size: 16px;
+  }
+  .project-collections .tile-cap span {
+    font-size: 11px;
+  }
+}
 @media (max-width: 1279px) {
   .project-collections .tile {
     flex-basis: calc((100% - 48px) / 4);
