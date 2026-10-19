@@ -63,7 +63,7 @@ class Instance {
   video: HTMLVideoElement | null = null;
   fireVideo: HTMLVideoElement | null = null;
   fireTex: WebGLTexture | null = null;
-  maps: (Texture | null)[] = [null, null, null];
+  maps: (Texture | null)[] = [null, null, null, null];
   reflect: Texture | null = null;
   target: Target;
   glassTarget: Target | null = null;
@@ -417,7 +417,7 @@ export class Renderer {
       );
     }
     if (m.maps) {
-      ["a", "b", "c"].forEach((k, i) =>
+      (m.motion ? ["a", "b", "c", "d"] : ["a", "b", "c"]).forEach((k, i) =>
         jobs.push(
           decodeImage(`${m.dir}/maps-${k}.png`, signal).then((img) => {
             const { w: iw, h: ih } = sizeOf(img);
@@ -461,7 +461,8 @@ export class Renderer {
       maps,
       clouds: maps && (fx.clouds > 0 || fx.mist > 0),
       water: maps && (fx.water > 0 || fx.wet > 0),
-      sway: maps && (fx.sway > 0 || fx.wind > 0.02),
+      // trees move only outdoors, and only where the motion map knows which pixels are trees
+      sway: maps && !!inst.req.media.motion && !inst.req.variation.interior && (fx.sway > 0 || fx.wind > 0.02),
       fog: fx.fog > 0,
       flash: fx.lightning > 0,
       stars: fx.stars > 0,
@@ -699,6 +700,7 @@ export class Renderer {
     const mapsA = inst.maps[0]?.tex ?? this.blank;
     const mapsB = inst.maps[1]?.tex ?? this.blank;
     const mapsC = inst.maps[2]?.tex ?? this.blankMaps;
+    const mapsD = inst.maps[3]?.tex ?? this.blank;
 
     const glass = inst.needsGlass;
     if (glass && !inst.glassTarget) inst.glassTarget = new Target(gl, w, h, true);
@@ -712,6 +714,7 @@ export class Renderer {
       .tex("uMapsB", 2, mapsB)
       .tex("uMapsC", 3, mapsC)
       .tex("uFireTex", 4, inst.fireTex ?? this.blank)
+      .tex("uMapsD", 5, mapsD)
       .f("uCover", ...cover)
       .f("uRes", w, h)
       .f("uImgAspect", inst.imageAspect)

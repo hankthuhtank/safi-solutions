@@ -154,7 +154,7 @@ export const BUILT_IN_PRESETS: Preset[] = [
     name: "Christmas Eve",
     builtIn: true,
     scene: "christmas",
-    variation: "zermatt",
+    variation: "zermatt-night",
     fx: { snow: 0.65 },
     mix: { "church-bells": 0.6, wind: 0.4, snowstorm: 0.45, fireplace: 0.4 },
     playlist: "band:christmas",

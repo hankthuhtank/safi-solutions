@@ -1,6 +1,9 @@
 // Encodes processed scene photos into the files the app loads.
 //
-//   node scripts/build-media.mjs <maps-dir> [only-key ...]
+//   node scripts/build-media.mjs <maps-dir> [only-key ...] [--maps-only]
+//
+// --maps-only refreshes the maps (and the manifest flags that depend on them) for photos that
+// are already encoded, without encoding the pictures again.
 //
 // <maps-dir> holds one folder per variation (named scene__variation) produced by scene-maps.py:
 // master.jpg (3840x2160), maps-a.png, maps-b.png, maps-c.png and stats.json.
@@ -13,7 +16,8 @@ import sharp from "sharp";
 
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "media", "scenes");
-const [mapsDir, ...only] = process.argv.slice(2);
+const mapsOnly = process.argv.includes("--maps-only");
+const [mapsDir, ...only] = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 if (!mapsDir) throw new Error("usage: node scripts/build-media.mjs <maps-dir> [keys...]");
 
 const AVIF = [
@@ -58,6 +62,21 @@ for (const folder of folders) {
   const dest = path.join(out, key);
   await mkdir(dest, { recursive: true });
   const t0 = Date.now();
+  if (mapsOnly) {
+    if (!manifest[key]) continue;
+    const stats = JSON.parse(await readFile(path.join(src, "stats.json"), "utf8").catch(() => "{}"));
+    for (const m of manifest[key].maps ? ["maps-b", "maps-d"] : []) {
+      await sharp(path.join(src, `${m}.png`))
+        .png({ compressionLevel: 9, effort: 10 })
+        .toFile(path.join(dest, `${m}.png`))
+        .catch(() => null);
+    }
+    manifest[key].glass = (stats.coverage?.glass ?? 0) > 0.02;
+    manifest[key].motion = manifest[key].maps && (await stat(path.join(dest, "maps-d.png")).then(() => true, () => false));
+    if (manifest[key].stats) manifest[key].stats.coverage = stats.coverage;
+    console.log(`${key}  maps  glass ${manifest[key].glass}  motion ${manifest[key].motion}`);
+    continue;
+  }
   for (const [w, q] of AVIF) {
     await sharp(master)
       .resize(w, Math.round((w * 9) / 16), { kernel: "lanczos3" })
@@ -73,7 +92,8 @@ for (const folder of folders) {
   await sharp(master).resize(640, 360, { kernel: "lanczos3" }).webp({ quality: 78 }).toFile(path.join(dest, "thumb.webp"));
   const lqip = await sharp(master).resize(32, 18).jpeg({ quality: 60 }).toBuffer();
   let maps = !NO_MAPS.has(key);
-  for (const m of maps ? ["maps-a", "maps-b", "maps-c"] : []) {
+  for (const m of maps ? ["maps-a", "maps-b", "maps-c", "maps-d"] : []) {
+    if (m === "maps-d" && !(await stat(path.join(src, "maps-d.png")).then(() => true, () => false))) continue;
     try {
       await sharp(path.join(src, `${m}.png`)).png({ compressionLevel: 9, effort: 10 }).toFile(path.join(dest, `${m}.png`));
     } catch {
@@ -87,6 +107,7 @@ for (const folder of folders) {
     widths: AVIF.map(([w]) => w),
     maps,
     glass: (stats.coverage?.glass ?? 0) > 0.02,
+    motion: maps && (await stat(path.join(dest, "maps-d.png")).then(() => true, () => false)),
     aspect: 16 / 9,
     lqip: `data:image/jpeg;base64,${lqip.toString("base64")}`,
     stats: {

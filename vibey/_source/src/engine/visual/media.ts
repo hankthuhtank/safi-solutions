@@ -6,6 +6,7 @@ export interface VariationMedia {
   widths: number[];
   maps: boolean;
   glass?: boolean; // the maps include a window region
+  motion?: boolean; // maps-d.png: tree bend, grass and per-light flicker phase
   aspect: number;
   lqip?: string;
   video?: { av1?: string; hevc?: string; h264?: string; width: number; height: number };

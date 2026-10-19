@@ -61,6 +61,7 @@ uniform sampler2D uBase;
 uniform sampler2D uMapsA; // sky, water, foliage
 uniform sampler2D uMapsB; // glass, lights, fire
 uniform sampler2D uMapsC; // ground, people, depth (1 = near)
+uniform sampler2D uMapsD; // tree bend, grass, per-light flicker phase
 uniform sampler2D uFireTex;
 uniform vec4 uCover;      // image uv = screen uv * xy + zw
 uniform vec2 uRes;
@@ -111,19 +112,25 @@ vec2 ripple(vec2 iuv, float near) {
 #endif
 
 #ifdef SWAY
-// Wind in foliage: gust fronts roll across the picture downwind and lean the trees over, branches
-// sway under them and leaves flutter on top. Nearer foliage moves more.
-vec2 sway(vec2 iuv, float near) {
-  float ws = length(uWind);
-  vec2 wdir = ws > 0.001 ? uWind / ws : vec2(1.0, 0.0);
-  float along = dot(iuv, wdir);
-  float front = vnoise(vec2(along * 2.6 - uTime * (0.22 + 0.5 * ws), iuv.y * 1.7 + 11.0));
-  float gust = smoothstep(0.3, 0.85, front);
-  float branch = vnoise(iuv * 6.0 + vec2(uTime * (0.7 + ws), 0.0)) - 0.5;
-  float flutter = vnoise(iuv * 24.0 + vec2(uTime * (2.2 + 2.0 * ws), 4.0)) - 0.5;
-  vec2 lean = wdir * (gust - 0.35) * 0.9;
-  vec2 d = lean + vec2(branch + 0.35 * flutter, 0.45 * flutter) * (0.5 + gust);
-  return d * 0.0019 * uSway * (0.3 + near);
+// Wind in the trees. maps-d.r says how far a pixel swings when its tree bends: 0 at the roots, 1 at
+// the top of a tall crown, and a little beyond the crown so the silhouette moves, not only the
+// texture inside it. Each crown sways as one piece, a slow pendulum with its own rhythm, and leans
+// further downwind as gust fronts roll across the picture, then springs back.
+float gustAt(vec2 iuv, vec2 wdir, float ws) {
+  float along = dot(iuv * vec2(uImgAspect, 1.0), wdir);
+  return smoothstep(0.25, 0.8, vnoise(vec2(along * 1.6 - uTime * (0.14 + 0.3 * ws), 3.7)));
+}
+vec2 sway(vec2 iuv, float bend, vec2 wdir, float ws, float gust) {
+  float ph = vnoise(iuv * vec2(2.6, 1.4)) * 6.2832 + iuv.x * 1.5;
+  float f = 0.28 + 0.14 * vnoise(iuv * 2.1 + 9.0);
+  float osc = sin(uTime * 6.2832 * f + ph) + 0.3 * sin(uTime * 6.2832 * f * 2.13 + ph * 1.7);
+  // big limbs answer faster than the trunk and out of step with it, more so in the gusts
+  float fb = 0.85 + 0.5 * vnoise(iuv * 5.0 + 3.0);
+  float limb = sin(uTime * 6.2832 * fb + vnoise(iuv * vec2(7.0, 5.0)) * 6.2832) * (0.12 + 0.3 * gust) * ws;
+  float lean = (0.15 + 0.85 * gust) * (0.3 + 0.9 * ws);
+  float push = (lean * 0.9 + osc * (0.3 + 0.45 * gust) + limb * smoothstep(0.15, 0.6, bend)) * bend;
+  // a bending top also dips a little; content moves downwind, so sample upwind
+  return -vec2(wdir.x * push, abs(push) * 0.1) * 0.0032 * uSway;
 }
 #endif
 
@@ -181,10 +188,11 @@ void main() {
   near = C.b;
   vec4 A = texture(uMapsA, iuv);
   vec4 B = texture(uMapsB, iuv);
+  vec4 D = texture(uMapsD, iuv);
   float still = C.g; // people never wobble
 #else
   float near = 0.5;
-  vec4 A = vec4(0.0), B = vec4(0.0);
+  vec4 A = vec4(0.0), B = vec4(0.0), D = vec4(0.0);
   float still = 0.0;
   iuv += uCam * 0.05 * uParallax;
 #endif
@@ -197,9 +205,21 @@ void main() {
   duv += ripple(iuv, near) * wetM * (1.0 - still);
 #endif
 #ifdef SWAY
-  duv += sway(iuv, near) * A.b * (1.0 - still) * (1.0 - A.g);
+  float ws = length(uWind);
+  vec2 wdir = ws > 0.001 ? uWind / ws : vec2(1.0, 0.0);
+  float gust = gustAt(iuv, wdir, ws);
+  duv += sway(iuv, D.r, wdir, ws, gust) * (1.0 - still) * (1.0 - A.g);
+  // wind over grass: waves run downwind, bending the blades so they show their paler side
+  float gw = vnoise(vec2(dot(iuv * vec2(uImgAspect, 1.0), wdir) * 9.0 - uTime * (0.7 + 1.3 * ws), iuv.y * 6.0));
+  duv -= wdir * (gw - 0.5) * 0.0007 * D.g * uSway;
 #endif
   vec3 col = base(iuv + duv);
+#ifdef SWAY
+  col *= 1.0 + (gw - 0.5) * 0.11 * D.g * ws * (0.3 + near);
+  // leaves turning in the wind: a faint, quick shimmer on the foliage
+  float lf = vnoise(iuv * vec2(uImgAspect, 1.0) * 170.0 + vec2(uTime * 2.6, -uTime * 1.9)) - 0.5;
+  col *= 1.0 + lf * 0.06 * A.b * smoothstep(0.02, 0.2, D.r) * ws * (0.4 + gust);
+#endif
 #ifdef CLOUDS
   float skyM = smoothstep(0.35, 0.8, max(A.r, A.g * uMist));
   if (skyM > 0.001) col = mix(col, skyFlow(iuv), skyM);
@@ -214,8 +234,10 @@ void main() {
   col *= 1.0 + pt * (tw - 0.5) * 1.1 * uStars;
 #endif
 #ifdef LAMPS
-  float fl = vnoise(vec2(uTime * 5.5, floor(iuv.x * 9.0) * 3.7 + floor(iuv.y * 7.0)));
-  float fl2 = vnoise(vec2(uTime * 13.0, floor(iuv.x * 9.0) * 1.3 + 5.0));
+  // every light flickers as a whole, each on its own rhythm (maps-d.b holds one phase per light)
+  float lph = D.b * 23.0;
+  float fl = vnoise(vec2(uTime * 5.5 + lph * 7.0, lph));
+  float fl2 = vnoise(vec2(uTime * 13.0 + lph * 3.0, 5.0 + lph));
   col *= 1.0 + B.g * ((fl - 0.5) * 0.2 + (fl2 - 0.5) * 0.08) * uLamps;
 #endif
 #ifdef TWINKLE
@@ -227,8 +249,7 @@ void main() {
   col *= 1.0 + ptT * (twk - 0.42) * 1.5 * uTwinkle;
 #endif
 #ifdef NEON
-  vec2 cell = floor(iuv * vec2(14.0, 9.0));
-  float h = hash(cell);
+  float h = D.b;
   float drop = step(0.94, vnoise(vec2(uTime * (1.4 + h * 2.0), h * 61.0)));
   float buzz = vnoise(vec2(uTime * 37.0, h * 9.0)) - 0.5;
   col *= 1.0 - B.g * uNeon * (drop * 0.5 + buzz * 0.05);
@@ -284,8 +305,11 @@ void main() {
     moon = mix(moon, src * 0.2 + vec3(0.95, 0.62, 0.3) * 0.55 * win, smoothstep(0.0, 0.5, uWindows * glass));
     vec3 room = col * vec3(0.3, 0.24, 0.19);
     vec3 dark = mix(moon, room, inside);
+    // only what actually shines keeps its light: the bright part of a lamp, the flames rather
+    // than the whole fireplace, warm highlights such as lit windows
+    float warmth = smoothstep(0.05, 0.2, col.r - col.b);
     float warmHi = smoothstep(0.62, 0.92, lum) * smoothstep(0.08, 0.22, col.r - col.b);
-    float emit = clamp(max(max(lights * 0.9, flame), warmHi * 0.85), 0.0, 1.0);
+    float emit = clamp(max(max(lights * smoothstep(0.3, 0.75, lum), flame * smoothstep(0.35, 0.8, lum) * warmth), warmHi * 0.85), 0.0, 1.0);
     col = mix(col, mix(dark, col * 1.04, emit), uNight);
     if (uGlow > 0.0) {
       // firelight: a flickering warm pool from the hearth, or from a fire just out of frame

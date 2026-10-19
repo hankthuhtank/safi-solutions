@@ -55,6 +55,7 @@ export interface ManifestEntry {
   widths: number[];
   maps: boolean;
   glass: boolean;
+  motion?: boolean;
   aspect: number;
   lqip: string;
   video?: { av1?: string; hevc?: string; h264?: string; width: number; height: number };
@@ -140,9 +141,9 @@ const ALL_SCENES: SceneDef[] = [
     blurb: "Low lamps, a polished bar and a record turning somewhere in the back room.",
     timeZone: "",
     variations: [
-      v("jazz-lounge/bar", "The bar", { place: "Lounge" }),
-      v("jazz-lounge/backbar", "Back bar", { place: "Lounge" }),
-      v("jazz-lounge/lamps", "Under the lamps", { place: "Lounge", fx: { lamps: 0.9, fog: 0.1 } }),
+      v("jazz-lounge/bar", "The bar", { place: "Lounge", interior: true }),
+      v("jazz-lounge/backbar", "Back bar", { place: "Lounge", interior: true }),
+      v("jazz-lounge/lamps", "Under the lamps", { place: "Lounge", interior: true, fx: { lamps: 0.9, fog: 0.1 } }),
     ],
     fx: { lamps: 0.7, fog: 0.14, fogColor: [0.32, 0.22, 0.14], dust: 0.35, drift: 0.35 },
     controls: ["fog", "dust", "drift", "light"],
@@ -158,8 +159,8 @@ const ALL_SCENES: SceneDef[] = [
     timeZone: "Europe/Amsterdam",
     coords: [52.36, 4.885],
     variations: [
-      v("library/reading-hall", "Reading hall"),
-      v("library/study", "Study", { timeZone: "Europe/London", coords: [55.6, -2.72] }),
+      v("library/reading-hall", "Reading hall", { interior: true }),
+      v("library/study", "Study", { interior: true, timeZone: "Europe/London", coords: [55.6, -2.72] }),
     ],
     fx: { dust: 0.6, lamps: 0.45, fog: 0.05, fogColor: [0.6, 0.5, 0.36], drift: 0.3 },
     controls: ["dust", "drift", "light"],
@@ -176,6 +177,7 @@ const ALL_SCENES: SceneDef[] = [
     variations: [
       v("fireplace-rain/cabin-night", "Cabin", {
         place: "Log cabin",
+        interior: true,
         hearth: { x: 0.466, y: 0.402, w: 0.071, h: 0.112 },
         hearthMode: "over",
         outsideOnly: true,
@@ -195,6 +197,7 @@ const ALL_SCENES: SceneDef[] = [
     timeZone: "Atlantic/Reykjavik",
     variations: [
       v("mountain-cabin/lodge", "Lodge", {
+        interior: true,
         hearth: { x: 0.222, y: 0.624, w: 0.114, h: 0.148 },
         hearthMode: "inside",
         outsideOnly: true,
@@ -238,6 +241,17 @@ const ALL_SCENES: SceneDef[] = [
         sounds: { fireplace: 0.72, wind: 0.62, snowstorm: 0.4, room: 0.3 },
       }),
       v("mountain-cabin/hut", "Alpine hut", { fx: { fire: 0, embers: 0, snow: 0.4, wind: 0.5 }, sounds: { wind: 0.66, snowstorm: 0.5, fireplace: 0 } }),
+      v("mountain-cabin/zermatt", "Zermatt in the snow", {
+        timeZone: "Europe/Zurich",
+        coords: [46.02, 7.75],
+        fx: { fire: 0, embers: 0, snow: 0.55, wind: 0.35, twinkle: 0.4 },
+        sounds: { wind: 0.55, snowstorm: 0.5, fireplace: 0, "church-bells": 0.4 },
+      }),
+      v("mountain-cabin/chalet-lake", "Chalet on the lake", {
+        place: "Chalet on a frozen lake",
+        fx: { fire: 0, embers: 0, snow: 0.45, water: 0.45 },
+        sounds: { wind: 0.55, snowstorm: 0.45, fireplace: 0 },
+      }),
       v("mountain-cabin/twilight", "Twilight", { fx: { fire: 0, embers: 0, snow: 0.3 }, sounds: { wind: 0.6, snowstorm: 0.4, fireplace: 0 } }),
     ],
     fx: { fire: 0.85, snow: 0.6, wind: 0.45, lamps: 0.2, drift: 0.3 },
@@ -250,23 +264,52 @@ const ALL_SCENES: SceneDef[] = [
     name: "Alpine Christmas",
     freq: 92.6,
     categories: ["cozy", "weather"],
-    blurb: "Swiss villages on a snowy night: lights strung down the street, every window lit and bells from the church.",
+    blurb: "Snowed-in villages with every lamp and tree lit, Zermatt glowing under the Matterhorn, and stockings hung by the fire.",
     timeZone: "Europe/Zurich",
     coords: [46.02, 7.75],
     variations: [
-      v("christmas/zermatt", "Zermatt at night", { coords: [46.02, 7.75] }),
-      v("christmas/appenzell", "Appenzell, lit for Christmas", { coords: [47.33, 9.41], fx: { twinkle: 0.85 } }),
-      v("christmas/lucerne", "Lucerne, by the river", { coords: [47.05, 8.31], fx: { water: 0.4, twinkle: 0.8 } }),
-      v("christmas/chalet", "Chalet on the lake", { place: "Chalet on a frozen lake", fx: { water: 0.45, snow: 0.45 } }),
-      v("christmas/fireside", "By the tree", {
-        place: "Christmas morning",
+      v("christmas/village", "The village tree", { place: "A Christmas village", timeZone: "", fx: { twinkle: 0.85, lamps: 0.55 } }),
+      v("christmas/zermatt-night", "Zermatt, Christmas night", { coords: [46.02, 7.75], fx: { twinkle: 0.7, snow: 0.4, stars: 0.35 } }),
+      v("christmas/huts", "Snowed-in huts", { place: "A Christmas village", timeZone: "", fx: { twinkle: 0.8, lamps: 0.55 } }),
+      v("christmas/chalet-lights", "Chalet in lights", { coords: [46.66, 7.73], fx: { twinkle: 0.85, snow: 0.35, stars: 0.4 } }),
+      v("christmas/church", "The village church", { place: "A Swiss village", fx: { twinkle: 0.75 } }),
+      v("christmas/market", "Christmas market", {
+        timeZone: "Europe/Tallinn",
+        coords: [59.437, 24.745],
+        fx: { twinkle: 0.85, snow: 0.4 },
+        sounds: { cafe: 0.32, "church-bells": 0.5, wind: 0.3, snowstorm: 0.25 },
+      }),
+      v("christmas/fireplace", "Stockings and the tree", {
+        place: "Home for Christmas",
+        timeZone: "",
         interior: true,
-        glowAt: [0.47, 0.52],
-        fx: { snow: 0, wind: 0, twinkle: 0.65, glow: 0.3, lamps: 0.5 },
-        sounds: { fireplace: 0.55, "church-bells": 0.45, clock: 0.4, wind: 0.3, snowstorm: 0 },
+        outsideOnly: true,
+        hearth: { x: 0.635, y: 0.73, w: 0.18, h: 0.16 },
+        hearthMode: "inside",
+        glowAt: [0.72, 0.84],
+        fx: { fire: 0.7, glow: 0.3, twinkle: 0.6, lamps: 0.4, snow: 0.3, wind: 0 },
+        sounds: { fireplace: 0.62, clock: 0.35, "church-bells": 0.3, wind: 0, snowstorm: 0 },
+      }),
+      v("christmas/stockings", "By the fire", {
+        place: "Home for Christmas",
+        timeZone: "",
+        interior: true,
+        hearth: { x: 0.33, y: 0.66, w: 0.38, h: 0.26 },
+        hearthMode: "inside",
+        glowAt: [0.51, 0.8],
+        fx: { fire: 0.75, glow: 0.4, twinkle: 0, snow: 0, wind: 0 },
+        sounds: { fireplace: 0.7, clock: 0.3, "church-bells": 0.25, wind: 0, snowstorm: 0 },
+      }),
+      v("christmas/tree-fire", "Baubles and firelight", {
+        place: "Home for Christmas",
+        timeZone: "",
+        interior: true,
+        glowAt: [0.38, 0.57],
+        fx: { glow: 0.45, twinkle: 0.5, snow: 0, wind: 0 },
+        sounds: { fireplace: 0.66, room: 0.3, "church-bells": 0.25, wind: 0, snowstorm: 0 },
       }),
     ],
-    fx: { snow: 0.55, twinkle: 0.55, lamps: 0.3, wind: 0.2, sway: 0.1, drift: 0.35 },
+    fx: { snow: 0.5, twinkle: 0.7, lamps: 0.35, wind: 0.2, sway: 0.1, drift: 0.35 },
     controls: ["snow", "twinkle", "wind", "night", "glow", "drift", "light"],
     sounds: { "church-bells": 0.6, wind: 0.45, snowstorm: 0.4 },
     bands: ["christmas"],

@@ -24,10 +24,11 @@ MW, MH = 1024, 576
 
 GROUPS = {
     "sky": ["sky"],
-    "water": ["water", "sea", "river", "lake", "waterfall", "pool", "fountain"],
+    "water": ["water", "sea", "river", "lake", "falls", "pool", "fountain"],
     "foliage": ["tree", "grass", "plant", "flower", "palm"],
-    "glass": ["windowpane", "screen door"],
-    "lights": ["lamp", "light", "chandelier", "sconce", "streetlight", "signboard", "traffic light", "candlestick"],
+    # ADE20K's label is "window" (the model's own list); "windowpane" never matched anything
+    "glass": ["window", "screen door"],
+    "lights": ["lamp", "light", "chandelier", "sconce", "street lamp", "signboard", "traffic light"],
     "fire": ["fireplace", "stove"],
     "ground": ["floor", "road", "sidewalk", "earth", "sand", "path", "field", "dirt track", "runway"],
     "people": ["person"],

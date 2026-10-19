@@ -14,7 +14,7 @@ export const BANDS: Band[] = [
   {
     id: "kissa",
     name: "Kissa Jazz",
-    note: "Small-group jazz for a Tokyo listening café. Modern Creative Commons recordings played in the spirit of the kissaten, not Japanese releases.",
+    note: "Small-group jazz for a Tokyo listening café: bar piano, guitar and bossa by the Japanese composers Maou-damashii and PeriTune, with Creative Commons jazz in the kissaten spirit.",
     query: "japanese jazz",
   },
   { id: "jazzcafe", name: "Jazz Café", note: "Easy, unhurried jazz for a rainy afternoon.", query: "jazz cafe" },
@@ -40,7 +40,7 @@ export const BANDS: Band[] = [
   {
     id: "christmas",
     name: "Christmas",
-    note: "Carols old and new: Kevin MacLeod's arrangements and genuine records from 1906 to 1925, public domain in the United States. Surface noise included.",
+    note: "Carols old and new: Kevin MacLeod's arrangements, two jazzy ones from Maou-damashii, and genuine records from 1906 to 1925, public domain in the United States. Surface noise included.",
     query: "christmas carol instrumental",
   },
   {

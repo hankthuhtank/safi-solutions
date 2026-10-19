@@ -19,7 +19,7 @@ left.
 
 ## What's in it
 
-**Twenty-three places, seventy-two views.** Every picture is a real photograph or film (no generated
+**Twenty-three places, seventy-eight views.** Every picture is a real photograph or film (no generated
 imagery), cropped to 16:9 and served as 4K AVIF (WebP fallback) or as an AV1/HEVC loop for moving
 water. Depth and semantic maps made for each photograph let the engine move only what should move:
 
@@ -31,11 +31,15 @@ water. Depth and semantic maps made for each photograph let the engine move only
 - rain forms on window glass, gathers, merges and runs down, refracting the street behind it, with
   a focus control (street or glass);
 - lightning lights the clouds and the room, and the thunder arrives later the further away it was;
-- the fire in the hearth is real fire footage composited into the fireplace; lamps and neon flicker;
+- the fire in the hearth is real fire footage composited into the fireplace; lamps and neon flicker,
+  each light on its own rhythm and as a whole;
 - star fields twinkle, meteors cross the desert sky, the photograph's own aurora ripples and pulses,
   sunlight caustics play over the reef;
 - the camera drifts very slowly and leans toward the pointer (parallax from depth);
-- wind moves the trees: gust fronts roll across the foliage downwind, branches sway, leaves flutter;
+- wind moves the trees: each crown bends from the roots up as one piece (a bend map made from the
+  segmentation and depth: tall near crowns swing most, a wooded hillside far off barely moves), leans
+  further as gust fronts roll across the picture downwind, its big limbs answering out of step,
+  while waves run through the grass; interiors stay still;
 - falling leaves are photo-scanned leaves (ambientCG, CC0) that flutter and tumble in 3D, show their
   paler backs, glow when back-lit and blur near the lens; snow has a shared gust field, spiralling
   flakes, irregular crystals and out-of-focus flakes drifting past the lens;
@@ -54,18 +58,22 @@ tick and tock carry straight across the loop. Each layer has a level, mute and a
 distance for loops, how often for events. With "Sound follows the picture" on, turning up rain on
 screen turns up the rain you hear.
 
-**Music.** 423 tracks in eighteen bands from the Free Music Archive and the Internet Archive, each
+**Music.** 434 tracks in eighteen bands from the Free Music Archive and the Internet Archive (and a
+few hosted here), each
 licence checked (CC0, CC BY, CC BY-SA, US public domain), plus optional live finds from Openverse
 (Jamendo, ccMixter, Wikimedia; CC0/BY/BY-SA only). Two decks with equal-power crossfades,
 loudness-matched tracks, shuffle, repeat, starred and recent lists, playlist changes that fade, media
 keys and lock-screen controls. Unplayable tracks are skipped with a note; going offline pauses
 gracefully and resumes.
 
-- *Kissa Jazz* is jazz for a Tokyo listening café: modern Creative Commons recordings chosen in that
-  spirit. They are **not** Japanese releases and the app says so.
+- *Kissa Jazz* is jazz for a Tokyo listening café: bar piano, jazz guitar and bossa nova by two
+  Japanese composers who publish under CC BY 4.0 (Maou-damashii's Koichi Morita and PeriTune's Sei
+  Mutsuki), with Creative Commons jazz chosen in that spirit. Classic Japanese jazz records are
+  still under copyright, so none are included.
 - *Vintage 78s* are genuine 1920–1925 recordings, public domain in the United States.
-- *Christmas* and *Hallowe'en* mix Kevin MacLeod's carols and darker pieces (CC BY 4.0) with genuine
-  1905–1925 records (Great 78 Project), public domain in the United States.
+- *Christmas* and *Hallowe'en* mix Kevin MacLeod's carols and darker pieces (CC BY 4.0) and two jazzy
+  Maou-damashii arrangements with genuine 1905–1925 records (Great 78 Project), public domain in the
+  United States.
 
 **Timers.** Sleep (fades music and room out over a chosen time, then dims the picture), focus
 (Pomodoro rounds with a synthesized bell), place cycling (along the dial or shuffled; everywhere,
@@ -93,12 +101,13 @@ vibey/
   index.html, assets/        compiled app (published; do not edit)
   favicon.svg
   media/
-    scenes/<place>/<variation>/   3840/2560/1600 AVIF, 2560/1600 WebP, maps-a/b/c.png, thumb.webp
+    scenes/<place>/<variation>/   3840/2560/1600 AVIF, 2560/1600 WebP, maps-a/b/c/d.png, thumb.webp
                                   or loop-av1.mp4, loop-hevc.mp4, poster.webp for video places
     scenes/manifest.json     what exists, with LQIP placeholders
     fx/                      fire loop, café window reflection
     sounds/                  ambient loops and one-shots + manifest.json (files and credits)
     music/catalog.json       the music library (stream URLs, licences, loudness gains)
+    music/files/             the few tracks hosted here (CC BY 4.0, credited in the catalog)
   _source/                   the app (React + TypeScript + WebGL2 + Web Audio)
     src/engine/visual/       renderer, shaders, particles, wet glass
     src/engine/audio/        audio engine, ambience mixer, music player
@@ -126,8 +135,12 @@ Run once; the outputs are committed.
 1. `scripts/media-sources.json` lists every photo and film with its author, licence and page.
 2. `scripts/scene-maps.py` (Python, PyTorch, transformers) makes the 16:9 master and the depth
    (Depth Anything V2 Small, Apache-2.0) and semantic maps (OneFormer ADE20K Swin-L, MIT);
-   `scripts/mask-overrides.py` fixes the few windows the segmenter misses.
-3. `node scripts/build-media.mjs <maps-dir>` encodes AVIF/WebP, thumbnails and the manifest.
+   `scripts/scene-classes.py` takes a second look for the finer classes: the windows (rain on glass
+   goes only there), and trees and grass, from which it makes the bend map that wind uses, plus one
+   flicker phase per light; then `scripts/mask-overrides.py` fixes the few windows the segmenter
+   misses, cutting out any furniture in front of them.
+3. `node scripts/build-media.mjs <maps-dir>` encodes AVIF/WebP, thumbnails and the manifest
+   (`--maps-only` republishes just the maps).
 4. `scripts/build-video.sh <work-dir>` cuts seamless loops (the tail cross-fades into the head) and
    encodes AV1 (SVT-AV1) and HEVC (x265).
 5. `python3 scripts/build-sounds.py <work-dir>` downloads the recordings in
@@ -139,16 +152,18 @@ Run once; the outputs are committed.
 Credits for every photograph, film, recording and track are in the app under Setup → Credits, and
 in `scripts/media-sources.json`, `media/sounds/manifest.json` and `media/music/catalog.json`.
 
-- Photos and films: Pexels License (Pexels), CC0, CC BY, CC BY-SA (Wikimedia Commons), CC BY 4.0
-  (ESO, ESA/Webb, ESA/Hubble). Photos under CC BY or CC BY-SA were cropped and resized for Vibey and
-  depth and mask maps were derived from them; those derived files carry the same licence as their
-  source.
+- Photos and films: Pexels License (Pexels), Unsplash License (Unsplash), CC0, CC BY, CC BY-SA
+  (Wikimedia Commons), CC BY 4.0 (ESO, ESA/Webb, ESA/Hubble). Photos under CC BY or CC BY-SA were
+  cropped and resized for Vibey and depth and mask maps were derived from them; those derived files
+  carry the same licence as their source.
 - Falling leaves: photo-scanned leaves from ambientCG (Leaf Set 007, 012, 021, 027, 028, 030), CC0.
 - Sounds: Freesound recordings under CC0 1.0 and CC BY 3.0/4.0, and Internet Archive field
   recordings (mostly the Radio Aporee archive: Peter Cusack, Felix Blume, Flavien Gillié and others)
   under the Public Domain Mark, CC BY 3.0 and CC BY-SA 3.0; trimmed, looped and levelled. The edited
   versions of CC BY-SA recordings are shared under CC BY-SA 3.0.
 - Music: streamed from its source under CC0, CC BY, CC BY-SA or US public domain; credited per track
-  in the player.
+  in the player. The pieces by Maou-damashii (Koichi Morita) and PeriTune (Sei Mutsuki) are CC BY 4.0
+  (PeriTune's releases up to February 2026) and are hosted with the site in `media/music/files/`,
+  unaltered, because their sites do not allow cross-origin playback.
 - Fonts: Archivo and Newsreader (SIL Open Font License), loaded from Google Fonts.
 - The app's own code, shaders and audio engine: © Safi Solutions.

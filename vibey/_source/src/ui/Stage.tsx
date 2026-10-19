@@ -18,6 +18,7 @@ export function mediaFor(v: Variation): VariationMedia {
     widths: m.widths,
     maps: m.maps,
     glass: m.glass,
+    motion: m.motion,
     aspect: m.aspect,
     lqip: m.lqip,
     video: m.video

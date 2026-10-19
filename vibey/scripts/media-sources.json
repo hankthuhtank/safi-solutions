@@ -623,61 +623,6 @@
   "page": "https://www.pexels.com/photo/28829635/",
   "place": "Sahara, Morocco"
  },
- "christmas/zermatt": {
-  "kind": "photo",
-  "src": "https://images.pexels.com/photos/4947573/pexels-photo-4947573.jpeg",
-  "host": "pexels",
-  "author": "Maria Orlova",
-  "title": "Village with residential houses on snowy mounts",
-  "license": "Pexels License",
-  "licenseUrl": "https://www.pexels.com/license/",
-  "page": "https://www.pexels.com/photo/4947573/",
-  "place": "Zermatt, Switzerland"
- },
- "christmas/lucerne": {
-  "kind": "photo",
-  "src": "https://images.pexels.com/photos/34009800/pexels-photo-34009800.jpeg",
-  "host": "pexels",
-  "author": "Carlo Giovanni Ghiardelli",
-  "title": "Night View of Jesuit Church in Lucerne, Switzerland",
-  "license": "Pexels License",
-  "licenseUrl": "https://www.pexels.com/license/",
-  "page": "https://www.pexels.com/photo/34009800/",
-  "place": "Lucerne, Switzerland"
- },
- "christmas/appenzell": {
-  "kind": "photo",
-  "src": "https://images.pexels.com/photos/10951256/pexels-photo-10951256.jpeg",
-  "host": "pexels",
-  "author": "Hakan Kiymaz",
-  "title": "Christmas Lights Illuminating the Street",
-  "license": "Pexels License",
-  "licenseUrl": "https://www.pexels.com/license/",
-  "page": "https://www.pexels.com/photo/10951256/",
-  "place": "Appenzell, Switzerland"
- },
- "christmas/chalet": {
-  "kind": "photo",
-  "src": "https://images.pexels.com/photos/28271971/pexels-photo-28271971.jpeg",
-  "host": "pexels",
-  "author": "eberhard grossgasteiger",
-  "title": "Houses by Lake in Winter in Evening",
-  "license": "Pexels License",
-  "licenseUrl": "https://www.pexels.com/license/",
-  "page": "https://www.pexels.com/photo/28271971/",
-  "place": ""
- },
- "christmas/fireside": {
-  "kind": "photo",
-  "src": "https://images.pexels.com/photos/10068655/pexels-photo-10068655.jpeg",
-  "host": "pexels",
-  "author": "Doralin Tunas",
-  "title": "A Living Room with Christmas Decors",
-  "license": "Pexels License",
-  "licenseUrl": "https://www.pexels.com/license/",
-  "page": "https://www.pexels.com/photo/10068655/",
-  "place": ""
- },
  "halloween/pumpkins": {
   "kind": "photo",
   "src": "https://images.pexels.com/photos/28996072/pexels-photo-28996072.jpeg",
@@ -779,6 +724,154 @@
    "focusX": 0.6,
    "focusY": 0.53,
    "zoom": 1.0
+  }
+ },
+ "mountain-cabin/zermatt": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4947573/pexels-photo-4947573.jpeg",
+  "host": "pexels",
+  "author": "Maria Orlova",
+  "title": "Village with residential houses on snowy mounts",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4947573/",
+  "place": "Zermatt, Switzerland"
+ },
+ "mountain-cabin/chalet-lake": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/28271971/pexels-photo-28271971.jpeg",
+  "host": "pexels",
+  "author": "eberhard grossgasteiger",
+  "title": "Houses by Lake in Winter in Evening",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/28271971/",
+  "place": ""
+ },
+ "christmas/village": {
+  "kind": "photo",
+  "src": "https://images.unsplash.com/photo-1768209911442-770f3df80dc2",
+  "host": "unsplash",
+  "author": "Vitalijs Barilo",
+  "title": "Snowy village street with decorated christmas tree at dusk",
+  "license": "Unsplash License",
+  "licenseUrl": "https://unsplash.com/license",
+  "page": "https://unsplash.com/photos/1PWlPce_ng4",
+  "place": "",
+  "crop": {
+   "focusY": 0.6
+  }
+ },
+ "christmas/huts": {
+  "kind": "photo",
+  "src": "https://images.unsplash.com/photo-1768209911495-a696f2298cf9",
+  "host": "unsplash",
+  "author": "Vitalijs Barilo",
+  "title": "Snow-covered village with festive Christmas lights",
+  "license": "Unsplash License",
+  "licenseUrl": "https://unsplash.com/license",
+  "page": "https://unsplash.com/photos/VrrUL_kA_zs",
+  "place": "",
+  "crop": {
+   "focusY": 0.6
+  }
+ },
+ "christmas/chalet-lights": {
+  "kind": "photo",
+  "src": "https://images.unsplash.com/photo-1514061587818-ed22788613d0",
+  "host": "unsplash",
+  "author": "Fabrice Villard",
+  "title": "Happy Christmas",
+  "license": "Unsplash License",
+  "licenseUrl": "https://unsplash.com/license",
+  "page": "https://unsplash.com/photos/yJmzoQcYfpg",
+  "place": "Aeschiried, Switzerland",
+  "crop": {
+   "focusY": 0.55
+  }
+ },
+ "christmas/fireplace": {
+  "kind": "photo",
+  "src": "https://images.unsplash.com/photo-1615097130643-12caeab3c625",
+  "host": "unsplash",
+  "author": "Addy Mae",
+  "title": "Green Christmas tree with baubles near a fireplace",
+  "license": "Unsplash License",
+  "licenseUrl": "https://unsplash.com/license",
+  "page": "https://unsplash.com/photos/ZVkrekjE984",
+  "place": "",
+  "crop": {
+   "focusY": 0.5
+  }
+ },
+ "christmas/stockings": {
+  "kind": "photo",
+  "src": "https://images.unsplash.com/photo-1619371455629-84aec3771d79",
+  "host": "unsplash",
+  "author": "Addy Mae",
+  "title": "Christmas stockings hung on a fireplace",
+  "license": "Unsplash License",
+  "licenseUrl": "https://unsplash.com/license",
+  "page": "https://unsplash.com/photos/e7fDXFHCvKA",
+  "place": "",
+  "crop": {
+   "focusY": 0.55
+  }
+ },
+ "christmas/church": {
+  "kind": "photo",
+  "src": "https://images.unsplash.com/photo-1734942416345-ed84ae363c5e",
+  "host": "unsplash",
+  "author": "Livia",
+  "title": "A town with a church lit up at night",
+  "license": "Unsplash License",
+  "licenseUrl": "https://unsplash.com/license",
+  "page": "https://unsplash.com/photos/NEFZEwCTyb0",
+  "place": "Switzerland",
+  "crop": {
+   "focusY": 0.55
+  }
+ },
+ "christmas/zermatt-night": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/6344695/pexels-photo-6344695.jpeg",
+  "host": "pexels",
+  "author": "Christian Buergi",
+  "title": "Zermatt Matterhorn Viewpoint in Switzerland",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/6344695/",
+  "place": "Zermatt, Switzerland",
+  "crop": {
+   "focusY": 0.55
+  }
+ },
+ "christmas/market": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/29845108/pexels-photo-29845108.jpeg",
+  "host": "pexels",
+  "author": "Anton Massalov",
+  "title": "Aerial View of Tallinn Christmas Market in Winter",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/29845108/",
+  "place": "Tallinn, Estonia",
+  "crop": {
+   "focusY": 0.5
+  }
+ },
+ "christmas/tree-fire": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/6617551/pexels-photo-6617551.jpeg",
+  "host": "pexels",
+  "author": "Yan Krukau",
+  "title": "White and Red Christmas Baubles on Green Christmas Tree",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/6617551/",
+  "place": "",
+  "crop": {
+   "focusY": 0.5
   }
  }
 }

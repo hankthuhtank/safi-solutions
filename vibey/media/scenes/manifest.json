@@ -38,7 +38,8 @@
     0.6224
    ],
    "luma": 0.4781
-  }
+  },
+  "motion": true
  },
  "alpine/morning": {
   "kind": "photo",
@@ -79,7 +80,8 @@
     0.6515
    ],
    "luma": 0.5552
-  }
+  },
+  "motion": true
  },
  "alpine/stormy": {
   "kind": "photo",
@@ -120,7 +122,8 @@
     0.3961
    ],
    "luma": 0.323
-  }
+  },
+  "motion": true
  },
  "alpine/sunset": {
   "kind": "photo",
@@ -161,7 +164,8 @@
     0.4853
    ],
    "luma": 0.4727
-  }
+  },
+  "motion": true
  },
  "aurora/lofoten": {
   "kind": "photo",
@@ -202,7 +206,8 @@
     0.2721
    ],
    "luma": 0.294
-  }
+  },
+  "motion": true
  },
  "aurora/vik": {
   "kind": "photo",
@@ -243,7 +248,8 @@
     0.252
    ],
    "luma": 0.3064
-  }
+  },
+  "motion": true
  },
  "autumn/kaiser": {
   "kind": "photo",
@@ -284,7 +290,8 @@
     0.4948
    ],
    "luma": 0.3704
-  }
+  },
+  "motion": true
  },
  "autumn/larches": {
   "kind": "photo",
@@ -325,7 +332,8 @@
     0.5891
    ],
    "luma": 0.5473
-  }
+  },
+  "motion": true
  },
  "autumn/meadow": {
   "kind": "photo",
@@ -366,7 +374,8 @@
     0.4761
    ],
    "luma": 0.4727
-  }
+  },
+  "motion": true
  },
  "autumn/valley": {
   "kind": "photo",
@@ -407,11 +416,12 @@
     0.6523
    ],
    "luma": 0.4571
-  }
+  },
+  "motion": true
  },
- "christmas/appenzell": {
+ "christmas/chalet-lights": {
   "kind": "photo",
-  "place": "Appenzell, Switzerland",
+  "place": "Aeschiried, Switzerland",
   "widths": [
    3840,
    2560,
@@ -419,77 +429,41 @@
   ],
   "maps": true,
   "glass": false,
+  "motion": true,
   "aspect": 1.7777777777777777,
-  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFBgP/xAApEAACAQMDAwEJAAAAAAAAAAABAgMABBESEyEFMXFiFBUjQVFSkcHw/8QAGAEAAgMAAAAAAAAAAAAAAAAAAQMCBAX/xAAcEQADAAIDAQAAAAAAAAAAAAAAAQIDMRIhQSL/2gAMAwEAAhEDEQA/AOcSSQdOt7ZlAWNdSMPuPLA+azZtY5r1reWfaVi0iNJwF4PGauwThllKOTuZyjKcE/PzSt90o3m0sKLuRg6tPg/ntWRhvjXZfyR8iFipe6G1LojjZQqlsZH9zWo6/iXplqGlKwRKT6mYH9ipcaxWNqkezmcYYmNctyO2e1UOoSe8YIYYYZZHOQqoMk8cj6VHJTq01oClJEa3lkzF8R+GIHPYZFORMzW6aiTye5oooeMfk2huxZjZMpJIyvBPqpG1kf2kDW2FmfAz2yTRRRjbEvw//9k=",
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAIFAwQG/8QAJBAAAgEDBAICAwAAAAAAAAAAAQIDAAQREiExQQUiUpETMlH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEAAwADAQAAAAAAAAAAAAAAAAECAxFBEv/aAAwDAQACEQMRAD8A4yO7sFIbUxI607ZpLjy404hjJPyP9PNJZiOJSpjRgSCda54retYookZUWNg/Tnit3kycROpJa+QI2Kls8g90w/HcKSrBW+HFUri1WaMBoowF7UDP3Uu4tET9Mgil6voaQ8BIxg1XsDrkKt7DHB3ooqpEzBf+gOj1362qOXYyn2P3RRRYI//Z",
   "stats": {
    "coverage": {
-    "sky": 0.1694,
+    "sky": 0.2386,
     "water": 0,
-    "foliage": 0.0044,
+    "foliage": 0.0475,
     "glass": 0,
-    "lights": 0.0011,
+    "lights": 0.0001,
     "fire": 0,
-    "ground": 0.0095,
-    "people": 0.0012
-   },
-   "skyColor": [
-    0.245,
-    0.1874,
-    0.0836
-   ],
-   "horizonColor": [
-    0.2198,
-    0.1587,
-    0.0649
-   ],
-   "farColor": [
-    0.3749,
-    0.2789,
-    0.0996
-   ],
-   "luma": 0.407
-  }
- },
- "christmas/chalet": {
-  "kind": "photo",
-  "place": "",
-  "widths": [
-   3840,
-   2560,
-   1600
-  ],
-  "maps": true,
-  "glass": false,
-  "aspect": 1.7777777777777777,
-  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAIEBQEDBv/EACQQAAIBAwQCAgMAAAAAAAAAAAECAwAEEQUSIUEiMVFxEzKR/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgMA/8QAGBEBAQEBAQAAAAAAAAAAAAAAAQARAhL/2gAMAwEAAhEDEQA/AOO069urCT8kEJIbxkVlJV1+CKSaS8ujHviY7VwuF6qwt7iSSN98jsMdmqiRiW9n+0siO02x00TI815KIIRwDkZJ+vimvNIlhnAtMTx7FbcGGRkD67pLG7SGyuY2VCzg4LDn0K16jcLPcxsgUAQxr4jsKBQF9ZUQOdpa8RPjjxqqbuiiqUebA/WlHuiitK//2Q==",
-  "stats": {
-   "coverage": {
-    "sky": 0.0005,
-    "water": 0.5773,
-    "foliage": 0.3284,
-    "glass": 0,
-    "lights": 0,
-    "fire": 0,
-    "ground": 0.0327,
+    "ground": 0.4148,
     "people": 0
    },
    "skyColor": [
-    0.6726,
-    0.6602,
-    0.6149
+    0.1714,
+    0.2015,
+    0.3873
    ],
-   "horizonColor": null,
+   "horizonColor": [
+    0.2086,
+    0.2243,
+    0.3869
+   ],
    "farColor": [
-    0.209,
-    0.2037,
-    0.2138
+    0.1261,
+    0.1358,
+    0.2095
    ],
-   "luma": 0.1893
+   "luma": 0.1566
   }
  },
- "christmas/fireside": {
+ "christmas/church": {
   "kind": "photo",
-  "place": "",
+  "place": "Switzerland",
   "widths": [
    3840,
    2560,
@@ -497,32 +471,67 @@
   ],
   "maps": true,
   "glass": false,
+  "motion": true,
   "aspect": 1.7777777777777777,
-  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBAb/xAAnEAACAgIABAUFAAAAAAAAAAABAgMEABEFEjFBEyFRYbEUIjJx8P/EABcBAAMBAAAAAAAAAAAAAAAAAAECAwT/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIx/9oADAMBAAIRAxEAPwDYwFykwiaSPnHXWmGKSWpw7hsP1TpCgUIOf4ySOIX2pwR0R4bqoDswBOu3XG22S7Uhq25+Wcfc3KoOz59szqFcyttlsQTVlt0/DmVd8pXv2IGclVv2rFuw7OUU/l8Af3plW3Ym4dZMcaoKzNvXbz9PfJk0cqlpKzcwkO/NRk17VznlT4X0P6Ga51XxVblG9ddYYYGJ2W4DDTAEHqDilRQugoAHthhiT3//2Q==",
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAUGB//EACUQAAIBBAEDBAMAAAAAAAAAAAECAwAEERIhBTFhBiJBUTJCcf/EABYBAQEBAAAAAAAAAAAAAAAAAAEDAv/EABoRAAMBAAMAAAAAAAAAAAAAAAABAhExMnH/2gAMAwEAAhEDEQA/AOfR2+R7lI8A0C3Ik7Fh5NPNtG4Xbfyv1Vl0q2tHYzX1zKkCfmVjJIPwOKXUIVNMrQmgBkXGc8fyo80cmckBQOwrYX0/RWsIoOlGeaSFcyM0XHI5P2Ow8Vm7jUqSj7AHBBFTVvcNOVmibRmzKuxxr2zS7meYqVM0hVgMjY80UVGyslv6TVZboiUBw1vJkMM54plkWO4lEahPb+ox8UUUX2fhpcI//9k=",
   "stats": {
    "coverage": {
     "sky": 0,
-    "water": 0,
-    "foliage": 0.0837,
+    "water": 0.0026,
+    "foliage": 0.3802,
     "glass": 0,
-    "lights": 0.0016,
-    "fire": 0.0689,
-    "ground": 0.1563,
+    "lights": 0.0005,
+    "fire": 0,
+    "ground": 0.0029,
     "people": 0
    },
    "skyColor": null,
    "horizonColor": null,
    "farColor": [
-    0.4694,
-    0.3558,
-    0.2632
+    0.1089,
+    0.1013,
+    0.1222
    ],
-   "luma": 0.4082
+   "luma": 0.1653
   }
  },
- "christmas/lucerne": {
+ "christmas/fireplace": {
   "kind": "photo",
-  "place": "Lucerne, Switzerland",
+  "place": "",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": true,
+  "motion": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUBAgMG/8QAKxAAAgEDAgQEBwEAAAAAAAAAAQIDAAQREiEFBhMxUWFxgRYjMjRyc5HB/8QAFgEBAQEAAAAAAAAAAAAAAAAAAwEE/8QAHREAAgICAwEAAAAAAAAAAAAAAAIBEQMyISIzQf/aAAwDAQACEQMRAD8Anm4CDpJ01R5dLEqAO3j700N5DLyu9/MkKsbiP6QMAjGQD4bUg5umD39vPK8Zhjj0htzqI742rC347afBz2AYtcvcBwAu2MjPpWeF4v4Oty0QXvuMWs1yJUtuylNJA0AeQ9dvKi24zawcS6iIjqUQEdPC7DcY965uGea5mdI2+ZIrKup+2Tk9/wCVDvI04hk2KY1DIPZcd6NsK1Q6t2G/Of2MH7f8pBZAADAooq4vIkeplKAEUgAHei0J6p/E0UU86hLuf//Z",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.1333,
+    "glass": 0.0718,
+    "lights": 0.0097,
+    "fire": 0.296,
+    "ground": 0.003,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.5653,
+    0.4733,
+    0.3782
+   ],
+   "luma": 0.3625
+  }
+ },
+ "christmas/huts": {
+  "kind": "photo",
+  "place": "",
   "widths": [
    3840,
    2560,
@@ -530,38 +539,175 @@
   ],
   "maps": true,
   "glass": false,
+  "motion": true,
   "aspect": 1.7777777777777777,
-  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAQGAwUH/8QAJhAAAgEDAwMEAwAAAAAAAAAAAQIDAAQRBRIhBjFBExQiUWGBkf/EABgBAAIDAAAAAAAAAAAAAAAAAAIEAQMF/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAECAxExMgQhM4H/2gAMAwEAAhEDEQA/AIbTrJ76ZoowxbblcDIzkd/oVrqNkbK2tTJHKk0gbeHGBkHjFVWlLoui37L75yZIwDt88/ec0zqc/Tus3EMj3Yi9MHaZGJxg/XnNJyrNSx0XKCsQSWs73BiEZ3Uuz8AlTg9uKv3fRpoiY9SRZlIwoTBx+/FKL08krem4SIKBh2HDfmohyW9lYKdJLDGego459CuJ50WSVZyFdxlgML2Jrq9TWtsNPnxbxcZx8BxwKKKWqe/0OGh5fKSpO0kc44rNHfcPk39oorRQuz//2Q==",
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGwAAAQQDAAAAAAAAAAAAAAAAAAQFBgcBAgP/xAApEAACAQMDAwQBBQAAAAAAAAABAgMABBEFEiExQWETFCJRBiMyYnHR/8QAFwEBAQEBAAAAAAAAAAAAAAAABAMAAf/EABsRAAICAwEAAAAAAAAAAAAAAAACAQMRITIx/9oADAMBAAIRAxEAPwBn07QpbURSOq7wx3rIgOR9eK2v/wAejuAk0SiHD/qHsQew8/VcxdalfSPO7zBDwmw8ccdqcbYakDbuslv6YbIWU8k4PXNFsteFysbFJWucSN506PSxOWtWeNmyZNu7YvYeB5NIrbRIJ0aSJ3dTlWDpsCH+Jzzj+qk10skkQ9dI9hz7hUuSBL2HA6DNRvWdfn92IrZVjSPg/InJ/wArlFjt1o1qIsaLBt0XZ+0ceKyY0YKWRSR0JHSiijv0XjwQ6kiezf4r0+qr68hiFxIBEgGTwFFFFKpIXH//2Q==",
   "stats": {
    "coverage": {
-    "sky": 0.2914,
-    "water": 0.0001,
-    "foliage": 0.0059,
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.1511,
     "glass": 0,
-    "lights": 0.0006,
+    "lights": 0.0097,
     "fire": 0,
-    "ground": 0.0482,
-    "people": 0.0006
+    "ground": 0.1635,
+    "people": 0
    },
-   "skyColor": [
-    0.0797,
-    0.0754,
-    0.0364
-   ],
-   "horizonColor": [
-    0.0783,
-    0.0793,
-    0.0438
-   ],
+   "skyColor": null,
+   "horizonColor": null,
    "farColor": [
-    0.0835,
-    0.0786,
-    0.0382
+    0.1638,
+    0.1504,
+    0.1458
    ],
-   "luma": 0.2796
+   "luma": 0.3685
   }
  },
- "christmas/zermatt": {
+ "christmas/market": {
+  "kind": "photo",
+  "place": "Tallinn, Estonia",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "motion": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAUBBAIDBv/EACYQAAICAQQBAgcAAAAAAAAAAAECAxEABBIhMQUTIhRRYXGRwdH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABoRAAMBAQEBAAAAAAAAAAAAAAABAjEDEiH/2gAMAwEAAhEDEQA/AOS23MCkQYL8mPP6y9EockTbdyntbPGUImIClWIocUcf6OANAC7FQyGwGAof28p0tyh859C8xpXvT2kWdw6+vWU9TBJDIygK25QeG/GOpIVl08iLKpdgCLO0AVyMSbJAZJmJLUFUnkYI6N/WhXKWGXjwCWJA7GMk4aeuOF6+2GGVjQPDUrt8ZpBuNEtYvuusjyQHqIaHeGGUjWT6Yj//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.022,
+    "glass": 0,
+    "lights": 0.0001,
+    "fire": 0,
+    "ground": 0.1946,
+    "people": 0.0017
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.2559,
+    0.2274,
+    0.3323
+   ],
+   "luma": 0.2821
+  }
+ },
+ "christmas/stockings": {
+  "kind": "photo",
+  "place": "",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "motion": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAIDBAUG/8QAKBABAAEEAAMHBQAAAAAAAAAAAQIAAwQREyFxEiIxMkFRwQVSgdHh/8QAGAEAAwEBAAAAAAAAAAAAAAAAAAEDAgT/xAAbEQACAgMBAAAAAAAAAAAAAAAAAREhEjFBMv/aAAwDAQACEQMRAD8A4i/dmZdjvPZYjCT69PzTfTrkJZGRxRldIvCieLL+Vr5TXQqkR0e3OqY1vi34hcIK+ZdaqcVJ0Z3Bk4Vxnmkbgs9SIm9LLWiozlcbM2T3mST5+HpqmycTgT1K7Bdo6eYlRs6ZS39vzSpqUCb0yEv3SxWLsUfcoorXCb2N25SRlJerVLXml0+aKKODXo//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.0063,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0.425,
+    "ground": 0,
+    "people": 0
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.1175,
+    0.0588,
+    0.0291
+   ],
+   "luma": 0.1025
+  }
+ },
+ "christmas/tree-fire": {
+  "kind": "photo",
+  "place": "",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "motion": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMBBAUH/8QAJxAAAgICAAUCBwAAAAAAAAAAAQIAAxEhBRIUIjEEExVBUWGBseH/xAAWAQEBAQAAAAAAAAAAAAAAAAADAgH/xAAaEQEAAwEBAQAAAAAAAAAAAAABAAIRMSKB/9oADAMBAAIRAxEAPwDnyuBqTs+AT+JNDqh7lzNT4rQeHH0nRjJfmVwdgyL2scNi0rRPTkzPZfKE9vN4j/UV29V03Jko/KQF353HcQtpd1ammxKyoOGcE5+0rpc4uNzWF2J2Se5xj5ydXswDclVY2vZAP1EIRWGSzxEAVoANfyIIAFZAGe39whCIjx+T/9k=",
+  "stats": {
+   "coverage": {
+    "sky": 0,
+    "water": 0,
+    "foliage": 0.3946,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0.1233,
+    "ground": 0,
+    "people": 0.0015
+   },
+   "skyColor": null,
+   "horizonColor": null,
+   "farColor": [
+    0.1523,
+    0.1055,
+    0.0851
+   ],
+   "luma": 0.1316
+  }
+ },
+ "christmas/village": {
+  "kind": "photo",
+  "place": "",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "motion": true,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAMEAgYH/8QAKRAAAgEDAgUEAgMAAAAAAAAAAQIDAAQRBSESEyIxUQYyQYEUcZGh4f/EABcBAAMBAAAAAAAAAAAAAAAAAAABAgP/xAAcEQACAgIDAAAAAAAAAAAAAAAAAQIDETEhMmH/2gAMAwEAAhEDEQA/AKNT0OxuYJkt7pDJEDJDHEcgDf7+qlS0mtYo4JQrtIobMZyAp7ZNIiht0xc2BZZ1m5fBxYYvv1A/1uKLQaryQ08blEIwFbDYx4I7U6L5pFW1Rb9GNpT3uowclTyOHrOARse236q4en9OvLtArKY7duKSROkPv7MfOcHPio7ZbwBJJF5aRkyEM2POw/2qbxoho2pNOqJIZMpwPnOAN9uw3/k0pWzwssFCGeET+kI0N9qTlFLI/Scbrv8AHitpycjc0UVlT1Ls2ZD3Cud64TFqcwjJQfkOMLttgUUVVmhQ2f/Z",
+  "stats": {
+   "coverage": {
+    "sky": 0.0968,
+    "water": 0,
+    "foliage": 0.209,
+    "glass": 0,
+    "lights": 0.0453,
+    "fire": 0,
+    "ground": 0.1331,
+    "people": 0
+   },
+   "skyColor": [
+    0.3147,
+    0.4401,
+    0.677
+   ],
+   "horizonColor": [
+    0.3273,
+    0.4428,
+    0.6696
+   ],
+   "farColor": [
+    0.3812,
+    0.4257,
+    0.5437
+   ],
+   "luma": 0.506
+  }
+ },
+ "christmas/zermatt-night": {
   "kind": "photo",
   "place": "Zermatt, Switzerland",
   "widths": [
@@ -571,35 +717,36 @@
   ],
   "maps": true,
   "glass": false,
+  "motion": true,
   "aspect": 1.7777777777777777,
-  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAJhAAAgEDBAAGAwAAAAAAAAAAAQIDAAQREiEiQQUxQlFhcYGx4f/EABYBAQEBAAAAAAAAAAAAAAAAAAQCA//EABwRAAMAAgMBAAAAAAAAAAAAAAABAgNBERIyMf/aAAwDAQACEQMRAD8A5JZI3na4lRnOAFUeQFRn0TEaLYRfWTmoQsYk1MeHZ88fimVhdHLISwxkgcgR7j4pE0oXVGNS7fahMW5eRY0Ul2OAuKrubV4m0tHvkjA37xWhBMquARgHYuwICj3H8qw+IGZ2t/Chg+q4lwCv0PT+6i8j2VGPn4Z0RItpMEjcVdbcIiycWEi4I2PVFFGexK0M3oC3k4UAAOcAdb0hJxhuSuxIXJHe9FFIy+Q+L0z/2Q==",
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwQH/8QAKBAAAQQBAgQGAwAAAAAAAAAAAQACAxEhBBIFQVFhFCIxMkKBMzVx/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgQB/8QAHREAAgIBBQAAAAAAAAAAAAAAAAEDMQIEEyFBUf/aAAwDAQACEQMRAD8A502I0DWDzCkI1ZDDIZXGFssZGRQtOWs1L4Q3xUOcFzmUR2vqlvYqzHFk6FMWinkLA2M0/IJwK/qs8LBHubK8yPHxjNAfZ9U9GmcYYw/VMc4Gqdgn66d1il4bUn5GlpG6mm3Y5FF6hPhCULVmMudTjuPtPPun3CWtOq0wIBBsmx64QhRz0UR2LtR+6hb8dr8clu4n5DbfKQywRij1QhDtD9P/2Q==",
   "stats": {
    "coverage": {
-    "sky": 0.2408,
+    "sky": 0.3652,
     "water": 0,
-    "foliage": 0.0302,
+    "foliage": 0.0669,
     "glass": 0,
     "lights": 0,
     "fire": 0,
-    "ground": 0,
-    "people": 0.0006
+    "ground": 0.0102,
+    "people": 0
    },
    "skyColor": [
-    0.0699,
-    0.2143,
-    0.3526
+    0.0056,
+    0.0804,
+    0.1755
    ],
    "horizonColor": [
-    0.0713,
-    0.1995,
-    0.3305
+    0.0098,
+    0.1129,
+    0.2228
    ],
    "farColor": [
-    0.1383,
-    0.2116,
-    0.2854
+    0.1148,
+    0.1468,
+    0.1931
    ],
-   "luma": 0.2079
+   "luma": 0.1793
   }
  },
  "countryside/cottage": {
@@ -641,7 +788,8 @@
     0.3495
    ],
    "luma": 0.4229
-  }
+  },
+  "motion": true
  },
  "countryside/evening": {
   "kind": "photo",
@@ -682,7 +830,8 @@
     0.5666
    ],
    "luma": 0.498
-  }
+  },
+  "motion": true
  },
  "desert/atacama": {
   "kind": "photo",
@@ -719,7 +868,8 @@
     0.2501
    ],
    "luma": 0.2404
-  }
+  },
+  "motion": true
  },
  "desert/dunes": {
   "kind": "photo",
@@ -760,7 +910,8 @@
     0.1809
    ],
    "luma": 0.4583
-  }
+  },
+  "motion": true
  },
  "desert/hills": {
   "kind": "photo",
@@ -801,7 +952,8 @@
     0.2367
    ],
    "luma": 0.2123
-  }
+  },
+  "motion": true
  },
  "fireplace-rain/cabin-night": {
   "kind": "photo",
@@ -820,7 +972,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0.018,
-    "glass": 0.1201,
+    "glass": 0.0689,
     "lights": 0.0051,
     "fire": 0.0444,
     "ground": 0.1363,
@@ -834,7 +986,8 @@
     0.259
    ],
    "luma": 0.3005
-  }
+  },
+  "motion": true
  },
  "halloween/attic": {
   "kind": "photo",
@@ -853,7 +1006,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0,
-    "glass": 0,
+    "glass": 0.0175,
     "lights": 0.1218,
     "fire": 0,
     "ground": 0.0984,
@@ -867,7 +1020,8 @@
     0.1093
    ],
    "luma": 0.1338
-  }
+  },
+  "motion": true
  },
  "halloween/path": {
   "kind": "photo",
@@ -900,7 +1054,8 @@
     0.3214
    ],
    "luma": 0.2916
-  }
+  },
+  "motion": true
  },
  "halloween/pumpkins": {
   "kind": "photo",
@@ -933,7 +1088,8 @@
     0.0565
    ],
    "luma": 0.1209
-  }
+  },
+  "motion": true
  },
  "halloween/woods": {
   "kind": "photo",
@@ -974,7 +1130,8 @@
     0.4032
    ],
    "luma": 0.2908
-  }
+  },
+  "motion": true
  },
  "japanese-garden/autumn": {
   "kind": "photo",
@@ -1015,7 +1172,8 @@
     0.3969
    ],
    "luma": 0.4722
-  }
+  },
+  "motion": true
  },
  "japanese-garden/maples": {
   "kind": "photo",
@@ -1056,7 +1214,8 @@
     0.3075
    ],
    "luma": 0.3753
-  }
+  },
+  "motion": true
  },
  "japanese-garden/sakura-night": {
   "kind": "photo",
@@ -1097,7 +1256,8 @@
     0.0995
    ],
    "luma": 0.2384
-  }
+  },
+  "motion": true
  },
  "jazz-lounge/backbar": {
   "kind": "photo",
@@ -1116,7 +1276,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0,
-    "glass": 0,
+    "glass": 0.0173,
     "lights": 0.0281,
     "fire": 0,
     "ground": 0.0049,
@@ -1130,7 +1290,8 @@
     0.1441
    ],
    "luma": 0.2115
-  }
+  },
+  "motion": true
  },
  "jazz-lounge/bar": {
   "kind": "photo",
@@ -1141,7 +1302,7 @@
    1600
   ],
   "maps": true,
-  "glass": false,
+  "glass": true,
   "aspect": 1.7777777777777777,
   "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAQCAwEFBv/EACYQAAIBBAEDAwUAAAAAAAAAAAECAwAEESEFEhMxFUFhFDNRcYH/xAAVAQEBAAAAAAAAAAAAAAAAAAABA//EABcRAQEBAQAAAAAAAAAAAAAAAAABEQL/2gAMAwEAAhEDEQA/AOT4K5X1CQIuVkQ6EfUFJyPB9t1fx112hJbtJO9qJOuZYGAJxkAjO878fNU8RaRXl/EgdoGwUzFosTnGzTipwkNl9QXHeilEZV2x1IQd9Ixn91K5VdxBLmH0mW1mRpJJXDxN3MqnjZ+cVrZtsVLxdbFssDrdNXHLcQtvH2LFnuFAy2SEznfnOdUhcc1dToqjtxKuenpQZ2c+TTINKM7ohKOyn8g4pbOdmiinkVn2qZ+2f5RRSH//2Q==",
   "stats": {
@@ -1149,7 +1310,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0,
-    "glass": 0,
+    "glass": 0.0223,
     "lights": 0.0205,
     "fire": 0,
     "ground": 0.0023,
@@ -1163,7 +1324,8 @@
     0.162
    ],
    "luma": 0.2079
-  }
+  },
+  "motion": true
  },
  "jazz-lounge/lamps": {
   "kind": "photo",
@@ -1196,7 +1358,8 @@
     0.1068
    ],
    "luma": 0.1556
-  }
+  },
+  "motion": true
  },
  "lakeside/daybreak": {
   "kind": "photo",
@@ -1237,7 +1400,8 @@
     0.3859
    ],
    "luma": 0.4225
-  }
+  },
+  "motion": true
  },
  "lakeside/golden-hour": {
   "kind": "photo",
@@ -1278,7 +1442,8 @@
     0.7181
    ],
    "luma": 0.5759
-  }
+  },
+  "motion": true
  },
  "lakeside/midday": {
   "kind": "photo",
@@ -1319,7 +1484,8 @@
     0.5811
    ],
    "luma": 0.4967
-  }
+  },
+  "motion": true
  },
  "library/reading-hall": {
   "kind": "photo",
@@ -1330,7 +1496,7 @@
    1600
   ],
   "maps": true,
-  "glass": false,
+  "glass": true,
   "aspect": 1.7777777777777777,
   "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAQGAwEF/8QAKhAAAgEDAwIDCQAAAAAAAAAAAQIDABExBBIhE0EFIiQjMlFhcZGhsfD/xAAXAQEBAQEAAAAAAAAAAAAAAAAABAEC/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8A8DRy7X9myENbcuO+PlVGswluNLOsG+xkDZFgOR9aioyFJDTRg/AMSa2h1zRzBo5HItap47SnJCxaToN6jUrPErblAI3Mcc/YGprXRibUvJNsAU+VTi1wTb80rJ4k0mo87ybdts4rORlcsVkRmOLsQb/qm2hJSMTPvL/d6YnAEqC3AhxRRXSMZ2AesYdumaVkJD8EiiijB//Z",
   "stats": {
@@ -1338,7 +1504,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0,
-    "glass": 0,
+    "glass": 0.0285,
     "lights": 0.0043,
     "fire": 0,
     "ground": 0.0013,
@@ -1352,7 +1518,8 @@
     0.2433
    ],
    "luma": 0.2957
-  }
+  },
+  "motion": true
  },
  "library/study": {
   "kind": "photo",
@@ -1385,7 +1552,8 @@
     0.1839
    ],
    "luma": 0.2852
-  }
+  },
+  "motion": true
  },
  "mountain-cabin/alps-window": {
   "kind": "photo",
@@ -1404,7 +1572,7 @@
     "sky": 0.0714,
     "water": 0,
     "foliage": 0,
-    "glass": 0.194,
+    "glass": 0.1966,
     "lights": 0,
     "fire": 0,
     "ground": 0.1963,
@@ -1426,7 +1594,46 @@
     0.6526
    ],
    "luma": 0.2199
-  }
+  },
+  "motion": true
+ },
+ "mountain-cabin/chalet-lake": {
+  "kind": "photo",
+  "place": "",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAIEBQEDBv/EACQQAAIBAwQCAgMAAAAAAAAAAAECAwAEEQUSIUEiMVFxEzKR/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgMA/8QAGBEBAQEBAQAAAAAAAAAAAAAAAQARAhL/2gAMAwEAAhEDEQA/AOO069urCT8kEJIbxkVlJV1+CKSaS8ujHviY7VwuF6qwt7iSSN98jsMdmqiRiW9n+0siO02x00TI815KIIRwDkZJ+vimvNIlhnAtMTx7FbcGGRkD67pLG7SGyuY2VCzg4LDn0K16jcLPcxsgUAQxr4jsKBQF9ZUQOdpa8RPjjxqqbuiiqUebA/WlHuiitK//2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.0005,
+    "water": 0.5773,
+    "foliage": 0.3284,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0.0327,
+    "people": 0
+   },
+   "skyColor": [
+    0.6726,
+    0.6602,
+    0.6149
+   ],
+   "horizonColor": null,
+   "farColor": [
+    0.209,
+    0.2037,
+    0.2138
+   ],
+   "luma": 0.1893
+  },
+  "motion": true
  },
  "mountain-cabin/hut": {
   "kind": "photo",
@@ -1467,7 +1674,8 @@
     0.63
    ],
    "luma": 0.6301
-  }
+  },
+  "motion": true
  },
  "mountain-cabin/lodge": {
   "kind": "photo",
@@ -1486,7 +1694,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0.0045,
-    "glass": 0.3196,
+    "glass": 0.4503,
     "lights": 0.0013,
     "fire": 0.0914,
     "ground": 0.0387,
@@ -1500,7 +1708,8 @@
     0.7666
    ],
    "luma": 0.428
-  }
+  },
+  "motion": true
  },
  "mountain-cabin/lodge-wide": {
   "kind": "photo",
@@ -1519,7 +1728,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0.0033,
-    "glass": 0.3081,
+    "glass": 0.4523,
     "lights": 0.0022,
     "fire": 0.0468,
     "ground": 0.0703,
@@ -1533,7 +1742,8 @@
     0.7897
    ],
    "luma": 0.4414
-  }
+  },
+  "motion": true
  },
  "mountain-cabin/twilight": {
   "kind": "photo",
@@ -1574,7 +1784,50 @@
     0.8974
    ],
    "luma": 0.4973
-  }
+  },
+  "motion": true
+ },
+ "mountain-cabin/zermatt": {
+  "kind": "photo",
+  "place": "Zermatt, Switzerland",
+  "widths": [
+   3840,
+   2560,
+   1600
+  ],
+  "maps": true,
+  "glass": false,
+  "aspect": 1.7777777777777777,
+  "lqip": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAASACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAJhAAAgEDBAAGAwAAAAAAAAAAAQIDAAQREiEiQQUxQlFhcYGx4f/EABYBAQEBAAAAAAAAAAAAAAAAAAQCA//EABwRAAMAAgMBAAAAAAAAAAAAAAABAgNBERIyMf/aAAwDAQACEQMRAD8A5JZI3na4lRnOAFUeQFRn0TEaLYRfWTmoQsYk1MeHZ88fimVhdHLISwxkgcgR7j4pE0oXVGNS7fahMW5eRY0Ul2OAuKrubV4m0tHvkjA37xWhBMquARgHYuwICj3H8qw+IGZ2t/Chg+q4lwCv0PT+6i8j2VGPn4Z0RItpMEjcVdbcIiycWEi4I2PVFFGexK0M3oC3k4UAAOcAdb0hJxhuSuxIXJHe9FFIy+Q+L0z/2Q==",
+  "stats": {
+   "coverage": {
+    "sky": 0.2408,
+    "water": 0,
+    "foliage": 0.0302,
+    "glass": 0,
+    "lights": 0,
+    "fire": 0,
+    "ground": 0,
+    "people": 0.0006
+   },
+   "skyColor": [
+    0.0699,
+    0.2143,
+    0.3526
+   ],
+   "horizonColor": [
+    0.0713,
+    0.1995,
+    0.3305
+   ],
+   "farColor": [
+    0.1383,
+    0.2116,
+    0.2854
+   ],
+   "luma": 0.2079
+  },
+  "motion": true
  },
  "neon-tokyo/alley": {
   "kind": "photo",
@@ -1615,7 +1868,8 @@
     0.1483
    ],
    "luma": 0.1784
-  }
+  },
+  "motion": true
  },
  "neon-tokyo/kabukicho": {
   "kind": "photo",
@@ -1648,7 +1902,8 @@
     0.2577
    ],
    "luma": 0.229
-  }
+  },
+  "motion": true
  },
  "neon-tokyo/side-street": {
   "kind": "photo",
@@ -1681,7 +1936,8 @@
     0.2529
    ],
    "luma": 0.2345
-  }
+  },
+  "motion": true
  },
  "observatory/cosmic-cliffs": {
   "kind": "photo",
@@ -1722,7 +1978,8 @@
     0.4482
    ],
    "luma": 0.3055
-  }
+  },
+  "motion": false
  },
  "observatory/westerlund": {
   "kind": "photo",
@@ -1763,7 +2020,8 @@
     0.4158
    ],
    "luma": 0.2877
-  }
+  },
+  "motion": false
  },
  "observatory/whirlpool": {
   "kind": "photo",
@@ -1796,7 +2054,8 @@
     0.2258
    ],
    "luma": 0.2591
-  }
+  },
+  "motion": false
  },
  "ocean/dawn": {
   "kind": "video",
@@ -1852,7 +2111,8 @@
     0.5363
    ],
    "luma": 0.4598
-  }
+  },
+  "motion": true
  },
  "ocean/surf": {
   "kind": "video",
@@ -1923,7 +2183,8 @@
     0.9036
    ],
    "luma": 0.6706
-  }
+  },
+  "motion": true
  },
  "rainforest/stream": {
   "kind": "photo",
@@ -1956,7 +2217,8 @@
     0.25
    ],
    "luma": 0.3603
-  }
+  },
+  "motion": true
  },
  "rainforest/sunbeams": {
   "kind": "photo",
@@ -1989,7 +2251,8 @@
     0.251
    ],
    "luma": 0.3557
-  }
+  },
+  "motion": true
  },
  "rooftop-city/night": {
   "kind": "photo",
@@ -2030,7 +2293,8 @@
     0.1989
    ],
    "luma": 0.2184
-  }
+  },
+  "motion": true
  },
  "rooftop-city/sunset": {
   "kind": "photo",
@@ -2071,7 +2335,8 @@
     0.1777
    ],
    "luma": 0.2451
-  }
+  },
+  "motion": true
  },
  "snowy-forest/dusk": {
   "kind": "photo",
@@ -2112,7 +2377,8 @@
     0.4799
    ],
    "luma": 0.4434
-  }
+  },
+  "motion": true
  },
  "snowy-forest/pines": {
   "kind": "photo",
@@ -2153,7 +2419,8 @@
     0.4836
    ],
    "luma": 0.4859
-  }
+  },
+  "motion": true
  },
  "storm-sea/buoy": {
   "kind": "video",
@@ -2224,7 +2491,8 @@
     0.3098
    ],
    "luma": 0.254
-  }
+  },
+  "motion": true
  },
  "tokyo-cafe/dusk": {
   "kind": "photo",
@@ -2265,7 +2533,8 @@
     0.5183
    ],
    "luma": 0.3216
-  }
+  },
+  "motion": true
  },
  "tokyo-cafe/inside": {
   "kind": "photo",
@@ -2284,7 +2553,7 @@
     "sky": 0,
     "water": 0,
     "foliage": 0.02,
-    "glass": 0.4487,
+    "glass": 0.4119,
     "lights": 0.0003,
     "fire": 0,
     "ground": 0.1143,
@@ -2298,7 +2567,8 @@
     0.2071
    ],
    "luma": 0.2636
-  }
+  },
+  "motion": true
  },
  "tokyo-cafe/night": {
   "kind": "photo",
@@ -2339,7 +2609,8 @@
     0.4459
    ],
    "luma": 0.3274
-  }
+  },
+  "motion": true
  },
  "underwater/cenote": {
   "kind": "photo",
@@ -2372,7 +2643,8 @@
     0.5129
    ],
    "luma": 0.231
-  }
+  },
+  "motion": true
  },
  "underwater/reef": {
   "kind": "photo",
@@ -2405,7 +2677,8 @@
     0.5275
    ],
    "luma": 0.3687
-  }
+  },
+  "motion": true
  },
  "waterfall/cascade": {
   "kind": "video",

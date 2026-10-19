@@ -3,28 +3,22 @@
 
 Night windows that only show reflections, or panes full of white overcast, are not labelled as
 windows. Here they are drawn as polygons (normalised image coordinates) or derived from depth.
+Run it after scene-classes.py, which replaces the glass channel with the windows it detects;
+furniture and people the model found in front of a drawn pane are cut out of it again
+(`exclude_classes`, from classes.npz), so rain never runs down an armchair.
 
 usage: python mask-overrides.py <maps-dir>
 """
 import os, sys
 import numpy as np
 from PIL import Image, ImageDraw
+from scipy import ndimage
 
 W, H = 1024, 576
 
 RULES = {
     # Icelandic lodge: everything seen through the panes is far away, so depth finds the glass
     "mountain-cabin__lodge": {"glass_from_depth": (0.17, 0.07)},
-    # night cabin: dark panes on the left, the glass door and the clerestory window
-    "fireplace-rain__cabin-night": {
-        "glass_polys": [
-            [(0.0, 0.15), (0.216, 0.215), (0.216, 0.535), (0.0, 0.665)],
-            [(0.316, 0.27), (0.372, 0.272), (0.372, 0.52), (0.316, 0.52)],
-            [(0.318, 0.0), (0.376, 0.0), (0.376, 0.165), (0.318, 0.165)],
-            [(0.862, 0.30), (0.905, 0.29), (0.905, 0.50), (0.862, 0.50)],
-        ],
-        "exclude_near": 0.58,
-    },
     # the same lodge, framed wider
     "mountain-cabin__lodge-wide": {"glass_from_depth": (0.17, 0.07)},
     # Grindelwald: three panes cut into a dark timber room
@@ -32,9 +26,10 @@ RULES = {
     # café after dark: the glass front above the armchairs, either side of the pillar
     "tokyo-cafe__inside": {
         "glass_polys": [
-            [(0.0, 0.0), (0.74, 0.0), (0.74, 0.47), (0.0, 0.47)],
+            [(0.03, 0.0), (0.74, 0.0), (0.74, 0.47), (0.03, 0.47)],
             [(0.80, 0.0), (1.0, 0.0), (1.0, 0.5), (0.80, 0.5)],
         ],
+        "exclude_classes": ["seat", "table", "person", "plant", "tree"],
     },
 }
 
@@ -63,6 +58,11 @@ def main(maps_dir):
             m = poly_mask(rule["glass_polys"])
             if "exclude_near" in rule:
                 m *= 1 - np.clip((depth - rule["exclude_near"]) / 0.08, 0, 1)
+            if "exclude_classes" in rule:
+                z = np.load(os.path.join(folder, "classes.npz"))
+                occ = np.max([z[k].astype(np.float32) / 255 for k in rule["exclude_classes"]], axis=0)
+                occ = ndimage.maximum_filter(np.clip((occ - 0.2) / 0.4, 0, 1), size=5)
+                m *= 1 - occ
             glass = np.maximum(glass, m)
         b[..., 0] = glass
         Image.fromarray((b * 255 + 0.5).astype(np.uint8)).save(os.path.join(folder, "maps-b.png"), optimize=True)
