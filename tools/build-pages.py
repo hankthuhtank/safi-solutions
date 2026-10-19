@@ -183,7 +183,7 @@ PRODUCTS = [
     dict(
         id="kwezeen",
         name="Kwezeen",
-        paid=True,
+        paid=False,
         cat="Restaurant menus",
         copy="Build one restaurant menu and turn it into print, signage, social and web-ready formats.",
         tags=["Design", "Menus", "Publish", "Multi-format"],
@@ -195,7 +195,7 @@ PRODUCTS = [
     dict(
         id="doqcorp",
         name="DoqCorp",
-        paid=True,
+        paid=False,
         cat="Business paperwork",
         copy="Create the paperwork a small business actually uses without starting from a blank page.",
         tags=["Invoices", "Hiring", "Policies", "Forms"],
@@ -250,6 +250,42 @@ PRODUCTS = [
         shots=[
             ("doqdesk-1", "Write and format documents in a familiar workspace"),
             ("doqdesk-2", "Build spreadsheets, formulas and charts"),
+        ],
+    ),
+    dict(
+        id="fileshift",
+        name="FileShift",
+        paid=False,
+        cat="File converter",
+        copy="Convert images, video, audio, documents, PDFs, spreadsheets and subtitles in one batch workflow, with clear format choices and your originals left untouched.",
+        tags=["Batch convert", "Media", "Documents", "Quality controls"],
+        shots=[
+            ("fileshift-1", "Add files or folders and convert mixed file types"),
+            ("fileshift-2", "Choose an output format with plain-English guidance"),
+        ],
+    ),
+    dict(
+        id="inkform",
+        name="Inkform",
+        paid=False,
+        cat="Handwriting to font",
+        copy="Turn your handwriting into a font: print a sheet, write your characters, scan or photograph it, then check each letter before installing or saving your font.",
+        tags=["Handwriting", "Scan", "Review letters", "Font files"],
+        shots=[
+            ("inkform-1", "Turn a handwritten sheet into a font you can use"),
+            ("inkform-2", "Compare scans with finished letters and check each character"),
+        ],
+    ),
+    dict(
+        id="shiftcraft",
+        name="ShiftCraft",
+        paid=False,
+        cat="Staff scheduling",
+        copy="Build weekly staff schedules, manage your team’s availability and time off, reuse shift templates and print a clean schedule without exposing private team details.",
+        tags=["Schedules", "Team", "Availability", "Print"],
+        shots=[
+            ("shiftcraft-1", "Build a weekly schedule with people, roles and quick shifts"),
+            ("shiftcraft-2", "Manage team roles, departments and availability"),
         ],
     ),
 ]
@@ -315,14 +351,17 @@ def page(key, path, title, desc, label, body, extra_head="", extra_tail="", dial
         return f'<a href="{h}"{cls}{cur(k)}>{t}{f" <span>{c}</span>" if c else ""}</a>'
 
     nav = "".join(item(*n) for n in NAV)
+    nav2 = [n for n in NAV2 if key != "products" or n[0] != "pricing"]
     nav += '<span class="nav-rule" aria-hidden="true"></span>' + "".join(
-        f'<a href="{h}"{cur(k)}>{t}</a>' for k, h, t in NAV2
+        f'<a href="{h}"{cur(k)}>{t}</a>' for k, h, t in nav2
     )
     mnav = (
         "".join(f'<a href="{h}"{cur(k)}>{t}</a>' for k, h, t, c in NAV)
-        + "".join(f'<a href="{h}"{cur(k)}>{t}</a>' for k, h, t in NAV2)
+        + "".join(f'<a href="{h}"{cur(k)}>{t}</a>' for k, h, t in nav2)
         + f'<a href="/contact/"{cur("contact")}>Get in touch</a>'
     )
+    pricing_link = '<a href="/pricing.html">Pricing</a>' if key != "products" else ""
+    refunds_link = '<a href="/refunds.html">Refunds</a>' if key != "products" else ""
     url = "https://www.safisolutions.org" + path
     share_image = (
         "https://www.safisolutions.org/assets/social/tradingdesk-logo.jpg"
@@ -368,7 +407,7 @@ def page(key, path, title, desc, label, body, extra_head="", extra_tail="", dial
 <main id="main" tabindex="-1">
 <div class="workspace-top"><span>{e(label)}</span><span class="clock" data-clock>Paris, Texas</span><a href="/contact/">Let’s talk {ARROW}</a></div>
 {body}
-<footer class="site-footer"><span>© <span data-year>2026</span> Safi Solutions</span><span>Independent. Hands-on. Still curious.</span><nav aria-label="Footer"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/refunds.html">Refunds</a></nav></footer>
+<footer class="site-footer"><span>© <span data-year>2026</span> Safi Solutions</span><span>Independent. Hands-on. Still curious.</span><nav aria-label="Footer">{pricing_link}<a href="/support.html">Support</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a>{refunds_link}</nav></footer>
 </main>
 {dialogs}<script src="/assets/site.js?v={V}" defer></script>
 {extra_tail}</body>
@@ -493,27 +532,23 @@ write(
 
 # ---------------------------------------------------------------- products
 def shelf(p):
-    if p["paid"]:
-        buy = f'<div class="price"><del>$29</del><strong>$19</strong><small>one-time</small></div><a class="button" href="/products/{p["id"]}.html">Explore features {ARROW}</a>'
-    else:
-        buy = f'<div class="price"><strong>Free</strong><small>no checkout</small></div><a class="button" href="/products/{p["id"]}.html">Explore &amp; download {ARROW}</a>'
+    buy = f'<div class="price"><strong>Free</strong><small>no checkout</small></div><a class="button" href="/products/{p["id"]}.html">Explore &amp; download {ARROW}</a>'
     shots = "".join(
         f'<figure><button type="button" data-zoom style="all:unset;display:block;cursor:zoom-in;width:100%"><img src="/assets/products/{f}.webp" alt="{e(p["name"])}: {e(c)}" loading="lazy" width="1280" height="800"></button><figcaption>{e(c)}</figcaption></figure>'
         for f, c in p["shots"]
     )
     tags = "".join(f"<span>{t}</span>" for t in p["tags"])
     return f"""<article class="shelf w-{p["id"]} rv" id="{p["id"]}">
-  <div><div class="shelf-kicker"><span class="pill {"paid" if p["paid"] else "free"}">{"Paid" if p["paid"] else "Free"}</span><span class="micro">{e(p["cat"])}</span></div>
+  <div><div class="shelf-kicker"><span class="pill free">Free</span><span class="micro">{e(p["cat"])}</span></div>
     <h2>{e(p["name"])}</h2><p class="copy">{e(p["copy"])}</p><div class="tags">{tags}</div><div class="shelf-buy">{buy}</div></div>
   <div class="shelf-shots">{shots}</div>
 </article>"""
 
 
 products_body = f"""<div class="page">
-  <header class="page-head"><div><p class="micro">Desktop software</p><h1>Products.</h1></div><p class="lead">Software like this already exists. I simplify the hard parts. Built for everyday users: <strong>{FREE} tools are free</strong>, and two focused business apps are one-time purchases with no subscription.</p></header>
+  <header class="page-head"><div><p class="micro">Desktop software</p><h1>Products.</h1></div><p class="lead">Software like this already exists. I simplify the hard parts. Built for everyday users: <strong>all {N_PROD} apps are free</strong>, with no checkout or subscription.</p></header>
   <div class="shelves">{''.join(shelf(p) for p in PRODUCTS)}</div>
-  <div class="note-bar rv"><span><strong>Paid app bundle:</strong> Kwezeen + DoqCorp · $30 launch / $50 regular.</span><span>Individual launch price: $19 each.</span></div>
-  <div class="note-bar rv"><span><strong>Every app:</strong> Windows desktop · offline-first · no account · version 1.0</span><a class="underlined" href="/terms.html">Open/shareable licensing {ARROW}</a><a class="underlined" href="/support.html">Support &amp; updates {ARROW}</a><a class="underlined" href="/pricing.html">Pricing {ARROW}</a></div>
+  <div class="note-bar rv"><span><strong>Every app:</strong> Windows desktop · offline-first · no account</span><a class="underlined" href="/terms.html">Open/shareable licensing {ARROW}</a><a class="underlined" href="/support.html">Support &amp; updates {ARROW}</a></div>
 </div>"""
 zoom_dialog = f"""<dialog class="sheet-dialog" id="zoom-dialog" style="width:min(1280px,calc(100% - 24px))"><div class="sd-head"><p class="micro zoom-title">Product preview</p><button class="sd-close" type="button" aria-label="Close">×</button></div><div class="sd-body"><img src="" alt="" style="width:100%;border:1px solid var(--line);border-radius:6px"></div></dialog>
 """
@@ -523,7 +558,7 @@ write(
         "products",
         "/products/",
         "Products | Safi Solutions desktop software",
-        f"Six Windows desktop apps from Safi Solutions: {FREE} free tools (Padeff, Piktoor, Brandur, DoqDesk) and two one-time-purchase business apps (Kwezeen, DoqCorp).",
+        f"Nine free Windows desktop apps from Safi Solutions: {', '.join(p['name'] for p in PRODUCTS)}.",
         "Products / Desktop software",
         products_body,
         extra_head=DISPLAY_FONTS + "\n",

@@ -1599,6 +1599,18 @@ a:hover > .arrow.back {
   letter-spacing: -0.06em;
   font-size: 38px;
 }
+.shelf.w-fileshift h2 {
+  font-family: "Syne", "DM Sans", sans-serif;
+  letter-spacing: -0.045em;
+}
+.shelf.w-inkform h2 {
+  font-family: "Fraunces", Georgia, serif;
+}
+.shelf.w-shiftcraft h2 {
+  font-family: "Azeret Mono", "IBM Plex Mono", monospace;
+  font-size: 38px;
+  letter-spacing: -0.06em;
+}
 .note-bar {
   display: flex;
   flex-wrap: wrap;
