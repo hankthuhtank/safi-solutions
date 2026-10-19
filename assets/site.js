@@ -12,7 +12,6 @@
     const h = decodeURIComponent(location.hash.slice(1));
     const projects = [
       "trippr",
-      "vibey",
       "playbook",
       "motoratlas",
       "voltvisual",
