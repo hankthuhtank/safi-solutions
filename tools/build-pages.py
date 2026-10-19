@@ -304,6 +304,11 @@ def page(key, path, title, desc, label, body, extra_head="", extra_tail="", dial
         + f'<a href="/contact/"{cur("contact")}>Get in touch</a>'
     )
     url = "https://www.safisolutions.org" + path
+    share_image = (
+        "https://www.safisolutions.org/assets/social/tradingdesk-logo.jpg"
+        if key == "tradingdesk"
+        else "https://www.safisolutions.org/assets/images/og.jpg"
+    )
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -317,7 +322,7 @@ def page(key, path, title, desc, label, body, extra_head="", extra_tail="", dial
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="https://www.safisolutions.org/assets/images/og.jpg">
+<meta property="og:image" content="{share_image}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/images/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -56,8 +56,15 @@ function head({ title, desc, url, image, prefix }) {
 <meta name="description" content="${esc(desc)}">
 <meta name="theme-color" content="#080b0a">
 <link rel="canonical" href="${url}">
-<meta property="og:type" content="website"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${image}">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="website"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="https://www.safisolutions.org/assets/social/playbook-logo.jpg" />
+<meta property="og:image:secure_url" content="https://www.safisolutions.org/assets/social/playbook-logo.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Playbook logo" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://www.safisolutions.org/assets/social/playbook-logo.jpg" />
+<meta name="twitter:image:alt" content="Playbook logo" />
 <link rel="icon" href="${prefix}assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="${prefix}assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
