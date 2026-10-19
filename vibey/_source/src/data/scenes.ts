@@ -115,7 +115,7 @@ const ALL_SCENES: SceneDef[] = [
       drift: 0.4,
     },
     controls: ["rainGlass", "glassFocus", "rain", "lightning", "headlights", "drift", "light"],
-    sounds: { "rain-window": 0.6, cafe: 0.24, thunder: 0.14, traffic: 0.1 },
+    sounds: { "rain-window": 0.8, cafe: 0.53, thunder: 0.55, traffic: 0.42 },
     bands: ["kissa", "jazzcafe", "lofi"],
   },
   {
@@ -128,7 +128,7 @@ const ALL_SCENES: SceneDef[] = [
     variations: [v("jazz-lounge/bar", "The bar", { place: "Lounge" }), v("jazz-lounge/backbar", "Back bar", { place: "Lounge" })],
     fx: { lamps: 0.7, fog: 0.14, fogColor: [0.32, 0.22, 0.14], dust: 0.35, drift: 0.35 },
     controls: ["fog", "dust", "drift", "light"],
-    sounds: { bar: 0.3, vinyl: 0.35, glasses: 0.12, "rain-roof": 0 },
+    sounds: { bar: 0.57, vinyl: 0.61, glasses: 0.55, "rain-roof": 0 },
     bands: ["vintage", "jazzcafe", "kissa"],
   },
   {
@@ -145,7 +145,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { dust: 0.6, lamps: 0.45, fog: 0.05, fogColor: [0.6, 0.5, 0.36], drift: 0.3 },
     controls: ["dust", "drift", "light"],
-    sounds: { "rain-roof": 0.3, pages: 0.2, clock: 0.14, room: 0.2 },
+    sounds: { "rain-roof": 0.57, pages: 0.55, clock: 0.45, room: 0.5 },
     bands: ["classical", "piano", "relaxing"],
   },
   {
@@ -165,7 +165,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { fire: 0.95, rainGlass: 0.55, lightning: 0.1, lamps: 0.25, drift: 0.3 },
     controls: ["fire", "rainGlass", "lightning", "drift", "light"],
-    sounds: { fireplace: 0.6, "rain-window": 0.45, thunder: 0.2, room: 0.08 },
+    sounds: { fireplace: 0.8, "rain-window": 0.69, thunder: 0.55, room: 0.41 },
     bands: ["vintage", "piano", "acoustic"],
   },
   {
@@ -185,7 +185,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { fire: 0.85, snow: 0.6, wind: 0.45, lamps: 0.2, drift: 0.3 },
     controls: ["fire", "snow", "rain", "wind", "drift", "light"],
-    sounds: { fireplace: 0.55, wind: 0.3, snowstorm: 0.14, room: 0.1 },
+    sounds: { fireplace: 0.76, wind: 0.57, snowstorm: 0.45, room: 0.42 },
     bands: ["acoustic", "piano", "relaxing"],
   },
   {
@@ -198,11 +198,11 @@ const ALL_SCENES: SceneDef[] = [
     coords: [56.16, 10.2],
     variations: [
       v("countryside/cottage", "Cottage"),
-      v("countryside/evening", "Evening fields", { fx: { fireflies: 0.55, clouds: 0.4 }, timeZone: "Europe/Minsk", sounds: { birds: 0.08, crickets: 0.2 } }),
+      v("countryside/evening", "Evening fields", { fx: { fireflies: 0.55, clouds: 0.4 }, timeZone: "Europe/Minsk", sounds: { birds: 0.41, crickets: 0.5 } }),
     ],
     fx: { clouds: 0.65, sway: 0.5, wind: 0.35, drift: 0.5 },
     controls: ["clouds", "wind", "fireflies", "rain", "drift", "light"],
-    sounds: { birds: 0.4, leaves: 0.2, wind: 0.12 },
+    sounds: { birds: 0.65, leaves: 0.5, wind: 0.44 },
     bands: ["acoustic", "nature", "relaxing"],
   },
   {
@@ -216,11 +216,11 @@ const ALL_SCENES: SceneDef[] = [
     variations: [
       v("japanese-garden/autumn", "Ninna-ji, autumn", { fx: { petalKind: "maple" } }),
       v("japanese-garden/maples", "Eikandō maples", { fx: { petalKind: "maple" }, coords: [35.015, 135.794] }),
-      v("japanese-garden/sakura-night", "Sakura at night", { fx: { petalKind: "sakura", clouds: 0 }, sounds: { birds: 0, insects: 0.14 } }),
+      v("japanese-garden/sakura-night", "Sakura at night", { fx: { petalKind: "sakura", clouds: 0 }, sounds: { birds: 0, insects: 0.45 } }),
     ],
     fx: { water: 0.6, clouds: 0.35, sway: 0.3, petals: 0.45, wind: 0.25, drift: 0.4 },
     controls: ["petals", "water", "wind", "rain", "drift", "light"],
-    sounds: { river: 0.22, birds: 0.28, chimes: 0.1, shishi: 0.2, bell: 0.16 },
+    sounds: { river: 0.52, birds: 0.56, chimes: 0.42, shishi: 0.55, bell: 0.55 },
     bands: ["piano", "nature", "meditation"],
   },
   {
@@ -239,7 +239,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { clouds: 0.7, sway: 0.25, wind: 0.45, drift: 0.55 },
     controls: ["clouds", "fog", "wind", "rain", "lightning", "drift", "light"],
-    sounds: { wind: 0.32, birds: 0.22 },
+    sounds: { wind: 0.59, birds: 0.52 },
     bands: ["piano", "nature", "classical"],
   },
   {
@@ -255,7 +255,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { snow: 0.7, wind: 0.25, sway: 0.12, fog: 0.12, fogColor: [0.82, 0.86, 0.92], drift: 0.45 },
     controls: ["snow", "wind", "fog", "drift", "light"],
-    sounds: { wind: 0.3, snowstorm: 0.18 },
+    sounds: { wind: 0.57, snowstorm: 0.48 },
     bands: ["piano", "sleep", "ambient"],
   },
   {
@@ -272,7 +272,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { rain: 0.5, water: 0.55, sway: 0.4, fog: 0.18, fogColor: [0.62, 0.7, 0.62], drift: 0.45 },
     controls: ["rain", "water", "fog", "wind", "drift", "light"],
-    sounds: { "rain-leaves": 0.5, river: 0.35, birds: 0.18, frogs: 0.12 },
+    sounds: { "rain-leaves": 0.72, river: 0.61, birds: 0.48, frogs: 0.44 },
     bands: ["nature", "ambient", "meditation"],
   },
   {
@@ -288,7 +288,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { drift: 0.25 },
     controls: ["drift", "light"],
-    sounds: { waterfall: 0.6, forest: 0.2, birds: 0.12 },
+    sounds: { waterfall: 0.8, forest: 0.5, birds: 0.44 },
     bands: ["nature", "meditation", "ambient"],
   },
   {
@@ -306,7 +306,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { water: 0.7, clouds: 0.5, sway: 0.22, wind: 0.25, drift: 0.5 },
     controls: ["water", "clouds", "wind", "rain", "fog", "drift", "light"],
-    sounds: { lake: 0.4, birds: 0.24, wildlife: 0.08 },
+    sounds: { lake: 0.65, birds: 0.53, wildlife: 0.55 },
     bands: ["piano", "ambient", "nature"],
   },
   {
@@ -323,7 +323,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { drift: 0.2 },
     controls: ["drift", "light"],
-    sounds: { ocean: 0.7, seagulls: 0.12, wind: 0.18 },
+    sounds: { ocean: 0.8, seagulls: 0.55, wind: 0.48 },
     bands: ["ambient", "downtempo", "meditation"],
   },
   {
@@ -339,7 +339,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { lightning: 0.5, rain: 0.45, wind: 0.65, drift: 0.2 },
     controls: ["lightning", "rain", "wind", "drift", "light"],
-    sounds: { storm: 0.5, ocean: 0.35, thunder: 0.45, wind: 0.3 },
+    sounds: { storm: 0.72, ocean: 0.61, thunder: 0.69, wind: 0.57 },
     bands: ["ambient", "space", "sleep"],
   },
   {
@@ -355,7 +355,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { caustics: 0.7, marine: 0.6, drift: 0.5 },
     controls: ["caustics", "drift", "light"],
-    sounds: { underwater: 0.6 },
+    sounds: { underwater: 0.8 },
     bands: ["ambient", "space", "meditation"],
   },
   {
@@ -373,7 +373,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { rain: 0.45, splashes: 0.6, neon: 0.6, lamps: 0.25, wet: 0.6, fog: 0.06, fogColor: [0.45, 0.32, 0.4], drift: 0.45 },
     controls: ["rain", "lightning", "fog", "drift", "light"],
-    sounds: { "rain-heavy": 0.32, tokyo: 0.3, "city-night": 0.18 },
+    sounds: { "rain-heavy": 0.59, tokyo: 0.57, "city-night": 0.48 },
     bands: ["synthwave", "lofi", "downtempo"],
   },
   {
@@ -389,7 +389,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { clouds: 0.45, aircraft: 0.6, lamps: 0.2, fog: 0.1, fogColor: [0.55, 0.45, 0.42], wind: 0.3, drift: 0.5 },
     controls: ["clouds", "fog", "rain", "drift", "light"],
-    sounds: { "city-night": 0.4, wind: 0.24, traffic: 0.16 },
+    sounds: { "city-night": 0.65, wind: 0.53, traffic: 0.47 },
     bands: ["lofi", "chillhop", "synthwave"],
   },
   {
@@ -403,7 +403,7 @@ const ALL_SCENES: SceneDef[] = [
     variations: [v("desert/atacama", "Cerro Armazones"), v("desert/hills", "Paranal hills")],
     fx: { stars: 0.85, meteors: 0.6, wind: 0.2, drift: 0.35 },
     controls: ["stars", "meteors", "drift", "light"],
-    sounds: { "desert-wind": 0.3, crickets: 0.1 },
+    sounds: { "desert-wind": 0.57, crickets: 0.42 },
     bands: ["space", "ambient", "sleep"],
   },
   {
@@ -420,7 +420,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { aurora: 0.65, stars: 0.6, wind: 0.2, drift: 0.4 },
     controls: ["aurora", "stars", "snow", "drift", "light"],
-    sounds: { wind: 0.28, snowstorm: 0.08, lake: 0.12 },
+    sounds: { wind: 0.56, snowstorm: 0.41, lake: 0.44 },
     bands: ["space", "ambient", "sleep"],
   },
   {
@@ -437,7 +437,7 @@ const ALL_SCENES: SceneDef[] = [
     ],
     fx: { zoom: 0.8, starfield: 0.55, stars: 0.5, drift: 0.6, wind: 0 },
     controls: ["stars", "drift", "light"],
-    sounds: { space: 0.5 },
+    sounds: { space: 0.72 },
     bands: ["space", "sleep", "meditation"],
   },
 ];

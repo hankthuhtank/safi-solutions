@@ -24,7 +24,7 @@
   "cafe": {"mode": "loop", "ia": ["aporee_61883_71198"], "len": 150, "steady": false},
   "bar": {"mode": "loop", "ia": ["aporee_70132_81687"], "len": 150, "steady": false},
   "typing": {"mode": "loop", "ia": ["aporee_62283_71764"], "len": 60, "mono": true, "steady": false},
-  "room": {"mode": "loop", "ia": ["aporee_47739_54251"], "len": 80},
+  "room": {"mode": "loop", "ia": ["aporee_47739_54251"], "len": 80, "despike": 6},
   "clock": {"mode": "loop", "ia": ["aporee_53155_60739"], "len": 60, "mono": true, "steady": false, "xfade": 0, "align": true},
   "fan": {"mode": "loop", "ia": ["aporee_43684_49736"], "len": 100, "mono": true},
   "chimes": {"mode": "loop", "ia": ["aporee_7945_9696"], "len": 120, "steady": false},

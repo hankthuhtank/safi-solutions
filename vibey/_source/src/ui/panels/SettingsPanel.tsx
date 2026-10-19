@@ -75,13 +75,26 @@ export function SettingsPanel() {
           ]}
           onChange={(hideAfter) => setSettings({ hideAfter })}
         />
-        <Toggle label="24-hour clock" checked={st.clock24} onChange={(v) => setSettings({ clock24: v })} />
         <Toggle
           label="Live music finds"
           hint="Adds more free tracks from Openverse (Jamendo, ccMixter, Wikimedia) to each band."
           checked={st.openverse}
           onChange={(v) => setSettings({ openverse: v })}
         />
+      </Section>
+      <Section title="Clock">
+        <Seg
+          label="Local time"
+          value={st.clockShow}
+          options={[
+            { value: "time", label: "Time" },
+            { value: "date", label: "Date & time" },
+            { value: "off", label: "Hidden" },
+          ]}
+          onChange={(clockShow) => setSettings({ clockShow })}
+        />
+        <p className="fine">The time where the place is, under its name. Date & time adds the day there too, and shows the date under the TV clock.</p>
+        <Toggle label="24-hour clock" checked={st.clock24} onChange={(v) => setSettings({ clock24: v })} />
       </Section>
       <div className="row-buttons">
         <button className="btn" onClick={() => openPanel("credits")}>
@@ -211,6 +224,13 @@ export function CreditsPanel() {
       </Section>
       <Section title="Made with">
         <ul className="credits">
+          <li>
+            <span className="credit-what">Falling leaves</span>
+            <span className="credit-who">
+              Leaf scans <ExtLink href="https://ambientcg.com/list?q=LeafSet">Leaf Set 007, 012, 021, 027, 028 and 030</ExtLink> from ambientCG ·{" "}
+              <ExtLink href="https://docs.ambientcg.com/license/">CC0</ExtLink> (the Japanese maples are recoloured)
+            </span>
+          </li>
           <li>
             <span className="credit-what">Depth maps</span>
             <span className="credit-who">

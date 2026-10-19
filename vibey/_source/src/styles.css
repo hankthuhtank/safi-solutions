@@ -225,7 +225,8 @@ a:hover {
   transition-duration: 1.4s;
 }
 
-.app.idle .ui * {
+/* stays clickable while it fades; only once it has gone do taps fall through to the picture */
+.app.gone .ui * {
   pointer-events: none;
 }
 
@@ -908,7 +909,7 @@ a:hover {
 .panel-dock {
   position: absolute;
   right: max(var(--gutter), env(safe-area-inset-right));
-  bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--console-h) + 14px);
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--dock-h, var(--console-h)) + 14px);
   display: flex;
   justify-content: flex-end;
   pointer-events: none;
@@ -919,7 +920,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   width: min(410px, calc(100vw - 2 * var(--gutter)));
-  max-height: calc(100dvh - var(--console-h) - 150px);
+  max-height: calc(100dvh - var(--dock-h, var(--console-h)) - 150px);
   border-radius: 14px;
   background:
     var(--noise) 0 0 / 220px 220px,
@@ -1182,10 +1183,17 @@ a:hover {
   flex: none;
   width: 36px;
   height: 20px;
+  margin: 0 2px;
   border-radius: 999px;
   background: rgba(241, 236, 227, 0.14);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
   transition: background 0.2s;
+}
+
+.switch::before {
+  content: "";
+  position: absolute;
+  inset: -12px -10px;
 }
 
 .switch i {
@@ -2011,6 +2019,18 @@ input[type="checkbox"] {
   opacity: 0.86;
 }
 
+.tv-date {
+  display: block;
+  margin-top: 0.35em;
+  font-family: var(--sans);
+  font-size: 0.16em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: right;
+  opacity: 0.8;
+}
+
 .tv-np {
   display: grid;
   justify-items: end;
@@ -2112,7 +2132,7 @@ input[type="checkbox"] {
   .panel,
   .panel.wide {
     width: 100%;
-    max-height: calc(100dvh - var(--console-h) - 120px);
+    max-height: calc(100dvh - var(--dock-h, var(--console-h)) - 120px);
   }
   .slate {
     max-width: calc(100vw - 2 * var(--gutter));
@@ -2159,6 +2179,20 @@ input[type="checkbox"] {
     width: max-content;
     max-width: calc(100vw - 32px);
   }
+  /* all eight keys on one row, no hidden scroll */
+  .keys {
+    gap: 3px;
+    overflow: visible;
+  }
+  .key {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+  }
+  .key-label {
+    font-size: 7.5px;
+    letter-spacing: 0.06em;
+  }
 }
 
 @media (max-height: 520px) and (min-width: 700px) {
@@ -2167,7 +2201,7 @@ input[type="checkbox"] {
   }
   .panel,
   .panel.wide {
-    max-height: calc(100dvh - var(--console-h) - 70px);
+    max-height: calc(100dvh - var(--dock-h, var(--console-h)) - 70px);
   }
 }
 

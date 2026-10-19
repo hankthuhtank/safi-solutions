@@ -67,7 +67,7 @@ export class AudioEngine {
   /** Perceptual volume curve: slider 0..1 to gain. */
   static curve(v: number) {
     v = Math.max(0, Math.min(1, v));
-    return v * v * (0.25 + 0.75 * v) * 1.15;
+    return v * v * (0.6 + 0.4 * v) * 1.15;
   }
 
   setLevels(l: Partial<{ master: number; music: number; ambient: number }>, ramp = 0.25) {

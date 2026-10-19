@@ -114,35 +114,70 @@ void main() {
 }`,
   },
   snow: {
-    base: 1700,
+    base: 1900,
     additive: false,
+    // Snow as a camera sees it: a haze of tiny far flakes, crisp irregular crystals in the middle
+    // distance, and a few big out-of-focus discs drifting right past the lens. Neighbouring flakes
+    // share the same gusts; each one also spirals on its own, as real flakes do.
     vs: /* glsl */ `
 uniform float uSpeed;
+out float vSoft;
+out float vSeed;
+out float vBokeh;
 void main() {
   vec2 c = corner();
   float z = aSeed.z;
   float near = (1.0 - z) * uNearMax;
-  float fall = mix(0.025, 0.11, near) * uSpeed;
+  float bokeh = step(0.94, aSeed.w) * step(0.6, near);
+  float fall = mix(0.018, 0.12, near) * uSpeed * (0.8 + 0.4 * hash(aSeed.xz));
   float t = aSeed.y + uTime * fall;
   float cycle = floor(t);
-  float y = fract(t) * 1.2 - 0.1;
-  float wob = sin(uTime * (0.5 + aSeed.w) + aSeed.x * 40.0) * 0.012 * (0.4 + near);
-  float x = fract(aSeed.x + hash(vec2(cycle, aSeed.w)) * 0.21 + uWind.x * 0.18 * y + wob);
-  float size = max(1.2, mix(2.6, 16.0, pow(near, 2.0)) * (uRes.y / 1080.0) * (0.75 + 0.5 * aSeed.w));
-  vec2 px = vec2(x, y) * uRes + (c - 0.5) * size * 2.0;
+  float y = fract(t) * 1.24 - 0.12;
+  float gust = vnoise(vec2(uTime * 0.16 + y * 0.9, aSeed.x * 2.5 + cycle * 0.37)) - 0.5;
+  float om = mix(1.1, 3.4, fract(aSeed.w * 7.13));
+  float ph = uTime * om + aSeed.y * 50.0;
+  float spiral = mix(0.0015, 0.011, near) * uSpeed;
+  float x = fract(aSeed.x + hash(vec2(cycle, aSeed.w)) * 0.21 + uWind.x * 0.22 * y * (0.4 + near) + gust * 0.09 * (0.3 + near)) + sin(ph) * spiral;
+  y += cos(ph) * spiral * 0.6;
+  float px1080 = uRes.y / 1080.0;
+  float size = mix(1.3, 7.5, pow(near, 1.7)) * px1080 * (0.65 + 0.7 * hash(aSeed.zw));
+  size = mix(size, mix(22.0, 64.0, hash(aSeed.yw)) * px1080, bokeh);
+  // a flake close to the lens smears a little along its fall during the exposure
+  float stretch = 1.0 + near * near * 0.9 * (1.0 - bokeh) * uSpeed;
+  vec2 q = (c - 0.5) * 2.0 * vec2(size, size * stretch);
+  vec2 px = vec2(x, y) * uRes + q;
   vSuv = px / uRes;
   vLocal = c;
   vNear = near * 0.92;
+  vSeed = aSeed.w;
+  vBokeh = bokeh;
+  vSoft = bokeh > 0.5 ? 1.0 : mix(0.55, 0.3, smoothstep(0.2, 0.7, near));
   vec3 sc = sceneAt(vec2(x, y));
-  vTint = mix(vec3(0.97, 0.98, 1.0), vec3(0.56, 0.6, 0.66), smoothstep(0.55, 0.92, luma(sc)));
-  vAlpha = uAmount * mix(0.6, 0.9, near) * mix(1.0, 0.5, smoothstep(0.75, 1.0, near)) * step(z, uAmount * 1.05 + 0.05);
+  float l = luma(sc);
+  // lit by the place: bluish in shade, warm under lamps, and brightest against a dark ground
+  vTint = mix(vec3(0.93, 0.96, 1.0), sc * 0.9 + 0.32, 0.38) * mix(1.05, 0.82, smoothstep(0.55, 0.95, l));
+  float alpha = bokeh > 0.5 ? mix(0.07, 0.17, hash(aSeed.xy)) : mix(0.4, 0.92, near) * (0.7 + 0.3 * hash(aSeed.yz));
+  vAlpha = uAmount * alpha * step(z, uAmount * 1.05 + 0.05);
   gl_Position = clipFromScreen(vSuv);
 }`,
     fs: /* glsl */ `
+in float vSoft;
+in float vSeed;
+in float vBokeh;
 void main() {
-  float d = length(vLocal - 0.5) * 2.0;
-  float soft = mix(0.5, 0.95, smoothstep(0.75, 1.0, vNear));
-  float a = (1.0 - smoothstep(1.0 - soft, 1.0, d)) * vAlpha * (1.0 - hidden());
+  vec2 p = (vLocal - 0.5) * 2.0;
+  float r = length(p);
+  float a;
+  if (vBokeh > 0.5) {
+    // an out-of-focus flake: a soft disc with a faintly brighter rim, like a lens renders it
+    a = (1.0 - smoothstep(0.72, 1.0, r)) * (0.85 + 0.15 * smoothstep(0.45, 0.9, r));
+  } else {
+    float ang = atan(p.y, p.x);
+    r *= 1.0 + 0.2 * sin(ang * 3.0 + vSeed * 31.0) * sin(ang * 2.0 + vSeed * 17.0);
+    float core = exp(-r * r * 4.0);
+    a = mix(core, 1.0 - smoothstep(1.0 - vSoft, 1.0, r), 0.55);
+  }
+  a *= vAlpha * (1.0 - hidden());
   outColor = vec4(vTint * a, a);
 }`,
   },
@@ -190,44 +225,82 @@ void main() {
   maple: {
     base: 170,
     additive: false,
+    // Scanned leaves (a 4x4 atlas) falling the way leaves do: a pendulum flutter along a shallow
+    // U-shaped arc, banking into each swing, and now and then a leaf that tumbles end over end.
+    // Each is a small plane in 3D, so it foreshortens, shows its paler back, glows when the light
+    // is behind it, and goes soft when it passes close to the lens.
     vs: /* glsl */ `
 uniform float uSpeed;
-out float vTurn;
+out vec2 vUv;
+out float vShade;
+out float vBack;
+out float vGlow;
+out float vLod;
+out vec3 vAmbient;
+mat3 rotX(float a) { float c = cos(a), s = sin(a); return mat3(1.0, 0.0, 0.0, 0.0, c, s, 0.0, -s, c); }
+mat3 rotY(float a) { float c = cos(a), s = sin(a); return mat3(c, 0.0, -s, 0.0, 1.0, 0.0, s, 0.0, c); }
+mat3 rotZ(float a) { float c = cos(a), s = sin(a); return mat3(c, s, 0.0, -s, c, 0.0, 0.0, 0.0, 1.0); }
 void main() {
   vec2 c = corner();
   float near = (1.0 - aSeed.z) * uNearMax;
-  float fall = mix(0.03, 0.08, near) * uSpeed;
+  float fall = mix(0.022, 0.07, near) * uSpeed;
   float t = aSeed.y + uTime * fall;
   float cycle = floor(t);
-  float y = fract(t) * 1.25 - 0.12;
-  float drift = sin(uTime * (0.4 + 0.3 * aSeed.w) + aSeed.x * 27.0) * 0.06;
-  float x = fract(aSeed.x + hash(vec2(cycle, 5.0)) * 0.3 + uWind.x * 0.3 * y + drift * near);
-  float size = mix(9.0, 34.0, near * near) * (uRes.y / 1080.0) * (0.8 + 0.4 * aSeed.w);
-  float ang = uTime * (0.9 + aSeed.w) + aSeed.x * 12.0;
-  float flip = cos(uTime * (1.3 + aSeed.z) + aSeed.y * 9.0);
-  vTurn = flip;
-  vec2 q = (c - 0.5) * vec2(size * (0.2 + 0.8 * abs(flip)), size);
-  q = mat2(cos(ang), -sin(ang), sin(ang), cos(ang)) * q;
-  vec2 px = vec2(x, y) * uRes + q * 1.6;
+  float y = fract(t) * 1.3 - 0.15;
+  float w = mix(1.0, 2.1, fract(aSeed.w * 5.31));
+  float ph = uTime * w * uSpeed + aSeed.x * 40.0 + cycle * 3.1;
+  float amp = mix(0.01, 0.045, near);
+  float gust = vnoise(vec2(uTime * 0.12 + y, cycle + aSeed.x * 3.0)) - 0.5;
+  float x = fract(aSeed.x + hash(vec2(cycle, 5.0)) * 0.37 + uWind.x * 0.3 * y * (0.5 + near) + gust * 0.1 * (0.3 + near)) + sin(ph) * amp;
+  y += amp * 0.6 * cos(2.0 * ph) * (uRes.x / uRes.y);
+  float px1080 = uRes.y / 1080.0;
+  float size = mix(10.0, 64.0, near * near) * px1080 * (0.75 + 0.5 * hash(aSeed.zw));
+  bool tumbler = fract(aSeed.w * 13.7) > 0.82;
+  float pitch = tumbler ? uTime * w * 1.6 * uSpeed + aSeed.y * 9.0 : 0.85 + 0.45 * sin(ph + 1.2);
+  float roll = 0.75 * cos(ph);
+  float spin = aSeed.x * 6.283 + uTime * (fract(aSeed.z * 9.1) - 0.5) * 0.8 * uSpeed;
+  mat3 R = rotX(pitch) * rotY(roll) * rotZ(spin);
+  vec3 P = R * vec3((c - 0.5) * size, 0.0);
+  vec3 N = R * vec3(0.0, 0.0, 1.0);
+  // mild perspective: the edge swinging toward you is a little larger
+  vec2 px = vec2(x, y) * uRes + P.xy * (1.0 + P.z / (size * 6.0));
   vSuv = px / uRes;
   vLocal = c;
   vNear = near * 0.9;
+  float cell = floor(hash(vec2(cycle * 1.37, aSeed.w * 91.0)) * 16.0);
+  vUv = (vec2(mod(cell, 4.0), floor(cell / 4.0)) + c) * 0.25;
+  vec3 L = normalize(vec3(-0.25, -0.8, 0.55));
+  float nl = dot(N, L);
+  float nv = N.z;
+  vShade = 0.45 + 0.75 * abs(nl);
+  vBack = step(nv, 0.0);
+  vGlow = step(nl * nv, 0.0) * abs(nl);
   vec3 sc = sceneAt(vec2(x, y));
-  vec3 leaf = mix(vec3(0.85, 0.22, 0.08), vec3(0.95, 0.55, 0.12), aSeed.w);
-  vTint = leaf * (0.45 + 0.8 * luma(sc) + 0.15);
-  vAlpha = uAmount * mix(0.7, 0.95, near) * step(aSeed.z, uAmount + 0.1);
+  vAmbient = mix(vec3(luma(sc)), sc, 0.6) * 1.15 + 0.2;
+  // near the lens it blurs, far away the haze takes it
+  vLod = mix(0.4, 3.2, smoothstep(0.7, 1.0, near));
+  vTint = sc;
+  vAlpha = uAmount * mix(0.82, 1.0, near) * mix(1.0, 0.75, smoothstep(0.8, 1.0, near)) * step(aSeed.z, uAmount + 0.1);
   gl_Position = clipFromScreen(vSuv);
 }`,
     fs: /* glsl */ `
-in float vTurn;
+uniform sampler2D uAtlas;
+in vec2 vUv;
+in float vShade;
+in float vBack;
+in float vGlow;
+in float vLod;
+in vec3 vAmbient;
 void main() {
-  vec2 p = (vLocal - 0.5) * 2.0;
-  float r = length(p);
-  float ang = atan(p.y, p.x);
-  float lobes = 0.62 + 0.3 * pow(abs(cos(ang * 2.5)), 0.6);
-  float a = (1.0 - smoothstep(lobes - 0.08, lobes, r)) * vAlpha * (1.0 - hidden());
-  float vein = 1.0 - 0.25 * smoothstep(0.06, 0.0, abs(p.x)) * step(0.0, p.y);
-  outColor = vec4(vTint * (0.85 + 0.15 * vTurn) * vein * a, a);
+  vec4 leaf = textureLod(uAtlas, vUv, vLod);
+  vec3 col = leaf.rgb;
+  // the underside is paler and duller
+  col = mix(col, mix(vec3(dot(col, vec3(0.33))), col, 0.7) * 1.12, vBack * 0.6);
+  vec3 lit = col * vAmbient * vShade + col * col * vGlow * 0.9;
+  float haze = (1.0 - smoothstep(0.1, 0.6, vNear)) * 0.3;
+  lit = mix(lit, vTint * 0.9 + 0.05, haze);
+  float a = smoothstep(0.08, 0.6, leaf.a) * vAlpha * (1.0 - hidden());
+  outColor = vec4(lit * a, a);
 }`,
   },
   embers: {

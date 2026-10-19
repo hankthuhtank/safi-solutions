@@ -40,10 +40,13 @@ export interface RendererEvents {
   onShown?: (key: string) => void;
 }
 
-const TIERS: Record<Quality, { maxWidth: number; density: number; fps: number; sharpen: number; glassDiv: number; maxScale: number }> = {
-  performance: { maxWidth: 1920, density: 0.38, fps: 30, sharpen: 0, glassDiv: 3, maxScale: 0.8 },
-  balanced: { maxWidth: 2560, density: 0.7, fps: 60, sharpen: 0.18, glassDiv: 2, maxScale: 1 },
-  ultra: { maxWidth: 3840, density: 1, fps: 60, sharpen: 0.28, glassDiv: 2, maxScale: 1 },
+// minScale/floorFps: how far the renderer may lower its own resolution, and the frame rate it
+// defends. Ultra is a deliberate choice, so it keeps (nearly) full resolution and accepts a lower
+// frame rate before it gives any back.
+const TIERS: Record<Quality, { maxWidth: number; density: number; fps: number; sharpen: number; glassDiv: number; maxScale: number; minScale: number; floorFps: number }> = {
+  performance: { maxWidth: 1920, density: 0.38, fps: 30, sharpen: 0, glassDiv: 3, maxScale: 0.8, minScale: 0.5, floorFps: 24 },
+  balanced: { maxWidth: 2560, density: 0.7, fps: 60, sharpen: 0.18, glassDiv: 2, maxScale: 1, minScale: 0.6, floorFps: 40 },
+  ultra: { maxWidth: 3840, density: 1, fps: 60, sharpen: 0.28, glassDiv: 2, maxScale: 1, minScale: 0.85, floorFps: 24 },
 };
 
 // ?fps=N caps the frame rate: a debugging aid for slow software renderers (and headless tests)
@@ -183,6 +186,8 @@ export class Renderer {
   private frameTimes: number[] = [];
   private lowFor = 0;
   private highFor = 0;
+  private readonly atlases = new Map<string, Texture | null>();
+  private settleUntil = 0; // place changes decode and upload 4K textures: their hitches are not load
   private statsAt = 0;
   private pointer = { x: 0, y: 0, sx: 0, sy: 0 };
   private motion = true;
@@ -244,6 +249,7 @@ export class Renderer {
   setQuality(q: Quality) {
     this.quality = q;
     this.scale = TIERS[q].maxScale;
+    this.settle(3000);
     this.resize();
   }
 
@@ -264,6 +270,7 @@ export class Renderer {
 
   setVisible(v: boolean) {
     this.visible = v;
+    if (v) this.settle(3000);
     const vids = [this.current?.video, this.next?.video, this.current?.fireVideo, this.next?.fireVideo];
     for (const vid of vids) {
       if (!vid) continue;
@@ -318,6 +325,7 @@ export class Renderer {
     this.loading?.abort();
     const ctrl = new AbortController();
     this.loading = ctrl;
+    this.settle(6000);
     const { w, h } = this.renderSize();
     const inst = new Instance(this.gl, req, w, h, this.time);
     try {
@@ -523,32 +531,64 @@ export class Renderer {
     }
   };
 
+  private settle(ms: number) {
+    this.settleUntil = Math.max(this.settleUntil, performance.now() + ms);
+    this.frameTimes.length = 0;
+    this.lowFor = 0;
+    this.highFor = 0;
+  }
+
+  /** Scanned-leaf atlases, shared by every place and loaded the first time one is needed. */
+  private atlas(kind: string) {
+    if (this.atlases.has(kind)) return this.atlases.get(kind) ?? null;
+    this.atlases.set(kind, null);
+    decodeImage(`/vibey/media/fx/leaves-${kind}.webp`)
+      .then((img) => {
+        const { w, h } = sizeOf(img);
+        this.atlases.set(kind, uploadTexture(this.gl, img, w, h, { mips: true }));
+        release(img);
+      })
+      .catch(() => this.atlases.delete(kind));
+    return null;
+  }
+
   private adapt(dtMs: number, targetFps: number) {
     const ft = this.frameTimes;
-    ft.push(dtMs);
-    if (ft.length > 40) ft.shift();
-    const avg = ft.reduce((a, b) => a + b, 0) / ft.length;
+    const tier = TIERS[this.quality];
+    const now = performance.now();
+    // during a change (loading, cross-fading two places) and for a moment after, just watch
+    const settling = now < this.settleUntil || !!this.next || !!this.loading;
+    if (settling) {
+      if (this.next || this.loading) this.settleUntil = Math.max(this.settleUntil, now + 1500);
+      this.lowFor = 0;
+      this.highFor = 0;
+    } else if (dtMs < 250) {
+      // one long frame is a hitch (a tab switch, a decode), not a slow machine
+      ft.push(dtMs);
+      if (ft.length > 40) ft.shift();
+    }
+    const avg = ft.length ? ft.reduce((a, b) => a + b, 0) / ft.length : 1000 / targetFps;
     const budget = 1000 / targetFps;
-    if (avg > budget * 1.35 && ft.length >= 30) {
+    const floor = 1000 / Math.min(targetFps, tier.floorFps);
+    if (!settling && ft.length >= 30 && avg > Math.max(budget * 1.35, floor)) {
       this.lowFor += dtMs;
       this.highFor = 0;
-    } else if (avg < budget * 1.08) {
+    } else if (!settling && avg < budget * 1.08) {
       this.highFor += dtMs;
       this.lowFor = 0;
     }
-    const maxScale = TIERS[this.quality].maxScale;
-    if (this.lowFor > 2500 && this.scale > 0.5) {
-      this.scale = Math.max(0.5, this.scale - 0.1);
+    const maxScale = tier.maxScale;
+    if (this.lowFor > 4000 && this.scale > tier.minScale) {
+      this.scale = Math.max(tier.minScale, this.scale - 0.1);
       this.lowFor = 0;
       ft.length = 0;
       this.resizeTargets();
-    } else if (this.highFor > 9000 && this.scale < maxScale) {
+    } else if (this.highFor > 5000 && this.scale < maxScale) {
       this.scale = Math.min(maxScale, this.scale + 0.1);
       this.highFor = 0;
       ft.length = 0;
       this.resizeTargets();
     }
-    const now = performance.now();
     if (now - this.statsAt > 1000) {
       this.statsAt = now;
       const { w, h } = this.renderSize();
@@ -723,7 +763,13 @@ export class Renderer {
     if (fx.rain > 0) P.draw("rain", fx.rain, density, u, withSpeed(0.85 + fx.rain * 0.3));
     if (fx.splashes > 0 && fx.rain > 0) P.draw("splashes", fx.splashes * fx.rain, density, u, withSpeed(0.6 + fx.rain));
     if (fx.snow > 0) P.draw("snow", fx.snow, density, u, withSpeed(0.8 + fx.wind * 0.6));
-    if (fx.petals > 0) P.draw(fx.petalKind === "maple" ? "maple" : "petals", fx.petals, density, u, withSpeed(1));
+    if (fx.petals > 0) {
+      if (fx.petalKind === "sakura") P.draw("petals", fx.petals, density, u, withSpeed(1));
+      else {
+        const atlas = this.atlas(fx.petalKind);
+        if (atlas) P.draw("maple", fx.petals, density, u, (prog) => prog.f("uSpeed", speed).tex("uAtlas", 4, atlas.tex));
+      }
+    }
     if (fx.dust > 0) P.draw("dust", fx.dust, density, u);
     if (fx.fireflies > 0) P.draw("fireflies", fx.fireflies, density, u);
     if (fx.marine > 0) P.draw("marine", fx.marine, density, u);
@@ -793,6 +839,7 @@ export class Renderer {
     this.glassProgram.dispose();
     this.finalProgram.dispose();
     this.particles.dispose();
+    for (const t of this.atlases.values()) if (t) this.gl.deleteTexture(t.tex);
     this.gl.deleteTexture(this.blank);
     this.gl.deleteTexture(this.blankMaps);
     this.gl.deleteTexture(this.rainTex);

@@ -16,7 +16,7 @@ import {
   type PanelId,
 } from "./state/store";
 import { Console } from "./ui/Console";
-import { Slate, localTime } from "./ui/Slate";
+import { Slate, localDate, localTime } from "./ui/Slate";
 import { Stage, thumbOf } from "./ui/Stage";
 import { TrackCaption } from "./ui/TrackCaption";
 import { useIdle, useMusic, useNow } from "./ui/hooks";
@@ -59,6 +59,23 @@ export function App() {
   const hold = (!tv && (!!panel || hover || hideAfter === 0)) || !started;
   const idle = useIdle(tv ? 2.5 : hideAfter || 5, hold) && !(peek > Date.now());
   const Active = panel ? PANELS[panel] : null;
+  // "gone" follows idle once the fade has finished, so a tap during the fade still lands
+  const [gone, setGone] = useState(false);
+  useEffect(() => {
+    if (!idle) return setGone(false);
+    const t = window.setTimeout(() => setGone(true), 1400);
+    return () => clearTimeout(t);
+  }, [idle]);
+  // panels sit above the console, whatever height it wraps to
+  const dock = useRef<HTMLDivElement>(null);
+  const [consoleH, setConsoleH] = useState(0);
+  useEffect(() => {
+    const el = dock.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setConsoleH(Math.round(el.getBoundingClientRect().height)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // title and lock-screen artwork follow the place
   useEffect(() => {
@@ -165,7 +182,10 @@ export function App() {
   }, [tv]);
 
   return (
-    <div className={`app${idle ? " idle" : ""}${tv ? " tv" : ""}${started ? " on" : " off"}${powering ? " powering" : ""}${asleep ? " asleep" : ""}`}>
+    <div
+      className={`app${idle ? " idle" : ""}${gone || asleep ? " gone" : ""}${tv ? " tv" : ""}${started ? " on" : " off"}${powering ? " powering" : ""}${asleep ? " asleep" : ""}`}
+      style={consoleH ? ({ "--dock-h": `${consoleH}px` } as React.CSSProperties) : undefined}
+    >
       <Stage />
       <div className="ui">
         <Slate />
@@ -174,7 +194,7 @@ export function App() {
             <Active />
           </div>
         ) : null}
-        <div className="console-dock" onPointerEnter={() => setHover(true)} onPointerLeave={() => setHover(false)}>
+        <div className="console-dock" ref={dock} onPointerEnter={() => setHover(true)} onPointerLeave={() => setHover(false)}>
           {!started ? <Gate returning={visitedBefore} onStart={powerOn} /> : null}
           <Console />
         </div>
@@ -201,10 +221,16 @@ function TvOverlay() {
   const now = useNow(1000);
   const st = useStore((s) => s.settings);
   const m = useMusic();
-  const h = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit", hourCycle: st.clock24 ? "h23" : "h12" }).format(now);
+  const h = localTime(now, undefined, st.clock24);
+  const d = st.clockShow === "date" ? localDate(now, undefined) : null;
   return (
     <div className="tv-overlay" aria-hidden="true">
-      {st.tvClock ? <div className="tv-clock tnum">{h}</div> : null}
+      {st.tvClock ? (
+        <div className="tv-clock tnum">
+          {h}
+          {d ? <span className="tv-date">{d}</span> : null}
+        </div>
+      ) : null}
       {st.tvNowPlaying && m.track ? (
         <div className="tv-np">
           <span className="tv-np-title">{m.track.t}</span>

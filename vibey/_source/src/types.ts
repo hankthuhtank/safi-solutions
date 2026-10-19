@@ -29,7 +29,7 @@ export interface Fx {
   embers: number;
   dust: number; // motes in light
   petals: number;
-  petalKind: "sakura" | "maple";
+  petalKind: "sakura" | "maple" | "autumn";
   fireflies: number;
   marine: number; // drifting particles underwater
   headlights: number; // out-of-focus traffic passing beyond the glass

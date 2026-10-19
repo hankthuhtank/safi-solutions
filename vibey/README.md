@@ -130,6 +130,7 @@ in `scripts/media-sources.json`, `media/sounds/manifest.json` and `media/music/c
   (ESO, ESA/Webb, ESA/Hubble). Photos under CC BY or CC BY-SA were cropped and resized for Vibey and
   depth and mask maps were derived from them; those derived files carry the same licence as their
   source.
+- Falling leaves: photo-scanned leaves from ambientCG (Leaf Set 007, 012, 021, 027, 028, 030), CC0.
 - Sounds: Freesound recordings under CC0 1.0 and CC BY 3.0/4.0, and Internet Archive field
   recordings (mostly the Radio Aporee archive: Peter Cusack, Felix Blume, Flavien Gillié and others)
   under the Public Domain Mark, CC BY 3.0 and CC BY-SA 3.0; trimmed, looped and levelled. The edited

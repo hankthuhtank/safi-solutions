@@ -63,6 +63,8 @@ export interface Settings {
   quality: "auto" | Quality;
   motion: "auto" | "full" | "reduced";
   clock24: boolean;
+  /** the place's local time on the slate (and the date under the TV clock) */
+  clockShow: "time" | "date" | "off";
   tvClock: boolean;
   tvNowPlaying: boolean;
   soundFollowsScene: boolean;
@@ -102,6 +104,8 @@ export interface State {
   visitedBefore: boolean;
   asleep: boolean; // the sleep timer ran out: silent, picture dimmed, until someone stirs
   dim: number; // 0..1 picture dimming from a sleep fade
+  /** 2 = the louder mix balance; older saves are lifted on load */
+  mixVersion: number;
 }
 
 export const BUILT_IN_PRESETS: Preset[] = [
@@ -112,7 +116,7 @@ export const BUILT_IN_PRESETS: Preset[] = [
     scene: "tokyo-cafe",
     variation: "night",
     fx: { rainGlass: 0.75, rain: 0.35 },
-    mix: { "rain-window": 0.62, cafe: 0.26, thunder: 0.16, traffic: 0.1 },
+    mix: { "rain-window": 0.8, cafe: 0.54, thunder: 0.55, traffic: 0.42 },
     playlist: "band:kissa",
   },
   {
@@ -122,7 +126,7 @@ export const BUILT_IN_PRESETS: Preset[] = [
     scene: "alpine",
     variation: "morning",
     fx: {},
-    mix: { wind: 0.28, birds: 0.3 },
+    mix: { wind: 0.56, birds: 0.57 },
     playlist: "band:piano",
   },
   {
@@ -132,7 +136,7 @@ export const BUILT_IN_PRESETS: Preset[] = [
     scene: "ocean",
     variation: "dawn",
     fx: {},
-    mix: { ocean: 0.7, seagulls: 0.08, wind: 0.12 },
+    mix: { ocean: 0.8, seagulls: 0.55, wind: 0.44 },
     playlist: "band:meditation",
   },
   {
@@ -142,7 +146,7 @@ export const BUILT_IN_PRESETS: Preset[] = [
     scene: "neon-tokyo",
     variation: "alley",
     fx: { rain: 0.6, fog: 0.12 },
-    mix: { "rain-heavy": 0.4, tokyo: 0.26, "city-night": 0.2, thunder: 0.08 },
+    mix: { "rain-heavy": 0.65, tokyo: 0.54, "city-night": 0.5, thunder: 0.55 },
     playlist: "band:synthwave",
   },
 ];
@@ -156,7 +160,7 @@ const DEFAULT: State = {
   mix: { ...SCENES[0].sounds },
   muted: {},
   shape: {},
-  levels: { master: 0.8, music: 0.62, ambient: 0.8 },
+  levels: { master: 0.8, music: 0.62, ambient: 0.9 },
   allMuted: false,
   playlist: "scene",
   shuffle: true,
@@ -176,6 +180,7 @@ const DEFAULT: State = {
     quality: "auto",
     motion: "auto",
     clock24: false,
+    clockShow: "time",
     tvClock: true,
     tvNowPlaying: true,
     soundFollowsScene: true,
@@ -189,6 +194,7 @@ const DEFAULT: State = {
   visitedBefore: false,
   asleep: false,
   dim: 0,
+  mixVersion: 2,
 };
 
 const SESSION_ONLY: (keyof State)[] = ["panel", "tv", "started", "sleep", "visitedBefore", "asleep", "dim"];
@@ -220,11 +226,24 @@ function load(): State {
       s.scene = DEFAULT.scene;
       s.variation = DEFAULT.variation;
     }
+    if ((saved.mixVersion ?? 1) < 2) {
+      // the first mixes sat far too low: take this place's new mix and lift the user's own memories
+      s.mix = sceneMix(s.scene, s.variation);
+      s.muted = {};
+      s.presets = s.presets.map((p) => (p.builtIn ? p : { ...p, mix: liftMix(p.mix) }));
+      s.mixVersion = 2;
+    }
     if (s.focus && s.focus.pausedLeft == null && s.focus.endsAt < Date.now()) s.focus = null;
     return s;
   } catch {
     return { ...DEFAULT };
   }
+}
+
+function liftMix(m: Record<string, number>) {
+  const out: Record<string, number> = {};
+  for (const [id, v] of Object.entries(m)) out[id] = v > 0.001 ? Math.min(0.8, Math.round((0.35 + v * 0.75) * 100) / 100) : 0;
+  return out;
 }
 
 let state: State = load();
@@ -346,7 +365,7 @@ export function setFx<K extends keyof Fx>(key: K, value: Fx[K]) {
   if (!touched && value > 0.02) {
     const add = FOLLOW_ADD[key];
     if (add && !(add in mix)) {
-      mix[add] = Math.min(0.6, 0.15 + value * 0.5);
+      mix[add] = Math.min(0.8, 0.3 + value * 0.6);
       touched = true;
     }
   }

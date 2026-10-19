@@ -240,15 +240,15 @@ class SynthLayer {
       const hr = wr - hissR;
       hissL = wl * 0.6 + hissL * 0.4;
       hissR = wr * 0.6 + hissR * 0.4;
-      l[i] = rumble * 2.2 + hl * 0.012;
-      r[i] = rumble * 2.2 + hr * 0.012;
+      l[i] = rumble * 10 + hl * 0.09;
+      r[i] = rumble * 10 + hr * 0.09;
     }
     // crackle: sparse clicks of random size, occasional louder pops, mostly centred
-    const clicks = Math.floor(secs * 26);
+    const clicks = Math.floor(secs * 130);
     for (let k = 0; k < clicks; k++) {
       const at = Math.floor(Math.random() * (len - 200));
       const pop = Math.random() < 0.05;
-      const amp = (pop ? 0.35 + Math.random() * 0.35 : Math.pow(Math.random(), 3) * 0.22) * (Math.random() < 0.5 ? 1 : -1);
+      const amp = (pop ? 0.35 + Math.random() * 0.35 : Math.pow(Math.random(), 3) * 0.75) * (Math.random() < 0.5 ? 1 : -1);
       const width = pop ? 18 + Math.random() * 30 : 2 + Math.random() * 6;
       const pan = (Math.random() * 2 - 1) * 0.35;
       for (let j = 0; j < width * 3; j++) {
@@ -257,11 +257,11 @@ class SynthLayer {
         r[at + j] += amp * e * (1 + pan);
       }
     }
-    // the record's rotation: a faint swell every 1.8 s (33⅓ rpm)
+    // the record's rotation: a faint swell every 1.8 s (33⅓ rpm); tanh rounds off the big pops
     for (let i = 0; i < len; i++) {
       const w = 0.92 + 0.08 * Math.sin((2 * Math.PI * i) / (sr * 1.8));
-      l[i] *= w;
-      r[i] *= w;
+      l[i] = Math.tanh(l[i] * w);
+      r[i] = Math.tanh(r[i] * w);
     }
     const src = ctx.createBufferSource();
     src.buffer = buf;
@@ -484,7 +484,8 @@ export class Ambience {
   private eventRate(id: string, level: number) {
     // the second control on an event sound is "how often": 0.5 = as designed
     const often = Math.pow(4, ((this.shape[id] ?? 0.5) - 0.5) * 2);
-    return (0.4 + level * 1.2) * (this.links[id] ?? 1) * often;
+    // a raised fader means more of it, not only louder: about 2.75x as often at the top
+    return (0.35 + 2.4 * Math.pow(level, 1.3)) * (this.links[id] ?? 1) * often;
   }
 
   /** Per-sound distance (loops: 1 near, 0 far) or frequency (events). */

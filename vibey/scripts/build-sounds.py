@@ -167,6 +167,23 @@ def rhythmic_cut(x, length):
     return t0 - pre, (beats[best] - t0) / SR
 
 
+def despike(x, over_db):
+    """Ride the gain down wherever the level jumps more than `over_db` above the median, so a
+    bump or a door in a room tone cannot leap out of every loop."""
+    hop = SR // 50
+    env = envelope_db(x, int(SR * 0.05), hop)
+    med = np.median(env)
+    g_db = np.minimum(0.0, med + over_db - env)
+    # fast attack, slow release, then back to sample rate
+    sm = np.empty_like(g_db)
+    cur = 0.0
+    for i, v in enumerate(g_db):
+        cur = v if v < cur else cur + (v - cur) * 0.08
+        sm[i] = cur
+    gain = 10 ** (np.interp(np.arange(len(x)), np.arange(len(sm)) * hop, sm) / 20)
+    return x * gain[:, None].astype(np.float32)
+
+
 def make_loop(x, length, xfade):
     """Cut length+xfade seconds and fold the tail over the head: the end runs straight into the start."""
     n, f = int(length * SR), int(xfade * SR)
@@ -308,6 +325,8 @@ def build_one(sid, s, recs, raw_dir, work, manifest, man_path):
             off, length = rhythmic_cut(x[st : st + int((length + 6) * SR)], length)
             st += off
         loop = make_loop(x[st:], length, xf)
+        if s.get("despike"):
+            loop = despike(loop, s["despike"])
         if s.get("xfade", 3.0) == 0:
             loop = fade(loop, 0.02, 0.02)
         gain = 10 ** ((LOOP_LUFS - loudness(loop)) / 20)
