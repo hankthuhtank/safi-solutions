@@ -1,0 +1,527 @@
+{
+ "tokyo-cafe/night": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/21759104/pexels-photo-21759104.jpeg",
+  "host": "pexels",
+  "author": "Andrey Grushnikov",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/21759104/",
+  "place": "Tokyo, Japan",
+  "crop": {
+   "focusY": 0.56
+  }
+ },
+ "tokyo-cafe/dusk": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/31007831/pexels-photo-31007831.jpeg",
+  "host": "pexels",
+  "author": "Johnny Song",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/31007831/",
+  "place": "Taitō, Tokyo, Japan",
+  "crop": {
+   "focusY": 0.58
+  }
+ },
+ "tokyo-cafe/reflection": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4551127/pexels-photo-4551127.jpeg",
+  "host": "pexels",
+  "author": "Roman Odintsov",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4551127/",
+  "place": null
+ },
+ "jazz-lounge/bar": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/9566087/pexels-photo-9566087.jpeg",
+  "host": "pexels",
+  "author": "MART PRODUCTION",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/9566087/",
+  "place": null
+ },
+ "jazz-lounge/backbar": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/16926656/pexels-photo-16926656.jpeg",
+  "host": "pexels",
+  "author": "Joel Zar",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/16926656/",
+  "place": null
+ },
+ "mountain-cabin/lodge": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/4572734/pexels-photo-4572734.jpeg",
+  "host": "pexels",
+  "author": "ArtHouse Studio",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/4572734/",
+  "place": "Iceland",
+  "crop": {
+   "focusX": 0.64,
+   "focusY": 0.535,
+   "zoom": 1.389
+  }
+ },
+ "library/reading-hall": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/31267820/pexels-photo-31267820.jpeg",
+  "host": "pexels",
+  "author": "Michael D Beckwith",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/31267820/",
+  "place": "Cuypers Library, Rijksmuseum, Amsterdam",
+  "crop": {
+   "focusY": 0.5
+  }
+ },
+ "library/study": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/36093623/pexels-photo-36093623.jpeg",
+  "host": "pexels",
+  "author": "Michael D Beckwith",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/36093623/",
+  "place": "Melrose, Scotland"
+ },
+ "neon-tokyo/kabukicho": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/2303337/pexels-photo-2303337.jpeg",
+  "host": "pexels",
+  "author": "Aleksandar Pasaric",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/2303337/",
+  "place": "Tokyo, Japan"
+ },
+ "neon-tokyo/side-street": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/3532924/pexels-photo-3532924.jpeg",
+  "host": "pexels",
+  "author": "Aleksandar Pasaric",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/3532924/",
+  "place": "Tokyo, Japan"
+ },
+ "neon-tokyo/alley": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/2105239/pexels-photo-2105239.jpeg",
+  "host": "pexels",
+  "author": "Aleksandar Pasaric",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/2105239/",
+  "place": "Tokyo, Japan"
+ },
+ "rooftop-city/sunset": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/17007760/pexels-photo-17007760.jpeg",
+  "host": "pexels",
+  "author": "Jimmy Liao",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/17007760/",
+  "place": "Taiwan"
+ },
+ "rooftop-city/night": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/7368342/pexels-photo-7368342.jpeg",
+  "host": "pexels",
+  "author": "Balazs Simon",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/7368342/",
+  "place": "Bangkok, Thailand"
+ },
+ "fireplace-rain/cabin-night": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/9890739/pexels-photo-9890739.jpeg",
+  "host": "pexels",
+  "author": "Erik Mclean",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/9890739/",
+  "place": null,
+  "crop": {
+   "focusY": 0.56
+  }
+ },
+ "alpine/morning": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Watzmann_mit_Sch%C3%B6nfeldspitze.jpg",
+  "host": "commons",
+  "author": "Jörg Braukmann",
+  "title": "Watzmann mit Schönfeldspitze",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Watzmann_mit_Sch%C3%B6nfeldspitze.jpg",
+  "place": "Watzmann, Berchtesgaden Alps, Germany",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "crop": {
+   "focusX": 0.62
+  }
+ },
+ "alpine/sunset": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/6/62/Hochries%2C_Alpes_del_Chiemgau%2C_Alemania%2C_2024-10-19%2C_DD_34-36_HDR.jpg",
+  "host": "commons",
+  "author": "Diego Delso",
+  "title": "Hochries, Alpes del Chiemgau, Alemania, 2024-10-19, DD 34-36 HDR",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hochries,_Alpes_del_Chiemgau,_Alemania,_2024-10-19,_DD_34-36_HDR.jpg",
+  "place": "Hochries, Chiemgau Alps, Germany",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ "alpine/cloudy": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Watzmann_%28Stangga%C3%9F%29.jpg",
+  "host": "commons",
+  "author": "Jörg Braukmann",
+  "title": "Watzmann (Stanggaß)",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Watzmann_(Stangga%C3%9F).jpg",
+  "place": "Watzmann, Berchtesgaden Alps, Germany",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ "alpine/stormy": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/18614970/pexels-photo-18614970.jpeg",
+  "host": "pexels",
+  "author": "Ahmad Basem",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/18614970/",
+  "place": "Italian Alps"
+ },
+ "rainforest/stream": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/34761716/pexels-photo-34761716.jpeg",
+  "host": "pexels",
+  "author": "Mark Direen",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/34761716/",
+  "place": "Tasmania, Australia"
+ },
+ "rainforest/sunbeams": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/927414/pexels-photo-927414.jpeg",
+  "host": "pexels",
+  "author": "Arnie Chou",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/927414/",
+  "place": null
+ },
+ "lakeside/daybreak": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/3/32/Silver_Lake_Mammoth_September_2016_001.jpg",
+  "host": "commons",
+  "author": "King of Hearts",
+  "title": "Silver Lake Mammoth September 2016 001",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Silver_Lake_Mammoth_September_2016_001.jpg",
+  "place": "Silver Lake, Eastern Sierra, California",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ "lakeside/golden-hour": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Stuor_D%C3%A1ht%C3%A1_lake_along_the_Kungsleden_trail_during_golden_hour_in_Kvikkjokk-Kabla_fj%C3%A4llurskog_%28DSCF2557%29.jpg",
+  "host": "commons",
+  "author": "Trougnouf (Benoit Brummer)",
+  "title": "Stuor Dáhtá lake along the Kungsleden trail during golden hour in Kvikkjokk-Kabla fjällurskog (DSCF2557)",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stuor_D%C3%A1ht%C3%A1_lake_along_the_Kungsleden_trail_during_golden_hour_in_Kvikkjokk-Kabla_fj%C3%A4llurskog_(DSCF2557).jpg",
+  "place": "Kvikkjokk, Lapland, Sweden",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+ },
+ "lakeside/midday": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Lake_Mystery%2C_Canterbury%2C_New_Zealand_05.jpg",
+  "host": "commons",
+  "author": "Michal Klajban",
+  "title": "Lake Mystery, Canterbury, New Zealand 05",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lake_Mystery,_Canterbury,_New_Zealand_05.jpg",
+  "place": "Canterbury, New Zealand",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ "desert/atacama": {
+  "kind": "photo",
+  "src": "https://www.eso.org/public/archives/images/large/potw2115a.jpg",
+  "host": "eso",
+  "author": "ESO/P. Horálek",
+  "title": "Milky Way Across the Desert (potw2115a)",
+  "license": "CC BY 4.0",
+  "page": "https://www.eso.org/public/images/potw2115a/",
+  "place": "Cerro Armazones, Atacama Desert, Chile",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "crop": {
+   "focusY": 0.47
+  }
+ },
+ "desert/hills": {
+  "kind": "photo",
+  "src": "https://www.eso.org/public/archives/images/large/colosimo-130704-004.jpg",
+  "host": "eso",
+  "author": "John Colosimo (colosimophotography.com)/ESO",
+  "title": "Paranal beneath the Milky Way",
+  "license": "CC BY 4.0",
+  "page": "https://www.eso.org/public/images/colosimo-130704-004/",
+  "place": "Atacama Desert near Paranal, Chile",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+ },
+ "snowy-forest/pines": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/10636888/pexels-photo-10636888.jpeg",
+  "host": "pexels",
+  "author": "sergeispas",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/10636888/",
+  "place": null
+ },
+ "snowy-forest/dusk": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/12955684/pexels-photo-12955684.jpeg",
+  "host": "pexels",
+  "author": "Atlantic Ambience",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/12955684/",
+  "place": "Bukovel, Ukraine"
+ },
+ "japanese-garden/autumn": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/6/65/Ninna-ji_and_Ryoan-ji%2C_Kyoto_-_Ninnaji7736.jpg",
+  "host": "commons",
+  "author": "lumoplank",
+  "title": "Ninna-ji and Ryoan-ji, Kyoto - Ninnaji7736",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ninna-ji_and_Ryoan-ji,_Kyoto_-_Ninnaji7736.jpg",
+  "place": "Ninna-ji, Kyoto, Japan",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+ },
+ "japanese-garden/maples": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/5/53/Eikando%2C_Kyoto_-_Eikando7376.jpg",
+  "host": "commons",
+  "author": "lumoplank",
+  "title": "Eikando, Kyoto - Eikando7376",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Eikando,_Kyoto_-_Eikando7376.jpg",
+  "place": "Eikandō, Kyoto, Japan",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+ },
+ "japanese-garden/sakura-night": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Cherry_blossoms_-_panoramio_%282%29.jpg",
+  "host": "commons",
+  "author": "FoxyStranger Kawasaki",
+  "title": "Cherry blossoms - panoramio (2)",
+  "license": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cherry_blossoms_-_panoramio_(2).jpg",
+  "place": "Japan",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "crop": {
+   "focusY": 0.52
+  }
+ },
+ "countryside/cottage": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/36268755/pexels-photo-36268755.jpeg",
+  "host": "pexels",
+  "author": "Adriaan Westra",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/36268755/",
+  "place": "Aarhus, Denmark"
+ },
+ "countryside/evening": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/28772234/pexels-photo-28772234.jpeg",
+  "host": "pexels",
+  "author": "Siarhei Nester",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/28772234/",
+  "place": "Belarus"
+ },
+ "ocean/tropical": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/36301470/15394038_3840_2160_30fps.mp4",
+  "host": "pexels-video",
+  "author": "정규송 Nui MALAMA",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/36301470/",
+  "place": null
+ },
+ "ocean/surf": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/3009253/3009253-uhd_3840_2160_30fps.mp4",
+  "host": "pexels-video",
+  "author": "Magda Ehlers",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/3009253/",
+  "place": null
+ },
+ "ocean/dawn": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/5288655/5288655-hd_1920_1080_25fps.mp4",
+  "host": "pexels-video",
+  "author": "Sajjad Naqvi",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/5288655/",
+  "place": null
+ },
+ "waterfall/pool": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/37669693/15969766_3840_2160_50fps.mp4",
+  "host": "pexels-video",
+  "author": "Kunal Lakhotia",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/37669693/",
+  "place": null
+ },
+ "waterfall/cascade": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/5527622/5527622-uhd_3840_2160_30fps.mp4",
+  "host": "pexels-video",
+  "author": "Ambient_Nature_Atmosphere",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/5527622/",
+  "place": "Italy"
+ },
+ "underwater/reef": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/11384417/pexels-photo-11384417.jpeg",
+  "host": "pexels",
+  "author": "Francesco Ungaro",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/11384417/",
+  "place": null
+ },
+ "underwater/cenote": {
+  "kind": "photo",
+  "src": "https://images.pexels.com/photos/10519066/pexels-photo-10519066.jpeg",
+  "host": "pexels",
+  "author": "Francisco Davids",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/photo/10519066/",
+  "place": null
+ },
+ "observatory/cosmic-cliffs": {
+  "kind": "photo",
+  "src": "https://cdn.esawebb.org/archives/images/large/weic2205a.jpg",
+  "host": "esawebb",
+  "author": "NASA, ESA, CSA, and STScI",
+  "title": "Cosmic Cliffs in the Carina Nebula (NIRCam Image)",
+  "license": "CC BY 4.0",
+  "page": "https://esawebb.org/images/weic2205a/",
+  "place": "NGC 3324, Carina Nebula · 7,600 light-years",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "crop": {
+   "focusY": 0.5
+  }
+ },
+ "observatory/whirlpool": {
+  "kind": "photo",
+  "src": "https://cdn.esahubble.org/archives/images/large/heic0506a.jpg",
+  "host": "esahubble",
+  "author": "NASA, ESA, S. Beckwith (STScI), and The Hubble Heritage Team (STScI/AURA)",
+  "title": "The Whirlpool Galaxy (M51) and Companion Galaxy",
+  "license": "CC BY 4.0",
+  "page": "https://esahubble.org/images/heic0506a/",
+  "place": "M51, Canes Venatici · 31 million light-years",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+ },
+ "observatory/westerlund": {
+  "kind": "photo",
+  "src": "https://cdn.esahubble.org/archives/images/large/heic1509a.jpg",
+  "host": "esahubble",
+  "author": "NASA, ESA, the Hubble Heritage Team (STScI/AURA), A. Nota (ESA/STScI), and the Westerlund 2 Science Team",
+  "title": "Celestial fireworks (Westerlund 2)",
+  "license": "CC BY 4.0",
+  "page": "https://esahubble.org/images/heic1509a/",
+  "place": "Westerlund 2, Carina · 20,000 light-years",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+ },
+ "aurora/lofoten": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/8/86/Lofoten%2C_Norway_%28Unsplash%29.jpg",
+  "host": "commons",
+  "author": "Johannes Groll (followhansi)",
+  "title": "Lofoten, Norway (Unsplash)",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lofoten,_Norway_(Unsplash).jpg",
+  "place": "Lofoten, Norway",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+ },
+ "aurora/vik": {
+  "kind": "photo",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Church_of_light.jpg",
+  "host": "commons",
+  "author": "AstroAnthony",
+  "title": "Church of light",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Church_of_light.jpg",
+  "place": "Vík í Mýrdal, Iceland",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+ },
+ "storm-sea/cell": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/38083685/16169365_3840_2160_30fps.mp4",
+  "host": "pexels-video",
+  "author": "Engin Akyurt",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/38083685/",
+  "place": null
+ },
+ "storm-sea/buoy": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/32844046/13998920_1920_1080_24fps.mp4",
+  "host": "pexels-video",
+  "author": "Bisan Subba",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/32844046/",
+  "place": null
+ },
+ "fx/fire-black": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/26583810/11964989_3840_2160_24fps.mp4",
+  "host": "pexels-video",
+  "author": "IslandHopper X",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/26583810/",
+  "place": null
+ },
+ "fx/fire-hearth": {
+  "kind": "video",
+  "src": "https://videos.pexels.com/video-files/11751758/11751758-uhd_3840_2160_25fps.mp4",
+  "host": "pexels-video",
+  "author": "Tom Fisk",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "page": "https://www.pexels.com/video/11751758/",
+  "place": null
+ }
+}
