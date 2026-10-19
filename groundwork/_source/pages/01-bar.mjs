@@ -278,7 +278,7 @@ export default {
   id: "bar",
   url: "/groundwork/",
   title: "The bar",
-  desc: "Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 80+ recipes.",
+  desc: "Make a coffee start to finish on an espresso machine you can operate: grind, tamp, pull a shot, steam milk and pour latte art, then explore every kind of coffee and 112 recipes, café favourites and a recipe of the day.",
   script: "bar.js",
   body: `
 <div class="wrap">
@@ -287,9 +287,16 @@ export default {
       <p class="eyebrow">The bar · Hands on</p>
       <h1 class="h-xl" id="bar-h">Pull a shot.<br>Pour a coffee.</h1>
     </div>
-    <p class="lede">Grind, tamp, pull, steam, pour. The machine reacts to every choice, so you can taste the difference.</p>
+    <p class="lede">Grind, tamp, pull, steam, pour. The machine reacts to every choice, so you can see what changes. Pick a recipe below, then try the bar.</p>
   </section>
 
+  <section class="daily" aria-labelledby="daily-h">
+    <div class="daily-top"><p class="eyebrow" id="dailyLabel">Recipe of the day</p><time id="dailyDate"></time></div>
+    <div class="daily-in" id="dailyRecipe"><p>Something good is brewing. <a href="/groundwork/recipes/">Browse the recipes →</a></p></div>
+    <div class="daily-bottom"><span>A fresh pick every day. No queue required.</span><button type="button" class="btn ghost small" id="dailyShuffle">Surprise me ↻</button></div>
+  </section>
+
+  <div class="sec-head machine-heading"><div><p class="eyebrow">Your turn behind the bar</p><h2 class="h-lg">Make it from scratch.</h2></div><span class="sec-num" aria-hidden="true">01</span></div>
   <ol class="rail" id="rail" aria-label="Steps"></ol>
 
   <section class="station" aria-label="Espresso machine">
@@ -302,33 +309,21 @@ export default {
     <article class="ticket panel" id="panel" aria-live="polite"></article>
   </section>
 
-  <section class="sec" aria-labelledby="num-h">
-    <div class="sec-head"><div><p class="eyebrow">Four numbers</p><h2 class="h-lg" id="num-h">The whole shot, in four numbers.</h2></div><span class="sec-num" aria-hidden="true">01</span></div>
-    <div class="facts">
-      <div class="fact rv"><b>18<sup>g</sup></b><p>Coffee in. A standard double <button type="button" class="term" data-term="dose">dose</button>.</p></div>
-      <div class="fact rv"><b>1:2</b><p>The <button type="button" class="term" data-term="ratio">ratio</button>: 36 g of espresso out of 18 g of coffee.</p></div>
-      <div class="fact rv"><b>9<sup>bar</sup></b><p>Pressure, in <button type="button" class="term" data-term="bar">bar</button>. About nine times the air around you.</p></div>
-      <div class="fact rv"><b>25–30<sup>s</sup></b><p>From pump on to pump off, at 90–96 °C.</p><cite>SCA espresso definition; Clive Coffee</cite></div>
-    </div>
-  </section>
-
-  <section class="sec" aria-labelledby="now-h">
-    <div class="sec-head"><div><p class="eyebrow">Coffee right now</p><h2 class="h-lg" id="now-h">2026, by the cup.</h2></div><span class="sec-num" aria-hidden="true">02</span></div>
-    <div class="facts">
-      <div class="fact rv"><b>47<sup>%</sup></b><p>of U.S. adults had an espresso drink in the past week. A record.</p><cite>NCA National Coffee Data Trends, Fall 2026</cite></div>
-      <div class="fact rv"><b>189.7<sup>M</sup></b><p>60-kg bags: the record world crop forecast for 2026/27.</p><cite>USDA FAS, July 2026</cite></div>
-      <div class="fact rv"><b>$4.38</b><p>per pound: arabica's all-time high, Oct 2025. It fell 38% by June.</p><cite>ICE futures via Barchart</cite></div>
-      <div class="fact rv"><b>21<sup>%</sup></b><p>of coffee drinkers had it cold yesterday, up from 16% in 2022.</p><cite>NCA, June 2026 survey</cite></div>
-    </div>
+  <section class="sec" aria-labelledby="cafe-h">
+    <div class="sec-head"><div><p class="eyebrow">Skip the queue</p><h2 class="h-lg" id="cafe-h">Your usual. On the house.</h2></div><a class="btn ghost small" href="/groundwork/recipes/?brand=all">All café recipes →</a></div>
+    <p class="lede">Coffee-shop favourites, with measurements you can actually use at home.</p>
+    <div class="cafe-brands" id="cafeBrands"></div>
+    <ul class="cafe-picks" id="cafePicks" aria-label="Coffee-shop favourites"></ul>
+    <p class="muted cafe-note">Inspired home versions, with Groundwork’s own proportions. Flavours are checked against brand menus; these are not official store formulas.</p>
   </section>
 
   <section class="sec" aria-labelledby="more-h">
-    <div class="sec-head"><div><p class="eyebrow">Keep going</p><h2 class="h-lg" id="more-h">The rest of the shop.</h2></div><span class="sec-num" aria-hidden="true">03</span></div>
+    <div class="sec-head"><div><p class="eyebrow">Keep going</p><h2 class="h-lg" id="more-h">The rest of the shop.</h2></div><span class="sec-num" aria-hidden="true">02</span></div>
     <div class="next-up">
       <a class="door rv" href="/groundwork/menu/"><div><b>Menu</b><p>Every espresso drink is one cup and a slider.</p></div><span class="go">Kinds of coffee →</span><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 60h56v14a26 26 0 0 1-26 26h-4a26 26 0 0 1-26-26z" fill="#f6efe3" stroke="#2a1a12" stroke-width="3"/><path d="M33 64h50" stroke="#c58a4e" stroke-width="7"/><path d="M86 66h6a10 10 0 0 1 0 20h-8" fill="none" stroke="#2a1a12" stroke-width="3"/></svg></a>
       <a class="door rv" href="/groundwork/beans/"><div><b>Beans</b><p>Species, roast, process and where it grows.</p></div><span class="go">From the farm →</span><svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="68" cy="70" rx="26" ry="36" transform="rotate(35 68 70)" fill="#7a4a2b" stroke="#2a1a12" stroke-width="3"/><path d="M52 96c14-10 6-30 32-48" fill="none" stroke="#2a1a12" stroke-width="3"/></svg></a>
       <a class="door rv" href="/groundwork/brew/"><div><b>Brew</b><p>Pour-over, press, moka, cold brew. With a timer.</p></div><span class="go">No machine needed →</span><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 46h60L72 82H48z" fill="#f6efe3" stroke="#2a1a12" stroke-width="3" stroke-linejoin="round"/><path d="M52 82v8h16v-8" fill="none" stroke="#2a1a12" stroke-width="3"/><path d="M40 52h40" stroke="#b3362b" stroke-width="5"/></svg></a>
-      <a class="door rv" href="/groundwork/recipes/"><div><b>Recipes</b><p>80+ drinks from Hanoi to Vienna to your kitchen.</p></div><span class="go">The pass →</span><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M38 30h48v66l-8-5-8 5-8-5-8 5-8-5-8 5z" fill="#fbf7ef" stroke="#2a1a12" stroke-width="3" stroke-linejoin="round"/><path d="M48 48h28M48 60h28M48 72h16" stroke="#2a1a12" stroke-width="3"/></svg></a>
+      <a class="door rv" href="/groundwork/recipes/"><div><b>Recipes</b><p>112 drinks, from coffee-shop favourites to world classics.</p></div><span class="go">The pass →</span><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M38 30h48v66l-8-5-8 5-8-5-8 5-8-5-8 5z" fill="#fbf7ef" stroke="#2a1a12" stroke-width="3" stroke-linejoin="round"/><path d="M48 48h28M48 60h28M48 72h16" stroke="#2a1a12" stroke-width="3"/></svg></a>
     </div>
   </section>
 </div>`,

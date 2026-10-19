@@ -17,6 +17,7 @@ import {
   easeOut,
   esc,
 } from "./core.js";
+import "./home.js";
 import { cupSVG } from "./cups.js";
 
 initChrome();
@@ -553,9 +554,9 @@ function drawRail() {
     .join("");
   const cur = rail.querySelector("[aria-current]");
   if (cur)
-    cur.parentElement.scrollIntoView({
-      block: "nearest",
-      inline: "center",
+    rail.scrollTo({
+      left: rail.scrollLeft + cur.getBoundingClientRect().left - rail.getBoundingClientRect().left
+        - (rail.clientWidth - cur.offsetWidth) / 2,
       behavior: reduced() ? "auto" : "smooth",
     });
 }

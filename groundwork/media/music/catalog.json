@@ -1,0 +1,74 @@
+{
+  "tracks": [
+    {
+      "id": "c464678f88",
+      "t": "Busted Guitar Jazz 1",
+      "a": "HoliznaCC0",
+      "al": "Busted Guitar (JAZZ)",
+      "b": [
+        "jazzcafe",
+        "kissa"
+      ],
+      "d": 123,
+      "u": "/groundwork/media/music/c464678f88.mp3",
+      "p": "https://freemusicarchive.org/music/holiznacc0/busted-guitar-jazz/1-jazz/",
+      "l": "CC0",
+      "lu": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "g": -6.0,
+      "s": "fma",
+      "originalAudio": "https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/ClQc5eeEHJlnBM0GxgtOwzehhkht5mu57hJr7sq2.mp3"
+    },
+    {
+      "id": "c953d2694c",
+      "t": "Busted Guitar Jazz 2",
+      "a": "HoliznaCC0",
+      "al": "Busted Guitar (JAZZ)",
+      "b": [
+        "jazzcafe",
+        "kissa"
+      ],
+      "d": 164,
+      "u": "/groundwork/media/music/c953d2694c.mp3",
+      "p": "https://freemusicarchive.org/music/holiznacc0/busted-guitar-jazz/2-jazz/",
+      "l": "CC0",
+      "lu": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "g": -6.4,
+      "s": "fma",
+      "originalAudio": "https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/RAhpT3UVJ6LGPxXrM8atr526kdskbJTAs1Fw1QRw.mp3"
+    },
+    {
+      "id": "b29e1e2445",
+      "t": "Something In the Air",
+      "a": "HoliznaCC0",
+      "al": "Lo-fi And Chill",
+      "b": [
+        "lofi"
+      ],
+      "d": 132,
+      "u": "/groundwork/media/music/b29e1e2445.mp3",
+      "p": "https://freemusicarchive.org/music/holiznacc0/lo-fi-and-chill/something-in-the-air/",
+      "l": "CC0",
+      "lu": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "g": -3.1,
+      "s": "fma",
+      "originalAudio": "https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/wuk3O930psKilYVATDrGLTiu5RpokFDrza69zKb9.mp3"
+    },
+    {
+      "id": "b2fbc5f78c",
+      "t": "Mundane",
+      "a": "HoliznaCC0",
+      "al": "Lo-fi And Chill",
+      "b": [
+        "lofi"
+      ],
+      "d": 158,
+      "u": "/groundwork/media/music/b2fbc5f78c.mp3",
+      "p": "https://freemusicarchive.org/music/holiznacc0/lo-fi-and-chill/mundane/",
+      "l": "CC0",
+      "lu": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "g": -2.5,
+      "s": "fma",
+      "originalAudio": "https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/O6KDPWo1JOIOwsdqMIA4kidFWmy029ZvVjQDJngh.mp3"
+    }
+  ]
+}

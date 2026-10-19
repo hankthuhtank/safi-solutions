@@ -1,5 +1,6 @@
 // The pass: the recipe library. Shelves of cups, a caffeine × milk map, a kitchen filter and recipe tickets.
 import { $, $$, esc, store, sound, initChrome, clamp } from "./core.js";
+import { BRANDS } from "./data/cafe.js";
 import { cupSVG, swatch, vesselLabel, INK } from "./cups.js";
 import { RECIPES, SHELVES, PANTRY, META, byId } from "./data/recipes.js";
 
@@ -8,11 +9,24 @@ initChrome();
 const S = {
   q: "",
   shelf: "all",
+  brand: "all",
   t: "all",
   view: "shelves",
   have: new Set(store.get("pantry", [])),
   us: store.get("us", false),
 };
+const requestedBrand = new URLSearchParams(location.search).get("brand");
+if (Object.hasOwn(BRANDS, requestedBrand)) S.brand = requestedBrand;
+$("#rxBrand").value = S.brand;
+$("#rxBrand").addEventListener("change", (e) => {
+  S.brand = e.target.value;
+  const url = new URL(location.href);
+  if (S.brand === "all") url.searchParams.delete("brand");
+  else url.searchParams.set("brand", S.brand);
+  history.replaceState(null, "", url);
+  chips();
+  draw();
+});
 $("#rxTotal").textContent = RECIPES.length;
 const LABEL = Object.fromEntries(PANTRY.flatMap((g) => g.items));
 Object.assign(LABEL, {
@@ -35,10 +49,13 @@ const needLabel = (n) =>
 
 /* ------------------------------------------------------------------ filtering */
 function matches(r) {
+  if (S.brand !== "all" && r.brand !== S.brand) return false;
   if (S.shelf !== "all" && r.s !== S.shelf) return false;
   if (S.t !== "all" && r.t !== S.t) return false;
   if (S.q) {
-    const hay = [r.n, r.o, r.note, r.s, ...r.spec.map((x) => x[2])].join(" ").toLowerCase();
+    const hay = [r.n, r.o, r.note, r.s, BRANDS[r.brand] || "", ...r.spec.map((x) => x[2])]
+      .join(" ")
+      .toLowerCase();
     if (!S.q.split(/\s+/).every((w) => hay.includes(w))) return false;
   }
   return true;
@@ -47,7 +64,10 @@ function matches(r) {
 /* ------------------------------------------------------------------ chips */
 function chips() {
   const counts = Object.fromEntries(
-    SHELVES.map((s) => [s.id, RECIPES.filter((r) => r.s === s.id).length]),
+    SHELVES.map((s) => [
+      s.id,
+      RECIPES.filter((r) => r.s === s.id && (S.brand === "all" || r.brand === S.brand)).length,
+    ]),
   );
   $("#rxChips").innerHTML = [
     `<button class="chip" type="button" data-shelf="all" aria-pressed="${S.shelf === "all"}">All <span class="ct">${RECIPES.length}</span></button>`,
@@ -128,7 +148,8 @@ function drawShelves(list) {
     return `<section class="shelf" aria-labelledby="sh-${s.id}"><div class="shelf-head"><h2 id="sh-${s.id}">${s.label}</h2><p>${s.line}</p><span>${String(items.length).padStart(2, "0")}</span></div><ul class="cups">${items.map(cupLink).join("")}</ul></section>`;
   }).join("");
   $("#shelves").innerHTML =
-    out || `<p class="rx-empty">Nothing matches. Try “latte”, “Vienna” or “iced”.</p>`;
+    out ||
+    `<p class="rx-empty">Nothing matches. Try another shop, shelf or temperature, or a shorter search.</p>`;
 }
 
 /* ------------------------------------------------------------------ pantry */
@@ -221,7 +242,7 @@ function drawMap(list) {
   g += pts
     .map(
       ({ r, x, y }) =>
-        `<circle class="pt" tabindex="0" role="button" aria-label="${esc(r.n)}: about ${r.caf} mg caffeine, ${r.milk}% milk" data-id="${r.id}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="${dominant(r)}" stroke="#2a1a12" stroke-width="1.4"/>`,
+        `<circle class="pt" tabindex="0" role="button" aria-label="${esc(r.n)}: about ${r.caf} mg estimated caffeine, ${r.milk}% approximate milk" data-id="${r.id}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="${dominant(r)}" stroke="#2a1a12" stroke-width="1.4"/>`,
     )
     .join("");
   g += pts
@@ -232,7 +253,7 @@ function drawMap(list) {
     )
     .join("");
   $("#rxMap").innerHTML =
-    `<p class="eyebrow" style="margin:4px 0 10px">Strength vs milk · ${list.length} drinks</p><svg viewBox="0 0 ${W} ${H}" role="group" aria-label="Each drink plotted by caffeine and milk share">${g}</svg><div class="map-tip" id="tip" hidden></div><p class="muted" style="font-size:12.5px;margin-top:6px">Caffeine is a rough estimate per serving: about 63 mg per espresso shot and 95 mg per 8 oz of brewed coffee (USDA). Beans, dose and size move it a lot.</p>`;
+    `<p class="eyebrow" style="margin:4px 0 10px">Caffeine vs milk · ${list.length} drinks</p><svg viewBox="0 0 ${W} ${H}" role="group" aria-label="Each drink plotted by caffeine and milk share">${g}</svg><div class="map-tip" id="tip" hidden></div><p class="muted" style="font-size:12.5px;margin-top:6px">Caffeine is a rough estimate per serving: about 63 mg per espresso shot and 95 mg per 8 oz of brewed coffee (USDA). Beans, dose and size move it a lot.</p>`;
   const tip = $("#tip"),
     box = $("#rxMap");
   box.querySelectorAll(".pt").forEach((p) => {
@@ -280,13 +301,15 @@ $("#shelves").addEventListener("click", (e) => {
 /* ------------------------------------------------------------------ ticket */
 const dlg = $("#rx");
 const INK_WORDS = [
+  ["ice cream", "icecream"],
+  ["whipped cream", "whip"],
+  ["white chocolate", "vanilla"],
   ["espresso", "espresso"],
   ["ristretto", "espresso"],
   ["shot", "espresso"],
   ["condensed", "condensed"],
   ["half-and-half", "halfhalf"],
   ["cream", "cream"],
-  ["ice cream", "icecream"],
   ["gelato", "icecream"],
   ["milk tea", "milktea"],
   ["milk", "steamed"],
@@ -333,8 +356,9 @@ const inkFor = (txt) => {
 };
 const toUS = (a, u) => {
   if (!S.us) return [a, u];
-  if (u === "ml") return [+(a / 29.57).toFixed(a < 60 ? 2 : 1), "oz"];
-  if (u === "L") return [+(a * 33.8).toFixed(0), "oz"];
+  if (u === "ml") return [+(a / 29.57).toFixed(a < 60 ? 2 : 1), "fl oz"];
+  if (u === "L") return [+(a * 33.8).toFixed(1), "fl oz"];
+  if (u === "g") return [+(a / 28.3495).toFixed(a < 15 ? 2 : 1), "oz wt"];
   return [a, u];
 };
 const fmtAmt = (a, u) => {
@@ -347,7 +371,7 @@ let lastFocus = null;
 function open(id, push = true) {
   const r = byId[id];
   if (!r) return;
-  lastFocus = document.activeElement;
+  if (!dlg.open) lastFocus = document.activeElement;
   const miss = missing(r);
   const shelf = SHELVES.find((s) => s.id === r.s);
   $("#rxIn").innerHTML = `
@@ -356,9 +380,13 @@ function open(id, push = true) {
       <p class="from">${esc(r.o)}</p>
       <h2 id="rxName">${esc(r.n)}</h2>
       <p class="note">${esc(r.note)}</p>
+      ${r.serving ? `<p class="rx-serving">${esc(r.serving)}</p>` : ""}
+      ${r.brand && r.brand !== "coffeehouse" ? `<p class="rx-adaptation">${esc(BRANDS[r.brand])}-inspired home version. Groundwork’s proportions; not an official recipe.</p>` : ""}
       <div class="rx-tabs"><p class="eyebrow">Spec</p><div class="seg" role="group" aria-label="Units"><button type="button" data-us="0" aria-pressed="${!S.us}">Metric</button><button type="button" data-us="1" aria-pressed="${S.us}">US</button></div></div>
       <ul class="spec">${r.spec.map(([a, u, i]) => `<li><i style="background:${inkFor(i)}"></i><span>${fmtAmt(a, u)}</span>${esc(i)}</li>`).join("")}</ul>
       <ol class="steps">${r.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+      <p class="rx-caffeine">${esc(r.caffeineNote || "Caffeine is a rough estimate per serving. Beans, dose and brewing can change it considerably.")}</p>
+      ${r.source ? `<p class="rx-source"><a href="${esc(r.source)}" target="_blank" rel="noopener noreferrer">Original drink / flavour reference ↗</a></p>` : ""}
       <div class="rx-meta"><span>${vesselLabel(r.v)}</span><span>~${r.caf} mg caffeine</span>${r.milk ? `<span>${r.milk}% milk</span>` : ""}${r.needs.length ? `<span>${S.have.size ? (miss.length ? "Missing: " + esc(miss.map(needLabel).join(", ")) : "You have everything") : "Needs: " + esc(r.needs.map(needLabel).join(", "))}</span>` : "<span>Just coffee & water</span>"}</div>
       <div class="row-btns" style="margin-top:16px">${BAR.has(r.id) ? `<a class="btn red small" href="/groundwork/">Make it on the machine</a>` : ""}${r.brew ? `<a class="btn red small" href="/groundwork/brew/#${r.brew}">Brew it with the timer</a>` : ""}</div>
       ${

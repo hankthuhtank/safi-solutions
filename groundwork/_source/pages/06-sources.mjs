@@ -1,5 +1,57 @@
 const S = [
   [
+    "Coffee-shop recipes",
+    [
+      [
+        "Starbucks at Home recipes",
+        "https://www.starbucksathome.com/recipes",
+        "Starbucks / Nestlé",
+        "Flavour references for home adaptations. Individual recipes link to their drink reference.",
+      ],
+      [
+        "Dunkin’ Signature Lattes",
+        "https://news.dunkindonuts.com/news/dunkin-espresso-new-signature-lattes",
+        "Dunkin’",
+        "Caramel Craze, Cocoa Mocha and Blueberry Crisp flavours and toppings.",
+      ],
+      [
+        "Dunkin’ butter pecan drinks",
+        "https://news.dunkindonuts.com/blog/all-things-butter-pecan",
+        "Dunkin’",
+        "Butter pecan iced coffee and Turtle latte flavour combinations.",
+      ],
+      [
+        "Iced Dutch Faves",
+        "https://www.dutchbros.com/menu/iced-coffee/iced-dutch-faves/",
+        "Dutch Bros",
+        "Golden Eagle, Caramelizer, Annihilator and Kicker ingredient descriptions.",
+      ],
+      [
+        "McCafé menu",
+        "https://www.mcdonalds.com/us/en-us/mccafe.html",
+        "McDonald’s",
+        "Frappés, iced mocha and caramel macchiato flavour references.",
+      ],
+      [
+        "Egg safety",
+        "https://www.fda.gov/food/retail-food-industryregulatory-assistance-training/assuring-safety-eggs-and-menu-and-deli-items-made-raw-shell-eggs",
+        "U.S. Food & Drug Administration",
+        "Use pasteurized eggs for the uncooked egg-coffee topping.",
+      ],
+    ],
+  ],
+  [
+    "Café radio",
+    [
+      [
+        "Vibey’s music catalog",
+        "/groundwork/media/music/catalog.json",
+        "HoliznaCC0 / Free Music Archive",
+        "Four CC0 Free Music Archive recordings selected from Vibey’s catalog, served with Groundwork for reliable playback. Artist, source and licence links appear in the music settings while a track is selected.",
+      ],
+    ],
+  ],
+  [
     "Espresso & the machine",
     [
       [
@@ -234,7 +286,8 @@ export default {
   <section class="intro" aria-labelledby="src-h">
     <p class="eyebrow">Sources · Checked October 2026</p>
     <h1 class="h-xl" id="src-h">Where the<br>numbers come from.</h1>
-    <p class="lede">Old standards and this year’s reports. Where sources disagree, we say so and give the range.</p>
+    <p class="lede">Brewing guides, original drink descriptions and the recordings behind the café radio.</p>
+    <p class="muted">Chain-inspired drinks use Groundwork’s own home proportions, not official store formulas or nutrition values. Caffeine is approximate; multi-cup batches identify the serving. Cup layers show the ingredients, not an exact measurement scale.</p>
   </section>
   <div class="src">
     ${S.map(([h, items]) => `<section><h2>${h}</h2><ul>${items.map(([t, u, by, note]) => `<li><a href="${u}" rel="noopener">${t}</a><time>${by}</time>${note ? `<span>${note}</span>` : ""}</li>`).join("")}</ul></section>`).join("")}
