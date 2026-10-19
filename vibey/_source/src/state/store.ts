@@ -181,7 +181,7 @@ const DEFAULT: State = {
     soundFollowsScene: true,
     mixFollowsScene: true,
     openverse: true,
-    hideAfter: 4,
+    hideAfter: 5,
   },
   panel: null,
   tv: false,

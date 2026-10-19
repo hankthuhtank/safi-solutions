@@ -57,7 +57,7 @@ export function App() {
   const [peek, setPeek] = useState(0);
   const [powering, setPowering] = useState(false);
   const hold = (!tv && (!!panel || hover || hideAfter === 0)) || !started;
-  const idle = useIdle(tv ? 2.5 : hideAfter || 4, hold) && !(peek > Date.now());
+  const idle = useIdle(tv ? 2.5 : hideAfter || 5, hold) && !(peek > Date.now());
   const Active = panel ? PANELS[panel] : null;
 
   // title and lock-screen artwork follow the place
