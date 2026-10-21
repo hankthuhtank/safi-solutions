@@ -98,6 +98,8 @@ export function Stage() {
 
   const { scene, variation } = useMemo(() => sceneOf(getState()), [sceneId, variationId]);
   const key = `${scene.id}/${variation.id}`;
+  const keyRef = useRef(key);
+  keyRef.current = key;
   const fx = useMemo(() => motionSafe(resolveFx(scene, variation, overrides[scene.id] ?? {}), reduced), [scene, variation, overrides, reduced]);
   const fxRef = useRef(fx);
   fxRef.current = fx;
@@ -110,7 +112,7 @@ export function Stage() {
         onLightning: (strength, distance) => ambience.lightning(strength, distance),
         onShown: (k) => {
           setShown(k);
-          r.update(fxRef.current);
+          if (k === keyRef.current) r.update(k, fxRef.current);
           delete document.documentElement.dataset.acquiring;
           prefetchNeighbours(k);
         },
@@ -164,8 +166,8 @@ export function Stage() {
   }, [key, fallback]);
 
   useEffect(() => {
-    renderer.current?.update(fx);
-  }, [fx]);
+    renderer.current?.update(key, fx);
+  }, [key, fx]);
 
   // a little parallax from the pointer, never on touch and never with reduced motion
   useEffect(() => {
@@ -210,6 +212,7 @@ function Still({ variation, reduced }: { variation: Variation; reduced: boolean 
       <video key={dir} className="stage-still" autoPlay={!reduced} muted loop playsInline poster={`${dir}/poster.webp`}>
         {m.video.av1 ? <source src={`${dir}/${m.video.av1}`} type='video/mp4; codecs="av01.0.08M.08"' /> : null}
         {m.video.hevc ? <source src={`${dir}/${m.video.hevc}`} type='video/mp4; codecs="hvc1.1.6.L123.90"' /> : null}
+        {m.video.h264 ? <source src={`${dir}/${m.video.h264}`} type='video/mp4; codecs="avc1.4d4028"' /> : null}
       </video>
     );
   }

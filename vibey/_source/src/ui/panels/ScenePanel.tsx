@@ -3,6 +3,7 @@ import { getState, currentFx, resetScene, sceneOf, setFx, tune, useStore } from 
 import type { ControlId, Fx } from "../../types";
 import { Fader, Panel, Seg } from "../controls";
 import { thumbOf, thumbClass, useReducedMotion } from "../Stage";
+import { MANIFEST } from "../../data/scenes";
 
 const LABELS: Record<Exclude<ControlId, "light" | "glassFocus">, { label: string; key: keyof Fx }> = {
   rain: { label: "Rain", key: "rain" },
@@ -36,6 +37,15 @@ export function ScenePanel() {
   const reduced = useReducedMotion();
   const { scene, variation } = useMemo(() => sceneOf(getState()), [sceneId, variationId]);
   const fx = useMemo(() => currentFx(getState()), [sceneId, variationId, overrides]);
+  const media = MANIFEST[variation.dir];
+  const controls = scene.controls.filter((c) => {
+    if (c === "fire") return !!variation.hearth;
+    if (c === "embers") return !!variation.emberAt;
+    if (c === "headlights") return !!variation.road;
+    if (c === "rainGlass" || c === "glassFocus") return fx.glassFull || media.glass;
+    if (c === "water") return (media.stats?.coverage.water ?? 0) > 0.005;
+    return true;
+  });
   const pct = (v: number) => `${Math.round(v * 100)}`;
   const signed = (v: number) => (Math.abs(v) < 0.005 ? "0" : `${v > 0 ? "+" : "−"}${Math.round(Math.abs(v) * 100)}`);
 
@@ -52,7 +62,7 @@ export function ScenePanel() {
         </div>
       ) : null}
       <div className="scene-controls">
-        {scene.controls.map((c) => {
+        {controls.map((c) => {
           if (c === "glassFocus") {
             return (
               <Seg

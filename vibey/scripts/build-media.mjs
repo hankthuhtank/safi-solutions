@@ -144,7 +144,7 @@ for (const scene of await readdir(out)) {
       glass: false,
       aspect: probe[0] / probe[1],
       lqip: `data:image/jpeg;base64,${lqip.toString("base64")}`,
-      video: { av1: "loop-av1.mp4", hevc: "loop-hevc.mp4", width: probe[0], height: probe[1] },
+      video: { av1: "loop-av1.mp4", hevc: "loop-hevc.mp4", ...(await has("loop-h264.mp4") ? { h264: "loop-h264.mp4" } : {}), width: probe[0], height: probe[1] },
     };
   }
 }

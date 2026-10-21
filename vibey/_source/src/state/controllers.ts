@@ -12,6 +12,7 @@ import { currentFx, getState, pushRecent, recallPreset, sceneOf, setState, subsc
 let catalog: Track[] = [];
 let ovAbort: AbortController | null = null;
 let applying = "";
+let starting: Promise<void> | null = null;
 
 export function playlistName(key: string, s: State = getState()) {
   if (key === "scene") return `${sceneOf(s).scene.name} mix`;
@@ -67,13 +68,17 @@ export function choosePlaylist(key: string, startWith?: Track) {
 }
 
 /** The first gesture: unlock audio, bring in the room sound, then the music. */
-export async function start() {
-  if (getState().started) return;
-  await audio.unlock();
-  setState({ started: true });
-  syncAudio(getState());
-  await applyPlaylist({ start: false });
-  music.play();
+export function start(): Promise<void> {
+  if (getState().started) return Promise.resolve();
+  if (starting) return starting;
+  starting = (async () => {
+    await audio.unlock();
+    setState({ started: true });
+    syncAudio(getState());
+    await applyPlaylist({ start: false });
+    music.play();
+  })().finally(() => { starting = null; });
+  return starting;
 }
 
 function syncAudio(s: State) {

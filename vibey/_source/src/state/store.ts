@@ -71,6 +71,7 @@ export interface Settings {
   mixFollowsScene: boolean;
   openverse: boolean;
   hideAfter: number;
+  keepAwake: boolean;
 }
 
 export interface State {
@@ -217,6 +218,7 @@ const DEFAULT: State = {
     mixFollowsScene: true,
     openverse: true,
     hideAfter: 5,
+    keepAwake: true,
   },
   panel: null,
   tv: false,
@@ -277,6 +279,13 @@ function liftMix(m: Record<string, number>) {
 }
 
 let state: State = load();
+// Scene links also work on a TV's own browser, where the picture can run independently of a phone.
+const params = new URLSearchParams(location.search);
+const linkedScene = SCENE_BY_ID.get(params.get("scene") ?? "");
+if (linkedScene) {
+  const variation = linkedScene.variations.find((v) => v.id === params.get("variation")) ?? linkedScene.variations[0];
+  state = { ...state, scene: linkedScene.id, variation: variation.id, mix: sceneMix(linkedScene.id, variation.id), muted: {}, tv: params.get("tv") === "1" };
+}
 const listeners = new Set<() => void>();
 let saveTimer = 0;
 
@@ -388,7 +397,7 @@ export function setFx<K extends keyof Fx>(key: K, value: Fx[K]) {
     const def = SOUND_BY_ID.get(id);
     if (def?.follows !== key) continue;
     const ref = defaults[id] ?? level;
-    const scaled = base > 0.02 ? (ref * value) / base : prev > 0.02 ? (level * value) / prev : level;
+    const scaled = base > 0.02 ? (ref * value) / base : prev > 0.02 ? (level * value) / prev : Math.max(ref, 0.45) * value;
     mix[id] = Math.max(0, Math.min(1, value <= 0.001 ? 0 : scaled));
     touched = true;
   }

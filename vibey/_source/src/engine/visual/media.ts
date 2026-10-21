@@ -95,9 +95,15 @@ export function makeVideo(sources: { src: string; type: string }[]) {
   return v;
 }
 
-export function waitForVideo(v: HTMLVideoElement, signal?: AbortSignal) {
+export function waitForVideo(v: HTMLVideoElement, signal?: AbortSignal, timeoutMs = 12000) {
   return new Promise<void>((resolve, reject) => {
+    if (signal?.aborted) return reject(new DOMException("aborted", "AbortError"));
     if (v.readyState >= 2) return resolve();
+    const sources = Array.from(v.querySelectorAll("source"));
+    let failed = 0;
+    const sourceError = () => {
+      if (++failed >= sources.length) fail();
+    };
     const done = () => {
       cleanup();
       resolve();
@@ -114,10 +120,14 @@ export function waitForVideo(v: HTMLVideoElement, signal?: AbortSignal) {
       v.removeEventListener("loadeddata", done);
       v.removeEventListener("error", fail);
       signal?.removeEventListener("abort", abort);
+      clearTimeout(timeout);
+      for (const source of sources) source.removeEventListener("error", sourceError);
     };
+    const timeout = window.setTimeout(fail, timeoutMs);
     v.addEventListener("loadeddata", done);
     v.addEventListener("error", fail);
     signal?.addEventListener("abort", abort);
+    for (const source of sources) source.addEventListener("error", sourceError);
     v.load();
   });
 }

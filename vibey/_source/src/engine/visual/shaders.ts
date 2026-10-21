@@ -70,6 +70,8 @@ uniform float uTime;
 uniform vec2 uCam;
 uniform float uParallax;
 uniform vec2 uWind;       // direction * strength
+uniform vec2 uWaterFlow;
+uniform float uStorm;
 uniform float uClouds, uWater, uSway, uFog, uFogLow, uStars, uAurora, uCaustics, uLamps, uNeon, uFire, uFireGlow, uFireMode, uMist, uWet;
 uniform vec3 uFogColor;
 uniform float uFlash, uFlashX;
@@ -104,10 +106,27 @@ vec3 skyFlow(vec2 iuv) {
 #ifdef WATER
 vec2 ripple(vec2 iuv, float near) {
   float persp = mix(0.16, 1.0, near);
-  vec2 p = vec2(iuv.x * 70.0, iuv.y * 230.0) / persp;
-  float a = vnoise(p * 0.55 + vec2(uTime * 0.42, uTime * 0.12));
-  float b = vnoise(p * 0.95 - vec2(uTime * 0.31, -uTime * 0.17));
-  return vec2(a - 0.5, (b - 0.5) * 1.7) * 0.0032 * persp * uWater;
+  vec2 p = vec2(iuv.x * uImgAspect * 48.0, iuv.y * 155.0) / persp;
+  float breeze = 0.5 + length(uWind);
+  float a = sin(p.y + p.x * 0.12 - uTime * (1.1 + breeze));
+  float b = sin(p.y * 1.73 - p.x * 0.21 - uTime * (1.7 + breeze));
+  float fine = vnoise(p * 0.65 + vec2(uTime * 0.3, -uTime * 0.7)) - 0.5;
+  return vec2((a * 0.16 + fine * 0.35) / uImgAspect, a * 0.55 + b * 0.25 + fine * 0.4) * 0.0032 * persp * uWater;
+}
+
+// Two offset copies crossfade before either wraps. Only sample water, so the current never
+// drags a bank, rock or building into the river and its loop has no visible reset.
+vec3 flowingWater(vec2 uv, vec3 still, float mask) {
+  const float period = 8.0;
+  float phase = fract(uTime / period);
+  vec2 flow = uWaterFlow * uWater;
+  vec2 a = uv - flow * (phase - 0.5) * period;
+  vec2 b = uv - flow * (fract(phase + 0.5) - 0.5) * period;
+  float ma = smoothstep(0.55, 0.95, texture(uMapsA, a).g);
+  float mb = smoothstep(0.55, 0.95, texture(uMapsA, b).g);
+  vec3 ca = mix(still, base(a), ma);
+  vec3 cb = mix(still, base(b), mb);
+  return mix(still, mix(ca, cb, abs(phase - 0.5) * 2.0), mask);
 }
 #endif
 
@@ -201,8 +220,11 @@ void main() {
 #endif
   vec2 duv = vec2(0.0);
 #ifdef WATER
-  float wetM = max(A.g * (1.0 - uMist), C.r * uWet / max(uWater, 0.001));
-  duv += ripple(iuv, near) * wetM * (1.0 - still);
+  float waterM = smoothstep(0.25, 0.9, A.g) * (1.0 - uMist) * (1.0 - still);
+  float wetM = max(waterM, C.r * uWet / max(uWater, 0.001));
+  vec2 rip = ripple(iuv, near) * wetM * (1.0 - still);
+  float bank = mix(1.0, smoothstep(0.25, 0.85, texture(uMapsA, iuv + rip).g), waterM);
+  duv += rip * bank;
 #endif
 #ifdef SWAY
   float ws = length(uWind);
@@ -225,6 +247,7 @@ void main() {
   if (skyM > 0.001) col = mix(col, skyFlow(iuv), skyM);
 #endif
 #ifdef WATER
+  if (dot(uWaterFlow, uWaterFlow) > 0.0 && waterM > 0.001) col = flowingWater(iuv + duv, col, waterM);
   col *= 1.0 + (vnoise(iuv * vec2(260.0, 900.0) + vec2(uTime * 0.8, 0.0)) - 0.5) * 0.07 * wetM * uWater;
 #endif
 #ifdef STARS
@@ -282,6 +305,14 @@ void main() {
   float fogA = clamp(uFog * smoothstep(0.15, 0.95, far) * lowBias * (0.4 + 0.95 * drift), 0.0, 0.9);
   col = mix(col, uFogColor, fogA);
 #endif
+  // Weather also changes the light. Interiors stay sheltered; the sky loses its sunny warmth
+  // when the viewer turns up rain, rather than receiving a bright, disconnected rain overlay.
+  if (uStorm > 0.001) {
+    float outdoors = mix(1.0, smoothstep(0.2, 0.7, B.r), uInterior);
+    float cloudShade = 0.8 + 0.2 * vnoise(iuv * 3.0 - uTime * 0.012);
+    vec3 overcast = mix(col, vec3(luma(col)) * vec3(0.91, 0.96, 1.04), 0.3) * mix(0.78, 0.54, A.r * cloudShade);
+    col = mix(col, overcast, uStorm * outdoors);
+  }
 #ifdef NIGHT
   {
     // Day for night, graded the way film crews do it: outdoors falls to moonlight and the sky to
@@ -299,7 +330,7 @@ void main() {
     // a few stars come out where there is open sky
     vec2 sp = floor(iuv * uRes * 0.55);
     float star = step(0.9975, hash(sp)) * (0.6 + 0.4 * sin(uTime * (1.0 + 3.0 * hash(sp + 7.0)) + hash(sp + 3.0) * 6.28));
-    moon += vec3(0.75, 0.82, 1.0) * star * skyM * 0.55;
+    moon += vec3(0.75, 0.82, 1.0) * star * skyM * 0.55 * (1.0 - uStorm);
     // seen from outside, house windows light up one by one
     float win = uWindows * glass * (0.55 + 0.45 * hash(floor(iuv * vec2(90.0, 60.0))));
     moon = mix(moon, src * 0.2 + vec3(0.95, 0.62, 0.3) * 0.55 * win, smoothstep(0.0, 0.5, uWindows * glass));

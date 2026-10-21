@@ -1,18 +1,44 @@
-import { setSettings, setState, useStore } from "../../state/store";
+import { useState } from "react";
+import { getState, setSettings, setState, useStore } from "../../state/store";
+import { useScreenStatus } from "../../state/screen";
 import { Panel, Section, Toggle } from "../controls";
 import { Expand } from "../icons";
 
 export function MonitorPanel() {
   const st = useStore((s) => s.settings);
+  const screen = useScreenStatus();
+  const [link, setLink] = useState("");
+  const [copied, setCopied] = useState(false);
+  const copyLink = async () => {
+    const s = getState();
+    const url = new URL(location.pathname, location.origin);
+    url.search = new URLSearchParams({ scene: s.scene, variation: s.variation, tv: "1" }).toString();
+    setLink(url.href);
+    try {
+      await navigator.clipboard.writeText(url.href);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
+  };
   return (
     <Panel title="TV & projection">
       <p className="fine">
-        The picture fills the screen, the controls and cursor go away, and the screen stays awake. Anything you leave on — sleep, focus, place cycling — keeps
+        The picture fills the screen and the controls and cursor go away. Anything you leave on — sleep, focus, place cycling — keeps
         running.
       </p>
       <button className="btn lit wide-btn" onClick={() => setState({ tv: true, panel: null })}>
         <Expand size={16} /> Go full screen
       </button>
+      <Section title="Keep the display on">
+        <Toggle label="Keep screen awake" hint="While Vibey is on, prevent automatic dimming and locking where your browser allows it." checked={st.keepAwake} onChange={(keepAwake) => setSettings({ keepAwake })} />
+        <p className="fine" role="status">
+          {!st.keepAwake ? "Keep awake is off." : screen === "active" ? "Screen is being kept awake." : screen === "unsupported" ? "This browser cannot keep the screen awake automatically." : screen === "unavailable" ? "Keep awake was declined. Check battery saver or your browser's settings." : screen === "paused" ? "Keep awake is paused. Return to Vibey or tap the screen to resume." : "Keep awake starts when you switch Vibey on."}
+        </p>
+        <p className="fine">Manually locking your phone can stop a live screen mirror. For a display that runs with your phone off, open Vibey in the TV's own browser.</p>
+        <button className="btn wide-btn" onClick={() => void copyLink()}>{copied ? "TV link copied" : "Copy this scene's TV link"}</button>
+        {link ? <input type="text" className="tv-link" aria-label="TV scene link" readOnly value={link} onFocus={(e) => e.currentTarget.select()} /> : null}
+      </Section>
       <Section title="On screen">
         <Toggle label="Clock" checked={st.tvClock} onChange={(v) => setSettings({ tvClock: v })} />
         <Toggle label="24-hour time" checked={st.clock24} onChange={(v) => setSettings({ clock24: v })} />
@@ -48,8 +74,7 @@ export function MonitorPanel() {
           </li>
         </ul>
         <p className="fine">
-          There is no one-tap casting button: browsers only allow that for plain video files, and Vibey draws its picture live. Tab casting and mirroring
-          carry everything as you see it.
+          Vibey draws its effects live. Tab casting and mirroring carry the complete scene; their behavior while a phone is locked depends on the phone and TV.
         </p>
       </Section>
     </Panel>

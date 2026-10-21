@@ -71,6 +71,8 @@ export interface Variation {
   dir: string;
   maps: boolean;
   focus: [number, number]; // object-fit focal point
+  /** Water current in image UV per second; banks and rocks stay anchored by the water mask. */
+  waterFlow?: [number, number];
   fx: Partial<Fx>;
   /** where the composited hearth fire sits, in image UV */
   hearth?: Rect;

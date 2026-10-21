@@ -2069,7 +2069,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 1920,
-   "height": 1080
+   "height": 1080,
+   "h264": "loop-h264.mp4"
   }
  },
  "ocean/sunset": {
@@ -2126,7 +2127,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 2560,
-   "height": 1440
+   "height": 1440,
+   "h264": "loop-h264.mp4"
   }
  },
  "ocean/tropical": {
@@ -2141,7 +2143,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 2560,
-   "height": 1440
+   "height": 1440,
+   "h264": "loop-h264.mp4"
   }
  },
  "rainforest/cloud-forest": {
@@ -2434,7 +2437,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 1920,
-   "height": 1080
+   "height": 1080,
+   "h264": "loop-h264.mp4"
   }
  },
  "storm-sea/cell": {
@@ -2449,7 +2453,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 2560,
-   "height": 1440
+   "height": 1440,
+   "h264": "loop-h264.mp4"
   }
  },
  "storm-sea/lighthouse": {
@@ -2692,7 +2697,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 1920,
-   "height": 1080
+   "height": 1080,
+   "h264": "loop-h264.mp4"
   }
  },
  "waterfall/pool": {
@@ -2707,7 +2713,8 @@
    "av1": "loop-av1.mp4",
    "hevc": "loop-hevc.mp4",
    "width": 1920,
-   "height": 1080
+   "height": 1080,
+   "h264": "loop-h264.mp4"
   }
  }
 }

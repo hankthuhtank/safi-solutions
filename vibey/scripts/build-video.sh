@@ -7,8 +7,9 @@
 # end flows straight back into the start. Outputs (per variation, in media/scenes/<scene>/<id>/):
 #   loop-av1.mp4   AV1, up to 2560 wide   (Chrome, Edge, Firefox; Safari on AV1 hardware)
 #   loop-hevc.mp4  HEVC, up to 1920 wide  (Safari on everything else)
+#   loop-h264.mp4  H.264 Main, up to 1920 wide (older browsers and TVs)
 #   poster.webp / thumb.webp, and <work>/video/<key>-frame.jpg (first frame)
-# A browser that plays neither gets the poster as a still scene.
+# A browser that plays none gets the poster as a still scene.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 WORK=${1:?work dir}
@@ -56,7 +57,10 @@ while IFS='|' read -r key url start len fade fps maxw crf; do
   ffmpeg -nostdin -loglevel error -y -i "$seg" -filter_complex "$(loopgraph 1920)" -map "[v]" -an \
     -c:v libx265 -preset medium -crf "$((crf - 10))" -tag:v hvc1 -x265-params "keyint=$gop:min-keyint=$gop:log-level=error" \
     -movflags +faststart "$out/loop-hevc.mp4"
-  rm -f "$out/loop-h264.mp4"
+  ffmpeg -nostdin -loglevel error -y -i "$out/loop-av1.mp4" -an \
+    -vf "scale='min(1920,iw)':-2:flags=lanczos,fps=30" \
+    -c:v libx264 -preset fast -crf 24 -profile:v main -level:v 4.0 -pix_fmt yuv420p \
+    -movflags +faststart "$out/loop-h264.mp4"
   frame="$WORK/video/${key//\//__}-frame.jpg"
   ffmpeg -nostdin -loglevel error -y -ss "$fade" -i "$seg" -frames:v 1 -vf "scale='min(3840,iw)':-2:flags=lanczos" -q:v 2 "$frame"
   node -e "

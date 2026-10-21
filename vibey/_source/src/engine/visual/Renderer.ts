@@ -178,6 +178,8 @@ export class Renderer {
   private next: Instance | null = null;
   private transition = { start: 0, dur: 2.6 };
   private loading: AbortController | null = null;
+  private request: ShowRequest | null = null;
+  private disposed = false;
   private raf = 0;
   private last = 0;
   private time = 0;
@@ -258,7 +260,7 @@ export class Renderer {
     this.reducedMotion = reduced;
     for (const v of [this.current?.video, this.next?.video, this.current?.fireVideo, this.next?.fireVideo]) {
       if (!v) continue;
-      if (enabled) v.play().catch(() => {});
+      if (enabled && this.visible) v.play().catch(() => {});
       else v.pause();
     }
   }
@@ -280,9 +282,11 @@ export class Renderer {
   }
 
   /** Live effect changes from the scene controls. */
-  update(fx: Fx) {
-    if (this.current) this.current.req.fx = fx;
-    if (this.next) this.next.req.fx = fx;
+  update(key: string, fx: Fx) {
+    if (this.request?.key === key) this.request.fx = fx;
+    for (const inst of [this.current, this.next]) {
+      if (inst?.req.key === key) inst.req.fx = fx;
+    }
     this.ensurePrograms();
   }
 
@@ -322,14 +326,17 @@ export class Renderer {
 
   /** Load a place and fade to it. Resolves once it is on screen (or the request was superseded). */
   async show(req: ShowRequest, opts: { instant?: boolean } = {}) {
+    if (this.disposed) return;
     this.loading?.abort();
     const ctrl = new AbortController();
     this.loading = ctrl;
+    this.request = req;
     this.settle(6000);
     const { w, h } = this.renderSize();
     const inst = new Instance(this.gl, req, w, h, this.time);
     try {
       await this.load(inst, ctrl.signal);
+      if (!ctrl.signal.aborted) this.ensureProgram(inst);
     } catch (e) {
       inst.dispose();
       if ((e as DOMException)?.name === "AbortError") return;
@@ -341,7 +348,6 @@ export class Renderer {
       return;
     }
     this.loading = null;
-    this.ensureProgram(inst);
     if (this.next) {
       // a change was still underway: settle it before starting the new one
       this.current?.dispose();
@@ -366,14 +372,14 @@ export class Renderer {
   private async load(inst: Instance, signal: AbortSignal) {
     const gl = this.gl;
     const m = inst.req.media;
-    const { w } = this.renderSize();
+    const { w, h } = this.renderSize();
     const jobs: Promise<void>[] = [];
     if (m.kind === "video" && m.video) {
       // AV1 where the browser has it, HEVC for Safari without AV1 hardware; the poster as a still otherwise
       const v = makeVideo([
         ...(m.video.av1 ? [{ src: m.video.av1, type: 'video/mp4; codecs="av01.0.08M.08"' }] : []),
         ...(m.video.hevc ? [{ src: m.video.hevc, type: 'video/mp4; codecs="hvc1.1.6.L123.90"' }] : []),
-        ...(m.video.h264 ? [{ src: m.video.h264, type: 'video/mp4; codecs="avc1.640028"' }] : []),
+        ...(m.video.h264 ? [{ src: m.video.h264, type: 'video/mp4; codecs="avc1.4d4028"' }] : []),
       ]);
       inst.imageAspect = m.video.width / m.video.height;
       const still = () =>
@@ -389,7 +395,7 @@ export class Renderer {
         jobs.push(
           waitForVideo(v, signal).then(
             async () => {
-              if (this.motion) await v.play().catch(() => {});
+              if (this.motion && this.visible) await v.play().catch(() => {});
               gl.bindTexture(gl.TEXTURE_2D, inst.baseDynamic);
               gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, v);
             },
@@ -406,7 +412,7 @@ export class Renderer {
       }
     } else {
       jobs.push(
-        imageUrl(m, w * 1.08)
+        imageUrl(m, Math.max(w, h * m.aspect) * 1.08)
           .then((url) => decodeImage(url, signal))
           .then((img) => {
             const { w: iw, h: ih } = sizeOf(img);
@@ -438,20 +444,24 @@ export class Renderer {
           .catch(() => {}),
       );
     }
-    if (inst.req.variation.hearth && inst.fx.fire > 0) {
+    if (inst.req.variation.hearth) {
       const fv = makeVideo(FIRE_VIDEO);
       inst.fireVideo = fv;
       inst.fireTex = dynamicTexture(gl);
       jobs.push(
         waitForVideo(fv, signal)
-          .then(() => (this.motion ? fv.play().catch(() => {}) : undefined))
+          .then(() => (this.motion && this.visible ? fv.play().catch(() => {}) : undefined))
           .catch(() => {
             disposeVideo(fv);
             inst.fireVideo = null;
           }),
       );
     }
-    await Promise.all(jobs);
+    // Finish every decode before disposing a failed or superseded scene. A late upload must not
+    // recreate textures after Instance.dispose() has already freed them.
+    const results = await Promise.allSettled(jobs);
+    const failure = results.find((r): r is PromiseRejectedResult => r.status === "rejected");
+    if (failure) throw failure.reason;
   }
 
   private flagsFor(inst: Instance): SceneFlags {
@@ -543,10 +553,12 @@ export class Renderer {
 
   /** Scanned-leaf atlases, shared by every place and loaded the first time one is needed. */
   private atlas(kind: string) {
+    if (this.disposed) return null;
     if (this.atlases.has(kind)) return this.atlases.get(kind) ?? null;
     this.atlases.set(kind, null);
     decodeImage(`/vibey/media/fx/leaves-${kind}.webp`)
       .then((img) => {
+        if (this.disposed) return release(img);
         const { w, h } = sizeOf(img);
         this.atlases.set(kind, uploadTexture(this.gl, img, w, h, { mips: true }));
         release(img);
@@ -613,7 +625,7 @@ export class Renderer {
       // the drops move slowly: thirty updates a second is plenty and keeps 4K uploads cheap
       this.rainClock += dt;
       if (this.rainClock >= 1 / 30 || !this.rainUploaded) {
-        const inst = this.next ?? this.current;
+        const inst = this.next?.needsGlass ? this.next : this.current;
         this.rain.intensity = inst?.fx.rainGlass ?? 0.5;
         if (this.motion) this.rain.step(this.rainClock);
         this.rainClock = 0;
@@ -724,8 +736,10 @@ export class Renderer {
       .f("uWind", wind[0], wind[1])
       .f("uClouds", fx.clouds)
       .f("uWater", Math.max(fx.water, fx.wet))
+      .f("uWaterFlow", ...(inst.req.variation.waterFlow ?? [0, 0]))
       .f("uWet", fx.wet)
-      .f("uSway", Math.min(1.4, fx.sway * 0.45 + fx.wind * 1.1))
+      .f("uSway", Math.min(1.8, (0.3 + fx.sway) * fx.wind * 2.6) * (this.reducedMotion ? 0.3 : 1))
+      .f("uStorm", Math.min(1, Math.max(fx.rain * 0.9, fx.lightning * 0.65)))
       .f("uFog", fx.fog)
       .f("uFogLow", fx.fogLow)
       .f("uFogColor", ...fx.fogColor)
@@ -844,6 +858,7 @@ export class Renderer {
   }
 
   dispose() {
+    this.disposed = true;
     cancelAnimationFrame(this.raf);
     this.loading?.abort();
     this.current?.dispose();

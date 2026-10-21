@@ -56,6 +56,7 @@ export interface ManifestEntry {
   maps: boolean;
   glass: boolean;
   motion?: boolean;
+  stats?: { coverage: Partial<Record<"sky" | "water" | "foliage" | "glass", number>> };
   aspect: number;
   lqip: string;
   video?: { av1?: string; hevc?: string; h264?: string; width: number; height: number };
@@ -82,6 +83,7 @@ function v(key: string, label: string, opts: Partial<Variation> & { place?: stri
     dir: media,
     maps: !!m?.maps,
     focus: opts.focus ?? [0.5, 0.5],
+    waterFlow: opts.waterFlow,
     fx: opts.fx ?? {},
     hearth: opts.hearth,
     hearthMode: opts.hearthMode,
@@ -109,7 +111,11 @@ const ALL_SCENES: SceneDef[] = [
     coords: [35.71, 139.79],
     variations: [
       v("tokyo-cafe/night", "Night", { road: [0.6, 0.82], focus: [0.5, 0.56] }),
-      v("tokyo-cafe/dusk", "Dusk", { road: [0.62, 0.86], focus: [0.5, 0.58] }),
+      v("tokyo-cafe/dusk", "Daytime, after rain", {
+        focus: [0.5, 0.58],
+        fx: { rain: 0, rainGlass: 0, glassFull: false, splashes: 0, headlights: 0, reflection: 0, lightning: 0, neon: 0 },
+        sounds: { "rain-window": 0, thunder: 0, traffic: 0.45, cafe: 0.35 },
+      }),
       v("tokyo-cafe/inside", "Inside, by the glass", {
         place: "A café after dark",
         interior: true,
@@ -227,8 +233,8 @@ const ALL_SCENES: SceneDef[] = [
         glowAt: [0.5, 1.3],
         timeZone: "Europe/Zurich",
         coords: [46.62, 8.04],
-        fx: { fire: 0, embers: 0, glow: 0.45, snow: 0.35 },
-        sounds: { fireplace: 0.6, wind: 0.6, snowstorm: 0.3, room: 0.35 },
+        fx: { fire: 0, embers: 0, glow: 0.45, snow: 0 },
+        sounds: { fireplace: 0.6, wind: 0.35, snowstorm: 0, room: 0.35 },
       }),
       v("mountain-cabin/alps-night", "The Alps after dark", {
         from: "mountain-cabin/alps-window",
@@ -240,7 +246,7 @@ const ALL_SCENES: SceneDef[] = [
         fx: { fire: 0, embers: 0, night: 0.9, glow: 0.85, snow: 0.45 },
         sounds: { fireplace: 0.72, wind: 0.62, snowstorm: 0.4, room: 0.3 },
       }),
-      v("mountain-cabin/hut", "Alpine hut", { fx: { fire: 0, embers: 0, snow: 0.4, wind: 0.5 }, sounds: { wind: 0.66, snowstorm: 0.5, fireplace: 0 } }),
+      v("mountain-cabin/hut", "Alpine hut", { fx: { fire: 0, embers: 0, snow: 0, wind: 0.3 }, sounds: { wind: 0.5, snowstorm: 0, fireplace: 0 } }),
       v("mountain-cabin/zermatt", "Zermatt in the snow", {
         timeZone: "Europe/Zurich",
         coords: [46.02, 7.75],
@@ -252,7 +258,7 @@ const ALL_SCENES: SceneDef[] = [
         fx: { fire: 0, embers: 0, snow: 0.45, water: 0.45 },
         sounds: { wind: 0.55, snowstorm: 0.45, fireplace: 0 },
       }),
-      v("mountain-cabin/twilight", "Twilight", { fx: { fire: 0, embers: 0, snow: 0.3 }, sounds: { wind: 0.6, snowstorm: 0.4, fireplace: 0 } }),
+      v("mountain-cabin/twilight", "Twilight", { fx: { fire: 0, embers: 0, snow: 0 }, sounds: { wind: 0.5, snowstorm: 0, fireplace: 0 } }),
     ],
     fx: { fire: 0.85, snow: 0.6, wind: 0.45, lamps: 0.2, drift: 0.3 },
     controls: ["fire", "glow", "night", "snow", "rain", "wind", "drift", "light"],
@@ -360,11 +366,11 @@ const ALL_SCENES: SceneDef[] = [
     variations: [
       v("autumn/kaiser", "Wilder Kaiser", { coords: [47.56, 12.33] }),
       v("autumn/meadow", "Golden meadow", { place: "The Alps in October", timeZone: "Europe/Ljubljana", coords: [46.38, 13.84] }),
-      v("autumn/valley", "River valley", { place: "A river valley in autumn", sounds: { river: 0.5, wind: 0.45, leaves: 0.55, birds: 0.35 } }),
+      v("autumn/valley", "River valley", { place: "A river valley in autumn", waterFlow: [-0.002, 0.006], fx: { water: 0.55 }, sounds: { river: 0.5, wind: 0.45, leaves: 0.55, birds: 0.35 } }),
       v("autumn/larches", "Golden hills", { place: "Aspens and larches", fx: { clouds: 0.75 } }),
     ],
     fx: { petals: 0.5, petalKind: "autumn", wind: 0.45, sway: 0.35, clouds: 0.5, drift: 0.45 },
-    controls: ["petals", "wind", "clouds", "fog", "rain", "night", "drift", "light"],
+    controls: ["petals", "water", "wind", "clouds", "fog", "rain", "night", "drift", "light"],
     sounds: { wind: 0.52, leaves: 0.6, birds: 0.42, crows: 0 },
     bands: ["acoustic", "piano", "nature"],
   },
@@ -438,9 +444,14 @@ const ALL_SCENES: SceneDef[] = [
     timeZone: "Australia/Hobart",
     coords: [-42.0, 146.0],
     variations: [
-      v("rainforest/stream", "Stream"),
-      v("rainforest/sunbeams", "Sunbeams", { fx: { rain: 0.15, dust: 0.55, fog: 0.15 }, timeZone: "", place: "Rainforest falls" }),
-      v("rainforest/cloud-forest", "Cloud forest", { fx: { rain: 0, clouds: 0.6, mist: 0.6, sway: 0.3 }, timeZone: "America/Costa_Rica", coords: [10.3, -84.8] }),
+      v("rainforest/stream", "Stream", { waterFlow: [-0.005, 0.013], fx: { rain: 0 }, sounds: { "rain-leaves": 0, river: 0.72, forest: 0.45 } }),
+      v("rainforest/sunbeams", "Sunbeams", {
+        waterFlow: [0, 0.009],
+        fx: { rain: 0, dust: 0.45, fog: 0.06 },
+        sounds: { "rain-leaves": 0, river: 0.65, forest: 0.5 },
+        timeZone: "", place: "Rainforest falls",
+      }),
+      v("rainforest/cloud-forest", "Cloud forest", { fx: { rain: 0, clouds: 0.6, mist: 0.6, sway: 0.3 }, sounds: { "rain-leaves": 0, river: 0, forest: 0.6 }, timeZone: "America/Costa_Rica", coords: [10.3, -84.8] }),
     ],
     fx: { rain: 0.5, water: 0.55, sway: 0.4, fog: 0.18, fogColor: [0.62, 0.7, 0.62], drift: 0.45 },
     controls: ["rain", "water", "fog", "wind", "night", "drift", "light"],
@@ -492,10 +503,10 @@ const ALL_SCENES: SceneDef[] = [
       v("ocean/tropical", "Tropical", { place: "Tropical shore" }),
       v("ocean/surf", "Open surf", { place: "Open beach" }),
       v("ocean/dawn", "Dawn", { place: "Shoreline at dawn" }),
-      v("ocean/sunset", "Golden hour", { timeZone: "Asia/Makassar", coords: [-8.65, 115.13], fx: { water: 0.35 } }),
+      v("ocean/sunset", "Golden hour", { waterFlow: [0, 0.004], timeZone: "Asia/Makassar", coords: [-8.65, 115.13], fx: { water: 0.65 } }),
     ],
     fx: { drift: 0.2 },
-    controls: ["drift", "light"],
+    controls: ["water", "drift", "light"],
     sounds: { ocean: 0.8, seagulls: 0.55, wind: 0.48 },
     bands: ["ambient", "downtempo", "meditation"],
   },
@@ -509,10 +520,10 @@ const ALL_SCENES: SceneDef[] = [
     variations: [
       v("storm-sea/cell", "Storm cell", { place: "Open water" }),
       v("storm-sea/buoy", "Night swell", { place: "Open water" }),
-      v("storm-sea/lighthouse", "Lighthouse", { place: "A lighthouse in a gale", fx: { rain: 0.3 } }),
+      v("storm-sea/lighthouse", "Lighthouse", { place: "A lighthouse in a gale", waterFlow: [-0.004, 0.007], fx: { rain: 0.3, water: 0.9, clouds: 0.6 } }),
     ],
     fx: { lightning: 0.5, rain: 0.45, wind: 0.65, drift: 0.2 },
-    controls: ["lightning", "rain", "wind", "drift", "light"],
+    controls: ["lightning", "rain", "water", "wind", "drift", "light"],
     sounds: { storm: 0.72, ocean: 0.61, thunder: 0.69, wind: 0.57 },
     bands: ["ambient", "space", "sleep"],
   },

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { music } from "./engine/audio/Music";
 import { SCENES } from "./data/scenes";
 import { start, wake } from "./state/controllers";
+import { useScreenWakeLock } from "./state/screen";
 import {
   getState,
   openPanel,
@@ -49,6 +50,8 @@ export function App() {
   const started = useStore((s) => s.started);
   const tv = useStore((s) => s.tv);
   const asleep = useStore((s) => s.asleep);
+  const keepAwake = useStore((s) => s.settings.keepAwake);
+  useScreenWakeLock(started && !asleep && keepAwake);
   const hideAfter = useStore((s) => s.settings.hideAfter);
   const sceneId = useStore((s) => s.scene);
   const variationId = useStore((s) => s.variation);
@@ -87,6 +90,7 @@ export function App() {
 
   const powerOn = () => {
     if (getState().started) return;
+    if (getState().tv && !document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
     setPowering(true);
     window.setTimeout(() => setPowering(false), 2600);
     void start();
@@ -156,27 +160,16 @@ export function App() {
     return () => window.removeEventListener("keydown", key);
   }, []);
 
-  // TV mode: full screen, screen kept awake, leave when full screen ends
+  // TV mode: full screen where supported, leave when full screen ends.
   useEffect(() => {
     if (!tv) return;
-    let lock: WakeLockSentinel | null = null;
-    const req = () =>
-      (navigator as Navigator & { wakeLock?: WakeLock }).wakeLock
-        ?.request("screen")
-        .then((l) => (lock = l))
-        .catch(() => {});
-    void req();
     if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
     const fs = () => {
       if (!document.fullscreenElement) setState({ tv: false });
     };
-    const vis = () => document.visibilityState === "visible" && req();
     document.addEventListener("fullscreenchange", fs);
-    document.addEventListener("visibilitychange", vis);
     return () => {
       document.removeEventListener("fullscreenchange", fs);
-      document.removeEventListener("visibilitychange", vis);
-      void lock?.release().catch(() => {});
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
     };
   }, [tv]);
