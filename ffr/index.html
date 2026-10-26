@@ -5,47 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#071226">
+  <meta name="theme-color" content="#04060b">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self'; frame-src blob:; font-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
   <title>Private field guide</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 60'%3E%3Cpath fill='%2389dadd' d='M20 0 39 20 32 48 20 60 8 48 1 20Z'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 60'%3E%3Cpath fill='%2384e4f4' d='M20 0 39 20 32 48 20 60 8 48 1 20Z'/%3E%3C/svg%3E">
   <style>
+    @font-face { font-family: "Marcellus SC"; src: url(fonts/Marcellus_SC-400-normal.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: Barlow; src: url(fonts/Barlow_Semi_Condensed-400-normal.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: Barlow; src: url(fonts/Barlow_Semi_Condensed-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+    @font-face { font-family: Dot; src: url(fonts/DotGothic16-400-normal.woff2) format("woff2"); font-display: swap; }
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
-    body { color: #e3edf7; background: #071226; font: 16px/1.6 system-ui, sans-serif; }
-    .gate { min-height: 100%; display: grid; place-items: center; padding: 25px; background: radial-gradient(ellipse at 50% 30%, #214b794d, transparent 60%), linear-gradient(135deg, #050b18, #0d2340); }
-    .panel { width: min(100%, 470px); padding: 42px; border: 1px solid #7595af55; background: linear-gradient(140deg,#142b4ded,#0b172aee); box-shadow: 0 30px 100px #0006, inset 0 0 40px #4487b510; border-radius: 12px; }
-    .crystal { width: 32px; height: 58px; margin-bottom: 30px; background: linear-gradient(110deg,#e3ffff,#77cbdf 40%,#2b718b 41%,#b3e7e1 75%,#c1e6f3 76%); clip-path: polygon(50% 0,100% 32%,80% 80%,50% 100%,20% 80%,0 32%); animation: float 5s ease-in-out infinite; }
-    .eyebrow { color: #ccb285; font: 10px ui-monospace, monospace; letter-spacing: .2em; }
-    h1 { font: 36px/1.2 Georgia, serif; font-weight: 400; margin: 12px 0 15px; }
-    p { color: #a7bbcf; font-size: 14px; margin-bottom: 25px; }
-    label { display: block; font-size: 12px; color: #b9cbd9; margin-bottom: 8px; }
-    input { display: block; width: 100%; padding: 13px; border: 1px solid #45617a; border-radius: 5px; background: #060e1c; color: #eaf7ff; font: 15px ui-monospace, monospace; }
-    button { margin-top: 15px; padding: 13px; width: 100%; border: 1px solid #9de0e0; border-radius: 5px; background: linear-gradient(100deg,#a1e0e0,#77becf); color: #102235; cursor: pointer; font: 600 14px system-ui, sans-serif; }
-    button:disabled { opacity: .5; cursor: wait; }
-    input:focus-visible, button:focus-visible { outline: 2px solid #d5b97f; outline-offset: 4px; }
-    #status { min-height: 25px; font-size: 12px; color: #eab5ab; margin: 13px 0 0; }
-    .foot { font-size: 11px; border-top: 1px solid #7794ad33; padding-top: 18px; margin: 20px 0 0; }
-    iframe { border: 0; position: fixed; inset: 0; width: 100%; height: 100%; background: #071226; }
-    @keyframes float { 50% { transform: translateY(-8px); filter: brightness(1.2); } }
-    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
-    @media (max-width: 520px) { .panel { padding: 30px 25px; } }
+    body { color: #e9eef8; background: #03050a; font: 16px/1.6 Barlow, system-ui, sans-serif; }
+    .gate { min-height: 100%; display: grid; place-items: center; padding: 24px; background: radial-gradient(ellipse at 50% 20%, rgba(58,167,192,.16), transparent 60%), linear-gradient(180deg, rgba(3,5,10,.55), #03050a 80%), url(art/l/g-hero.webp) center/cover; }
+    .panel { position: relative; width: min(100%, 480px); padding: 40px 38px 30px; border: 1px solid rgba(150,171,214,.45); background: linear-gradient(180deg, rgba(17,28,54,.95), rgba(6,11,24,.97)); box-shadow: 0 0 0 1px #000, inset 0 1px 0 rgba(214,226,255,.16), 0 30px 90px rgba(0,0,0,.7); border-radius: 10px; }
+    .panel::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(255,255,255,.04); border-radius: 7px; pointer-events: none; }
+    .logo { display: block; width: 100%; margin: 6px 0 22px; filter: drop-shadow(0 0 18px rgba(233,196,119,.25)); }
+    .eyebrow { color: #9c7a3c; font: 600 11px Barlow, sans-serif; letter-spacing: .3em; text-transform: uppercase; }
+    p { color: #8e9ab3; font-size: 14px; margin: 0 0 22px; }
+    label { display: block; font: 12px Dot, monospace; letter-spacing: .1em; color: #c3cde0; margin-bottom: 8px; }
+    input { display: block; width: 100%; padding: 13px; border: 1px solid #33466e; border-radius: 6px; background: #050913; color: #eaf7ff; font: 15px Dot, ui-monospace, monospace; letter-spacing: .1em; }
+    input:focus { outline: none; border-color: #84e4f4; box-shadow: 0 0 0 3px rgba(132,228,244,.15); }
+    button { margin-top: 14px; padding: 12px; width: 100%; border: 1px solid #e9c477; border-radius: 6px; background: linear-gradient(180deg, #f3d99a, #c99c4e); color: #1a1406; cursor: pointer; font: 400 17px "Marcellus SC", serif; letter-spacing: .08em; }
+    button:hover { filter: brightness(1.08); }
+    button:disabled { opacity: .55; cursor: wait; }
+    button:focus-visible { outline: 2px solid #84e4f4; outline-offset: 3px; }
+    #status { min-height: 24px; font-size: 13px; color: #f08c9c; margin: 12px 0 0; }
+    .foot { font-size: 12px; border-top: 1px solid #22304d; padding-top: 16px; margin: 16px 0 0; }
+    iframe { border: 0; position: fixed; inset: 0; width: 100%; height: 100%; background: #03050a; }
+    @media (max-width: 520px) { .panel { padding: 30px 22px 24px; } }
   </style>
 </head>
 <body>
   <main class="gate" id="gate">
     <section class="panel" aria-labelledby="title">
-      <div class="crystal" aria-hidden="true"></div>
-      <div class="eyebrow">A PRIVATE COLLECTION</div>
-      <h1 id="title">Your field guide.</h1>
-      <p>Enter your private key to open the guide on this device.</p>
+      <div class="eyebrow">A private field guide</div>
+      <h1 id="title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Final Fantasy Resonance field guide</h1>
+      <img class="logo" src="art/i/logo.webp" alt="">
+      <p>Enter your key to open the guide on this device.</p>
       <form id="unlock-form">
         <label for="key">Unlock key</label>
         <input id="key" type="password" autocomplete="current-password" required spellcheck="false" autocapitalize="none">
-        <button id="unlock" type="submit">Open guide →</button>
+        <button id="unlock" type="submit">Open guide</button>
         <div id="status" role="status" aria-live="polite"></div>
       </form>
-      <p class="foot">The guide is encrypted. Your key is never sent to a server. Keep it private; anyone with the key can open it.</p>
+      <p class="foot">The guide is encrypted. Your key never leaves this device. Anyone with the key can open it.</p>
     </section>
   </main>
   <script src="unlock.js"></script>

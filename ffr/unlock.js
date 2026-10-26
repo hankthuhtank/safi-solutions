@@ -43,7 +43,8 @@ form.addEventListener('submit', async event => {
       return;
     }
     const stream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const html = await new Response(stream).text();
+    const base = new URL('./', location.href).href;
+    const html = (await new Response(stream).text()).split('__BASE__').join(base);
     input.value = '';
     objectUrl = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
     frame = document.createElement('iframe');
@@ -56,7 +57,7 @@ form.addEventListener('submit', async event => {
     status.textContent = 'Could not open the guide. Check your connection and try again.';
   } finally {
     button.disabled = false;
-    button.textContent = 'Open guide →';
+    button.textContent = 'Open guide';
   }
 });
 window.addEventListener('message', event => {
