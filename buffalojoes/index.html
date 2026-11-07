@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#211f19">
+  <meta name="description" content="An independent design preview for Buffalo Joe’s Pub in Paris, Texas.">
+  <title>Buffalo Joe’s Pub · Paris, Texas</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="preload" href="assets/display.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/body.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/patio.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="header" id="top">
+    <a class="brand" href="#top" aria-label="Buffalo Joe’s Pub home"><img src="assets/logo.webp" alt="Buffalo Joe’s original buffalo and microphone logo" width="80" height="68"><span>BUFFALO JOE’S<small>PARIS, TEXAS · EST. 2005</small></span></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="navigation" aria-expanded="false"><span></span><span></span></button>
+    <nav id="navigation" aria-label="Main navigation">
+      <a href="#menu">The menu</a><a href="#music">Live music</a><a href="#pub">Around here</a><a href="#visit">Find us</a>
+      <a class="nav-directions" href="https://www.google.com/maps/dir/?api=1&destination=Buffalo+Joe%27s+Pub+3338+NE+Loop+286+Paris+TX" target="_blank" rel="noopener">Head this way <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✦</span> RIGHT HERE ON THE LOOP SINCE 2005</p>
+        <h1 id="hero-title">BUFFALO<br> <span>JOE’S</span><span class="hero-pub">PUB</span></h1>
+        <div class="hero-bottom"><div><p class="hero-note">Meet you at Joe’s.</p><p class="hero-description">Your neighborhood pub in Paris, Texas.</p></div><a class="round-link" href="#menu" aria-label="Explore the menu"><span aria-hidden="true">↓</span></a></div>
+        <div class="hero-links"><a class="button button-red" href="#menu">Take a look at the menu <span aria-hidden="true">↗</span></a><a class="text-link light" href="#music">Who’s playing? <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="hero-photo-wrap">
+        <img class="hero-photo" src="assets/patio.webp" alt="A pint on the wooden patio at Buffalo Joe’s, with the outdoor stage beyond" width="960" height="1200" fetchpriority="high">
+        <div class="photo-shade"></div>
+        <div class="hero-stamp" aria-label="Paris, Texas. Buffalo Joe’s, established 2005."><svg viewBox="0 0 180 180" aria-hidden="true"><defs><path id="stamp-ring" d="M90,90 m-67,0 a67,67 0 1,1 134,0 a67,67 0 1,1 -134,0"/></defs><circle cx="90" cy="90" r="86"/><circle cx="90" cy="90" r="55"/><text class="stamp-ring"><textPath href="#stamp-ring" textLength="416">PARIS, TEXAS ✦ BUFFALO JOE’S ✦ </textPath></text><text x="90" y="82" class="stamp-est">EST.</text><text x="90" y="119" class="stamp-year">2005</text></svg></div>
+        <span class="photo-caption">THE PATIO AT JOE’S <span aria-hidden="true">↗</span></span>
+      </div>
+    </section>
+
+    <div class="award-strip"><span class="award-star" aria-hidden="true">✦</span><p>VOTED BEST <em>“NIGHT SPOT”</em></p><span class="award-years">2025 &amp; 2026</span><span class="award-credit">THE PARIS NEWS<br> READERS’ CHOICE</span><span class="award-star" aria-hidden="true">✦</span></div>
+
+    <section class="menu-section section-pad" id="menu" aria-labelledby="menu-title">
+      <div class="section-top reveal"><p class="eyebrow">FROM THE KITCHEN</p><span class="section-index">01 / THE MENU</span></div>
+      <div class="menu-heading reveal"><h2 id="menu-title">Come hungry.</h2><p>The buffalo burger is a good place to start.<br> Waffle fries come with it.</p></div>
+      <div class="menu-layout">
+        <div class="food-feature reveal">
+          <button class="photo-button food-photo" data-photo="burger" aria-label="Enlarge the burger and waffle fries photo"><img src="assets/burger.webp" alt="A burger piled with bacon, served with waffle fries at Buffalo Joe’s" width="700" height="570" loading="lazy"><span class="photo-expand" aria-hidden="true">↗</span></button>
+          <div class="feature-caption"><span>THE HOUSE FAVORITE</span><strong>Buffalo Burger</strong><span class="feature-price">$15</span></div>
+          <p class="feature-description">A buffalo patty with cheese, lettuce, tomato and onion. Waffle fries on the side.</p>
+          <div class="menu-sketch" aria-hidden="true">Don’t forget<br> the fries. <span>↗</span></div>
+        </div>
+        <div class="menu-browser reveal">
+          <div class="menu-tabs" role="tablist" aria-label="Menu categories"><button role="tab" id="tab-burgers" aria-selected="true" aria-controls="menu-panel" data-category="burgers" tabindex="0">Burgers &amp; more</button><button role="tab" id="tab-starters" aria-selected="false" aria-controls="menu-panel" data-category="starters" tabindex="-1">Wings &amp; starters</button><button role="tab" id="tab-tacos" aria-selected="false" aria-controls="menu-panel" data-category="tacos" tabindex="-1">Tacos &amp; lighter</button><button role="tab" id="tab-drinks" aria-selected="false" aria-controls="menu-panel" data-category="drinks" tabindex="-1">At the bar</button></div>
+          <div id="menu-panel" class="menu-items" role="tabpanel" aria-labelledby="tab-burgers" tabindex="0">
+            <article class="menu-item"><h3>Buffalo Burger <span>THE ORIGINAL</span></h3><p>Buffalo patty, cheese and the fixings, with waffle fries.</p></article>
+            <article class="menu-item"><h3>Spicy Buffalo Burger</h3><p>Buffalo, bacon, blue cheese and ghost pepper sauce.</p></article>
+            <article class="menu-item"><h3>Classic Cheeseburger</h3><p>A beef patty with American cheese on a Kaiser roll.</p></article>
+            <article class="menu-item"><h3>Cowboy Burger</h3><p>Beef, cheese, grilled onion, an onion ring and BBQ sauce.</p></article>
+            <article class="menu-item"><h3>Fish &amp; Chips</h3><p>Fried cod with waffle fries and tartar sauce.</p></article>
+          </div>
+          <div class="menu-footnote"><p>A selection from the pub menu.<br> Ask the bar for current prices and availability.</p><button class="text-link" id="open-menu">See the menu photos <span aria-hidden="true">↗</span></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="music-section section-pad" id="music" aria-labelledby="music-title">
+      <div class="section-top reveal"><p class="eyebrow">TURN IT UP A LITTLE</p><span class="section-index">02 / AFTER DARK</span></div>
+      <div class="music-layout">
+        <div class="music-copy reveal"><h2 id="music-title">LIVE AT<br> JOE’S<span aria-hidden="true">✦</span></h2><p class="music-description">The patio has a stage for a reason.</p><p>From Texas country bands to DJ nights, there’s more going on here than what’s on tap. Check the latest posts before you make your plans.</p><a class="button button-cream" href="https://www.facebook.com/buffalojoesclub" target="_blank" rel="noopener">Find the next show <span aria-hidden="true">↗</span></a><span class="social-note">The latest dates, straight from the pub.</span></div>
+        <div class="poster-wall reveal"><p class="archive-label">FROM THE SHOW ARCHIVE <span>2026</span></p><button class="poster poster-one" data-photo="huser" aria-label="View Huser Brothers show poster from March 21, 2026"><img src="assets/huser.webp" alt="Huser Brothers with Trey Rose — Buffalo Joe’s show poster, March 21, 2026" width="600" height="900" loading="lazy"><span>HUSER BROTHERS <span aria-hidden="true">↗</span></span></button><button class="poster poster-two" data-photo="cole" aria-label="View Cole Barnhill show poster from April 17, 2026"><img src="assets/cole.webp" alt="Cole Barnhill with Bryan Hoffman Band — Buffalo Joe’s show poster, April 17, 2026" width="600" height="900" loading="lazy"><span>COLE BARNHILL <span aria-hidden="true">↗</span></span></button></div>
+      </div>
+    </section>
+
+    <section class="pub-section section-pad" id="pub" aria-labelledby="pub-title">
+      <div class="section-top reveal"><p class="eyebrow">A LOOK AROUND</p><span class="section-index">03 / THE PUB</span></div>
+      <div class="pub-heading reveal"><h2 id="pub-title">Take your usual seat.</h2><p>Inside at the bar or out on the patio.<br> Been coming for years? You’ve probably got a favorite.</p></div>
+      <div class="gallery">
+        <button class="gallery-image gallery-wide reveal" data-photo="taps" aria-label="Enlarge the draft beer taps photo"><img src="assets/taps.webp" alt="The row of draft beer taps behind the bar at Buffalo Joe’s" width="1200" height="582" loading="lazy"><span>BEHIND THE BAR <span aria-hidden="true">↗</span></span></button>
+        <button class="gallery-image gallery-tall reveal" data-photo="patio" aria-label="Enlarge the patio photo"><img src="assets/patio.webp" alt="A pint of beer on a patio table at Buffalo Joe’s" width="960" height="1200" loading="lazy"><span>OUT ON THE PATIO <span aria-hidden="true">↗</span></span></button>
+        <button class="gallery-image gallery-detail reveal" data-photo="fries" aria-label="Enlarge the loaded waffle fries photo"><img src="assets/fries.webp" alt="Loaded waffle fries covered in melted cheese at Buffalo Joe’s" width="1200" height="582" loading="lazy"><span>FOR THE TABLE <span aria-hidden="true">↗</span></span></button>
+      </div>
+      <div class="pub-bottom reveal"><p>3338 NE LOOP 286 <span aria-hidden="true">✦</span> PARIS, TEXAS</p><a class="text-link" href="https://www.facebook.com/buffalojoesclub" target="_blank" rel="noopener">More from around here <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="visit-section" id="visit" aria-labelledby="visit-title">
+      <div class="visit-copy section-pad reveal"><p class="eyebrow">YOU KNOW THE WAY</p><h2 id="visit-title">We’re on<br> the loop.</h2><address>3338 NE Loop 286<br> Paris, Texas 75460</address><a class="button button-red" href="https://www.google.com/maps/dir/?api=1&destination=Buffalo+Joe%27s+Pub+3338+NE+Loop+286+Paris+TX" target="_blank" rel="noopener">Get directions <span aria-hidden="true">↗</span></a><div class="visit-contact"><div><h3>Give us a ring</h3><a href="tel:+14302286130">(430) 228-6130 <span aria-hidden="true">↗</span></a></div><div><h3>Before heading over</h3><p>Call for today’s hours<br> and show details.</p></div></div></div>
+      <div class="visit-map"><iframe title="Buffalo Joe’s Pub location on Google Maps" src="https://maps.google.com/maps?q=Buffalo%20Joe%27s%20Pub%203338%20NE%20Loop%20286%20Paris%20TX&t=&z=15&ie=UTF8&iwloc=&output=embed" width="700" height="700" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><a class="map-card" href="https://www.google.com/maps/search/?api=1&query=Buffalo+Joe%27s+Pub+3338+NE+Loop+286+Paris+TX" target="_blank" rel="noopener"><span class="map-pin" aria-hidden="true">✦</span><span>BUFFALO JOE’S<small>3338 NE LOOP 286 · PARIS, TX</small></span><span aria-hidden="true">↗</span></a></div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="footer-top"><a class="footer-wordmark" href="#top">BUFFALO JOE’S<span>PARIS, TEXAS</span></a><div class="footer-social"><a href="https://www.facebook.com/buffalojoesclub" target="_blank" rel="noopener">Facebook ↗</a><a href="https://www.instagram.com/buffalojoesptx/" target="_blank" rel="noopener">Instagram ↗</a><a href="tel:+14302286130">Call the pub ↗</a></div><a class="back-top" href="#top" aria-label="Back to top">↑</a></div><div class="footer-bottom"><span>Independent design preview by SafiSolutions.<br class="mobile-break"> Not the official Buffalo Joe’s website.</span><button id="open-credits">Photos &amp; information</button></div></footer>
+
+  <dialog class="lightbox" id="photo-dialog" aria-label="Photo viewer"><button class="dialog-close" aria-label="Close photo viewer">✕</button><button class="photo-prev" aria-label="Previous photo">←</button><figure><img id="lightbox-image" alt=""><figcaption id="lightbox-caption"></figcaption></figure><button class="photo-next" aria-label="Next photo">→</button><span class="photo-counter" aria-live="polite"></span></dialog>
+  <dialog class="info-dialog" id="credits-dialog" aria-labelledby="credits-title"><button class="dialog-close" aria-label="Close photo and information credits">✕</button><p class="eyebrow">ABOUT THIS PREVIEW</p><h2 id="credits-title">The real Joe’s.</h2><p>This is an independent design concept. Venue photography, the existing logo and show artwork are presented to demonstrate a possible redesign; they belong to their respective owners.</p><ul><li><a href="https://www.buffalojoesclub.com/" target="_blank" rel="noopener">Buffalo Joe’s website</a> — original logo, founding year, award announcement and archived show posters.</li><li><a href="https://www.buffalojoesclub.com/product/buffalo-burger/277" target="_blank" rel="noopener">Buffalo Burger listing</a> — featured item and listed price.</li><li><a href="https://www.mapquest.com/us/texas/buffalo-joes-pub-346397113" target="_blank" rel="noopener">Venue photos via MapQuest / Yelp contributors</a> — patio, beer taps and loaded fries.</li><li><a href="https://www.restaurantji.com/tx/paris/buffalo-joes-pub-/" target="_blank" rel="noopener">Restaurantji contributors</a> — burger photo and photographed menus.</li><li><a href="https://buffalojoesparis.com/" target="_blank" rel="noopener">Buffalo Joe’s Paris listing</a> — phone number and address.</li></ul><p class="credits-note">Hours vary between published listings, so this preview invites guests to call. Previous shows are labeled as an archive. This page does not accept orders or reservations.</p></dialog>
+</body>
+</html>
