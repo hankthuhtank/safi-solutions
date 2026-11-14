@@ -5,6 +5,8 @@ import type { Track } from "../types";
 export interface Band {
   id: string;
   name: string;
+  /** which shelf of the record cabinet it sits on (filled in below) */
+  shelf?: string;
   note: string;
   /** Openverse search used to extend the band with live finds */
   query: string;
@@ -38,6 +40,24 @@ export const BANDS: Band[] = [
   { id: "sleep", name: "Sleep", note: "Low, soft and slow.", query: "sleep ambient" },
   { id: "relaxing", name: "Relaxing Instrumentals", note: "Calm instrumental music for any time.", query: "relaxing instrumental" },
   {
+    id: "savepoint",
+    name: "Save Point",
+    note: "The music of the resting place in a role-playing game: the inn, the campfire, the crystal where you save. Guitar, harp, music box and soft strings, mostly from Komiku's scores for adventures that were never made (CC0), with Kevin MacLeod's quietest pieces.",
+    query: "rpg calm fantasy",
+  },
+  {
+    id: "tavern",
+    name: "Tavern & Village",
+    note: "Lutes, whistles and fiddles: the town you walk into at the end of the road, and the room with the fire where everyone ends up.",
+    query: "medieval tavern folk",
+  },
+  {
+    id: "overworld",
+    name: "Overworld",
+    note: "Setting out across the map. Unhurried adventure themes from Komiku and Kevin MacLeod, with Visager's chiptune worlds among them.",
+    query: "adventure fantasy chiptune",
+  },
+  {
     id: "christmas",
     name: "Christmas",
     note: "Carols old and new: Kevin MacLeod's arrangements, two jazzy ones from Maou-damashii, and genuine records from 1906 to 1925, public domain in the United States. Surface noise included.",
@@ -50,6 +70,20 @@ export const BANDS: Band[] = [
     query: "spooky halloween",
   },
 ];
+
+/** The bands, shelved the way a record shop would: so twenty-one of them are still easy to scan. */
+export const SHELVES: { name: string; bands: string[] }[] = [
+  { name: "Jazz", bands: ["kissa", "jazzcafe", "vintage"] },
+  { name: "Quest", bands: ["savepoint", "tavern", "overworld"] },
+  { name: "Keys and strings", bands: ["piano", "classical", "acoustic", "relaxing"] },
+  { name: "Beats", bands: ["lofi", "chillhop", "downtempo", "synthwave"] },
+  { name: "Stillness", bands: ["ambient", "space", "meditation", "nature", "sleep"] },
+  { name: "Seasons", bands: ["christmas", "halloween"] },
+];
+for (const s of SHELVES) for (const id of s.bands) {
+  const b = BANDS.find((x) => x.id === id);
+  if (b) b.shelf = s.name;
+}
 
 export const BAND_BY_ID = new Map(BANDS.map((b) => [b.id, b]));
 

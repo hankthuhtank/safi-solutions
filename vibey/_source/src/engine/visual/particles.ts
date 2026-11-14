@@ -20,6 +20,8 @@ uniform vec2 uWind;
 uniform float uAmount;
 uniform vec2 uCam;
 uniform float uNearMax;   // < 1 keeps weather outside a window: only far, small particles
+uniform vec4 uStir;       // touch: pointer (screen), reach, strength: a hand moving through the air
+uniform vec3 uLure;       // touch: pointer (screen), strength: fireflies come to look
 out vec2 vLocal;
 out float vAlpha;
 out float vNear;
@@ -30,6 +32,15 @@ vec2 corner() { return vec2(float(gl_VertexID & 1), float((gl_VertexID >> 1) & 1
 vec2 toImage(vec2 s) { return s * uCover.xy + uCover.zw; }
 vec4 clipFromScreen(vec2 s) { return vec4(s.x * 2.0 - 1.0, 1.0 - s.y * 2.0, 0.0, 1.0); }
 vec3 sceneAt(vec2 s) { return textureLod(uBase, toImage(s), 4.0).rgb; }
+// whatever is falling parts around a moving hand; nearer things are pushed further
+vec2 stir(vec2 p, float near) {
+  if (uStir.w <= 0.001) return p;
+  float asp = uRes.x / uRes.y;
+  vec2 d = (p - uStir.xy) * vec2(asp, 1.0);
+  float r = length(d);
+  float k = smoothstep(uStir.z, 0.0, r);
+  return p + (d / max(r, 1e-4)) * vec2(1.0 / asp, 1.0) * k * k * uStir.z * 0.7 * uStir.w * (0.3 + 0.7 * near);
+}
 `;
 
 const FS_HEADER = /* glsl */ `#version 300 es
@@ -63,6 +74,8 @@ export type ParticleKind =
   | "marine"
   | "headlights"
   | "stars"
+  | "burst"
+  | "puff"
   | "streaks";
 
 interface KindDef {
@@ -72,6 +85,68 @@ interface KindDef {
   /** instances at amount 1 for a 1.0 quality density */
   base: number;
 }
+
+const BURST_VS = /* glsl */ `
+uniform vec4 uBurstA; // origin (screen), age, life
+uniform vec4 uBurstB; // spread, gravity (+ falls), size at 1080p, shape
+uniform vec4 uBurstC; // tint rgb, how much of the scene's own colour to take
+uniform vec4 uBurstD; // lift, wind carry, flutter, depth at the origin
+out float vShape;
+out float vSeed;
+void main() {
+  vec2 c = corner();
+  float age = uBurstA.z;
+  float life = uBurstA.w * (0.5 + 0.5 * aSeed.w);
+  float k = age / life;
+  if (k >= 1.0 || age < 0.0) { gl_Position = vec4(2.0, 2.0, 0.0, 1.0); return; }
+  float ang = aSeed.x * 6.2832;
+  float sp = uBurstB.x * (0.2 + 0.8 * aSeed.y);
+  // thrown out fast, then the air takes over
+  float travel = (1.0 - exp(-age * 2.8)) / 2.8;
+  vec2 v = vec2(cos(ang), sin(ang) * 0.75 - uBurstD.x) * sp;
+  vec2 p = uBurstA.xy + vec2(v.x * uRes.y / uRes.x, v.y) * travel;
+  p.y += 0.5 * uBurstB.y * age * age * (0.6 + 0.8 * aSeed.z);
+  p.x += uWind.x * 0.06 * age * uBurstD.y + sin(age * (2.5 + 4.0 * aSeed.z) + aSeed.x * 20.0) * 0.007 * uBurstD.z * min(1.0, age * 2.0);
+  float size = uBurstB.z * (0.45 + 1.1 * aSeed.z * aSeed.z) * (uRes.y / 1080.0);
+  float spin = aSeed.y * 6.2832 + age * (aSeed.w - 0.5) * 9.0 * uBurstD.z;
+  vec2 q = (c - 0.5) * 2.0 * size;
+  if (uBurstB.w > 1.5 && uBurstB.w < 2.5) {
+    // a leaf or petal: a thin thing turning over as it falls
+    q.x *= 0.3 + 0.7 * abs(cos(age * (2.0 + 3.0 * aSeed.x) + aSeed.w * 6.0));
+    q = mat2(cos(spin), -sin(spin), sin(spin), cos(spin)) * q;
+  }
+  vec2 px = p * uRes + q;
+  vSuv = px / uRes;
+  vLocal = c;
+  vNear = uBurstD.w;
+  vShape = uBurstB.w;
+  vSeed = aSeed.w;
+  vec3 sc = sceneAt(uBurstA.xy);
+  // a little lighter than where it came from, or a leaf would vanish against its own tree
+  vTint = mix(uBurstC.rgb, sc * 1.45 + 0.1, uBurstC.w) * (0.85 + 0.45 * aSeed.x);
+  vAlpha = smoothstep(0.0, 0.05, k) * (1.0 - smoothstep(0.55, 1.0, k));
+  gl_Position = clipFromScreen(vSuv);
+}`;
+const BURST_FS = /* glsl */ `
+in float vShape;
+in float vSeed;
+void main() {
+  vec2 p = (vLocal - 0.5) * 2.0;
+  float r = length(p);
+  float a;
+  float shade = 1.0;
+  if (vShape < 0.5) a = exp(-r * r * 5.5) + 0.35 * exp(-r * r * 1.6);                       // a spark, a mote of light
+  else if (vShape < 1.5) a = smoothstep(0.62, 0.84, r) * (1.0 - smoothstep(0.86, 1.0, r)) * 0.8
+                           + 0.55 * exp(-dot(p - vec2(-0.32, -0.36), p - vec2(-0.32, -0.36)) * 26.0); // a bubble: rim and glint
+  else if (vShape < 2.5) {
+    // a leaf or a petal: pointed at both ends, a darker midrib, lit a little unevenly
+    float w = (1.0 - p.y * p.y) * (0.4 + 0.12 * vSeed);
+    a = 1.0 - smoothstep(-0.07, 0.07, abs(p.x) - w);
+    shade = mix(0.7, 1.06, smoothstep(0.0, 0.14, abs(p.x))) * (0.88 + 0.22 * p.y);
+  } else a = 1.0 - smoothstep(0.35, 1.0, r);                                                  // droplet, snow
+  a *= vAlpha * (1.0 - hidden());
+  outColor = vec4(vTint * shade * a, a);
+}`;
 
 const KINDS: Record<ParticleKind, KindDef> = {
   rain: {
@@ -89,7 +164,7 @@ void main() {
   float y = fract(t) * 1.25 - 0.12;
   float slant = uWind.x * 0.32;
   float x = fract(aSeed.x + hash(vec2(cycle, aSeed.w)) * 0.37 + slant * y);
-  vec2 center = vec2(x, y);
+  vec2 center = stir(vec2(x, y), near);
   vec2 dir = normalize(vec2(slant * uRes.x, uRes.y));
   vec2 perp = vec2(-dir.y, dir.x);
   float lenPx = mix(16.0, 118.0, near * near) * (uRes.y / 1080.0) * (0.7 + 0.6 * aSeed.w);
@@ -139,6 +214,9 @@ void main() {
   float spiral = mix(0.0015, 0.011, near) * uSpeed;
   float x = fract(aSeed.x + hash(vec2(cycle, aSeed.w)) * 0.21 + uWind.x * 0.22 * y * (0.4 + near) + gust * 0.09 * (0.3 + near)) + sin(ph) * spiral;
   y += cos(ph) * spiral * 0.6;
+  vec2 st = stir(vec2(x, y), near);
+  x = st.x;
+  y = st.y;
   float px1080 = uRes.y / 1080.0;
   float size = mix(1.3, 7.5, pow(near, 1.7)) * px1080 * (0.65 + 0.7 * hash(aSeed.zw));
   size = mix(size, mix(22.0, 64.0, hash(aSeed.yw)) * px1080, bokeh);
@@ -196,6 +274,9 @@ void main() {
   float y = fract(t) * 1.25 - 0.12;
   float drift = sin(uTime * (0.35 + 0.3 * aSeed.w) + aSeed.x * 31.0) * 0.05;
   float x = fract(aSeed.x + hash(vec2(cycle, 3.0)) * 0.3 + uWind.x * 0.25 * y + drift * near);
+  vec2 st = stir(vec2(x, y), near);
+  x = st.x;
+  y = st.y;
   float size = mix(8.0, 30.0, near * near) * (uRes.y / 1080.0) * (0.8 + 0.4 * aSeed.w);
   float ang = uTime * (0.6 + aSeed.w) + aSeed.x * 12.0;
   float flip = cos(uTime * (1.1 + aSeed.z) + aSeed.y * 9.0);
@@ -253,6 +334,9 @@ void main() {
   float gust = vnoise(vec2(uTime * 0.12 + y, cycle + aSeed.x * 3.0)) - 0.5;
   float x = fract(aSeed.x + hash(vec2(cycle, 5.0)) * 0.37 + uWind.x * 0.3 * y * (0.5 + near) + gust * 0.1 * (0.3 + near)) + sin(ph) * amp;
   y += amp * 0.6 * cos(2.0 * ph) * (uRes.x / uRes.y);
+  vec2 st = stir(vec2(x, y), near);
+  x = st.x;
+  y = st.y;
   float px1080 = uRes.y / 1080.0;
   float size = mix(10.0, 64.0, near * near) * px1080 * (0.75 + 0.5 * hash(aSeed.zw));
   bool tumbler = fract(aSeed.w * 13.7) > 0.82;
@@ -343,6 +427,7 @@ void main() {
   vec2 p = aSeed.xy + vec2(vnoise(vec2(uTime * 0.035, aSeed.w * 30.0)) - 0.5, vnoise(vec2(aSeed.w * 30.0, uTime * 0.03)) - 0.5) * 0.12;
   p.y = fract(p.y + uTime * 0.0035 * (0.5 + aSeed.w));
   p.x = fract(p.x + uWind.x * uTime * 0.002);
+  p = stir(p, near);
   float size = max(1.0, mix(1.4, 5.0, near * near) * (uRes.y / 1080.0));
   vec2 px = p * uRes + (c - 0.5) * size * 3.0;
   vSuv = px / uRes;
@@ -371,6 +456,12 @@ void main() {
   float near = 1.0 - aSeed.z;
   vec2 home = vec2(aSeed.x, mix(0.55, 0.97, aSeed.y));
   vec2 p = home + vec2(vnoise(vec2(uTime * 0.09, aSeed.w * 20.0)) - 0.5, vnoise(vec2(aSeed.w * 20.0, uTime * 0.07)) - 0.5) * 0.09;
+  // a still hand draws them in: each keeps its own orbit around it, the nearest ones closest
+  vec2 toHand = uLure.xy - p;
+  float pullR = length(toHand * vec2(uRes.x / uRes.y, 1.0));
+  float orbit = 0.035 + 0.05 * aSeed.w;
+  vec2 around = vec2(cos(uTime * (0.5 + aSeed.x) + aSeed.y * 40.0), sin(uTime * (0.4 + aSeed.w) + aSeed.x * 30.0)) * orbit * vec2(uRes.y / uRes.x, 1.0);
+  p = mix(p, uLure.xy + around, uLure.z * smoothstep(0.42, 0.05, pullR) * 0.85);
   float size = mix(3.0, 9.0, near) * (uRes.y / 1080.0);
   vec2 px = p * uRes + (c - 0.5) * size * 4.0;
   vSuv = px / uRes;
@@ -432,6 +523,7 @@ void main() {
   p += vec2(vnoise(vec2(uTime * 0.05, aSeed.w * 13.0)) - 0.5, vnoise(vec2(aSeed.w * 13.0, uTime * 0.04)) - 0.5) * 0.08;
   p.y = fract(p.y - uTime * 0.004 * (0.3 + aSeed.w));
   p.x = fract(p.x + uTime * 0.0025 * near);
+  p = stir(p, near);
   float size = mix(1.2, 9.0, pow(near, 3.0)) * (uRes.y / 1080.0);
   vec2 px = p * uRes + (c - 0.5) * size * 3.0;
   vSuv = px / uRes;
@@ -507,6 +599,10 @@ void main() {
   outColor = vec4(vTint * a, a);
 }`,
   },
+  // touch: things thrown up by a tap (sparks, stardust, bubbles) ...
+  burst: { base: 64, additive: true, vs: BURST_VS, fs: BURST_FS },
+  // ... and things knocked loose (leaves, snow off a branch, drops of water), lit by the place
+  puff: { base: 64, additive: false, vs: BURST_VS, fs: BURST_FS },
   // one-off streaks (meteors, aircraft lights), driven by uniforms from the event scheduler
   streaks: {
     base: 2,
@@ -556,6 +652,10 @@ export interface ParticleUniforms {
   base: WebGLTexture;
   mapsA: WebGLTexture;
   mapsC: WebGLTexture;
+  /** touch: pointer x, y (screen 0..1), reach, strength */
+  stir?: [number, number, number, number];
+  /** touch: pointer x, y (screen 0..1), strength */
+  lure?: [number, number, number];
 }
 
 export class Particles {
@@ -608,6 +708,8 @@ export class Particles {
       .f("uHasMaps", u.hasMaps ? 1 : 0)
       .f("uOcclusion", u.occlusion)
       .f("uNearMax", u.nearMax)
+      .f("uStir", ...(u.stir ?? [0, 0, 0.1, 0]))
+      .f("uLure", ...(u.lure ?? [0, 0, 0]))
       .tex("uBase", 0, u.base)
       .tex("uMapsA", 1, u.mapsA)
       .tex("uMapsC", 2, u.mapsC);

@@ -72,6 +72,8 @@ export interface Settings {
   openverse: boolean;
   hideAfter: number;
   keepAwake: boolean;
+  /** the picture answers a touch: water rings, branches shake, lamps stutter */
+  touch: boolean;
 }
 
 export interface State {
@@ -171,6 +173,16 @@ export const BUILT_IN_PRESETS: Preset[] = [
     playlist: "band:acoustic",
   },
   {
+    id: "p-save-point",
+    name: "Save Point",
+    builtIn: true,
+    scene: "mountain-cabin",
+    variation: "lodge-night",
+    fx: { fire: 1, glow: 0.7, snow: 0.4 },
+    mix: { fireplace: 0.8, wind: 0.4, snowstorm: 0.3, room: 0.3 },
+    playlist: "band:savepoint",
+  },
+  {
     id: "p-halloween-night",
     name: "Hallowe'en Night",
     builtIn: true,
@@ -219,6 +231,7 @@ const DEFAULT: State = {
     openverse: true,
     hideAfter: 5,
     keepAwake: true,
+    touch: true,
   },
   panel: null,
   tv: false,

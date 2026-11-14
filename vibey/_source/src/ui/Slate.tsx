@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { CATEGORIES } from "../data/scenes";
+import { CATEGORIES, resolveFx } from "../data/scenes";
 import { getState, sceneOf, useStore } from "../state/store";
+import { touchables } from "./Stage";
 import { useNow } from "./hooks";
 
 const CAT = new Map(CATEGORIES.map((c) => [c.id, c.label]));
@@ -33,8 +34,14 @@ export function Slate() {
   const variationId = useStore((s) => s.variation);
   const h24 = useStore((s) => s.settings.clock24);
   const show = useStore((s) => s.settings.clockShow);
+  const touch = useStore((s) => s.settings.touch);
+  const overrides = useStore((s) => s.fx);
   const now = useNow(5000);
   const { scene, variation } = useMemo(() => sceneOf(getState()), [sceneId, variationId]);
+  const things = useMemo(
+    () => (touch ? touchables(variation, resolveFx(scene, variation, overrides[scene.id] ?? {})) : []),
+    [touch, scene, variation, overrides],
+  );
   const tz = variation.timeZone ?? scene.timeZone;
   const coords = variation.coords ?? scene.coords;
   const time = tz && show !== "off" ? localTime(now, tz, h24) : null;
@@ -61,6 +68,12 @@ export function Slate() {
         ) : null}
         {coords ? <span className="tnum">{fmtCoords(coords)}</span> : null}
       </p>
+      {things.length ? (
+        <p className="slate-touch caps" key={`t/${scene.id}/${variation.id}`}>
+          <span className="slate-touch-mark" aria-hidden="true" />
+          Touch {things.join(" · ")}
+        </p>
+      ) : null}
     </header>
   );
 }

@@ -62,6 +62,12 @@ export function SettingsPanel() {
           onChange={(motion) => setSettings({ motion })}
         />
         <p className="fine">Reduced motion stops the camera drift and the lightning flashes, and makes changes gentler. Rain and snow still fall.</p>
+        <Toggle
+          label="Touch the picture"
+          hint="Tap water and it rings, a branch and it shakes, a lamp and it stutters, the night sky and a star falls. Drag across wet glass to wipe it; after dark your pointer carries a lantern."
+          checked={st.touch}
+          onChange={(v) => setSettings({ touch: v })}
+        />
       </Section>
       <Section title="Controls">
         <Seg
@@ -101,7 +107,7 @@ export function SettingsPanel() {
           Credits & licences
         </button>
         <button className="btn" onClick={() => openPanel("help")}>
-          Keyboard shortcuts
+          Keyboard & touch
         </button>
       </div>
       <Section title="Your data">
@@ -275,8 +281,19 @@ export function HelpPanel() {
     ["P  U  X  S", "Places, music, mix, scene"],
     ["Esc", "Close a panel or leave TV mode"],
   ];
+  const touch: [string, string][] = [
+    ["Water", "Tap for rings; drag to leave a wake"],
+    ["Trees", "Tap or brush a branch: it shakes and lets go of leaves, petals or snow"],
+    ["Sky", "By day a gust of wind, in a storm a strike of lightning, at night a falling star"],
+    ["Lamps", "Tap one and it stutters and comes back"],
+    ["Fire", "Tap to stoke it"],
+    ["Wet glass", "Drag a finger across the pane"],
+    ["Anywhere", "A ring of light travels out through the depth of the picture"],
+    ["After dark", "Your pointer carries a lantern; fireflies come to it"],
+    ["Rain, snow", "Move through it and it parts around your hand"],
+  ];
   return (
-    <Panel title="Keyboard">
+    <Panel title="Keyboard & touch">
       <dl className="keys-list">
         {rows.map(([k, d]) => (
           <div key={k} className="keys-row">
@@ -285,6 +302,16 @@ export function HelpPanel() {
           </div>
         ))}
       </dl>
+      <Section title="Touch the picture">
+        <dl className="keys-list">
+          {touch.map(([k, d]) => (
+            <div key={k} className="keys-row">
+              <dt>{k}</dt>
+              <dd>{d}</dd>
+            </div>
+          ))}
+        </dl>
+      </Section>
     </Panel>
   );
 }

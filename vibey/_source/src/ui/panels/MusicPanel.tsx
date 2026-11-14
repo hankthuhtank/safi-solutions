@@ -1,4 +1,4 @@
-import { BANDS, BAND_BY_ID, SOURCE_NAMES } from "../../data/music";
+import { BANDS, BAND_BY_ID, SHELVES, SOURCE_NAMES } from "../../data/music";
 import { music } from "../../engine/audio/Music";
 import { choosePlaylist, playlistName, start } from "../../state/controllers";
 import { setLevels, setState, toggleFavoriteTrack, useStore } from "../../state/store";
@@ -6,6 +6,7 @@ import type { Track } from "../../types";
 import { ExtLink, Fader, Panel, Section, Seg } from "../controls";
 import { fmtTime, useMusic, useTrackTime } from "../hooks";
 import { Next, Pause, Play, Prev, Repeat, Shuffle, Star } from "../icons";
+import { Spectrum } from "../Spectrum";
 
 export function MusicPanel() {
   const m = useMusic();
@@ -53,6 +54,8 @@ export function MusicPanel() {
           </button>
         ) : null}
       </div>
+
+      <Spectrum />
 
       <div className="seek">
         <span className="tnum">{fmtTime(t.position)}</span>
@@ -128,13 +131,20 @@ export function MusicPanel() {
             <span className="band-name">Recently played</span>
             <span className="band-note tnum">{recent.length === 1 ? "1 track" : `${recent.length} tracks`}</span>
           </button>
-          {BANDS.map((b) => (
-            <button key={b.id} className={`band${playlist === `band:${b.id}` ? " on" : ""}`} onClick={() => choosePlaylist(`band:${b.id}`)} title={b.note}>
-              <span className="band-name">{b.name}</span>
-              <span className="band-note">{b.note}</span>
-            </button>
-          ))}
         </div>
+        {SHELVES.map((shelf) => (
+          <div className="shelf" key={shelf.name}>
+            <h4 className="shelf-name caps">{shelf.name}</h4>
+            <div className="bands">
+              {BANDS.filter((b) => b.shelf === shelf.name).map((b) => (
+                <button key={b.id} className={`band${playlist === `band:${b.id}` ? " on" : ""}`} onClick={() => choosePlaylist(`band:${b.id}`)} title={b.note}>
+                  <span className="band-name">{b.name}</span>
+                  <span className="band-note">{b.note}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
         {band ? <p className="fine">{band.note}</p> : null}
       </Section>
 

@@ -104,6 +104,13 @@ export class AudioEngine {
     return Math.sqrt(s / this.meterData.length);
   }
 
+  /** Frequency magnitudes of the final mix into `out`, for the spectrum display. */
+  spectrum(out: Uint8Array<ArrayBuffer>) {
+    if (!this.ctx || this.ctx.state !== "running") return null;
+    this.analyser.getByteFrequencyData(out);
+    return { bins: Math.min(out.length, this.analyser.frequencyBinCount), nyquist: this.ctx.sampleRate / 2 };
+  }
+
   get now() {
     return this.ctx?.currentTime ?? 0;
   }

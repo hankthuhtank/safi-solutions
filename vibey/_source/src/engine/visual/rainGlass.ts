@@ -23,6 +23,13 @@ export class RainGlass {
   private readonly mist: HTMLCanvasElement;
   private readonly mistCtx: CanvasRenderingContext2D;
   private readonly sprite: HTMLCanvasElement;
+  /** Where a finger has wiped: the glass is clear there until the damp creeps back. */
+  readonly wiped: HTMLCanvasElement;
+  private readonly wipedCtx: CanvasRenderingContext2D;
+  private wipedFade = 0;
+  private wipedInk = 0;
+  /** set when `wiped` changed and needs uploading again */
+  wipedDirty = true;
   private drops: Drop[] = [];
   private grid = new Map<number, Drop[]>();
   private mistTimer = 0;
@@ -34,11 +41,16 @@ export class RainGlass {
     this.canvas = document.createElement("canvas");
     this.mist = document.createElement("canvas");
     this.sprite = makeSprite(64);
+    this.wiped = document.createElement("canvas");
+    this.wiped.width = 320;
+    this.wiped.height = 180;
     const ctx = this.canvas.getContext("2d", { alpha: true });
     const mistCtx = this.mist.getContext("2d", { alpha: true });
-    if (!ctx || !mistCtx) throw new Error("2D canvas is not available");
+    const wipedCtx = this.wiped.getContext("2d", { alpha: true });
+    if (!ctx || !mistCtx || !wipedCtx) throw new Error("2D canvas is not available");
     this.ctx = ctx;
     this.mistCtx = mistCtx;
+    this.wipedCtx = wipedCtx;
     this.resize(width, height);
   }
 
@@ -113,6 +125,21 @@ export class RainGlass {
       m.globalCompositeOperation = "destination-out";
       m.fillStyle = `rgba(0,0,0,${0.02 + 0.03 * (1 - this.intensity)})`;
       m.fillRect(0, 0, this.width, this.height);
+    }
+
+    // a wiped pane mists over again in about a quarter of a minute
+    if (this.wipedInk > 0) {
+      this.wipedFade += dt;
+      if (this.wipedFade > 0.4) {
+        this.wipedFade = 0;
+        this.wipedInk -= 1;
+        const w = this.wipedCtx;
+        w.globalCompositeOperation = "destination-out";
+        w.fillStyle = "rgba(0,0,0,0.055)";
+        w.fillRect(0, 0, this.wiped.width, this.wiped.height);
+        if (this.wipedInk <= 0) w.clearRect(0, 0, this.wiped.width, this.wiped.height);
+        this.wipedDirty = true;
+      }
     }
 
     const slideAt = 5.2 * k;
@@ -220,7 +247,114 @@ export class RainGlass {
     }
   }
 
+  /**
+   * A finger drawn across the pane (coordinates 0..1). It clears the mist, gathers the drops in its
+   * path, and leaves the water it collected as a few heavy beads at the lower edge, which then run.
+   */
+  wipe(x0: number, y0: number, x1: number, y1: number, radius = 0.045) {
+    const W = this.width;
+    const H = this.height;
+    const ax = x0 * W;
+    const ay = y0 * H;
+    const bx = x1 * W;
+    const by = y1 * H;
+    const r = radius * H;
+    const m = this.mistCtx;
+    m.globalCompositeOperation = "destination-out";
+    m.globalAlpha = 1;
+    m.strokeStyle = "#000";
+    m.lineCap = "round";
+    m.lineWidth = r * 2;
+    m.beginPath();
+    m.moveTo(ax, ay);
+    m.lineTo(bx, by + 0.01);
+    m.stroke();
+    // the clear band itself, soft at the edges
+    const wc = this.wipedCtx;
+    const ww = this.wiped.width;
+    const wh = this.wiped.height;
+    wc.globalCompositeOperation = "source-over";
+    wc.lineCap = "round";
+    // the stroke's direction rides in the colour, so the film can be combed the way the finger went
+    const sl = Math.hypot((x1 - x0) * ww, (y1 - y0) * wh);
+    const ux = sl > 0.5 ? ((x1 - x0) * ww) / sl : 1;
+    const uy = sl > 0.5 ? ((y1 - y0) * wh) / sl : 0;
+    wc.strokeStyle = `rgb(${Math.round((ux * 0.5 + 0.5) * 255)},${Math.round((uy * 0.5 + 0.5) * 255)},255)`;
+    for (const [k, a] of [
+      [1.25, 0.35],
+      [1.0, 0.6],
+      [0.75, 1],
+    ]) {
+      wc.globalAlpha = a;
+      wc.lineWidth = radius * wh * 2 * k;
+      wc.beginPath();
+      wc.moveTo(x0 * ww, y0 * wh);
+      wc.lineTo(x1 * ww, y1 * wh + 0.01);
+      wc.stroke();
+    }
+    wc.globalAlpha = 1;
+    this.wipedInk = 70;
+    this.wipedDirty = true;
+    const dx = bx - ax;
+    const dy = by - ay;
+    const len2 = dx * dx + dy * dy || 1;
+    // a wet fingertip pushes a ridge of water aside: small beads are left along both edges
+    const len = Math.sqrt(len2);
+    const nx = -dy / len;
+    const ny = dx / len;
+    const kk = this.scale;
+    for (let d = Math.random() * 5 * kk; d < Math.max(len, 1) && this.drops.length < MAX_DROPS - 40; d += (3.5 + Math.random() * 6) * kk) {
+      for (const side of [-1, 1]) {
+        if (Math.random() < 0.3) continue;
+        const off = r * (0.98 + Math.random() * 0.12) * side;
+        this.drops.push({
+          x: ax + (dx * d) / len + nx * off,
+          y: ay + (dy * d) / len + ny * off,
+          r: (1.1 + Math.random() * 1.7) * kk,
+          vy: 0,
+          vx: 0,
+          stick: 1 + Math.random() * 3,
+          trail: 0,
+          sliding: false,
+          dead: false,
+        });
+      }
+    }
+    let gathered = 0;
+    for (const d of this.drops) {
+      if (d.dead) continue;
+      const t = Math.max(0, Math.min(1, ((d.x - ax) * dx + (d.y - ay) * dy) / len2));
+      const px = ax + dx * t - d.x;
+      const py = ay + dy * t - d.y;
+      if (px * px + py * py < (r * 0.9) * (r * 0.9)) {
+        gathered += d.r * d.r;
+        d.dead = true;
+      }
+    }
+    if (gathered > 0) {
+      const k = this.scale;
+      const beads = Math.min(3, 1 + Math.floor(gathered / (60 * k * k)));
+      for (let i = 0; i < beads && this.drops.length < MAX_DROPS; i++) {
+        this.drops.push({
+          x: bx + (Math.random() - 0.5) * r * 1.6,
+          y: by + r * (0.85 + Math.random() * 0.3),
+          r: Math.min(11 * k, Math.max(3.2 * k, Math.sqrt(gathered / beads) * 0.7)),
+          vy: 30 * k,
+          vx: 0,
+          stick: Math.random() * 0.25,
+          trail: 0,
+          sliding: true,
+          dead: false,
+        });
+      }
+    }
+    return gathered > 0;
+  }
+
   clear() {
+    this.wipedCtx.clearRect(0, 0, this.wiped.width, this.wiped.height);
+    this.wipedInk = 0;
+    this.wipedDirty = true;
     this.drops = [];
     this.mistCtx.clearRect(0, 0, this.width, this.height);
   }

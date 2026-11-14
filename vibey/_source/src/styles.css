@@ -206,6 +206,69 @@ a:hover {
   transition: opacity 2.2s ease;
 }
 
+/* touching the picture: a small word by the pointer names what will answer */
+.stage.touchable {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.touch-tag {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 0 16px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+  will-change: transform;
+}
+
+.touch-tag.on {
+  opacity: 1;
+  transition-duration: 0.18s;
+}
+
+.touch-tag i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--lamp);
+  box-shadow: 0 0 10px rgba(255, 176, 86, 0.55);
+}
+
+.touch-tag.on i {
+  animation: touch-ring 1.6s ease-out infinite;
+}
+
+.touch-tag span {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 560;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(246, 240, 229, 0.92);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes touch-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 176, 86, 0.5), 0 0 10px rgba(255, 176, 86, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgba(255, 176, 86, 0), 0 0 10px rgba(255, 176, 86, 0.55);
+  }
+}
+
+.app.idle .touch-tag,
+.app.off .touch-tag {
+  opacity: 0;
+}
+
 /* ---- the receiver layer ------------------------------------------------------------------- */
 
 .ui {
@@ -330,6 +393,26 @@ a:hover {
   margin: 0 12px 3px -8px;
   border-radius: 50%;
   background: var(--text-3);
+}
+
+/* what answers a touch in this picture */
+.slate-touch {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px !important;
+  font-size: 10px;
+  color: var(--text-2);
+  animation: slate-in 1.1s 0.5s var(--ease) both;
+}
+
+.slate-touch-mark {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--lamp);
+  animation: touch-ring 2.4s ease-out infinite;
 }
 
 @keyframes slate-in {
@@ -1653,6 +1736,57 @@ input[type="checkbox"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* bands, shelved */
+.shelf {
+  margin-top: 14px;
+}
+
+.shelf-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+  padding-left: 11px;
+  font-size: 9.5px;
+  color: var(--text-3);
+}
+
+.shelf-name::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--hair);
+  opacity: 0.6;
+}
+
+/* the spectrum display under the track card */
+.spectrum {
+  margin: 2px 0 12px;
+  padding: 9px 10px 5px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.28));
+  box-shadow:
+    inset 0 1px 0 rgba(0, 0, 0, 0.6),
+    inset 0 0 22px rgba(243, 181, 98, 0.05),
+    0 1px 0 var(--edge-hi);
+}
+
+.spectrum canvas {
+  display: block;
+  width: 100%;
+  height: 46px;
+}
+
+.spectrum-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding: 0 3%;
+  font-size: 8px;
+  color: var(--text-3);
+  letter-spacing: 0.12em;
 }
 
 .tracks {

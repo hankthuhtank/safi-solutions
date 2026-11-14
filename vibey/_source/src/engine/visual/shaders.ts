@@ -80,6 +80,19 @@ uniform vec4 uFireRect;
 uniform float uExposure, uWarmth;
 uniform float uNight, uGlow, uInterior, uWindows, uTwinkle;
 uniform vec2 uGlowAt;
+// touch: what the viewer does to the picture
+uniform vec4 uRipple[6];   // image uv, start time, size (from the depth where it landed)
+uniform int uRippleN;
+uniform vec4 uPulse[4];    // image uv, start time, depth at the touch
+uniform int uPulseN;
+uniform vec4 uShake[4];    // image uv, start time, radius
+uniform int uShakeN;
+uniform vec4 uBlink[4];    // image uv, start time, light id (-1: by distance only)
+uniform int uBlinkN;
+uniform vec4 uLantern;     // image uv, strength, depth under the pointer
+uniform vec3 uAuroraTap;   // x, start time, strength
+uniform float uTouchWet;   // rain-soaked ground takes rings too
+uniform float uTouchAll;   // films of open water: the whole frame is water
 ${NOISE}
 
 vec3 base(vec2 uv) { return texture(uBase, uv).rgb; }
@@ -192,6 +205,9 @@ vec3 livingAurora(vec2 iuv, vec3 col, float skyish) {
   float rays = 0.72 + 0.56 * fbm(vec2(iuv.x * 16.0 - t * 0.16, iuv.y * 1.3 + t * 0.025));
   float wave = 0.86 + 0.28 * sin(iuv.x * 8.5 - t * 0.32 + fbm(iuv * 2.6 + t * 0.01) * 5.0);
   vec3 lit = moved * mix(1.0, rays * wave, uAurora);
+  // touched: a brighter fold runs along the curtain, both ways from the touch
+  float ta = uTime - uAuroraTap.y;
+  lit *= 1.0 + uAuroraTap.z * 1.25 * exp(-pow((abs(iuv.x - uAuroraTap.x) - ta * 0.17) / 0.06, 2.0)) * exp(-ta * 0.6);
   return mix(col, lit, m);
 }
 #endif
@@ -235,7 +251,52 @@ void main() {
   float gw = vnoise(vec2(dot(iuv * vec2(uImgAspect, 1.0), wdir) * 9.0 - uTime * (0.7 + 1.3 * ws), iuv.y * 6.0));
   duv -= wdir * (gw - 0.5) * 0.0007 * D.g * uSway;
 #endif
+  // ---- touch: rings on water, a shaken branch ---------------------------------------------------
+  float tGlint = 0.0;
+  if (uRippleN > 0) {
+#ifdef MAPS
+    float tw = max(max(smoothstep(0.25, 0.9, A.g), C.r * uTouchWet) * (1.0 - still), uTouchAll);
+#else
+    float tw = uTouchAll;
+#endif
+    if (tw > 0.01) {
+      for (int i = 0; i < 6; i++) {
+        if (i >= uRippleN) break;
+        vec4 R = uRipple[i];
+        float age = uTime - R.z;
+        // rings lie flat on the water, so seen from the bank they are ellipses
+        vec2 d = (iuv - R.xy) * vec2(uImgAspect, 2.7);
+        float r = length(d);
+        float front = age * 0.2 * R.w;
+        float width = (0.022 + 0.05 * age) * R.w;
+        float env = exp(-pow((r - front) / width, 2.0)) * exp(-age * 0.85) * smoothstep(0.0, 0.07, age);
+        float wave = sin((r - front) * 125.0 / R.w);
+        vec2 dir = d / max(r, 1e-4);
+        duv += vec2(dir.x / uImgAspect, dir.y / 2.7) * env * wave * R.w * 0.014 * tw;
+        // crests catch the sky, the troughs behind them fall into shade
+        tGlint += env * (max(0.0, wave) - 0.35 * max(0.0, -wave)) * R.w * tw;
+      }
+    }
+  }
+#ifdef MAPS
+  if (uShakeN > 0) {
+    float fol = max(A.b, D.r) * (1.0 - still);
+    if (fol > 0.01) {
+      for (int i = 0; i < 4; i++) {
+        if (i >= uShakeN) break;
+        vec4 S = uShake[i];
+        float age = uTime - S.z;
+        vec2 d = (iuv - S.xy) * vec2(uImgAspect, 1.0);
+        float fall = exp(-dot(d, d) / (S.w * S.w));
+        float ph = vnoise(iuv * vec2(9.0, 6.0)) * 6.2832;
+        float osc = sin(age * 16.0 + ph) * exp(-age * 2.0) + 0.5 * sin(age * 29.0 + ph * 2.0) * exp(-age * 3.2);
+        duv += vec2(osc, 0.3 * osc * sin(ph)) * 0.0034 * fall * fol * smoothstep(0.0, 0.05, age);
+      }
+    }
+  }
+#endif
   vec3 col = base(iuv + duv);
+  col += tGlint * (0.22 + luma(col)) * vec3(0.92, 0.96, 1.0) * 0.55;
 #ifdef SWAY
   col *= 1.0 + (gw - 0.5) * 0.11 * D.g * ws * (0.3 + near);
   // leaves turning in the wind: a faint, quick shimmer on the foliage
@@ -276,6 +337,22 @@ void main() {
   float drop = step(0.94, vnoise(vec2(uTime * (1.4 + h * 2.0), h * 61.0)));
   float buzz = vnoise(vec2(uTime * 37.0, h * 9.0)) - 0.5;
   col *= 1.0 - B.g * uNeon * (drop * 0.5 + buzz * 0.05);
+#endif
+#ifdef MAPS
+  // touch: a tapped lamp stutters, goes dark for a moment and comes back a little brighter
+  for (int i = 0; i < 4; i++) {
+    if (i >= uBlinkN) break;
+    vec4 K = uBlink[i];
+    float age = uTime - K.z;
+    vec2 d = (iuv - K.xy) * vec2(uImgAspect, 1.0);
+    float r2 = dot(d, d);
+    float same = K.w < 0.0 ? smoothstep(0.012, 0.003, r2) : step(abs(D.b - K.w), 0.014) * smoothstep(0.1, 0.03, r2);
+    float f = age < 0.6 ? mix(0.1, 1.0, step(0.56, fract(age * 6.7 + 0.25))) : 1.0 + 0.4 * exp(-(age - 0.6) * 3.2);
+    float m = smoothstep(0.15, 0.6, B.g) * same;
+    col *= mix(1.0, f, m);
+    // and the light it throws dips with it
+    col *= 1.0 - (1.0 - min(f, 1.0)) * 0.24 * exp(-r2 * 26.0) * (1.0 - m);
+  }
 #endif
 #ifdef FIRE
   vec2 fuv = (iuv - uFireRect.xy) / uFireRect.zw;
@@ -342,6 +419,18 @@ void main() {
     float warmHi = smoothstep(0.62, 0.92, lum) * smoothstep(0.08, 0.22, col.r - col.b);
     float emit = clamp(max(max(lights * smoothstep(0.3, 0.75, lum), flame * smoothstep(0.35, 0.8, lum) * warmth), warmHi * 0.85), 0.0, 1.0);
     col = mix(col, mix(dark, col * 1.04, emit), uNight);
+    if (uLantern.z > 0.001) {
+      // touch: a lantern carried through the dark. It lights what is really there (the daytime
+      // photograph), and falls off with depth as well as across the frame.
+      vec2 ld = (iuv - uLantern.xy) * vec2(uImgAspect, 1.0);
+      float dz = near - uLantern.w;
+      float pool = exp(-(dot(ld, ld) * 20.0 + dz * dz * 26.0));
+      float lf = 0.84 + 0.16 * vnoise(vec2(uTime * 7.0, 3.1));
+      vec3 lit = (src + 0.015) * vec3(1.2, 0.93, 0.6);
+      // a lantern indoors does not light the mountains beyond the window
+      float reach = (1.0 - skyM * 0.9) * (1.0 - uInterior * smoothstep(0.25, 0.6, glass));
+      col = mix(col, max(col, lit), clamp(pool * lf * uLantern.z, 0.0, 1.0) * uNight * reach);
+    }
     if (uGlow > 0.0) {
       // firelight: a flickering warm pool from the hearth, or from a fire just out of frame
       float flick = 0.76 + 0.17 * vnoise(vec2(uTime * 6.5, 1.3)) + 0.11 * vnoise(vec2(uTime * 15.0, 7.1));
@@ -353,6 +442,17 @@ void main() {
     }
   }
 #endif
+  // touch: a soft ring of light that travels through the scene's depth, not across the flat picture
+  for (int i = 0; i < 4; i++) {
+    if (i >= uPulseN) break;
+    vec4 P = uPulse[i];
+    float age = uTime - P.z;
+    vec2 d = (iuv - P.xy) * vec2(uImgAspect, 1.0);
+    float dz = (near - P.w) * 1.15;
+    float dist = sqrt(dot(d, d) + dz * dz);
+    float band = exp(-pow((dist - age * 0.4) / (0.018 + 0.035 * age), 2.0)) * exp(-age * 1.45) * smoothstep(0.0, 0.05, age);
+    col += (col * 0.85 + 0.03) * band * vec3(1.0, 0.87, 0.64) * 0.8;
+  }
 #ifdef FLASH
   float spot = exp(-pow((suv.x - uFlashX) / 0.42, 2.0));
   float skyF = A.r;
@@ -374,6 +474,7 @@ uniform sampler2D uScene;   // rendered scene (GL orientation)
 uniform sampler2D uDrops;   // rg normal, b thickness, a coverage (screen orientation, top row first)
 uniform sampler2D uMask;    // glass mask from maps-b.r (image uv)
 uniform sampler2D uReflect; // faint interior reflection
+uniform sampler2D uWiped;   // where a finger has wiped the pane: rg = the way it went, a = how fresh
 uniform vec4 uCover;
 uniform float uFull;        // 1 = whole frame is glass
 uniform float uFocusGlass;  // 1 = camera focused on the glass
@@ -407,11 +508,34 @@ void main() {
   vec3 far = soft(vUv, 3.0);
   // behind the glass: sharp when focused on the street, a lens blur when focused on the glass
   vec3 behind = mix(clear, far, uFocusGlass);
-  // a little condensation between drops
-  behind = mix(behind, far * 1.04 + 0.01, uFogGlass * (1.0 - cov) * mix(0.1, 0.28, uFocusGlass));
+  // a little condensation between drops, except where a finger has just wiped it away
+  vec4 W = texture(uWiped, suv);
+  float wiped = W.a;
+  behind = mix(behind, far * 1.04 + 0.01, uFogGlass * (1.0 - cov) * mix(0.13, 0.28, uFocusGlass) * (1.0 - wiped));
+  if (wiped > 0.004) {
+    // A finger on wet glass does not leave it dry: it leaves a thin film of water, combed into
+    // streaks the way the finger went. The street shows through it bent and a little smeared,
+    // and the ridges of the film catch the light.
+    float asp = uTexel.y / uTexel.x;
+    vec2 along = normalize(W.rg * 2.0 - 1.0 + vec2(1e-3, 0.0));
+    vec2 across = vec2(-along.y, along.x);
+    vec2 q = suv * vec2(asp, 1.0);
+    // streaks a few pixels wide whatever the resolution, long in the direction of the stroke
+    float fine = 1.0 / (9.0 * uTexel.y);
+    float st = vnoise(vec2(dot(q, along) * 4.0, dot(q, across) * fine)) - 0.5;
+    float st2 = vnoise(vec2(dot(q, along) * 9.0 + 4.0, dot(q, across) * fine * 0.31)) - 0.5;
+    vec2 off = across * (st * 0.008 + st2 * 0.014) * wiped;
+    vec2 wuv = vUv + vec2(off.x / asp, -off.y);
+    vec3 smear = mix(mix(sharp(wuv), far, uFocusGlass), soft(wuv, 1.4), 0.3);
+    behind = mix(behind, smear * 1.06, smoothstep(0.0, 0.5, wiped));
+    float ridge = pow(clamp(st * 1.3 + st2 + 0.5, 0.0, 1.0), 4.0);
+    behind += ridge * 0.2 * wiped * (0.2 + luma(far));
+    behind *= 1.0 - (1.0 - ridge) * 0.06 * wiped;
+  }
   // each drop casts a faint shadow just below itself
   float under = smoothstep(0.3, 0.6, texture(uDrops, suv - vec2(0.0, uTexel.y * 5.0)).a);
   behind *= 1.0 - under * (1.0 - cov) * 0.16;
+
   // each drop is a lens: a flipped, minified view of what lies behind it
   vec2 ruv = vUv - vec2(n.x, -n.y) * uRefract * (0.45 + thick * 1.1);
   vec3 thru = mix(soft(ruv, 1.0), sharp(ruv), uFocusGlass) * 1.05 + 0.012;
@@ -443,7 +567,20 @@ uniform float uTime;
 uniform vec2 uRes;
 uniform float uSharpen;
 uniform vec2 uTexel;
+uniform float uHalation;  // glow around the brightest lights, as film and old lenses give
 ${NOISE}
+
+vec3 halo(sampler2D t, vec2 uv) {
+  // five taps of a coarse mip: wide and soft without the blockiness of a single lookup
+  vec2 o = uTexel * 22.0;
+  vec3 b = textureLod(t, uv, 4.0).rgb * 0.36;
+  b += textureLod(t, uv + vec2(o.x, o.y * 0.6), 4.6).rgb * 0.16;
+  b += textureLod(t, uv + vec2(-o.x, o.y * 0.6), 4.6).rgb * 0.16;
+  b += textureLod(t, uv + vec2(o.x * 0.6, -o.y), 4.6).rgb * 0.16;
+  b += textureLod(t, uv + vec2(-o.x * 0.6, -o.y), 4.6).rgb * 0.16;
+  float l = luma(b);
+  return b * smoothstep(0.42, 0.95, l) * vec3(1.0, 0.86, 0.72);
+}
 
 vec3 sampleSharp(sampler2D t, vec2 uv) {
   vec3 c = texture(t, uv).rgb;
@@ -463,6 +600,9 @@ void main() {
     float e = uMix * uMix * (3.0 - 2.0 * uMix);
     col = mix(a, b, e);
     col *= 1.0 - 0.18 * sin(3.14159 * uMix);   // a soft dip through the change
+    if (uHalation > 0.0) col += mix(halo(uA, vUv), halo(uB, vUv), e) * uHalation * (1.0 - 0.5 * luma(col));
+  } else if (uHalation > 0.0) {
+    col += halo(uA, vUv) * uHalation * (1.0 - 0.5 * luma(col));
   }
   vec2 p = vUv - 0.5;
   col *= 1.0 - uVignette * smoothstep(0.35, 0.95, length(p * vec2(1.25, 1.0)));

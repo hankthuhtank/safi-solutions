@@ -43,6 +43,15 @@ water. Depth and semantic maps made for each photograph let the engine move only
 - falling leaves are photo-scanned leaves (ambientCG, CC0) that flutter and tumble in 3D, show their
   paler backs, glow when back-lit and blur near the lens; snow has a shared gust field, spiralling
   flakes, irregular crystals and out-of-focus flakes drifting past the lens;
+- the picture answers a touch, according to what was touched (the same maps say what each pixel
+  is): water rings where it is tapped and keeps a wake behind a dragged finger; a branch shakes and
+  lets go of leaves, petals or snow; a lamp stutters and comes back; the fire can be stoked; a tap on
+  the sky brings a gust by day, a lightning strike in a storm and a falling star at night; a finger
+  drawn across wet glass leaves a combed film of water with beads along its edges; anywhere else a
+  ring of light travels out through the depth of the scene. Rain, snow, leaves and dust part around
+  a moving hand, fireflies gather to a still one, and after dark the pointer carries a lantern that
+  lights what is really there. Each has its own small synthesized sound;
+- the brightest lights bloom a little, the way film halation and old lenses render them;
 - "After dark" grades any place day-for-night, the way film crews do: outdoors falls to moonlight,
   the sky to deep blue with a few stars, while lamps, lit windows and flames keep their glow, and a
   flickering firelight pool can light a room from a hearth in or just out of frame;
@@ -58,7 +67,7 @@ tick and tock carry straight across the loop. Each layer has a level, mute and a
 distance for loops, how often for events. With "Sound follows the picture" on, turning up rain on
 screen turns up the rain you hear.
 
-**Music.** 434 tracks in eighteen bands from the Free Music Archive and the Internet Archive (and a
+**Music.** 553 tracks in twenty-one bands from the Free Music Archive and the Internet Archive (and a
 few hosted here), each
 licence checked (CC0, CC BY, CC BY-SA, US public domain), plus optional live finds from Openverse
 (Jamendo, ccMixter, Wikimedia; CC0/BY/BY-SA only). Two decks with equal-power crossfades,
@@ -71,6 +80,12 @@ gracefully and resumes.
   Mutsuki), with Creative Commons jazz chosen in that spirit. Classic Japanese jazz records are
   still under copyright, so none are included.
 - *Vintage 78s* are genuine 1920–1925 recordings, public domain in the United States.
+- *Save Point*, *Tavern & Village* and *Overworld* are the role-playing-game shelf: the music of the
+  inn and the campfire, of the town at the end of the road, and of setting out across the map.
+  Mostly Komiku's scores for adventure games that were never made (CC0), Kevin MacLeod's medieval
+  and fantasy pieces (CC BY 4.0) and Visager's chiptune *Songs From An Unmade World* (CC BY 4.0).
+  The music panel shows a spectrum display and shelves the bands (Jazz, Quest, Keys and strings,
+  Beats, Stillness, Seasons).
 - *Christmas* and *Hallowe'en* mix Kevin MacLeod's carols and darker pieces (CC BY 4.0) and two jazzy
   Maou-damashii arrangements with genuine 1905–1925 records (Great 78 Project), public domain in the
   United States.
@@ -80,7 +95,7 @@ gracefully and resumes.
 starred, or one category), music band cycling, memory (preset) rotation, and "a random atmosphere".
 
 **Memory.** Save the place, its weather, the sound mix and the band as a memory; recall with 1–9.
-Seven come built in: Rainy Jazz Café, Alpine Morning, Ocean Meditation, Late Night Cyberpunk,
+Eight come built in: Rainy Jazz Café, Alpine Morning, Ocean Meditation, Late Night Cyberpunk, Save Point,
 Christmas Eve, Snowed In and Hallowe'en Night.
 Everything is stored in the browser (localStorage). There are no accounts and nothing is sent
 anywhere.
@@ -109,7 +124,7 @@ vibey/
     music/catalog.json       the music library (stream URLs, licences, loudness gains)
     music/files/             the few tracks hosted here (CC BY 4.0, credited in the catalog)
   _source/                   the app (React + TypeScript + WebGL2 + Web Audio)
-    src/engine/visual/       renderer, shaders, particles, wet glass
+    src/engine/visual/       renderer, shaders, particles, wet glass, touch
     src/engine/audio/        audio engine, ambience mixer, music player
     src/data/                places, sounds, bands
     src/state/               store, controllers and timers

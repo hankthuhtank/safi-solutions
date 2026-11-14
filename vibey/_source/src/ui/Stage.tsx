@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Renderer, type RendererStats } from "../engine/visual/Renderer";
 import { imageUrl, type VariationMedia } from "../engine/visual/media";
 import { ambience } from "../engine/audio/Ambience";
+import { touchSound } from "../engine/audio/touchSounds";
+import type { TouchKind } from "../engine/visual/touch";
 import { MANIFEST, SCENES, resolveFx } from "../data/scenes";
 import type { Fx, Quality, Variation } from "../types";
 import { getState, sceneOf, useStore } from "../state/store";
@@ -82,8 +84,41 @@ export function useReducedMotion() {
   return pref === "reduced" || (pref === "auto" && system);
 }
 
+/** The word that appears by the pointer, naming what the picture will answer with. */
+const TOUCH_LABEL: Record<TouchKind, string | null> = {
+  water: "Water",
+  deep: "Water",
+  sky: "Sky",
+  foliage: "Branches",
+  light: "Light",
+  fire: "Fire",
+  glass: "Wet glass",
+  space: "Stars",
+  ground: null,
+};
+
+/** What can be touched in a picture, for the slate: read off the same maps the engine uses. */
+export function touchables(variation: Variation, fx: Fx): string[] {
+  const m = MANIFEST[variation.dir];
+  if (!m) return [];
+  if (!m.maps) return m.kind === "video" ? ["the water"] : fx.starfield > 0 ? ["the stars"] : [];
+  const c = (m.stats?.coverage ?? {}) as Record<string, number>;
+  const out: string[] = [];
+  if (fx.rainGlass > 0.01 && (fx.glassFull || m.glass)) out.push("the wet glass");
+  if (variation.hearth && fx.fire > 0) out.push("the fire");
+  if (fx.caustics > 0 || fx.marine > 0) out.push("the water");
+  else if ((c.water ?? 0) > 0.04 || ((c.ground ?? 0) > 0.1 && (fx.wet > 0 || fx.rain > 0.15))) out.push("the water");
+  if ((c.foliage ?? 0) > 0.08) out.push("the trees");
+  if ((c.lights ?? 0) > 0.004) out.push("the lamps");
+  if ((c.sky ?? 0) > 0.08) out.push("the sky");
+  return out.slice(0, 4);
+}
+
 export function Stage() {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const stageEl = useRef<HTMLDivElement>(null);
+  const tag = useRef<HTMLDivElement>(null);
+  const touchOn = useStore((s) => s.settings.touch);
   const renderer = useRef<Renderer | null>(null);
   const [fallback, setFallback] = useState(() => !Renderer.supported());
   const [shown, setShown] = useState<string | null>(null);
@@ -130,7 +165,7 @@ export function Stage() {
       return;
     }
     renderer.current = r;
-    if (import.meta.env.DEV) (window as unknown as { __vibey: unknown }).__vibey = r;
+    if (import.meta.env.DEV || new URLSearchParams(location.search).has("debug")) (window as unknown as { __vibey: unknown }).__vibey = r;
     if (r.software) {
       document.documentElement.classList.add("soft");
       r.setQuality("performance");
@@ -180,11 +215,111 @@ export function Stage() {
     return () => window.removeEventListener("pointermove", move);
   }, [reduced, fallback]);
 
+  useEffect(() => {
+    renderer.current?.setTouch(touchOn);
+  }, [touchOn, fallback]);
+
+  // touching the picture: a tap, a drag, or just a hand passing over it
+  useEffect(() => {
+    const el = stageEl.current;
+    if (!el || fallback || !touchOn) return;
+    let down: { x: number; y: number; at: number; moved: boolean } | null = null;
+    let shownKind: TouchKind | null = null;
+    let hideTimer = 0;
+    const at = (e: PointerEvent): [number, number] => {
+      const r = el.getBoundingClientRect();
+      return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height];
+    };
+    const label = (kind: TouchKind | null, e: PointerEvent) => {
+      const t = tag.current;
+      if (!t) return;
+      t.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      if (kind === shownKind) return;
+      shownKind = kind;
+      clearTimeout(hideTimer);
+      const text = kind ? TOUCH_LABEL[kind] : null;
+      if (!text) {
+        t.classList.remove("on");
+        return;
+      }
+      t.lastElementChild!.textContent = text;
+      t.classList.add("on");
+      hideTimer = window.setTimeout(() => t.classList.remove("on"), 1600);
+    };
+    const live = () => {
+      const st = getState();
+      return st.started && !st.asleep && st.dim <= 0;
+    };
+    const onDown = (e: PointerEvent) => {
+      // the first touch switches the receiver on, and a touch wakes it: neither is for the picture
+      if (!live() || e.button !== 0) return;
+      const [x, y] = at(e);
+      down = { x: e.clientX, y: e.clientY, at: performance.now(), moved: false };
+      renderer.current?.stroke();
+      renderer.current?.hover(x, y);
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {
+        /* the pointer is already gone */
+      }
+    };
+    const onMove = (e: PointerEvent) => {
+      const r = renderer.current;
+      if (!r || !live()) return;
+      const [x, y] = at(e);
+      if (e.pointerType === "mouse" || down) r.hover(x, y);
+      if (down) {
+        if (!down.moved && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) down.moved = true;
+        if (down.moved) {
+          const hit = r.touch(x, y, true);
+          if (hit) touchSound(hit);
+        }
+      } else if (e.pointerType === "mouse") label(r.kindAt(x, y), e);
+    };
+    const onUp = (e: PointerEvent) => {
+      const r = renderer.current;
+      if (!down || !r) return;
+      const [x, y] = at(e);
+      if (!down.moved && performance.now() - down.at < 700) {
+        const hit = r.touch(x, y, false);
+        if (hit) touchSound(hit);
+        tag.current?.classList.remove("on");
+      }
+      down = null;
+      r.stroke();
+      if (e.pointerType !== "mouse") r.hover(x, y, false);
+    };
+    const onLeave = (e: PointerEvent) => {
+      if (down) return;
+      renderer.current?.hover(0, 0, false);
+      label(null, e);
+    };
+    const onCancel = () => {
+      down = null;
+      renderer.current?.stroke();
+      renderer.current?.hover(0, 0, false);
+    };
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove, { passive: true });
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointerleave", onLeave);
+    el.addEventListener("pointercancel", onCancel);
+    return () => {
+      clearTimeout(hideTimer);
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointerleave", onLeave);
+      el.removeEventListener("pointercancel", onCancel);
+      renderer.current?.hover(0, 0, false);
+    };
+  }, [fallback, touchOn]);
+
   const m = MANIFEST[variation.dir];
   const first = shown === null;
 
   return (
-    <div className="stage" aria-hidden="true">
+    <div className={`stage${touchOn && !fallback ? " touchable" : ""}`} aria-hidden="true" ref={stageEl}>
       {lqipOn || fallback ? (
         <div
           className="stage-lqip"
@@ -199,6 +334,10 @@ export function Stage() {
       )}
       <div className="stage-static" />
       <div className="stage-shade" style={{ opacity: asleep ? 0.92 : dim * 0.85 }} />
+      <div className="touch-tag" ref={tag}>
+        <i />
+        <span />
+      </div>
     </div>
   );
 }

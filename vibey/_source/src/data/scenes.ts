@@ -171,7 +171,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { dust: 0.6, lamps: 0.45, fog: 0.05, fogColor: [0.6, 0.5, 0.36], drift: 0.3 },
     controls: ["dust", "drift", "light"],
     sounds: { "rain-roof": 0.57, pages: 0.55, clock: 0.45, room: 0.5 },
-    bands: ["classical", "piano", "relaxing"],
+    bands: ["classical", "piano", "relaxing", "tavern"],
   },
   {
     id: "fireplace-rain",
@@ -192,7 +192,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { fire: 0.95, rainGlass: 0.55, lightning: 0.1, lamps: 0.25, drift: 0.3 },
     controls: ["fire", "rainGlass", "lightning", "drift", "light"],
     sounds: { fireplace: 0.8, "rain-window": 0.69, thunder: 0.55, room: 0.41 },
-    bands: ["vintage", "piano", "acoustic"],
+    bands: ["vintage", "piano", "acoustic", "savepoint"],
   },
   {
     id: "mountain-cabin",
@@ -263,7 +263,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { fire: 0.85, snow: 0.6, wind: 0.45, lamps: 0.2, drift: 0.3 },
     controls: ["fire", "glow", "night", "snow", "rain", "wind", "drift", "light"],
     sounds: { fireplace: 0.76, wind: 0.57, snowstorm: 0.45, room: 0.42 },
-    bands: ["acoustic", "piano", "relaxing"],
+    bands: ["acoustic", "savepoint", "piano", "relaxing"],
   },
   {
     id: "christmas",
@@ -335,7 +335,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { clouds: 0.65, sway: 0.5, wind: 0.35, drift: 0.5 },
     controls: ["clouds", "wind", "fireflies", "rain", "night", "drift", "light"],
     sounds: { birds: 0.65, leaves: 0.5, wind: 0.44 },
-    bands: ["acoustic", "nature", "relaxing"],
+    bands: ["acoustic", "tavern", "nature", "relaxing"],
   },
   {
     id: "japanese-garden",
@@ -353,7 +353,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { water: 0.6, clouds: 0.35, sway: 0.3, petals: 0.45, wind: 0.25, drift: 0.4 },
     controls: ["petals", "water", "wind", "rain", "night", "drift", "light"],
     sounds: { river: 0.52, birds: 0.56, chimes: 0.42, shishi: 0.55, bell: 0.55 },
-    bands: ["piano", "nature", "meditation"],
+    bands: ["piano", "nature", "meditation", "savepoint"],
   },
   {
     id: "autumn",
@@ -372,7 +372,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { petals: 0.5, petalKind: "autumn", wind: 0.45, sway: 0.35, clouds: 0.5, drift: 0.45 },
     controls: ["petals", "water", "wind", "clouds", "fog", "rain", "night", "drift", "light"],
     sounds: { wind: 0.52, leaves: 0.6, birds: 0.42, crows: 0 },
-    bands: ["acoustic", "piano", "nature"],
+    bands: ["acoustic", "piano", "tavern", "nature"],
   },
   {
     id: "alpine",
@@ -392,7 +392,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { clouds: 0.7, sway: 0.25, wind: 0.45, drift: 0.55 },
     controls: ["clouds", "fog", "wind", "rain", "lightning", "night", "drift", "light"],
     sounds: { wind: 0.59, birds: 0.52 },
-    bands: ["piano", "nature", "classical"],
+    bands: ["piano", "overworld", "nature", "classical"],
   },
   {
     id: "snowy-forest",
@@ -409,7 +409,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { snow: 0.7, wind: 0.25, sway: 0.12, fog: 0.12, fogColor: [0.82, 0.86, 0.92], drift: 0.45 },
     controls: ["snow", "wind", "fog", "night", "drift", "light"],
     sounds: { wind: 0.57, snowstorm: 0.48 },
-    bands: ["piano", "sleep", "ambient"],
+    bands: ["piano", "savepoint", "sleep", "ambient"],
   },
   {
     id: "halloween",
@@ -456,7 +456,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { rain: 0.5, water: 0.55, sway: 0.4, fog: 0.18, fogColor: [0.62, 0.7, 0.62], drift: 0.45 },
     controls: ["rain", "water", "fog", "wind", "night", "drift", "light"],
     sounds: { "rain-leaves": 0.72, river: 0.61, birds: 0.48, frogs: 0.44 },
-    bands: ["nature", "ambient", "meditation"],
+    bands: ["nature", "overworld", "ambient", "meditation"],
   },
   {
     id: "waterfall",
@@ -490,7 +490,7 @@ const ALL_SCENES: SceneDef[] = [
     fx: { water: 0.7, clouds: 0.5, sway: 0.22, wind: 0.25, drift: 0.5 },
     controls: ["water", "clouds", "wind", "rain", "fog", "night", "drift", "light"],
     sounds: { lake: 0.65, birds: 0.53, wildlife: 0.55 },
-    bands: ["piano", "ambient", "nature"],
+    bands: ["piano", "savepoint", "ambient", "nature"],
   },
   {
     id: "ocean",

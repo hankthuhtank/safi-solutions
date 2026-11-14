@@ -54,6 +54,15 @@ export class Program {
     return this;
   }
 
+  /** An array of vec4 (or vec3) uniforms from one flat buffer. */
+  fv(name: string, size: 3 | 4, v: Float32Array) {
+    const l = this.loc(name);
+    if (!l) return this;
+    if (size === 4) this.gl.uniform4fv(l, v);
+    else this.gl.uniform3fv(l, v);
+    return this;
+  }
+
   i(name: string, v: number) {
     const l = this.loc(name);
     if (l) this.gl.uniform1i(l, v);

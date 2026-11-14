@@ -6,6 +6,7 @@ import type { Fx, Quality, Rect, Variation } from "../../types";
 import { FINAL_FS, GLASS_FS, compositeFS, flagKey, type SceneFlags } from "./shaders";
 import { Particles, type ParticleUniforms } from "./particles";
 import { RainGlass } from "./rainGlass";
+import { Probe, gustEnvelope, makeBurst, type Burst, type BurstName, type Sample, type TouchHit, type TouchKind } from "./touch";
 import { FULLSCREEN_VS, Program, Target, dynamicTexture, solidTexture, uploadTexture, type GL, type Texture } from "./gl";
 import {
   decodeImage,
@@ -43,10 +44,10 @@ export interface RendererEvents {
 // minScale/floorFps: how far the renderer may lower its own resolution, and the frame rate it
 // defends. Ultra is a deliberate choice, so it keeps (nearly) full resolution and accepts a lower
 // frame rate before it gives any back.
-const TIERS: Record<Quality, { maxWidth: number; density: number; fps: number; sharpen: number; glassDiv: number; maxScale: number; minScale: number; floorFps: number }> = {
-  performance: { maxWidth: 1920, density: 0.38, fps: 30, sharpen: 0, glassDiv: 3, maxScale: 0.8, minScale: 0.5, floorFps: 24 },
-  balanced: { maxWidth: 2560, density: 0.7, fps: 60, sharpen: 0.18, glassDiv: 2, maxScale: 1, minScale: 0.6, floorFps: 40 },
-  ultra: { maxWidth: 3840, density: 1, fps: 60, sharpen: 0.28, glassDiv: 2, maxScale: 1, minScale: 0.85, floorFps: 24 },
+const TIERS: Record<Quality, { maxWidth: number; density: number; fps: number; sharpen: number; glassDiv: number; maxScale: number; minScale: number; floorFps: number; halation: number }> = {
+  performance: { maxWidth: 1920, density: 0.38, fps: 30, sharpen: 0, glassDiv: 3, maxScale: 0.8, minScale: 0.5, floorFps: 24, halation: 0 },
+  balanced: { maxWidth: 2560, density: 0.7, fps: 60, sharpen: 0.18, glassDiv: 2, maxScale: 1, minScale: 0.6, floorFps: 40, halation: 0.42 },
+  ultra: { maxWidth: 3840, density: 1, fps: 60, sharpen: 0.28, glassDiv: 2, maxScale: 1, minScale: 0.85, floorFps: 24, halation: 0.5 },
 };
 
 // ?fps=N caps the frame rate: a debugging aid for slow software renderers (and headless tests)
@@ -77,6 +78,10 @@ class Instance {
   private nextMeteor = 0;
   aircraft = { x: 0, y: 0, dx: 0, dy: 0, start: -1, dur: 1 };
   private nextAircraft = 0;
+  /** a star knocked loose by a tap on the night sky */
+  wish = { x: 0, y: 0, dx: 0, dy: 0, start: -1, dur: 1 };
+  readonly probe = new Probe();
+  cover: [number, number, number, number] = [1, 1, 0, 0];
   imageAspect = 16 / 9;
   videoTime = -1;
   fireTime = -1;
@@ -129,6 +134,14 @@ class Instance {
     this.flash = Math.min(1.4, f);
   }
 
+  /** Lightning called down by a tap: it strikes where the sky was touched. */
+  strike(t: number, x: number) {
+    this.flashes.push({ at: t, power: 1 }, { at: t + 0.09 + Math.random() * 0.1, power: 0.55 + Math.random() * 0.3 });
+    this.flashX = x;
+    // the storm's own clock steps back so it does not flash again straight away
+    this.nextFlash = Math.max(this.nextFlash, t + 5);
+  }
+
   updateSky(t: number) {
     if (this.fx.meteors > 0.001 && t >= this.nextMeteor) {
       const fromLeft = Math.random() < 0.5;
@@ -174,6 +187,7 @@ export class Renderer {
   private readonly blankMaps: WebGLTexture;
   private readonly rain: RainGlass;
   private rainTex: WebGLTexture;
+  private wipedTex: WebGLTexture;
   private current: Instance | null = null;
   private next: Instance | null = null;
   private transition = { start: 0, dur: 2.6 };
@@ -201,6 +215,26 @@ export class Renderer {
   private rainUploaded = false;
   /** True when WebGL runs on the CPU: the app keeps everything lighter. */
   readonly software: boolean;
+
+  // ---- touch ------------------------------------------------------------------------------------
+  private touchOn = true;
+  private ripples: number[][] = []; // image x, y, start, size
+  private pulses: number[][] = []; // image x, y, start, depth
+  private shakes: number[][] = []; // image x, y, start, radius
+  private blinks: number[][] = []; // image x, y, start, light id
+  private bursts: Burst[] = [];
+  private readonly uRipple = new Float32Array(24);
+  private readonly uPulse = new Float32Array(16);
+  private readonly uShake = new Float32Array(16);
+  private readonly uBlink = new Float32Array(16);
+  private hand = { x: 0.5, y: 0.5, px: 0.5, py: 0.5, speed: 0, stir: 0, seen: -1e9, near: 0.5 };
+  private lantern = 0;
+  private lure = 0;
+  private gustAt = -100;
+  private stokeAt = -100;
+  private auroraTap: [number, number, number] = [0.5, -100, 0];
+  private lastDrag = 0;
+  private lastWipe: [number, number] | null = null;
 
   static supported() {
     try {
@@ -237,6 +271,7 @@ export class Renderer {
     this.blankMaps = solidTexture(gl, [0, 0, 128, 255]);
     this.rain = new RainGlass(960, 540);
     this.rainTex = dynamicTexture(gl);
+    this.wipedTex = dynamicTexture(gl);
     canvas.addEventListener("webglcontextlost", this.onLost, false);
     this.resize();
     this.raf = requestAnimationFrame(this.frame);
@@ -290,6 +325,182 @@ export class Renderer {
     this.ensurePrograms();
   }
 
+  // ---- touch ------------------------------------------------------------------------------------
+
+  setTouch(on: boolean) {
+    this.touchOn = on;
+    if (!on) this.clearTouch();
+  }
+
+  private clearTouch() {
+    this.ripples.length = this.pulses.length = this.shakes.length = this.blinks.length = this.bursts.length = 0;
+    this.gustAt = this.stokeAt = -100;
+    this.auroraTap = [0.5, -100, 0];
+    this.lastWipe = null;
+  }
+
+  /** The place a touch lands on: the incoming one during a change. */
+  private get active() {
+    return this.next ?? this.current;
+  }
+
+  private sampleAt(inst: Instance, sx: number, sy: number) {
+    const c = inst.cover;
+    const iu = sx * c[0] + c[2];
+    const iv = sy * c[1] + c[3];
+    return { iu, iv, s: inst.probe.at(iu, iv) };
+  }
+
+  private kindOf(inst: Instance, s: Sample | null, iu: number, iv: number): TouchKind {
+    const fx = inst.fx;
+    const v = inst.req.variation;
+    if (inst.needsGlass && (fx.glassFull || (!!s && s.glass > 0.45))) return "glass";
+    if (!s) return inst.req.media.kind === "video" ? "water" : fx.starfield > 0 ? "space" : "ground";
+    const h = v.hearth;
+    if (h && fx.fire > 0 && iu > h.x - 0.02 && iu < h.x + h.w + 0.02 && iv > h.y - 0.02 && iv < h.y + h.h + 0.02) return "fire";
+    if (!h && s.flame > 0.5 && (fx.fire > 0 || fx.glow > 0 || fx.embers > 0)) return "fire";
+    if (s.light > 0.4) return "light";
+    if (fx.caustics > 0 || fx.marine > 0) return "deep";
+    if (s.people > 0.5) return "ground";
+    if (s.water > 0.5) return "water";
+    if (s.sky > 0.4) return "sky";
+    if (s.foliage > 0.45 || s.bend > 0.4) return "foliage";
+    if (s.wet > 0.5 && (fx.wet > 0 || fx.rain > 0.15)) return "water";
+    return "ground";
+  }
+
+  /** What is under a screen position (0..1), for the pointer's label. Null when touch is off. */
+  kindAt(sx: number, sy: number): TouchKind | null {
+    const inst = this.active;
+    if (!inst || !this.touchOn) return null;
+    const { iu, iv, s } = this.sampleAt(inst, sx, sy);
+    return this.kindOf(inst, s, iu, iv);
+  }
+
+  /** The pointer moved over the picture (screen 0..1). `present` false: it left, or the finger lifted. */
+  hover(sx: number, sy: number, present = true) {
+    const h = this.hand;
+    if (!present) {
+      h.seen = -1e9;
+      return;
+    }
+    if (h.seen < 0) {
+      // arriving is not a movement
+      h.px = sx;
+      h.py = sy;
+    }
+    h.x = sx;
+    h.y = sy;
+    h.seen = performance.now();
+  }
+
+  /** A new stroke begins or ends: a wipe never joins up with the one before it. */
+  stroke() {
+    this.lastWipe = null;
+  }
+
+  private push(list: number[][], max: number, item: number[]) {
+    list.push(item);
+    if (list.length > max) list.shift();
+  }
+
+  private throwUp(name: BurstName, sx: number, sy: number, near: number, scale = 1) {
+    this.bursts.push(makeBurst(name, sx, sy, this.time, near, scale));
+    if (this.bursts.length > 6) this.bursts.shift();
+  }
+
+  /**
+   * A tap or a drag on the picture (screen 0..1). The picture answers according to what was touched;
+   * the returned hit says what happened so the app can add its sound.
+   */
+  touch(sx: number, sy: number, drag = false): TouchHit | null {
+    const inst = this.active;
+    if (!inst || !this.touchOn || !this.motion) return null;
+    const { iu, iv, s } = this.sampleAt(inst, sx, sy);
+    const kind = this.kindOf(inst, s, iu, iv);
+    const fx = inst.fx;
+    const t = this.time;
+    const near = s ? s.near : 0.25 + 0.6 * sy;
+    const now = performance.now();
+    const hit = (act: TouchHit["act"]): TouchHit => ({ kind, act, x: sx, y: sy, near, drag });
+    const every = (ms: number) => {
+      if (drag && now - this.lastDrag < ms) return false;
+      this.lastDrag = now;
+      return true;
+    };
+    switch (kind) {
+      case "glass": {
+        const from = drag && this.lastWipe ? this.lastWipe : [sx, sy];
+        const wiped = this.rain.wipe(from[0], from[1], sx, sy, drag ? 0.04 : 0.055);
+        this.lastWipe = [sx, sy];
+        this.rainClock = 1; // redraw the pane on the next frame
+        return !drag || (wiped && every(240)) ? hit("wipe") : null;
+      }
+      case "water": {
+        if (!every(120)) return null;
+        const size = 0.28 + 1.0 * near;
+        this.push(this.ripples, 6, [iu, iv, t, size * (drag ? 0.6 : 1)]);
+        if (!drag) this.throwUp("droplets", sx, sy, near);
+        return hit("ripple");
+      }
+      case "deep": {
+        if (!every(220)) return null;
+        this.throwUp("bubbles", sx, sy, near, drag ? 0.45 : 1);
+        if (!drag) this.push(this.pulses, 4, [iu, iv, t, near]);
+        return hit("bubbles");
+      }
+      case "sky": {
+        if (drag) return null;
+        const dark = fx.night > 0.5 || fx.stars > 0 || fx.starfield > 0 || fx.meteors > 0 || fx.aurora > 0;
+        if (fx.aurora > 0) this.auroraTap = [iu, t, 1];
+        if (dark) {
+          const dir = sx < 0.5 ? 1 : -1;
+          inst.wish = { x: sx, y: sy, dx: dir * (0.16 + Math.random() * 0.1), dy: 0.07 + Math.random() * 0.06, start: t, dur: 0.7 + Math.random() * 0.3 };
+          this.throwUp("stardust", sx, sy, 0.7, 0.7);
+          return hit("star");
+        }
+        if (inst.flags.flash) {
+          inst.strike(t, sx);
+          this.events.onLightning?.(1, 0.08 + Math.random() * 0.2);
+          return hit("strike");
+        }
+        this.gustAt = t;
+        return hit("gust");
+      }
+      case "foliage": {
+        if (!every(300)) return null;
+        this.push(this.shakes, 4, [iu, iv, t, (0.05 + 0.13 * near) * (drag ? 0.75 : 1)]);
+        const snowy = fx.snow > 0.05 && !inst.req.variation.interior; // snow lies on trees outdoors only
+        const what: BurstName = snowy ? "snow" : fx.petals > 0 && fx.petalKind === "sakura" ? "petals" : "leaves";
+        this.throwUp(what, sx, sy, near, drag ? 0.4 : 1);
+        return hit(snowy ? "snowfall" : "shake");
+      }
+      case "light": {
+        if (drag) return null;
+        this.push(this.blinks, 4, [iu, iv, t, s && s.lightId >= 0 ? s.lightId : -1]);
+        return hit("blink");
+      }
+      case "fire": {
+        if (drag) return null;
+        this.stokeAt = t;
+        this.throwUp("sparks", sx, sy, near);
+        return hit("stoke");
+      }
+      case "space": {
+        if (drag) return null;
+        this.throwUp("nova", sx, sy, 0.8);
+        this.push(this.pulses, 4, [iu, iv, t, 0.5]);
+        return hit("nova");
+      }
+      default: {
+        if (drag) return null;
+        this.push(this.pulses, 4, [iu, iv, t, near]);
+        if (fx.snow > 0.2 && s && s.wet > 0.4 && !inst.req.variation.interior) this.throwUp("snow", sx, sy, near, 0.5);
+        return hit("pulse");
+      }
+    }
+  }
+
   resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
     const cssW = this.canvas.clientWidth || window.innerWidth;
@@ -332,6 +543,7 @@ export class Renderer {
     this.loading = ctrl;
     this.request = req;
     this.settle(6000);
+    this.clearTouch();
     const { w, h } = this.renderSize();
     const inst = new Instance(this.gl, req, w, h, this.time);
     try {
@@ -428,6 +640,7 @@ export class Renderer {
           decodeImage(`${m.dir}/maps-${k}.png`, signal).then((img) => {
             const { w: iw, h: ih } = sizeOf(img);
             inst.maps[i] = uploadTexture(gl, img, iw, ih, { mips: false });
+            inst.probe.set(i, img);
             release(img);
           }),
         ),
@@ -620,6 +833,32 @@ export class Renderer {
     p.sx += (p.x - p.sx) * ease;
     p.sy += (p.y - p.sy) * ease;
 
+    // the hand over the picture: how fast it moves stirs what is falling; resting, it holds a lantern
+    const h = this.hand;
+    const present = this.touchOn && performance.now() - h.seen < 5000;
+    const aspect = this.canvas.width / Math.max(1, this.canvas.height);
+    const sp = present ? Math.hypot((h.x - h.px) * aspect, h.y - h.py) / Math.max(dt, 1e-3) : 0;
+    h.px = h.x;
+    h.py = h.y;
+    h.speed += (Math.min(sp, 3) - h.speed) * (1 - Math.exp(-dt * 9));
+    const stirTo = present ? Math.min(1, h.speed * 1.5) : 0;
+    h.stir += (stirTo - h.stir) * (1 - Math.exp(-dt * (stirTo > h.stir ? 10 : 1.5)));
+    this.lantern += ((present ? 1 : 0) - this.lantern) * (1 - Math.exp(-dt * (present ? 3 : 0.9)));
+    this.lure += ((present ? 1 : 0) - this.lure) * (1 - Math.exp(-dt * (present ? 0.9 : 0.5)));
+    const tNow = this.time;
+    this.ripples = this.ripples.filter((r) => tNow - r[2] < 5.5);
+    this.pulses = this.pulses.filter((r) => tNow - r[2] < 3.2);
+    this.shakes = this.shakes.filter((r) => tNow - r[2] < 2.6);
+    this.blinks = this.blinks.filter((r) => tNow - r[2] < 2.4);
+    this.bursts = this.bursts.filter((b) => tNow - b.t0 < b.life);
+    const pack = (list: number[][], out: Float32Array) => {
+      for (let i = 0; i < list.length; i++) out.set(list[i], i * 4);
+    };
+    pack(this.ripples, this.uRipple);
+    pack(this.pulses, this.uPulse);
+    pack(this.shakes, this.uShake);
+    pack(this.blinks, this.uBlink);
+
     const anyGlass = [this.current, this.next].some((i) => i?.needsGlass);
     if (anyGlass) {
       // the drops move slowly: thirty updates a second is plenty and keeps 4K uploads cheap
@@ -634,6 +873,11 @@ export class Renderer {
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.rain.canvas);
         this.rainUploaded = true;
+        if (this.rain.wipedDirty) {
+          this.rain.wipedDirty = false;
+          gl.bindTexture(gl.TEXTURE_2D, this.wipedTex);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.rain.wiped);
+        }
       }
     } else {
       this.rainUploaded = false;
@@ -657,9 +901,10 @@ export class Renderer {
     const outB = b ? (b.glassTarget && b.needsGlass ? b.glassTarget : b.target) : null;
     const blurA = b && !this.reducedMotion ? Math.sin(Math.min(1, mix * 1.4) * Math.PI * 0.5) * 3.2 : 0;
     const blurB = b && !this.reducedMotion ? (1 - Math.min(1, mix * 1.25)) * 3.4 : 0;
-    if (blurA > 0.01) outA?.mipmap();
-    if (blurB > 0.01) outB?.mipmap();
     const tier = TIERS[this.quality];
+    const halation = this.software ? 0 : tier.halation;
+    if (blurA > 0.01 || halation > 0) outA?.mipmap();
+    if (blurB > 0.01 || (halation > 0 && b)) outB?.mipmap();
     const fp = this.finalProgram.use();
     fp.tex("uA", 0, outA?.tex ?? this.blank)
       .tex("uB", 1, outB?.tex ?? this.blank)
@@ -667,6 +912,7 @@ export class Renderer {
       .f("uBlurA", blurA)
       .f("uBlurB", blurB)
       .f("uGrain", 1)
+      .f("uHalation", halation)
       .f("uVignette", 0.22)
       .f("uTime", t)
       .f("uRes", this.canvas.width, this.canvas.height)
@@ -701,13 +947,22 @@ export class Renderer {
       inst.updateSky(t);
     }
     const cover = this.cover(inst, w, h, t);
+    inst.cover = cover;
     const drift = this.motion && !this.reducedMotion ? fx.drift : 0;
     const cam: [number, number] = [
       drift * (0.006 * Math.sin(t * 0.047) + 0.0035 * this.pointer.sx),
       drift * (0.004 * Math.sin(t * 0.031 + 1.3) + 0.0025 * this.pointer.sy),
     ];
     const windAngle = 0.25 * Math.sin(t * 0.021);
-    const wind: [number, number] = [fx.wind * Math.cos(windAngle) * (0.6 + 0.4 * Math.sin(t * 0.09)), fx.wind * Math.sin(windAngle)];
+    // a gust called up by a tap on the sky rides on top of the place's own wind
+    const gust = gustEnvelope(t - this.gustAt);
+    const blow = (Math.max(fx.wind, 0.25 * gust) + 0.5 * gust) * (1 + 1.6 * gust);
+    const wind: [number, number] = [blow * Math.cos(windAngle) * (0.6 + 0.4 * Math.sin(t * 0.09) + 0.4 * gust), blow * Math.sin(windAngle)];
+    const stoke = t >= this.stokeAt ? 1 + 0.9 * Math.exp(-(t - this.stokeAt) * 0.8) * Math.min(1, (t - this.stokeAt) * 6) : 1;
+    // the lantern follows the hand; the depth it stands at eases so it does not jump between planes
+    const hd = this.hand;
+    const hs = this.sampleAt(inst, hd.x, hd.y);
+    hd.near += ((hs.s ? hs.s.near : 0.5) - hd.near) * 0.12;
     const baseTex = inst.base?.tex ?? inst.baseDynamic ?? this.blank;
     const mapsA = inst.maps[0]?.tex ?? this.blank;
     const mapsB = inst.maps[1]?.tex ?? this.blank;
@@ -738,7 +993,7 @@ export class Renderer {
       .f("uWater", Math.max(fx.water, fx.wet))
       .f("uWaterFlow", ...(inst.req.variation.waterFlow ?? [0, 0]))
       .f("uWet", fx.wet)
-      .f("uSway", Math.min(1.8, (0.3 + fx.sway) * fx.wind * 2.6) * (this.reducedMotion ? 0.3 : 1))
+      .f("uSway", Math.min(2.4, (0.3 + fx.sway) * blow * 2.6) * (this.reducedMotion ? 0.3 : 1))
       .f("uStorm", Math.min(1, Math.max(fx.rain * 0.9, fx.lightning * 0.65)))
       .f("uFog", fx.fog)
       .f("uFogLow", fx.fogLow)
@@ -748,8 +1003,8 @@ export class Renderer {
       .f("uCaustics", fx.caustics)
       .f("uLamps", fx.lamps)
       .f("uNeon", fx.neon)
-      .f("uFire", inst.fireVideo ? fx.fire : fx.fire * 0.4)
-      .f("uFireGlow", fireGlow)
+      .f("uFire", (inst.fireVideo ? fx.fire : fx.fire * 0.4) * Math.min(1.5, stoke))
+      .f("uFireGlow", fireGlow * stoke)
       .f("uFireRect", fireRect.x, fireRect.y, fireRect.w, fireRect.h)
       .f("uFireMode", inst.req.variation.hearthMode === "inside" ? 1 : 0)
       .f("uMist", fx.mist)
@@ -758,12 +1013,24 @@ export class Renderer {
       .f("uFlashColor", 0.78, 0.84, 1.0)
       .f("uNight", fx.night)
       .f("uTwinkle", fx.twinkle)
-      .f("uGlow", fx.glow)
+      .f("uGlow", fx.glow * stoke)
       .f("uInterior", inst.req.variation.interior ? 1 : 0)
       .f("uWindows", inst.req.variation.litWindows ? 1 : 0)
       .f("uGlowAt", ...(inst.req.variation.glowAt ?? [0.5, 1.15]))
       .f("uExposure", fx.exposure)
-      .f("uWarmth", fx.warmth);
+      .f("uWarmth", fx.warmth)
+      .fv("uRipple", 4, this.uRipple)
+      .i("uRippleN", this.ripples.length)
+      .fv("uPulse", 4, this.uPulse)
+      .i("uPulseN", this.pulses.length)
+      .fv("uShake", 4, this.uShake)
+      .i("uShakeN", this.shakes.length)
+      .fv("uBlink", 4, this.uBlink)
+      .i("uBlinkN", this.blinks.length)
+      .f("uLantern", hs.iu, hs.iv, this.lantern * (fx.night > 0.3 ? 1 : 0), hd.near)
+      .f("uAuroraTap", ...this.auroraTap)
+      .f("uTouchWet", fx.wet > 0 || fx.rain > 0.15 ? 1 : 0)
+      .f("uTouchAll", !inst.req.media.maps && inst.req.media.kind === "video" ? 1 : 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
     // particles over the composite
@@ -783,6 +1050,8 @@ export class Renderer {
       base: baseTex,
       mapsA,
       mapsC,
+      stir: [hd.x, hd.y, 0.13, hd.stir],
+      lure: [hd.x, hd.y, this.lure],
     };
     const speed = this.motion ? 1 : 0;
     const P = this.particles;
@@ -819,6 +1088,22 @@ export class Renderer {
         pr.f("uStreakA", m.x, m.y, m.dx, m.dy).f("uStreakB", prog, m.bright * fade * fx.meteors, 0, 0.09),
       );
     }
+    const wish = inst.wish;
+    if (wish.start >= 0 && t - wish.start < wish.dur) {
+      const prog = (t - wish.start) / wish.dur;
+      P.draw("streaks", 1, 1, u, (pr) => pr.f("uStreakA", wish.x, wish.y, wish.dx, wish.dy).f("uStreakB", prog, Math.sin(prog * Math.PI), 0, 0.11));
+    }
+    if (inst === this.active) {
+      for (const b of this.bursts) {
+        P.draw(b.kind, 1, b.count / 64, u, (pr) =>
+          pr
+            .f("uBurstA", b.x, b.y, t - b.t0, b.life)
+            .f("uBurstB", ...b.b)
+            .f("uBurstC", ...b.c)
+            .f("uBurstD", ...b.d),
+        );
+      }
+    }
     const ac = inst.aircraft;
     if (ac.start >= 0 && t - ac.start < ac.dur) {
       const prog = (t - ac.start) / ac.dur;
@@ -835,6 +1120,7 @@ export class Renderer {
         .tex("uDrops", 1, this.rainTex)
         .tex("uMask", 2, mapsB)
         .tex("uReflect", 3, inst.reflect?.tex ?? this.blank)
+        .tex("uWiped", 4, this.wipedTex)
         .f("uCover", ...cover)
         .f("uFull", fx.glassFull ? 1 : 0)
         .f("uFocusGlass", fx.glassFocus === "glass" ? 1 : 0)
@@ -871,6 +1157,7 @@ export class Renderer {
     this.gl.deleteTexture(this.blank);
     this.gl.deleteTexture(this.blankMaps);
     this.gl.deleteTexture(this.rainTex);
+    this.gl.deleteTexture(this.wipedTex);
     this.canvas.removeEventListener("webglcontextlost", this.onLost);
   }
 }
