@@ -1,5 +1,5 @@
 /* MotorAtlas: wires the 3D machine into the page: the hero X-ray (plate 01) and the "Where it lives" locator in the parts library. */
-import { SYSTEMS } from "../assets/js/machine3d.js";
+import { SYSTEMS } from "../assets/js/machine3d.js?v=3";
 
 const $ = (s, c = document) => c.querySelector(s),
   $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -110,14 +110,15 @@ if (stage) {
       return;
     }
     try {
-      const { mountMachine } = await import("../assets/js/machine3d.js");
-      hero = await mountMachine(stage, { mode: "gas", autoRotate: true, labels: true });
+      const { mountMachine } = await import("../assets/js/machine3d.js?v=3");
+      hero = await mountMachine(stage, { mode: "gas", autoRotate: true, labels: true, fx: true });
       stage.classList.add("is-ready");
       hero.on("pick", (d) => {
-        hero.focusPart(d.part);
+        hero.focusPart(d.part, d.system, d.comp);
         setChip(d.system);
         showPart(d);
       });
+      wireDeck({ setChip, showSystem });
     } catch (e) {
       console.warn("3D machine unavailable", e);
       stage.classList.add("no-webgl");
@@ -151,6 +152,134 @@ if (stage) {
     xr.setAttribute("aria-pressed", String(on));
     hero?.setXray(on);
   });
+}
+
+/* ------------------------------------------------ the deck: exploded view and test drive */
+function wireDeck({ setChip, showSystem }) {
+  const deck = $("#machineDeck");
+  if (!deck || !hero) return;
+  deck.classList.add("is-live");
+  const ex = $("#machineExplode"),
+    exOut = $("#machineExplodeOut");
+  const paintRange = (el) => {
+    const min = +el.min,
+      max = +el.max;
+    el.style.setProperty("--p", `${((+el.value - min) / (max - min)) * 100}%`);
+  };
+  ex.addEventListener("input", () => {
+    hero.setExplode(+ex.value / 100);
+    exOut.textContent = `${ex.value}%`;
+    paintRange(ex);
+  });
+  const runBtn = $("#machineRun"),
+    panel = $("#machineDrive"),
+    th = $("#mdThrottle"),
+    st = $("#mdSteer"),
+    br = $("#mdBrake");
+  const rpmEl = $("#mdRpm"),
+    mphEl = $("#mdMph"),
+    gearEl = $("#mdGear"),
+    tach = $("#mdTach");
+  let on = false;
+  const setOn = (v) => {
+    on = v;
+    runBtn.setAttribute("aria-pressed", String(on));
+    $("span", runBtn).textContent = on ? "End test drive" : "Test drive";
+    panel.hidden = !on;
+    stage.classList.toggle("is-driving", on);
+    if (!on) {
+      th.value = 0;
+      st.value = 0;
+      br.setAttribute("aria-pressed", "false");
+      [th, st].forEach(paintRange);
+    }
+    hero.run({ on, throttle: 0, brake: 0, steer: 0 });
+    if (on) {
+      // a drive is watched from outside the car with everything in place
+      if (hero.state.focus) {
+        setChip(null);
+        showSystem(null);
+        hero.focus(null);
+      }
+      hero.autoRotate(false);
+    }
+    requestAnimationFrame(() => hero.resize());
+  };
+  runBtn.addEventListener("click", () => setOn(!on));
+  th.addEventListener("input", () => {
+    hero.run({ throttle: +th.value / 100 });
+    paintRange(th);
+  });
+  st.addEventListener("input", () => {
+    hero.run({ steer: +st.value / 100 });
+    paintRange(st);
+  });
+  // let go of the wheel and it comes back to centre, as the real one does
+  const recentre = () => {
+    st.value = 0;
+    paintRange(st);
+    hero.run({ steer: 0 });
+  };
+  st.addEventListener("pointerup", recentre);
+  st.addEventListener("keyup", (e) => {
+    if (e.key.startsWith("Arrow")) recentre();
+  });
+  const brake = (v) => {
+    br.setAttribute("aria-pressed", String(v));
+    hero.run({ brake: v ? 1 : 0 });
+  };
+  br.addEventListener("pointerdown", (e) => {
+    br.setPointerCapture?.(e.pointerId);
+    brake(true);
+  });
+  for (const ev of ["pointerup", "pointercancel", "lostpointercapture"]) br.addEventListener(ev, () => brake(false));
+  br.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.key === "Enter") {
+      e.preventDefault();
+      brake(true);
+    }
+  });
+  br.addEventListener("keyup", () => brake(false));
+  hero.on("telemetry", (t) => {
+    const ev = t.mode === "ev";
+    rpmEl.textContent = String(Math.round(t.rpm / 10) * 10);
+    mphEl.textContent = String(Math.round(t.mph));
+    gearEl.textContent = t.gear;
+    tach.style.setProperty("--v", Math.min(1, t.rpm / (ev ? 16000 : 6500)).toFixed(3));
+    tach.parentElement.classList.toggle("is-ev", ev);
+  });
+  // keyboard, only while the pointer or focus is on the plate so the page keeps its own keys
+  const held = new Set();
+  let over = false;
+  const plateEl = $("#machine");
+  plateEl.addEventListener("pointerenter", () => (over = true));
+  plateEl.addEventListener("pointerleave", () => (over = false));
+  const active = () => on && (over || plateEl.contains(document.activeElement));
+  const sync = () => {
+    const t = held.has("w") ? 1 : +th.value / 100,
+      s = (held.has("d") ? 1 : 0) - (held.has("a") ? 1 : 0);
+    hero.run({ throttle: t, steer: s || +st.value / 100, brake: held.has("s") ? 1 : 0 });
+    br.setAttribute("aria-pressed", String(held.has("s")));
+  };
+  document.addEventListener("keydown", (e) => {
+    const k = e.key.toLowerCase();
+    if (!active() || !"wasd".includes(k) || k.length !== 1 || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) && e.target.type !== "range") return;
+    held.add(k);
+    sync();
+    e.preventDefault();
+  });
+  document.addEventListener("keyup", (e) => {
+    const k = e.key.toLowerCase();
+    if (held.delete(k)) sync();
+  });
+  window.addEventListener("blur", () => {
+    if (held.size) {
+      held.clear();
+      sync();
+    }
+  });
+  [ex, th, st].forEach(paintRange);
 }
 
 /* ------------------------------------------------ bigger view: the whole plate (model, controls, systems) fills the screen */
@@ -253,7 +382,7 @@ if (loc && frame) {
         if (!es[0].isIntersecting || locator) return;
         io.disconnect();
         try {
-          const { mountMachine } = await import("../assets/js/machine3d.js");
+          const { mountMachine } = await import("../assets/js/machine3d.js?v=3");
           locator = await mountMachine(loc, { mode: "gas", autoRotate: false, labels: false });
           loc.classList.add("is-ready");
           locator.on("pick", (d) => UI.openPart(d.part, d.system, false));

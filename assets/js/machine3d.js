@@ -2413,6 +2413,121 @@ const FOCUS = {
   hybridev: { pos: [2.8, 4.6, 4.6], target: [-0.1, 0.35, 0] },
 };
 
+/* ------------------------------------------------------------------ exploded view */
+// How far each system lifts away from the car at full spread, in metres: [x, y, z, sideways].
+// "Sideways" pushes parts that sit off the centreline further out on their own side, so the four
+// corners (wheels, brakes, suspension) open like a drawing instead of sliding off as one block.
+const EXPLODE = {
+  structure: [0, 1.05, 0, 0],
+  engine: [0.85, 0.72, 0, 0],
+  airfuel: [0.1, 1.5, 0.3, 0],
+  cooling: [1.45, 0.2, 0, 0],
+  lubrication: [0.9, -0.5, 0, 0],
+  transmission: [0.7, 0.1, -0.95, 0],
+  drivetrain: [0, -0.5, 0, 0.12],
+  suspension: [0, 0.3, 0, 0.36],
+  steering: [0.3, 0.6, 0, 0.18],
+  brakes: [0, 0.1, 0, 0.5],
+  electrical: [-0.1, 1.05, -0.5, 0],
+  hvac: [0.4, 1.3, 0.55, 0],
+  exhaust: [-0.35, -0.85, 0.25, 0],
+  wheels: [0, 0, 0, 0.72],
+  hybridev: [0, -1.05, 0, 0],
+};
+const BODY_LIFT = 1.8,
+  CAR_LIFT = 1.12; // the whole car rises so nothing drops through the floor
+
+/* ------------------------------------------------------------------ post: bloom */
+// The picture is drawn exactly as before; then whatever in it is really bright (the selected part,
+// the flow beads, the lamps, a hot brake disc) is copied out, blurred at two sizes and added back
+// as a glow. Working from the finished frame keeps every colour where it was.
+function makePost(renderer) {
+  if (!renderer.capabilities.isWebGL2) return null;
+  const rt = () =>
+    new THREE.WebGLRenderTarget(2, 2, {
+      depthBuffer: false,
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+    });
+  let frame = null;
+  const half = [rt(), rt()],
+    quarter = [rt(), rt()];
+  const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
+  quad.frustumCulled = false;
+  const qs = new THREE.Scene();
+  qs.add(quad);
+  const vs = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }";
+  const mat = (fragmentShader, uniforms, extra = {}) =>
+    new THREE.ShaderMaterial({ vertexShader: vs, fragmentShader, uniforms, depthTest: false, depthWrite: false, ...extra });
+  const bright = mat(
+    `uniform sampler2D t; varying vec2 vUv;
+     void main(){ vec3 c = texture2D(t, vUv).rgb; float l = max(c.r, max(c.g, c.b));
+       // only what is nearly at full brightness, and more so when it is a colour rather than white
+       float sat = l - min(c.r, min(c.g, c.b));
+       gl_FragColor = vec4(c * smoothstep(0.8, 1.0, l) * (0.45 + 0.75 * sat), 1.0); }`,
+    { t: { value: null } },
+  );
+  const blur = mat(
+    `uniform sampler2D t; uniform vec2 d; varying vec2 vUv;
+     void main(){ vec3 c = texture2D(t, vUv).rgb * 0.2270;
+       c += (texture2D(t, vUv + d * 1.3846).rgb + texture2D(t, vUv - d * 1.3846).rgb) * 0.3162;
+       c += (texture2D(t, vUv + d * 3.2308).rgb + texture2D(t, vUv - d * 3.2308).rgb) * 0.0703;
+       gl_FragColor = vec4(c, 1.0); }`,
+    { t: { value: null }, d: { value: new THREE.Vector2() } },
+  );
+  const glow = mat(
+    `uniform sampler2D b1; uniform sampler2D b2; uniform float uBloom; varying vec2 vUv;
+     void main(){ gl_FragColor = vec4((texture2D(b1, vUv).rgb * 0.5 + texture2D(b2, vUv).rgb * 0.8) * uBloom, 1.0); }`,
+    { b1: { value: half[0].texture }, b2: { value: quarter[0].texture }, uBloom: { value: 0.7 } },
+    { blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor, transparent: true },
+  );
+  const pass = (material, target) => {
+    quad.material = material;
+    renderer.setRenderTarget(target);
+    renderer.render(qs, cam);
+  };
+  return {
+    setSize(w, h) {
+      frame?.dispose();
+      frame = new THREE.FramebufferTexture(w, h);
+      frame.minFilter = frame.magFilter = THREE.LinearFilter;
+      const hw = Math.max(2, w >> 1),
+        hh = Math.max(2, h >> 1);
+      half.forEach((r) => r.setSize(hw, hh));
+      quarter.forEach((r) => r.setSize(Math.max(2, hw >> 1), Math.max(2, hh >> 1)));
+    },
+    render(scene, camera) {
+      renderer.setRenderTarget(null);
+      renderer.render(scene, camera);
+      if (!frame) return;
+      renderer.copyFramebufferToTexture(frame);
+      bright.uniforms.t.value = frame;
+      pass(bright, half[0]);
+      for (const [pair, src] of [
+        [half, null],
+        [quarter, half[0]],
+      ]) {
+        if (src) {
+          blur.uniforms.t.value = src.texture;
+          blur.uniforms.d.value.set(0, 0);
+          pass(blur, pair[0]);
+        }
+        blur.uniforms.t.value = pair[0].texture;
+        blur.uniforms.d.value.set(1 / pair[0].width, 0);
+        pass(blur, pair[1]);
+        blur.uniforms.t.value = pair[1].texture;
+        blur.uniforms.d.value.set(0, 1 / pair[0].height);
+        pass(blur, pair[0]);
+      }
+      const auto = renderer.autoClear;
+      renderer.autoClear = false;
+      pass(glow, null);
+      renderer.autoClear = auto;
+    },
+  };
+}
+
 /* ------------------------------------------------------------------ mount */
 export async function mountMachine(host, opts = {}) {
   const o = { mode: "gas", autoRotate: true, labels: true, view: "overview", ...opts };
@@ -2435,6 +2550,17 @@ export async function mountMachine(host, opts = {}) {
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.55;
+  // opt-in: the hero plate asks for the HDR pipeline; small embeds keep the plain, cheaper path
+  let post = null;
+  if (o.fx) {
+    try {
+      post = makePost(renderer);
+      // the glow is added to the frame, so the frame must be solid: paint the plate's own colour
+      if (post) renderer.setClearColor(o.background ?? 0x0b0e0f, 1);
+    } catch (e) {
+      post = null;
+    }
+  }
   const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 120);
   scene.add(new THREE.HemisphereLight(0xdfe9f3, 0x1a1f24, 0.62));
   const key = new THREE.DirectionalLight(0xffffff, 1.9);
@@ -2461,13 +2587,14 @@ export async function mountMachine(host, opts = {}) {
     new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
-      uniforms: { uCol: { value: new THREE.Color(0x75c7d1) } },
+      uniforms: { uCol: { value: new THREE.Color(0x75c7d1) }, uScroll: { value: 0 } },
       vertexShader:
         "varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
-      fragmentShader: `uniform vec3 uCol; varying vec3 vP;
+      fragmentShader: `uniform vec3 uCol; uniform float uScroll; varying vec3 vP;
       float grid(vec2 p, float s, float w){ vec2 g = abs(fract(p/s - 0.5) - 0.5) / fwidth(p/s); return 1.0 - min(min(g.x, g.y) / w, 1.0); }
       void main(){ float d = length(vP.xz); float fade = smoothstep(9.0, 2.0, d);
-        float a = (grid(vP.xz, 0.25, 1.0)*0.05 + grid(vP.xz, 1.0, 1.2)*0.12) * fade;
+        vec2 p = vP.xz + vec2(uScroll, 0.0);   // the road runs back under the car when it is driven
+        float a = (grid(p, 0.25, 1.0)*0.05 + grid(p, 1.0, 1.2)*0.12) * fade;
         gl_FragColor = vec4(uCol, a); }`,
     }),
   );
@@ -2511,6 +2638,66 @@ export async function mountMachine(host, opts = {}) {
     l.userData.op = l.material.opacity;
   });
   const paint = paintBody();
+  const tail = lamps.find((l) => l.material === MAT.lampR);
+  if (tail) {
+    tail.material = MAT.lampR.clone(); // this car's own, so its brake lights are not every car's
+    tail.userData.op = tail.material.opacity;
+  }
+  const cabin = car.root.getObjectByName("context");
+
+  // every system hangs from its own group, and every top-level part from its own holder inside it:
+  // the exploded view moves groups and holders and never touches the parts' own (animated) transforms
+  const sysGroup = {};
+  for (const id of Object.keys(SYSTEMS)) {
+    const g = new THREE.Group();
+    g.name = "sys:" + id;
+    car.root.add(g);
+    sysGroup[id] = g;
+  }
+  {
+    const b3 = new THREE.Box3(),
+      c3 = new THREE.Vector3();
+    scene.updateMatrixWorld(true);
+    for (const c of car.comps) {
+      if (c.obj.parent !== car.root || !sysGroup[c.sys]) continue;
+      b3.setFromObject(c.obj).getCenter(c3);
+      const holder = new THREE.Group();
+      holder.userData.side = Math.abs(c3.z) > 0.28 ? Math.sign(c3.z) : 0;
+      holder.userData.holder = true;
+      sysGroup[c.sys].add(holder);
+      holder.add(c.obj);
+      c.holder = holder;
+    }
+    for (const c of car.comps) {
+      let n = c.obj;
+      while (!c.holder && n) {
+        if (n.userData.holder) c.holder = n;
+        n = n.parent;
+      }
+    }
+  }
+  // brake discs can glow: a faint additive ring on each one, driven by how hard the brakes have worked
+  const hot = car.comps
+    .filter((c) => /^rotor/.test(c.id))
+    .map((c) => {
+      const ring = new THREE.Mesh(
+        new THREE.RingGeometry(0.075, 0.15, 40),
+        new THREE.MeshBasicMaterial({
+          color: new THREE.Color(3.2, 0.75, 0.16),
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        }),
+      );
+      ring.position.copy(c.obj.position);
+      ring.renderOrder = 4;
+      ring.visible = false;
+      ring.raycast = () => {};
+      c.obj.parent.add(ring);
+      return ring;
+    });
 
   // particle flows
   const beadG = new THREE.SphereGeometry(1, 10, 8);
@@ -2582,7 +2769,9 @@ export async function mountMachine(host, opts = {}) {
       gap = narrow ? 3 : 5,
       push = narrow ? 18 : 42;
     for (const L of vis) {
-      proj.copy(L.anchor).project(camera);
+      proj.copy(L.anchor);
+      if (L.c.holder) proj.add(L.c.holder.getWorldPosition(tmp));
+      proj.project(camera);
       L.sx = ((proj.x + 1) / 2) * W;
       L.sy = ((1 - proj.y) / 2) * H;
       L.back = proj.z > 1;
@@ -2640,8 +2829,8 @@ export async function mountMachine(host, opts = {}) {
   Object.assign(controls, {
     enableDamping: true,
     dampingFactor: 0.08,
-    minDistance: 1.6,
-    maxDistance: 14,
+    minDistance: 0.85,
+    maxDistance: 16,
     enablePan: false,
     autoRotate: o.autoRotate && !reduced,
     autoRotateSpeed: 0.55,
@@ -2651,20 +2840,29 @@ export async function mountMachine(host, opts = {}) {
   camera.position.set(...VIEWS.overview.pos);
   let tween = null,
     idleT = 0;
+  // exploded view: how far apart the systems are now (eased) and where they are heading
+  let explodeK = 0,
+    explodeTo = 0;
+  const spreadZoom = (k) => 1 + 0.72 * k,
+    spreadRise = (k) => 1.25 * k;
   const fit = (pos, target) => {
-    const k = Math.max(1, 1.3 / camera.aspect),
+    const k = Math.max(1, 1.3 / camera.aspect) * spreadZoom(explodeK),
       tg = V(...target);
-    return tg.clone().add(
-      V(...pos)
-        .sub(tg)
-        .multiplyScalar(k),
-    );
+    return tg
+      .clone()
+      .add(
+        V(...pos)
+          .sub(tg)
+          .multiplyScalar(k),
+      )
+      .setY(tg.y + (pos[1] - target[1]) * k + spreadRise(explodeK));
   };
   const flyTo = (pos, target, dur = 1.1) => {
-    const p1 = fit(pos, target);
+    const p1 = fit(pos, target),
+      t1 = V(target[0], target[1] + spreadRise(explodeK), target[2]);
     if (reduced) {
       camera.position.copy(p1);
-      controls.target.set(...target);
+      controls.target.copy(t1);
       controls.update();
       return;
     }
@@ -2674,9 +2872,46 @@ export async function mountMachine(host, opts = {}) {
       p0: camera.position.clone(),
       t0: controls.target.clone(),
       p1,
-      t1: V(...target),
+      t1,
     };
   };
+  // frame one part: keep the direction you are looking from, close in until it fills about a third
+  const sphere = new THREE.Sphere();
+  const flyToComp = (c) => {
+    scene.updateMatrixWorld(true);
+    box.setFromObject(c.obj).getBoundingSphere(sphere);
+    const dir = camera.position.clone().sub(controls.target);
+    if (dir.y < 0.2 * dir.length()) dir.y = 0.3 * dir.length();
+    dir.normalize();
+    const dist =
+      Math.min(7.5, Math.max(1.35, (sphere.radius / Math.sin((camera.fov * Math.PI) / 360)) * 3)) *
+      Math.max(1, 1.3 / camera.aspect);
+    const p1 = sphere.center.clone().add(dir.multiplyScalar(dist)),
+      t1 = sphere.center.clone();
+    if (reduced) {
+      camera.position.copy(p1);
+      controls.target.copy(t1);
+      controls.update();
+      return;
+    }
+    tween = { t: 0, dur: 1, p0: camera.position.clone(), t0: controls.target.clone(), p1, t1 };
+  };
+  function applyExplode(k) {
+    for (const id in sysGroup) {
+      const e = EXPLODE[id],
+        g = sysGroup[id];
+      g.position.set(e[0] * k, e[1] * k, e[2] * k);
+      for (const h of g.children) h.position.z = h.userData.side * e[3] * k;
+    }
+    body.position.y = BODY_LIFT * k;
+    lamps.forEach((l) => {
+      l.position.y = BODY_LIFT * k;
+    });
+    if (cabin) cabin.position.y = EXPLODE.structure[1] * k;
+    car.root.position.y = CAR_LIFT * k;
+    contact.material.opacity = 1 - 0.85 * k;
+    for (const fl of flowObjs) fl.mesh.position.copy(sysGroup[fl.sys].position).setY(sysGroup[fl.sys].position.y + CAR_LIFT * k);
+  }
   controls.addEventListener("start", () => {
     tween = null;
     idleT = 0;
@@ -2691,7 +2926,9 @@ export async function mountMachine(host, opts = {}) {
     part: null,
     xray: o.xray !== false,
     hover: null,
+    comp: null,
   };
+  const compById = Object.fromEntries(car.comps.map((c) => [c.id, c]));
   const listeners = {};
   function emit(ev, d) {
     (listeners[ev] || []).forEach((fn) => fn(d));
@@ -2711,6 +2948,10 @@ export async function mountMachine(host, opts = {}) {
       m.transparent = true;
       m.opacity = 0.42;
       m.depthWrite = false;
+    } else if (kind === "hover") {
+      // under the pointer: lit from within, a step below a selected part
+      m.emissive = (base.userData.base || base.color || new THREE.Color(0xffffff)).clone();
+      m.emissiveIntensity = 0.42;
     } else {
       m.emissive = (base.userData.base || base.color || new THREE.Color(0xffffff)).clone();
       m.emissiveIntensity = sel ? 0.6 : 0.16;
@@ -2724,14 +2965,20 @@ export async function mountMachine(host, opts = {}) {
       fset = Array.isArray(f) ? new Set(f) : f ? new Set([f]) : null,
       one = fset && fset.size === 1;
     for (const c of car.comps) {
-      const vis = inMode(c) && (c.id !== "zones" || (fset && fset.has("structure")));
+      const vis = !!(inMode(c) && (c.id !== "zones" || (fset && fset.has("structure"))));
       c.obj.visible = vis;
       if (!vis) continue;
       const hit = !fset || fset.has(c.sys),
-        sel = part && c.parts.includes(part);
+        sel = part && c.parts.includes(part),
+        hov = state.hover === c.id;
       c.obj.traverse((n) => {
-        if (!n.isMesh) return;
+        if (!n.isMesh || !n.userData.baseMat) return;
         const base = n.userData.baseMat;
+        if (hov && hit && !sel && !base.isMeshBasicMaterial) {
+          n.castShadow = true;
+          n.material = variant(base, "hover");
+          return;
+        }
         if (!hit) {
           n.material = MAT.ghost;
           n.castShadow = false;
@@ -2795,7 +3042,6 @@ export async function mountMachine(host, opts = {}) {
         return out;
       });
   let pickList = pickables();
-  const compById = Object.fromEntries(car.comps.map((c) => [c.id, c]));
   function pickAt(ev) {
     const r = canvas.getBoundingClientRect();
     ndc.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
@@ -2809,7 +3055,11 @@ export async function mountMachine(host, opts = {}) {
   });
   canvas.addEventListener("pointermove", (e) => {
     if (e.pointerType !== "mouse") return;
-    const c = pickAt(e);
+    const c = e.buttons ? null : pickAt(e);
+    if ((c ? c.id : null) !== state.hover) {
+      state.hover = c ? c.id : null;
+      apply();
+    }
     if (c) {
       tip.hidden = false;
       tip.innerHTML = `<b>${c.parts[0] || c.label}</b><span>${SYSTEMS[c.sys].name}</span>`;
@@ -2824,6 +3074,10 @@ export async function mountMachine(host, opts = {}) {
   });
   canvas.addEventListener("pointerleave", () => {
     tip.hidden = true;
+    if (state.hover) {
+      state.hover = null;
+      apply();
+    }
   });
   canvas.addEventListener("pointerup", (e) => {
     if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 6) return;
@@ -2838,6 +3092,10 @@ export async function mountMachine(host, opts = {}) {
     const w = host.clientWidth || 600,
       h = host.clientHeight || 400;
     renderer.setSize(w, h, false);
+    if (post) {
+      const pr = renderer.getPixelRatio();
+      post.setSize(Math.max(2, Math.round(w * pr)), Math.max(2, Math.round(h * pr)));
+    }
     leaders.setAttribute("viewBox", `0 0 ${w} ${h}`);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -2890,6 +3148,17 @@ export async function mountMachine(host, opts = {}) {
   const inst = new THREE.Object3D();
   let crankA = 0,
     steerT = 0;
+  // test drive: a small powertrain model, enough for the hardware to behave the way the real thing does
+  const run = { on: false, throttle: 0, brake: 0, steer: 0 };
+  const SHIFT = [0, 17, 33, 54, 79, 108]; // mph at which a six-speed changes up
+  let mph = 0,
+    rpm = 0,
+    gear = "P",
+    heat = 0,
+    steerS = 0,
+    lean = 0,
+    pitch = 0,
+    teleT = 0;
   function loop() {
     raf = 0;
     if (!visible || document.hidden) return;
@@ -2915,12 +3184,74 @@ export async function mountMachine(host, opts = {}) {
       idleT += dt;
       if (idleT > 6) controls.autoRotate = true;
     }
+    if (Math.abs(explodeTo - explodeK) > 0.0005) {
+      // the camera backs away and rises with the spread, so the whole drawing stays in frame
+      const k0 = explodeK;
+      explodeK = reduced ? explodeTo : explodeK + (explodeTo - explodeK) * (1 - Math.exp(-dt * 4.5));
+      if (Math.abs(explodeTo - explodeK) < 0.002) explodeK = explodeTo;
+      applyExplode(explodeK);
+      const r = spreadZoom(explodeK) / spreadZoom(k0),
+        dy = spreadRise(explodeK) - spreadRise(k0);
+      camera.position.sub(controls.target).multiplyScalar(r).add(controls.target);
+      camera.position.y += dy;
+      controls.target.y += dy;
+      if (tween) {
+        tween.p1.sub(tween.t1).multiplyScalar(r).add(tween.t1);
+        tween.p1.y += dy;
+        tween.t1.y += dy;
+      }
+    }
     controls.update();
     // moving hardware
     const f = state.focus,
       running = !reduced && state.mode !== "ev",
       has = (k) => (Array.isArray(f) ? f.includes(k) : f === k);
-    if (running) crankA += dt * (has("engine") || has("lubrication") ? 4.5 : 1.6);
+    let accel = 0;
+    if (run.on) {
+      const ev = state.mode === "ev",
+        top = ev ? 150 : 138;
+      const pull = run.throttle * (ev ? 27 : 17) * Math.max(0, 1 - mph / top),
+        drag = 1.1 + mph * 0.034 + run.brake * 46;
+      accel = mph <= 0 && pull < drag ? 0 : pull - drag;
+      mph = Math.max(0, mph + (pull - drag) * dt);
+      if (ev) {
+        rpm = mph * 104; // one fixed ratio: the motor simply turns with the wheels
+        gear = mph > 0.4 || run.throttle > 0.02 ? "D" : "P";
+      } else {
+        let g = 0;
+        while (g < SHIFT.length - 1 && mph > SHIFT[g + 1]) g++;
+        const lo = SHIFT[g],
+          hi = SHIFT[g + 1] ?? 150;
+        // a hybrid pulls away on its motor: the engine stays off at low speed and light throttle
+        const asleep = state.mode === "hybrid" && mph < 14 && run.throttle < 0.45;
+        const want = asleep ? 0 : 820 + ((mph - lo) / (hi - lo)) * 4300 * (0.5 + 0.5 * run.throttle) + run.throttle * 650;
+        rpm += (want - rpm) * (1 - Math.exp(-dt * (want > rpm ? 5 : 3)));
+        gear = mph < 0.4 && run.throttle < 0.02 ? (asleep ? "EV" : "N") : asleep ? "EV" : String(g + 1);
+      }
+      if (!reduced && !ev) crankA += dt * rpm * 0.0026;
+      heat = Math.min(1, Math.max(0, heat + (run.brake * mph * 0.011 - heat * 0.3) * dt));
+      steerS += (run.steer - steerS) * (1 - Math.exp(-dt * 7));
+      floor.material.uniforms.uScroll.value = (floor.material.uniforms.uScroll.value + dt * mph * 0.11) % 1;
+      if ((teleT += dt) > 0.08) {
+        teleT = 0;
+        emit("telemetry", { mph, rpm, gear, heat, mode: state.mode });
+      }
+    } else {
+      if (running) crankA += dt * (has("engine") || has("lubrication") ? 4.5 : 1.6);
+      heat = Math.max(0, heat - heat * 0.5 * dt);
+      steerS += (0 - steerS) * (1 - Math.exp(-dt * 7));
+      mph = Math.max(0, mph - (4 + mph * 0.5) * dt);
+    }
+    // the body squats under power, dives under braking and leans in a corner
+    pitch += (Math.max(-46, Math.min(20, accel)) * 0.0008 - pitch) * (1 - Math.exp(-dt * 5));
+    lean += (steerS * Math.min(1, mph / 45) * 0.035 - lean) * (1 - Math.exp(-dt * 4));
+    car.root.rotation.z = reduced ? 0 : pitch;
+    car.root.rotation.x = reduced ? 0 : lean;
+    for (const ring of hot) {
+      ring.visible = heat > 0.01;
+      ring.material.opacity = heat * 0.85;
+    }
+    if (tail) tail.material.color.setRGB(1 + run.brake * 3.4, 0.044 + run.brake * 0.12, 0.03 + run.brake * 0.06);
     const A = car.anim;
     A.crank.rotation.z = -crankA;
     for (const p of A.pistons) {
@@ -2936,7 +3267,7 @@ export async function mountMachine(host, opts = {}) {
       c.rotation.z = -crankA / 2;
     });
     A.fans.forEach((fn) => {
-      fn.rotation.x += dt * (has("cooling") ? 9 : 2.5);
+      fn.rotation.x += dt * (has("cooling") ? 9 : run.on ? 2.5 + rpm * 0.0012 : 2.5);
     });
     const roll =
       !reduced &&
@@ -2945,10 +3276,12 @@ export async function mountMachine(host, opts = {}) {
         has("transmission") ||
         (has("hybridev") && state.mode !== "gas"));
     A.wheels.forEach((w) => {
-      if (roll) w.spin.rotation.z -= dt * 5;
+      if (run.on || mph > 0.2) {
+        if (!reduced) w.spin.rotation.z -= dt * mph * 0.16;
+      } else if (roll) w.spin.rotation.z -= dt * 5;
     });
     steerT += dt;
-    const steer = f === "steering" && !reduced ? Math.sin(steerT * 1.2) * 0.32 : 0;
+    const steer = Math.abs(steerS) > 0.002 ? -steerS * 0.42 : f === "steering" && !reduced ? Math.sin(steerT * 1.2) * 0.32 : 0;
     A.wheels.forEach((w) => {
       w.steer.rotation.y = w.front ? steer : 0;
     });
@@ -2967,7 +3300,8 @@ export async function mountMachine(host, opts = {}) {
       }
       fl.mesh.instanceMatrix.needsUpdate = true;
     }
-    renderer.render(scene, camera);
+    if (post) post.render(scene, camera);
+    else renderer.render(scene, camera);
     layoutLabels();
   }
   apply();
@@ -2987,6 +3321,7 @@ export async function mountMachine(host, opts = {}) {
     focus(sys, { fly = true, view } = {}) {
       state.focus = Array.isArray(sys) ? sys.filter((k) => SYSTEMS[k]) : SYSTEMS[sys] ? sys : null;
       state.part = null;
+      state.comp = null;
       pickList = pickables();
       apply();
       controls.autoRotate = false;
@@ -3011,13 +3346,18 @@ export async function mountMachine(host, opts = {}) {
       o.autoRotate = !!on;
       controls.autoRotate = !!on && !reduced;
     },
-    focusPart(name, sys) {
+    focusPart(name, sys, compId) {
+      // the very piece that was clicked when we know it, otherwise the first one fitted to this car
+      const picked = compById[compId];
       const c =
+        (picked && picked.parts.includes(name) && picked) ||
         car.comps.find((k) => k.parts.includes(name) && inMode(k)) ||
         car.comps.find((k) => k.parts.includes(name));
       const s = c ? c.sys : sys;
-      if (s !== state.focus) {
-        state.focus = SYSTEMS[s] ? s : null;
+      state.focus = SYSTEMS[s] ? s : null;
+      state.comp = c ? c.id : null;
+      if (c && inMode(c)) flyToComp(c);
+      else {
         const v = state.focus ? FOCUS[state.focus] : VIEWS.overview;
         flyTo(v.pos, v.target);
       }
@@ -3038,6 +3378,27 @@ export async function mountMachine(host, opts = {}) {
       state.xray = !!on;
       apply();
     },
+    /** Exploded view, 0 (assembled) to 1 (every system lifted clear of the others). */
+    setExplode(k) {
+      explodeTo = Math.max(0, Math.min(1, +k || 0));
+      controls.autoRotate = false;
+      idleT = 0;
+    },
+    /** Test drive. Pass any of { on, throttle 0..1, brake 0..1, steer -1..1 }; listen for "telemetry". */
+    run(v = {}) {
+      if ("on" in v) run.on = !!v.on;
+      if ("throttle" in v) run.throttle = Math.max(0, Math.min(1, +v.throttle || 0));
+      if ("brake" in v) run.brake = Math.max(0, Math.min(1, +v.brake || 0));
+      if ("steer" in v) run.steer = Math.max(-1, Math.min(1, +v.steer || 0));
+      if (!run.on) {
+        run.throttle = run.brake = run.steer = 0;
+        rpm = 0;
+        gear = "P";
+        emit("telemetry", { mph: 0, rpm: 0, gear: "P", heat, mode: state.mode });
+      }
+      return { ...run };
+    },
+    fx: !!post,
     setLabels(on) {
       o.labels = !!on;
       apply();

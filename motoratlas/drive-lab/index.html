@@ -17,7 +17,7 @@
     />
     <link rel="stylesheet" href="atlas.css?v=20260905" />
     <link rel="stylesheet" href="features.css?v=1" />
-    <link rel="stylesheet" href="machine.css?v=2" />
+    <link rel="stylesheet" href="machine.css?v=3" />
 
     <style id="ss-loader-style">
       #ss-themed-loader {
@@ -258,7 +258,7 @@
             role="img"
             aria-label="Interactive 3D X-ray of a compact sedan showing every system colour-coded. Drag to rotate, tap a part to learn what it does."
           >
-            <span class="machine-hint" aria-hidden="true">Drag to rotate · tap a part</span>
+            <span class="machine-hint" aria-hidden="true">Drag to rotate · scroll to zoom · tap a part</span>
             <button
               type="button"
               class="machine-expand"
@@ -285,6 +285,33 @@
               ><button type="button" data-view="top">Top</button
               ><button type="button" data-xray aria-pressed="true">X-ray</button></div
             >
+          </div>
+          <div class="machine-deck" id="machineDeck">
+            <label class="md-slide md-explode"
+              ><span>Exploded view</span
+              ><input type="range" id="machineExplode" min="0" max="100" value="0" step="1" aria-label="Exploded view: slide to lift the systems apart" /><output id="machineExplodeOut">0%</output></label
+            >
+            <button type="button" class="md-run" id="machineRun" aria-pressed="false" aria-controls="machineDrive"
+              ><i aria-hidden="true"></i><span>Test drive</span></button
+            >
+            <div class="md-drive" id="machineDrive" hidden>
+              <div class="md-cluster" role="group" aria-label="Instruments">
+                <div class="md-tach" aria-hidden="true"><i id="mdTach"></i></div>
+                <div class="md-read"><b id="mdRpm">0</b><small>rpm</small></div>
+                <div class="md-read"><b id="mdMph">0</b><small>mph</small></div>
+                <div class="md-read md-gear"><b id="mdGear">P</b><small>gear</small></div>
+              </div>
+              <label class="md-slide"
+                ><span>Throttle</span
+                ><input type="range" id="mdThrottle" min="0" max="100" value="0" step="1" aria-label="Throttle"
+              /></label>
+              <label class="md-slide"
+                ><span>Steering</span
+                ><input type="range" id="mdSteer" min="-100" max="100" value="0" step="1" aria-label="Steering, left to right"
+              /></label>
+              <button type="button" class="md-brake" id="mdBrake" aria-pressed="false">Brake</button>
+              <p class="md-keys" aria-hidden="true">Keys: W throttle · S brake · A / D steer</p>
+            </div>
           </div>
           <div
             class="machine-systems"
@@ -478,7 +505,7 @@
     <script src="beginner-data.js?v=2"></script>
     <script src="atlas-core.js?v=20260905"></script>
     <script src="features.js?v=20260907"></script>
-    <script type="module" src="machine-ui.js?v=2"></script>
+    <script type="module" src="machine-ui.js?v=3"></script>
 
     <script id="ss-loader-script">
       (() => {

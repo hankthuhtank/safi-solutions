@@ -180,6 +180,231 @@
   background: var(--amber);
   color: var(--ink);
 }
+/* the deck: exploded view and test drive */
+.machine-deck {
+  display: none;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 14px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 39px, rgba(117, 199, 209, 0.045) 39px 40px), #0c0f10;
+}
+.machine-deck.is-live {
+  display: grid;
+}
+.md-slide {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font: 600 0.54rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.md-slide output {
+  min-width: 4ch;
+  text-align: right;
+  color: var(--cyan);
+  font-variant-numeric: tabular-nums;
+}
+.md-slide input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 26px;
+  margin: 0;
+  background: transparent;
+  cursor: ew-resize;
+  --p: 0%;
+}
+/* a ruled scale, filled up to the pointer: reads like the edge of an engineer's rule */
+.md-slide input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, var(--amber) 0 var(--p), transparent var(--p)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 10%), #0f1314;
+}
+.md-slide input[type="range"]::-moz-range-track {
+  height: 10px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, var(--amber) 0 var(--p), transparent var(--p)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 10%), #0f1314;
+}
+.md-slide input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 9px;
+  height: 22px;
+  margin-top: -7px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.md-slide input[type="range"]::-moz-range-thumb {
+  width: 9px;
+  height: 22px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+}
+.md-slide input[type="range"]:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+#mdSteer::-webkit-slider-runnable-track {
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), var(--cyan) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 10%), #0f1314;
+}
+#mdSteer::-moz-range-track {
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), var(--cyan) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 10%), #0f1314;
+}
+.md-run,
+.md-brake {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  background: #0f1314;
+  color: var(--steel);
+  font: 600 0.56rem var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.md-run i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3a4447;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.md-run:hover,
+.md-brake:hover {
+  color: var(--paper);
+}
+.md-run[aria-pressed="true"] {
+  border-color: var(--green);
+  color: var(--paper);
+}
+.md-run[aria-pressed="true"] i {
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+}
+.md-drive {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px 16px;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+.md-drive[hidden] {
+  display: none;
+}
+.md-cluster {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 5px 16px;
+  align-items: end;
+}
+.md-tach {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 8px;
+  border: 1px solid var(--line);
+  /* the last fifth is the red line */
+  background: linear-gradient(90deg, transparent 0 80%, rgba(217, 106, 93, 0.3) 80%), #0f1314;
+}
+.md-tach.is-ev {
+  background: #0f1314;
+}
+.md-tach i {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  transform: scaleX(var(--v, 0));
+  background: linear-gradient(90deg, var(--cyan), var(--amber) 70%, var(--red));
+  background-size: calc(100% / max(var(--v, 0.001), 0.001)) 100%;
+  transition: transform 0.09s linear;
+}
+.md-tach::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, transparent 0 6px, #0c0f10 6px 8px);
+}
+.md-read {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.md-read b {
+  min-width: 3.2ch;
+  text-align: right;
+  font: 700 1.5rem/1 var(--head);
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+.md-read small {
+  font: 600 0.5rem var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.md-gear b {
+  min-width: 2ch;
+  color: var(--amber);
+}
+.md-brake {
+  justify-content: center;
+  justify-self: end;
+  min-width: 112px;
+  min-height: 44px;
+  border-color: rgba(217, 106, 93, 0.5);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.md-brake[aria-pressed="true"] {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--ink);
+}
+.md-keys {
+  grid-column: 1 / -1;
+  font: 500 0.5rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (hover: none) {
+  .md-keys {
+    display: none;
+  }
+}
+@media (max-width: 520px) {
+  .md-drive .md-slide {
+    grid-column: 1 / -1;
+  }
+  .md-read b {
+    font-size: 1.25rem;
+  }
+}
 .machine-systems {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -310,6 +535,7 @@ html.m3-lock body {
   background: radial-gradient(ellipse at 50% 55%, #141a1c, #0b0e0f 72%);
 }
 .is-expanded .machine-bar,
+.is-expanded .machine-deck,
 .is-expanded .machine-systems {
   flex: 0 0 auto;
 }
@@ -546,4 +772,17 @@ html.m3-lock body {
   .machine-card {
     animation: none;
   }
+}
+/* test-drive panel: instruments and brake on the first line, the two controls under them */
+.md-cluster {
+  order: 1;
+}
+.md-brake {
+  order: 2;
+}
+.md-drive .md-slide {
+  order: 3;
+}
+.md-keys {
+  order: 4;
 }
